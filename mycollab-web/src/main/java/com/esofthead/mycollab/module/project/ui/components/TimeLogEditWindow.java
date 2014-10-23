@@ -73,7 +73,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	private Label totalSpentTimeLbl;
 	private NumbericTextField newTimeInputField;
 	private CheckBox isBillableField;
-	private DateField forDate;
+	private DateField forDateField;
 
 	private NumbericTextField remainTimeInputField;
 	private Label remainTimeLbl;
@@ -250,10 +250,10 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.newTimeInputField,
 				Alignment.MIDDLE_LEFT);
 
-		this.forDate = new DateField();
-		this.forDate.setValue(new GregorianCalendar().getTime());
-		addLayout.addComponent(this.forDate);
-		addLayout.setComponentAlignment(this.forDate, Alignment.MIDDLE_LEFT);
+		this.forDateField = new DateField();
+		this.forDateField.setValue(new GregorianCalendar().getTime());
+		addLayout.addComponent(this.forDateField);
+		addLayout.setComponentAlignment(this.forDateField, Alignment.MIDDLE_LEFT);
 
 		this.isBillableField = new CheckBox(
 				AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
@@ -262,7 +262,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.isBillableField,
 				Alignment.MIDDLE_LEFT);
 
-		TimeLogEditWindow.this.btnAdd = new Button(
+		btnAdd = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -287,15 +287,12 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
 				});
 
-		TimeLogEditWindow.this.btnAdd.setEnabled(TimeLogEditWindow.this
-				.isEnableAdd());
-		TimeLogEditWindow.this.btnAdd
-				.setStyleName(UIConstants.THEME_GREEN_LINK);
-		TimeLogEditWindow.this.btnAdd.setIcon(MyCollabResource
+		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
+		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
+		btnAdd.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_addRecord));
-		addLayout.addComponent(TimeLogEditWindow.this.btnAdd);
-		addLayout.setComponentAlignment(TimeLogEditWindow.this.btnAdd,
-				Alignment.MIDDLE_LEFT);
+		addLayout.addComponent(btnAdd);
+		addLayout.setComponentAlignment(btnAdd, Alignment.MIDDLE_LEFT);
 	}
 
 	private void constructRemainTimeEntryPanel() {
@@ -328,7 +325,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.remainTimeInputField,
 				Alignment.MIDDLE_LEFT);
 
-		TimeLogEditWindow.this.btnAdd = new Button(
+		btnAdd = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -413,7 +410,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	}
 
 	protected Date forLogDate() {
-		return this.forDate.getValue();
+		return this.forDateField.getValue();
 	}
 
 	protected abstract void saveTimeInvest();

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
@@ -34,9 +35,8 @@ public interface BugAddView extends IFormAddView<SimpleBug> {
 
 	HasEditFormHandlers<SimpleBug> getEditFormHandlers();
 
+	ProjectFormAttachmentUploadField getAttachUploadField();
 	/*
-	 * ProjectFormAttachmentUploadField getAttachUploadField();
-	 * 
 	 * List<Component> getComponents();
 	 * 
 	 * List<Version> getAffectedVersions();

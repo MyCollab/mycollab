@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.StyleCalendarExp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -66,7 +67,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -936,9 +936,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					} else if (propertyId.equals("enddate")) {
 						return new DateTimePickerField();
 					} else if (propertyId.equals("description")) {
-						TextArea descArea = new TextArea();
-						descArea.setNullRepresentation("");
-						return descArea;
+						return new RichTextEditField();
 					} else if (propertyId.equals("type")) {
 						RelatedEditItemField field = new RelatedEditItemField(
 								new String[] { CrmTypeConstants.ACCOUNT,

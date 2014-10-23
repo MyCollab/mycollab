@@ -101,7 +101,8 @@ public class LeadTableDisplay extends
 
 				LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder
 						.generateLeadPreviewLinkFull(lead.getId()));
-				if ("Dead".equals(lead.getStatus())) {
+				if ("Dead".equals(lead.getStatus())
+						|| "Converted".equals(lead.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}
 				b.setDescription(CrmTooltipGenerator.generateTooltipLead(

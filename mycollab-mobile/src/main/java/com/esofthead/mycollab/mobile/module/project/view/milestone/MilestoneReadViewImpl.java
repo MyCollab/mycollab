@@ -25,7 +25,9 @@ import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory;
+import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDateViewField;
+import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
+import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -198,26 +200,26 @@ public class MilestoneReadViewImpl extends
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("startdate")) {
-				return new DefaultFormViewFieldFactory.FormDateViewField(
+				return new FormDateViewField(
 						beanItem.getStartdate());
 			} else if (propertyId.equals("enddate")) {
-				return new DefaultFormViewFieldFactory.FormDateViewField(
+				return new FormDateViewField(
 						beanItem.getEnddate());
 			} else if (propertyId.equals("owner")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getOwnerFullName());
 			} else if (propertyId.equals("description")) {
-				return new DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField(
+				return new FormDetectAndDisplayUrlViewField(
 						beanItem.getDescription());
 			} else if (propertyId.equals("numOpenTasks")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getNumOpenTasks() + "/"
 								+ beanItem.getNumTasks());
 			} else if (propertyId.equals("numOpenBugs")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getNumOpenBugs() + "/" + beanItem.getNumBugs());
 			} else if (propertyId.equals("status")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.getMessage(MilestoneStatus.class,
 								beanItem.getStatus()));
 			}

@@ -207,7 +207,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		permissionsPanel.addComponent(projectFormHelper.getLayout());
 
-		Integer roleId = (Integer) roleComboBox.getValue();
+		roleId = (Integer) roleComboBox.getValue();
 		displayRolePermission(roleId);
 
 		return permissionsPanel;

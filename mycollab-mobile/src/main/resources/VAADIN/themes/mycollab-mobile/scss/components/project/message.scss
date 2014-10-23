@@ -2,7 +2,7 @@
 	/* Project Messages */
     .message-list-view, .message-read-view {
     	.message-block {
-    		padding: 1.2rem 0.8rem;
+    		padding: 1.2rem 0.8rem 0rem 0.8rem;
     		border-bottom: 1px solid $gray-border;
     		background-color: rgb(255, 255, 255);
     		
@@ -31,6 +31,7 @@
     		
     		.message-content {
     			color: $gray-text;
+    			padding-bottom: 0.8rem;
     		}
     	}
     }
@@ -45,7 +46,7 @@
     		.right-col {
     			border: 1px solid $gray-border;
     			background-color: rgb(255, 255, 255);
-    			padding: 0.5rem 0.7rem;
+    			padding: 0.5rem 0.7rem 0rem;
     			
     			&:before {
     				content: "";
@@ -82,6 +83,7 @@
 	    		}	    		
 	    		.comment-content {
 	    			color: rgb(170, 170, 170);
+	    			padding-bottom: 0.8rem;
 	    		}
     		}
     		

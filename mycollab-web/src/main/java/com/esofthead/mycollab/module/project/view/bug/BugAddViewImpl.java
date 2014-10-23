@@ -75,16 +75,19 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 		return this.attachmentUploadField;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Component> getComponents() {
 		return this.componentSelect.getSelectedItems();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Version> getAffectedVersions() {
 		return this.affectedVersionSelect.getSelectedItems();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Version> getFixedVersion() {
 		return this.fixedVersionSelect.getSelectedItems();

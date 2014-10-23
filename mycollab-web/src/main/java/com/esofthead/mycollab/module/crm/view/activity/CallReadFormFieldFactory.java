@@ -19,10 +19,10 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateTimeViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -50,7 +50,7 @@ class CallReadFormFieldFactory extends
 		} else if (propertyId.equals("status")) {
 			final String value = attachForm.getBean().getStatus() + " "
 					+ attachForm.getBean().getCalltype();
-			final FormViewField field = new FormViewField(value);
+			final DefaultViewField field = new DefaultViewField(value);
 			return field;
 		} else if (propertyId.equals("durationinseconds")) {
 			final Integer duration = attachForm.getBean()
@@ -69,15 +69,15 @@ class CallReadFormFieldFactory extends
 					value.append(minutes + " minutes");
 				}
 
-				return new FormViewField(value.toString());
+				return new DefaultViewField(value.toString());
 			} else {
-				return new FormViewField("");
+				return new DefaultViewField("");
 			}
 		} else if (propertyId.equals("startdate")) {
 			if (attachForm.getBean().getStartdate() == null) {
-				return new FormViewField("");
+				return new DefaultViewField("");
 			} else {
-				return new FormDateTimeViewField(attachForm.getBean()
+				return new DateTimeViewField(attachForm.getBean()
 						.getStartdate());
 			}
 		}

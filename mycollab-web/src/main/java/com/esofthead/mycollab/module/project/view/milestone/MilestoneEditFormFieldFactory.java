@@ -23,11 +23,11 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
@@ -74,7 +74,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			descArea.setNullRepresentation("");
 			return descArea;
 		} else if (propertyId.equals("numOpenTasks")) {
-			final FormContainerHorizontalViewField taskComp = new FormContainerHorizontalViewField();
+			final ContainerHorizontalViewField taskComp = new ContainerHorizontalViewField();
 			final int numOpenTask = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
 					.getBean()).getNumOpenTasks() : 0;
 			final int numTasks = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
@@ -86,7 +86,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			taskComp.addComponentField(progressTask);
 			return taskComp;
 		} else if (propertyId.equals("numOpenBugs")) {
-			final FormContainerHorizontalViewField bugComp = new FormContainerHorizontalViewField();
+			final ContainerHorizontalViewField bugComp = new ContainerHorizontalViewField();
 			final int numOpenBugs = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
 					.getBean()).getNumOpenBugs() : 0;
 			final int numBugs = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm

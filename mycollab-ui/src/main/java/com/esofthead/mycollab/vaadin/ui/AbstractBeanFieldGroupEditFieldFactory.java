@@ -18,7 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

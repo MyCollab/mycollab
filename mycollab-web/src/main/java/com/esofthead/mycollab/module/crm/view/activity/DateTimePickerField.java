@@ -39,7 +39,7 @@ import com.vaadin.ui.PopupDateField;
 public class DateTimePickerField extends CustomField<Date> {
 	private static final long serialVersionUID = 1L;
 
-	public static final long ONE_MINUTE_IN_MILLIS = 60000;
+	private static final long ONE_MINUTE_IN_MILLIS = 60000;
 
 	private PopupDateField popupDateField;
 	private HourPickerComboBox hourPickerComboBox;

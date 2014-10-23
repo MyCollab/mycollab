@@ -19,6 +19,11 @@
     
     @include vaadin-components;
     
+    * {
+	   -webkit-tap-highlight-color: rgba(0,0,0,0);
+	   -webkit-tap-highlight-color: transparent; /* For some Androids */
+	}
+    
     .v-table-body {
     	border: none;
     }
@@ -329,10 +334,49 @@
 	    				background-color: rgba(187, 187, 187, 0.6);
 	    			}
 		    	}
+		    	.upload-status-wrap {
+		    		background-color: $primary-blue;
+		    		.v-progressbar {
+		    			display: block;
+		    			padding: 0.6rem;
+		    			.v-progressbar-wrapper {
+		    				border-color: white;
+		    				.v-progressbar-indicator {
+		    					background-color: white;
+		    				}
+		    			}
+		    		}
+		    		.v-label {
+		    			color: white;
+		    		}
+		    		.upload-succeed-layout {
+		    			padding: 0.5rem;
+		    			.v-button.link {
+		    				background-color: transparent;
+		    				.v-button-caption {
+		    					color: white;
+		    				}
+		    			}
+		    		}
+		    	}
 		    	.comment-box {
     				padding: 0.6rem 0rem 0.6rem 0.6rem;
     				background-color: rgb(255, 255, 255);
     				height: 4.8rem !important;
+    				.v-upload {
+    					.v-button {
+    						color: $primary-blue;
+    						background-color: transparent;
+    						.v-button-wrap {
+    							line-height: normal;
+    							.v-button-caption:before {
+    								content: "\e002";
+    								font-family: "icomoon";
+    								font-size: 2.2rem;
+    							}
+    						}
+    					}
+    				}
     				.v-textarea {
     					padding: 0.6rem;
 						border: none;
@@ -514,6 +558,7 @@
 				.v-label {
 					line-height: 2rem;
 					font-size: 1.5rem;
+					text-overflow: ellipsis;
 					&:after {
 						content: "";
 						position: relative;
@@ -663,6 +708,21 @@
 				font-size: 1.1rem;
 				right: 0px;
 				top: 0px;
+			}
+		}
+		
+		.v-upload {
+			.v-button {
+				font-size: 1.5rem;
+				.v-button-wrap {
+					padding: 0px;
+				}
+			}
+		}
+		
+		.attachment-row {
+			.v-button {
+				font-size: 1.5rem;
 			}
 		}
 	}

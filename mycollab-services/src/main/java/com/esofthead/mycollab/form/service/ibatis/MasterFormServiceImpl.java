@@ -57,13 +57,14 @@ public class MasterFormServiceImpl implements MasterFormService {
 	@Autowired
 	private FormSectionFieldMapper formSectionFieldMapper;
 
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public DynaForm findCustomForm(@CacheKey Integer sAccountId,
 			String moduleName) {
 		List<SimpleFormSection> sections = formSectionMapperExt.findSections(
 				sAccountId, moduleName);
 
-		if (sections == null || sections.size() == 0) {
+		if (CollectionUtils.isEmpty(sections)) {
 			return null;
 		} else {
 			DynaForm form = new DynaForm();

@@ -63,13 +63,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -78,6 +71,13 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -539,9 +539,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("duedate")) {
-				return new FormDateViewField(beanItem.getDuedate());
+				return new DateViewField(beanItem.getDuedate());
 			} else if (propertyId.equals("createdtime")) {
-				return new FormDateViewField(beanItem.getCreatedtime());
+				return new DateViewField(beanItem.getCreatedtime());
 			} else if (propertyId.equals("assignuserFullName")) {
 				return new ProjectUserFormLinkField(beanItem.getAssignuser(),
 						beanItem.getAssignUserAvatarId(),
@@ -557,7 +557,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			} else if (propertyId.equals("components")) {
 				final List<Component> components = beanItem.getComponents();
 				if (CollectionUtils.isNotEmpty(components)) {
-					final FormContainerViewField componentContainer = new FormContainerViewField();
+					final ContainerViewField componentContainer = new ContainerViewField();
 					for (final Component component : beanItem.getComponents()) {
 						final Button componentLink = new Button(
 								component.getComponentname(),
@@ -580,13 +580,13 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 							.setStyleName(UIConstants.FORM_CONTAINER_VIEW);
 					return componentContainer;
 				} else {
-					return new FormViewField("");
+					return new DefaultViewField("");
 				}
 			} else if (propertyId.equals("affectedVersions")) {
 				final List<Version> affectedVersions = beanItem
 						.getAffectedVersions();
 				if (CollectionUtils.isNotEmpty(affectedVersions)) {
-					final FormContainerViewField componentContainer = new FormContainerViewField();
+					final ContainerViewField componentContainer = new ContainerViewField();
 					for (final Version version : beanItem.getAffectedVersions()) {
 						final Button versionLink = new Button(
 								version.getVersionname(),
@@ -607,12 +607,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					}
 					return componentContainer;
 				} else {
-					return new FormViewField("");
+					return new DefaultViewField("");
 				}
 			} else if (propertyId.equals("fixedVersions")) {
 				final List<Version> fixedVersions = beanItem.getFixedVersions();
 				if (CollectionUtils.isNotEmpty(fixedVersions)) {
-					final FormContainerViewField componentContainer = new FormContainerViewField();
+					final ContainerViewField componentContainer = new ContainerViewField();
 					for (final Version version : beanItem.getFixedVersions()) {
 						final Button versionLink = new Button(
 								version.getVersionname(),
@@ -633,12 +633,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					}
 					return componentContainer;
 				} else {
-					return new FormViewField("");
+					return new DefaultViewField("");
 				}
 
 			} else if (propertyId.equals("milestoneName")) {
 				if (beanItem.getMilestoneid() != null) {
-					final FormLinkViewField phaseLink = new FormLinkViewField(
+					final LinkViewField phaseLink = new LinkViewField(
 							beanItem.getMilestoneName(),
 							ProjectLinkBuilder
 									.generateMilestonePreviewFullLink(
@@ -648,14 +648,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 									.newResourceLink("icons/16/project/milestone.png"));
 					return phaseLink;
 				} else {
-					return new FormViewField("");
+					return new DefaultViewField("");
 				}
 
 			} else if (propertyId.equals("environment")) {
-				return new DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField(
+				return new RichTextViewField(
 						beanItem.getEnvironment());
 			} else if (propertyId.equals("description")) {
-				return new DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField(
+				return new  RichTextViewField(
 						beanItem.getDescription());
 			} else if (propertyId.equals("status")) {
 				return new I18nFormViewField(beanItem.getStatus(),
@@ -670,7 +670,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					final Label lbPriority = new Label(AppContext.getMessage(
 							BugPriority.class, beanItem.getPriority()));
 
-					final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
+					final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
 					containerField.addComponentField(iconEmbedded);
 					containerField.addComponentField(lbPriority);
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
@@ -687,7 +687,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					final Label lbPriority = new Label(AppContext.getMessage(
 							BugSeverity.class, beanItem.getSeverity()));
 
-					final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
+					final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
 					containerField.addComponentField(iconEmbedded);
 					containerField.addComponentField(lbPriority);
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);

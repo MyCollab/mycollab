@@ -32,12 +32,12 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.AttachmentUploadField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormAttachmentUploadField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
+import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -55,7 +55,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 		TaskAddView {
 
 	private static final long serialVersionUID = 1L;
-	private FormAttachmentUploadField attachmentUploadField;
+	private AttachmentUploadField attachmentUploadField;
 
 	@Override
 	public AttachmentUploadField getAttachUploadField() {
@@ -138,7 +138,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 			} else if ("priority".equals(propertyId)) {
 				return new TaskPriorityComboBox();
 			} else if (propertyId.equals("id")) {
-				TaskAddViewImpl.this.attachmentUploadField = new FormAttachmentUploadField();
+				TaskAddViewImpl.this.attachmentUploadField = new AttachmentUploadField();
 				if (beanItem.getId() != null) {
 					String attachmentPath = AttachmentUtils
 							.getProjectEntityAttachmentPath(

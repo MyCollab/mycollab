@@ -50,4 +50,9 @@
     div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
         display: inline-block;
     }
+    
+    .attachment-panel {
+    	border-top: 1px solid $light-gray-border;
+    	padding: 0.5rem 0rem 0.8rem;
+    }
 }

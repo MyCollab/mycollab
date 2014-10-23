@@ -21,8 +21,8 @@ import java.util.List;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
- * @param <T>
  */
 public class PickListDynaField<T> extends AbstractDynaField {
 

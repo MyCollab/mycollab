@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
@@ -40,7 +41,6 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -115,13 +115,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 				ActiveUserComboBox userBox = new ActiveUserComboBox();
 				return userBox;
 			} else if (propertyId.equals("description")) {
-				TextArea descArea = new TextArea();
-				descArea.setNullRepresentation("");
-				return descArea;
+				return new RichTextEditField();
 			} else if (propertyId.equals("result")) {
-				TextArea resultArea = new TextArea();
-				resultArea.setNullRepresentation("");
-				return resultArea;
+				return new RichTextEditField();
 			} else if (propertyId.equals("durationinseconds")) {
 				CallDurationField durationField = new CallDurationField();
 				return durationField;

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControl
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory;
+import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -101,7 +101,7 @@ public class ProjectMemberReadViewImpl extends
 		@Override
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("memberFullName")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getDisplayName());
 			} else if (propertyId.equals("roleName")) {
 				String memberRole = "";
@@ -113,9 +113,9 @@ public class ProjectMemberReadViewImpl extends
 				} else {
 					memberRole = beanItem.getRoleName();
 				}
-				return new DefaultFormViewFieldFactory.FormViewField(memberRole);
+				return new FormViewField(memberRole);
 			} else if (propertyId.equals("email")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getEmail());
 			}
 			return null;

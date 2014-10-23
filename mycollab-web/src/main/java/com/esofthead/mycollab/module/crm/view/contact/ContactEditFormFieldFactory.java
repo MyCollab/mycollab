@@ -26,11 +26,11 @@ import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.PrefixNameComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -76,9 +76,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 
 			return tf;
 		} else if (propertyId.equals("description")) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
+			return new RichTextEditField();
 		} else if (propertyId.equals("assignuser")) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());

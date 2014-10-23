@@ -66,12 +66,12 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 					0);
 		} else if (propertyId.equals("email")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0,
-					1);
+					AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL),
+					0, 1);
 		} else if (propertyId.equals("roleName")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL),
-					0, 2);
+					AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0,
+					2);
 		}
 	}
 

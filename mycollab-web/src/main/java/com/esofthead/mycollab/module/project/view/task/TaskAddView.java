@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.AttachmentUploadField;
+import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 
 /**
  * 

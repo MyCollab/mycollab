@@ -70,7 +70,7 @@ public class StringUtils {
 	 * @return
 	 */
 	public static String formatExtraLink(String value) {
-		if (value == null || "".equals(value)) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 			return "&nbsp;";
 		}
 		return value
@@ -79,11 +79,11 @@ public class StringUtils {
 						"<a href=\"$0\">$0</a>");
 	}
 
-	public static String trimHtmlTags(String o) {
-		if (o == null) {
+	public static String trimHtmlTags(String value) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 			return "";
 		} else {
-			String str = Jsoup.parse(o).text();
+			String str = Jsoup.parse(value).text();
 			if (str.length() > 200) {
 				str = str.substring(0, 200);
 			}

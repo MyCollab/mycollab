@@ -31,11 +31,11 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -114,9 +114,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 				}
 				return tf;
 			} else if (propertyId.equals("description")) {
-				final TextArea field = new TextArea("", "");
-				field.setNullRepresentation("");
-				return field;
+				return new RichTextEditField();
 			} else if (propertyId.equals("userlead")) {
 				final ProjectMemberSelectionField userBox = new ProjectMemberSelectionField();
 				return userBox;

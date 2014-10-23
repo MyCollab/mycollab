@@ -29,9 +29,9 @@ import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
+import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -225,28 +225,28 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		protected Field<?> onCreateField(final Object propertyId) {
 
 			if (propertyId.equals("assignuser")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getAssignUserFullName());
 			} else if (propertyId.equals("taskListName")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getTaskListName());
 			} else if (propertyId.equals("startdate")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.formatDate(beanItem.getStartdate()));
 			} else if (propertyId.equals("enddate")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.formatDate(beanItem.getEnddate()));
 			} else if (propertyId.equals("actualstartdate")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.formatDate(beanItem.getActualstartdate()));
 			} else if (propertyId.equals("actualenddate")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.formatDate(beanItem.getActualenddate()));
 			} else if (propertyId.equals("deadline")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						AppContext.formatDate(beanItem.getDeadline()));
 			} else if (propertyId.equals("tasklistid")) {
-				return new DefaultFormViewFieldFactory.FormViewField(
+				return new FormViewField(
 						beanItem.getTaskListName());
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotBlank(beanItem.getPriority())) {

@@ -33,10 +33,10 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -101,9 +101,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 			} else if (propertyId.equals("priority")) {
 				return new TaskPriorityComboBox();
 			} else if (propertyId.equals("description")) {
-				TextArea descArea = new TextArea();
-				descArea.setNullRepresentation("");
-				return descArea;
+				return new RichTextEditField();
 			} else if (propertyId.equals("contactid")) {
 				ContactSelectionField field = new ContactSelectionField();
 				return field;

@@ -19,11 +19,11 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -44,12 +44,12 @@ class CaseReadFormFieldFactory extends
 	protected Field<?> onCreateField(Object propertyId) {
 		final SimpleCase cases = attachForm.getBean();
 		if (propertyId.equals("accountid")) {
-			return new FormLinkViewField(cases.getAccountName(),
+			return new LinkViewField(cases.getAccountName(),
 					CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()),
 					MyCollabResource
 							.newResourceLink("icons/16/crm/account.png"));
 		} else if (propertyId.equals("email")) {
-			return new FormEmailLinkViewField(cases.getEmail());
+			return new EmailViewField(cases.getEmail());
 		} else if (propertyId.equals("assignuser")) {
 			return new UserLinkViewField(cases.getAssignuser(),
 					cases.getAssignUserAvatarId(),

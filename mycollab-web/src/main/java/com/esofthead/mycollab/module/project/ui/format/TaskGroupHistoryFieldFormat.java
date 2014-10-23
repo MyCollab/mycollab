@@ -16,8 +16,23 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
+import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -29,6 +44,9 @@ import com.vaadin.ui.Label;
  * 
  */
 public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
+
+	private static Logger log = LoggerFactory
+			.getLogger(TaskGroupHistoryFieldFormat.class);
 
 	@Override
 	public Component toVaadinComponent(String value) {
@@ -45,6 +63,32 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public String toString(String value) {
+		if (StringUtils.isBlank(value)) {
+			return new Span().write();
+		}
+
+		try {
+			int taskgroupId = Integer.parseInt(value);
+			ProjectTaskListService tasklistService = ApplicationContextUtil
+					.getSpringBean(ProjectTaskListService.class);
+			SimpleTaskList taskgroup = tasklistService.findById(taskgroupId,
+					AppContext.getAccountId());
+			if (taskgroup != null) {
+				String taskgroupIconLink = ProjectResources
+						.getResourceLink(ProjectTypeConstants.TASK_LIST);
+				Img img = TagBuilder.newImg("icon", taskgroupIconLink);
+
+				String taskgroupLink = ProjectLinkGenerator
+						.generateTaskGroupPreviewFullLink(
+								AppContext.getSiteUrl(),
+								taskgroup.getProjectid(), taskgroup.getId());
+				A link = TagBuilder.newA(taskgroupLink, taskgroup.getName());
+				return TagBuilder.newLink(img, link).write();
+			}
+		} catch (Exception e) {
+			log.error("Error", e);
+		}
+
 		return value;
 	}
 

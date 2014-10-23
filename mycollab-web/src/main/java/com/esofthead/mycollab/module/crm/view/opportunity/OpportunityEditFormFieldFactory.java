@@ -24,8 +24,8 @@ import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -75,9 +75,7 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends
 		} else if (propertyId.equals("source")) {
 			return new LeadSourceComboBox();
 		} else if (propertyId.equals("description")) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
+			return new RichTextEditField();
 		} else if (propertyId.equals("assignuser")) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			return userBox;

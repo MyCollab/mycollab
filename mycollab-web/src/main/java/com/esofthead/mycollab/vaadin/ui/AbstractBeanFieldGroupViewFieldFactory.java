@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -59,10 +59,10 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements
 					try {
 						final String propertyValue = BeanUtils.getProperty(
 								attachForm.getBean(), field.getName());
-						formField = new FormViewField(propertyValue);
+						formField = new DefaultViewField(propertyValue);
 					} catch (Exception e) {
 						log.error("Error while get field value", e);
-						formField = new FormViewField("Error");
+						formField = new DefaultViewField("Error");
 					}
 
 					attachForm.attachField(field.getName(), formField);

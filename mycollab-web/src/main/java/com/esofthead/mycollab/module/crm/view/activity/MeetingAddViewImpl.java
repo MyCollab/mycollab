@@ -31,10 +31,10 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -110,9 +110,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 			} else if (propertyId.equals("enddate")) {
 				return new DateTimePickerField();
 			} else if (propertyId.equals("description")) {
-				TextArea descArea = new TextArea();
-				descArea.setNullRepresentation("");
-				return descArea;
+				return new RichTextEditField();
 			} else if (propertyId.equals("type")) {
 				RelatedEditItemField field = new RelatedEditItemField(
 						new String[] { CrmTypeConstants.ACCOUNT,

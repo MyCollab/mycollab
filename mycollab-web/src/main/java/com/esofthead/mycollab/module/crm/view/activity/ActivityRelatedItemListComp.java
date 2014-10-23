@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
@@ -115,12 +116,10 @@ public class ActivityRelatedItemListComp extends
 				UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
 				ActivityI18nEnum.FORM_STATUS, "status",
 				UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
-				TaskI18nEnum.TABLE_TYPE_HEADER, "eventType",
-				UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
 				TaskI18nEnum.FORM_START_DATE, "startDate",
-				UIConstants.TABLE_DATE_WIDTH), new TableViewField(
+				UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
 				TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
-				UIConstants.TABLE_DATE_WIDTH)));
+				UIConstants.TABLE_DATE_TIME_WIDTH)));
 
 		tableItem.addTableListener(new TableClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -129,15 +128,17 @@ public class ActivityRelatedItemListComp extends
 			public void itemClick(final TableClickEvent event) {
 				final SimpleActivity simpleEvent = (SimpleActivity) event
 						.getData();
-				if ("Task".equals(simpleEvent.getEventType())) {
+				if (CrmTypeConstants.TASK.equals(simpleEvent.getEventType())) {
 					EventBusFactory.getInstance().post(
 							new ActivityEvent.TaskRead(this, simpleEvent
 									.getId()));
-				} else if ("Meeting".equals(simpleEvent.getEventType())) {
+				} else if (CrmTypeConstants.MEETING.equals(simpleEvent
+						.getEventType())) {
 					EventBusFactory.getInstance().post(
 							new ActivityEvent.MeetingRead(this, simpleEvent
 									.getId()));
-				} else if ("Call".equals(simpleEvent.getEventType())) {
+				} else if (CrmTypeConstants.CALL.equals(simpleEvent
+						.getEventType())) {
 					EventBusFactory.getInstance().post(
 							new ActivityEvent.CallRead(this, simpleEvent
 									.getId()));

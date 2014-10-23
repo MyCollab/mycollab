@@ -28,6 +28,8 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmResources;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
@@ -141,6 +143,10 @@ public class ActivityTableDisplay
 						CrmLinkBuilder.generateActivityPreviewLinkFull(
 								simpleEvent.getEventType(), simpleEvent.getId()));
 
+				String iconLink = CrmResources.getResourceLink(simpleEvent
+						.getEventType());
+				b.setIconLink(iconLink);
+
 				if ("Held".equals(simpleEvent.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				} else {
@@ -157,22 +163,19 @@ public class ActivityTableDisplay
 		});
 	}
 
-	private String generateToolTip(SimpleActivity event) {
-		try {
-			if (event.getEventType().equals("Event")) {
-				return generateToolTipMeeting(event);
-			} else if (event.getEventType().equals("Call")) {
-				return generateToolTipCall(event);
-			} else if (event.getEventType().equals("Task")) {
-				return generateToolTipTask(event);
-			}
-			return null;
-		} catch (Exception e) {
-			return "";
+	private static String generateToolTip(SimpleActivity event) {
+
+		if (CrmTypeConstants.MEETING.equals(event.getEventType())) {
+			return generateToolTipMeeting(event);
+		} else if (CrmTypeConstants.CALL.equals(event.getEventType())) {
+			return generateToolTipCall(event);
+		} else if (CrmTypeConstants.TASK.equals(event.getEventType())) {
+			return generateToolTipTask(event);
 		}
+		return "";
 	}
 
-	private String generateToolTipMeeting(SimpleActivity meeting) {
+	private static String generateToolTipMeeting(SimpleActivity meeting) {
 		try {
 			Div div = new Div();
 			H3 eventName = new H3();
@@ -248,7 +251,7 @@ public class ActivityTableDisplay
 		}
 	}
 
-	private String generateToolTipCall(SimpleActivity call) {
+	private static String generateToolTipCall(SimpleActivity call) {
 		try {
 			Div div = new Div();
 			H3 callName = new H3();
@@ -336,7 +339,7 @@ public class ActivityTableDisplay
 		}
 	}
 
-	private String generateToolTipTask(SimpleActivity event) {
+	private static String generateToolTipTask(SimpleActivity event) {
 		try {
 			Div div = new Div();
 			H3 eventName = new H3();

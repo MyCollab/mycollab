@@ -22,8 +22,8 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -66,9 +66,7 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
 
 			return tf;
 		} else if ("description".equals(propertyId)) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
+			return new RichTextEditField();
 		} else if ("assignuser".equals(propertyId)) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());

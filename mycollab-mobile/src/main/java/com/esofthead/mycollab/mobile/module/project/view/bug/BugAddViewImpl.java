@@ -18,10 +18,12 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneComboBox;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -56,6 +58,8 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 		BugAddView {
 
 	private static final long serialVersionUID = -688386159095055595L;
+
+	private ProjectFormAttachmentUploadField attachmentUploadField;
 
 	@Override
 	protected String initFormTitle() {
@@ -137,6 +141,14 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 					|| (propertyId.equals("estimateremaintime"))) {
 				NumberField field = new NumberField();
 				return field;
+			} else if (propertyId.equals("id")) {
+				attachmentUploadField = new ProjectFormAttachmentUploadField();
+				if (beanItem.getId() != null) {
+					attachmentUploadField.getAttachments(
+							beanItem.getProjectid(),
+							AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
+				}
+				return attachmentUploadField;
 			}
 
 			return null;
@@ -158,7 +170,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 			header.setStyleName("h2");
 			layout.addComponent(header);
 
-			this.informationLayout = new GridFormLayoutHelper(1, 10, "100%",
+			this.informationLayout = new GridFormLayoutHelper(1, 11, "100%",
 					"150px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().addStyleName(
 					"colored-gridlayout");
@@ -203,12 +215,21 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 						8);
+			} else if (propertyId.equals("id")) {
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
+						9);
 			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 9);
+						0, 10);
 			}
 		}
 
+	}
+
+	@Override
+	public ProjectFormAttachmentUploadField getAttachUploadField() {
+		return attachmentUploadField;
 	}
 }

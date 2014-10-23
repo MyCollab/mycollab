@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -44,12 +44,12 @@ class MeetingReadFormFieldFactory extends
 		} else if (propertyId.equals("startdate")) {
 			if (attachForm.getBean().getStartdate() == null)
 				return null;
-			return new FormDateTimeViewField(attachForm.getBean()
+			return new DateTimeViewField(attachForm.getBean()
 					.getStartdate());
 		} else if (propertyId.equals("enddate")) {
 			if (attachForm.getBean().getEnddate() == null)
 				return null;
-			return new FormDateTimeViewField(attachForm.getBean()
+			return new DateTimeViewField(attachForm.getBean()
 					.getEnddate());
 		} else if (propertyId.equals("isrecurrence")) {
 			return null;

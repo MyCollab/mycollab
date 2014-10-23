@@ -60,9 +60,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -71,6 +68,9 @@ import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -370,7 +370,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			if (propertyId.equals("projectroleid")) {
 				if (attachForm.getBean().getIsadmin() != null
 						&& attachForm.getBean().getIsadmin() == Boolean.FALSE) {
-					FormLinkViewField roleLink = new FormLinkViewField(
+					LinkViewField roleLink = new LinkViewField(
 							attachForm.getBean().getRoleName(),
 							ProjectLinkBuilder.generateRolePreviewFullLink(
 									attachForm.getBean().getProjectid(),
@@ -378,7 +378,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							null);
 					return roleLink;
 				} else {
-					return new DefaultFormViewFieldFactory.FormViewField(
+					return new DefaultViewField(
 							"Project Admin");
 				}
 			} else if (propertyId.equals("username")) {

@@ -45,9 +45,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
@@ -56,7 +53,9 @@ import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
-import com.vaadin.server.Sizeable;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -326,7 +325,7 @@ public class TaskGroupReadViewImpl extends
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("milestoneid")) {
-					return new FormLinkViewField(
+					return new LinkViewField(
 							beanItem.getMilestoneName(),
 							ProjectLinkBuilder
 									.generateMilestonePreviewFullLink(
@@ -339,16 +338,16 @@ public class TaskGroupReadViewImpl extends
 							beanItem.getOwnerAvatarId(),
 							beanItem.getOwnerFullName());
 				} else if (propertyId.equals("percentageComplete")) {
-					final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+					final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
 					final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
 							beanItem.getPercentageComplete());
 					fieldContainer.addComponentField(progressField);
 					return fieldContainer;
 				} else if (propertyId.equals("description")) {
-					return new FormViewField(beanItem.getDescription(),
+					return new DefaultViewField(beanItem.getDescription(),
 							ContentMode.HTML);
 				} else if (propertyId.equals("numOpenTasks")) {
-					final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+					final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
 					final Label numTaskLbl = new Label("("
 							+ beanItem.getNumOpenTasks() + "/"
 							+ beanItem.getNumAllTasks() + ")");

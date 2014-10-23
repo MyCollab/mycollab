@@ -56,7 +56,6 @@ public class LabelLink extends Label {
 	}
 
 	public void setIconLink(String source) {
-
 		Img img = new Img("", source);
 		div.appendChild(0, img);
 		this.setValue(div.write());

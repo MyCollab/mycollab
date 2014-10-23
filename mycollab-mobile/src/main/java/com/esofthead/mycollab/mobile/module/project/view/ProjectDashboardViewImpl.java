@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
@@ -74,8 +75,9 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 		projectIcon.setWidthUndefined();
 		projectInfo.addComponent(projectIcon);
 
-		Label projectName = new Label(currentProject.getName());
-		projectName.setWidthUndefined();
+		Label projectName = new Label(StringUtils.trim(
+				currentProject.getName(), 50, true));
+		projectName.setWidth("100%");
 		projectName.setStyleName("project-name");
 		projectInfo.addComponent(projectName);
 

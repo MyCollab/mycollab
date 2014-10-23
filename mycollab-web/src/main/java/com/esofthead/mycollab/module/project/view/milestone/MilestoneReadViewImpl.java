@@ -51,8 +51,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -62,6 +60,9 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -322,20 +323,20 @@ public class MilestoneReadViewImpl extends
 		protected Field<?> onCreateField(final Object propertyId) {
 			SimpleMilestone milestone = attachForm.getBean();
 			if (propertyId.equals("startdate")) {
-				return new DefaultFormViewFieldFactory.FormDateViewField(
+				return new DateViewField(
 						milestone.getStartdate());
 			} else if (propertyId.equals("enddate")) {
-				return new DefaultFormViewFieldFactory.FormDateViewField(
+				return new DateViewField(
 						milestone.getEnddate());
 			} else if (propertyId.equals("owner")) {
 				return new ProjectUserFormLinkField(milestone.getOwner(),
 						milestone.getOwnerAvatarId(),
 						milestone.getOwnerFullName());
 			} else if (propertyId.equals("description")) {
-				return new DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField(
+				return new RichTextViewField(
 						milestone.getDescription());
 			} else if (propertyId.equals("numOpenTasks")) {
-				final FormContainerHorizontalViewField taskComp = new FormContainerHorizontalViewField();
+				final ContainerHorizontalViewField taskComp = new ContainerHorizontalViewField();
 
 				final ProgressBarIndicator progressTask = new ProgressBarIndicator(
 						milestone.getNumTasks(), milestone.getNumOpenTasks());
@@ -343,7 +344,7 @@ public class MilestoneReadViewImpl extends
 				taskComp.addComponentField(progressTask);
 				return taskComp;
 			} else if (propertyId.equals("numOpenBugs")) {
-				final FormContainerHorizontalViewField bugComp = new FormContainerHorizontalViewField();
+				final ContainerHorizontalViewField bugComp = new ContainerHorizontalViewField();
 
 				final ProgressBarIndicator progressBug = new ProgressBarIndicator(
 						milestone.getNumBugs(), milestone.getNumOpenBugs());
@@ -351,7 +352,7 @@ public class MilestoneReadViewImpl extends
 				bugComp.addComponentField(progressBug);
 				return bugComp;
 			} else if (propertyId.equals("status")) {
-				final FormContainerHorizontalViewField statusField = new FormContainerHorizontalViewField();
+				final ContainerHorizontalViewField statusField = new ContainerHorizontalViewField();
 				Image icon = new Image();
 				icon.setSource(new ExternalResource(ProjectResources
 						.getIconResource12LinkOfPhaseStatus(beanItem

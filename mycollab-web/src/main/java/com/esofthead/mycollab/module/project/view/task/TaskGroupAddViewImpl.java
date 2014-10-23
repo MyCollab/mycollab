@@ -29,12 +29,12 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -125,7 +125,7 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 			} else if (propertyId.equals("percentageComplete")) {
 				final double percentage = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getPercentageComplete() : 0;
-				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+				final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
 				final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
 						percentage);
 				fieldContainer.addComponentField(progressField);
@@ -135,7 +135,7 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 						.getNumOpenTasks() : 0;
 				final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getNumAllTasks() : 0;
-				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+				final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
 				final Label numTaskLbl = new Label("(" + openTask + "/"
 						+ allTasks + ")");
 				fieldContainer.addComponentField(numTaskLbl);

@@ -62,11 +62,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
 				moduleName);
 
-		if (form != null) {
-			this.dynaForm = form;
-		} else {
-			this.dynaForm = defaultForm;
-		}
+		this.dynaForm = (form != null) ? form : defaultForm;
 
 		log.debug("Fill fields of originSection to map field");
 

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -52,7 +53,6 @@ public class ActivityListPresenter
 		extends
 		CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
 	private static final long serialVersionUID = 1L;
-	private EventService eventService;
 
 	public ActivityListPresenter() {
 		super(ActivityListView.class);
@@ -61,7 +61,6 @@ public class ActivityListPresenter
 	@Override
 	protected void postInitView() {
 		super.postInitView();
-		eventService = ApplicationContextUtil.getSpringBean(EventService.class);
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
@@ -106,10 +105,6 @@ public class ActivityListPresenter
 		}
 	}
 
-	private static final String CALL = "Call";
-	private static final String MEETING = "Meeting";
-	private static final String TASK = "Task";
-
 	@Override
 	protected void deleteSelectedItems() {
 		Collection<SimpleActivity> currentDataList = view.getPagedBeanTable()
@@ -120,22 +115,24 @@ public class ActivityListPresenter
 		if (!isSelectAll) {
 			for (SimpleActivity item : currentDataList) {
 				if (item.isSelected()) {
-					if (item.getEventType().equals(CALL)) {
+					if (CrmTypeConstants.CALL.equals(item.getEventType())) {
 						keyListCall.add(item.getId());
-					} else if (item.getEventType().equals(MEETING)) {
+					} else if (CrmTypeConstants.MEETING.equals(item
+							.getEventType())) {
 						keyListMeeting.add(item.getId());
-					} else if (item.getEventType().equals(TASK)) {
+					} else if (CrmTypeConstants.TASK
+							.equals(item.getEventType())) {
 						keyListTask.add(item.getId());
 					}
 				}
 			}
 		} else {
 			for (SimpleActivity item : currentDataList) {
-				if (item.getEventType().equals(CALL)) {
+				if ((CrmTypeConstants.CALL.equals(item.getEventType()))) {
 					keyListCall.add(item.getId());
-				} else if (item.getEventType().equals(MEETING)) {
+				} else if (CrmTypeConstants.MEETING.equals(item.getEventType())) {
 					keyListMeeting.add(item.getId());
-				} else if (item.getEventType().equals(TASK)) {
+				} else if (CrmTypeConstants.TASK.equals(item.getEventType())) {
 					keyListTask.add(item.getId());
 				}
 			}

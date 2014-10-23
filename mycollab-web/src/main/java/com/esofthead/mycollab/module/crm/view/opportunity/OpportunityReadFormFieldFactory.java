@@ -26,11 +26,13 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 public class OpportunityReadFormFieldFactory extends
@@ -48,32 +50,27 @@ public class OpportunityReadFormFieldFactory extends
 		final SimpleOpportunity opportunity = attachForm.getBean();
 
 		if (propertyId.equals("accountid")) {
-			field = new FormLinkViewField(opportunity.getAccountName(),
+			field = new LinkViewField(opportunity.getAccountName(),
 					CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity
 							.getAccountid()),
 					MyCollabResource
-							.newResourceLink("icons/16/crm/account.png"));
+							.newResourceLink(WebResourceIds._16_crm_account));
 		} else if (propertyId.equals("campaignid")) {
-			field = 
-			new FormLinkViewField(opportunity.getCampaignName(),
+			field = new LinkViewField(opportunity.getCampaignName(),
 					CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity
 							.getCampaignid()),
 					MyCollabResource
-							.newResourceLink("icons/16/crm/campaign.png"));
+							.newResourceLink(WebResourceIds._16_crm_campaign));
 		} else if (propertyId.equals("assignuser")) {
 			field = new UserLinkViewField(opportunity.getAssignuser(),
 					opportunity.getAssignUserAvatarId(),
 					opportunity.getAssignUserFullName());
 		} else if (propertyId.equals("expectedcloseddate")) {
-			field = new FormViewField(AppContext.formatDate(opportunity
-					.getExpectedcloseddate()));
+			return new DateViewField(opportunity.getExpectedcloseddate());
 		} else if (propertyId.equals("currencyid")) {
-			if (opportunity.getCurrency() != null) {
-				return new FormViewField(opportunity.getCurrency()
-						.getShortname());
-			} else {
-				return new FormViewField("");
-			}
+			String currency = (opportunity.getCurrency() != null) ? opportunity
+					.getCurrency().getShortname() : "";
+			return new DefaultViewField(currency);
 		}
 		return field;
 	}

@@ -24,14 +24,13 @@ import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormUrlLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -187,16 +186,16 @@ public class ProjectInformationComponent extends VerticalLayout {
 						@Override
 						protected Field<?> onCreateField(Object propertyId) {
 							if (propertyId.equals("actualstartdate")) {
-								return new DefaultFormViewFieldFactory.FormViewField(
+								return new DefaultViewField(
 										AppContext
 												.formatDate(ProjectInformationComponent.this.project
 														.getActualstartdate()));
 							} else if (propertyId.equals("homepage")) {
-								return new FormUrlLinkViewField(
+								return new UrlLinkViewField(
 										ProjectInformationComponent.this.project
 												.getHomepage());
 							} else if (propertyId.equals("description")) {
-								return new FormDetectAndDisplayUrlViewField(
+								return new RichTextViewField(
 										ProjectInformationComponent.this.project
 												.getDescription());
 							}
@@ -230,42 +229,42 @@ public class ProjectInformationComponent extends VerticalLayout {
 						@Override
 						protected Field<?> onCreateField(Object propertyId) {
 							if (propertyId.equals("planstartdate")) {
-								return new FormViewField(
+								return new DefaultViewField(
 										AppContext
 												.formatDate(ProjectInformationComponent.this.project
 														.getPlanstartdate()));
 							} else if (propertyId.equals("planenddate")) {
-								return new FormViewField(
+								return new DefaultViewField(
 										AppContext
 												.formatDate(ProjectInformationComponent.this.project
 														.getPlanenddate()));
 							} else if (propertyId.equals("actualstartdate")) {
-								return new FormViewField(
+								return new DefaultViewField(
 										AppContext
 												.formatDate(ProjectInformationComponent.this.project
 														.getActualstartdate()));
 							} else if (propertyId.equals("actualenddate")) {
-								return new FormViewField(
+								return new DefaultViewField(
 										AppContext
 												.formatDate(ProjectInformationComponent.this.project
 														.getActualenddate()));
 							} else if (propertyId.equals("homepage")) {
-								return new FormUrlLinkViewField(
+								return new UrlLinkViewField(
 										ProjectInformationComponent.this.project
 												.getHomepage());
 							} else if (propertyId.equals("description")) {
-								return new FormDetectAndDisplayUrlViewField(
+								return new RichTextViewField(
 										ProjectInformationComponent.this.project
 												.getDescription());
 							} else if (propertyId.equals("currencyid")) {
 								if (ProjectInformationComponent.this.project
 										.getCurrency() != null) {
-									return new FormViewField(
+									return new DefaultViewField(
 											ProjectInformationComponent.this.project
 													.getCurrency()
 													.getShortname());
 								} else {
-									return new FormViewField("");
+									return new DefaultViewField("");
 								}
 							}
 							return null;

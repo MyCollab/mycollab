@@ -24,6 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IndustryComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -62,9 +63,7 @@ class AccountEditFormFieldFactory<B extends Account> extends
 			userBox.select(attachForm.getBean().getAssignuser());
 			return userBox;
 		} else if ("description".equals(propertyId)) {
-			TextArea textArea = new TextArea("", "");
-			textArea.setNullRepresentation("");
-			return textArea;
+			return new RichTextEditField();
 		} else if ("billingcountry".equals(propertyId)
 				|| "shippingcountry".equals(propertyId)) {
 			CountryComboBox billingCountryComboBox = new CountryComboBox();

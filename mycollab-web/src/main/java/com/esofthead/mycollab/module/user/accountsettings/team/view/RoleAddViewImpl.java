@@ -41,6 +41,7 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -48,7 +49,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -270,9 +270,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("description")) {
-					final TextArea textArea = new TextArea();
-					textArea.setNullRepresentation("");
-					return textArea;
+					return new RichTextEditField();
 				} else if (propertyId.equals("rolename")) {
 					final TextField tf = new TextField();
 					tf.setNullRepresentation("");

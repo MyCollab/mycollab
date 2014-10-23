@@ -24,11 +24,11 @@ import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IndustryComboBox;
 import com.esofthead.mycollab.vaadin.ui.PrefixNameComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -84,9 +84,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 
 			return tf;
 		} else if (propertyId.equals("description")) {
-			TextArea descArea = new TextArea();
-			descArea.setNullRepresentation("");
-			return descArea;
+			return new RichTextEditField();
 		} else if (propertyId.equals("accountname")) {
 			TextField txtField = new TextField();
 			if (isValidateForm) {

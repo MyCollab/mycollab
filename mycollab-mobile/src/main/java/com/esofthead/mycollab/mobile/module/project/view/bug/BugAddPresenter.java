@@ -20,6 +20,7 @@ import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -119,15 +120,15 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 			bug.setSaccountid(AppContext.getAccountId());
 			int bugId = bugService.saveWithSession(bug,
 					AppContext.getUsername());
-
-			CacheUtils.cleanCache(AppContext.getAccountId(),
-					BugService.class.getName());
 		} else {
 			bugService.updateWithSession(bug, AppContext.getUsername());
 
-			CacheUtils.cleanCache(AppContext.getAccountId(),
-					BugService.class.getName());
 		}
+		ProjectFormAttachmentUploadField uploadField = view
+				.getAttachUploadField();
+		uploadField.saveContentsToRepo();
+		CacheUtils.cleanCache(AppContext.getAccountId(),
+				BugService.class.getName());
 
 	}
 }

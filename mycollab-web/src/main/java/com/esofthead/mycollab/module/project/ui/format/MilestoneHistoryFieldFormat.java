@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +63,7 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public String toString(String value) {
-		if (value == null || "".equals(value)) {
+		if (StringUtils.isBlank(value)) {
 			return new Span().write();
 		}
 
