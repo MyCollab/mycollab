@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-    namespace="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt">
-    <resultMap id="FollowingTicketResult"
-        type="com.esofthead.mycollab.module.project.domain.FollowingTicket">
-        <result column="projectId" jdbcType="INTEGER" property="projectId" />
-        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
-        <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
-        <result column="assignUserFullName" jdbcType="VARCHAR"
-            property="assignUserFullName" />
-        <result column="summary" jdbcType="VARCHAR" property="summary" />
-        <result column="type" jdbcType="VARCHAR" property="type" />
-        <result column="typeId" jdbcType="INTEGER" property="typeId" />
-        <result column="monitorDate" jdbcType="TIMESTAMP"
-            property="monitorDate" />
-        <result column="status" jdbcType="VARCHAR" property="status" />
-        <result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
-    </resultMap>
+	namespace="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt">
+	<resultMap id="FollowingTicketResult"
+		type="com.esofthead.mycollab.module.project.domain.FollowingTicket">
+		<result column="projectId" jdbcType="INTEGER" property="projectId" />
+		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
+		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
+		<result column="assignUserAvatarId" jdbcType="VARCHAR"
+			property="assignUserAvatarId" />
+		<result column="assignUserFullName" jdbcType="VARCHAR"
+			property="assignUserFullName" />
+		<result column="summary" jdbcType="VARCHAR" property="summary" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="typeId" jdbcType="INTEGER" property="typeId" />
+		<result column="monitorDate" jdbcType="TIMESTAMP" property="monitorDate" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
+	</resultMap>
 
-    <sql id="selectFollowingTicketOfTask">
+	<sql id="extraQueryTaskSearchCriteria">
+        <![CDATA[
+        #ifnotnull($searchCriteria.summary)
+            ${searchCriteria.summary.operation} m_prj_task.taskname LIKE '%${searchCriteria.summary.value}%'
+        #end
+        ]]>
+	</sql>
+
+	<sql id="extraQueryBugSearchCriteria">
+        <![CDATA[
+        #ifnotnull($searchCriteria.summary)
+            ${searchCriteria.summary.operation} m_tracker_bug.summary LIKE '%${searchCriteria.summary.value}%'
+        #end
+        ]]>
+	</sql>
+
+	<sql id="selectFollowingTicketOfTask">
         <![CDATA[
         SELECT 'Project-Task' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_prj_task.taskname AS summary, m_prj_task.assignUser AS assignUser,
@@ -33,9 +48,9 @@
             INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
             INNER JOIN s_user ON (s_user.username=m_prj_task.assignUser)
         ]]>
-    </sql>
+	</sql>
 
-    <sql id="selectFollowingTicketOfBug">
+	<sql id="selectFollowingTicketOfBug">
         <![CDATA[
         SELECT 'Project-Bug' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_tracker_bug.summary AS summary, s_user.username AS assignUser,
@@ -48,41 +63,60 @@
             INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
             INNER JOIN s_user ON (s_user.username=m_tracker_bug.assignuser)
         ]]>
-    </sql>
+	</sql>
 
-    <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
-        resultMap="FollowingTicketResult" lang="velocity">
-        (
-        <include refid="selectFollowingTicketOfTask" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include
-                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            #end
-        #end
-        )
-        UNION
+	<select id="findPagableListByCriteria" parameterType="FollowingTicketSearchCriteria"
+		resultMap="FollowingTicketResult" lang="velocity">
+		(
+		<include refid="selectFollowingTicketOfTask" />
+		#ifnotnull($_parameter.searchCriteria)
+		#trimext("WHERE" "AND|OR")
+		<include
+			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		<include refid="extraQueryTaskSearchCriteria" />
+		#end
+		#end
+		)
+		UNION
+		(
+		<include refid="selectFollowingTicketOfBug" />
+		#ifnotnull($_parameter.searchCriteria)
+		#trimext("WHERE" "AND|OR")
+		<include
+			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		<include refid="extraQueryBugSearchCriteria" />
+		#end
+		#end
+		)
+		ORDER BY monitorDate DESC
+	</select>
 
-        (
-        <include refid="selectFollowingTicketOfBug" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include
-                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            #end
-        #end
-        )
-        ORDER BY monitorDate DESC
-    </select>
-
-    <select id="getTotalCount" resultType="int"
-        parameterType="MonitorSearchCriteria" lang="velocity">
-        SELECT count(*) as totalCount FROM m_monitor_item
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include
-                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            #end
-        #end
-    </select>
+	<select id="getTotalCount" resultType="int" parameterType="MonitorSearchCriteria"
+		lang="velocity">
+		SELECT count(*) FROM
+		(
+		(
+		<include refid="selectFollowingTicketOfTask" />
+		#ifnotnull($_parameter.searchCriteria)
+		#trimext("WHERE" "AND|OR")
+		<include
+			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		<include refid="extraQueryTaskSearchCriteria" />
+		#end
+		#end
+		)
+		UNION
+		(
+		<include refid="selectFollowingTicketOfBug" />
+		#ifnotnull($_parameter.searchCriteria)
+		#trimext("WHERE" "AND|OR")
+		<include
+			refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+		<include refid="extraQueryBugSearchCriteria" />
+		#end
+		#end
+		)
+		)
+		as totalCount
+	</select>
 </mapper>

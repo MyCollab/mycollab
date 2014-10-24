@@ -62,4 +62,22 @@ public class ProjectEvent {
 			super(source, data);
 		}
 	}
+
+	public static class MyProjectActivities extends ApplicationEvent {
+
+		private static final long serialVersionUID = -4804098825918852657L;
+
+		public MyProjectActivities(Object source, Object data) {
+			super(source, data);
+		}
+
+	}
+
+	public static class AllActivities extends ApplicationEvent {
+		private static final long serialVersionUID = 4660705128694728789L;
+
+		public AllActivities(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

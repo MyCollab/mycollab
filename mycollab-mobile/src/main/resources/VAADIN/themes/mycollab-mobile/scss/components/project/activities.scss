@@ -1,0 +1,40 @@
+@mixin project-activities {
+	.project-activities-view {
+		.activity-date {
+			border-bottom: 2px solid $primary-orange;
+			padding: 1rem 0.5rem 0.5rem;
+			font-size: 1.1rem;
+			font-weight: bold;
+			color: $gray-text;
+		}
+		.activity-row {
+			padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+			border-bottom: 0.1rem solid $light-gray-border;
+			color: $gray-text;
+			.activity-type {
+				font-size: 2rem;
+				color: $primary-orange;
+			}
+			.v-button.activity-item {
+				font-size: 1.4rem;
+				font-weight: bold;
+				color: $black-text;
+			}
+			.activity-detail-row {
+				.activity-detail {
+					font-size: 1.1rem;
+				}
+				.v-button.link {
+					display: inline-block;
+					.v-button-wrap {
+						padding: 0rem 0rem 0rem 0.4rem;
+						.v-button-caption {
+							font-size: 1.1rem;
+						}
+					}
+				}
+			}
+			
+		}
+	}
+}

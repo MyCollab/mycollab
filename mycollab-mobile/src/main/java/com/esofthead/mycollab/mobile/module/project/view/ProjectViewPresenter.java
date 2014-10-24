@@ -26,6 +26,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenDat
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
@@ -73,17 +74,16 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				CurrentProjectVariables.setProject(project);
 				((MobileNavigationManager) UI.getCurrent().getContent())
 						.setNavigationMenu(new InsideProjectNavigationMenu());
-				ProjectDashboardPresenter presenter = PresenterResolver
-						.getPresenter(ProjectDashboardPresenter.class);
-				presenter.go((MobileNavigationManager) UI.getCurrent()
-						.getContent(), null);
 			}
 		}
 	}
 
 	@Override
 	protected void onDefaultStopChain() {
-
+		ProjectDashboardPresenter presenter = PresenterResolver
+				.getPresenter(ProjectDashboardPresenter.class);
+		presenter.go((MobileNavigationManager) UI.getCurrent().getContent(),
+				null);
 	}
 
 	@Override
@@ -92,9 +92,21 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 		ScreenData<?> pageAction = pageActionChain.peek();
 
 		IPresenter<?> presenter = null;
-
-		if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class,
-				MessageScreenData.Search.class, MessageScreenData.Add.class)) {
+		if (ClassUtils.instanceOf(pageAction,
+				ProjectScreenData.GotoDashboard.class)) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectDashboardPresenter.class);
+		} else if (ClassUtils.instanceOf(pageAction,
+				ProjectScreenData.AllActivities.class)) {
+			presenter = PresenterResolver
+					.getPresenter(AllActivityStreamPresenter.class);
+		} else if (ClassUtils.instanceOf(pageAction,
+				ProjectScreenData.ViewActivities.class)) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectActivityStreamPresenter.class);
+		} else if (ClassUtils.instanceOf(pageAction,
+				MessageScreenData.Read.class, MessageScreenData.Search.class,
+				MessageScreenData.Add.class)) {
 			presenter = PresenterResolver.getPresenter(MessagePresenter.class);
 		} else if (ClassUtils.instanceOf(pageAction, TaskScreenData.List.class,
 				TaskScreenData.Read.class, TaskScreenData.Add.class,

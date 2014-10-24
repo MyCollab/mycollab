@@ -18,7 +18,6 @@ package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -43,7 +42,7 @@ public class ProjectDashboardPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ModuleHelper.setCurrentModule(view);
+
 		if (data instanceof ProjectScreenData.Edit) {
 			// TODO: Handle edit project
 		} else {

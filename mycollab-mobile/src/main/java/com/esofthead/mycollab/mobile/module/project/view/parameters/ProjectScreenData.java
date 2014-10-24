@@ -36,4 +36,22 @@ public class ProjectScreenData {
 			super(params);
 		}
 	}
+
+	public static class ViewActivities extends ScreenData<Object> {
+		public ViewActivities() {
+			super(null);
+		}
+	}
+
+	public static class GotoDashboard extends ScreenData<Object> {
+		public GotoDashboard() {
+			super(null);
+		}
+	}
+
+	public static class AllActivities extends ScreenData<Object> {
+		public AllActivities() {
+			super(null);
+		}
+	}
 }

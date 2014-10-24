@@ -7,6 +7,7 @@
 
 /* Import our component styles */
 @import "components/project/dashboard.scss";
+@import "components/project/activities.scss";
 @import "components/project/bug.scss";
 @import "components/project/message.scss";
 @import "components/project/task.scss";
@@ -743,6 +744,7 @@
 			.v-label {
 				font-size: 1.5rem;
 				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 			.v-button {
 				display: inline-block;
@@ -833,6 +835,7 @@
     }
     
     @include project-dashboard;
+    @include project-activities;
     @include project-bug;
     @include project-message;
     @include project-task;

@@ -37,6 +37,7 @@ import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent.AllActivities;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
@@ -48,6 +49,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenDat
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
@@ -163,6 +165,32 @@ public class ProjectModuleController extends AbstractController {
 						.getPresenter(ProjectViewPresenter.class);
 				presenter.handleChain(navManager,
 						(PageActionChain) event.getData());
+			}
+		});
+		this.register(new ApplicationEventListener<ProjectEvent.AllActivities>() {
+
+			private static final long serialVersionUID = 2264166446431876916L;
+
+			@Subscribe
+			@Override
+			public void handle(AllActivities event) {
+				AllActivityStreamPresenter presenter = PresenterResolver
+						.getPresenter(AllActivityStreamPresenter.class);
+				presenter.go(navManager,
+						(ProjectScreenData.AllActivities) event.getData());
+			}
+
+		});
+		this.register(new ApplicationEventListener<ProjectEvent.MyProjectActivities>() {
+			private static final long serialVersionUID = -1636495590108668932L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectEvent.MyProjectActivities event) {
+				ProjectActivityStreamPresenter presenter = PresenterResolver
+						.getPresenter(ProjectActivityStreamPresenter.class);
+				presenter.go(navManager,
+						(ProjectScreenData.ViewActivities) event.getData());
 			}
 		});
 	}

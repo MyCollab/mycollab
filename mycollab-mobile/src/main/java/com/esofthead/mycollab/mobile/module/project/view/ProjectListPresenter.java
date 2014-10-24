@@ -54,7 +54,7 @@ public class ProjectListPresenter
 		ModuleHelper.setCurrentModule(view);
 		super.onGo(container, data);
 		doSearch((ProjectSearchCriteria) data.getParams());
-		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
 
 		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
 		projectModuleMenu.selectButton(AppContext

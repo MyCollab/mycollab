@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
+import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
@@ -80,7 +80,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 	private SplitButton exportButtonControl;
 	private final FollowingTicketTable ticketTable;
-	private MonitorSearchCriteria searchCriteria;
+	private FollowingTicketSearchCriteria searchCriteria;
 
 	public FollowingTicketViewImpl() {
 		this.setWidth("100%");
@@ -190,7 +190,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 			@Override
 			protected StreamSource buildStreamSource() {
-				return new SimpleGridExportItemsStreamResource.AllItems<MonitorSearchCriteria, FollowingTicket>(
+				return new SimpleGridExportItemsStreamResource.AllItems<FollowingTicketSearchCriteria, FollowingTicket>(
 						"Following Tickets Report",
 						new RpParameterBuilder(ticketTable.getDisplayColumns()),
 						exportType,
@@ -208,7 +208,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	@Override
 	public void displayFollowingTicket(final List<Integer> prjKeys) {
 		if (CollectionUtils.isNotEmpty(prjKeys)) {
-			searchCriteria = new MonitorSearchCriteria();
+			searchCriteria = new FollowingTicketSearchCriteria();
 			searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys
 					.toArray(new Integer[0])));
 			searchCriteria.setUser(new StringSearchField(AppContext
@@ -218,7 +218,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	}
 
 	private class FollowingTicketTable extends
-			AbstractPagedBeanTable<MonitorSearchCriteria, FollowingTicket> {
+			AbstractPagedBeanTable<FollowingTicketSearchCriteria, FollowingTicket> {
 
 		private static final long serialVersionUID = 1L;
 		private ProjectFollowingTicketService projectFollowingTicketService;
@@ -378,6 +378,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 					.getTotalCount(this.searchRequest.getSearchCriteria());
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected List<FollowingTicket> queryCurrentData() {
 			return this.projectFollowingTicketService

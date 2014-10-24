@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -51,11 +52,11 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 				IconConstants.PROJECT_ACTIVITIES);
 		addMenu(activityBtn);
 
-		final MenuButton ticketBtn = new MenuButton(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
-				IconConstants.PROJECT_FOLLOWING);
-		addMenu(ticketBtn);
+		// final MenuButton ticketBtn = new MenuButton(
+		// AppContext
+		// .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
+		// IconConstants.PROJECT_FOLLOWING);
+		// addMenu(ticketBtn);
 	}
 
 	@Override
@@ -73,6 +74,12 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 						caption)) {
 					EventBusFactory.getInstance().post(
 							new ProjectEvent.GotoProjectList(this, null));
+				} else if (AppContext.getMessage(
+						ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES)
+						.equals(caption)) {
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.AllActivities(this,
+									new ProjectScreenData.AllActivities()));
 				}
 			}
 		};

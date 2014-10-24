@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 
 public interface ProjectFollowingTicketService extends
-		ISearchableService<MonitorSearchCriteria> {
+		ISearchableService<FollowingTicketSearchCriteria> {
 
 }

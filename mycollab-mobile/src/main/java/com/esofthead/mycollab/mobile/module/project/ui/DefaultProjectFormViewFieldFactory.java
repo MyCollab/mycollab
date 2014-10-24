@@ -203,6 +203,7 @@ public class DefaultProjectFormViewFieldFactory {
 			if (fileStores.containsKey(fileName)) {
 				NotificationUtil.showWarningNotification("File " + fileName
 						+ " is already existed.");
+				content.removeComponent(uploadProgress);
 				receiver.clearData();
 				return;
 			}

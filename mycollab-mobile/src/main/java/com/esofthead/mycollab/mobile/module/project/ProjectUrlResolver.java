@@ -42,6 +42,7 @@ public class ProjectUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
 		this.addSubResolver("dashboard", new DashboardUrlResolver());
+		this.addSubResolver("activities", new ActivityUrlResolver());
 		this.addSubResolver("message", new MessageUrlResolver());
 		this.addSubResolver("milestone", new MilestoneUrlResolver());
 		this.addSubResolver("task", new TaskUrlResolver());
@@ -83,7 +84,27 @@ public class ProjectUrlResolver extends UrlResolver {
 			} else {
 				int projectId = new UrlTokenizer(params[0]).getInt();
 				PageActionChain chain = new PageActionChain(
-						new ProjectScreenData.Goto(projectId));
+						new ProjectScreenData.Goto(projectId),
+						new ProjectScreenData.GotoDashboard());
+				EventBusFactory.getInstance().post(
+						new ProjectEvent.GotoMyProject(this, chain));
+			}
+		}
+	}
+
+	public static class ActivityUrlResolver extends ProjectUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			if (ArrayUtils.isEmpty(params)) {
+				EventBusFactory.getInstance().post(
+						new ProjectEvent.AllActivities(this,
+								new ProjectScreenData.AllActivities()));
+			} else {
+				int projectId = new UrlTokenizer(params[0]).getInt();
+
+				PageActionChain chain = new PageActionChain(
+						new ProjectScreenData.Goto(projectId),
+						new ProjectScreenData.ViewActivities());
 				EventBusFactory.getInstance().post(
 						new ProjectEvent.GotoMyProject(this, chain));
 			}

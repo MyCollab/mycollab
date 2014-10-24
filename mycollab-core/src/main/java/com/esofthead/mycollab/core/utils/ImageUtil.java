@@ -19,7 +19,11 @@ package com.esofthead.mycollab.core.utils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -116,5 +120,29 @@ public class ImageUtil {
 			log.error("Exception to convert Image to Byte Array: ", e);
 			return null;
 		}
+	}
+
+	public static BufferedImage generateImageThumbnail(InputStream imageStream)
+			throws IOException {
+		int idealWidth = 512;
+		BufferedImage source = ImageIO.read(imageStream);
+		int imgHeight = source.getHeight();
+		int imgWidth = source.getWidth();
+
+		float scale = imgWidth / idealWidth;
+		int height = (int) (imgHeight / scale);
+
+		BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
+				Mode.FIT_TO_WIDTH, idealWidth, (int) height);
+		return rescaledImage;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedImage thumbnail = generateImageThumbnail(new FileInputStream(
+				new File(
+						"/Users/haiphucnguyen/Downloads/FLO002_HomePage_V1.jpg")));
+		ImageIO.write(thumbnail, "png", new File(
+				"/Users/haiphucnguyen/Desktop/test.png"));
+		System.out.println("Thumb: " + thumbnail);
 	}
 }

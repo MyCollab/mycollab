@@ -913,6 +913,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .attachment-field .attachment-row .v-label {
   font-size: 1.5rem;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .mycollab-mobile .attachment-field .attachment-row .v-button {
   display: inline-block;
@@ -1032,6 +1033,39 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.1rem;
   font-weight: bold;
   text-transform: uppercase;
+}
+.mycollab-mobile .project-activities-view .activity-date {
+  border-bottom: 2px solid #f59330;
+  padding: 1rem 0.5rem 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #959595;
+}
+.mycollab-mobile .project-activities-view .activity-row {
+  padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+  border-bottom: 0.1rem solid #dddddd;
+  color: #959595;
+}
+.mycollab-mobile .project-activities-view .activity-row .activity-type {
+  font-size: 2rem;
+  color: #f59330;
+}
+.mycollab-mobile .project-activities-view .activity-row .v-button.activity-item {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #414141;
+}
+.mycollab-mobile .project-activities-view .activity-row .activity-detail-row .activity-detail {
+  font-size: 1.1rem;
+}
+.mycollab-mobile .project-activities-view .activity-row .activity-detail-row .v-button.link {
+  display: inline-block;
+}
+.mycollab-mobile .project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap {
+  padding: 0rem 0rem 0rem 0.4rem;
+}
+.mycollab-mobile .project-activities-view .activity-row .activity-detail-row .v-button.link .v-button-wrap .v-button-caption {
+  font-size: 1.1rem;
 }
 .mycollab-mobile .bugs-list .list-item {
   padding: 1rem 1.4rem;
@@ -1295,7 +1329,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .timelog-edit-view .data-list-view .time-log-item {
   padding: 0.5rem 2.5rem 0.8rem 1.4rem;
-  border-bottom: 0.1rem solid #DDDDDD;
+  border-bottom: 0.1rem solid #dddddd;
   color: #959595;
 }
 .mycollab-mobile .timelog-edit-view .data-list-view .time-log-item .log-value {

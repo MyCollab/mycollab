@@ -16,26 +16,22 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.lang3.time.DateUtils;
-
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectIconConstantsMap;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -49,47 +45,31 @@ import com.vaadin.ui.VerticalLayout;
  *
  * @since 4.5.2
  */
-public class ProjectActivityStreamListDisplay
+
+@ViewComponent
+public class AllActivityViewImpl
 		extends
-		AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+		AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream>
+		implements AllActivityView {
 
-	private static final long serialVersionUID = 9189667863722393067L;
-	protected final ProjectActivityStreamService projectActivityStreamService;
+	private static final long serialVersionUID = -7722214412998470562L;
 
-	public ProjectActivityStreamListDisplay() {
-		super(new ActivityStreamRowHandler(), 20);
-		this.projectActivityStreamService = ApplicationContextUtil
-				.getSpringBean(ProjectActivityStreamService.class);
+	public AllActivityViewImpl() {
+		this.setCaption(AppContext
+				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+		this.addStyleName("project-activities-view");
 	}
 
 	@Override
-	protected int queryTotalCount() {
-		return projectActivityStreamService
-				.getTotalActivityStream(searchRequest.getSearchCriteria());
+	protected AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> createBeanTable() {
+		ProjectActivityStreamListDisplay beanList = new ProjectActivityStreamListDisplay();
+		beanList.setRowDisplayHandler(new ActivityStreamRowHandler());
+		return beanList;
 	}
 
 	@Override
-	protected List<ProjectActivityStream> queryCurrentData() {
-		return projectActivityStreamService
-				.getProjectActivityStreams(searchRequest);
-	}
-
-	@Override
-	protected void renderRows() {
-		int i = 0;
-		Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
-		for (final ProjectActivityStream item : currentListData) {
-			if (!DateUtils.isSameDay(item.getCreatedtime(), currentDate)) {
-				Label dateLbl = new Label(AppContext.formatDate(item
-						.getCreatedtime()));
-				dateLbl.setStyleName("activity-date");
-				listContainer.addComponent(dateLbl);
-				currentDate = item.getCreatedtime();
-			}
-			final Component row = getRowDisplayHandler().generateRow(item, i);
-			listContainer.addComponent(row);
-			i++;
-		}
+	protected Component createRightComponent() {
+		return null;
 	}
 
 	private static class ActivityStreamRowHandler implements
@@ -120,9 +100,9 @@ public class ProjectActivityStreamListDisplay
 			streamItem.setStyleName("activity-item");
 			rightCol.addComponent(streamItem);
 
-			CssLayout detailRow = new CssLayout();
-			detailRow.setWidthUndefined();
-			detailRow.setStyleName("activity-detail-row");
+			CssLayout detailRow1 = new CssLayout();
+			detailRow1.setWidth("100%");
+			detailRow1.setStyleName("activity-detail-row");
 
 			Label streamDetail = new Label();
 			streamDetail.setWidthUndefined();
@@ -137,11 +117,11 @@ public class ProjectActivityStreamListDisplay
 						.setValue(AppContext
 								.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
 			}
-			detailRow.addComponent(streamDetail);
+			detailRow1.addComponent(streamDetail);
 			Button activityUser = new Button(obj.getCreatedUserFullName(),
 					new Button.ClickListener() {
 
-						private static final long serialVersionUID = 719162256058709352L;
+						private static final long serialVersionUID = -8003871011601870233L;
 
 						@Override
 						public void buttonClick(Button.ClickEvent event) {
@@ -156,8 +136,38 @@ public class ProjectActivityStreamListDisplay
 						}
 					});
 			activityUser.setStyleName("link");
-			detailRow.addComponent(activityUser);
-			rightCol.addComponent(detailRow);
+			detailRow1.addComponent(activityUser);
+			rightCol.addComponent(detailRow1);
+
+			if (!ProjectTypeConstants.PROJECT.equals(obj.getType())) {
+				CssLayout detailRow2 = new CssLayout();
+				detailRow2.setWidth("100%");
+				detailRow2.setStyleName("activity-detail-row");
+				Label prefixLbl = new Label(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.M_FEED_PROJECT_ACTIVITY_PREFIX));
+				prefixLbl.setWidthUndefined();
+				prefixLbl.setStyleName("activity-detail");
+				detailRow2.addComponent(prefixLbl);
+				Button activityProject = new Button(obj.getProjectName(),
+						new Button.ClickListener() {
+
+							private static final long serialVersionUID = -3098780059559395224L;
+
+							@Override
+							public void buttonClick(Button.ClickEvent event) {
+								PageActionChain chain = new PageActionChain(
+										new ProjectScreenData.Goto(obj
+												.getProjectId()));
+								EventBusFactory.getInstance().post(
+										new ProjectEvent.GotoMyProject(this,
+												chain));
+							}
+						});
+				activityProject.setStyleName("link");
+				detailRow2.addComponent(activityProject);
+				rightCol.addComponent(detailRow2);
+			}
 
 			layout.addComponent(rightCol);
 			layout.setExpandRatio(rightCol, 1.0f);
