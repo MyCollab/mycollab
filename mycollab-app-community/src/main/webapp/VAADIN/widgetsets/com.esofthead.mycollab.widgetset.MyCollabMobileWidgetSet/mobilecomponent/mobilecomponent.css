@@ -59,8 +59,8 @@ div.v-cache-loading-indicator {
     overflow: auto;
 }
 .v-mobilecomponent .v-touchkit-navpanel {
-	-webkit-transition: -webkit-transform 0.2s ease;
-    transition: transform 0.2s ease;    
+	-webkit-transition: -webkit-transform 0.3s ease-in-out 0s;
+    transition: transform 0.3s ease-in-out 0s;    
     -moz-box-shadow: 0px 0px 15px 5px #444;
     -webkit-box-shadow: 0px 0px 15px 5px #444;    
     box-shadow: 0px 0px 15px 5px #444;    
@@ -68,8 +68,20 @@ div.v-cache-loading-indicator {
     outline: 0;
     overflow: hidden;
 }
-.mobilenavview {
+.v-mobilecomponent .v-widget.v-touchkit-tabbar {
+	padding-bottom: 0px;
+}
+.v-touchkit-navview.mobilenavview, .v-widget.v-touchkit-tabbar {
     background-color: #F3F1F0;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-orient: vertical;
 }
 .mobilenavview .v-touchkit-navbar, .v-touchkit-navpanel-wrapper .v-touchkit-navpanel-placeholder > div {
     height: 4rem;
@@ -88,8 +100,16 @@ div.v-cache-loading-indicator {
     left: 0;
     right: 0;
 }
-.mobilenavview .v-touchkit-navview-wrapper {
-    top: 4rem;
+.mobilenavview .v-touchkit-navview-wrapper, .v-touchkit-tabbar .v-touchkit-tabbar-wrapper {
+    top: 0px;
+    bottom: 0px;
+    position: relative;
+	-webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
+	-moz-box-flex: 1;         /* OLD - Firefox 19- */
+	height: 100%;               /* For old syntax, otherwise collapses. */
+	-webkit-flex: 1;          /* Chrome */
+	-ms-flex: 1;              /* IE 10 */
+	flex: 1;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left {
     top: 0;
@@ -108,6 +128,9 @@ div.v-cache-loading-indicator {
 }
 
 /* Toolbar's Styles */
+.mobilenavview .v-touchkit-navview-toolbar {
+	position: relative;
+}
 .v-mobileview-toolbar .v-mobileview-toolbar-wrap {
     overflow-x: auto;
 }
@@ -139,4 +162,3 @@ div.v-cache-loading-indicator {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 }
-

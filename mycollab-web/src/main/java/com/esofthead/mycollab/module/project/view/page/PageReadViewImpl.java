@@ -63,8 +63,9 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.lowagie.text.DocumentException;
@@ -237,7 +238,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 				beanItem.getSubject(), beanItem.getContent()));
 		renderer.layout();
 
-		File file = new File(beanItem.getSubject() + ".pdf");
+		File file = File.createTempFile(beanItem.getSubject(), "pdf");
 		file.deleteOnExit();
 		OutputStream os = new FileOutputStream(file);
 		renderer.createPDF(os);
@@ -253,7 +254,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		tabContainer.addTab(this.commentListComp, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
 		return tabContainer;
 	}
@@ -273,8 +274,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 				return new I18nFormViewField(attachForm.getBean().getStatus(),
 						WikiI18nEnum.class);
 			} else if (propertyId.equals("content")) {
-				return new DefaultViewField(attachForm.getBean().getContent(),
-						ContentMode.HTML);
+				return new RichTextViewField(attachForm.getBean().getContent());
 			}
 			return null;
 		}

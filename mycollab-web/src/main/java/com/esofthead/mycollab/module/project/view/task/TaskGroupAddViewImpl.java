@@ -122,24 +122,6 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 				tf.setRequired(true);
 				tf.setRequiredError("Please enter a Name");
 				return tf;
-			} else if (propertyId.equals("percentageComplete")) {
-				final double percentage = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
-						.getPercentageComplete() : 0;
-				final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
-				final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
-						percentage);
-				fieldContainer.addComponentField(progressField);
-				return fieldContainer;
-			} else if (propertyId.equals("numOpenTasks")) {
-				final int openTask = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
-						.getNumOpenTasks() : 0;
-				final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
-						.getNumAllTasks() : 0;
-				final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
-				final Label numTaskLbl = new Label("(" + openTask + "/"
-						+ allTasks + ")");
-				fieldContainer.addComponentField(numTaskLbl);
-				return fieldContainer;
 			}
 
 			return null;

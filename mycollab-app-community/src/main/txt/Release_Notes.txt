@@ -48,10 +48,12 @@ Version 4.5.3
 **Improvements**
 
 * All description supports rich text
+* Clean html in rich text to help html display html string correctly
 
 **Bug Fixes**
 
 * Custom layout throws NPE
+* Fix NPE when user navigate the project time tracking list
 
 Version 4.5.2
 -----------------------------

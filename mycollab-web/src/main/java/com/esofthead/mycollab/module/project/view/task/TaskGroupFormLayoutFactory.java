@@ -39,7 +39,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 
 	@Override
 	public ComponentContainer getLayout() {
-		this.informationLayout = new GridFormLayoutHelper(2, 4, "100%",
+		this.informationLayout = new GridFormLayoutHelper(2, 3, "100%",
 				"180px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);
@@ -68,12 +68,6 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("milestoneid")) {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 2);
-		} else if (propertyId.equals("percentageComplete")) {
-			this.informationLayout.addComponent(field, AppContext
-					.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD), 0, 3);
-		} else if (propertyId.equals("numOpenTasks")) {
-			this.informationLayout.addComponent(field, AppContext
-					.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD), 1, 3);
 		}
 	}
 }

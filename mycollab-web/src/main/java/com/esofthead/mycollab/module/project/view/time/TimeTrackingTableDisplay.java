@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.time;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -89,9 +91,7 @@ public class TimeTrackingTableDisplay
 
 				if (type == null) {
 					return new Label(itemLogging.getNote(), ContentMode.HTML);
-				}
-
-				if (type.equals(ProjectTypeConstants.BUG)) {
+				} else if (type.equals(ProjectTypeConstants.BUG)) {
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
 									itemLogging.getProjectShortName(),
@@ -138,9 +138,7 @@ public class TimeTrackingTableDisplay
 									.addStyleName(UIConstants.LINK_OVERDUE);
 						}
 					}
-				}
-
-				else {
+				} else {
 
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
@@ -151,10 +149,10 @@ public class TimeTrackingTableDisplay
 
 					if (type.equals(ProjectTypeConstants.PROBLEM)) {
 						timeTrackingLink.setIconLink(MyCollabResource
-								.newResourceLink("icons/16/project/problem.png"));
+								.newResourceLink(WebResourceIds._16_project_problem));
 					} else if (type.equals(ProjectTypeConstants.RISK)) {
 						timeTrackingLink.setIconLink(MyCollabResource
-								.newResourceLink("icons/16/project/risk.png"));
+								.newResourceLink(WebResourceIds._16_project_risk));
 					}
 
 					if ("Closed".equals(itemLogging.getStatus())) {
@@ -172,9 +170,11 @@ public class TimeTrackingTableDisplay
 				timeTrackingLink.setWidth("100%");
 				summaryWrapper.addComponent(timeTrackingLink);
 
-				Label note = new Label(itemLogging.getNote(), ContentMode.HTML);
-				if (note != null)
-					summaryWrapper.addComponent(note);
+				if (StringUtils.isNotBlank(itemLogging.getNote())) {
+					summaryWrapper.addComponent(new Label(
+							itemLogging.getNote(), ContentMode.HTML));
+				}
+
 				return summaryWrapper;
 
 			}
