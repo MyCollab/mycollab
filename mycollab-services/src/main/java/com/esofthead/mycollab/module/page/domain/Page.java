@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.page.domain;
 
 import java.util.Calendar;
 
+import javax.validation.constraints.NotNull;
+
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
 /**
@@ -28,8 +30,10 @@ import com.esofthead.mycollab.core.arguments.NotBindable;
  */
 public class Page extends PageResource {
 
+	@NotNull(message = "Subject must be not null")
 	private String subject;
 
+	@NotNull(message = "Content must be not null")
 	private String content;
 
 	@NotBindable

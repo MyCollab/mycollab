@@ -54,6 +54,7 @@ Version 4.5.3
 
 * Custom layout throws NPE
 * Fix NPE when user navigate the project time tracking list
+* Throws error if user save the empty page content
 
 Version 4.5.2
 -----------------------------

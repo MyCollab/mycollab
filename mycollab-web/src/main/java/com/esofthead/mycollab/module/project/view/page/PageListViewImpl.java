@@ -53,6 +53,7 @@ import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.google.common.collect.Ordering;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -369,8 +370,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -491,8 +491,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -603,8 +602,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 					layout.addComponent(controlsBtn);
 
 					final Button cancelBtn = new Button(
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_CANCEL),
+							AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 
@@ -620,8 +618,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 							Alignment.MIDDLE_LEFT);
 
 					final Button saveBtn = new Button(
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_SAVE),
+							AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 
@@ -684,9 +681,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("description")) {
-					RichTextArea descrArea = new RichTextArea();
-					descrArea.setNullRepresentation("");
-					return descrArea;
+					return new RichTextEditField();
 				}
 
 				return null;

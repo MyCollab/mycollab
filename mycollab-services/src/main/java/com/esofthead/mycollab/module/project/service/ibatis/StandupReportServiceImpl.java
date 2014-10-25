@@ -66,8 +66,7 @@ public class StandupReportServiceImpl
 	private StandupReportMapperExt standupReportMapperExt;
 
 	@Override
-	public SimpleStandupReport findStandupReportById(int standupId,
-			Integer sAccountId) {
+	public SimpleStandupReport findById(int standupId, int sAccountId) {
 		return standupReportMapperExt.findReportById(standupId);
 	}
 

@@ -38,8 +38,8 @@ public interface StandupReportService
 extends
 IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
 	@Cacheable
-	SimpleStandupReport findStandupReportById(int standupId,
-			@CacheKey Integer sAccountId);
+	SimpleStandupReport findById(int standupId,
+			@CacheKey int sAccountId);
 
 	@Cacheable
 	SimpleStandupReport findStandupReportByDateUser(int projectId,

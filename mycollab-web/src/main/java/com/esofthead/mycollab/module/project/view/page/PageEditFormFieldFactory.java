@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.TextField;
 
 /**
  * 
@@ -69,11 +70,18 @@ class PageEditFormFieldFactory extends
 			final CKEditorTextField ckEditorTextField = new CKEditorTextField(
 					config);
 			ckEditorTextField.setHeight("450px");
+			ckEditorTextField.setRequired(true);
+			ckEditorTextField.setRequiredError("Content must be not null");
 			return ckEditorTextField;
 		} else if (propertyId.equals("status")) {
 			page.setStatus(WikiI18nEnum.status_public.name());
 			return new I18nValueComboBox(false, WikiI18nEnum.status_public,
 					WikiI18nEnum.status_private, WikiI18nEnum.status_archieved);
+		} else if (propertyId.equals("subject")) {
+			TextField subjectField = new TextField();
+			subjectField.setRequired(true);
+			subjectField.setRequiredError("Subject must be not null");
+			return subjectField;
 		}
 
 		return null;

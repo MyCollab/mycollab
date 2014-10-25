@@ -96,7 +96,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleMessage getBeanInContext(MailContext<SimpleMessage> context) {
-		return messageService.findMessageById(
+		return messageService.findById(
 				Integer.parseInt(context.getTypeid()), context.getSaccountid());
 	}
 

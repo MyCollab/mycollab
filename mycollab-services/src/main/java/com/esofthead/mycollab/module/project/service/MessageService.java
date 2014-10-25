@@ -26,5 +26,5 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 public interface MessageService extends
 		IDefaultService<Integer, Message, MessageSearchCriteria> {
 	@Cacheable
-	SimpleMessage findMessageById(int messageId, @CacheKey Integer sAccountId);
+	SimpleMessage findById(int messageId, @CacheKey int sAccountId);
 }

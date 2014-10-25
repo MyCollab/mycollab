@@ -118,7 +118,7 @@ public class TooltipGeneratorServletRequestHandler extends
 			} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
 				MessageService service = ApplicationContextUtil
 						.getSpringBean(MessageService.class);
-				SimpleMessage message = service.findMessageById(typeid,
+				SimpleMessage message = service.findById(typeid,
 						sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipMessage(locale,
 						message, siteURL, timeZone);
@@ -175,7 +175,7 @@ public class TooltipGeneratorServletRequestHandler extends
 			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
 				StandupReportService service = ApplicationContextUtil
 						.getSpringBean(StandupReportService.class);
-				SimpleStandupReport standup = service.findStandupReportById(
+				SimpleStandupReport standup = service.findById(
 						typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipStandUp(locale,
 						standup, siteURL, timeZone);

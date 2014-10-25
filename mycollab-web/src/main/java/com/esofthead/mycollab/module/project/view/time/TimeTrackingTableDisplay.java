@@ -20,8 +20,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -56,6 +59,9 @@ public class TimeTrackingTableDisplay
 		DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> {
 	private static final long serialVersionUID = 1L;
 
+	private static Logger log = LoggerFactory
+			.getLogger(TimeTrackingTableDisplay.class);
+
 	public TimeTrackingTableDisplay(List<TableViewField> displayColumns) {
 		super(ApplicationContextUtil
 				.getSpringBean(ItemTimeLoggingService.class),
@@ -82,54 +88,88 @@ public class TimeTrackingTableDisplay
 			@Override
 			public com.vaadin.ui.Component generateCell(final Table source,
 					final Object itemId, final Object columnId) {
-				final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
+				SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				VerticalLayout summaryWrapper = new VerticalLayout();
-				LabelLink timeTrackingLink = null;
-				String type = itemLogging.getType();
+				try {
+					VerticalLayout summaryWrapper = new VerticalLayout();
+					LabelLink timeTrackingLink = null;
+					String type = itemLogging.getType();
 
-				if (type == null) {
-					return new Label(itemLogging.getNote(), ContentMode.HTML);
-				} else if (type.equals(ProjectTypeConstants.BUG)) {
-					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
-							ProjectLinkBuilder.generateProjectItemLink(
-									itemLogging.getProjectShortName(),
-									itemLogging.getProjectid(),
-									itemLogging.getType(),
-									itemLogging.getTypeid()));
-					timeTrackingLink.setIconLink(MyCollabResource
-							.newResourceLink("icons/16/project/bug.png"));
+					if (type == null) {
+						return new Label(itemLogging.getNote(),
+								ContentMode.HTML);
+					} else if (type.equals(ProjectTypeConstants.BUG)) {
+						timeTrackingLink = new LabelLink(itemLogging
+								.getSummary(), ProjectLinkBuilder
+								.generateProjectItemLink(
+										itemLogging.getProjectShortName(),
+										itemLogging.getProjectid(),
+										itemLogging.getType(),
+										itemLogging.getTypeid()));
+						timeTrackingLink.setIconLink(MyCollabResource
+								.newResourceLink("icons/16/project/bug.png"));
 
-					if (BugStatus.Verified.name().equals(
-							itemLogging.getStatus())) {
-						timeTrackingLink
-								.addStyleName(UIConstants.LINK_COMPLETED);
-					} else if (itemLogging.getDueDate() != null
-							&& (itemLogging.getDueDate()
-									.before(new GregorianCalendar().getTime()))) {
-						timeTrackingLink.addStyleName(UIConstants.LINK_OVERDUE);
-					}
-				} else if (type.equals(ProjectTypeConstants.TASK)) {
-
-					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
-							ProjectLinkBuilder.generateProjectItemLink(
-									itemLogging.getProjectShortName(),
-									itemLogging.getProjectid(),
-									itemLogging.getType(),
-									itemLogging.getTypeid()));
-
-					timeTrackingLink.setIconLink(MyCollabResource
-							.newResourceLink("icons/16/project/task.png"));
-
-					if (itemLogging.getPercentageComplete() != null
-							&& 100d == itemLogging.getPercentageComplete()) {
-						timeTrackingLink
-								.addStyleName(UIConstants.LINK_COMPLETED);
-					} else {
-						if ("Pending".equals(itemLogging.getStatus())) {
+						if (BugStatus.Verified.name().equals(
+								itemLogging.getStatus())) {
 							timeTrackingLink
-									.addStyleName(UIConstants.LINK_PENDING);
+									.addStyleName(UIConstants.LINK_COMPLETED);
+						} else if (itemLogging.getDueDate() != null
+								&& (itemLogging.getDueDate()
+										.before(new GregorianCalendar()
+												.getTime()))) {
+							timeTrackingLink
+									.addStyleName(UIConstants.LINK_OVERDUE);
+						}
+					} else if (type.equals(ProjectTypeConstants.TASK)) {
+						timeTrackingLink = new LabelLink(itemLogging
+								.getSummary(), ProjectLinkBuilder
+								.generateProjectItemLink(
+										itemLogging.getProjectShortName(),
+										itemLogging.getProjectid(),
+										itemLogging.getType(),
+										itemLogging.getTypeid()));
+
+						timeTrackingLink.setIconLink(MyCollabResource
+								.newResourceLink("icons/16/project/task.png"));
+
+						if (itemLogging.getPercentageComplete() != null
+								&& 100d == itemLogging.getPercentageComplete()) {
+							timeTrackingLink
+									.addStyleName(UIConstants.LINK_COMPLETED);
+						} else {
+							if ("Pending".equals(itemLogging.getStatus())) {
+								timeTrackingLink
+										.addStyleName(UIConstants.LINK_PENDING);
+							} else if (itemLogging.getDueDate() != null
+									&& (itemLogging.getDueDate()
+											.before(new GregorianCalendar()
+													.getTime()))) {
+								timeTrackingLink
+										.addStyleName(UIConstants.LINK_OVERDUE);
+							}
+						}
+					} else {
+
+						timeTrackingLink = new LabelLink(itemLogging
+								.getSummary(), ProjectLinkBuilder
+								.generateProjectItemLink(
+										itemLogging.getProjectShortName(),
+										itemLogging.getProjectid(),
+										itemLogging.getType(),
+										itemLogging.getTypeid()));
+
+						if (type.equals(ProjectTypeConstants.PROBLEM)) {
+							timeTrackingLink.setIconLink(MyCollabResource
+									.newResourceLink(WebResourceIds._16_project_problem));
+						} else if (type.equals(ProjectTypeConstants.RISK)) {
+							timeTrackingLink.setIconLink(MyCollabResource
+									.newResourceLink(WebResourceIds._16_project_risk));
+						}
+
+						if ("Closed".equals(itemLogging.getStatus())) {
+							timeTrackingLink
+									.addStyleName(UIConstants.LINK_COMPLETED);
 						} else if (itemLogging.getDueDate() != null
 								&& (itemLogging.getDueDate()
 										.before(new GregorianCalendar()
@@ -138,44 +178,24 @@ public class TimeTrackingTableDisplay
 									.addStyleName(UIConstants.LINK_OVERDUE);
 						}
 					}
-				} else {
 
-					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
-							ProjectLinkBuilder.generateProjectItemLink(
-									itemLogging.getProjectShortName(),
-									itemLogging.getProjectid(),
-									itemLogging.getType(),
-									itemLogging.getTypeid()));
+					timeTrackingLink.addStyleName("link");
+					timeTrackingLink.addStyleName(UIConstants.WORD_WRAP);
+					timeTrackingLink.setWidth("100%");
+					summaryWrapper.addComponent(timeTrackingLink);
 
-					if (type.equals(ProjectTypeConstants.PROBLEM)) {
-						timeTrackingLink.setIconLink(MyCollabResource
-								.newResourceLink(WebResourceIds._16_project_problem));
-					} else if (type.equals(ProjectTypeConstants.RISK)) {
-						timeTrackingLink.setIconLink(MyCollabResource
-								.newResourceLink(WebResourceIds._16_project_risk));
+					if (StringUtils.isNotBlank(itemLogging.getNote())) {
+						summaryWrapper.addComponent(new Label(itemLogging
+								.getNote(), ContentMode.HTML));
 					}
 
-					if ("Closed".equals(itemLogging.getStatus())) {
-						timeTrackingLink
-								.addStyleName(UIConstants.LINK_COMPLETED);
-					} else if (itemLogging.getDueDate() != null
-							&& (itemLogging.getDueDate()
-									.before(new GregorianCalendar().getTime()))) {
-						timeTrackingLink.addStyleName(UIConstants.LINK_OVERDUE);
-					}
+					return summaryWrapper;
+				} catch (Exception e) {
+					log.error(
+							"Error: " + BeanUtility.printBeanObj(itemLogging),
+							e);
+					return new Label("");
 				}
-
-				timeTrackingLink.addStyleName("link");
-				timeTrackingLink.addStyleName(UIConstants.WORD_WRAP);
-				timeTrackingLink.setWidth("100%");
-				summaryWrapper.addComponent(timeTrackingLink);
-
-				if (StringUtils.isNotBlank(itemLogging.getNote())) {
-					summaryWrapper.addComponent(new Label(
-							itemLogging.getNote(), ContentMode.HTML));
-				}
-
-				return summaryWrapper;
 
 			}
 		});

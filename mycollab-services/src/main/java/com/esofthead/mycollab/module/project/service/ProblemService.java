@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriter
 
 public interface ProblemService extends
 		IDefaultService<Integer, Problem, ProblemSearchCriteria> {
+
 	@Cacheable
-	SimpleProblem findById(Integer problemId, @CacheKey int sAccountId);
+	SimpleProblem findById(int problemId, @CacheKey int sAccountId);
 }

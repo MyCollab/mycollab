@@ -30,7 +30,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
  */
 public class ProjectLinkGenerator {
 
-	public static String generateProjectLink(int projectId) {
+	public static String generateProjectLink(Integer projectId) {
 		return "project/dashboard/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
 	}
@@ -76,42 +76,42 @@ public class ProjectLinkGenerator {
 				taskkey);
 	}
 
-	public static String generateMilestonesLink(int projectId) {
+	public static String generateMilestonesLink(Integer projectId) {
 		return "project/milestone/list/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateMilestonePreviewLink(int projectId,
-			int milestoneId) {
+	public static String generateMilestonePreviewLink(Integer projectId,
+			Integer milestoneId) {
 		return "project/milestone/preview/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
 						milestoneId });
 	}
 
 	public static String generateMilestonePreviewFullLink(String siteUrl,
-			int projectId, int milestoneId) {
+			Integer projectId, Integer milestoneId) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
 				+ generateMilestonePreviewLink(projectId, milestoneId);
 	}
 
-	public static String generatePagesLink(int projectId, String folderPath) {
+	public static String generatePagesLink(Integer projectId, String folderPath) {
 		return "project/page/list/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
 						folderPath });
 	}
 
-	public static String generatePageAdd(int projectId, String pagePath) {
+	public static String generatePageAdd(Integer projectId, String pagePath) {
 		return "project/page/add/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
 						pagePath });
 	}
 
-	public static String generatePageRead(int projectId, String pagePath) {
+	public static String generatePageRead(Integer projectId, String pagePath) {
 		return "project/page/preview/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
 						pagePath });
 	}
 
-	public static String generatePageEdit(int projectId, String pagePath) {
+	public static String generatePageEdit(Integer projectId, String pagePath) {
 		return "project/page/edit/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
 						pagePath });
@@ -135,7 +135,7 @@ public class ProjectLinkGenerator {
 	}
 
 	public static String generateProjectMemberFullLink(String siteUrl,
-			int projectId, String memberName) {
+			Integer projectId, String memberName) {
 		if (memberName == null) {
 			return "";
 		}
@@ -219,40 +219,42 @@ public class ProjectLinkGenerator {
 				+ generateBugVersionPreviewLink(projectId, versionId);
 	}
 
-	public static String generateBugDashboardLink(int projectId) {
+	public static String generateBugDashboardLink(Integer projectId) {
 		return "project/bug/dashboard/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateBugPreviewLink(int bugKey, String prjShortname) {
+	public static String generateBugPreviewLink(Integer bugKey,
+			String prjShortname) {
 		return String.format("project/bug/preview/%s-%d", prjShortname, bugKey);
 	}
 
-	public static String generateBugEditLink(int bugkey, String prjShortname) {
+	public static String generateBugEditLink(Integer bugkey, String prjShortname) {
 		return String.format("project/bug/edit/%s-%d", prjShortname, bugkey);
 	}
 
-	public static String generateBugPreviewFullLink(String siteUrl, int bugKey,
-			String prjShortname) {
+	public static String generateBugPreviewFullLink(String siteUrl,
+			Integer bugKey, String prjShortname) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
 				+ generateBugPreviewLink(bugKey, prjShortname);
 	}
 
-	public static String generateFileDashboardLink(int projectId) {
+	public static String generateFileDashboardLink(Integer projectId) {
 		return "project/file/dashboard/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateTimeReportLink(int projectId) {
+	public static String generateTimeReportLink(Integer projectId) {
 		return "project/time/list/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateRolePreviewLink(int projectId, int roleId) {
+	public static String generateRolePreviewLink(Integer projectId,
+			Integer roleId) {
 		return "project/role/preview/"
 				+ GenericLinkUtils
 						.encodeParam(new Object[] { projectId, roleId });
 	}
 
 	public static String generateRolePreviewFullLink(String siteUrl,
-			int projectId, int roleId) {
+			Integer projectId, Integer roleId) {
 		return siteUrl
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ "project/role/preview/"
@@ -260,35 +262,36 @@ public class ProjectLinkGenerator {
 						.encodeParam(new Object[] { projectId, roleId });
 	}
 
-	public static String generateStandUpPreviewLink(int projectId, int reportId) {
+	public static String generateStandUpPreviewLink(Integer projectId,
+			Integer reportId) {
 		return "project/standup/list/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
 	}
 
-	public static String generateTimeTrackingPreviewLink(int projectId,
-			int timeId) {
+	public static String generateTimeTrackingPreviewLink(Integer projectId,
+			Integer timeId) {
 		return "project/time/list/"
 				+ GenericLinkUtils
 						.encodeParam(new Object[] { projectId, timeId });
 	}
 
-	public static String generateStandupDashboardLink(int projectId) {
+	public static String generateStandupDashboardLink(Integer projectId) {
 		return "project/standup/list/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateUsersLink(int projectId) {
+	public static String generateUsersLink(Integer projectId) {
 		return "project/user/list/" + UrlEncodeDecoder.encode(projectId);
 	}
 
 	public static String generateDenyInvitationParams(String inviteeEmail,
-			int sAccountId, int projectId, String inviteUserEmail,
+			Integer sAccountId, Integer projectId, String inviteUserEmail,
 			String inviteUsername) {
 		return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/"
 				+ projectId + "/" + inviteUserEmail + "/" + inviteUsername);
 	}
 
 	public static String generateAcceptInvitationParams(String inviteeEmail,
-			int sAccountId, int projectId, int projectRoleId,
+			Integer sAccountId, Integer projectId, Integer projectRoleId,
 			String inviteUserEmail, String inviteUsername, Date currentDate) {
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
 		String formatDate = format.format(currentDate);

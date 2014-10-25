@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -36,6 +39,9 @@ import com.hp.gagawa.java.elements.Text;
  * 
  */
 public class ProjectLinkBuilder {
+
+	private static Logger log = LoggerFactory
+			.getLogger(ProjectLinkBuilder.class);
 
 	public static String generateProjectFullLink(Integer projectId) {
 		if (projectId == null) {
@@ -200,40 +206,45 @@ public class ProjectLinkBuilder {
 	}
 
 	public static String generateProjectItemLink(String prjShortName,
-			int projectId, String type, int typeid) {
+			Integer projectId, String type, Integer typeid) {
 		String result = "";
 
-		if (ProjectTypeConstants.PROJECT.equals(type)) {
-		} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
-			result = ProjectLinkGenerator.generateMessagePreviewLink(projectId,
-					typeid);
-		} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
-			result = ProjectLinkGenerator.generateMilestonePreviewLink(
-					projectId, typeid);
-		} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
-			result = ProjectLinkGenerator.generateProblemPreviewLink(projectId,
-					typeid);
-		} else if (ProjectTypeConstants.RISK.equals(type)) {
-			result = ProjectLinkGenerator.generateRiskPreviewLink(projectId,
-					typeid);
-		} else if (ProjectTypeConstants.TASK.equals(type)) {
-			result = ProjectLinkGenerator.generateTaskPreviewLink(typeid,
-					prjShortName);
-		} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
-			result = ProjectLinkGenerator.generateTaskGroupPreviewLink(
-					projectId, typeid);
-		} else if (ProjectTypeConstants.BUG.equals(type)) {
-			result = ProjectLinkGenerator.generateBugPreviewLink(typeid,
-					prjShortName);
-		} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
-			result = ProjectLinkGenerator.generateBugComponentPreviewLink(
-					projectId, typeid);
-		} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
-			result = ProjectLinkGenerator.generateBugVersionPreviewLink(
-					projectId, typeid);
-		} else if (ProjectTypeConstants.STANDUP.equals(type)) {
-			result = ProjectLinkGenerator.generateStandUpPreviewLink(projectId,
-					typeid);
+		try {
+			if (ProjectTypeConstants.PROJECT.equals(type)) {
+			} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
+				result = ProjectLinkGenerator.generateMessagePreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
+				result = ProjectLinkGenerator.generateMilestonePreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
+				result = ProjectLinkGenerator.generateProblemPreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.RISK.equals(type)) {
+				result = ProjectLinkGenerator.generateRiskPreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.TASK.equals(type)) {
+				result = ProjectLinkGenerator.generateTaskPreviewLink(typeid,
+						prjShortName);
+			} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
+				result = ProjectLinkGenerator.generateTaskGroupPreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.BUG.equals(type)) {
+				result = ProjectLinkGenerator.generateBugPreviewLink(typeid,
+						prjShortName);
+			} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
+				result = ProjectLinkGenerator.generateBugComponentPreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
+				result = ProjectLinkGenerator.generateBugVersionPreviewLink(
+						projectId, typeid);
+			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
+				result = ProjectLinkGenerator.generateStandUpPreviewLink(
+						projectId, typeid);
+			}
+		} catch (Exception e) {
+			log.error("Error while generate link {} {} {} {}", new Object[] {
+					prjShortName, projectId, type, typeid });
 		}
 
 		return "#" + result;

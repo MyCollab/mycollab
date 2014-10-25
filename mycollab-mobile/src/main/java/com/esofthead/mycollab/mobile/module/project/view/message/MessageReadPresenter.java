@@ -52,7 +52,7 @@ public class MessageReadPresenter extends
 			if (data.getParams() instanceof Integer) {
 				MessageService messageService = ApplicationContextUtil
 						.getSpringBean(MessageService.class);
-				SimpleMessage message = messageService.findMessageById(
+				SimpleMessage message = messageService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				view.previewItem(message);
 				super.onGo(container, data);

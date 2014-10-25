@@ -78,7 +78,7 @@ public class ProblemServiceImpl extends
 	}
 
 	@Override
-	public SimpleProblem findById(Integer problemId, int sAccountId) {
+	public SimpleProblem findById(int problemId, int sAccountId) {
 		return problemMapperExt.findProblemById(problemId);
 	}
 
