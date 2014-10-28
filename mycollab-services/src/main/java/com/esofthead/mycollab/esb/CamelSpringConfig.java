@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Profile;
  *
  */
 @Configuration("camelConfig")
-@Profile("!test")
 public class CamelSpringConfig extends CamelConfiguration {
 
 }
