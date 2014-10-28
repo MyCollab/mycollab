@@ -26,4 +26,7 @@ public class ActivityStreamConstants {
 	public static final String ACTION_CREATE = "create";
 	public static final String ACTION_UPDATE = "update";
 	public static final String ACTION_COMMENT = "comment";
+
+	private ActivityStreamConstants() {
+	}
 }

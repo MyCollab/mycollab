@@ -32,13 +32,13 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 public class DeleteProjectMilestoneCommandImpl implements
 		DeleteProjectMilestoneCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DeleteProjectMilestoneCommandImpl.class);
 
 	@Override
 	public void milestoneRemoved(String username, int accountId, int projectId,
 			int milestoneId) {
-		log.debug("Remove milestone id {} of project {} by user {}",
+		LOG.debug("Remove milestone id {} of project {} by user {}",
 				new Object[] { milestoneId, projectId, username });
 
 		removeRelatedFiles(accountId, projectId, milestoneId);
@@ -48,7 +48,7 @@ public class DeleteProjectMilestoneCommandImpl implements
 
 	private void removeRelatedFiles(int accountId, int projectId,
 			int milestoneId) {
-		log.debug("Delete files of bug {} in project {}", milestoneId,
+		LOG.debug("Delete files of bug {} in project {}", milestoneId,
 				projectId);
 
 		ResourceService resourceService = ApplicationContextUtil
@@ -60,7 +60,7 @@ public class DeleteProjectMilestoneCommandImpl implements
 	}
 
 	private void removeRelatedComments(int milestoneId) {
-		log.debug("Delete related comments of milestone id {}", milestoneId);
+		LOG.debug("Delete related comments of milestone id {}", milestoneId);
 		CommentMapper commentMapper = ApplicationContextUtil
 				.getSpringBean(CommentMapper.class);
 

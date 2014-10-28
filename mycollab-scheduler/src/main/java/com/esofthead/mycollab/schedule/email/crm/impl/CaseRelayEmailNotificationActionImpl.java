@@ -62,7 +62,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleCase> implements
 		CaseRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CaseRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -221,7 +221,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 			return value;
 		}

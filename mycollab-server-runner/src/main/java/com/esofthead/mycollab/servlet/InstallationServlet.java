@@ -46,7 +46,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 public class InstallationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(InstallationServlet.class);
 
 	private boolean waitFlag = true;
@@ -139,7 +139,7 @@ public class InstallationServlet extends HttpServlet {
 				}
 
 			} catch (Exception e) {
-				log.error("Error while set up MyCollab", e);
+				LOG.error("Error while set up MyCollab", e);
 				PrintWriter out = response.getWriter();
 				out.write("Can not write setting to config file. You should contact mycollab support support@mycollab.com to solve this issue.");
 				return;

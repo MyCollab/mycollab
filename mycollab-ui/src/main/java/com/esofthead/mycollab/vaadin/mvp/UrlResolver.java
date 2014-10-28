@@ -52,7 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
  * 
  */
 public abstract class UrlResolver {
-	private static Logger log = LoggerFactory.getLogger(UrlResolver.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UrlResolver.class);
 
 	private Map<String, UrlResolver> subResolvers;
 
@@ -93,7 +93,7 @@ public abstract class UrlResolver {
 								1, params.length);
 						String[] nxtParams = paramList.toArray(new String[0]);
 
-						log.debug("Handle url in resolver: " + urlResolver);
+						LOG.debug("Handle url in resolver: " + urlResolver);
 						urlResolver.handle(nxtParams);
 
 					}
@@ -102,7 +102,7 @@ public abstract class UrlResolver {
 				handlePage(new String[0]);
 			}
 		} catch (Exception e) {
-			log.error("Error while navigation", e);
+			LOG.error("Error while navigation", e);
 			defaultPageErrorHandler();
 			NotificationUtil.showRecordNotExistNotification();
 		}
@@ -118,7 +118,7 @@ public abstract class UrlResolver {
 	 * @param params
 	 */
 	protected void handlePage(String... params) {
-		log.debug("Handle page: " + this + " with params: "
+		LOG.debug("Handle page: " + this + " with params: "
 				+ BeanUtility.printBeanObj(params));
 	}
 }

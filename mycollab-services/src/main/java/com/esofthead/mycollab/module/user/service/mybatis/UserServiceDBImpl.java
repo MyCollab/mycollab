@@ -75,7 +75,7 @@ import com.esofthead.mycollab.security.PermissionMap;
 public class UserServiceDBImpl extends
 		DefaultService<String, User, UserSearchCriteria> implements UserService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(UserServiceDBImpl.class);
 
 	@Autowired
@@ -195,7 +195,7 @@ public class UserServiceDBImpl extends
 				.setRegisterstatus((record.getRegisterstatus() == null) ? RegisterStatusConstants.VERIFICATING
 						: record.getRegisterstatus());
 
-		log.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
+		LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
 		userAccountEx = new UserAccountExample();
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			userAccountEx.createCriteria()
@@ -229,7 +229,7 @@ public class UserServiceDBImpl extends
 
 	@Override
 	public int updateWithSession(User record, String username) {
-		log.debug("Check whether there is exist email in system before");
+		LOG.debug("Check whether there is exist email in system before");
 		if ((record.getEmail()) != null
 				&& !record.getUsername().equals(record.getEmail())) {
 			UserExample ex = new UserExample();
@@ -252,7 +252,7 @@ public class UserServiceDBImpl extends
 
 	@Override
 	public void updateUserAccount(SimpleUser record, Integer sAccountId) {
-		log.debug("Check whether there is exist email in system before");
+		LOG.debug("Check whether there is exist email in system before");
 		if (!record.getUsername().equals(record.getEmail())) {
 			UserExample ex = new UserExample();
 			ex.createCriteria().andUsernameEqualTo(record.getEmail());
@@ -319,18 +319,18 @@ public class UserServiceDBImpl extends
 			if (user.getPassword() == null
 					|| !PasswordEncryptHelper.checkPassword(password,
 							user.getPassword(), isPasswordEncrypt)) {
-				log.debug("PASS: " + password + "   " + user.getPassword());
+				LOG.debug("PASS: " + password + "   " + user.getPassword());
 				throw new UserInvalidInputException(
 						"Invalid username or password");
 			}
 
-			log.debug("User " + username + " login to system successfully!");
+			LOG.debug("User " + username + " login to system successfully!");
 
 			if (user.getIsAccountOwner() == null
 					|| (user.getIsAccountOwner() != null && !user
 							.getIsAccountOwner())) {
 				if (user.getRoleid() != null) {
-					log.debug("User " + username
+					LOG.debug("User " + username
 							+ " is not admin. Getting his role");
 					RolePermissionExample ex = new RolePermissionExample();
 					ex.createCriteria().andRoleidEqualTo(user.getRoleid());
@@ -341,13 +341,13 @@ public class UserServiceDBImpl extends
 						PermissionMap permissionMap = PermissionMap
 								.fromJsonString(rolePer.getRoleval());
 						user.setPermissionMaps(permissionMap);
-						log.debug("Find role match to user " + username);
+						LOG.debug("Find role match to user " + username);
 					} else {
-						log.debug("We can not find any role associate to user "
+						LOG.debug("We can not find any role associate to user "
 								+ username);
 					}
 				} else {
-					log.debug("User " + username + " has no any role");
+					LOG.debug("User " + username + " has no any role");
 				}
 			}
 			user.setPassword(null);

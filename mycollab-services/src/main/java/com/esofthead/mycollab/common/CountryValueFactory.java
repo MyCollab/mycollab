@@ -303,6 +303,9 @@ public class CountryValueFactory {
 			UKRAINE, UNITED_ARAB_EMIRATES, UNITED_KINGDOM, URUGUAY, UZBEKISTAN,
 			UNITED_STATES, VANUATU, VENEZUELA, VIETNAM, YEMEN, ZAMBIA, ZIMBABWE };
 
+	private CountryValueFactory() {
+	}
+
 	public static String[] getCountryList() {
 		return COUNTRIES;
 	}

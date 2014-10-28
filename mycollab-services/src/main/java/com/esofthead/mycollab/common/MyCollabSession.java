@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.common;
 
 import org.infinispan.commons.api.BasicCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.cache.LocalCacheManager;
 
@@ -27,6 +29,8 @@ import com.esofthead.mycollab.cache.LocalCacheManager;
  * 
  */
 public class MyCollabSession {
+
+	private static final Logger LOG = LoggerFactory.getLogger(MyCollabSession.class);
 
 	public static final String EVENT_BUS_VAL = "eventBusVal";
 
@@ -56,6 +60,9 @@ public class MyCollabSession {
 
 	public static final String CURRENT_APP = "currentApp";
 
+	private MyCollabSession() {
+	}
+
 	/**
 	 * 
 	 * @param key
@@ -77,7 +84,7 @@ public class MyCollabSession {
 					.getCache(getSessionId());
 			cache.remove(key);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Can not remove cache key " + key, e);
 		}
 	}
 

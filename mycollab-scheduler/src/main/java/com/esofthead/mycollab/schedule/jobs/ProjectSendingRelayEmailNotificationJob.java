@@ -42,7 +42,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectSendingRelayEmailNotificationJob extends
 		GenericQuartzJobBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectSendingRelayEmailNotificationJob.class);
 
 	@Override
@@ -82,7 +82,7 @@ public class ProjectSendingRelayEmailNotificationJob extends
 				}
 
 			} catch (Exception ex) {
-				log.error("Error while sending scheduler command", ex);
+				LOG.error("Error while sending scheduler command", ex);
 			} finally {
 				relayNotificationService.removeWithSession(
 						notification.getId(), "", notification.getSaccountid());

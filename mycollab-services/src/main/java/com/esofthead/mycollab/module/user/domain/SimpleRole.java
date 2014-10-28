@@ -32,7 +32,7 @@ import com.esofthead.mycollab.security.PermissionMap;
 public class SimpleRole extends Role {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(SimpleRole.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleRole.class);
 
 	public static final String ADMIN = "Administrator";
 	public static final String EMPLOYEE = "Employee";
@@ -61,7 +61,7 @@ public class SimpleRole extends Role {
 				try {
 					permissionMap = PermissionMap.fromJsonString(permissionVal);
 				} catch (Exception e) {
-					log.error("Error while get permission", e);
+					LOG.error("Error while get permission", e);
 				}
 			}
 		}

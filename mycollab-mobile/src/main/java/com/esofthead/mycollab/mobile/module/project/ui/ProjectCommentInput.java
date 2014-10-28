@@ -69,6 +69,9 @@ public class ProjectCommentInput extends VerticalLayout implements
 		Upload.SucceededListener, Upload.FailedListener,
 		Upload.FinishedListener {
 
+	private static final Logger LOG = Logger
+			.getLogger(ProjectCommentInput.class.getName());
+
 	private static final long serialVersionUID = 8118887310759503892L;
 
 	private TextArea commentInput;
@@ -84,8 +87,6 @@ public class ProjectCommentInput extends VerticalLayout implements
 	private Label uploadResult;
 
 	private int currentPollInterval;
-
-	Logger log = Logger.getLogger(ProjectCommentInput.class.getName());
 
 	private HorizontalLayout inputWrapper;
 
@@ -224,7 +225,7 @@ public class ProjectCommentInput extends VerticalLayout implements
 									outStream.toByteArray()), AppContext
 									.getAccountId());
 				} catch (IOException e) {
-					log.error("Error in upload file", e);
+					LOG.error("Error in upload file", e);
 					resourceService.saveContent(MobileAttachmentUtils
 							.constructContent(fileName, attachmentPath),
 							AppContext.getUsername(), new FileInputStream(
@@ -240,7 +241,7 @@ public class ProjectCommentInput extends VerticalLayout implements
 			}
 
 		} catch (FileNotFoundException e) {
-			log.error("Error when attach content in UI", e);
+			LOG.error("Error when attach content in UI", e);
 		}
 	}
 

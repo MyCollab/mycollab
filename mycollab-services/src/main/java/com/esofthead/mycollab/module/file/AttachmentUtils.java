@@ -28,7 +28,7 @@ import com.esofthead.mycollab.common.CommentType;
  * @since 1.0
  */
 public class AttachmentUtils {
-	private static Logger log = LoggerFactory.getLogger(AttachmentUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AttachmentUtils.class);
 
 	public static String getCrmNoteAttachmentPath(int accountId, int noteId) {
 		return String.format("%d/crm/.attachments/%s/%d", accountId,
@@ -194,7 +194,7 @@ public class AttachmentUtils {
 					.getProjectVersionCommentAttachmentPath(accountId,
 							projectId, Integer.parseInt(typeid), commentId);
 		} else {
-			log.error("Do not support comment attachment path " + type);
+			LOG.error("Do not support comment attachment path " + type);
 		}
 
 		return attachmentPath;

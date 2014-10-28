@@ -29,7 +29,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 public abstract class GenericLinkUtils {
-	public static String URL_PREFIX_PARAM = "#";
+	public static final String URL_PREFIX_PARAM = "#";
+
+	private GenericLinkUtils() {
+	}
 
 	/**
 	 * 

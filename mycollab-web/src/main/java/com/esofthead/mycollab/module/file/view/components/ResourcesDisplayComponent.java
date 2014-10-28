@@ -103,7 +103,7 @@ import com.vaadin.util.ReflectTools;
 public class ResourcesDisplayComponent extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ResourcesDisplayComponent.class);
 
 	private static final String illegalFileNamePattern = "[<>:&/\\|?*&]";
@@ -473,7 +473,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 								res.setName(drive.getFoldername());
 								resources.add(0, res);
 							} catch (Exception e) {
-								log.error("Error while query renameResource", e);
+								LOG.error("Error while query renameResource", e);
 							}
 						} else {
 							throw new MyCollabException(

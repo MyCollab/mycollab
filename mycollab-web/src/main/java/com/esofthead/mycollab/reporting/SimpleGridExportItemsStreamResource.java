@@ -46,7 +46,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 		ExportItemsStreamResource<T> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SimpleGridExportItemsStreamResource.class);
 
 	private Class<T> classType;
@@ -62,7 +62,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 
 	@Override
 	protected void initReport() throws DRException {
-		log.debug("Init report: " + classType);
+		LOG.debug("Init report: " + classType);
 		// Add field of report
 		Field[] clsFields = ClassUtils.getAllFields(classType);
 		for (Field objField : clsFields) {
@@ -93,7 +93,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 				}
 			}
 
-			log.debug("Construct component builder {} and width {}",
+			LOG.debug("Construct component builder {} and width {}",
 					field.getField(), field.getDefaultWidth());
 			ComponentColumnBuilder columnBuilder = col.componentColumn(
 					AppContext.getMessage(field.getDescKey()),
@@ -102,7 +102,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 
 			reportBuilder.addColumn(columnBuilder);
 		}
-		log.debug("Accomplish init report");
+		LOG.debug("Accomplish init report");
 	}
 
 	public static class AllItems<S extends SearchCriteria, T> extends

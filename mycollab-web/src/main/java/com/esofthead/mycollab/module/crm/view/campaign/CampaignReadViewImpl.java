@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -187,6 +190,16 @@ public class CampaignReadViewImpl extends
 		compFollowers.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
+
+		previewLayout.resetTitleStyle();
+
+		Date now = new GregorianCalendar().getTime();
+		String status = this.beanItem.getStatus();
+		if (!"Complete".equals(status)
+				&& (this.beanItem.getEnddate() != null && this.beanItem
+						.getEnddate().before(now))) {
+			previewLayout.setTitleStyleName("hdr-text-overdue");
+		}
 	}
 
 	@Override

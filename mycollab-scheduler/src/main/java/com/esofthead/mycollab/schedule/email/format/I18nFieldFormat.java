@@ -34,7 +34,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 public class I18nFieldFormat extends FieldFormat {
-	private static Logger log = LoggerFactory.getLogger(I18nFieldFormat.class);
+	private static final Logger LOG = LoggerFactory.getLogger(I18nFieldFormat.class);
 
 	@SuppressWarnings("rawtypes")
 	private Class<? extends Enum> enumKey;
@@ -63,7 +63,7 @@ public class I18nFieldFormat extends FieldFormat {
 			}
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error(
+			LOG.error(
 					"Can not generate of object "
 							+ BeanUtility.printBeanObj(wrappedBean)
 							+ " field: " + fieldName + " and " + value, e);
@@ -79,7 +79,7 @@ public class I18nFieldFormat extends FieldFormat {
 			return LocalizationHelper
 					.getMessage(context.getLocale(), valueEnum);
 		} catch (Exception e) {
-			log.error("Can not generate of object field: " + fieldName + " and "
+			LOG.error("Can not generate of object field: " + fieldName + " and "
 					+ value, e);
 			return new Span().write();
 		}

@@ -32,7 +32,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 public class DefaultFieldFormat extends FieldFormat {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DefaultFieldFormat.class);
 
 	public DefaultFieldFormat(String fieldname, Enum<?> displayName) {
@@ -57,7 +57,7 @@ public class DefaultFieldFormat extends FieldFormat {
 			}
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Can not generate email field: " + fieldName, e);
+			LOG.error("Can not generate email field: " + fieldName, e);
 			return new Span().write();
 		}
 

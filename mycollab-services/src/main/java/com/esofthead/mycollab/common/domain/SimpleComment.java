@@ -19,6 +19,7 @@ package com.esofthead.mycollab.common.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,19 +39,17 @@ public class SimpleComment extends Comment {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(SimpleComment.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleComment.class);
 
 	private String ownerAvatarId;
 	private String ownerFullName;
 	private List<Content> attachments;
 
 	public String getOwnerFullName() {
-		if (ownerFullName == null || ownerFullName.trim().equals("")) {
+		if (StringUtils.isNotBlank(ownerFullName)) {
 			String displayName = getCreateduser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return com.esofthead.mycollab.core.utils.StringUtils
+					.extractNameFromEmail(displayName);
 		}
 		return ownerFullName;
 	}
@@ -139,7 +138,7 @@ public class SimpleComment extends Comment {
 				attachments = contentJcr.getContents(commentPath);
 			}
 		} catch (Exception e) {
-			log.error("Error while get attachments of comment " + getId()
+			LOG.error("Error while get attachments of comment " + getId()
 					+ "---" + getSaccountid() + "---" + getExtratypeid()
 					+ "---" + getTypeid(), e);
 		}

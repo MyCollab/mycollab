@@ -30,23 +30,23 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  */
 public class PageActionChain {
-	private static Logger log = LoggerFactory.getLogger(PageActionChain.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PageActionChain.class);
 
 	private List<ScreenData> chains = new ArrayList<ScreenData>();
 
 	public PageActionChain(ScreenData... pageActionArr) {
 		chains.addAll(Arrays.asList(pageActionArr));
-		log.debug("Chain size: " + this + "---" + chains.size());
+		LOG.debug("Chain size: " + this + "---" + chains.size());
 	}
 
 	public PageActionChain add(ScreenData pageAction) {
 		chains.add(pageAction);
-		log.debug("Chain size: " + this + "---" + chains.size());
+		LOG.debug("Chain size: " + this + "---" + chains.size());
 		return this;
 	}
 
 	public ScreenData pop() {
-		log.debug("Pop pageActionChain " + this + "---" + chains.size());
+		LOG.debug("Pop pageActionChain " + this + "---" + chains.size());
 		if (chains.size() > 0) {
 			ScreenData pageAction = chains.get(0);
 			chains.remove(0);

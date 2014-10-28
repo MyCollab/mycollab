@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
-import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
+import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSeverityComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.ComponentMultiSelectField;
@@ -143,7 +143,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
 					tf.setRequired(true);
-					tf.setRequiredError("Bug summary must be not null");
+					tf.setRequiredError("Summary must be not null");
 				}
 
 				return tf;
@@ -164,8 +164,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				return milestoneBox;
 			} else if (propertyId.equals("estimatetime")
 					|| (propertyId.equals("estimateremaintime"))) {
-				NumberField field = new NumberField();
-				return field;
+				return new NumberField();
 			}
 
 			return null;

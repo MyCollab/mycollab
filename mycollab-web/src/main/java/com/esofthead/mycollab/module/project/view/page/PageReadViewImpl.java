@@ -100,7 +100,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 			+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
 			+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
 
-	private static Logger log = LoggerFactory.getLogger(PageReadViewImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PageReadViewImpl.class);
 
 	private CommentDisplay commentListComp;
 
@@ -224,7 +224,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 				try {
 					return new FileInputStream(writePdf());
 				} catch (Exception e) {
-					log.error("Error while export PDF", e);
+					LOG.error("Error while export PDF", e);
 					return null;
 				}
 			}

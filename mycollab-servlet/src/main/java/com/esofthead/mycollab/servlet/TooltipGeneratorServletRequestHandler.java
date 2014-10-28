@@ -89,7 +89,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 public class TooltipGeneratorServletRequestHandler extends
 		GenericServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(TooltipGeneratorServletRequestHandler.class);
 
 	@Override
@@ -243,7 +243,7 @@ public class TooltipGeneratorServletRequestHandler extends
 				html = CommonTooltipGenerator.generateTooltipUser(locale, user,
 						siteURL, timeZone);
 			} else {
-				log.error("Can not generate tooltip for item has type " + type);
+				LOG.error("Can not generate tooltip for item has type " + type);
 			}
 
 			response.setCharacterEncoding("UTF-8");
@@ -252,7 +252,7 @@ public class TooltipGeneratorServletRequestHandler extends
 			out.println(html);
 			return;
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while get html tooltip attachForm TooltipGeneratorServletRequestHandler",
 					e);
 			String html = null;

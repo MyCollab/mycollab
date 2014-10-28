@@ -43,7 +43,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  */
 public class DateTimeUtils {
-	private static Logger log = LoggerFactory.getLogger(DateTimeUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
 
 	private static DateTimeZone utcZone = DateTimeZone.UTC;
 
@@ -70,7 +70,7 @@ public class DateTimeUtils {
 				SimpleDateFormat formatter = new SimpleDateFormat(format);
 				return formatter.parse(strDate);
 			} catch (ParseException e) {
-				log.error("Error while parse date", e);
+				LOG.error("Error while parse date", e);
 			}
 		}
 		return new Date();
@@ -94,7 +94,7 @@ public class DateTimeUtils {
 			try {
 				return formatter.parse(strDate);
 			} catch (ParseException e) {
-				log.error("Error while parse date", e);
+				LOG.error("Error while parse date", e);
 			}
 		}
 		return null;

@@ -36,7 +36,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 public class DateFieldFormat extends FieldFormat {
-	private static Logger log = LoggerFactory.getLogger(DateFieldFormat.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DateFieldFormat.class);
 
 	public DateFieldFormat(String fieldname, Enum displayName) {
 		super(fieldname, displayName);
@@ -60,7 +60,7 @@ public class DateFieldFormat extends FieldFormat {
 			}
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Can not generate email field: " + fieldName, e);
+			LOG.error("Can not generate email field: " + fieldName, e);
 			return new Span().write();
 		}
 	}

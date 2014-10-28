@@ -50,7 +50,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 		StreamResource.StreamSource {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(StreamDownloadResourceSupportExtDrive.class);
 
 	private Collection<Resource> lstResource;
@@ -83,7 +83,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 		try {
 			outStream = new PipedOutputStream(inStream);
 		} catch (IOException ex) {
-			log.error("Can not create outstream file", ex);
+			LOG.error("Can not create outstream file", ex);
 			return null;
 		}
 
@@ -98,7 +98,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 					zipOutStream.close();
 					outStream.close();
 				} catch (Exception e) {
-					log.error("Error while saving content stream", e);
+					LOG.error("Error while saving content stream", e);
 				}
 			}
 		});
@@ -146,7 +146,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 				}
 			}
 		} catch (Exception e) {
-			log.error("Error while save content", e);
+			LOG.error("Error while save content", e);
 		}
 	}
 

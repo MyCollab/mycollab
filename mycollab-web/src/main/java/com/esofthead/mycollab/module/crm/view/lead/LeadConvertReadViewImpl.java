@@ -82,7 +82,7 @@ public class LeadConvertReadViewImpl extends
 		AbstractPreviewItemComp<SimpleLead> implements LeadConvertReadView {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(LeadConvertReadViewImpl.class);
 
 	private SimpleLead lead;
@@ -252,7 +252,7 @@ public class LeadConvertReadViewImpl extends
 		layoutHelper.getLayout().setMargin(false);
 		layoutHelper.getLayout().addStyleName("colored-gridlayout");
 
-		log.debug("Display associate account");
+		LOG.debug("Display associate account");
 		AccountService accountService = ApplicationContextUtil
 				.getSpringBean(AccountService.class);
 		final SimpleAccount account = accountService
@@ -279,7 +279,7 @@ public class LeadConvertReadViewImpl extends
 			layoutHelper.addComponent(new Label(""), "Account", 0, 0);
 		}
 
-		log.debug("Display associate contact");
+		LOG.debug("Display associate contact");
 		ContactService contactService = ApplicationContextUtil
 				.getSpringBean(ContactService.class);
 		final SimpleContact contact = contactService
@@ -306,7 +306,7 @@ public class LeadConvertReadViewImpl extends
 			layoutHelper.addComponent(new Label(""), "Contact", 0, 1);
 		}
 
-		log.debug("Display associate opportunity");
+		LOG.debug("Display associate opportunity");
 		OpportunityService opportunityService = ApplicationContextUtil
 				.getSpringBean(OpportunityService.class);
 		final SimpleOpportunity opportunity = opportunityService

@@ -4439,6 +4439,11 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
     color: #303030;
 }
 
+.readViewLayout .readViewHeader .headerNameOverdue {
+    font-size: 15px;
+    color: red;
+}
+
 .readViewLayout .h2 {
     text-shadow: #F0F0F0 0 1px 0;
     padding: 8px 0px 8px 18px;
@@ -6507,6 +6512,11 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .hdr-view .hdr-text,.hdr-view .hdr-text  span{
     font-size: 15px;
     color: #525252;
+    font-weight: bold;
+}
+.hdr-view .hdr-text-overdue,.hdr-view .hdr-text-overdue  span{
+    font-size: 15px;
+    color: red;
     font-weight: bold;
 }
 .hdr-view .hdr-text > img {

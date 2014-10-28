@@ -43,7 +43,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 @Component("resourceGetHandler")
 public class ResourceGetHandler extends GenericServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ResourceGetHandler.class);
 
 	@Autowired
@@ -56,7 +56,7 @@ public class ResourceGetHandler extends GenericServletRequestHandler {
 		InputStream inputStream = resourceService.getContentStream(path);
 
 		if (inputStream != null) {
-			log.debug("Get resource {} successfully ", path);
+			LOG.debug("Get resource {} successfully ", path);
 			response.setHeader("Content-Type",
 					MimeTypesUtil.detectMimeType(path));
 			response.setHeader("Content-Length",
@@ -86,7 +86,7 @@ public class ResourceGetHandler extends GenericServletRequestHandler {
 					}
 			}
 		} else {
-			log.error("Can not find resource has path {}", path);
+			LOG.error("Can not find resource has path {}", path);
 		}
 
 	}

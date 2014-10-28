@@ -54,7 +54,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AbstractBeanFieldGroupEditFieldFactory.class);
 
 	protected GenericBeanForm<B> attachForm;
@@ -98,7 +98,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 				if (formField instanceof DummyCustomField) {
 					continue;
 				} else if (!(formField instanceof CompoundCustomField)) {
-					log.debug("Bind field: {} of form field {}",
+					LOG.debug("Bind field: {} of form field {}",
 							field.getName(), formField);
 					fieldGroup.bind(formField, field.getName());
 				}

@@ -45,7 +45,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 @Component
 @Configurable
 public class MonitorItemAspect {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MonitorItemAspect.class);
 
 	@Autowired
@@ -81,7 +81,7 @@ public class MonitorItemAspect {
 				monitorItem.setSaccountid(sAccountId);
 
 				monitorItemService.saveWithSession(monitorItem, username);
-				log.debug("Save monitor item: "
+				LOG.debug("Save monitor item: "
 						+ BeanUtility.printBeanObj(monitorItem));
 
 				if (!watchableAnnotation.userFieldName().equals("")) {
@@ -110,7 +110,7 @@ public class MonitorItemAspect {
 				// Save notification item
 
 			} catch (Exception e) {
-				log.error(
+				LOG.error(
 						"Error when save relay email notification for save action of service "
 								+ cls.getName(), e);
 			}

@@ -143,7 +143,7 @@
         <dependency>
             <groupId>org.vaadin.addon</groupId>
             <artifactId>easyuploads</artifactId>
-            <version>7.0.3-SNAPSHOT</version>
+            <version>7.3.3</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.addons</groupId>

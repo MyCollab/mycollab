@@ -62,7 +62,7 @@ public class ActivityTableDisplay
 		DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ActivityTableDisplay.class);
 
 	public ActivityTableDisplay(List<TableViewField> displayColumns) {
@@ -462,7 +462,7 @@ public class ActivityTableDisplay
 			div.appendChild(table);
 			return div.write();
 		} catch (Exception e) {
-			log.error("Error while generate Event tooltip", e);
+			LOG.error("Error while generate Event tooltip", e);
 			return "";
 		}
 	}

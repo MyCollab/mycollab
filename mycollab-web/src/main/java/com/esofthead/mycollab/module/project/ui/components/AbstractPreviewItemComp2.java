@@ -180,7 +180,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	}
 
 	@Override
-	public void addViewListener(ViewListener listener) {
+	final public void addViewListener(ViewListener listener) {
 
 	}
 

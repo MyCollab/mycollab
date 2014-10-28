@@ -37,7 +37,7 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 @Service
 public class ResourceMoverImpl implements ResourceMover {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ResourceMoverImpl.class);
 
 	@Autowired

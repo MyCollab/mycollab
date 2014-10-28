@@ -48,7 +48,7 @@ public class CommentServiceImpl extends
 		DefaultService<Integer, Comment, CommentSearchCriteria> implements
 		CommentService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CommentServiceImpl.class);
 
 	@Autowired
@@ -116,7 +116,7 @@ public class CommentServiceImpl extends
 	// && record.getType().startsWith("Crm-")) {
 	// activityStream.setModule(ModuleNameConstants.CRM);
 	// } else {
-	// log.error("Can not define module type of bean {}",
+	// LOG.error("Can not define module type of bean {}",
 	// BeanUtility.printBeanObj(record));
 	// }
 	// return activityStream;

@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.ecm.domain.Resource;
  */
 @IgnoreCacheClass
 public interface ResourceService extends IService {
+
 	Folder createNewFolder(String baseFolderPath, String folderName,
 			String createdBy);
 

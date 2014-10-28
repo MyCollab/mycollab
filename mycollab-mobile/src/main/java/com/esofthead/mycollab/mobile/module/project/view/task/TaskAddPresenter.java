@@ -22,6 +22,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -90,10 +91,9 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 										.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE));
 			} else {
 				AppContext.addFragment(
-						"project/task/edit/"
-								+ GenericLinkUtils.encodeParam(new Object[] {
-										CurrentProjectVariables.getProjectId(),
-										task.getId() }), task.getTaskname());
+						ProjectLinkGenerator.generateTaskEditLink(
+								task.getTaskkey(), task.getProjectShortname()),
+						task.getTaskname());
 			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

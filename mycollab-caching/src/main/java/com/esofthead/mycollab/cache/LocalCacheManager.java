@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class LocalCacheManager {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(LocalCacheManager.class);
 
 	private static String GLOBAL_CACHE = "global";
@@ -55,7 +55,7 @@ public class LocalCacheManager {
 			instance = new DefaultCacheManager(configInputStream);
 
 		} catch (Exception e) {
-			log.debug(
+			LOG.debug(
 					"Error while set up infinispan cache manager. Will initiate the default",
 					e);
 			instance = new DefaultCacheManager();
@@ -82,14 +82,14 @@ public class LocalCacheManager {
 
 	static void removeCacheItems(String id, String prefixKey) {
 		BasicCache<String, Object> cache = instance.getCache(id);
-		log.debug("Remove cache has prefix {} in group {}", prefixKey, id);
+		LOG.debug("Remove cache has prefix {} in group {}", prefixKey, id);
 		Set<String> keys = cache.keySet();
 		if (CollectionUtils.isNotEmpty(keys)) {
 
 			String[] keyArr = keys.toArray(new String[0]);
 			for (int i = 0; i < keyArr.length; i++) {
 				if (keyArr[i].startsWith(prefixKey)) {
-					log.debug("Remove cache key {}", keyArr[i]);
+					LOG.debug("Remove cache key {}", keyArr[i]);
 					cache.remove(keyArr[i]);
 				}
 			}

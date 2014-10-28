@@ -58,7 +58,7 @@ import com.vaadin.ui.UI;
 public class ShellController extends AbstractController {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(ShellController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ShellController.class);
 
 	final private NavigationManager mainNav;
 
@@ -169,7 +169,7 @@ public class ShellController extends AbstractController {
 		SimpleBillingAccount billingAccount = billingAccountService
 				.getBillingAccountById(AppContext.getAccountId());
 
-		log.debug("Get billing account successfully: "
+		LOG.debug("Get billing account successfully: "
 				+ BeanUtility.printBeanObj(billingAccount));
 
 		UserPreferenceService preferenceService = ApplicationContextUtil
@@ -177,7 +177,7 @@ public class ShellController extends AbstractController {
 		UserPreference pref = preferenceService.getPreferenceOfUser(username,
 				AppContext.getAccountId());
 
-		log.debug("Login to system successfully. Save user and preference "
+		LOG.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
 
 		if (isRememberPassword) {

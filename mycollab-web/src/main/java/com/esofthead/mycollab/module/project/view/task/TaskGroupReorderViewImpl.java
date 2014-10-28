@@ -86,7 +86,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(headerLbl, Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(headerLbl, 1.0f);
 
-		Button backToListBtn = new Button("Back to task list",
+		Button backToListBtn = new Button("Back to dashboard",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

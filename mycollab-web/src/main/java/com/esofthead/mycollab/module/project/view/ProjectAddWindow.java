@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -43,7 +44,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -93,13 +93,14 @@ public class ProjectAddWindow extends Window {
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("description")) {
-				final RichTextArea field = new RichTextArea();
+				final RichTextEditField field = new RichTextEditField();
 				field.setHeight("350px");
 				return field;
 			} else if (propertyId.equals("projectstatus")) {
 				final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
 				projectCombo.setRequired(true);
-				projectCombo.setRequiredError("Please enter a project status");
+				projectCombo
+						.setRequiredError("Project status must be not null");
 				if (project.getProjectstatus() == null) {
 					project.setProjectstatus(StatusI18nEnum.Open.name());
 				}
@@ -108,13 +109,13 @@ public class ProjectAddWindow extends Window {
 				final TextField tf = new TextField();
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError("Please enter a project short name");
+				tf.setRequiredError("Project short name must be not null");
 				return tf;
 			} else if (propertyId.equals("name")) {
 				final TextField tf = new TextField();
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Name");
+				tf.setRequiredError("Project name must be not null");
 				return tf;
 			}
 

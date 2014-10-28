@@ -284,7 +284,10 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		@Override
 		protected void setInternalValue(Object newValue) {
 			super.setInternalValue(newValue);
-			((HorizontalLayout) layout).setExpandRatio(newButton, 0);
+
+			if (((HorizontalLayout) layout).getComponentIndex(newButton) != -1) {
+				((HorizontalLayout) layout).setExpandRatio(newButton, 0);
+			}
 		}
 
 		@Override

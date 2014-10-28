@@ -45,7 +45,7 @@ import com.vaadin.ui.Label;
  */
 public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MilestoneHistoryFieldFormat.class);
 
 	@Override
@@ -87,7 +87,7 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 				return TagBuilder.newLink(img, link).write();
 			}
 		} catch (Exception e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 
 		return value;

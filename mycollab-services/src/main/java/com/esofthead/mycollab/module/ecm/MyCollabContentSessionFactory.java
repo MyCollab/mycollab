@@ -37,12 +37,12 @@ import org.springframework.extensions.jcr.JcrSessionFactory;
  */
 public class MyCollabContentSessionFactory extends JcrSessionFactory {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MyCollabContentSessionFactory.class);
 
 	@Override
 	protected void registerNodeTypes() throws Exception {
-		log.info("Register node types");
+		LOG.info("Register node types");
 		Session session = getSession();
 		final String[] jcrNamespaces = session.getWorkspace()
 				.getNamespaceRegistry().getPrefixes();
@@ -50,7 +50,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 		for (int i = 0; i < jcrNamespaces.length; i++) {
 			if (jcrNamespaces[i].equals("mycollab")) {
 				createNamespace = false;
-				log.debug("Jackrabbit OCM namespace exists.");
+				LOG.debug("Jackrabbit OCM namespace exists.");
 			}
 		}
 		if (createNamespace) {
@@ -58,7 +58,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 					.getNamespaceRegistry()
 					.registerNamespace("mycollab",
 							"http://www.esofthead.com/mycollab");
-			log.debug("Successfully created Mycollab content namespace.");
+			LOG.debug("Successfully created Mycollab content namespace.");
 		}
 		if (session.getRootNode() == null) {
 			throw new ContentException("Jcr session setup not successful.");
@@ -74,7 +74,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
-		log.info("Register mycollab content type");
+		LOG.info("Register mycollab content type");
 		NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
 		// Create content node type
 		NodeTypeTemplate contentTypeTemplate = manager
@@ -88,7 +88,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 				.setDeclaredSuperTypeNames(new String[] { NodeType.NT_HIERARCHY_NODE });
 		contentTypeTemplate.setQueryable(true);
 		contentTypeTemplate.setOrderableChildNodes(false);
-		log.debug("PROPERTY {} {}",
+		LOG.debug("PROPERTY {} {}",
 				contentTypeTemplate.getDeclaredPropertyDefinitions().length,
 				contentTypeTemplate.getDeclaredChildNodeDefinitions().length);
 
@@ -109,6 +109,15 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 		contentPathPropertyTemplate.setRequiredType(PropertyType.STRING);
 		contentTypeTemplate.getPropertyDefinitionTemplates().add(
 				contentPathPropertyTemplate);
+		
+		PropertyDefinitionTemplate thumbnailPathPropertyTemplate = manager
+				.createPropertyDefinitionTemplate();
+		thumbnailPathPropertyTemplate.setMultiple(false);
+		thumbnailPathPropertyTemplate.setName("mycollab:thumbnailPath");
+		thumbnailPathPropertyTemplate.setMandatory(false);
+		thumbnailPathPropertyTemplate.setRequiredType(PropertyType.STRING);
+		contentTypeTemplate.getPropertyDefinitionTemplates().add(
+				thumbnailPathPropertyTemplate);
 
 		PropertyDefinitionTemplate lastModifiedUserPropertyTemplate = manager
 				.createPropertyDefinitionTemplate();

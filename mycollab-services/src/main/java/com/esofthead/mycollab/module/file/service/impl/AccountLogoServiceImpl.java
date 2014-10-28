@@ -32,8 +32,9 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.AccountLogoService;
-import com.esofthead.mycollab.module.file.service.ContentService;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
@@ -48,11 +49,11 @@ import com.esofthead.mycollab.module.user.service.AccountThemeService;
 
 @Service
 public class AccountLogoServiceImpl implements AccountLogoService {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AccountLogoServiceImpl.class);
 
 	@Autowired
-	private ContentService contentService;
+	private ResourceService resourceService;
 
 	@Autowired
 	private UserAccountMapper userAccountMapper;
@@ -68,7 +69,8 @@ public class AccountLogoServiceImpl implements AccountLogoService {
 			PIXELS_64 };
 
 	@Override
-	public String uploadLogo(BufferedImage logo, String logoId, int saccountid) {
+	public String uploadLogo(String uploadedUser, BufferedImage logo,
+			String logoId, Integer saccountid) {
 		UserAccountExample ex = new UserAccountExample();
 		ex.createCriteria().andAccountidEqualTo(saccountid)
 				.andIsaccountownerEqualTo(true);
@@ -84,7 +86,7 @@ public class AccountLogoServiceImpl implements AccountLogoService {
 		String newLogoId = username + "_" + randomString;
 
 		for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-			uploadLogoToStorage(logo, newLogoId, SUPPORT_SIZES[i]);
+			uploadLogoToStorage(uploadedUser, logo, newLogoId, SUPPORT_SIZES[i]);
 		}
 
 		// save logo id
@@ -96,10 +98,11 @@ public class AccountLogoServiceImpl implements AccountLogoService {
 		if (logoId != null) {
 			for (int i = 0; i < SUPPORT_SIZES.length; i++) {
 				try {
-					contentService.removeContent(null, "logo/" + logoId + "_"
-							+ SUPPORT_SIZES[i] + ".png");
+					resourceService.removeResource("logo/" + logoId + "_"
+							+ SUPPORT_SIZES[i] + ".png", uploadedUser,
+							saccountid);
 				} catch (Exception e) {
-					log.error("Error while delete old logo", e);
+					LOG.error("Error while delete old logo", e);
 				}
 			}
 		}
@@ -107,8 +110,8 @@ public class AccountLogoServiceImpl implements AccountLogoService {
 		return newLogoId;
 	}
 
-	private void uploadLogoToStorage(BufferedImage image, String logoId,
-			int width) {
+	private void uploadLogoToStorage(String uploadedUser, BufferedImage image,
+			String logoId, int width) {
 		BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width
 				/ image.getWidth());
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -117,8 +120,9 @@ public class AccountLogoServiceImpl implements AccountLogoService {
 		} catch (IOException e) {
 			throw new MyCollabException("Error while write image to stream", e);
 		}
-		contentService.saveContent(null, "logo/" + logoId + "_" + width
-				+ ".png", new ByteArrayInputStream(outStream.toByteArray()));
+		resourceService.saveContent(
+				Content.buildContentInstance(null, "logo/" + logoId + "_"
+						+ width + ".png"), uploadedUser,
+				new ByteArrayInputStream(outStream.toByteArray()), null);
 	}
-
 }

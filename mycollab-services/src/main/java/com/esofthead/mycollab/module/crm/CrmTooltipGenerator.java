@@ -65,7 +65,7 @@ import com.hp.gagawa.java.elements.Tr;
  */
 public class CrmTooltipGenerator {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CrmTooltipGenerator.class);
 
 	private static String generateTolltipNull(Locale locale) {
@@ -159,7 +159,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipBuilder.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Account tooltip servlet", e);
+			LOG.error("Error while generate Account tooltip servlet", e);
 			return null;
 		}
 	}
@@ -248,7 +248,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipBuilder.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Contact tooltip servlet", e);
+			LOG.error("Error while generate Contact tooltip servlet", e);
 			return null;
 		}
 	}
@@ -338,7 +338,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipBuilder.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Camapgin tooltip servlet", e);
+			LOG.error("Error while generate Camapgin tooltip servlet", e);
 			return null;
 		}
 	}
@@ -452,7 +452,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Lead tooltip servlet", e);
+			LOG.error("Error while generate Lead tooltip servlet", e);
 			return null;
 		}
 	}
@@ -549,7 +549,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Opportunity tooltip servlet", e);
+			LOG.error("Error while generate Opportunity tooltip servlet", e);
 			return null;
 		}
 	}
@@ -632,7 +632,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate Case tooltip servlet", e);
+			LOG.error("Error while generate Case tooltip servlet", e);
 			return null;
 		}
 	}
@@ -683,7 +683,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate CRM Meeting servlert tooltip servlet",
 					e);
 			return null;
@@ -741,7 +741,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate CRM Call servlert tooltip servlet",
+			LOG.error("Error while generate CRM Call servlert tooltip servlet",
 					e);
 			return null;
 		}
@@ -812,7 +812,7 @@ public class CrmTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate CRM Task tooltip servlet", e);
+			LOG.error("Error while generate CRM Task tooltip servlet", e);
 			return null;
 		}
 	}

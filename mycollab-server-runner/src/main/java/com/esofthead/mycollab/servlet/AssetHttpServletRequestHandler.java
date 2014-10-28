@@ -41,7 +41,7 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 public class AssetHttpServletRequestHandler extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AssetHttpServletRequestHandler.class);
 
 	protected void doGet(HttpServletRequest request,
@@ -90,7 +90,7 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
 					}
 			}
 		} else {
-			log.error("Can not find resource has path {}", path);
+			LOG.error("Can not find resource has path {}", path);
 		}
 
 	}

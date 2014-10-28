@@ -41,7 +41,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 @Component
 public class UserRemovedCommandImpl implements UserRemovedCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(UserRemovedCommandImpl.class);
 
 	@Autowired
@@ -55,9 +55,9 @@ public class UserRemovedCommandImpl implements UserRemovedCommand {
 
 	@Override
 	public void userRemoved(String username, Integer accountid) {
-		log.debug("Remove user {} with account id {}", username, accountid);
+		LOG.debug("Remove user {} with account id {}", username, accountid);
 
-		log.debug(
+		LOG.debug(
 				"Update status of project member to status 'Delete' if project member associates with deleted user {}",
 				username);
 		ProjectMemberExample ex = new ProjectMemberExample();

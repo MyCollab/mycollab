@@ -45,7 +45,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 		IPresenter<V> {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AbstractPresenter.class);
 
 	protected Class<V> viewClass;
@@ -86,7 +86,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 			view = implClass.newInstance();
 			postInitView();
 		} catch (Exception e) {
-			log.error("Can not init view " + implClass, e);
+			LOG.error("Can not init view " + implClass, e);
 		}
 
 	}
@@ -103,17 +103,17 @@ public abstract class AbstractPresenter<V extends PageView> implements
 	public void go(ComponentContainer container, ScreenData<?> data,
 			boolean isHistoryTrack) {
 		initView();
-		log.debug("Go to view: " + view);
+		LOG.debug("Go to view: " + view);
 		if (isHistoryTrack) {
 			ViewState state = new ViewState(container, this, data);
-			if (log.isDebugEnabled()) {
+			if (LOG.isDebugEnabled()) {
 				StringBuilder str = new StringBuilder();
 				str.append("----").append("\n");
 				str.append("Add ").append(state).append("\n");
 				str.append("to history with container ").append(container)
 						.append("\n");
 				str.append("----");
-				log.debug(str.toString());
+				LOG.debug(str.toString());
 			}
 			HistoryViewManager.addHistory(state);
 		}

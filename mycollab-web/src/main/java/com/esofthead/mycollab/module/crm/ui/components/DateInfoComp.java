@@ -40,7 +40,7 @@ import com.vaadin.ui.VerticalLayout;
 public class DateInfoComp extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(DateInfoComp.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DateInfoComp.class);
 
 	public void displayEntryDateTime(ValuedBean bean) {
 		this.removeAllComponents();
@@ -79,7 +79,7 @@ public class DateInfoComp extends VerticalLayout {
 			layout.addComponent(updatedDateLbl);
 			this.addComponent(layout);
 		} catch (Exception e) {
-			log.error("Get date is failed {}", BeanUtility.printBeanObj(bean));
+			LOG.error("Get date is failed {}", BeanUtility.printBeanObj(bean));
 		}
 	}
 }

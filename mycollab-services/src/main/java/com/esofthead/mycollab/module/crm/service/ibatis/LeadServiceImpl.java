@@ -65,7 +65,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 public class LeadServiceImpl extends
 		DefaultService<Integer, Lead, LeadSearchCriteria> implements
 		LeadService {
-	private static Logger log = LoggerFactory.getLogger(LeadServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LeadServiceImpl.class);
 
 	@Autowired
 	private LeadMapper leadMapper;
@@ -122,7 +122,7 @@ public class LeadServiceImpl extends
 	public void convertLead(SimpleLead lead, Opportunity opportunity,
 			String convertUser) {
 
-		log.debug("Create new account and save it");
+		LOG.debug("Create new account and save it");
 		Account account = new Account();
 		account.setAccountname(lead.getAccountname());
 		account.setNumemployees(lead.getNoemployees());
@@ -139,7 +139,7 @@ public class LeadServiceImpl extends
 				.getSpringBean(AccountService.class);
 		int accountId = accountService.saveWithSession(account, convertUser);
 
-		log.debug("Create account lead relationship");
+		LOG.debug("Create account lead relationship");
 		AccountLead accLead = new AccountLead();
 		accLead.setAccountid(accountId);
 		accLead.setLeadid(lead.getId());
@@ -148,7 +148,7 @@ public class LeadServiceImpl extends
 		accountService.saveAccountLeadRelationship(Arrays.asList(accLead),
 				lead.getSaccountid());
 
-		log.debug("Create new contact and save it");
+		LOG.debug("Create new contact and save it");
 		Contact contact = new Contact();
 		contact.setPrefix(lead.getPrefixname());
 		contact.setFirstname(lead.getFirstname());
@@ -166,7 +166,7 @@ public class LeadServiceImpl extends
 		ContactService contactService = ApplicationContextUtil
 				.getSpringBean(ContactService.class);
 		int contactId = contactService.saveWithSession(contact, convertUser);
-		log.debug("Create contact lead relationship");
+		LOG.debug("Create contact lead relationship");
 		ContactLead contactLead = new ContactLead();
 		contactLead.setContactid(contactId);
 		contactLead.setLeadid(lead.getId());
@@ -182,14 +182,14 @@ public class LeadServiceImpl extends
 			int opportunityId = opportunityService.saveWithSession(opportunity,
 					convertUser);
 
-			log.debug("Create new opportunity contact relationship");
+			LOG.debug("Create new opportunity contact relationship");
 			ContactOpportunity oppContact = new ContactOpportunity();
 			oppContact.setContactid(contactId);
 			oppContact.setOpportunityid(opportunityId);
 			contactService.saveContactOpportunityRelationship(
 					Arrays.asList(oppContact), lead.getSaccountid());
 
-			log.debug("Create new opportunity lead relationship");
+			LOG.debug("Create new opportunity lead relationship");
 			OpportunityLead oppLead = new OpportunityLead();
 			oppLead.setLeadid(lead.getId());
 			oppLead.setOpportunityid(opportunityId);

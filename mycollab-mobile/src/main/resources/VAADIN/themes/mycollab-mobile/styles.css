@@ -113,6 +113,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Include all the styles from the reindeer theme */
   /* Confirm Dialog */
   /* Filterselect */
+  /* Datepicker Popopver */
   /* Navigation styles */
   /* Main Panel Styles */
   /* Controls QuickMenu */
@@ -223,6 +224,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-button-link, .mycollab-mobile .v-button-link .v-button-wrap, .mycollab-mobile .v-button-link .v-button-caption, .mycollab-mobile .v-button-link:active, .mycollab-mobile .v-button-link.v-pressed, .mycollab-mobile .v-nativebutton-link {
   font-size: inherit;
+}
+.mycollab-mobile .v-touchkit-datepopover .v-touchkit-date-cancel, .mycollab-mobile .v-touchkit-datepopover .v-touchkit-date-ok {
+  padding-top: 0px;
+  height: auto;
+  border-color: #dddddd;
 }
 .mycollab-mobile * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -1050,9 +1056,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 2rem;
   color: #f59330;
 }
-.mycollab-mobile .project-activities-view .activity-row .v-button.activity-item {
+.mycollab-mobile .project-activities-view .activity-row .v-label.activity-item {
   font-size: 1.4rem;
   font-weight: bold;
+  text-overflow: ellipsis;
+}
+.mycollab-mobile .project-activities-view .activity-row .v-label.activity-item a {
+  text-decoration: none;
+  white-space: nowrap;
   color: #414141;
 }
 .mycollab-mobile .project-activities-view .activity-row .activity-detail-row .activity-detail {

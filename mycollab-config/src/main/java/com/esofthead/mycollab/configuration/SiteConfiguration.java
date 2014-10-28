@@ -61,7 +61,7 @@ import com.esofthead.mycollab.core.DeploymentMode;
  * 
  */
 public class SiteConfiguration {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SiteConfiguration.class);
 
 	private static SiteConfiguration instance;
@@ -109,7 +109,7 @@ public class SiteConfiguration {
 		String runningMode = ApplicationProperties
 				.getString(RUNNING_MODE, null);
 		instance.deploymentMode = DeploymentMode.valueOf(runningMode);
-		log.debug("Site is running under {} mode", instance.deploymentMode);
+		LOG.debug("Site is running under {} mode", instance.deploymentMode);
 
 		instance.cdnUrl = String.format(
 				ApplicationProperties.getString(CDN_URL),
@@ -267,7 +267,7 @@ public class SiteConfiguration {
 		for (String language : languages) {
 			Locale locale = toLocale(language.trim());
 			if (locale == null) {
-				log.error("Do not support native language {}", language);
+				LOG.error("Do not support native language {}", language);
 				continue;
 			}
 

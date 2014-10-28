@@ -39,7 +39,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 public class GroupIteratorDataSource<SearchService extends ISearchableService<S>, S extends SearchCriteria>
 		implements JRDataSource {
 	private static final int ITEMS_PER_PAGE = 20;
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(GroupIteratorDataSource.class);
 
 	private int currentIndex = 0;
@@ -73,10 +73,10 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
 						searchCriteria, currentPage, ITEMS_PER_PAGE);
 				currentData = searchService
 						.findPagableListByCriteria(searchRequest);
-				log.debug("Current data {}", currentData.size());
+				LOG.debug("Current data {}", currentData.size());
 			}
 
-			log.debug("Current index {} - {} - {} - {}", new Object[] {
+			LOG.debug("Current index {} - {} - {} - {}", new Object[] {
 					currentIndex, currentPage, currentData.size(), totalItems });
 			if (currentIndex % ITEMS_PER_PAGE < currentData.size()) {
 				currentItem = currentData.get(currentIndex % ITEMS_PER_PAGE);

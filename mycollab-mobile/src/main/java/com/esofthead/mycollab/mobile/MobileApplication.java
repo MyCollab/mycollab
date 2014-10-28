@@ -65,14 +65,14 @@ public class MobileApplication extends MyCollabUI {
 
 	public static final String LOGIN_DATA = "m_login";
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MobileApplication.class);
 
 	public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
 	@Override
 	protected void init(VaadinRequest request) {
-		log.debug("Init mycollab mobile application {}", this.toString());
+		LOG.debug("Init mycollab mobile application {}", this.toString());
 
 		VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
 			private static final long serialVersionUID = 1L;
@@ -127,7 +127,7 @@ public class MobileApplication extends MyCollabUI {
 									.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
 						}
 					} else {
-						log.error("Error", e);
+						LOG.error("Error", e);
 						NotificationUtil.showErrorNotification(AppContext
 								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
 					}

@@ -48,8 +48,8 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
+import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -74,10 +74,10 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -106,7 +106,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(BugReadViewImpl.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(BugReadViewImpl.class);
 
 	private HorizontalLayout bugWorkflowControl;
 
@@ -310,7 +311,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
 			this.previewLayout.addTitleStyleName(UIConstants.LINK_COMPLETED);
 		} else if (this.beanItem.isOverdue()) {
-			this.previewLayout.addTitleStyleName(UIConstants.LINK_OVERDUE);
+			this.previewLayout.setTitleStyleName("headerNameOverdue");
 		}
 	}
 
@@ -406,7 +407,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				});
 		assignBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-		assignBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_assign));
+		assignBtn.setIcon(MyCollabResource
+				.newResource(WebResourceIds._16_assign));
 
 		assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -652,11 +654,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				}
 
 			} else if (propertyId.equals("environment")) {
-				return new RichTextViewField(
-						beanItem.getEnvironment());
+				return new RichTextViewField(beanItem.getEnvironment());
 			} else if (propertyId.equals("description")) {
-				return new  RichTextViewField(
-						beanItem.getDescription());
+				return new RichTextViewField(beanItem.getDescription());
 			} else if (propertyId.equals("status")) {
 				return new I18nFormViewField(beanItem.getStatus(),
 						BugStatus.class);
@@ -759,7 +759,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 						assignUserAvatarId, assignUserDisplayName);
 				layout.addComponent(assignUserLink, 1, 1);
 			} catch (Exception e) {
-				log.error("Can not build user link {} ",
+				LOG.error("Can not build user link {} ",
 						BeanUtility.printBeanObj(bean));
 			}
 

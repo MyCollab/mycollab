@@ -16,13 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -123,13 +123,10 @@ public class BugReadPresenter extends AbstractMobilePresenter<BugReadView> {
 					view.previewItem(bug);
 					super.onGo(container, data);
 
-					AppContext.addFragment(
-							"project/bug/preview/"
-									+ GenericLinkUtils
-											.encodeParam(new Object[] {
-													CurrentProjectVariables
-															.getProjectId(),
-													bug.getId() }), bug
+					AppContext
+							.addFragment(ProjectLinkGenerator
+									.generateBugPreviewLink(bug.getBugkey(),
+											bug.getProjectShortName()), bug
 									.getSummary());
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

@@ -51,7 +51,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(LoginPresenter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LoginPresenter.class);
 
 	public LoginPresenter() {
 		super(LoginView.class);
@@ -89,7 +89,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 		SimpleBillingAccount billingAccount = billingAccountService
 				.getBillingAccountById(AppContext.getAccountId());
 
-		log.debug("Get billing account successfully: "
+		LOG.debug("Get billing account successfully: "
 				+ BeanUtility.printBeanObj(billingAccount));
 
 		UserPreferenceService preferenceService = ApplicationContextUtil
@@ -97,7 +97,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 		UserPreference pref = preferenceService.getPreferenceOfUser(username,
 				AppContext.getAccountId());
 
-		log.debug("Login to system successfully. Save user and preference "
+		LOG.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
 
 		AppContext.getInstance().setSession(user, pref, billingAccount);

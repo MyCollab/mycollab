@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
@@ -24,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
@@ -118,13 +118,10 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
 					super.onGo(container, data);
 
 					AppContext.addFragment(
-							"project/task/preview/"
-									+ GenericLinkUtils
-											.encodeParam(new Object[] {
-													CurrentProjectVariables
-															.getProjectId(),
-													task.getId() }), task
-									.getTaskname());
+							ProjectLinkGenerator.generateTaskPreviewLink(
+									task.getTaskkey(),
+									task.getProjectShortname()),
+							task.getTaskname());
 				} else {
 					NotificationUtil.showRecordNotExistNotification();
 					return;

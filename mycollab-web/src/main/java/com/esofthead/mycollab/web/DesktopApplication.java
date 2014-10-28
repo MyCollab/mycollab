@@ -75,7 +75,7 @@ public class DesktopApplication extends MyCollabUI {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DesktopApplication.class);
 
 	private MainWindowContainer mainWindowContainer;
@@ -86,9 +86,9 @@ public class DesktopApplication extends MyCollabUI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		log.debug("Init mycollab application {} associate with session {}",
+		LOG.debug("Init mycollab application {} associate with session {}",
 				this.toString(), VaadinSession.getCurrent());
-		log.debug("Register default error handler");
+		LOG.debug("Register default error handler");
 
 		VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
 			private static final long serialVersionUID = 1L;
@@ -148,7 +148,7 @@ public class DesktopApplication extends MyCollabUI {
 				e, ResourceNotFoundException.class);
 		if (resourceNotFoundException != null) {
 			NotificationUtil.showWarningNotification("Can not found resource.");
-			log.error("404", resourceNotFoundException);
+			LOG.error("404", resourceNotFoundException);
 		}
 
 		UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
@@ -192,7 +192,7 @@ public class DesktopApplication extends MyCollabUI {
 								.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
 			}
 		} else {
-			log.error("Error", e);
+			LOG.error("Error", e);
 			NotificationUtil
 					.showErrorNotification(AppContext
 							.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));

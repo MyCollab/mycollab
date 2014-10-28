@@ -30,7 +30,7 @@ import com.esofthead.mycollab.core.utils.JsonDeSerializer;
  * 
  */
 public class CacheUtils {
-	private static Logger log = LoggerFactory.getLogger(CacheUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CacheUtils.class);
 
 	public static String constructParamsKey(Object[] args) {
 		return JsonDeSerializer.toJson(args);
@@ -48,7 +48,7 @@ public class CacheUtils {
 	}
 
 	public static void cleanCache(Integer accountId, String prefixKey) {
-		log.debug("Remove cache account {}  and key {}", accountId, prefixKey);
+		LOG.debug("Remove cache account {}  and key {}", accountId, prefixKey);
 		LocalCacheManager.removeCacheItems(accountId.toString(), prefixKey);
 	}
 

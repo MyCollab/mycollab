@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  */
 public class DefaultMailer implements IMailer {
 
-	private static Logger log = LoggerFactory.getLogger(DefaultMailer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultMailer.class);
 	private String host;
 	private String username = null;
 	private String password = null;
@@ -67,7 +67,7 @@ public class DefaultMailer implements IMailer {
 					email.addTo(toEmail.get(i).getEmail(), toEmail.get(i)
 							.getName());
 				} else {
-					log.error("Invalid to email input: "
+					LOG.error("Invalid to email input: "
 							+ toEmail.get(i).getEmail() + "---"
 							+ toEmail.get(i).getName());
 				}
@@ -80,7 +80,7 @@ public class DefaultMailer implements IMailer {
 						email.addCc(ccEmail.get(i).getEmail(), ccEmail.get(i)
 								.getName());
 					} else {
-						log.error("Invalid cc email input: "
+						LOG.error("Invalid cc email input: "
 								+ ccEmail.get(i).getEmail() + "---"
 								+ ccEmail.get(i).getName());
 					}
@@ -94,7 +94,7 @@ public class DefaultMailer implements IMailer {
 						email.addBcc(bccEmail.get(i).getEmail(), bccEmail
 								.get(i).getName());
 					} else {
-						log.error("Invalid bcc email input: "
+						LOG.error("Invalid bcc email input: "
 								+ bccEmail.get(i).getEmail() + "---"
 								+ bccEmail.get(i).getName());
 					}

@@ -45,7 +45,7 @@ import com.vaadin.ui.Label;
  */
 public class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectMemberHistoryFieldFormat.class);
 
 	@Override
@@ -88,7 +88,7 @@ public class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat {
 				return TagBuilder.newLink(img, link).write();
 			}
 		} catch (Exception e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 		return value;
 	}

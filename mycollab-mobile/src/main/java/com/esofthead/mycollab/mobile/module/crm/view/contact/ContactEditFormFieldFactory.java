@@ -46,12 +46,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 	private ContactFirstNamePrefixField firstNamePrefixField;
 
 	ContactEditFormFieldFactory(GenericBeanForm<B> form) {
-		this(form, true);
-	}
-
-	ContactEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-
+		super(form, true);
 		firstNamePrefixField = new ContactFirstNamePrefixField();
 	}
 
@@ -92,7 +87,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 		return null;
 	}
 
-	class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
+	private class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
 		private static final long serialVersionUID = 1L;
 
 		@Override

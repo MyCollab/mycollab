@@ -55,7 +55,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
 	private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DenyInvitationPage.class);
 
 	@Override
@@ -147,7 +147,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
-			log.error("Error with userService", e);
+			LOG.error("Error with userService", e);
 			throw new MyCollabException(e);
 		}
 	}

@@ -35,7 +35,7 @@ import com.vaadin.server.FileResource;
 class FileStreamDownloadResource extends FileResource {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FileStreamDownloadResource.class);
 
 	FileStreamDownloadResource(String documentPath) {
@@ -56,7 +56,7 @@ class FileStreamDownloadResource extends FileResource {
 			ds.setCacheTime(0);
 			return ds;
 		} catch (final FileNotFoundException e) {
-			log.error("Error to create download stream", e);
+			LOG.error("Error to create download stream", e);
 			return null;
 		}
 	}

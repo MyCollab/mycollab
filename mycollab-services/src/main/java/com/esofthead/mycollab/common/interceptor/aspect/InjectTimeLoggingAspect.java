@@ -36,7 +36,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InjectTimeLoggingAspect {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(InjectTimeLoggingAspect.class);
 
 	@Before("execution(public * com.esofthead.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
@@ -44,7 +44,7 @@ public class InjectTimeLoggingAspect {
 			String username) {
 
 		try {
-			log.debug("Set createtime and lastupdatedtime if enable");
+			LOG.debug("Set createtime and lastupdatedtime if enable");
 			PropertyUtils.setProperty(bean, "createdtime",
 					new GregorianCalendar().getTime());
 			PropertyUtils.setProperty(bean, "lastupdatedtime",
@@ -58,7 +58,7 @@ public class InjectTimeLoggingAspect {
 			String username) {
 
 		try {
-			log.debug("Set createtime and lastupdatedtime if enable");
+			LOG.debug("Set createtime and lastupdatedtime if enable");
 			PropertyUtils.setProperty(bean, "lastupdatedtime",
 					new GregorianCalendar().getTime());
 		} catch (Exception e) {

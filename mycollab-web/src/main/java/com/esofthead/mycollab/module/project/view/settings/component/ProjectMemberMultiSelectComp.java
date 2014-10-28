@@ -43,7 +43,7 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectMember> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectMemberMultiSelectComp.class);
 
 	public ProjectMemberMultiSelectComp() {
@@ -84,7 +84,7 @@ public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectM
 			userAvatarId = (String) PropertyUtils.getProperty(item,
 					"memberAvatarId");
 		} catch (Exception e) {
-			log.error("Error while getting project member avatar", e);
+			LOG.error("Error while getting project member avatar", e);
 		}
 
 		buildItem.setIcon(UserAvatarControlFactory

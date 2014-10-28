@@ -29,7 +29,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  * 
  */
 public abstract class GenericQuartzJobBean extends QuartzJobBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(GenericQuartzJobBean.class);
 
 	@Override
@@ -38,7 +38,7 @@ public abstract class GenericQuartzJobBean extends QuartzJobBean {
 		try {
 			executeJob(context);
 		} catch (Exception e) {
-			log.error("Exception in running schedule", e);
+			LOG.error("Exception in running schedule", e);
 		}
 	}
 

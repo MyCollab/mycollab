@@ -47,7 +47,7 @@ import com.esofthead.mycollab.test.TestException;
  *
  */
 public class DbUnitInitializerRule implements TestRule {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DbUnitInitializerRule.class);
 
 	@Override
@@ -127,7 +127,7 @@ public class DbUnitInitializerRule implements TestRule {
 				throw new RuntimeException(e);
 			}
 
-			log.debug("Finish test setup");
+			LOG.debug("Finish test setup");
 		}
 
 		private void tearDown() {

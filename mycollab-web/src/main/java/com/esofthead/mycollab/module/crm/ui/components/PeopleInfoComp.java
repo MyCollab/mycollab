@@ -39,7 +39,7 @@ import com.vaadin.ui.VerticalLayout;
 public class PeopleInfoComp extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(PeopleInfoComp.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PeopleInfoComp.class);
 
 	public void displayEntryPeople(ValuedBean bean) {
 		this.removeAllComponents();
@@ -89,7 +89,7 @@ public class PeopleInfoComp extends VerticalLayout {
 					assignUserAvatarId, assignUserDisplayName);
 			layout.addComponent(assignUserLink, 1, 1);
 		} catch (Exception e) {
-			log.error("Can not build user link {} ",
+			LOG.error("Can not build user link {} ",
 					BeanUtility.printBeanObj(bean));
 		}
 

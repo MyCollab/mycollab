@@ -86,8 +86,24 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 				tuple("Project-Bug", "bug 3",
 						DATE_FORMAT.parse("2014-09-23 00:00:00")),
 				tuple("Project-Bug", "bug 4",
+						DATE_FORMAT.parse("2014-09-24 00:00:00")),
+				tuple("Project-Problem", "problem 1",
+						DATE_FORMAT.parse("2014-10-21 00:00:00")),
+				tuple("Project-Problem", "problem 2",
+						DATE_FORMAT.parse("2014-10-22 00:00:00")),
+				tuple("Project-Risk", "risk 1",
+						DATE_FORMAT.parse("2014-10-23 00:00:00")),
+				tuple("Project-Risk", "risk 2",
+						DATE_FORMAT.parse("2014-10-24 00:00:00")),
+				tuple("Project-Problem", "problem 3",
+						DATE_FORMAT.parse("2014-09-21 00:00:00")),
+				tuple("Project-Problem", "problem 4",
+						DATE_FORMAT.parse("2014-09-22 00:00:00")),
+				tuple("Project-Risk", "risk 3",
+						DATE_FORMAT.parse("2014-09-23 00:00:00")),
+				tuple("Project-Risk", "risk 4",
 						DATE_FORMAT.parse("2014-09-24 00:00:00")));
-		assertThat(projectFollowingTickets.size()).isEqualTo(8);
+		assertThat(projectFollowingTickets.size()).isEqualTo(16);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -105,8 +121,44 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 				tuple("Project-Task", "task 1",
 						DATE_FORMAT.parse("2014-10-21 00:00:00")),
 				tuple("Project-Bug", "bug 1",
+						DATE_FORMAT.parse("2014-10-23 00:00:00")),
+				tuple("Project-Problem", "problem 1",
+						DATE_FORMAT.parse("2014-10-21 00:00:00")),
+				tuple("Project-Risk", "risk 1",
 						DATE_FORMAT.parse("2014-10-23 00:00:00")));
-		assertThat(projectFollowingTickets.size()).isEqualTo(2);
+		assertThat(projectFollowingTickets.size()).isEqualTo(4);
+	}
+
+	@SuppressWarnings("unchecked")
+	@DataSet
+	@Test
+	public void testGetListProjectFollowingTicketOfTaskAndBug()
+			throws ParseException {
+		FollowingTicketSearchCriteria criteria = getCriteria();
+		criteria.setTypes(new SetSearchField<String>(new String[] {
+				"Project-Task", "Project-Bug" }));
+		List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
+				.findPagableListByCriteria(new SearchRequest<FollowingTicketSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(projectFollowingTickets).extracting("type", "summary",
+				"monitorDate").contains(
+				tuple("Project-Task", "task 1",
+						DATE_FORMAT.parse("2014-10-21 00:00:00")),
+				tuple("Project-Task", "task 2",
+						DATE_FORMAT.parse("2014-10-22 00:00:00")),
+				tuple("Project-Task", "task 3",
+						DATE_FORMAT.parse("2014-09-21 00:00:00")),
+				tuple("Project-Task", "task 4",
+						DATE_FORMAT.parse("2014-09-22 00:00:00")),
+				tuple("Project-Bug", "bug 1",
+						DATE_FORMAT.parse("2014-10-23 00:00:00")),
+				tuple("Project-Bug", "bug 2",
+						DATE_FORMAT.parse("2014-10-24 00:00:00")),
+				tuple("Project-Bug", "bug 3",
+						DATE_FORMAT.parse("2014-09-23 00:00:00")),
+				tuple("Project-Bug", "bug 4",
+						DATE_FORMAT.parse("2014-09-24 00:00:00")));
+		assertThat(projectFollowingTickets.size()).isEqualTo(8);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -127,6 +179,53 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 				tuple("Project-Task", "task 3",
 						DATE_FORMAT.parse("2014-09-21 00:00:00")),
 				tuple("Project-Task", "task 4",
+						DATE_FORMAT.parse("2014-09-22 00:00:00")));
+		assertThat(projectFollowingTickets.size()).isEqualTo(4);
+	}
+
+	@SuppressWarnings("unchecked")
+	@DataSet
+	@Test
+	public void testGetListProjectFollowingTicketOfRisk() throws ParseException {
+		FollowingTicketSearchCriteria criteria = getCriteria();
+		criteria.setType(new StringSearchField("Project-Risk"));
+		List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
+				.findPagableListByCriteria(new SearchRequest<FollowingTicketSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(projectFollowingTickets).extracting("type", "summary",
+				"monitorDate").contains(
+				tuple("Project-Risk", "risk 1",
+						DATE_FORMAT.parse("2014-10-23 00:00:00")),
+				tuple("Project-Risk", "risk 2",
+						DATE_FORMAT.parse("2014-10-24 00:00:00")),
+				tuple("Project-Risk", "risk 3",
+						DATE_FORMAT.parse("2014-09-23 00:00:00")),
+				tuple("Project-Risk", "risk 4",
+						DATE_FORMAT.parse("2014-09-24 00:00:00")));
+		assertThat(projectFollowingTickets.size()).isEqualTo(4);
+	}
+
+	@SuppressWarnings("unchecked")
+	@DataSet
+	@Test
+	public void testGetListProjectFollowingTicketOfProblem()
+			throws ParseException {
+		FollowingTicketSearchCriteria criteria = getCriteria();
+		criteria.setType(new StringSearchField("Project-Problem"));
+		List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
+				.findPagableListByCriteria(new SearchRequest<FollowingTicketSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(projectFollowingTickets).extracting("type", "summary",
+				"monitorDate").contains(
+				tuple("Project-Problem", "problem 1",
+						DATE_FORMAT.parse("2014-10-21 00:00:00")),
+				tuple("Project-Problem", "problem 2",
+						DATE_FORMAT.parse("2014-10-22 00:00:00")),
+				tuple("Project-Problem", "problem 3",
+						DATE_FORMAT.parse("2014-09-21 00:00:00")),
+				tuple("Project-Problem", "problem 4",
 						DATE_FORMAT.parse("2014-09-22 00:00:00")));
 		assertThat(projectFollowingTickets.size()).isEqualTo(4);
 	}
@@ -158,6 +257,6 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCount() throws ParseException {
 		assertThat(projectFollowingTicketService.getTotalCount(getCriteria()))
-				.isEqualTo(8);
+				.isEqualTo(16);
 	}
 }

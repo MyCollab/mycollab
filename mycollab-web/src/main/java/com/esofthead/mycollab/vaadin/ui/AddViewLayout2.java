@@ -77,6 +77,14 @@ public class AddViewLayout2 extends VerticalLayout {
 		this.addComponent(body);
 
 	}
+	
+	public void resetTitleStyle() {
+		this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
+	}
+	
+	public void setTitleStyleName(String style) {
+		this.titleLbl.setStyleName(style);
+	}
 
 	public void addBody(final ComponentContainer body) {
 		this.body.addComponent(body);

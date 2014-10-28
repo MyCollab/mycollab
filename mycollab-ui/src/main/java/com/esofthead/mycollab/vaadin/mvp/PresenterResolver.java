@@ -37,14 +37,14 @@ import com.esofthead.mycollab.core.MyCollabException;
  * 
  */
 public final class PresenterResolver {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(PresenterResolver.class);
 
 	@SuppressWarnings("rawtypes")
 	private static Set<Class<? extends IPresenter>> presenterClasses;
 
 	static {
-		log.debug("Scan presenter implementation");
+		LOG.debug("Scan presenter implementation");
 		Reflections reflections = new Reflections("com.esofthead.mycollab");
 		presenterClasses = reflections.getSubTypesOf(IPresenter.class);
 	}
@@ -77,7 +77,7 @@ public final class PresenterResolver {
 								&& !classInstance.isInterface()) {
 
 							value = (P) classInstance.newInstance();
-							log.debug("Get implementation of presenter "
+							LOG.debug("Get implementation of presenter "
 									+ presenterClass.getName() + " is "
 									+ value.getClass().getName());
 						}

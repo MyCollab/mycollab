@@ -50,7 +50,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 @Component("updateUserInfoServlet")
 public class UpdateUserInfoHandler extends GenericServletRequestHandler {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(UpdateUserInfoHandler.class);
 
 	@Autowired
@@ -77,7 +77,7 @@ public class UpdateUserInfoHandler extends GenericServletRequestHandler {
 		user.setUsername(username);
 
 		try {
-			log.debug("Update password of user {}", username);
+			LOG.debug("Update password of user {}", username);
 			UserService userService = ApplicationContextUtil
 					.getSpringBean(UserService.class);
 			userService.updateWithSession(user, username);
@@ -85,7 +85,7 @@ public class UpdateUserInfoHandler extends GenericServletRequestHandler {
 			userService.updateUserAccountStatus(username, sAccountId,
 					RegisterStatusConstants.ACTIVE);
 		} catch (Exception e) {
-			log.error("Error when update user - userAccount", e);
+			LOG.error("Error when update user - userAccount", e);
 			errMsg = LocalizationHelper.getMessage(Locale.US,
 					GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
 			throw new MyCollabException(errMsg);

@@ -39,7 +39,7 @@ import com.vaadin.ui.UI;
 public abstract class MyCollabUI extends UI {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(MyCollabUI.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MyCollabUI.class);
 
 	static {
 		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
@@ -90,7 +90,7 @@ public abstract class MyCollabUI extends UI {
 
 	@Override
 	public void close() {
-		log.debug("Application is closed. Clean all resources");
+		LOG.debug("Application is closed. Clean all resources");
 		currentContext.clearSession();
 		currentContext = null;
 		super.close();

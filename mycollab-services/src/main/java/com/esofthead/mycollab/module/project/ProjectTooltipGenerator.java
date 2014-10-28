@@ -77,7 +77,7 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 public class ProjectTooltipGenerator {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectTooltipGenerator.class);
 
 	private static String generateTolltipNull(Locale locale) {
@@ -188,7 +188,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project-task tooltip",
 					e);
 			return null;
@@ -298,7 +298,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project-bug tooltip",
 					e);
 			return null;
@@ -385,7 +385,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for Risk in TooptipGeneratorServlet",
 					e);
 			return null;
@@ -473,7 +473,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generator tooltip for Problem in TooltipGenertor Servlet",
 					e);
 			return null;
@@ -514,7 +514,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate tooltip for Version", e);
+			LOG.error("Error while generate tooltip for Version", e);
 			return null;
 		}
 	}
@@ -551,7 +551,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate tooltip for Component", e);
+			LOG.error("Error while generate tooltip for Component", e);
 			return null;
 		}
 	}
@@ -596,7 +596,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error("Error while generate tooltip for TaskGroup", e);
+			LOG.error("Error while generate tooltip for TaskGroup", e);
 			return null;
 		}
 	}
@@ -688,7 +688,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
 					e);
 			return null;
@@ -758,7 +758,7 @@ public class ProjectTooltipGenerator {
 
 			return tooltipManager.create().write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
 					e);
 			return null;
@@ -829,7 +829,7 @@ public class ProjectTooltipGenerator {
 			return div.write();
 
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
 					e);
 			return null;
@@ -858,7 +858,7 @@ public class ProjectTooltipGenerator {
 			return tooltipManager.create().write();
 
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
 					e);
 			return null;

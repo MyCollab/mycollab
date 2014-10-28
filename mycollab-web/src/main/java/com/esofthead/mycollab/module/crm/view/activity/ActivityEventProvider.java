@@ -46,7 +46,7 @@ import com.vaadin.ui.components.calendar.event.CalendarEventProvider;
 public class ActivityEventProvider implements CalendarEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ActivityEventProvider.class);
 	private MeetingService meetingService;
 
@@ -66,11 +66,11 @@ public class ActivityEventProvider implements CalendarEventProvider {
 		searchCriteria.setEndDate(new DateTimeSearchField(SearchField.AND,
 				DateTimeSearchField.LESSTHANEQUAL, endDate));
 
-		log.debug("Get events from: " + startDate + " to " + endDate);
+		LOG.debug("Get events from: " + startDate + " to " + endDate);
 		List<SimpleMeeting> crmEvents = meetingService
 				.findPagableListByCriteria(new SearchRequest<MeetingSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		log.debug("There are " + crmEvents.size() + " events from " + startDate
+		LOG.debug("There are " + crmEvents.size() + " events from " + startDate
 				+ " to " + endDate);
 
 		filterListEventRecurringActivity(crmEvents, startDate, endDate);

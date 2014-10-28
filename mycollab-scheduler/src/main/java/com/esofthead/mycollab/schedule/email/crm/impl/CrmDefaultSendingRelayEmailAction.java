@@ -57,7 +57,7 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		implements SendingRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CrmDefaultSendingRelayEmailAction.class);
 
 	@Autowired
@@ -94,7 +94,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				String notifierFullName = user.getDisplayName();
 				if (notifierFullName == null
 						|| notifierFullName.trim().length() == 0) {
-					log.error("Can not find user {} of notification {}",
+					LOG.error("Can not find user {} of notification {}",
 							new Object[] { BeanUtility.printBeanObj(user),
 									BeanUtility.printBeanObj(notification) });
 					return;
@@ -142,7 +142,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			for (SimpleUser user : notifiers) {
 				String notifierFullName = user.getDisplayName();
 				if (notifierFullName == null) {
-					log.error("Can not find user {} of notification {}",
+					LOG.error("Can not find user {} of notification {}",
 							new Object[] { BeanUtility.printBeanObj(user),
 									BeanUtility.printBeanObj(notification) });
 					return;
@@ -195,7 +195,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			for (SimpleUser user : notifiers) {
 				String notifierFullName = user.getDisplayName();
 				if (notifierFullName == null) {
-					log.error("Can not find user {} of notification {}",
+					LOG.error("Can not find user {} of notification {}",
 							new Object[] { BeanUtility.printBeanObj(user),
 									BeanUtility.printBeanObj(notification) });
 					continue;

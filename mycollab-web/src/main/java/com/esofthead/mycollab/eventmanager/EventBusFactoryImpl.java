@@ -34,18 +34,18 @@ import com.google.common.eventbus.SubscriberExceptionHandler;
  * 
  */
 class EventBusFactoryImpl extends EventBusFactory {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(EventBusFactoryImpl.class);
 
 	@Override
 	EventBus getInstanceInSession() {
 		EventBus eventBus = (EventBus) MyCollabSession
 				.getVariable(EVENT_BUS_VAL);
-		log.debug("Event bus {}", eventBus);
+		LOG.debug("Event bus {}", eventBus);
 		if (eventBus == null) {
 			eventBus = new EventBus(new SubscriberEventBusExceptionHandler());
 			MyCollabSession.putVariable(EVENT_BUS_VAL, eventBus);
-			log.debug("Create new event bus {}", eventBus);
+			LOG.debug("Create new event bus {}", eventBus);
 		}
 		return eventBus;
 	}

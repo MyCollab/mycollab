@@ -59,7 +59,7 @@ public class TimeTrackingTableDisplay
 		DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(TimeTrackingTableDisplay.class);
 
 	public TimeTrackingTableDisplay(List<TableViewField> displayColumns) {
@@ -191,7 +191,7 @@ public class TimeTrackingTableDisplay
 
 					return summaryWrapper;
 				} catch (Exception e) {
-					log.error(
+					LOG.error(
 							"Error: " + BeanUtility.printBeanObj(itemLogging),
 							e);
 					return new Label("");

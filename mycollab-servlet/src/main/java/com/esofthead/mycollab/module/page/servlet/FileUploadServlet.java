@@ -48,7 +48,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 @Component("pageUploadServlet")
 public class FileUploadServlet extends GenericServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FileUploadServlet.class);
 
 	@Autowired
@@ -98,7 +98,7 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 					+ "location.");
 			writer.println("<br/> ERROR: " + fne.getMessage());
 
-			log.error("Problems during file upload. Error: {0}",
+			LOG.error("Problems during file upload. Error: {0}",
 					new Object[] { fne.getMessage() });
 		} finally {
 			if (filecontent != null) {

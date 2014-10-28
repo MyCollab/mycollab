@@ -67,7 +67,7 @@ import com.vaadin.ui.Window;
 public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectFollowersComp.class);
 
 	protected MonitorItemService monitorItemService;
@@ -224,7 +224,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 			return monitorItemService.getTotalCount(criteria);
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 			return 0;
 		}
 	}
@@ -241,7 +241,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 					AppContext.getUsername());
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 	}
 
@@ -256,7 +256,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 					AppContext.getAccountId());
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 	}
 
@@ -426,7 +426,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 				tableItem.setSearchCriteria(searchCriteria);
 			} catch (IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 		}
 	}

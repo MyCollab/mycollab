@@ -30,13 +30,14 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  * 
  */
-@Component
+@Component("ecmRouteBuilder")
 public class EcmRouteBuilder extends SpringRouteBuilder {
-	private static Logger log = LoggerFactory.getLogger(EcmRouteBuilder.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(EcmRouteBuilder.class);
 
 	@Override
 	public void configure() throws Exception {
-		log.debug("Configure content save route");
+		LOG.debug("Configure content save route");
 		from(EcmEndPoints.SAVE_CONTENT_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:saveContent.queue");
 		from("seda:saveContent.queue")
@@ -45,14 +46,14 @@ public class EcmRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(SaveContentCommand.class),
 						"saveContent(com.esofthead.mycollab.module.ecm.domain.Content, String, int)");
 
-		log.debug("Configure contents deleted route");
+		LOG.debug("Configure contents deleted route");
 		from(EcmEndPoints.DELETE_RESOURCES_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:deleteResources.queue");
 		from("seda:deleteResources.queue")
 				.threads()
 				.bean(ApplicationContextUtil
 						.getSpringBean(DeleteResourcesCommand.class),
-						"removeResource(String, String, int)");
+						"removeResource(String[], String, int)");
 
 	}
 

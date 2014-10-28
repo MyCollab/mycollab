@@ -72,7 +72,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction<SimpleTaskList> implements
 		ProjectTaskGroupRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectTaskGroupRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -312,7 +312,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 
 			return value;

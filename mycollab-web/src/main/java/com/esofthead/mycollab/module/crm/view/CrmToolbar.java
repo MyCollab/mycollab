@@ -266,68 +266,89 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
+			String selectedBtnCaption = "";
 			final String caption = event.getButton().getCaption();
 
 			if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new CrmEvent.GotoHome(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext
 					.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT).equals(
 							caption)) {
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER);
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(
 					CampaignI18nEnum.BUTTON_NEW_CAMPAIGN).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new CampaignEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER);
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new CampaignEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE)
 					.equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new CaseEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER);
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CASES_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new CaseEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new ContactEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext
 					.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT).equals(
 							caption)) {
 				EventBusFactory.getInstance().post(
 						new ContactEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER);
 			} else if (AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD)
 					.equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER);
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(
 					OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GotoAdd(this, null));
+				selectedBtnCaption = AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER);
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(
 					caption)) {
 				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GotoList(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
 					.equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.GotoCalendar(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK)
 					.equals(caption)) {
 				EventBusFactory.getInstance().post(
@@ -345,12 +366,14 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 					CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER).equals(caption)) {
 				EventBusFactory.getInstance().post(
 						new DocumentEvent.GotoDashboard(this, null));
+				selectedBtnCaption = caption;
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER).equals(
 					caption)) {
 				EventBusFactory.getInstance()
 						.post(new CrmSettingEvent.GotoNotificationSetting(this,
 								null));
+				selectedBtnCaption = caption;
 			}
 
 			addBtn.setPopupVisible(false);
@@ -358,10 +381,12 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 			for (final Iterator<com.vaadin.ui.Component> it = CrmToolbar.this
 					.iterator(); it.hasNext();) {
 				final Button btn = (Button) it.next();
-				btn.removeStyleName("isSelected");
+				if (selectedBtnCaption.equals(btn.getCaption())) {
+					btn.addStyleName("isSelected");
+				} else {
+					btn.removeStyleName("isSelected");
+				}
 			}
-
-			event.getButton().addStyleName("isSelected");
 		}
 	}
 

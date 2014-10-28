@@ -17,11 +17,14 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.module.project.ProjectLinkParams;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -65,10 +68,30 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			UrlTokenizer token = new UrlTokenizer(params[0]);
+			int projectId, taskId;
 
-			int projectId = token.getInt();
-			int taskId = token.getInt();
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+				ProjectTaskService taskService = ApplicationContextUtil
+						.getSpringBean(ProjectTaskService.class);
+				SimpleTask task = taskService.findByProjectAndTaskKey(itemKey,
+						prjShortName, AppContext.getAccountId());
+
+				if (task != null) {
+					projectId = task.getProjectid();
+					taskId = task.getId();
+				} else {
+					throw new ResourceNotFoundException(
+							"Can not find task with itemKey " + itemKey
+									+ " and project " + prjShortName);
+				}
+			} else {
+				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
+				projectId = tokenizer.getInt();
+				taskId = tokenizer.getInt();
+			}
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -83,18 +106,24 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			UrlTokenizer token = new UrlTokenizer(params[0]);
-
-			int projectId = token.getInt();
-			int taskId = token.getInt();
-
+			SimpleTask task;
 			ProjectTaskService taskService = ApplicationContextUtil
 					.getSpringBean(ProjectTaskService.class);
-			SimpleTask task = taskService.findById(taskId,
-					AppContext.getAccountId());
+
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+
+				task = taskService.findByProjectAndTaskKey(itemKey,
+						prjShortName, AppContext.getAccountId());
+			} else {
+				throw new MyCollabException("Can not find task link "
+						+ params[0]);
+			}
 
 			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
+					new ProjectScreenData.Goto(task.getProjectid()),
 					new TaskScreenData.Edit(task));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));

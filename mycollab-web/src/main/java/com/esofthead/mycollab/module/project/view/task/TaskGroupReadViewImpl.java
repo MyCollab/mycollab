@@ -77,7 +77,7 @@ public class TaskGroupReadViewImpl extends
 		AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(TaskGroupReadViewImpl.class);
 
 	private CommentDisplay commentList;
@@ -413,7 +413,7 @@ public class TaskGroupReadViewImpl extends
 						assignUserAvatarId, assignUserDisplayName);
 				layout.addComponent(assignUserLink, 1, 1);
 			} catch (Exception e) {
-				log.error("Can not build user link {} ",
+				LOG.error("Can not build user link {} ",
 						BeanUtility.printBeanObj(bean));
 			}
 

@@ -59,7 +59,7 @@ public class AttachmentPanel extends VerticalLayout implements
 		AttachmentUploadComponent {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory.getLogger(AttachmentPanel.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
 	private Map<String, File> fileStores;
 
 	private MultiFileUploadExt multiFileUpload;
@@ -170,7 +170,7 @@ public class AttachmentPanel extends VerticalLayout implements
 											.toByteArray()), AppContext
 											.getAccountId());
 						} catch (IOException e) {
-							log.error("Error in upload file", e);
+							LOG.error("Error in upload file", e);
 							resourceService.saveContent(
 									constructContent(fileName, attachmentPath),
 									AppContext.getUsername(),
@@ -187,7 +187,7 @@ public class AttachmentPanel extends VerticalLayout implements
 					}
 
 				} catch (FileNotFoundException e) {
-					log.error("Error when attach content in UI", e);
+					LOG.error("Error when attach content in UI", e);
 				}
 			}
 		}
@@ -232,7 +232,7 @@ public class AttachmentPanel extends VerticalLayout implements
 			NotificationUtil.showWarningNotification("File " + fileName
 					+ " is already existed.");
 		} else {
-			log.debug("Store file " + fileName + " in path "
+			LOG.debug("Store file " + fileName + " in path "
 					+ file.getAbsolutePath() + " is exist: " + file.exists());
 			fileStores.put(fileName, file);
 			displayFileName(fileName);

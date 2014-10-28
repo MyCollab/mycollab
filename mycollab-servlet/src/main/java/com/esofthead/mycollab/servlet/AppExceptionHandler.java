@@ -45,7 +45,7 @@ import com.esofthead.mycollab.template.velocity.TemplateEngine;
  */
 @Component("appExceptionHandlerServlet")
 public class AppExceptionHandler extends GenericServletRequestHandler {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AppExceptionHandler.class);
 
 	@Autowired
@@ -74,11 +74,11 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 			Throwable throwable = (Throwable) request
 					.getAttribute("javax.servlet.error.exception");
 			if (throwable != null) {
-				log.error("Error in servlet " + requestUri, throwable);
+				LOG.error("Error in servlet " + requestUri, throwable);
 			}
 
 		} catch (Exception e) {
-			log.error("Error in servlet", e);
+			LOG.error("Error in servlet", e);
 		}
 	}
 

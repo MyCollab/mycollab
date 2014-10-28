@@ -27,6 +27,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,7 @@ import com.esofthead.mycollab.module.ecm.domain.Resource;
 @Transactional
 public class ContentJcrDaoImpl implements ContentJcrDao {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ContentJcrDaoImpl.class);
 
 	@Qualifier("jcrTemplate")
@@ -60,7 +61,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void saveContent(final Content content, final String createdUser) {
-		log.debug("Save content {} {}", content, jcrTemplate);
+		LOG.debug("Save content {} {}", content, jcrTemplate);
 		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
@@ -77,7 +78,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 												.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
 					} else if (isNodeContent(node)) {
-						log.debug("Found existing resource. Override");
+						LOG.debug("Found existing resource. Override");
 
 					} else {
 						String errorStr = String
@@ -125,12 +126,17 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						addNode.setProperty("jcr:description",
 								content.getDescription());
 						addNode.setProperty("mycollab:createdUser", createdUser);
+						if (StringUtils.isNotBlank(content.getThumbnail())) {
+							addNode.setProperty("mycollab:thumbnailPath",
+									content.getThumbnail());
+						}
+
 						addNode.setProperty("mycollab:lastModifiedUser",
 								createdUser);
 						addNode.setProperty("mycollab:size", content.getSize());
 						session.save();
 					} catch (Exception e) {
-						log.error("error in convertToNode Method", e);
+						LOG.error("error in convertToNode Method", e);
 					}
 				}
 				return null;
@@ -141,7 +147,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void createFolder(final Folder folder, final String createdUser) {
-		log.debug("Save content {} {}", folder, jcrTemplate);
+		LOG.debug("Save content {} {}", folder, jcrTemplate);
 		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
@@ -160,7 +166,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						// move to lastest node of the path
 						Node childNode = getNode(parentNode, pathStr[i]);
 						if (childNode != null) {
-							log.debug("Found node with path {} in sub node ",
+							LOG.debug("Found node with path {} in sub node ",
 									pathStr[i], parentNode.getPath());
 							if (!isNodeFolder(childNode)) {
 								// node must be the folder
@@ -169,11 +175,11 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 										errorString, folder.getPath(),
 										childNode.getPath()));
 							} else {
-								log.debug("Found folder node {}",
+								LOG.debug("Found folder node {}",
 										childNode.getPath());
 							}
 						} else { // add node
-							log.debug("Create new folder {} of sub node {}",
+							LOG.debug("Create new folder {} of sub node {}",
 									pathStr[i], parentNode.getPath());
 							childNode = JcrUtils.getOrAddNode(parentNode,
 									pathStr[i], "mycollab:folder");
@@ -185,7 +191,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						parentNode = childNode;
 					}
 
-					log.debug("Node path {} is existed {}", path,
+					LOG.debug("Node path {} is existed {}", path,
 							(getNode(rootNode, path) != null));
 				} catch (Exception e) {
 					String errorString = "Error while create folder with path %s";
@@ -291,7 +297,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 								resources.add(content);
 							} else {
 								String errorString = "Node %s has type not mycollab:content or mycollab:folder";
-								log.error(String.format(errorString,
+								LOG.error(String.format(errorString,
 										childNode.getPath()));
 							}
 						}
@@ -304,7 +310,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					}
 				}
 
-				log.debug("There is no resource in path {}", path);
+				LOG.debug("There is no resource in path {}", path);
 				return null;
 			}
 		});
@@ -390,6 +396,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 			content.setCreatedBy(NodesUtil.getString(node, "jcr:createdBy"));
 			content.setTitle(NodesUtil.getString(node, "jcr:title"));
 			content.setDescription(NodesUtil.getString(node, "jcr:description"));
+			content.setThumbnail(NodesUtil.getString(node,
+					"mycollab:thumbnailPath"));
 			content.setMimeType(NodesUtil.getString(node, "mycollab:mimeType",
 					MimeTypesUtil.BINARY_MIME_TYPE));
 			content.setSize(node.getProperty("mycollab:size").getLong());
@@ -438,7 +446,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void rename(final String oldPath, final String newPath) {
-		log.debug("Rename content {} {}", oldPath, newPath);
+		LOG.debug("Rename content {} {}", oldPath, newPath);
 		jcrTemplate.execute(new JcrCallback() {
 			@Override
 			public Object doInJcr(Session session) throws IOException,

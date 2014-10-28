@@ -50,7 +50,7 @@ import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SendUserInvitationEmailJob.class);
 
 	@Autowired
@@ -72,7 +72,7 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 				.findAccountInvitations(RegisterStatusConstants.VERIFICATING);
 
 		for (SimpleUserAccountInvitation invitation : invitations) {
-			log.debug("Send invitation email to user {} of subdomain {}",
+			LOG.debug("Send invitation email to user {} of subdomain {}",
 					invitation.getUsername(), invitation.getSubdomain());
 
 			contentGenerator.putVariable("invitation", invitation);

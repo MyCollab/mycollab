@@ -119,8 +119,7 @@ class WontFixExplainWindow extends Window {
 				layout.addComponent(controlsBtn);
 
 				final Button cancelBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							@Override
 							public void buttonClick(final ClickEvent event) {
@@ -135,6 +134,7 @@ class WontFixExplainWindow extends Window {
 				final Button wonFixBtn = new Button(
 						AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX),
 						new Button.ClickListener() {
+							@SuppressWarnings("unchecked")
 							@Override
 							public void buttonClick(final ClickEvent event) {
 
@@ -149,12 +149,9 @@ class WontFixExplainWindow extends Window {
 											&& !commentValue.trim().equals("")) {
 										final BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
 												.getSpringBean(BugRelatedItemService.class);
-										bugRelatedItemService
-												.updateFixedVersionsOfBug(
-														WontFixExplainWindow.this.bug
-																.getId(),
-														WontFixExplainWindow.this.fixedVersionSelect
-																.getSelectedItems());
+										bugRelatedItemService.updateFixedVersionsOfBug(
+												bug.getId(), fixedVersionSelect
+														.getSelectedItems());
 
 										// Save bug status and assignee
 										final BugService bugService = ApplicationContextUtil

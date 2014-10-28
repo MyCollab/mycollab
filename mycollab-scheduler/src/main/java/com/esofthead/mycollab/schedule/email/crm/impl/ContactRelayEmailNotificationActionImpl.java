@@ -64,7 +64,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleContact> implements
 		ContactRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ContactRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -300,7 +300,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 
 			return value;

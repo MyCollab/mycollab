@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand;
 @Component
 public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DeleteProjectBugCommandImpl.class);
 
 	@Autowired
@@ -43,7 +43,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 	@Override
 	public void bugRemoved(String username, int accountId, int projectId,
 			int bugId) {
-		log.debug("Remove bug {} of project {} by user {}", new Object[] {
+		LOG.debug("Remove bug {} of project {} by user {}", new Object[] {
 				bugId, projectId, username });
 
 		removeRelatedFiles(accountId, projectId, bugId);
@@ -51,7 +51,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 	}
 
 	private void removeRelatedFiles(int accountId, int projectId, int bugId) {
-		log.debug("Delete files of bug {} in project {}", bugId, projectId);
+		LOG.debug("Delete files of bug {} in project {}", bugId, projectId);
 
 		String attachmentPath = AttachmentUtils.getProjectBugAttachmentPath(
 				accountId, projectId, bugId);
@@ -59,7 +59,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 	}
 
 	private void removeRelatedComments(int bugId) {
-		log.debug("Delete related comments of bug {}", bugId);
+		LOG.debug("Delete related comments of bug {}", bugId);
 
 		CommentExample ex = new CommentExample();
 		ex.createCriteria().andTypeEqualTo(CommentType.PRJ_BUG.toString())

@@ -35,7 +35,6 @@
         <param-value>
             classpath:/META-INF/spring/core-context.xml
             classpath:/META-INF/spring/common-context.xml
-            classpath:/META-INF/spring/camel-context.xml
             classpath:/META-INF/spring/datasource-context.xml
             classpath:/META-INF/spring/mail-context.xml
             classpath:/META-INF/spring/crm-context.xml

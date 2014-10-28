@@ -41,7 +41,7 @@ public class FileRawContentServiceImpl implements RawContentService {
 
 	private static final int BUFFER_SIZE = 1024;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FileRawContentServiceImpl.class);
 
 	private File baseFolder;
@@ -116,11 +116,11 @@ public class FileRawContentServiceImpl implements RawContentService {
 			boolean result = file
 					.renameTo(new File(baseFolder + "/" + newPath));
 			if (!result) {
-				log.error("Can not rename old path {} to new path {}", oldPath,
+				LOG.error("Can not rename old path {} to new path {}", oldPath,
 						newPath);
 			}
 		} else {
-			log.error(
+			LOG.error(
 					"Can not rename old path {} to new path {} because file is not existed",
 					oldPath, newPath);
 		}
@@ -133,7 +133,7 @@ public class FileRawContentServiceImpl implements RawContentService {
 			File dest = new File(baseFolder + "/" + destinationPath);
 
 			if (!src.exists()) {
-				log.debug("Source: {} is not existed", src.getPath());
+				LOG.debug("Source: {} is not existed", src.getPath());
 				return;
 			}
 

@@ -77,10 +77,11 @@ public class AppContext implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	static Logger log = LoggerFactory.getLogger(AppContext.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(AppContext.class);
 
 	/**
-	 * Current user log in to MyCollab
+	 * Current user LOG in to MyCollab
 	 */
 	private SimpleUser session;
 
@@ -142,7 +143,7 @@ public class AppContext implements Serializable {
 			pref.setLastmodulevisit(moduleName);
 			prefService.updateWithSession(pref, AppContext.getUsername());
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"There is error when try to update user preference for last module visit",
 					e);
 		}
@@ -219,7 +220,7 @@ public class AppContext implements Serializable {
 			Enum key = Enum.valueOf(enumCls, option);
 			return getMessage(key, objects);
 		} catch (Exception e) {
-			log.error("Can not find resource key " + option
+			LOG.error("Can not find resource key " + option
 					+ " and enum class " + enumCls.getName(), e);
 			return "";
 		}
@@ -251,7 +252,7 @@ public class AppContext implements Serializable {
 			throw new SubDomainNotExistException(AppContext.getMessage(
 					WebExceptionI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
 		} else {
-			log.debug("Get billing account {} of subdomain {}",
+			LOG.debug("Get billing account {} of subdomain {}",
 					BeanUtility.printBeanObj(account), domain);
 			accountId = account.getId();
 		}

@@ -35,7 +35,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 public class CurrencyFieldFormat extends FieldFormat {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CurrencyFieldFormat.class);
 
 	public CurrencyFieldFormat(String fieldname, Enum<?> displayName) {
@@ -62,7 +62,7 @@ public class CurrencyFieldFormat extends FieldFormat {
 			}
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Can not generate email field: " + fieldName, e);
+			LOG.error("Can not generate email field: " + fieldName, e);
 			return new Span().write();
 		}
 	}
@@ -83,7 +83,7 @@ public class CurrencyFieldFormat extends FieldFormat {
 				return currency.getFullname();
 			}
 		} catch (Exception e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 
 		return value;

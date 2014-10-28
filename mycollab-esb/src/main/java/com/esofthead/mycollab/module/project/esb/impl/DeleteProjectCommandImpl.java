@@ -33,12 +33,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Component
 public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DeleteProjectCommandImpl.class);
 
 	@Override
 	public void projectRemoved(int accountId, int projectId) {
-		log.debug("Remove project {}", projectId);
+		LOG.debug("Remove project {}", projectId);
 
 		deleteProjectActivityStream(projectId);
 		deleteRelatedComments(projectId);
@@ -47,7 +47,7 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 	}
 
 	private void deleteProjectActivityStream(int projectId) {
-		log.debug("Delete activity stream of project {}", projectId);
+		LOG.debug("Delete activity stream of project {}", projectId);
 
 		ActivityStreamMapper activityStreamMapper = ApplicationContextUtil
 				.getSpringBean(ActivityStreamMapper.class);
@@ -59,7 +59,7 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 	}
 
 	private void deleteRelatedComments(int projectId) {
-		log.debug("Delete related comments");
+		LOG.debug("Delete related comments");
 		CommentMapper commentMapper = ApplicationContextUtil
 				.getSpringBean(CommentMapper.class);
 
@@ -69,7 +69,7 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 	}
 
 	private void deleteProjectFiles(int accountid, int projectId) {
-		log.debug("Delete files of project {}", projectId);
+		LOG.debug("Delete files of project {}", projectId);
 
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
@@ -79,7 +79,7 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 	}
 
 	private void deleteProjectPages(int accountid, int projectId) {
-		log.debug("Delete pages of project");
+		LOG.debug("Delete pages of project");
 		PageService wikiService = ApplicationContextUtil
 				.getSpringBean(PageService.class);
 		String rootPath = String.format("%d/project/%d/.page", accountid,

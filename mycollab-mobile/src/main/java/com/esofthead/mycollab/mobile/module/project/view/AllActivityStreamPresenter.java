@@ -57,11 +57,12 @@ public class AllActivityStreamPresenter
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.PROJECT)) {
-			ProjectModuleNavigationMenu projectModuleMenu = (ProjectModuleNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
+			ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
 			projectModuleMenu
 					.selectButton(AppContext
 							.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+			((MobileNavigationManager) UI.getCurrent().getContent())
+					.setNavigationMenu(projectModuleMenu);
 			super.onGo(navigator, data);
 			final ProjectService prjService = ApplicationContextUtil
 					.getSpringBean(ProjectService.class);

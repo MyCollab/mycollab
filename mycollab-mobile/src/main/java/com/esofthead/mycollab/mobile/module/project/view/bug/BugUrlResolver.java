@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.ProjectLinkParams;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -74,10 +76,27 @@ public class BugUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			UrlTokenizer token = new UrlTokenizer(params[0]);
+			int projectId, bugId;
 
-			int projectId = token.getInt();
-			int bugId = token.getInt();
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+				BugService bugService = ApplicationContextUtil
+						.getSpringBean(BugService.class);
+				SimpleBug bug = bugService.findByProjectAndBugKey(itemKey,
+						prjShortName, AppContext.getAccountId());
+				if (bug != null) {
+					projectId = bug.getProjectid();
+					bugId = bug.getId();
+				} else {
+					throw new ResourceNotFoundException(
+							"Can not get bug with bugkey " + itemKey
+									+ " and project short name " + prjShortName);
+				}
+			} else {
+				throw new MyCollabException("Invalid bug link " + params[0]);
+			}
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -90,23 +109,27 @@ public class BugUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			UrlTokenizer token = new UrlTokenizer(params[0]);
-
-			int projectId = token.getInt();
-			int bugId = token.getInt();
-
 			SimpleBug bug;
 
-			BugService bugService = ApplicationContextUtil
-					.getSpringBean(BugService.class);
-			bug = bugService.findById(bugId, AppContext.getAccountId());
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+				BugService bugService = ApplicationContextUtil
+						.getSpringBean(BugService.class);
+				bug = bugService.findByProjectAndBugKey(itemKey, prjShortName,
+						AppContext.getAccountId());
+
+			} else {
+				throw new MyCollabException("Invalid bug link: " + params[0]);
+			}
 
 			if (bug == null) {
 				throw new ResourceNotFoundException();
 			}
 
 			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
+					new ProjectScreenData.Goto(bug.getProjectid()),
 					new BugScreenData.Edit(bug));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));

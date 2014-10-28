@@ -53,7 +53,7 @@ import com.vaadin.ui.VerticalLayout;
 public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
 		extends CustomComponent {
 
-	private static Logger log = LoggerFactory.getLogger(BeanList.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BeanList.class);
 	private static final long serialVersionUID = 1L;
 
 	protected SearchService searchService;
@@ -184,7 +184,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 			}
 
 		} catch (Exception e) {
-			log.error("Error while generate column display", e);
+			LOG.error("Error while generate column display", e);
 		}
 	}
 

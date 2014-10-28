@@ -52,7 +52,7 @@ import com.vaadin.ui.UI;
  */
 public class MobileAttachmentUtils {
 
-	private static Logger log = Logger.getLogger(MobileAttachmentUtils.class
+	private static final Logger LOG = Logger.getLogger(MobileAttachmentUtils.class
 			.getName());
 
 	public static Component renderAttachmentRow(final Content attachment) {
@@ -203,7 +203,7 @@ public class MobileAttachmentUtils {
 											.toByteArray()), AppContext
 											.getAccountId());
 						} catch (IOException e) {
-							log.error("Error in upload file", e);
+							LOG.error("Error in upload file", e);
 							resourceService.saveContent(
 									constructContent(fileName, attachmentPath),
 									AppContext.getUsername(),
@@ -220,7 +220,7 @@ public class MobileAttachmentUtils {
 					}
 
 				} catch (FileNotFoundException e) {
-					log.error("Error when attach content in UI", e);
+					LOG.error("Error when attach content in UI", e);
 				}
 			}
 		}

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  *
  */
 public class StorageManager {
-	private static Logger log = LoggerFactory.getLogger(StorageManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StorageManager.class);
 
 	private static final String S3_CONF_CLS = "com.esofthead.mycollab.ondemand.configuration.S3StorageConfiguration";
 
@@ -49,17 +49,17 @@ public class StorageManager {
 				StorageConfiguration.FILE_STORAGE_SYSTEM);
 		instance.storageSystem = storageSystem;
 		if (StorageConfiguration.FILE_STORAGE_SYSTEM.equals(storageSystem)) {
-			log.debug("MyCollab uses file storage system");
+			LOG.debug("MyCollab uses file storage system");
 			instance.storageConf = new FileStorageConfiguration();
 		} else if (StorageConfiguration.S3_STORAGE_SYSTEM.equals(storageSystem)) {
-			log.debug("MyCollab uses amazon s3 system");
+			LOG.debug("MyCollab uses amazon s3 system");
 			try {
 				Class<StorageConfiguration> s3Conf = (Class<StorageConfiguration>) Class
 						.forName(S3_CONF_CLS);
 				StorageConfiguration newInstance = s3Conf.newInstance();
 				instance.storageConf = newInstance;
 			} catch (Exception e) {
-				log.error("Can not load s3 file system with class "
+				LOG.error("Can not load s3 file system with class "
 						+ S3_CONF_CLS, e);
 				System.exit(-1);
 			}

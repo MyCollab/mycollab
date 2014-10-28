@@ -63,7 +63,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 @SuppressWarnings("ucd")
 public class ProjectColumnBuilderMapper implements InitializingBean {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectColumnBuilderMapper.class);
 
 	@Override
@@ -83,7 +83,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildTaskMap() {
-		log.debug("Build report mapper for project::task module");
+		LOG.debug("Build report mapper for project::task module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> taskNameTitleExpr = new StringExpression(
 				"taskname");
@@ -128,7 +128,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildBugMap() {
-		log.debug("Build report mapper for project::bug module");
+		LOG.debug("Build report mapper for project::bug module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression("summary");
@@ -172,7 +172,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildComponentMap() {
-		log.debug("Build report mapper for project::component module");
+		LOG.debug("Build report mapper for project::component module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression(
@@ -214,7 +214,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildVersionMap() {
-		log.debug("Build report mapper for project::version module");
+		LOG.debug("Build report mapper for project::version module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression(
@@ -237,7 +237,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildRiskMap() {
-		log.debug("Build report mapper for project::risk module");
+		LOG.debug("Build report mapper for project::risk module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression(
@@ -312,7 +312,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildProblemMap() {
-		log.debug("Build report mapper for project::problem module");
+		LOG.debug("Build report mapper for project::problem module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression(
@@ -387,7 +387,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildRoleMap() {
-		log.debug("Build report mapper for project::role module");
+		LOG.debug("Build report mapper for project::role module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression(
@@ -408,7 +408,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildTimeTrackingMap() {
-		log.debug("Build report mapper for project::timetracking module");
+		LOG.debug("Build report mapper for project::timetracking module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> logUserTitleExpr = new StringExpression(
@@ -507,7 +507,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildTFollowingTicketMap() {
-		log.debug("Build report mapper for project::following ticket module");
+		LOG.debug("Build report mapper for project::following ticket module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> summaryTitleExpr = new StringExpression("summary");

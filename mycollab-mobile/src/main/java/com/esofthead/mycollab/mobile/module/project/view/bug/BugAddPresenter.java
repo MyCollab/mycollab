@@ -24,6 +24,7 @@ import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFie
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
@@ -98,10 +99,8 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 										.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE));
 			} else {
 				AppContext.addFragment(
-						"project/bug/edit/"
-								+ GenericLinkUtils.encodeParam(new Object[] {
-										CurrentProjectVariables.getProjectId(),
-										bug.getId() }),
+						ProjectLinkGenerator.generateBugEditLink(
+								bug.getBugkey(), bug.getProjectShortName()),
 						AppContext.getMessage(BugI18nEnum.FORM_EDIT_BUG_TITLE));
 			}
 		} else {

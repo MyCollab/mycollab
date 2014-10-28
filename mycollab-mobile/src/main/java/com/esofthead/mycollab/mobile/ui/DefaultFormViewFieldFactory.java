@@ -42,7 +42,7 @@ import com.vaadin.ui.Link;
  */
 public class DefaultFormViewFieldFactory {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DefaultFormViewFieldFactory.class);
 
 	public static interface AttachmentUploadField extends Field {
@@ -294,7 +294,7 @@ public class DefaultFormViewFieldFactory {
 					label.setValue(value);
 				} catch (Exception e) {
 					label.setValue("");
-					log.error("Error while get i18n message of {} - {}",
+					LOG.error("Error while get i18n message of {} - {}",
 							enumClass, key);
 				}
 			} else {

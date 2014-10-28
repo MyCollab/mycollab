@@ -27,4 +27,7 @@ public class ModuleNameConstants {
 	public static final String PRJ = "Project";
 	public static final String FILE = "File";
 	public static final String ACCOUNT = "Account";
+
+	private ModuleNameConstants() {
+	}
 }

@@ -31,13 +31,13 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Component
 public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DeleteProjectTaskCommandImpl.class);
 
 	@Override
 	public void taskRemoved(String username, int accountId, int projectId,
 			int taskId) {
-		log.debug("Remove task id {} of project {} by user {}", new Object[] {
+		LOG.debug("Remove task id {} of project {} by user {}", new Object[] {
 				taskId, projectId, username });
 
 		removeRelatedFiles(accountId, projectId, taskId);
@@ -46,7 +46,7 @@ public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 	}
 
 	private void removeRelatedFiles(int accountId, int projectId, int taskId) {
-		log.debug("Delete files of task id {} in project {}", taskId, projectId);
+		LOG.debug("Delete files of task id {} in project {}", taskId, projectId);
 
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
@@ -56,7 +56,7 @@ public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 	}
 
 	private void removeRelatedComments(int taskId) {
-		log.debug("Delete related comments of task id {}", taskId);
+		LOG.debug("Delete related comments of task id {}", taskId);
 		CommentMapper commentMapper = ApplicationContextUtil
 				.getSpringBean(CommentMapper.class);
 

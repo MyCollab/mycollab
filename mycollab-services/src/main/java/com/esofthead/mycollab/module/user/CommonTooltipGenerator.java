@@ -45,7 +45,7 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 public class CommonTooltipGenerator {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CommonTooltipGenerator.class);
 
 	public static String generateTooltipUser(Locale locale, SimpleUser user,
@@ -154,7 +154,7 @@ public class CommonTooltipGenerator {
 			div.appendChild(table);
 			return div.write();
 		} catch (Exception e) {
-			log.error(
+			LOG.error(
 					"Error while generate tooltip for servlet project-task tooltip",
 					e);
 			return null;

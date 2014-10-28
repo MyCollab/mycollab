@@ -33,7 +33,7 @@ import com.vaadin.ui.Notification.Type;
  */
 public class NotificationUtil {
 
-	private static Logger log = LoggerFactory.getLogger(NotificationUtil.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NotificationUtil.class);
 
 	public static void showNotification(String caption) {
 		showNotification(caption, null, Type.HUMANIZED_MESSAGE);
@@ -60,7 +60,7 @@ public class NotificationUtil {
 		if (Page.getCurrent() != null) {
 			warnNotif.show(Page.getCurrent());
 		} else {
-			log.error("Current page is null");
+			LOG.error("Current page is null");
 		}
 
 	}

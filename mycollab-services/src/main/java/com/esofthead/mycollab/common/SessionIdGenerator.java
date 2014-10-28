@@ -25,7 +25,7 @@ package com.esofthead.mycollab.common;
 public abstract class SessionIdGenerator {
 	private static SessionIdGenerator instance;
 
-	abstract public String getSessionIdApp();
+	public abstract String getSessionIdApp();
 
 	public static void registerSessionIdGenerator(SessionIdGenerator provider) {
 		instance = provider;

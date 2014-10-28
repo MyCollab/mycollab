@@ -121,4 +121,13 @@
 	.v-button-link, .v-button-link .v-button-wrap, .v-button-link .v-button-caption, .v-button-link:active, .v-button-link.v-pressed, .v-nativebutton-link {
 		font-size: inherit;
 	}
+	
+	/* Datepicker Popopver */
+	.v-touchkit-datepopover {
+		.v-touchkit-date-cancel, .v-touchkit-date-ok {
+			padding-top: 0px;
+			height: auto;
+			border-color: $light-gray-border;
+		}
+	}
 }

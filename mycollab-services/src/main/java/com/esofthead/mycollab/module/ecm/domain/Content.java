@@ -30,6 +30,7 @@ public class Content extends Resource {
 	private Calendar lastModified;
 	private String lastModifiedBy;
 	private String mimeType;
+	private String thumbnail;
 
 	public Content() {
 		super();
@@ -78,5 +79,26 @@ public class Content extends Resource {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public static Content buildContentInstance(Integer accountId,
+			String objectPath) {
+		String newPath = ((accountId == null) ? "" : accountId + "/")
+				+ objectPath;
+		Content content = new Content();
+		content.setDescription("");
+		content.setPath(newPath);
+		int index = newPath.lastIndexOf("/");
+		String name = (index > 0) ? newPath.substring(index) : newPath;
+		content.setName(name);
+		return content;
 	}
 }

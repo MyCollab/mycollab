@@ -27,12 +27,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Component
 public class ProjectRouteBuilder extends SpringRouteBuilder {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectRouteBuilder.class);
 
 	@Override
 	public void configure() throws Exception {
-		log.debug("Configure project remove route");
+		LOG.debug("Configure project remove route");
 		from(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectDelete.queue");
 		from("seda:projectDelete.queue")
@@ -41,7 +41,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectCommand.class),
 						"projectRemoved(int, int)");
 
-		log.debug("Configure project member remove route");
+		LOG.debug("Configure project member remove route");
 		from(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMemberDelete.queue");
@@ -51,7 +51,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectMemberCommand.class),
 						"projectMemberRemoved(String,int, int, int)");
 
-		log.debug("Configure project message remove route");
+		LOG.debug("Configure project message remove route");
 		from(ProjectEndPoints.PROJECT_MESSAGE_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMessageDelete.queue");
@@ -61,7 +61,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectMessageCommand.class),
 						"messageRemoved(String,int, int, int)");
 
-		log.debug("Configure project bug remove route");
+		LOG.debug("Configure project bug remove route");
 		from(ProjectEndPoints.PROJECT_BUG_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectBugDelete.queue");
 		from("seda:projectBugDelete.queue")
@@ -70,7 +70,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectBugCommand.class),
 						"bugRemoved(String,int, int, int)");
 
-		log.debug("Configure project component remove route");
+		LOG.debug("Configure project component remove route");
 		from(ProjectEndPoints.PROJECT_COMPONENT_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectComponentDelete.queue");
@@ -80,7 +80,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectComponentCommand.class),
 						"componentRemoved(String,int, int, int)");
 
-		log.debug("Configure project version remove route");
+		LOG.debug("Configure project version remove route");
 		from(ProjectEndPoints.PROJECT_VERSION_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectVersionDelete.queue");
@@ -90,7 +90,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectVersionCommand.class),
 						"versionRemoved(String,int, int, int)");
 
-		log.debug("Configure project task remove route");
+		LOG.debug("Configure project task remove route");
 		from(ProjectEndPoints.PROJECT_TASK_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectTaskDelete.queue");
 		from("seda:projectTaskDelete.queue")
@@ -99,7 +99,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectTaskCommand.class),
 						"taskRemoved(String,int, int, int)");
 
-		log.debug("Configure project task list remove route");
+		LOG.debug("Configure project task list remove route");
 		from(ProjectEndPoints.PROJECT_TASKLIST_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectTaskListDelete.queue");
@@ -109,7 +109,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectTaskListCommand.class),
 						"taskListRemoved(String,int, int, int)");
 
-		log.debug("Configure project milestone remove route");
+		LOG.debug("Configure project milestone remove route");
 		from(ProjectEndPoints.PROJECT_MILESTONE_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMilestoneDelete.queue");
@@ -119,7 +119,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 						.getSpringBean(DeleteProjectMilestoneCommand.class),
 						"milestoneRemoved(String,int, int, int)");
 
-		log.debug("Configure project member invitation route");
+		LOG.debug("Configure project member invitation route");
 		from(ProjectEndPoints.PROJECT_SEND_INVITATION_USER).setExchangePattern(
 				ExchangePattern.InOnly)
 				.to("seda:projectMemberInvitation.queue");

@@ -98,7 +98,7 @@ public class BugRelayEmailNotificationActionImpl extends
 		SendMailToFollowersAction<SimpleBug> implements
 		BugRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(BugRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -392,7 +392,7 @@ public class BugRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 
 			return value;

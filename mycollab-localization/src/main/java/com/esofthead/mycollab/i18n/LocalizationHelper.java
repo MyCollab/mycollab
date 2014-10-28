@@ -41,7 +41,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * 
  */
 public class LocalizationHelper {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(LocalizationHelper.class);
 
 	private static final Map<Locale, IMessageConveyor> languageMap;
@@ -79,7 +79,7 @@ public class LocalizationHelper {
 			try {
 				return defaultMessage.getMessage(key, objects);
 			} catch (Exception e1) {
-				log.error("Can not find resource key " + key, e);
+				LOG.error("Can not find resource key " + key, e);
 				return "Undefined";
 			}
 
@@ -100,7 +100,7 @@ public class LocalizationHelper {
 			try {
 				return defaultMessage.getMessage(key, objects);
 			} catch (Exception e1) {
-				log.error("Can not find resource key " + cls + "---" + option,
+				LOG.error("Can not find resource key " + cls + "---" + option,
 						e);
 				return "Undefined";
 			}

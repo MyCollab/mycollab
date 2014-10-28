@@ -1,4 +1,20 @@
 /**
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
  * This file is part of mycollab-web.
  *
  * mycollab-web is free software: you can redistribute it and/or modify
@@ -40,7 +56,7 @@ import com.hp.gagawa.java.elements.Text;
  */
 public class ProjectLinkBuilder {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectLinkBuilder.class);
 
 	public static String generateProjectFullLink(Integer projectId) {
@@ -243,7 +259,7 @@ public class ProjectLinkBuilder {
 						projectId, typeid);
 			}
 		} catch (Exception e) {
-			log.error("Error while generate link {} {} {} {}", new Object[] {
+			LOG.error("Error while generate link {} {} {} {}", new Object[] {
 					prjShortName, projectId, type, typeid });
 		}
 

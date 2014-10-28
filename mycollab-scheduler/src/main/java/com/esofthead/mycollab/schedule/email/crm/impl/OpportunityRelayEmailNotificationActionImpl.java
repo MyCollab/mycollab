@@ -66,7 +66,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleOpportunity> implements
 		OpportunityRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(OpportunityRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -235,7 +235,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 			return value;
 		}
@@ -294,7 +294,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 			return value;
 		}

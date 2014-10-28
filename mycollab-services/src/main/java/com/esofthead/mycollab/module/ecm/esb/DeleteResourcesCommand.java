@@ -29,5 +29,5 @@ public interface DeleteResourcesCommand {
 	 * @param userDelete
 	 * @param sAccountId
 	 */
-	void removeResource(String path, String userDelete, Integer sAccountId);
+	void removeResource(String[] path, String userDelete, Integer sAccountId);
 }

@@ -37,7 +37,6 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
-import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;

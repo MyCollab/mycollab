@@ -30,12 +30,15 @@ import com.esofthead.mycollab.mobile.module.project.ui.ProjectIconConstantsMap;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -116,8 +119,9 @@ public class ProjectActivityStreamListDisplay
 
 			VerticalLayout rightCol = new VerticalLayout();
 			rightCol.setWidth("100%");
-			Button streamItem = new Button(obj.getNamefield());
+			Label streamItem = new Label(generateItemLink(obj));
 			streamItem.setStyleName("activity-item");
+			streamItem.setContentMode(ContentMode.HTML);
 			rightCol.addComponent(streamItem);
 
 			CssLayout detailRow = new CssLayout();
@@ -165,6 +169,22 @@ public class ProjectActivityStreamListDisplay
 			return layout;
 		}
 
+	}
+
+	private static String generateItemLink(ProjectActivityStream stream) {
+		A itemLink = new A();
+		if (ProjectTypeConstants.TASK.equals(stream.getType())
+				|| ProjectTypeConstants.BUG.equals(stream.getType())) {
+			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					stream.getProjectShortName(), stream.getExtratypeid(),
+					stream.getType(), stream.getItemKey()));
+		} else {
+			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					stream.getProjectShortName(), stream.getExtratypeid(),
+					stream.getType(), stream.getTypeid()));
+		}
+		itemLink.appendText(stream.getNamefield());
+		return itemLink.write();
 	}
 
 }

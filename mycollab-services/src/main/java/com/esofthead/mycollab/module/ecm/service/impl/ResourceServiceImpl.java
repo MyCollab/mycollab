@@ -16,11 +16,18 @@
  */
 package com.esofthead.mycollab.module.ecm.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -30,7 +37,9 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
@@ -47,9 +56,9 @@ import com.esofthead.mycollab.module.ecm.service.ContentActivityLogService;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
-@Service
+@Service(value = "resourceService")
 public class ResourceServiceImpl implements ResourceService {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ResourceServiceImpl.class);
 
 	@Autowired
@@ -69,9 +78,10 @@ public class ResourceServiceImpl implements ResourceService {
 		List<Resource> resources = contentJcrDao.getResources(path);
 		if (CollectionUtils.isNotEmpty(resources)) {
 			Collections.sort(resources);
+			return resources;
 		}
 
-		return resources;
+		return new ArrayList<Resource>();
 	}
 
 	@Override
@@ -112,7 +122,7 @@ public class ResourceServiceImpl implements ResourceService {
 			billingPlanCheckerService.validateAccountCanUploadMoreFiles(
 					sAccountId, fileSize);
 		} catch (IOException e) {
-			log.error("Can not get available bytes", e);
+			LOG.error("Can not get available bytes", e);
 		}
 
 		// detect mimeType and set to content
@@ -120,10 +130,28 @@ public class ResourceServiceImpl implements ResourceService {
 		content.setMimeType(mimeType);
 		content.setSize(Long.valueOf(fileSize));
 
-		contentJcrDao.saveContent(content, createdUser);
-
 		String contentPath = content.getPath();
 		rawContentService.saveContent(contentPath, refStream);
+
+		if (MimeTypesUtil.isImageMimetype(mimeType)) {
+			try {
+				InputStream newInputStream = rawContentService
+						.getContentStream(contentPath);
+				BufferedImage image = ImageUtil
+						.generateImageThumbnail(newInputStream);
+				String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
+						sAccountId, StringUtils.generateSoftUniqueId(), "png");
+				File tmpFile = File.createTempFile("tmp", "png");
+				ImageIO.write(image, "png", new FileOutputStream(tmpFile));
+				rawContentService.saveContent(thumbnailPath,
+						new FileInputStream(tmpFile));
+				content.setThumbnail(thumbnailPath);
+			} catch (Exception e) {
+				LOG.error("Error when generating thumbnail", e);
+			}
+		}
+
+		contentJcrDao.saveContent(content, createdUser);
 
 		ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
 		ContentActivityLogAction createContentAction = ContentActivityLogBuilder
@@ -144,12 +172,20 @@ public class ResourceServiceImpl implements ResourceService {
 		Resource res = contentJcrDao.getResource(path);
 		ContentActivityLogAction deleteResourceAction;
 
+		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil
+				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
+						DeleteResourcesCommand.class);
+
 		if (res instanceof Folder) {
 			deleteResourceAction = ContentActivityLogBuilder
 					.makeDeleteFolder(path);
+			deleteResourcesCommand.removeResource(new String[] { path },
+					deleteUser, sAccountId);
 		} else {
 			deleteResourceAction = ContentActivityLogBuilder
 					.makeDeleteContent(path);
+			deleteResourcesCommand.removeResource(new String[] { path,
+					((Content) res).getThumbnail() }, deleteUser, sAccountId);
 		}
 
 		contentJcrDao.removeResource(path);
@@ -160,10 +196,6 @@ public class ResourceServiceImpl implements ResourceService {
 		activityLog.setBasefolderpath(path);
 		contentActivityLogService.saveWithSession(activityLog, "");
 
-		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil
-				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
-						DeleteResourcesCommand.class);
-		deleteResourcesCommand.removeResource(path, deleteUser, sAccountId);
 	}
 
 	@Override

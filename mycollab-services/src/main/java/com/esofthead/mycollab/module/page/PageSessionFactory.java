@@ -38,12 +38,12 @@ import com.esofthead.mycollab.module.ecm.ContentException;
  *
  */
 public class PageSessionFactory extends JcrSessionFactory {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(PageSessionFactory.class);
 
 	@Override
 	protected void registerNodeTypes() throws Exception {
-		log.info("Register node types");
+		LOG.info("Register node types");
 		Session session = getSession();
 		final String[] jcrNamespaces = session.getWorkspace()
 				.getNamespaceRegistry().getPrefixes();
@@ -51,13 +51,13 @@ public class PageSessionFactory extends JcrSessionFactory {
 		for (int i = 0; i < jcrNamespaces.length; i++) {
 			if (jcrNamespaces[i].equals("wiki")) {
 				createNamespace = false;
-				log.debug("Jackrabbit OCM namespace exists.");
+				LOG.debug("Jackrabbit OCM namespace exists.");
 			}
 		}
 		if (createNamespace) {
 			session.getWorkspace().getNamespaceRegistry()
 					.registerNamespace("wiki", "http://www.esofthead.com/wiki");
-			log.debug("Successfully created Mycollab content namespace.");
+			LOG.debug("Successfully created Mycollab content namespace.");
 		}
 		if (session.getRootNode() == null) {
 			throw new ContentException("Jcr session setup not successful.");
@@ -73,7 +73,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createWikiPageType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
-		log.info("Register mycollab content type");
+		LOG.info("Register mycollab content type");
 		NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
 		// Create content node type
 		NodeTypeTemplate pageTypeTemplate = manager
@@ -87,7 +87,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 				.setDeclaredSuperTypeNames(new String[] { NodeType.NT_HIERARCHY_NODE });
 		pageTypeTemplate.setQueryable(true);
 		pageTypeTemplate.setOrderableChildNodes(false);
-		log.debug("PROPERTY {} {}",
+		LOG.debug("PROPERTY {} {}",
 				pageTypeTemplate.getDeclaredPropertyDefinitions().length,
 				pageTypeTemplate.getDeclaredChildNodeDefinitions().length);
 

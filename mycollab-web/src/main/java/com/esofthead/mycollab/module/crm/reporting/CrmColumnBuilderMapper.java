@@ -62,7 +62,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 @Component
 public class CrmColumnBuilderMapper implements InitializingBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CrmColumnBuilderMapper.class);
 
 	@Override
@@ -77,7 +77,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildAccountMap() {
-		log.debug("Build report mapper for crm::account module");
+		LOG.debug("Build report mapper for crm::account module");
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
@@ -119,7 +119,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildContactMap() {
-		log.debug("Build report mapper for crm::contact module");
+		LOG.debug("Build report mapper for crm::contact module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 
 		DRIExpression<String> accountTitleExpr = new StringExpression(
@@ -176,7 +176,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildCampaignMap() {
-		log.debug("Build report mapper for crm::campaign module");
+		LOG.debug("Build report mapper for crm::campaign module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
@@ -219,7 +219,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildLeadMap() {
-		log.debug("Build report mapper for crm::lead module");
+		LOG.debug("Build report mapper for crm::lead module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
@@ -260,7 +260,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildOpportunityMap() {
-		log.debug("Build report mapper for crm::opportunity module");
+		LOG.debug("Build report mapper for crm::opportunity module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
@@ -351,7 +351,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	}
 
 	private Map<String, MValue> buildCaseMap() {
-		log.debug("Build report mapper for crm::case module");
+		LOG.debug("Build report mapper for crm::case module");
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");

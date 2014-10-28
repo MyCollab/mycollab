@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -43,8 +44,8 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
+import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -62,9 +63,9 @@ import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -90,7 +91,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(TaskReadViewImpl.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TaskReadViewImpl.class);
 
 	private CommentDisplay commentList;
 
@@ -119,11 +121,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 	@Override
 	public ComponentContainer getWidget() {
 		return this;
-	}
-
-	@Override
-	public void addViewListener(ViewListener listener) {
-
 	}
 
 	@Override
@@ -163,17 +160,17 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 				&& 100d == beanItem.getPercentagecomplete()) {
 			addLayoutStyleName(UIConstants.LINK_COMPLETED);
 		} else {
+			Date now = new GregorianCalendar().getTime();
+
 			if ("Pending".equals(beanItem.getStatus())) {
 				addLayoutStyleName(UIConstants.LINK_PENDING);
 			} else if ((beanItem.getEnddate() != null && (beanItem.getEnddate()
-					.before(new GregorianCalendar().getTime())))
+					.before(now)))
 					|| (beanItem.getActualenddate() != null && (beanItem
-							.getActualenddate().before(new GregorianCalendar()
-							.getTime())))
+							.getActualenddate().before(now)))
 					|| (beanItem.getDeadline() != null && (beanItem
-							.getDeadline().before(new GregorianCalendar()
-							.getTime())))) {
-				addLayoutStyleName(UIConstants.LINK_OVERDUE);
+							.getDeadline().before(now)))) {
+				previewLayout.setTitleStyleName("headerNameOverdue");
 			}
 		}
 
@@ -313,26 +310,24 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 						beanItem.getAssignUserAvatarId(),
 						beanItem.getAssignUserFullName());
 			} else if (propertyId.equals("taskListName")) {
-				return new DefaultViewField(
-						beanItem.getTaskListName());
+				return new DefaultViewField(beanItem.getTaskListName());
 			} else if (propertyId.equals("startdate")) {
-				return new DefaultViewField(
-						AppContext.formatDate(beanItem.getStartdate()));
+				return new DefaultViewField(AppContext.formatDate(beanItem
+						.getStartdate()));
 			} else if (propertyId.equals("enddate")) {
-				return new DefaultViewField(
-						AppContext.formatDate(beanItem.getEnddate()));
+				return new DefaultViewField(AppContext.formatDate(beanItem
+						.getEnddate()));
 			} else if (propertyId.equals("actualstartdate")) {
-				return new DefaultViewField(
-						AppContext.formatDate(beanItem.getActualstartdate()));
+				return new DefaultViewField(AppContext.formatDate(beanItem
+						.getActualstartdate()));
 			} else if (propertyId.equals("actualenddate")) {
-				return new DefaultViewField(
-						AppContext.formatDate(beanItem.getActualenddate()));
+				return new DefaultViewField(AppContext.formatDate(beanItem
+						.getActualenddate()));
 			} else if (propertyId.equals("deadline")) {
-				return new DefaultViewField(
-						AppContext.formatDate(beanItem.getDeadline()));
+				return new DefaultViewField(AppContext.formatDate(beanItem
+						.getDeadline()));
 			} else if (propertyId.equals("tasklistid")) {
-				return new LinkViewField(
-						beanItem.getTaskListName(),
+				return new LinkViewField(beanItem.getTaskListName(),
 						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
 								beanItem.getProjectid(),
 								beanItem.getTasklistid()),
@@ -422,7 +417,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 						assignUserAvatarId, assignUserDisplayName);
 				layout.addComponent(assignUserLink, 1, 1);
 			} catch (Exception e) {
-				log.error("Can not build user link {} ",
+				LOG.error("Can not build user link {} ",
 						BeanUtility.printBeanObj(bean));
 			}
 

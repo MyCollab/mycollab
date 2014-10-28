@@ -40,10 +40,6 @@ class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 		super(form);
 	}
 
-	CaseEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-	}
-
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
 		if (propertyId.equals("priority")) {

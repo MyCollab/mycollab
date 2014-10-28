@@ -78,7 +78,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		SendMailToFollowersAction<SimpleTask> implements
 		ProjectTaskRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectTaskRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -424,7 +424,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 
 			return value;

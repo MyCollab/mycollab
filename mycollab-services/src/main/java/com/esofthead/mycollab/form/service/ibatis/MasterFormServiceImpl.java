@@ -43,7 +43,7 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 @Service
 public class MasterFormServiceImpl implements MasterFormService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MasterFormServiceImpl.class);
 
 	private static final String TYPE_PACKAGE = "com.esofthead.mycollab.form.view.builder.type.";
@@ -112,12 +112,12 @@ public class MasterFormServiceImpl implements MasterFormService {
 	@Override
 	public void saveCustomForm(@CacheKey Integer sAccountId, String moduleName,
 			DynaForm form) {
-		log.debug("Save form section");
+		LOG.debug("Save form section");
 
 		int sectionCount = form.getSectionCount();
 
 		if (sectionCount > 0) {
-			log.debug("Remove existing form section of module {}", moduleName);
+			LOG.debug("Remove existing form section of module {}", moduleName);
 			FormSectionExample ex = new FormSectionExample();
 			ex.createCriteria().andSaccountidEqualTo(sAccountId)
 					.andModuleEqualTo(moduleName);
@@ -138,7 +138,7 @@ public class MasterFormServiceImpl implements MasterFormService {
 			formSectionMapper.insertAndReturnKey(formSection);
 			Integer sectionId = formSection.getId();
 
-			log.debug(
+			LOG.debug(
 					"Save section name {} of module {} of account {} successfully, Return id is {}",
 					new Object[] { section.getHeader(), moduleName, sAccountId,
 							sectionId });
@@ -158,7 +158,7 @@ public class MasterFormServiceImpl implements MasterFormService {
 				dbField.setIsrequired(field.isRequired());
 				dbField.setIscustom(field.isCustom());
 
-				log.debug(
+				LOG.debug(
 						"Save field {} with name {}",
 						new Object[] { field.getDisplayName(),
 								field.getFieldName() });

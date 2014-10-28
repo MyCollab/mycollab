@@ -86,7 +86,7 @@ import com.vaadin.ui.Embedded;
  */
 @SuppressWarnings("serial")
 public class JFreeChartWrapper extends Embedded {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(JFreeChartWrapper.class);
 
 	public enum RenderingMode {
@@ -328,7 +328,7 @@ public class JFreeChartWrapper extends Embedded {
 								bytestream = new ByteArrayInputStream(
 										baoutputStream.toByteArray());
 							} catch (Exception e) {
-								log.error("Error while generating chart", e);
+								LOG.error("Error while generating chart", e);
 							}
 						} else {
 							// Draw png to bytestream
@@ -337,7 +337,7 @@ public class JFreeChartWrapper extends Embedded {
 										.createBufferedImage(widht, height));
 								bytestream = new ByteArrayInputStream(bytes);
 							} catch (IOException e) {
-								log.error("Error while generating chart", e);
+								LOG.error("Error while generating chart", e);
 							}
 
 						}

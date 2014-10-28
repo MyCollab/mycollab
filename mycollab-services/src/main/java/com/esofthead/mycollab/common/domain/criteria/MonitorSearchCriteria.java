@@ -36,6 +36,8 @@ public class MonitorSearchCriteria extends SearchCriteria {
 
 	private StringSearchField type;
 
+	private SetSearchField<String> types;
+
 	private SetSearchField<Integer> extraTypeIds;
 
 	public StringSearchField getUser() {
@@ -60,6 +62,14 @@ public class MonitorSearchCriteria extends SearchCriteria {
 
 	public void setType(StringSearchField type) {
 		this.type = type;
+	}
+
+	public SetSearchField<String> getTypes() {
+		return types;
+	}
+
+	public void setTypes(SetSearchField<String> types) {
+		this.types = types;
 	}
 
 	public SetSearchField<Integer> getExtraTypeIds() {

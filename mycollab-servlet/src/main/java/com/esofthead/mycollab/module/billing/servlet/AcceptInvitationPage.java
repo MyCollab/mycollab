@@ -55,7 +55,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 @Component("acceptUserInvitationServlet")
 public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AcceptInvitationPage.class);
 
 	@Autowired
@@ -102,7 +102,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 				} else {
 					if (userInAccount.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
-						log.debug("Forward user {} to page {}",
+						LOG.debug("Forward user {} to page {}",
 								user.getUsername(), request.getContextPath());
 						response.sendRedirect(request.getContextPath() + "/");
 						return;
@@ -117,7 +117,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
 						if (user.getPassword() == null
 								|| user.getPassword().trim().equals("")) {
-							log.debug(
+							LOG.debug(
 									"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
 									user.getUsername(),
 									BeanUtility.printBeanObj(user));
@@ -140,7 +140,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 							out.print(html);
 							return;
 						} else {
-							log.debug("Forward user {} to page {}",
+							LOG.debug("Forward user {} to page {}",
 									user.getUsername(),
 									request.getContextPath());
 							// redirect to account site

@@ -37,7 +37,7 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements
 		IBeanFieldGroupFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
 
 	protected GenericBeanForm<B> attachForm;
@@ -63,7 +63,7 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements
 								attachForm.getBean(), field.getName());
 						formField = new FormViewField(propertyValue);
 					} catch (Exception e) {
-						log.error("Error while get field value", e);
+						LOG.error("Error while get field value", e);
 						formField = new FormViewField("Error");
 					}
 

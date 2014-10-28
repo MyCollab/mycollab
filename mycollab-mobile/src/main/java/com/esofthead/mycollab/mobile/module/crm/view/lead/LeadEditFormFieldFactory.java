@@ -45,12 +45,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 	private LeadFirstNamePrefixField firstNamePrefixField;
 
 	LeadEditFormFieldFactory(GenericBeanForm<B> form) {
-		this(form, true);
-	}
-
-	LeadEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
-
+		super(form, true);
 		firstNamePrefixField = new LeadFirstNamePrefixField();
 	}
 
@@ -100,7 +95,7 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 		return null;
 	}
 
-	class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
+	private class LeadFirstNamePrefixField extends CompoundCustomField<Lead> {
 		private static final long serialVersionUID = 1L;
 
 		@Override

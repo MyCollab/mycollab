@@ -618,7 +618,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					ValueListSelect field = (ValueListSelect) valueBox
 							.getComponent(0);
 					Collection<?> value = (Collection<?>) field.getValue();
-					if (value.size() == 0) {
+					if (CollectionUtils.isEmpty(value)) {
 						return null;
 					}
 
@@ -641,7 +641,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					I18nValueListSelect field = (I18nValueListSelect) valueBox
 							.getComponent(0);
 					Collection<?> value = (Collection<?>) field.getValue();
-					if (value.size() == 0) {
+					if (CollectionUtils.isEmpty(value)) {
 						return null;
 					}
 
@@ -679,7 +679,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 					ListSelect field = (ListSelect) valueBox.getComponent(0);
 					Collection<?> value = (Collection<?>) field.getValue();
-					if (value.size() == 0) {
+					if (CollectionUtils.isEmpty(value)) {
 						return null;
 					}
 					PropertyListParam wrapParam = (PropertyListParam) param;
@@ -700,7 +700,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 					ListSelect field = (ListSelect) valueBox.getComponent(0);
 					Collection<?> value = (Collection<?>) field.getValue();
-					if (value.size() == 0) {
+					if (CollectionUtils.isEmpty(value)) {
 						return null;
 					}
 					CustomSqlParam wrapParam = (CustomSqlParam) param;

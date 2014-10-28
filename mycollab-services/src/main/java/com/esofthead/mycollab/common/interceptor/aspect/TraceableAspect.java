@@ -44,7 +44,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 @Component
 public class TraceableAspect {
 
-	private static Logger log = LoggerFactory.getLogger(TraceableAspect.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TraceableAspect.class);
 	@Autowired
 	private ActivityStreamService activityStreamService;
 
@@ -63,7 +63,7 @@ public class TraceableAspect {
 						ActivityStreamConstants.ACTION_CREATE);
 				activityStreamService.save(activity);
 			} catch (Exception e) {
-				log.error(
+				LOG.error(
 						"Error when save activity for save action of service "
 								+ cls.getName(), e);
 			}

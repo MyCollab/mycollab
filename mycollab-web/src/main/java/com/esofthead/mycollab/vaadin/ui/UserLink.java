@@ -47,7 +47,7 @@ import com.vaadin.ui.Window;
 public class UserLink extends Button {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(UserLink.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserLink.class);
 
 	public UserLink(final String username, String userAvatarId,
 			final String displayName, boolean useWordWrap) {
@@ -74,7 +74,7 @@ public class UserLink extends Button {
 				try {
 					UI.getCurrent().addWindow(new UserQuickPreviewWindow(user));
 				} catch (Exception e) {
-					log.error(
+					LOG.error(
 							"Error while try to show user information window",
 							e);
 				}

@@ -67,7 +67,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		ProfilePhotoUploadView {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProfilePhotoUploadViewImpl.class);
 
 	private BufferedImage originalImage;
@@ -82,7 +82,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 	@Override
 	public void editPhoto(final byte[] imageData) {
 		this.removeAllComponents();
-		log.debug("Receive avatar upload with size: " + imageData.length);
+		LOG.debug("Receive avatar upload with size: " + imageData.length);
 		try {
 			originalImage = ImageIO.read(new ByteArrayInputStream(imageData));
 		} catch (IOException e) {
@@ -196,7 +196,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 						scaleImageData = outStream.toByteArray();
 						displayPreviewImage();
 					} catch (IOException e) {
-						log.error("Error while scale image: ", e);
+						LOG.error("Error while scale image: ", e);
 					}
 				}
 

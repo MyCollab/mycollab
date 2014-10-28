@@ -56,7 +56,7 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements
 		FieldSelection {
 	private static final long serialVersionUID = -3572873867793792681L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(RelatedItemSelectionField.class);
 
 	protected MobileNavigationButton navButton = new MobileNavigationButton();
@@ -134,7 +134,7 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements
 			}
 
 		} catch (Exception e) {
-			log.error("Error when set type", e);
+			LOG.error("Error when set type", e);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements
 				navButton.setCaption(((SimpleCase) data).getSubject());
 			}
 		} catch (Exception e) {
-			log.error("Error when fire value", e);
+			LOG.error("Error when fire value", e);
 		}
 	}
 
@@ -198,7 +198,7 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements
 						} catch (IllegalAccessException
 								| InvocationTargetException
 								| NoSuchMethodException e) {
-							log.error("Error when select tab", e);
+							LOG.error("Error when select tab", e);
 						}
 					}
 				});

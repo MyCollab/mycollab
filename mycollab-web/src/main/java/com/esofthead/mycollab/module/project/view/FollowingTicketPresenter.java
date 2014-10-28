@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.List;
-
+import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
+import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.Alignment;
@@ -39,11 +39,22 @@ public class FollowingTicketPresenter extends
 	}
 
 	@Override
+	protected void postInitView() {
+		view.getSearchHandlers().addSearchHandler(
+				new SearchHandler<FollowingTicketSearchCriteria>() {
+					@Override
+					public void onSearch(FollowingTicketSearchCriteria criteria) {
+						view.getPagedBeanTable().setSearchCriteria(criteria);
+					}
+				});
+	}
+
+	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
 		prjContainer.addComponent((Component) view);
 		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
-		view.displayFollowingTicket((List<Integer>) data.getParams());
+		view.displayTickets();
 	}
 }

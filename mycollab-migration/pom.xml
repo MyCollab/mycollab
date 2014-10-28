@@ -31,9 +31,21 @@
         </dependency>
 
         <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-services</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>0.1.5</version>
         </dependency>
     </dependencies>
 </project>

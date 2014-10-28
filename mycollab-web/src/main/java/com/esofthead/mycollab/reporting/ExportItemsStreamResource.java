@@ -55,7 +55,7 @@ public abstract class ExportItemsStreamResource<T> implements
 		StreamResource.StreamSource {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ExportItemsStreamResource.class);
 
 	protected AbstractReportTemplate reportTemplate;
@@ -98,7 +98,7 @@ public abstract class ExportItemsStreamResource<T> implements
 		try {
 			outStream = new PipedOutputStream(inStream);
 		} catch (IOException ex) {
-			log.error("Can not create outstream file", ex);
+			LOG.error("Can not create outstream file", ex);
 			return null;
 		}
 

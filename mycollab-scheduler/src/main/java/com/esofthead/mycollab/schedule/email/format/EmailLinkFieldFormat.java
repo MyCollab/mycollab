@@ -33,7 +33,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 public class EmailLinkFieldFormat extends FieldFormat {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(EmailLinkFieldFormat.class);
 
 	public EmailLinkFieldFormat(String fieldName, Enum<?> displayName) {
@@ -49,7 +49,7 @@ public class EmailLinkFieldFormat extends FieldFormat {
 			return formatEmail((String) value);
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 			return new Span().write();
 		}
 	}

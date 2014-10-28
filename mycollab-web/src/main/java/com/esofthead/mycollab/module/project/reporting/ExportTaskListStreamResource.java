@@ -81,7 +81,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 		ExportItemsStreamResource<SimpleTaskList> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ExportTaskListStreamResource.class);
 
 	private ISearchableService<S> searchService;
@@ -143,7 +143,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					reportTemplate.getColumnTitleStyle());
 
 			// label
-			log.debug("Label value : " + taskList.getDescription());
+			LOG.debug("Label value : " + taskList.getDescription());
 			TextFieldBuilder<String> desLabel = cmp.text("Description :")
 					.setStyle(style).setFixedWidth(150);
 			TextFieldBuilder<String> descriptText = cmp
@@ -153,7 +153,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			deshorizontal.add(desLabel).add(descriptText);
 
 			// Assignee
-			log.debug("Assignee value : " + taskList.getOwnerFullName());
+			LOG.debug("Assignee value : " + taskList.getOwnerFullName());
 			TextFieldBuilder<String> assigneeLbl = cmp.text("Assignee :")
 					.setStyle(style).setFixedWidth(150);
 			String assigneeHyperlink = AccountLinkBuilder
@@ -182,7 +182,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.add(phaseLbl).add(phase);
 
 			// progress
-			log.debug("Progress start ----");
+			LOG.debug("Progress start ----");
 			TextFieldBuilder<String> progressLbl = cmp.text("Progress :")
 					.setStyle(style).setFixedWidth(150);
 
@@ -281,7 +281,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
 
-					log.debug("Inject renderer if any");
+					LOG.debug("Inject renderer if any");
 					if (lstFieldBuilder != null) {
 						MValue columnFieldBuilder = lstFieldBuilder.get(field
 								.getField());
@@ -290,7 +290,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 									.buildCompBuilder(columnFieldBuilder));
 						}
 					}
-					log.debug("Construct component builder {} and width {}",
+					LOG.debug("Construct component builder {} and width {}",
 							field.getField(), field.getDefaultWidth());
 					ComponentColumnBuilder columnBuilder = col.componentColumn(
 							AppContext.getMessage(field.getDescKey()),

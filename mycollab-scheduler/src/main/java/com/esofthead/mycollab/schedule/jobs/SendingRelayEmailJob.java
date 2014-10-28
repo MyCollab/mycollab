@@ -46,7 +46,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SendingRelayEmailJob extends GenericQuartzJobBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SendingRelayEmailJob.class);
 
 	@Autowired
@@ -77,7 +77,7 @@ public class SendingRelayEmailJob extends GenericQuartzJobBean {
 							relayEmail.getSubject(),
 							relayEmail.getBodycontent(), null);
 				} catch (Exception e) {
-					log.error("Error when send relay email", e);
+					LOG.error("Error when send relay email", e);
 				}
 			} else {
 				try {

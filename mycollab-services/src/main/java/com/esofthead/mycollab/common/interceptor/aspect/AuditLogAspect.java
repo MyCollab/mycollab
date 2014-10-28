@@ -59,7 +59,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 @Configurable
 public class AuditLogAspect {
 
-	private static Logger log = LoggerFactory.getLogger(AuditLogAspect.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuditLogAspect.class);
 	private static BasicCache<Object, Object> caches = LocalCacheManager
 			.getCache();
 
@@ -107,7 +107,7 @@ public class AuditLogAspect {
 
 				caches.put(key, oldValue);
 			} catch (Exception e) {
-				log.error("Error when save audit for save action of service "
+				LOG.error("Error when save audit for save action of service "
 						+ cls.getName(), e);
 			}
 		}
@@ -129,7 +129,7 @@ public class AuditLogAspect {
 						ActivityStreamConstants.ACTION_UPDATE);
 				activityStreamId = activityStreamService.save(activity);
 			} catch (Exception e) {
-				log.error(
+				LOG.error(
 						"Error when save activity for save action of service "
 								+ cls.getName(), e);
 			}
@@ -207,7 +207,7 @@ public class AuditLogAspect {
 				relayEmailNotificationService.saveWithSession(
 						relayNotification, username);
 			} catch (Exception e) {
-				log.error(
+				LOG.error(
 						"Error when save audit for save action of service "
 								+ cls.getName() + "and bean: "
 								+ BeanUtility.printBeanObj(bean), e);
@@ -245,7 +245,7 @@ public class AuditLogAspect {
 					return auditLogService.saveWithSession(auditLog, "");
 				}
 			} catch (Exception e) {
-				log.error(
+				LOG.error(
 						"Error when save audit for save action of service "
 								+ targetCls.getName() + "and bean: "
 								+ BeanUtility.printBeanObj(bean)

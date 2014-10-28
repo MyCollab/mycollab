@@ -45,7 +45,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CrmSendingRelayEmailNotificationJob.class);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -90,14 +90,14 @@ public class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 									.sendNotificationForCommentAction(notification);
 						}
 
-						log.debug("Finish process notification {}",
+						LOG.debug("Finish process notification {}",
 								BeanUtility.printBeanObj(notification));
 
 					}
 				}
 
 			} catch (Exception ex) {
-				log.error("Error while send the schedule command", ex);
+				LOG.error("Error while send the schedule command", ex);
 			} finally {
 				relayEmailService.removeWithSession(notification.getId(), "",
 						notification.getSaccountid());

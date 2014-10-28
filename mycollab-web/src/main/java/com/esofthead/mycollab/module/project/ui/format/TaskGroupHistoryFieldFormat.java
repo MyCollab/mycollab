@@ -45,7 +45,7 @@ import com.vaadin.ui.Label;
  */
 public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(TaskGroupHistoryFieldFormat.class);
 
 	@Override
@@ -86,7 +86,7 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 				return TagBuilder.newLink(img, link).write();
 			}
 		} catch (Exception e) {
-			log.error("Error", e);
+			LOG.error("Error", e);
 		}
 
 		return value;

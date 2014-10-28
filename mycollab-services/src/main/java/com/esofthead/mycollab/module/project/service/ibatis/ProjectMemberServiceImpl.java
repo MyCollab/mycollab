@@ -67,7 +67,7 @@ public class ProjectMemberServiceImpl extends
 		DefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria>
 		implements ProjectMemberService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectMemberServiceImpl.class);
 
 	@Autowired
@@ -135,7 +135,7 @@ public class ProjectMemberServiceImpl extends
 						primaryKey, projectMember.getProjectid(),
 						project.getSaccountid());
 			} catch (Exception e) {
-				log.error("Error while notify project member delete", e);
+				LOG.error("Error while notify project member delete", e);
 			}
 
 			projectMember.setStatus(RegisterStatusConstants.DELETE);
@@ -178,17 +178,17 @@ public class ProjectMemberServiceImpl extends
 					.encryptSaltPassword(password));
 			simpleUser.setUsername(email);
 			simpleUser.setEmail(email);
-			log.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
+			LOG.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
 			userMapper.insert(simpleUser);
 		} catch (DuplicateKeyException e) {
 			throw new UserExistedException("User existed " + email);
 		}
 
-		log.debug("Assign guest role for this user {}", email);
+		LOG.debug("Assign guest role for this user {}", email);
 		Integer systemGuestRoleId = roleService.getSystemRoleId(
 				SimpleRole.GUEST, sAccountId);
 		if (systemGuestRoleId == null) {
-			log.error("Can not find guess role for account {}", sAccountId);
+			LOG.error("Can not find guess role for account {}", sAccountId);
 		}
 
 		UserAccount userAccount = new UserAccount();
@@ -199,7 +199,7 @@ public class ProjectMemberServiceImpl extends
 		userAccount.setRegisteredtime(new GregorianCalendar().getTime());
 		userAccount.setRoleid(systemGuestRoleId);
 
-		log.debug("Start save user account {}",
+		LOG.debug("Start save user account {}",
 				BeanUtility.printBeanObj(userAccount));
 		userAccountMapper.insert(userAccount);
 
@@ -211,7 +211,7 @@ public class ProjectMemberServiceImpl extends
 		member.setIsadmin(false);
 		member.setStatus(RegisterStatusConstants.ACTIVE);
 		member.setProjectroleid(projectRoleId);
-		log.debug("Start save project member {}",
+		LOG.debug("Start save project member {}",
 				BeanUtility.printBeanObj(member));
 
 		saveWithSession(member, "");

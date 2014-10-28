@@ -43,7 +43,7 @@ import com.vaadin.ui.Label;
  *
  */
 public class FieldGroupFomatter {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(FieldGroupFomatter.class);
 
 	private static Map<String, HistoryFieldFormat> defaultFieldHandlers;
@@ -203,7 +203,7 @@ public class FieldGroupFomatter {
 					Currency currency = currencyService.getCurrency(currencyid);
 					return new Label(currency.getSymbol());
 				} catch (Exception e) {
-					log.error("Error while get currency id" + value, e);
+					LOG.error("Error while get currency id" + value, e);
 					return new Label("");
 				}
 			}
@@ -221,7 +221,7 @@ public class FieldGroupFomatter {
 					Currency currency = currencyService.getCurrency(currencyid);
 					return currency.getSymbol();
 				} catch (Exception e) {
-					log.error("Error while get currency id" + value, e);
+					LOG.error("Error while get currency id" + value, e);
 					return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 				}
 			}

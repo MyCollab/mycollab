@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ import com.esofthead.mycollab.security.PermissionMap;
 public class SimpleProjectRole extends ProjectRole {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SimpleProjectRole.class);
 
 	private String permissionVal;
@@ -52,13 +53,13 @@ public class SimpleProjectRole extends ProjectRole {
 	public PermissionMap getPermissionMap() {
 		if (permissionMap == null) {
 
-			if (permissionVal == null || "".equals(permissionVal)) {
+			if (StringUtils.isBlank(permissionVal)) {
 				permissionMap = new PermissionMap();
 			} else {
 				try {
 					permissionMap = PermissionMap.fromJsonString(permissionVal);
 				} catch (Exception e) {
-					log.error("Error while get permission", e);
+					LOG.error("Error while get permission", e);
 				}
 			}
 		}

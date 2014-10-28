@@ -68,7 +68,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		extends VerticalLayout implements IPagedBeanTable<S, B> {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AbstractPagedBeanTable.class);
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
@@ -126,7 +126,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					this.displayColumns = (List<TableViewField>) selectedColumns
 							.get(0);
 				} catch (Exception e) {
-					log.error("Error", e);
+					LOG.error("Error", e);
 					this.displayColumns = displayColumns;
 				}
 			} else {

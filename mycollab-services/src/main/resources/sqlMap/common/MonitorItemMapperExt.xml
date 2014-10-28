@@ -24,6 +24,13 @@
             ${searchCriteria.type.operation} m_monitor_item.type = @{searchCriteria.type.value}
         #end
         
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} m_monitor_item.type IN
+            #repeat(${searchCriteria.types.values} $monitorType "," "(" ")")
+                @{monitorType}
+            #end
+        #end
+        
         #ifnotnull($searchCriteria.user)
             ${searchCriteria.user.operation} m_monitor_item.user = @{searchCriteria.user.value}
         #end

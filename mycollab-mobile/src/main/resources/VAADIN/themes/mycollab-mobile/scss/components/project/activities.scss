@@ -15,10 +15,15 @@
 				font-size: 2rem;
 				color: $primary-orange;
 			}
-			.v-button.activity-item {
+			.v-label.activity-item {
 				font-size: 1.4rem;
 				font-weight: bold;
-				color: $black-text;
+				text-overflow: ellipsis;
+				a {
+					text-decoration: none;
+					white-space: nowrap;
+					color: $black-text;
+				}
 			}
 			.activity-detail-row {
 				.activity-detail {

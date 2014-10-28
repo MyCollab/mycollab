@@ -60,7 +60,7 @@ import com.zaxxer.hikari.HikariDataSource;
  * @since 1.0
  */
 public abstract class GenericServerRunner {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(GenericServerRunner.class);
 
 	private Server server;
@@ -197,7 +197,7 @@ public abstract class GenericServerRunner {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
-				log.error("There is uncatch exception", e);
+				LOG.error("There is uncatch exception", e);
 			}
 		});
 
@@ -260,7 +260,7 @@ public abstract class GenericServerRunner {
 	@SuppressWarnings("unused")
 	private WebAppContext initWebAppContext() {
 		String webappDirLocation = detectWebApp();
-		log.debug("Detect web location: {}", webappDirLocation);
+		LOG.debug("Detect web location: {}", webappDirLocation);
 		WebAppContext appContext = buildContext(webappDirLocation);
 		appContext.setServer(server);
 		appContext.setConfigurations(new Configuration[] {
@@ -280,7 +280,7 @@ public abstract class GenericServerRunner {
 		// At runtime the webapp accesses this as
 		// java:comp/env/jdbc/mydatasource
 		try {
-			log.debug("Init the datasource");
+			LOG.debug("Init the datasource");
 			org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
 					appContext, "jdbc/mycollabdatasource", buildDataSource());
 		} catch (NamingException e) {
@@ -304,7 +304,7 @@ public abstract class GenericServerRunner {
 
 				@Override
 				public void run() {
-					log.debug("Detect root folder webapp");
+					LOG.debug("Detect root folder webapp");
 					File confFolder = new File(System.getProperty("user.dir"),
 							"conf");
 
@@ -334,7 +334,7 @@ public abstract class GenericServerRunner {
 						try {
 							appContext.start();
 						} catch (Exception e) {
-							log.error("Error while starting server", e);
+							LOG.error("Error while starting server", e);
 						}
 						install.setWaitFlag(false);
 						contexts.removeHandler(installationContextHandler);

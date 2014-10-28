@@ -34,6 +34,8 @@ package com.esofthead.mycollab.core.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.tika.Tika;
 
@@ -86,5 +88,13 @@ public class MimeTypesUtil {
 
 	public static boolean isImage(String contentName) {
 		return tika.detect(contentName).startsWith("image/");
+	}
+
+	private static final List<String> SUPPORTED_IMAGES = Arrays
+			.asList(new String[] { "image/jpg", "image/jpeg", "image/png",
+					"image/gif" });
+
+	public static boolean isImageMimetype(String mimeType) {
+		return SUPPORTED_IMAGES.contains(mimeType);
 	}
 }

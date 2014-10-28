@@ -105,7 +105,7 @@ public class CrmModuleController extends AbstractController {
 	private static final long serialVersionUID = 6995176903239247669L;
 	final private NavigationManager crmViewNavigation;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CrmModuleController.class);
 
 	public CrmModuleController(NavigationManager navigationManager) {
@@ -776,7 +776,7 @@ public class CrmModuleController extends AbstractController {
 		SimpleBillingAccount billingAccount = billingAccountService
 				.getBillingAccountById(AppContext.getAccountId());
 
-		log.debug("Get billing account successfully: "
+		LOG.debug("Get billing account successfully: "
 				+ BeanUtility.printBeanObj(billingAccount));
 
 		UserPreferenceService preferenceService = ApplicationContextUtil
@@ -784,7 +784,7 @@ public class CrmModuleController extends AbstractController {
 		UserPreference pref = preferenceService.getPreferenceOfUser(username,
 				AppContext.getAccountId());
 
-		log.debug("Login to system successfully. Save user and preference "
+		LOG.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
 
 		if (isRememberPassword) {

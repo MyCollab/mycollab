@@ -43,7 +43,7 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
 		extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
 
-	private static Logger log = LoggerFactory.getLogger(DefaultService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
 
 	public abstract ISearchableDAO<S> getSearchMapper();
 
@@ -78,7 +78,7 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 
 			}
 		} catch (Exception e) {
-			log.debug("Error while validating criteria", e);
+			LOG.debug("Error while validating criteria", e);
 		}
 		if (isValid) {
 			getSearchMapper().removeByCriteria(criteria);

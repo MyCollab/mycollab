@@ -54,7 +54,7 @@ public class AuditLogServiceImpl extends
 		DefaultService<Integer, AuditLog, AuditLogSearchCriteria> implements
 		AuditLogService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AuditLogServiceImpl.class);
 	@Autowired
 	protected AuditLogMapper auditLogMapper;
@@ -106,7 +106,7 @@ public class AuditLogServiceImpl extends
 					}
 				}
 			} catch (Exception e) {
-				log.error("There is error when convert changeset", e);
+				LOG.error("There is error when convert changeset", e);
 				return "";
 			}
 

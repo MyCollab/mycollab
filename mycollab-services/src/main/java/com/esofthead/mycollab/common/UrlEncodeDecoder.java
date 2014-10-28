@@ -33,7 +33,10 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  */
 public class UrlEncodeDecoder {
-	private static Logger log = LoggerFactory.getLogger(UrlEncodeDecoder.class);
+	
+	private static final Logger LOG = LoggerFactory.getLogger(UrlEncodeDecoder.class);
+	
+	private UrlEncodeDecoder(){}
 
 	/**
 	 * 
@@ -66,7 +69,7 @@ public class UrlEncodeDecoder {
 					.getBytes("UTF-8")), "UTF-8");
 			return decodeStr;
 		} catch (Exception e) {
-			log.error("Error while decode string: " + str);
+			LOG.error("Error while decode string: " + str);
 			return "";
 		}
 	}

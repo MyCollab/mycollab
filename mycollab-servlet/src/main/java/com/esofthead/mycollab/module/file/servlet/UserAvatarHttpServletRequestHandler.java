@@ -29,14 +29,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.FileStorageConfiguration;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.module.file.service.ContentService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
 /**
@@ -49,11 +46,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 public class UserAvatarHttpServletRequestHandler extends
 		GenericServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(UserAvatarHttpServletRequestHandler.class);
-
-	@Autowired
-	private ContentService contentService;
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
@@ -76,11 +70,11 @@ public class UserAvatarHttpServletRequestHandler extends
 				size = Integer.parseInt(params[2]);
 
 				if (size <= 0) {
-					log.error("Error to get avatar", new MyCollabException(
+					LOG.error("Error to get avatar", new MyCollabException(
 							"Invalid request for avatar " + path));
 				}
 			} else {
-				log.error("Error to get avatar", new MyCollabException(
+				LOG.error("Error to get avatar", new MyCollabException(
 						"Invalid request for avatar " + path));
 			}
 		}

@@ -52,7 +52,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 public class DenyProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DenyProjectInvitationHandler.class);
 
 	static String DENY_FEEDBACK_TEMPLATE = "templates/page/project/MemberDenyInvitationPage.mt";
@@ -138,7 +138,7 @@ public class DenyProjectInvitationHandler extends
 			}
 			throw new ResourceNotFoundException();
 		} catch (Exception e) {
-			log.error("Error with projectService", e);
+			LOG.error("Error with projectService", e);
 			throw new MyCollabException(e);
 		}
 	}

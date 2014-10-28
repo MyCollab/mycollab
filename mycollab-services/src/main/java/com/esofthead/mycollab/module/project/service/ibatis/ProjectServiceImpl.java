@@ -75,7 +75,7 @@ public class ProjectServiceImpl extends
 		DefaultService<Integer, Project, ProjectSearchCriteria> implements
 		ProjectService {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectServiceImpl.class);
 
 	@Autowired
@@ -165,7 +165,7 @@ public class ProjectServiceImpl extends
 				permissionMapClient, record.getSaccountid());
 
 		// add consultant role to project
-		log.debug("Add consultant role to project {}", record.getName());
+		LOG.debug("Add consultant role to project {}", record.getName());
 		ProjectRole consultantRole = createProjectRole(projectid,
 				record.getSaccountid(), "Consultant",
 				"Default role for consultant");
@@ -195,7 +195,7 @@ public class ProjectServiceImpl extends
 				permissionMapConsultant, record.getSaccountid());
 
 		// add admin role to project
-		log.debug("Add admin role to project {}", record.getName());
+		LOG.debug("Add admin role to project {}", record.getName());
 		ProjectRole adminRole = createProjectRole(projectid,
 				record.getSaccountid(), "Admin", "Default role for admin");
 		int adminRoleId = projectRoleService.saveWithSession(adminRole,
@@ -211,7 +211,7 @@ public class ProjectServiceImpl extends
 		projectRoleService.savePermission(projectid, adminRoleId,
 				permissionMapAdmin, record.getSaccountid());
 
-		log.debug("Create default task group");
+		LOG.debug("Create default task group");
 		TaskList taskList = new TaskList();
 		taskList.setProjectid(projectid);
 		taskList.setSaccountid(record.getSaccountid());
@@ -282,7 +282,7 @@ public class ProjectServiceImpl extends
 			projectDeleteListener.projectRemoved(project.getSaccountid(),
 					projectId);
 		} catch (Exception e) {
-			log.error("Error while notify user delete", e);
+			LOG.error("Error while notify user delete", e);
 		}
 		return super.removeWithSession(projectId, username, accountId);
 	}

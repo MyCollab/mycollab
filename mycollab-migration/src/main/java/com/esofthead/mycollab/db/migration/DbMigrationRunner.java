@@ -39,6 +39,7 @@ import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,8 +49,9 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component(value = "dbMigration")
+@DependsOn(value = { "resourceService", "camelConfig" })
 public class DbMigrationRunner {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DbMigrationRunner.class);
 
 	@Autowired
@@ -64,7 +66,7 @@ public class DbMigrationRunner {
 			flyway.setValidateOnMigrate(false);
 			flyway.migrate();
 		} catch (Exception e) {
-			log.error("Error while migrate database", e);
+			LOG.error("Error while migrate database", e);
 			System.exit(-1);
 		}
 	}

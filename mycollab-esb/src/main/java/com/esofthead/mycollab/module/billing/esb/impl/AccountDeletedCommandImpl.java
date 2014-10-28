@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.page.service.PageService;
 @Component
 public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AccountDeletedCommandImpl.class);
 
 	@Autowired
@@ -50,7 +50,7 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 	}
 
 	private void deleteAccountFiles(int accountId) {
-		log.debug("Delete account files of account {}", accountId);
+		LOG.debug("Delete account files of account {}", accountId);
 
 		String rootPath = accountId + "";
 		resourceService.removeResource(rootPath, "", accountId);

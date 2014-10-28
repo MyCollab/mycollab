@@ -47,7 +47,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 public class CurrentProjectVariables {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(CurrentProjectVariables.class);
 
 	private static final String CURRENT_PAGE_VAR = "project_page";
@@ -131,7 +131,7 @@ public class CurrentProjectVariables {
 				return permissionMap.canRead(permissionItem);
 			}
 		} catch (Exception e) {
-			log.error("Error while checking permission", e);
+			LOG.error("Error while checking permission", e);
 			return false;
 		}
 	}
@@ -154,7 +154,7 @@ public class CurrentProjectVariables {
 				return permissionMap.canWrite(permissionItem);
 			}
 		} catch (Exception e) {
-			log.error("Error while checking permission", e);
+			LOG.error("Error while checking permission", e);
 			return false;
 		}
 	}
@@ -177,7 +177,7 @@ public class CurrentProjectVariables {
 				return permissionMap.canAccess(permissionItem);
 			}
 		} catch (Exception e) {
-			log.error("Error while checking permission", e);
+			LOG.error("Error while checking permission", e);
 			return false;
 		}
 	}

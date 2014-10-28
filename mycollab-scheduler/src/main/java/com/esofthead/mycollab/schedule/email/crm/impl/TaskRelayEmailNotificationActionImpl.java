@@ -63,7 +63,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleTask> implements
 		TaskRelayEmailNotificationAction {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(TaskRelayEmailNotificationActionImpl.class);
 
 	@Autowired
@@ -216,7 +216,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 					return TagBuilder.newLink(img, link).write();
 				}
 			} catch (Exception e) {
-				log.error("Error", e);
+				LOG.error("Error", e);
 			}
 
 			return value;

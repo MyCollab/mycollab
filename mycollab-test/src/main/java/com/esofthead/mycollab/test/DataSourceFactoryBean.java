@@ -35,7 +35,7 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DataSourceFactoryBean.class);
 
 	private HikariDataSource dataSource;
@@ -74,7 +74,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 
 		if (dataSource != null) {
 			dataSource.close();
-			log.debug("Close connection");
+			LOG.debug("Close connection");
 		}
 	}
 

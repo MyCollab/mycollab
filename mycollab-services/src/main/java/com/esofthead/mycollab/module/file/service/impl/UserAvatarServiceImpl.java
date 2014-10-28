@@ -34,7 +34,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
-import com.esofthead.mycollab.module.file.service.ContentService;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -47,11 +48,11 @@ import com.esofthead.mycollab.module.user.domain.User;
  */
 @Service(value = "userAvatarService")
 public class UserAvatarServiceImpl implements UserAvatarService {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(UserAvatarServiceImpl.class);
 
 	@Autowired
-	private ContentService contentService;
+	private ResourceService resourceService;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -93,7 +94,8 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 		String newAvatarId = username + "_" + randomString;
 
 		for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-			uploadAvatarToStorage(image, newAvatarId, SUPPORT_SIZES[i]);
+			uploadAvatarToStorage(username, image, newAvatarId,
+					SUPPORT_SIZES[i]);
 		}
 
 		// save avatar id
@@ -106,15 +108,15 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 		if (avatarId != null) {
 			for (int i = 0; i < SUPPORT_SIZES.length; i++) {
 				try {
-					contentService.removeContent(null, "avatar/" + avatarId
-							+ "_" + SUPPORT_SIZES[i] + ".png");
+					resourceService.removeResource("avatar/" + avatarId + "_"
+							+ SUPPORT_SIZES[i] + ".png", username, null);
 				} catch (Exception e) {
-					log.error("Error while delete old avatar", e);
+					LOG.error("Error while delete old avatar", e);
 				}
 			}
 		}
 
-		log.debug("Notify user avatar change");
+		LOG.debug("Notify user avatar change");
 		EventBusFactory.getInstance().post(
 				new SessionEvent.UserProfileChangeEvent(
 						UserAvatarServiceImpl.this, "avatarid", newAvatarId));
@@ -122,8 +124,8 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 		return newAvatarId;
 	}
 
-	private void uploadAvatarToStorage(BufferedImage image, String avatarId,
-			int width) {
+	private void uploadAvatarToStorage(String username, BufferedImage image,
+			String avatarId, int width) {
 		BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width
 				/ image.getWidth());
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -132,7 +134,8 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 		} catch (IOException e) {
 			throw new MyCollabException("Error while write image to stream", e);
 		}
-		contentService.saveContent(null, "avatar/" + avatarId + "_" + width
-				+ ".png", new ByteArrayInputStream(outStream.toByteArray()));
+		resourceService.saveContent(Content.buildContentInstance(null,
+				"avatar/" + avatarId + "_" + width + ".png"), username,
+				new ByteArrayInputStream(outStream.toByteArray()), null);
 	}
 }

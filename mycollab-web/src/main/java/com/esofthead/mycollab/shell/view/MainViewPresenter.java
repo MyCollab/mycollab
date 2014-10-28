@@ -38,7 +38,7 @@ import com.vaadin.ui.ComponentContainer;
  */
 public class MainViewPresenter extends AbstractPresenter<MainView> {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MainViewPresenter.class);
 
 	public MainViewPresenter() {
@@ -78,7 +78,7 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 			} else {
 				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoConsolePage(this, null));
-				log.debug("Do not support navigate to module: "
+				LOG.debug("Do not support navigate to module: "
 						+ pref.getLastmodulevisit());
 			}
 		}

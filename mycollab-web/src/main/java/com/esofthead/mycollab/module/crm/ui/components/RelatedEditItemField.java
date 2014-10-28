@@ -66,7 +66,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 		FieldSelection {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(RelatedEditItemField.class);
 
 	private RelatedItemComboBox relatedItemComboBox;
@@ -138,7 +138,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					PropertyUtils.setProperty(RelatedEditItemField.this.bean,
 							"typeid", null);
 				} catch (Exception e) {
-					log.error("Error while saving type", e);
+					LOG.error("Error while saving type", e);
 				}
 			}
 		});
@@ -187,7 +187,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 	}
 
 	public void setType(String type) {
-		log.debug("Set type: " + type);
+		LOG.debug("Set type: " + type);
 		relatedItemComboBox.select(type);
 		try {
 			Integer typeid = (Integer) PropertyUtils
@@ -245,7 +245,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 			}
 
 		} catch (Exception e) {
-			log.error("Error when set type", e);
+			LOG.error("Error when set type", e);
 		}
 	}
 
@@ -279,7 +279,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 				itemField.setValue(((SimpleCase) data).getSubject());
 			}
 		} catch (Exception e) {
-			log.error("Error when fire value", e);
+			LOG.error("Error when fire value", e);
 		}
 	}
 

@@ -43,7 +43,7 @@ import com.esofthead.mycollab.test.rule.EssentialInitRule;
 		"classpath:META-INF/spring-test/service-context-test.xml" })
 public class IntergrationServiceTest {
 	@ClassRule
-	public static EssentialInitRule essentialRule = new EssentialInitRule();
+	public static final EssentialInitRule essentialRule = new EssentialInitRule();
 
 	@Rule
 	public DbUnitInitializerRule dbRule = new DbUnitInitializerRule();

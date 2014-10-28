@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 public class DeleteProjectMemberCommandImpl implements
 		DeleteProjectMemberCommand {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(DeleteProjectMemberCommandImpl.class);
 
 	@Autowired
@@ -41,7 +41,7 @@ public class DeleteProjectMemberCommandImpl implements
 	@Override
 	public void projectMemberRemoved(String username, Integer projectMemberId,
 			Integer projectId, Integer accountId) {
-		log.debug(
+		LOG.debug(
 				"Remove project member has username {}, project member id {} and project id {}",
 				new Object[] { username, projectMemberId, projectId });
 

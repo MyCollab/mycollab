@@ -92,7 +92,7 @@ public class ProjectModuleController extends AbstractController {
 
 	private final MobileNavigationManager navManager;
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectModuleController.class);
 
 	public ProjectModuleController(MobileNavigationManager navigationManager) {
@@ -578,7 +578,7 @@ public class ProjectModuleController extends AbstractController {
 		SimpleBillingAccount billingAccount = billingAccountService
 				.getBillingAccountById(AppContext.getAccountId());
 
-		log.debug("Get billing account successfully: "
+		LOG.debug("Get billing account successfully: "
 				+ BeanUtility.printBeanObj(billingAccount));
 
 		UserPreferenceService preferenceService = ApplicationContextUtil
@@ -586,7 +586,7 @@ public class ProjectModuleController extends AbstractController {
 		UserPreference pref = preferenceService.getPreferenceOfUser(username,
 				AppContext.getAccountId());
 
-		log.debug("Login to system successfully. Save user and preference "
+		LOG.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
 
 		if (isRememberPassword) {

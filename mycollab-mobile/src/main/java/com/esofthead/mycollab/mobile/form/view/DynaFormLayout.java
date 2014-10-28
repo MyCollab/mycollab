@@ -45,7 +45,7 @@ import com.vaadin.ui.VerticalLayout;
 public class DynaFormLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(DynaFormLayout.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
 	private DynaForm dynaForm;
 
@@ -66,7 +66,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			this.dynaForm = defaultForm;
 		}
 
-		log.debug("Fill fields of originSection to map field");
+		LOG.debug("Fill fields of originSection to map field");
 
 		int sectionCount = dynaForm.getSectionCount();
 		for (int i = 0; i < sectionCount; i++) {

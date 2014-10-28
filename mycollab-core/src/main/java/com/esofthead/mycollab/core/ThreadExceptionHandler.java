@@ -27,12 +27,12 @@ import org.slf4j.LoggerFactory;
  */
 class ThreadExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-	private Logger logger = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(ThreadExceptionHandler.class);
 
 	@Override
 	public void uncaughtException(Thread t, Throwable e) {
-		logger.error("Exception when run thread: " + t.getName()
+		LOG.error("Exception when run thread: " + t.getName()
 				+ " with exception: " + e.getMessage());
 	}
 

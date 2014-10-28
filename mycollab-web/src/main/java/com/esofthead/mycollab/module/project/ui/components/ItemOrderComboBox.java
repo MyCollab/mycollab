@@ -19,6 +19,12 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.core.arguments.Order;
 import com.vaadin.ui.ComboBox;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.5.2
+ *
+ */
 public class ItemOrderComboBox extends ComboBox {
 	private static final long serialVersionUID = 1L;
 

@@ -45,7 +45,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 public class AcceptByOutsideMemberCreateAccounttHandler extends
 		GenericServletRequestHandler {
 
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AcceptByOutsideMemberCreateAccounttHandler.class);
 
 	@Autowired
@@ -70,7 +70,7 @@ public class AcceptByOutsideMemberCreateAccounttHandler extends
 		} catch (UserExistedException e) {
 			throw e;
 		} catch (Exception e) {
-			log.error("Error while user try update user password", e);
+			LOG.error("Error while user try update user password", e);
 			throw new MyCollabException(
 					"Error in while create your account. We so sorry for this inconvenience");
 		}

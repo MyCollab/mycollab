@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -119,6 +122,17 @@ public class OpportunityReadViewImpl extends
 		followersComp.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
+		
+		previewLayout.resetTitleStyle();
+
+		String saleState = this.beanItem.getSalesstage();
+		Date closeDate = this.beanItem.getExpectedcloseddate();
+		if ((!"Closed Won".equals(saleState) && !"Closed Lost"
+				.equals(saleState))
+				&& closeDate != null
+				&& (closeDate.before(new GregorianCalendar().getTime()))) {
+			previewLayout.setTitleStyleName("hdr-text-overdue");
+		}
 	}
 
 	@Override

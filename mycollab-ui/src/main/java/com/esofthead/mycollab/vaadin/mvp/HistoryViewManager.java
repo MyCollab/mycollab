@@ -32,7 +32,7 @@ import com.esofthead.mycollab.common.MyCollabSession;
  * @since 1.0
  */
 public class HistoryViewManager {
-	private static Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(HistoryViewManager.class);
 
 	public static void addHistory(ViewState viewState) {
@@ -55,7 +55,7 @@ public class HistoryViewManager {
 			if (viewState.getPresenter().getView() instanceof IModule) {
 				return new NullViewState();
 			} else {
-				log.debug("Back to view: " + viewState.getPresenter());
+				LOG.debug("Back to view: " + viewState.getPresenter());
 
 				viewState.getPresenter().go(viewState.getContainer(),
 						viewState.getParams());
