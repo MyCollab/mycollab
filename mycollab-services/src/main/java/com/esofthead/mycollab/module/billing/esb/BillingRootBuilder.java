@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.billing.esb;
 
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -29,7 +31,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component
+@Profile("!test")
 public class BillingRootBuilder extends SpringRouteBuilder {
+
+	@Autowired
+	private AccountDeletedCommand accountDeletedCommand;
 
 	@Override
 	public void configure() throws Exception {
@@ -37,10 +43,8 @@ public class BillingRootBuilder extends SpringRouteBuilder {
 				ExchangePattern.InOnly).to("seda:accountDelete.queue");
 		from("seda:accountDelete.queue")
 				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(AccountDeletedCommand.class),
+				.bean(accountDeletedCommand,
 						"accountDeleted(int, com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs)");
 
 	}
-
 }

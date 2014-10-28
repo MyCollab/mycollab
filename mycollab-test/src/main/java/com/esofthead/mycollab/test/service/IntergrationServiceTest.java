@@ -19,6 +19,7 @@ package com.esofthead.mycollab.test.service;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.esofthead.mycollab.test.rule.DbUnitInitializerRule;
@@ -41,6 +42,7 @@ import com.esofthead.mycollab.test.rule.EssentialInitRule;
 		"classpath:META-INF/spring/mail-context.xml",
 		"classpath:META-INF/spring-test/datasource-context-test.xml",
 		"classpath:META-INF/spring-test/service-context-test.xml" })
+@ActiveProfiles(profiles = "test")
 public class IntergrationServiceTest {
 	@ClassRule
 	public static final EssentialInitRule essentialRule = new EssentialInitRule();

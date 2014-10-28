@@ -20,6 +20,7 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("ecmRouteBuilder")
+@Profile("!test")
 public class EcmRouteBuilder extends SpringRouteBuilder {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(EcmRouteBuilder.class);

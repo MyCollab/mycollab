@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.esb;
 
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -28,6 +29,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  */
 @Component
+@Profile("!test")
 public class UserRouteBuilder extends SpringRouteBuilder {
 
 	@Override
