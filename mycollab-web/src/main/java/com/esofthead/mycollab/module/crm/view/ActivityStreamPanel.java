@@ -39,6 +39,7 @@ import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -71,6 +72,8 @@ import com.vaadin.ui.Label;
 public class ActivityStreamPanel extends CssLayout {
 	private static final long serialVersionUID = 1L;
 
+	private static int MAX_NUMBER_DISPLAY = 20;
+
 	private final CrmActivityStreamPagedList activityStreamList;
 
 	public ActivityStreamPanel() {
@@ -97,11 +100,23 @@ public class ActivityStreamPanel extends CssLayout {
 
 		private final ActivityStreamService activityStreamService;
 
+		private int currentIndex = 0;
+
 		public CrmActivityStreamPagedList() {
 			super(null, 20);
 			this.activityStreamService = ApplicationContextUtil
 					.getSpringBean(ActivityStreamService.class);
 
+		}
+
+		@Override
+		public void setSearchCriteria(
+				final ActivityStreamSearchCriteria searchCriteria) {
+			listContainer.removeAllComponents();
+
+			searchRequest = new SearchRequest<ActivityStreamSearchCriteria>(
+					searchCriteria, currentIndex, MAX_NUMBER_DISPLAY);
+			doSearch();
 		}
 
 		@SuppressWarnings("unchecked")
@@ -136,7 +151,7 @@ public class ActivityStreamPanel extends CssLayout {
 
 			Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 			CssLayout currentFeedBlock = new CssLayout();
-			
+
 			int currentItemsDisplay = 0;
 
 			try {
@@ -233,6 +248,8 @@ public class ActivityStreamPanel extends CssLayout {
 					streamWrapper.addStyleName("stream-wrapper");
 					streamWrapper.addComponent(activityLink);
 					currentFeedBlock.addComponent(streamWrapper);
+
+					currentItemsDisplay++;
 				}
 			} catch (final Exception e) {
 				throw new MyCollabException(e);

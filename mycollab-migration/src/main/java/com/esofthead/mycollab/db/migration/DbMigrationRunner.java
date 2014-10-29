@@ -48,8 +48,8 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  * 
  */
-@Component(value = "dbMigration")
-@DependsOn(value = { "resourceService" })
+@Component("dbMigration")
+@DependsOn("appContextUtil")
 public class DbMigrationRunner {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DbMigrationRunner.class);
