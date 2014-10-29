@@ -45,16 +45,24 @@ Last changelog
 Version 4.5.3
 -----------------------------
 
+**Library Upgrades**
+
+* Upgrade AspectJ library to 1.8.3
+
 **Improvements**
 
 * All description supports rich text
 * Clean html in rich text to help html display html string correctly
+* Display the crm activity stream properly when there is several items user can not access
+* Display attachments in thumbnail mode
+* Allow users can search in their following ticket list
 
 **Bug Fixes**
 
 * Custom layout throws NPE
 * Fix NPE when user navigate the project time tracking list
 * Throws error if user save the empty page content
+* Minor fixes in set the overdue title colors in project and crm items
 
 Version 4.5.2
 -----------------------------

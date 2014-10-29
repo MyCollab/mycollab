@@ -123,25 +123,30 @@ public class ImageUtil {
 
 	public static BufferedImage generateImageThumbnail(InputStream imageStream)
 			throws IOException {
-		int idealWidth = 256;
-		BufferedImage source = ImageIO.read(imageStream);
-		int imgHeight = source.getHeight();
-		int imgWidth = source.getWidth();
+		try {
+			int idealWidth = 256;
+			BufferedImage source = ImageIO.read(imageStream);
+			int imgHeight = source.getHeight();
+			int imgWidth = source.getWidth();
 
-		float scale = (float) imgWidth / idealWidth;
-		int height = (int) (imgHeight / scale);
+			float scale = (float) imgWidth / idealWidth;
+			int height = (int) (imgHeight / scale);
 
-		BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
-				Mode.AUTOMATIC, idealWidth, (int) height);
-		if (height > 400) {
-			rescaledImage = rescaledImage.getSubimage(0, 0, 256, 400);
+			BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
+					Mode.AUTOMATIC, idealWidth, (int) height);
+			if (height > 400) {
+				rescaledImage = rescaledImage.getSubimage(0, 0, 256, 400);
+			}
+			return rescaledImage;
+		} catch (Exception e) {
+			LOG.error("Generate thumbnail for email error", e);
+			return null;
 		}
-		return rescaledImage;
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedImage thumbnail = generateImageThumbnail(new FileInputStream(
-				new File("/Users/haiphucnguyen/Downloads/GOA logo.jpg")));
+				new File("/Users/haiphucnguyen/Downloads/favicon.ico")));
 		ImageIO.write(thumbnail, "png", new File(
 				"/Users/haiphucnguyen/Desktop/test.png"));
 		System.out.println("Thumb: " + thumbnail);

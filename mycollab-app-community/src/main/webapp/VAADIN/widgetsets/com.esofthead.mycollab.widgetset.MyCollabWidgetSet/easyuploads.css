@@ -9,8 +9,9 @@
 }
 
 .v-multifileupload-dropzone .v-label {
-	text-align:center; 
+	text-align:center;
 	width: 100%;
+	font-size:13px;
 }
 
 

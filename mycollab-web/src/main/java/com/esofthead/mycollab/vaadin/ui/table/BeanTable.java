@@ -103,6 +103,9 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 	}
 
 	public void setItems(Collection<T> itemsCol) {
+		if (itemsCol == null) {
+			itemsCol = new ArrayList<>();
+		}
 		BeanItemContainer<T> container = new BeanItemContainer<T>(typeClass,
 				itemsCol);
 		this.setContainerDataSource(container);

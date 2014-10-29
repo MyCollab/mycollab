@@ -117,12 +117,14 @@ public class ResourceServiceImpl implements ResourceService {
 	public void saveContent(Content content, String createdUser,
 			InputStream refStream, Integer sAccountId) {
 		Integer fileSize = 0;
-		try {
-			fileSize = refStream.available();
-			billingPlanCheckerService.validateAccountCanUploadMoreFiles(
-					sAccountId, fileSize);
-		} catch (IOException e) {
-			LOG.error("Can not get available bytes", e);
+		if (sAccountId != null) {
+			try {
+				fileSize = refStream.available();
+				billingPlanCheckerService.validateAccountCanUploadMoreFiles(
+						sAccountId, fileSize);
+			} catch (IOException e) {
+				LOG.error("Can not get available bytes", e);
+			}
 		}
 
 		// detect mimeType and set to content
@@ -139,13 +141,17 @@ public class ResourceServiceImpl implements ResourceService {
 						.getContentStream(contentPath);
 				BufferedImage image = ImageUtil
 						.generateImageThumbnail(newInputStream);
-				String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
-						sAccountId, StringUtils.generateSoftUniqueId(), "png");
-				File tmpFile = File.createTempFile("tmp", "png");
-				ImageIO.write(image, "png", new FileOutputStream(tmpFile));
-				rawContentService.saveContent(thumbnailPath,
-						new FileInputStream(tmpFile));
-				content.setThumbnail(thumbnailPath);
+				if (image != null) {
+					String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
+							sAccountId, StringUtils.generateSoftUniqueId(),
+							"png");
+					File tmpFile = File.createTempFile("tmp", "png");
+					ImageIO.write(image, "png", new FileOutputStream(tmpFile));
+					rawContentService.saveContent(thumbnailPath,
+							new FileInputStream(tmpFile));
+					content.setThumbnail(thumbnailPath);
+				}
+
 			} catch (Exception e) {
 				LOG.error("Error when generating thumbnail", e);
 			}

@@ -146,6 +146,11 @@
             <version>7.3.3</version>
         </dependency>
         <dependency>
+            <groupId>org.peimari</groupId>
+            <artifactId>maddon</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>contextmenu</artifactId>
             <version>4.5.0</version>

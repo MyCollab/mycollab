@@ -96,6 +96,7 @@ public class ProjectServiceImpl extends
 	@Autowired
 	private BillingPlanCheckerService billingPlanCheckerService;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ICrudGenericDAO<Integer, Project> getCrudMapper() {
 		return projectMapper;
