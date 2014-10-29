@@ -128,7 +128,7 @@ public class ImageUtil {
 		int imgHeight = source.getHeight();
 		int imgWidth = source.getWidth();
 
-		float scale = imgWidth / idealWidth;
+		float scale = (float) imgWidth / idealWidth;
 		int height = (int) (imgHeight / scale);
 
 		BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
@@ -141,8 +141,7 @@ public class ImageUtil {
 
 	public static void main(String[] args) throws IOException {
 		BufferedImage thumbnail = generateImageThumbnail(new FileInputStream(
-				new File(
-						"/Users/haiphucnguyen/.mycollab/1/Documents/aaaa/Example/flash_install_8.png")));
+				new File("/Users/haiphucnguyen/Downloads/GOA logo.jpg")));
 		ImageIO.write(thumbnail, "png", new File(
 				"/Users/haiphucnguyen/Desktop/test.png"));
 		System.out.println("Thumb: " + thumbnail);
