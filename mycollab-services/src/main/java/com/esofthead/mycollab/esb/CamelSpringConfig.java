@@ -18,7 +18,6 @@ package com.esofthead.mycollab.esb;
 
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * 

@@ -20,10 +20,9 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -37,6 +36,12 @@ public class EcmRouteBuilder extends SpringRouteBuilder {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(EcmRouteBuilder.class);
 
+	@Autowired
+	private SaveContentCommand saveContentCommand;
+
+	@Autowired
+	private DeleteResourcesCommand deleteResourcesCommand;
+
 	@Override
 	public void configure() throws Exception {
 		LOG.debug("Configure content save route");
@@ -44,17 +49,14 @@ public class EcmRouteBuilder extends SpringRouteBuilder {
 				ExchangePattern.InOnly).to("seda:saveContent.queue");
 		from("seda:saveContent.queue")
 				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(SaveContentCommand.class),
+				.bean(saveContentCommand,
 						"saveContent(com.esofthead.mycollab.module.ecm.domain.Content, String, int)");
 
 		LOG.debug("Configure contents deleted route");
 		from(EcmEndPoints.DELETE_RESOURCES_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:deleteResources.queue");
-		from("seda:deleteResources.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteResourcesCommand.class),
+		from("seda:deleteResources.queue").threads()
+				.bean(deleteResourcesCommand,
 						"removeResource(String[], String, int)");
 
 	}

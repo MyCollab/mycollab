@@ -104,6 +104,7 @@ public class ActivityStreamPanel extends CssLayout {
 
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected void doSearch() {
 			this.totalCount = this.activityStreamService
@@ -135,6 +136,8 @@ public class ActivityStreamPanel extends CssLayout {
 
 			Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 			CssLayout currentFeedBlock = new CssLayout();
+			
+			int currentItemsDisplay = 0;
 
 			try {
 				for (final SimpleActivityStream activityStream : currentListData) {

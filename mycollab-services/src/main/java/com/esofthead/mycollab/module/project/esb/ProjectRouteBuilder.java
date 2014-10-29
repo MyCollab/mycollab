@@ -20,10 +20,9 @@ import org.apache.camel.ExchangePattern;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 @Component
 @Profile("!test")
@@ -32,104 +31,111 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectRouteBuilder.class);
 
+	@Autowired
+	private DeleteProjectCommand deleteProjectCommand;
+
+	@Autowired
+	private DeleteProjectMemberCommand deleteProjectMemberCommand;
+
+	@Autowired
+	private DeleteProjectMessageCommand deleteProjectMessageCommand;
+
+	@Autowired
+	private DeleteProjectBugCommand deleteProjectBugCommand;
+
+	@Autowired
+	private DeleteProjectComponentCommand deleteProjectComponentCommand;
+
+	@Autowired
+	private DeleteProjectVersionCommand deleteProjectVersionCommand;
+
+	@Autowired
+	private DeleteProjectTaskCommand deleteProjectTaskCommand;
+
+	@Autowired
+	private DeleteProjectTaskListCommand deleteProjectTaskListCommand;
+
+	@Autowired
+	private DeleteProjectMilestoneCommand deleteProjectMilestoneCommand;
+
+	@Autowired
+	private InviteProjectMembersCommand inviteProjectMembersCommand;
+
 	@Override
 	public void configure() throws Exception {
 		LOG.debug("Configure project remove route");
 		from(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectDelete.queue");
-		from("seda:projectDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectCommand.class),
-						"projectRemoved(int, int)");
+		from("seda:projectDelete.queue").threads().bean(deleteProjectCommand,
+				"projectRemoved(int, int)");
 
 		LOG.debug("Configure project member remove route");
 		from(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMemberDelete.queue");
-		from("seda:projectMemberDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectMemberCommand.class),
-						"projectMemberRemoved(String,int, int, int)");
+		from("seda:projectMemberDelete.queue").threads().bean(
+				deleteProjectMemberCommand,
+				"projectMemberRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project message remove route");
 		from(ProjectEndPoints.PROJECT_MESSAGE_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMessageDelete.queue");
-		from("seda:projectMessageDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectMessageCommand.class),
-						"messageRemoved(String,int, int, int)");
+		from("seda:projectMessageDelete.queue").threads().bean(
+				deleteProjectMessageCommand,
+				"messageRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project bug remove route");
 		from(ProjectEndPoints.PROJECT_BUG_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectBugDelete.queue");
-		from("seda:projectBugDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectBugCommand.class),
-						"bugRemoved(String,int, int, int)");
+		from("seda:projectBugDelete.queue").threads().bean(
+				deleteProjectBugCommand, "bugRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project component remove route");
 		from(ProjectEndPoints.PROJECT_COMPONENT_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectComponentDelete.queue");
-		from("seda:projectComponentDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectComponentCommand.class),
-						"componentRemoved(String,int, int, int)");
+		from("seda:projectComponentDelete.queue").threads().bean(
+				deleteProjectComponentCommand,
+				"componentRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project version remove route");
 		from(ProjectEndPoints.PROJECT_VERSION_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectVersionDelete.queue");
-		from("seda:projectVersionDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectVersionCommand.class),
-						"versionRemoved(String,int, int, int)");
+		from("seda:projectVersionDelete.queue").threads().bean(
+				deleteProjectVersionCommand,
+				"versionRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project task remove route");
 		from(ProjectEndPoints.PROJECT_TASK_REMOVE_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:projectTaskDelete.queue");
-		from("seda:projectTaskDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectTaskCommand.class),
-						"taskRemoved(String,int, int, int)");
+		from("seda:projectTaskDelete.queue").threads().bean(
+				deleteProjectTaskCommand, "taskRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project task list remove route");
 		from(ProjectEndPoints.PROJECT_TASKLIST_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectTaskListDelete.queue");
-		from("seda:projectTaskListDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectTaskListCommand.class),
-						"taskListRemoved(String,int, int, int)");
+		from("seda:projectTaskListDelete.queue").threads().bean(
+				deleteProjectTaskListCommand,
+				"taskListRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project milestone remove route");
 		from(ProjectEndPoints.PROJECT_MILESTONE_REMOVE_ENDPOINT)
 				.setExchangePattern(ExchangePattern.InOnly).to(
 						"seda:projectMilestoneDelete.queue");
-		from("seda:projectMilestoneDelete.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(DeleteProjectMilestoneCommand.class),
-						"milestoneRemoved(String,int, int, int)");
+		from("seda:projectMilestoneDelete.queue").threads().bean(
+				deleteProjectMilestoneCommand,
+				"milestoneRemoved(String,int, int, int)");
 
 		LOG.debug("Configure project member invitation route");
 		from(ProjectEndPoints.PROJECT_SEND_INVITATION_USER).setExchangePattern(
 				ExchangePattern.InOnly)
 				.to("seda:projectMemberInvitation.queue");
-		from("seda:projectMemberInvitation.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(InviteProjectMembersCommand.class),
-						"inviteUsers(String[],int, int, String, int)");
+		from("seda:projectMemberInvitation.queue").threads().bean(
+				inviteProjectMembersCommand,
+				"inviteUsers(String[],int, int, String, int)");
 	}
 
 }

@@ -49,7 +49,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component(value = "dbMigration")
-@DependsOn(value = { "resourceService", "camelConfig" })
+@DependsOn(value = { "resourceService" })
 public class DbMigrationRunner {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(DbMigrationRunner.class);
