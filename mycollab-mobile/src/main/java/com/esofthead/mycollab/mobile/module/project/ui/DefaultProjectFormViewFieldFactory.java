@@ -17,13 +17,22 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.easyuploads.FileBuffer;
+import org.vaadin.easyuploads.FileFactory;
+import org.vaadin.easyuploads.MultiUpload;
+import org.vaadin.easyuploads.MultiUploadHandler;
+import org.vaadin.easyuploads.UploadField;
 
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
+import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -31,6 +40,7 @@ import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.vaadin.server.StreamVariable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -38,11 +48,6 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.FailedEvent;
-import com.vaadin.ui.Upload.FinishedEvent;
-import com.vaadin.ui.Upload.StartedEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -99,19 +104,15 @@ public class DefaultProjectFormViewFieldFactory {
 		}
 	}
 
-	public static class ProjectFormAttachmentUploadField extends CustomField
-			implements Upload.StartedListener, Upload.ProgressListener,
-			Upload.SucceededListener, Upload.FailedListener,
-			Upload.FinishedListener {
+	@SuppressWarnings("unused")
+	public static class ProjectFormAttachmentUploadField extends CustomField {
 		private static final long serialVersionUID = 1L;
-		private Upload attachmentBtn;
+		private MultiUpload attachmentBtn;
 		private Map<String, File> fileStores;
-		private ProjectAttachmentReceiver receiver;
+		private FileBuffer receiver;
 
 		private VerticalLayout content;
 		private ResourceService resourceService;
-		private ProgressBar uploadProgress;
-		private Label uploadResult;
 		private int currentPollInterval;
 		private String attachmentPath;
 
@@ -123,15 +124,106 @@ public class DefaultProjectFormViewFieldFactory {
 					.getSpringBean(ResourceService.class);
 			currentPollInterval = UI.getCurrent().getPollInterval();
 
-			receiver = new ProjectAttachmentReceiver();
+			receiver = createReceiver();
 
-			attachmentBtn = new Upload(null, receiver);
+			attachmentBtn = new MultiUpload();
 			attachmentBtn.setButtonCaption("Select File...");
 			attachmentBtn.setImmediate(true);
-			attachmentBtn.addStartedListener(this);
-			attachmentBtn.addProgressListener(this);
-			attachmentBtn.addFailedListener(this);
-			attachmentBtn.addSucceededListener(this);
+
+			MultiUploadHandler handler = new MultiUploadHandler() {
+				private LinkedList<ProgressBar> indicators;
+
+				@Override
+				public void streamingStarted(
+						StreamVariable.StreamingStartEvent event) {
+				}
+
+				@Override
+				public void streamingFinished(
+						StreamVariable.StreamingEndEvent event) {
+					if (!indicators.isEmpty()) {
+						final String fileName = event.getFileName();
+						content.replaceComponent(indicators.remove(0),
+								MobileAttachmentUtils.renderAttachmentFieldRow(
+										MobileAttachmentUtils.constructContent(
+												fileName, attachmentPath),
+										new Button.ClickListener() {
+
+											private static final long serialVersionUID = 581451358291203810L;
+
+											@Override
+											public void buttonClick(
+													Button.ClickEvent event) {
+												fileStores.remove(fileName);
+											}
+										}));
+					}
+
+					if (indicators.size() == 0) {
+						UI.getCurrent().setPollInterval(currentPollInterval);
+					}
+
+					File file = receiver.getFile();
+
+					receiveFile(file, event.getFileName(), event.getMimeType(),
+							event.getBytesReceived());
+					receiver.setValue(null);
+				}
+
+				@Override
+				public void streamingFailed(
+						StreamVariable.StreamingErrorEvent event) {
+					if (!indicators.isEmpty()) {
+						Label uploadResult = new Label("Upload failed! File: "
+								+ event.getFileName());
+						uploadResult.setStyleName("upload-status");
+						content.replaceComponent(indicators.remove(0),
+								uploadResult);
+					}
+				}
+
+				@Override
+				public void onProgress(
+						StreamVariable.StreamingProgressEvent event) {
+					long readBytes = event.getBytesReceived();
+					long contentLength = event.getContentLength();
+					float f = (float) readBytes / (float) contentLength;
+					indicators.get(0).setValue(f);
+				}
+
+				@Override
+				public OutputStream getOutputStream() {
+					MultiUpload.FileDetail next = attachmentBtn
+							.getPendingFileNames().iterator().next();
+					return receiver.receiveUpload(next.getFileName(),
+							next.getMimeType());
+				}
+
+				@Override
+				public void filesQueued(
+						Collection<MultiUpload.FileDetail> pendingFileNames) {
+					UI.getCurrent().setPollInterval(500);
+					if (indicators == null) {
+						indicators = new LinkedList<ProgressBar>();
+					}
+					for (MultiUpload.FileDetail f : pendingFileNames) {
+						ProgressBar pi = new ProgressBar();
+						pi.setValue(0f);
+						pi.setStyleName("upload-progress");
+						pi.setWidth("100%");
+						content.addComponent(pi);
+						pi.setEnabled(true);
+						pi.setVisible(true);
+						indicators.add(pi);
+					}
+				}
+
+				@Override
+				public boolean isInterrupted() {
+					return false;
+				}
+			};
+			attachmentBtn.setHandler(handler);
 
 			content.addComponent(attachmentBtn);
 
@@ -175,57 +267,30 @@ public class DefaultProjectFormViewFieldFactory {
 			return content;
 		}
 
-		@Override
-		public void updateProgress(long readBytes, long contentLength) {
-			uploadProgress
-					.setValue(new Float(readBytes / (float) contentLength));
+		protected FileBuffer createReceiver() {
+			FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public FileFactory getFileFactory() {
+					return new TempFileFactory();
+				}
+			};
+			receiver.setDeleteFiles(false);
+			return receiver;
 		}
 
-		@Override
-		public void uploadStarted(StartedEvent event) {
-			uploadProgress = new ProgressBar(0f);
-			uploadProgress.setStyleName("upload-progress");
-			uploadProgress.setWidth("100%");
-			content.addComponent(uploadProgress);
-			UI.getCurrent().setPollInterval(500);
-		}
-
-		@Override
-		public void uploadFailed(FailedEvent event) {
-			uploadResult = new Label("Error! Upload failed!");
-			uploadResult.setStyleName("upload-status");
-			content.replaceComponent(uploadProgress, uploadResult);
-		}
-
-		@Override
-		public void uploadSucceeded(SucceededEvent event) {
-			final String fileName = event.getFilename();
+		public void receiveFile(File file, String fileName, String mimeType,
+				long length) {
+			if (fileStores == null) {
+				fileStores = new HashMap<String, File>();
+			}
 			if (fileStores.containsKey(fileName)) {
 				NotificationUtil.showWarningNotification("File " + fileName
 						+ " is already existed.");
-				content.removeComponent(uploadProgress);
-				receiver.clearData();
-				return;
+			} else {
+				fileStores.put(fileName, file);
 			}
-			fileStores.put(fileName, receiver.getFile());
-			content.replaceComponent(uploadProgress, MobileAttachmentUtils
-					.renderAttachmentFieldRow(
-							MobileAttachmentUtils.constructContent(
-									event.getFilename(), attachmentPath),
-							new Button.ClickListener() {
-
-								private static final long serialVersionUID = 3644051988159897490L;
-
-								@Override
-								public void buttonClick(Button.ClickEvent event) {
-									fileStores.remove(fileName);
-								}
-							}));
-		}
-
-		@Override
-		public void uploadFinished(FinishedEvent event) {
-			UI.getCurrent().setPollInterval(currentPollInterval);
 		}
 	}
 }

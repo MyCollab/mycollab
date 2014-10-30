@@ -904,7 +904,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout .v-upload .v-button .v-button-wrap {
   padding: 0px;
 }
-.mycollab-mobile .attachment-view-panel .v-label {
+.mycollab-mobile .attachment-panel .v-label.attachment-name {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1173,7 +1173,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #bfbfbf;
 }
 .mycollab-mobile .comment-list .comment-block .right-col .comment-content {
-  color: #aaaaaa;
+  color: #959595;
   padding-bottom: 0.8rem;
 }
 .mycollab-mobile .message-add-view .content-layout {

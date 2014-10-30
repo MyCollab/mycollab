@@ -39,14 +39,15 @@ public class SimpleComment extends Comment {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(SimpleComment.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SimpleComment.class);
 
 	private String ownerAvatarId;
 	private String ownerFullName;
 	private List<Content> attachments;
 
 	public String getOwnerFullName() {
-		if (StringUtils.isNotBlank(ownerFullName)) {
+		if (StringUtils.isBlank(ownerFullName)) {
 			String displayName = getCreateduser();
 			return com.esofthead.mycollab.core.utils.StringUtils
 					.extractNameFromEmail(displayName);

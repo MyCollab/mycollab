@@ -722,8 +722,8 @@
 		}
 	}
 	
-	.attachment-view-panel {
-		.v-label {
+	.attachment-panel {
+		.v-label.attachment-name {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
