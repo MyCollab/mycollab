@@ -3297,20 +3297,9 @@ div.v-splitbutton,div.v-splitbutton .v-button {
     color: gray;
 }
 
-.message-footer {
+.message .message-footer {
     border-top: 1px solid #CFCFCF;
-}
-.message-footer.v-margin-top {
-    padding-top: 7px;
-}
-.message-footer.v-margin-right {
-    padding-right: 10px;
-}
-.message-footer.v-margin-bottom {
-    padding-bottom: 7px;
-}
-.message-footer.v-margin-left {
-    padding-left: 10px;
+    padding: 7px 10px;
 }
 
 .comment-list .depotContent {
@@ -3370,6 +3359,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 
 .v-multifileupload-uploads .v-upload .v-button>.v-button-wrap {
     background: none;
+    padding-left: 5px;
 }
 
 .v-multifileupload-uploads .v-upload-immediate input {
@@ -7281,4 +7271,57 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 /* Lazy Page */
 .v-window.lazyload-progress {
 	box-shadow: none;
+}
+
+/* Attachment Block */
+.attachment-block {
+	cursor: pointer;
+	margin: 5px 12px 5px 0px;
+}
+.attachment-block .attachment-name-wrap {
+	padding: 9px;
+	background-color: rgba(0, 0, 0, 0.55);
+}
+.attachment-block .thumbnail-wrap:before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	position: relative;
+	vertical-align: middle;
+}
+.attachment-block .thumbnail-wrap {
+	background-color: rgb(249, 249, 249);
+}
+.attachment-block .thumbnail-wrap img {
+	display: inline-block;
+	vertical-align: middle;
+}
+.attachment-block .attachment-name-wrap .v-label {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: rgb(255, 255, 255);
+	font-weight: bold;
+}
+.attachment-block .attachment-control {
+	border-radius: 3px;
+	background-color: rgb(0, 0, 0);
+	opacity: 0;
+	color: rgb(255, 255, 255);
+	-webkit-transition: opacity 218ms ease 0s;
+	-moz-transition: opacity 218ms ease 0s;
+	-o-transition: opacity 218ms ease 0s;
+	transition: opacity 218ms ease 0s;
+}
+.attachment-block .attachment-control .v-button-wrap {
+	padding: 5px;
+	border: none;
+}
+.attachment-block .attachment-control .v-button-wrap .v-icon {
+	margin: 0px;
+}
+.attachment-block:hover .attachment-control {
+	opacity: 0.55;
+}
+.attachment-block .attachment-control:hover {
+	opacity: 1;
 }

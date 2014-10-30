@@ -176,6 +176,9 @@ public class ResourceServiceImpl implements ResourceService {
 	public void removeResource(String path, String deleteUser,
 			Integer sAccountId) {
 		Resource res = contentJcrDao.getResource(path);
+		if (res == null) {
+			return;
+		}
 		ContentActivityLogAction deleteResourceAction;
 
 		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil

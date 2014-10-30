@@ -50,6 +50,15 @@ public interface ISearchableService<S extends SearchCriteria> extends IService {
 
 	/**
 	 * 
+	 * @param searchRequest
+	 * @return
+	 */
+	@Cacheable
+	List findAbsoluteListByCriteria(@CacheKey S searchCriteria, int firstIndex,
+			int numberOfItems);
+
+	/**
+	 * 
 	 * @param criteria
 	 * @param sAccountId
 	 */

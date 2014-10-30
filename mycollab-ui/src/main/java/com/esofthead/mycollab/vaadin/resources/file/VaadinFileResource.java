@@ -23,6 +23,7 @@ import com.esofthead.mycollab.configuration.StorageConfiguration;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.vaadin.resources.VaadinResource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 
@@ -40,12 +41,13 @@ public class VaadinFileResource implements VaadinResource {
 	}
 
 	@Override
-	public Resource getImagePreviewResource(String documentPath) {
+	public Resource getImagePreviewResource(String documentPath,
+			Resource failOverSource) {
 		StorageConfiguration storageConfiguration = StorageManager
 				.getConfiguration();
-
-		return new FileResource(new File(
-				storageConfiguration.getResourcePath(documentPath)));
+		File docFile = new File(
+				storageConfiguration.getResourcePath(documentPath));
+		return (docFile.exists()) ? new FileResource(docFile) : failOverSource;
 	}
 
 	@Override

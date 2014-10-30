@@ -51,6 +51,13 @@ public abstract class DefaultSearchService<S extends SearchCriteria> implements
 	}
 
 	@Override
+	public List findAbsoluteListByCriteria(S searchCriteria, int firstIndex,
+			int numberOftems) {
+		return getSearchMapper().findPagableListByCriteria(searchCriteria,
+				new RowBounds(firstIndex, numberOftems));
+	}
+
+	@Override
 	public void removeByCriteria(S criteria, int accountId) {
 		getSearchMapper().removeByCriteria(criteria);
 

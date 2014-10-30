@@ -32,6 +32,8 @@ public class UIConstants {
 	public static final String DEFAULT_CONTROL_EXT_WIDTH = "350px";
 	public static final String DEFAULT_2XCONTROL_WIDTH = "600px";
 	public static final String DEFAULT_2XCONTROL_HEIGHT = "400px";
+	public static final String DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH = "189px";
+	public static final String DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT = "251px";
 	public static final String H2_STYLE2 = "h2-style2";
 	public static final String HEADER_VIEW = "hdr-view";
 	public static final String HEADER_TEXT = "hdr-text";

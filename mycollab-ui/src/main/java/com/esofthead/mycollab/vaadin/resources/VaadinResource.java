@@ -28,9 +28,10 @@ public interface VaadinResource {
 
 	Resource getStreamResource(String documentPath);
 
-	Resource getImagePreviewResource(String documentPath);
+	Resource getImagePreviewResource(String documentPath,
+			Resource failOverSource);
 
 	Resource getLogoResource(String logoId, int size);
-	
+
 	Resource getAvatarResource(String avatarId, int size);
 }

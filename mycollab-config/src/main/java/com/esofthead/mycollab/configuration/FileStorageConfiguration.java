@@ -65,6 +65,12 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 		return baseContentFolder.getPath() + "/" + documentPath;
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @param size
+	 * @return null if user avatar is not existed
+	 */
 	public File getAvatarFile(String username, int size) {
 		File userAvatarFile = new File(baseContentFolder, "/avatar/" + username
 				+ "_" + size + ".png");
@@ -75,6 +81,12 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 		}
 	}
 
+	/**
+	 * 
+	 * @param logoId
+	 * @param size
+	 * @return null if logo file is not existed
+	 */
 	public File getLogoFile(String logoId, int size) {
 		File logoFile = new File(baseContentFolder, "/logo/" + logoId + "_"
 				+ size + ".png");

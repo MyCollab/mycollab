@@ -135,18 +135,20 @@ public class ImageUtil {
 			BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
 					Mode.AUTOMATIC, idealWidth, (int) height);
 			if (height > 400) {
-				rescaledImage = rescaledImage.getSubimage(0, 0, 256, 400);
+				rescaledImage = rescaledImage.getSubimage(0, 0,
+						Math.min(256, rescaledImage.getWidth()), 400);
 			}
 			return rescaledImage;
 		} catch (Exception e) {
-			LOG.error("Generate thumbnail for email error", e);
+			e.printStackTrace();
+			LOG.error("Generate thumbnail for error", e);
 			return null;
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedImage thumbnail = generateImageThumbnail(new FileInputStream(
-				new File("/Users/haiphucnguyen/Downloads/favicon.ico")));
+				new File("/Users/haiphucnguyen/Downloads/Jeep_Image.png")));
 		ImageIO.write(thumbnail, "png", new File(
 				"/Users/haiphucnguyen/Desktop/test.png"));
 		System.out.println("Thumb: " + thumbnail);

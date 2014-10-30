@@ -30,19 +30,18 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -50,8 +49,11 @@ import com.vaadin.ui.VerticalLayout;
  * @since 2.0
  * 
  */
-public class AttachmentDisplayComponent extends VerticalLayout {
+public class AttachmentDisplayComponent extends CssLayout {
 	private static final long serialVersionUID = 1L;
+
+	private static final Resource DEFAULT_SOURCE = MyCollabResource
+			.newResource("icons/docs-256.png");
 
 	public AttachmentDisplayComponent(List<Content> attachments) {
 		for (Content attachment : attachments) {
@@ -66,39 +68,62 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 			docName = docName.substring(lastIndex + 1, docName.length());
 		}
 
-		final HorizontalLayout attachmentLayout = new HorizontalLayout();
-		attachmentLayout.setSpacing(true);
-		attachmentLayout.setMargin(new MarginInfo(false, false, false, true));
+		final AbsoluteLayout attachmentLayout = new AbsoluteLayout();
+		// attachmentLayout.setSpacing(false);
+		attachmentLayout
+				.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+		attachmentLayout
+				.setHeight(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT);
+		attachmentLayout.setStyleName("attachment-block");
 
-		Embedded fileTypeIcon = new Embedded(null,
-				UiUtils.getFileIconResource(docName));
-		attachmentLayout.addComponent(fileTypeIcon);
+		// Image fileTypeIcon = new Image(null,
+		// UiUtils.getFileIconResource(docName));
+		// attachmentLayout.addComponent(fileTypeIcon);
 
-		Label attachmentLink = new Label(StringUtils.trim(docName, 60, true));
-		attachmentLayout.addComponent(attachmentLink);
-		attachmentLayout.setComponentAlignment(attachmentLink,
-				Alignment.MIDDLE_CENTER);
+		CssLayout thumbnailWrap = new CssLayout();
+		thumbnailWrap.setSizeFull();
+		thumbnailWrap.setStyleName("thumbnail-wrap");
+
+		Image thumbnail = new Image(null);
+		if (org.apache.commons.lang3.StringUtils.isBlank(attachment
+				.getThumbnail())) {
+			thumbnail.setSource(DEFAULT_SOURCE);
+		} else {
+			thumbnail.setSource(VaadinResourceManager.getResourceManager()
+					.getImagePreviewResource(attachment.getThumbnail(),
+							DEFAULT_SOURCE));
+		}
+		thumbnail.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+		thumbnailWrap.addComponent(thumbnail);
+
+		attachmentLayout.addComponent(thumbnailWrap,
+				"top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 0;");
 
 		if (MimeTypesUtil.isImage(docName)) {
-
-			Button previewBtn = new Button(null, new Button.ClickListener() {
-
-				private static final long serialVersionUID = 1L;
+			thumbnail.addClickListener(new MouseEvents.ClickListener() {
+				private static final long serialVersionUID = -2853211588120500523L;
 
 				@Override
-				public void buttonClick(ClickEvent event) {
+				public void click(MouseEvents.ClickEvent event) {
 					Resource previewResource = VaadinResourceManager
 							.getResourceManager().getImagePreviewResource(
-									attachment.getPath());
+									attachment.getPath(), DEFAULT_SOURCE);
 					UI.getCurrent().addWindow(
 							new AttachmentPreviewWindow(previewResource));
 				}
 			});
-			previewBtn.setIcon(MyCollabResource
-					.newResource("icons/16/preview.png"));
-			previewBtn.setStyleName("link");
-			attachmentLayout.addComponent(previewBtn);
 		}
+
+		CssLayout attachmentNameWrap = new CssLayout();
+		attachmentNameWrap
+				.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
+		attachmentNameWrap.setStyleName("attachment-name-wrap");
+
+		Label attachmentName = new Label(StringUtils.trim(docName, 60, true));
+		attachmentName.setStyleName("attachment-name");
+		attachmentNameWrap.addComponent(attachmentName);
+		attachmentLayout.addComponent(attachmentNameWrap,
+				"bottom: 0px; left: 0px; right: 0px; z-index: 1;");
 
 		Button trashBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -133,9 +158,11 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 
 			}
 		});
-		trashBtn.setIcon(MyCollabResource.newResource("icons/16/trash.png"));
-		trashBtn.setStyleName("link");
-		attachmentLayout.addComponent(trashBtn);
+		trashBtn.setIcon(MyCollabResource
+				.newResource("icons/16/trash-white.png"));
+		trashBtn.setStyleName("attachment-control");
+		attachmentLayout.addComponent(trashBtn,
+				"top: 9px; left: 9px; z-index: 1;");
 
 		Button downloadBtn = new Button();
 		FileDownloader fileDownloader = new FileDownloader(
@@ -144,9 +171,10 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 		fileDownloader.extend(downloadBtn);
 
 		downloadBtn.setIcon(MyCollabResource
-				.newResource("icons/16/download.png"));
-		downloadBtn.setStyleName("link");
-		attachmentLayout.addComponent(downloadBtn);
+				.newResource("icons/16/download-white.png"));
+		downloadBtn.setStyleName("attachment-control");
+		attachmentLayout.addComponent(downloadBtn,
+				"right: 9px; top: 9px; z-index: 1;");
 		return attachmentLayout;
 	}
 }

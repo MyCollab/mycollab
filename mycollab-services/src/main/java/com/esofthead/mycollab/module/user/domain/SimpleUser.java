@@ -43,7 +43,7 @@ public class SimpleUser extends User {
 
 	public String getDisplayName() {
 		String result = getFirstname() + " " + getLastname();
-		if (result.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isNotBlank(result)) {
 			String displayName = getUsername();
 			return StringUtils.extractNameFromEmail(displayName);
 		}

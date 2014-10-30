@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,7 +158,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		contentLayout.removeAllComponents();
 
 		try {
-			if ((currentListData == null || currentListData.size() == 0)
+			if (CollectionUtils.isEmpty(currentListData)
 					&& isDisplayEmptyListText) {
 				Label noItemLbl = new Label(
 						AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));

@@ -140,10 +140,8 @@ public class CommentRowDisplayHandler extends
 									SiteConfiguration.getSiteName()),
 							AppContext
 									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
+							AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+							AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
@@ -180,6 +178,7 @@ public class CommentRowDisplayHandler extends
 			messageFooter.setStyleName("message-footer");
 			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
 					attachments);
+			attachmentDisplay.setWidth("100%");
 			messageFooter.addComponent(attachmentDisplay);
 			messageFooter.setMargin(true);
 			messageFooter.setComponentAlignment(attachmentDisplay,

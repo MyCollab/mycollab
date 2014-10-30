@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 
@@ -43,7 +44,8 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
 		extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(DefaultService.class);
 
 	public abstract ISearchableDAO<S> getSearchMapper();
 
@@ -59,6 +61,13 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 				new RowBounds((searchRequest.getCurrentPage() - 1)
 						* searchRequest.getNumberOfItems(), searchRequest
 						.getNumberOfItems()));
+	}
+
+	@Override
+	public List findAbsoluteListByCriteria(S searchCriteria, int firstIndex,
+			int numberOfItems) {
+		return getSearchMapper().findPagableListByCriteria(searchCriteria,
+				new RowBounds(firstIndex, numberOfItems));
 	}
 
 	@Override

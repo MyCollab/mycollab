@@ -54,6 +54,9 @@ public class DeleteResourcesCommandImpl implements DeleteResourcesCommand {
 			Integer sAccountId) {
 
 		Lock lock = DistributionLockUtil.getLock("ecm-" + sAccountId);
+		if (sAccountId == null) {
+			return;
+		}
 		try {
 			if (lock.tryLock(1, TimeUnit.HOURS)) {
 				long totalSize = 0;

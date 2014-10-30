@@ -265,8 +265,41 @@ public class NoteListItems extends VerticalLayout {
 			timePostLbl.setStyleName("time-post");
 			messageHeader.addComponent(timePostLbl);
 			messageHeader.setExpandRatio(timePostLbl, 1.0f);
+			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+			messageHeader.setSpacing(true);
 			messageHeader.setWidth("100%");
 			messageHeader.setMargin(new MarginInfo(true, true, false, true));
+
+			replyBtn = new Button(
+					AppContext.getMessage(CrmCommonI18nEnum.BUTTON_REPLY),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							if (noteContentLayout.getComponentCount() > 0) {
+								Component component = noteContentLayout
+										.getComponent(noteContentLayout
+												.getComponentCount() - 1);
+								if (!(component instanceof CommentInput)) {
+									commentInput = new CommentInput(
+											NoteRowDisplayHandler.this,
+											CommentType.CRM_NOTE, ""
+													+ note.getId(), null, true,
+											false);
+									noteContentLayout.addComponent(
+											commentInput, noteContentLayout
+													.getComponentCount());
+									replyBtn.setVisible(false);
+								}
+							}
+						}
+					});
+
+			replyBtn.setStyleName("link");
+			replyBtn.setIcon(MyCollabResource
+					.newResource("icons/16/crm/reply.png"));
+			messageHeader.addComponent(replyBtn);
 
 			if (AppContext.getUsername().equals(note.getCreateduser())
 					|| AppContext.isAdmin()) {
@@ -317,51 +350,14 @@ public class NoteListItems extends VerticalLayout {
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
 
-			final HorizontalLayout messageFooter = new HorizontalLayout();
-			messageFooter.setStyleName("message-footer");
-			messageFooter.setMargin(true);
-			messageFooter.setSpacing(true);
-			replyBtn = new Button(
-					AppContext.getMessage(CrmCommonI18nEnum.BUTTON_REPLY),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							if (noteContentLayout.getComponentCount() > 0) {
-								Component component = noteContentLayout
-										.getComponent(noteContentLayout
-												.getComponentCount() - 1);
-								if (!(component instanceof CommentInput)) {
-									commentInput = new CommentInput(
-											NoteRowDisplayHandler.this,
-											CommentType.CRM_NOTE, ""
-													+ note.getId(), null, true,
-											false);
-									noteContentLayout.addComponent(
-											commentInput, noteContentLayout
-													.getComponentCount());
-									replyBtn.setVisible(false);
-								}
-							}
-						}
-					});
-
-			replyBtn.setStyleName("link");
-			replyBtn.setIcon(MyCollabResource
-					.newResource("icons/16/crm/reply.png"));
-			messageFooter.addComponent(replyBtn);
-			messageFooter.setWidth("100%");
-
 			final List<Content> attachments = note.getAttachments();
 			if (!CollectionUtils.isEmpty(attachments)) {
 				AttachmentDisplayComponent attachmentDisplayComponent = new AttachmentDisplayComponent(
 						attachments);
-				messageFooter.addComponent(attachmentDisplayComponent);
-				messageFooter.setExpandRatio(attachmentDisplayComponent, 1.0f);
+				attachmentDisplayComponent.setWidth("100%");
+				attachmentDisplayComponent.addStyleName("message-footer");
+				rowLayout.addComponent(attachmentDisplayComponent);
 			}
-
-			rowLayout.addComponent(messageFooter);
 
 			layout.addComponent(rowLayout);
 

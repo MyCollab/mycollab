@@ -36,10 +36,9 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -50,7 +49,6 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -63,6 +61,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -71,8 +70,7 @@ import com.vaadin.ui.Label;
  */
 public class ActivityStreamPanel extends CssLayout {
 	private static final long serialVersionUID = 1L;
-
-	private static int MAX_NUMBER_DISPLAY = 20;
+	private static final int MAX_NUMBER_DISPLAY = 20;
 
 	private final CrmActivityStreamPagedList activityStreamList;
 
@@ -90,170 +88,226 @@ public class ActivityStreamPanel extends CssLayout {
 				new String[] { ModuleNameConstants.CRM }));
 		searchCriteria.setSaccountid(new NumberSearchField(AppContext
 				.getAccountId()));
+		searchCriteria.setOrderByField("createdTime");
+		searchCriteria.setSortDirection(SearchCriteria.DESC);
 		this.activityStreamList.setSearchCriteria(searchCriteria);
 	}
 
-	static class CrmActivityStreamPagedList
-			extends
-			AbstractBeanPagedList<ActivityStreamSearchCriteria, SimpleActivityStream> {
+	static class CrmActivityStreamPagedList extends VerticalLayout {
+
 		private static final long serialVersionUID = 1L;
 
-		private final ActivityStreamService activityStreamService;
+		private final CssLayout listContainer = new CssLayout();
+		private CssLayout controlBarWrapper = new CssLayout();
+		private CssLayout currentFeedBlock;
 
-		private int currentIndex = 0;
+		private ActivityStreamService activityStreamService;
+		private ActivityStreamSearchCriteria searchCriteria;
+
+		private int firstIndex = 0, lastIndex = 0;
+		private Date currentDate;
 
 		public CrmActivityStreamPagedList() {
-			super(null, 20);
-			this.activityStreamService = ApplicationContextUtil
+			listContainer.setStyleName("beanlist-content");
+			listContainer.setWidth("100%");
+			this.addComponent(listContainer);
+			activityStreamService = ApplicationContextUtil
 					.getSpringBean(ActivityStreamService.class);
-
 		}
 
-		@Override
 		public void setSearchCriteria(
 				final ActivityStreamSearchCriteria searchCriteria) {
-			listContainer.removeAllComponents();
-
-			searchRequest = new SearchRequest<ActivityStreamSearchCriteria>(
-					searchCriteria, currentIndex, MAX_NUMBER_DISPLAY);
-			doSearch();
+			this.listContainer.removeAllComponents();
+			this.searchCriteria = searchCriteria;
+			navigateToNext();
 		}
 
 		@SuppressWarnings("unchecked")
-		@Override
-		protected void doSearch() {
-			this.totalCount = this.activityStreamService
-					.getTotalCount(this.searchRequest.getSearchCriteria());
-			this.totalPage = (this.totalCount - 1)
-					/ this.searchRequest.getNumberOfItems() + 1;
-			if (this.searchRequest.getCurrentPage() > this.totalPage) {
-				this.searchRequest.setCurrentPage(this.totalPage);
-			}
-
-			if (this.totalPage > 1) {
-				// Define button layout
-				if (this.controlBarWrapper != null) {
-					this.removeComponent(this.controlBarWrapper);
-				}
-				this.addComponent(this.createPageControls());
-			} else {
-				if (this.getComponentCount() == 2) {
-					this.removeComponent(this.getComponent(1));
-				}
-			}
-
-			this.setCurrentPage(this.currentPage);
-			this.setTotalPage(this.totalPage);
-
-			final List<SimpleActivityStream> currentListData = this.activityStreamService
-					.findPagableListByCriteria(this.searchRequest);
+		private void doSearch(boolean isMoveForward) {
 			this.listContainer.removeAllComponents();
 
-			Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
-			CssLayout currentFeedBlock = new CssLayout();
+			currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+			currentFeedBlock = new CssLayout();
 
-			int currentItemsDisplay = 0;
+			Integer currentItemsDisplay = 0;
 
-			try {
-				for (final SimpleActivityStream activityStream : currentListData) {
+			while (currentItemsDisplay < MAX_NUMBER_DISPLAY) {
+				final List<SimpleActivityStream> currentListData = this.activityStreamService
+						.findAbsoluteListByCriteria(searchCriteria, firstIndex,
+								MAX_NUMBER_DISPLAY);
 
-					if (CrmTypeConstants.ACCOUNT.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
-						continue;
-					} else if (CrmTypeConstants.CONTACT.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CONTACT)) {
-						continue;
-					} else if (CrmTypeConstants.CAMPAIGN.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
-						continue;
-					} else if (CrmTypeConstants.LEAD.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_LEAD)) {
-						continue;
-					} else if (CrmTypeConstants.OPPORTUNITY
-							.equals(activityStream.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
-						continue;
-					} else if (CrmTypeConstants.CASE.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CASE)) {
-						continue;
-					} else if (CrmTypeConstants.TASK.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_TASK)) {
-						continue;
-					} else if (CrmTypeConstants.MEETING.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_MEETING)) {
-						continue;
-					} else if (CrmTypeConstants.CALL.equals(activityStream
-							.getType())
-							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CALL)) {
-						continue;
-					}
-
-					final Date itemCreatedDate = activityStream
-							.getCreatedtime();
-
-					if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
-						currentFeedBlock = new CssLayout();
-						currentFeedBlock.setStyleName("feed-block");
-						feedBlocksPut(currentDate, itemCreatedDate,
-								currentFeedBlock);
-						currentDate = itemCreatedDate;
-					}
-
-					CrmCommonI18nEnum action = null;
-
-					if (ActivityStreamConstants.ACTION_CREATE
-							.equals(activityStream.getAction())) {
-						action = CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION;
-					} else if (ActivityStreamConstants.ACTION_UPDATE
-							.equals(activityStream.getAction())) {
-						action = CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION;
-					}
-					// --------------Item hidden div tooltip----------------
-					String uid = UUID.randomUUID().toString();
-					String itemType = AppContext
-							.getMessage(CrmLocalizationTypeMap
-									.getType(activityStream.getType()));
-					String assigneeValue = buildAssigneeValue(activityStream,
-							uid);
-					String itemValue = buildItemValue(activityStream, uid);
-
-					StringBuffer content = new StringBuffer(
-							AppContext.getMessage(action, assigneeValue,
-									itemType, itemValue));
-					if (activityStream.getAssoAuditLog() != null) {
-						content.append(CrmActivityStreamGenerator
-								.generatorDetailChangeOfActivity(activityStream));
-					}
-
-					final Label activityLink = new Label(content.toString(),
-							ContentMode.HTML);
-					final CssLayout streamWrapper = new CssLayout();
-					streamWrapper.setWidth("100%");
-					streamWrapper.addStyleName("stream-wrapper");
-					streamWrapper.addComponent(activityLink);
-					currentFeedBlock.addComponent(streamWrapper);
-
-					currentItemsDisplay++;
+				if (currentListData.size() == 0) {
+					break;
 				}
-			} catch (final Exception e) {
-				throw new MyCollabException(e);
+
+				for (SimpleActivityStream item : currentListData) {
+					if (checkReadPermisson(item.getType())) {
+						currentItemsDisplay++;
+						showItem(item);
+					}
+					if (currentItemsDisplay == MAX_NUMBER_DISPLAY) {
+						break;
+					}
+				}
+
+				if (isMoveForward) {
+					firstIndex = lastIndex;
+					lastIndex = lastIndex + MAX_NUMBER_DISPLAY;
+				} else {
+					lastIndex = firstIndex;
+					firstIndex = firstIndex - MAX_NUMBER_DISPLAY;
+				}
 			}
+
+			if (hasPrevious() || hasNext()) {
+				this.addComponent(createPageControls());
+			}
+		}
+
+		private void navigateToPrevious() {
+			lastIndex = firstIndex;
+			firstIndex = firstIndex - MAX_NUMBER_DISPLAY;
+			doSearch(false);
+		}
+
+		private void navigateToNext() {
+			firstIndex = lastIndex;
+			lastIndex = lastIndex + MAX_NUMBER_DISPLAY;
+			doSearch(true);
+		}
+
+		private boolean checkReadPermisson(String type) {
+			if (CrmTypeConstants.ACCOUNT.equals(type)
+					&& !AppContext
+							.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+				return false;
+			} else if (CrmTypeConstants.CONTACT.equals(type)
+					&& !AppContext
+							.canRead(RolePermissionCollections.CRM_CONTACT)) {
+				return false;
+			} else if (CrmTypeConstants.CAMPAIGN.equals(type)
+					&& !AppContext
+							.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+				return false;
+			} else if (CrmTypeConstants.LEAD.equals(type)
+					&& !AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+				return false;
+			} else if (CrmTypeConstants.OPPORTUNITY.equals(type)
+					&& !AppContext
+							.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+				return false;
+			} else if (CrmTypeConstants.CASE.equals(type)
+					&& !AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
+				return false;
+			} else if (CrmTypeConstants.TASK.equals(type)
+					&& !AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
+				return false;
+			} else if (CrmTypeConstants.MEETING.equals(type)
+					&& !AppContext
+							.canRead(RolePermissionCollections.CRM_MEETING)) {
+				return false;
+			} else if (CrmTypeConstants.CALL.equals(type)
+					&& !AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+				return false;
+			}
+			return true;
+		}
+
+		private void showItem(final SimpleActivityStream activityStream) {
+
+			final Date itemCreatedDate = activityStream.getCreatedtime();
+
+			if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
+				currentFeedBlock = new CssLayout();
+				currentFeedBlock.setStyleName("feed-block");
+				feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
+				currentDate = itemCreatedDate;
+			}
+
+			CrmCommonI18nEnum action = null;
+
+			if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
+					.getAction())) {
+				action = CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION;
+			} else if (ActivityStreamConstants.ACTION_UPDATE
+					.equals(activityStream.getAction())) {
+				action = CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION;
+			}
+			// --------------Item hidden div tooltip----------------
+			String uid = UUID.randomUUID().toString();
+			String itemType = AppContext.getMessage(CrmLocalizationTypeMap
+					.getType(activityStream.getType()));
+			String assigneeValue = buildAssigneeValue(activityStream, uid);
+			String itemValue = buildItemValue(activityStream, uid);
+
+			StringBuffer content = new StringBuffer(AppContext.getMessage(
+					action, assigneeValue, itemType, itemValue));
+			if (activityStream.getAssoAuditLog() != null) {
+				content.append(CrmActivityStreamGenerator
+						.generatorDetailChangeOfActivity(activityStream));
+			}
+
+			final Label activityLink = new Label(content.toString(),
+					ContentMode.HTML);
+			final CssLayout streamWrapper = new CssLayout();
+			streamWrapper.setWidth("100%");
+			streamWrapper.addStyleName("stream-wrapper");
+			streamWrapper.addComponent(activityLink);
+			currentFeedBlock.addComponent(streamWrapper);
+		}
+
+		private CssLayout createPageControls() {
+			this.removeComponent(controlBarWrapper);
+			this.controlBarWrapper = new CssLayout();
+			this.controlBarWrapper.setWidth("100%");
+			this.controlBarWrapper.setStyleName("page-controls");
+			ButtonGroup controlBtns = new ButtonGroup();
+			controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
+			Button prevBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = -94021599166105307L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							navigateToPrevious();
+						}
+					});
+
+			prevBtn.setEnabled(hasPrevious());
+			prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			prevBtn.setWidth("64px");
+
+			Button nextBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 3095522916508256018L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							navigateToNext();
+						}
+					});
+
+			nextBtn.setEnabled(hasNext());
+			nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			nextBtn.setWidth("64px");
+
+			controlBtns.addButton(prevBtn);
+			controlBtns.addButton(nextBtn);
+
+			this.controlBarWrapper.addComponent(controlBtns);
+
+			return this.controlBarWrapper;
+		}
+
+		private boolean hasNext() {
+			return !this.activityStreamService.findAbsoluteListByCriteria(
+					this.searchCriteria, lastIndex, 1).isEmpty();
+		}
+
+		private boolean hasPrevious() {
+			return (this.firstIndex > 0);
 		}
 
 		private String buildAssigneeValue(SimpleActivityStream activityStream,
@@ -383,65 +437,6 @@ public class ActivityStreamPanel extends CssLayout {
 			blockWrapper.setExpandRatio(currentBlock, 1.0f);
 
 			this.listContainer.addComponent(blockWrapper);
-		}
-
-		@Override
-		protected CssLayout createPageControls() {
-			this.controlBarWrapper = new CssLayout();
-			this.controlBarWrapper.setWidth("100%");
-			this.controlBarWrapper.setStyleName("page-controls");
-			ButtonGroup controlBtns = new ButtonGroup();
-			controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
-			Button prevBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = -94021599166105307L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							CrmActivityStreamPagedList.this
-									.pageChange(CrmActivityStreamPagedList.this.currentPage - 1);
-						}
-					});
-			if (currentPage == 1) {
-				prevBtn.setEnabled(false);
-			}
-			prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			prevBtn.setWidth("64px");
-
-			Button nextBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 3095522916508256018L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							CrmActivityStreamPagedList.this
-									.pageChange(CrmActivityStreamPagedList.this.currentPage + 1);
-						}
-					});
-			if (currentPage == totalPage) {
-				nextBtn.setEnabled(false);
-			}
-			nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			nextBtn.setWidth("64px");
-
-			controlBtns.addButton(prevBtn);
-			controlBtns.addButton(nextBtn);
-
-			this.controlBarWrapper.addComponent(controlBtns);
-
-			return this.controlBarWrapper;
-		}
-
-		@Override
-		protected int queryTotalCount() {
-			return 0;
-		}
-
-		@Override
-		protected List<SimpleActivityStream> queryCurrentData() {
-			return null;
 		}
 	}
 }
