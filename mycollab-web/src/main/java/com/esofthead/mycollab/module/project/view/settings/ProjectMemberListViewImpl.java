@@ -126,6 +126,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
 		ProjectMemberService prjMemberService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);
@@ -234,6 +235,12 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		memberEmailLabel.addStyleName("member-email");
 		memberEmailLabel.setWidth("100%");
 		memberInfo.addComponent(memberEmailLabel);
+
+		Label memberSinceLabel = new Label("Member since: "
+				+ AppContext.formatDate(member.getJoindate()));
+		memberSinceLabel.addStyleName("member-email");
+		memberSinceLabel.setWidth("100%");
+		memberInfo.addComponent(memberSinceLabel);
 
 		if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member
 				.getStatus())) {

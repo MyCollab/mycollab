@@ -277,6 +277,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			memberEmailLabel.setWidth("100%");
 			memberInfo.addComponent(memberEmailLabel);
 
+			Label memberSinceLabel = new Label("Member since: "
+					+ AppContext.formatDate(beanItem.getJoindate()));
+			memberSinceLabel.addStyleName("member-email");
+			memberSinceLabel.setWidth("100%");
+			memberInfo.addComponent(memberSinceLabel);
+
 			if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem
 					.getStatus())) {
 				final VerticalLayout waitingNotLayout = new VerticalLayout();
@@ -370,16 +376,15 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			if (propertyId.equals("projectroleid")) {
 				if (attachForm.getBean().getIsadmin() != null
 						&& attachForm.getBean().getIsadmin() == Boolean.FALSE) {
-					LinkViewField roleLink = new LinkViewField(
-							attachForm.getBean().getRoleName(),
+					LinkViewField roleLink = new LinkViewField(attachForm
+							.getBean().getRoleName(),
 							ProjectLinkBuilder.generateRolePreviewFullLink(
 									attachForm.getBean().getProjectid(),
 									attachForm.getBean().getProjectroleid()),
 							null);
 					return roleLink;
 				} else {
-					return new DefaultViewField(
-							"Project Admin");
+					return new DefaultViewField("Project Admin");
 				}
 			} else if (propertyId.equals("username")) {
 				return new UserLinkViewField(

@@ -205,6 +205,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		memberEmailLabel.setWidth("100%");
 		memberInfo.addComponent(memberEmailLabel);
 
+		Label memberSinceLabel = new Label("Member since: "
+				+ AppContext.formatDate(member.getRegisteredtime()));
+		memberSinceLabel.addStyleName("member-email");
+		memberSinceLabel.setWidth("100%");
+		memberInfo.addComponent(memberSinceLabel);
+
 		if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member
 				.getRegisterstatus())) {
 			final VerticalLayout waitingNotLayout = new VerticalLayout();
