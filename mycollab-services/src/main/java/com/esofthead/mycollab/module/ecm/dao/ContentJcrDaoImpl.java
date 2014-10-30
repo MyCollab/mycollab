@@ -79,7 +79,9 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						throw new ContentException(errorStr);
 					} else if (isNodeContent(node)) {
 						LOG.debug("Found existing resource. Override");
-
+						convertContentToNode(content, node, createdUser);
+						session.save();
+						return null;
 					} else {
 						String errorStr = String
 								.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
@@ -92,7 +94,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						String path = content.getPath();
 						String[] pathStr = path.split("/");
 						Node parentNode = rootNode;
-						// create folder note
+						// create the folder node
 						for (int i = 0; i < pathStr.length - 1; i++) {
 							// move to lastest node of the path
 							Node childNode = getNode(parentNode, pathStr[i]);
@@ -101,8 +103,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 									// node must is folder
 									String errorString = "Invalid path. User want to create a content has path %s but there is a content has path %s. This node has type %s";
 									throw new ContentException(String.format(
-											errorString, content.getPath(),
-											childNode.getPath(), childNode
+											errorString, path, childNode
+													.getPath(), childNode
 													.getPrimaryNodeType()
 													.getName()));
 								}
@@ -122,18 +124,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						addNode.addMixin(NodeType.MIX_LAST_MODIFIED);
 						addNode.addMixin(NodeType.MIX_TITLE);
 
-						addNode.setProperty("jcr:title", content.getTitle());
-						addNode.setProperty("jcr:description",
-								content.getDescription());
-						addNode.setProperty("mycollab:createdUser", createdUser);
-						if (StringUtils.isNotBlank(content.getThumbnail())) {
-							addNode.setProperty("mycollab:thumbnailPath",
-									content.getThumbnail());
-						}
-
-						addNode.setProperty("mycollab:lastModifiedUser",
-								createdUser);
-						addNode.setProperty("mycollab:size", content.getSize());
+						convertContentToNode(content, addNode, createdUser);
 						session.save();
 					} catch (Exception e) {
 						LOG.error("error in convertToNode Method", e);
@@ -382,6 +373,24 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 				return null;
 			}
 		});
+	}
+
+	private static void convertContentToNode(Content content, Node node,
+			String createdUser) {
+		try {
+			node.setProperty("jcr:title", content.getTitle());
+			node.setProperty("jcr:description", content.getDescription());
+			node.setProperty("mycollab:createdUser", createdUser);
+			if (StringUtils.isNotBlank(content.getThumbnail())) {
+				node.setProperty("mycollab:thumbnailPath",
+						content.getThumbnail());
+			}
+
+			node.setProperty("mycollab:lastModifiedUser", createdUser);
+			node.setProperty("mycollab:size", content.getSize());
+		} catch (Exception e) {
+			throw new MyCollabException(e);
+		}
 	}
 
 	private static Content convertNodeToContent(Node node) {

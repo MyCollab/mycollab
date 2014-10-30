@@ -69,6 +69,7 @@ public class CommentInput extends VerticalLayout {
 				isSendingEmailRelay, null);
 	}
 
+	@SuppressWarnings("rawtypes")
 	CommentInput(final ReloadableComponent component,
 			final CommentType typeVal, final String typeidVal,
 			final Integer extraTypeIdVal, final boolean cancelButtonEnable,

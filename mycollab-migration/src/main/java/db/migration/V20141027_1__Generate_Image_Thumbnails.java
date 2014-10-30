@@ -59,6 +59,9 @@ public class V20141027_1__Generate_Image_Thumbnails implements
 					Content content = (Content) resource;
 					String mimeType = MimeTypesUtil.detectMimeType(content
 							.getPath());
+					LOG.info("Check mimetype " + mimeType + " of content "
+							+ content.getPath() + "--" + content.getThumbnail()
+							+ ".");
 					if (MimeTypesUtil.isImageMimetype(mimeType)) {
 						try {
 							BufferedImage image = ImageUtil
@@ -66,9 +69,8 @@ public class V20141027_1__Generate_Image_Thumbnails implements
 											.getContentStream(resource
 													.getPath()));
 							String thumbnailPath = String.format(
-									"%d/.thumbnail/%s", accountId,
-									StringUtils.generateSoftUniqueId()
-											+ ".png ");
+									".thumbnail/%d/%s.%s", accountId,
+									StringUtils.generateSoftUniqueId(), "png");
 							content.setThumbnail(thumbnailPath);
 							contentJcrDao.saveContent(content, "");
 
@@ -79,7 +81,9 @@ public class V20141027_1__Generate_Image_Thumbnails implements
 							rawContentService.saveContent(thumbnailPath,
 									new FileInputStream(tmpFile));
 						} catch (Exception e) {
-							LOG.error("Generate thumbnal is failed", e);
+							LOG.error(
+									"Generate thumbnal is failed "
+											+ resource.getPath(), e);
 						}
 					}
 				} else if (resource instanceof Folder) {
