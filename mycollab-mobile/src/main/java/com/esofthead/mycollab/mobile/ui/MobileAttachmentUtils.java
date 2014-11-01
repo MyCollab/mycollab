@@ -52,15 +52,12 @@ import com.vaadin.ui.UI;
  */
 public class MobileAttachmentUtils {
 
-	private static final Logger LOG = Logger.getLogger(MobileAttachmentUtils.class
-			.getName());
+	private static final Logger LOG = Logger
+			.getLogger(MobileAttachmentUtils.class.getName());
+
+	public static String ATTACHMENT_NAME_PREFIX = "attachment_";
 
 	public static Component renderAttachmentRow(final Content attachment) {
-		// HorizontalLayout attachmentRow = new HorizontalLayout();
-		// attachmentRow.setStyleName("attachment-row");
-		// attachmentRow.setWidth("100%");
-		// attachmentRow.setHeightUndefined();
-		// attachmentRow.setSpacing(true);
 
 		String docName = attachment.getPath();
 		int lastIndex = docName.lastIndexOf("/");
@@ -71,21 +68,6 @@ public class MobileAttachmentUtils {
 		Label attachmentName = new Label(docName);
 		attachmentName.setStyleName("attachment-name");
 		attachmentName.setWidth("100%");
-		// attachmentRow.addComponent(attachmentName);
-
-		// Button downloadBtn = new Button(
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.DOWNLOAD + "\"></span>");
-		// downloadBtn.setStyleName("link");
-		// downloadBtn.setHtmlContentAllowed(true);
-		// FileDownloader fileDownloader = new FileDownloader(
-		// VaadinResourceManager.getResourceManager().getStreamResource(
-		// attachment.getPath()));
-		// fileDownloader.extend(downloadBtn);
-		// attachmentRow.addComponent(downloadBtn);
-		// attachmentRow.setExpandRatio(downloadBtn, 1.0f);
-		// attachmentRow.setComponentAlignment(downloadBtn,
-		// Alignment.MIDDLE_LEFT);
 
 		return attachmentName;
 	}
@@ -145,8 +127,9 @@ public class MobileAttachmentUtils {
 
 					}
 				});
-		if (additionalListener != null)
+		if (additionalListener != null) {
 			removeAttachment.addClickListener(additionalListener);
+		}
 		removeAttachment.setHtmlContentAllowed(true);
 		removeAttachment.setStyleName("link");
 		attachmentLayout.addComponent(removeAttachment);

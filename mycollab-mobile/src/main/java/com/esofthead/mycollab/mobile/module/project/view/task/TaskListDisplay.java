@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Button;
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -60,22 +60,23 @@ public class TaskListDisplay
 			layout.setWidth("100%");
 			layout.setStyleName("list-item");
 			layout.addStyleName("task-layout");
+			layout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
 
-			HorizontalLayout topRow = new HorizontalLayout();
-			topRow.setWidth("100%");
-			Button b = new Button(CurrentProjectVariables.getProject()
-					.getShortname() + "-" + task.getTaskkey());
-			b.addClickListener(new Button.ClickListener() {
-
-				private static final long serialVersionUID = 5483571157334944410L;
+				private static final long serialVersionUID = -8379115635911957713L;
 
 				@Override
-				public void buttonClick(Button.ClickEvent event) {
+				public void layoutClick(LayoutEvents.LayoutClickEvent event) {
 					EventBusFactory.getInstance().post(
 							new TaskEvent.GotoRead(this, task.getId()));
 				}
 			});
+
+			HorizontalLayout topRow = new HorizontalLayout();
+			topRow.setWidth("100%");
+			Label b = new Label(CurrentProjectVariables.getProject()
+					.getShortname() + "-" + task.getTaskkey());
 			b.setWidth("100%");
+			b.setStyleName("task-key");
 			topRow.addComponent(b);
 			topRow.setExpandRatio(b, 1.0f);
 

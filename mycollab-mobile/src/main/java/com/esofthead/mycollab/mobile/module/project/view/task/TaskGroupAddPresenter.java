@@ -98,7 +98,7 @@ public class TaskGroupAddPresenter extends
 			if (taskList.getId() == null) {
 				AppContext
 						.addFragment(
-								"project/task/group/add/"
+								"project/task/taskgroup/add/"
 										+ GenericLinkUtils
 												.encodeParam(new Object[] { CurrentProjectVariables
 														.getProjectId() }),
@@ -107,7 +107,7 @@ public class TaskGroupAddPresenter extends
 			} else {
 				AppContext
 						.addFragment(
-								"project/task/group/edit/"
+								"project/task/taskgroup/edit/"
 										+ GenericLinkUtils.encodeParam(new Object[] {
 												CurrentProjectVariables
 														.getProjectId(),

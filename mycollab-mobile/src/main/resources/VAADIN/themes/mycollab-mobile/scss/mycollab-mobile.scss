@@ -242,11 +242,12 @@
 		   				color: rgb(255, 255, 255);
 		   				overflow: visible;
 		   				height: 2.8rem;
+		   				min-height: 2.8rem;
 		   				margin-top: 0.6rem;
-		   				padding: 0rem 0.8rem 0rem 0.5rem;
+		   				padding: 0rem 0.8rem 0rem 0.4rem;
 		   				font-size: 1.3rem;
 		   				margin-left: 2rem;
-		   				line-height: 2.8rem;
+		   				line-height: 2.5rem;
 		   				
 		   				&:after {
 		   					@include backbtn;
@@ -276,6 +277,14 @@
 	    			text-align: center;
 	    			font-size: 1.6rem;
 	    			color: rgb(255, 255, 255);
+	    			span {
+	    				width: 100%;
+		    			white-space: nowrap;
+		    			text-overflow: ellipsis;
+		    			display: block;
+		    			position: relative;
+		    			overflow: hidden;
+	    			}	    			
 	    		}
 	    		
 	    		.v-touchkit-navbar-right {

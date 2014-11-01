@@ -26,7 +26,7 @@ import com.vaadin.ui.HorizontalLayout;
  * @since 4.5.3
  *
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ContainerHorizontalViewField extends CustomField {
 	private static final long serialVersionUID = 1L;
 

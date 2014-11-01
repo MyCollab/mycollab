@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.LangI18Enum;
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -33,14 +35,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlSocialNetworkLinkViewField;
 import com.hp.gagawa.java.elements.Div;
@@ -80,10 +78,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 		this.addStyleName("userInfoContainer");
 		this.userAvatar = new VerticalLayout();
 		this.userAvatar.setWidthUndefined();
-		this.userAvatar.setSpacing(true);
-		this.userAvatar.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-
+		this.userAvatar.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 		this.avatarAndPass = new HorizontalLayout();
+
 		this.formItem = new PreviewForm();
 		this.formItem.setWidth("100%");
 		this.addComponent(this.formItem);
@@ -98,13 +95,14 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
 		this.avatarAndPass.removeAllComponents();
 		avatarAndPass.setSpacing(true);
-		avatarAndPass.setMargin(true);
+		avatarAndPass.setMargin(new MarginInfo(true, true, true, false));
 		avatarAndPass.setWidth("100%");
 		avatarAndPass.addComponent(userAvatar);
 
 		User user = formItem.getUser();
 
-		final VerticalLayout passLayout = new VerticalLayout();
+		final VerticalLayout basicLayout = new VerticalLayout();
+		basicLayout.setSpacing(true);
 		final HorizontalLayout userWrapper = new HorizontalLayout();
 
 		final Label userName = new Label(AppContext.getSession()
@@ -127,23 +125,25 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 		HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
 		btnChangeBasicInfoWrapper.setWidth("40px");
 		btnChangeBasicInfoWrapper.addComponent(btnChangeBasicInfo);
-		btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo, Alignment.MIDDLE_RIGHT);
+		btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo,
+				Alignment.MIDDLE_RIGHT);
 		userWrapper.addComponent(btnChangeBasicInfoWrapper);
-		passLayout.addComponent(userWrapper);
-		passLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
+		basicLayout.addComponent(userWrapper);
+		basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-		passLayout.addComponent(new Label(AppContext
+		basicLayout.addComponent(new Label(AppContext
 				.getMessage(UserI18nEnum.FORM_BIRTHDAY)
 				+ ": "
 				+ AppContext.formatDate(user.getDateofbirth())));
-		passLayout.addComponent(new Label(AppContext
-				.getMessage(UserI18nEnum.FORM_EMAIL) + ": " + user.getEmail()));
-		passLayout.addComponent(new Label(AppContext
+		basicLayout.addComponent(new MHorizontalLayout(new Label(AppContext
+				.getMessage(UserI18nEnum.FORM_EMAIL) + ": "), new LabelLink(
+				user.getEmail(), "mailto:" + user.getEmail())));
+		basicLayout.addComponent(new Label(AppContext
 				.getMessage(UserI18nEnum.FORM_TIMEZONE)
 				+ ": "
 				+ TimezoneMapper.getTimezone(user.getTimezone())
 						.getDisplayName()));
-		passLayout
+		basicLayout
 				.addComponent(new Label(AppContext
 						.getMessage(UserI18nEnum.FORM_LANGUAGE)
 						+ ": "
@@ -168,15 +168,16 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 		HorizontalLayout btnChangePasswordWrapper = new HorizontalLayout();
 		btnChangePasswordWrapper.setWidth("50px");
 		btnChangePasswordWrapper.addComponent(btnChangePassword);
-		btnChangePasswordWrapper.setComponentAlignment(btnChangePassword, Alignment.MIDDLE_RIGHT);
+		btnChangePasswordWrapper.setComponentAlignment(btnChangePassword,
+				Alignment.MIDDLE_RIGHT);
 		passwordWrapper.addComponent(btnChangePasswordWrapper);
-		passLayout.addComponent(passwordWrapper);
-		passLayout
+		basicLayout.addComponent(passwordWrapper);
+		basicLayout
 				.setComponentAlignment(passwordWrapper, Alignment.MIDDLE_LEFT);
 
-		avatarAndPass.addComponent(passLayout);
-		avatarAndPass.setComponentAlignment(passLayout, Alignment.TOP_LEFT);
-		avatarAndPass.setExpandRatio(passLayout, 1.0f);
+		avatarAndPass.addComponent(basicLayout);
+		avatarAndPass.setComponentAlignment(basicLayout, Alignment.TOP_LEFT);
+		avatarAndPass.setExpandRatio(basicLayout, 1.0f);
 
 		final UploadField avatarUploadField = new UploadField() {
 			private static final long serialVersionUID = 1L;
@@ -245,24 +246,22 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
 			@Override
 			public ComponentContainer getLayout() {
-				final AddViewLayout2 accountAddLayout = new AddViewLayout2(
-						AppContext.getMessage(UserI18nEnum.VIEW_DETAIL_USER),
-						MyCollabResource
-								.newResource("icons/24/project/user.png"));
-				accountAddLayout.setWidth("100%");
-
-				accountAddLayout.getBody().removeStyleName(
-						"addview-layout-body");
-				accountAddLayout.setStyleName("readview-layout");
 				final VerticalLayout layout = new VerticalLayout();
 				layout.addComponent(avatarAndPass);
 
+				contactInformationTitle.setWidth("250px");
+				advanceInformationTitle.setWidth("250px");
+				
+				contactInformationTitle.setSpacing(true);
+				advanceInformationTitle.setSpacing(true);
+				
+				contactInformation.setSpacing(true);
+				advanceInformation.setSpacing(true);
+
 				final HorizontalLayout contactInformationHeader = new HorizontalLayout();
-				contactInformationHeader.setWidth("100%");
 				final Label contactInformationHeaderLbl = new Label(
 						AppContext
 								.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
-				contactInformationHeaderLbl.setWidthUndefined();
 				contactInformationHeaderLbl.addStyleName("h1");
 				contactInformationHeader.setHeight("50px");
 				contactInformationHeader
@@ -271,11 +270,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 						contactInformationHeaderLbl, Alignment.BOTTOM_LEFT);
 
 				final HorizontalLayout advanceInfoHeader = new HorizontalLayout();
-				advanceInfoHeader.setWidth("100%");
 				final Label advanceInfoHeaderLbl = new Label(
 						AppContext
 								.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
-				advanceInfoHeaderLbl.setWidthUndefined();
 				advanceInfoHeaderLbl.addStyleName("h1");
 				advanceInfoHeader.setHeight("50px");
 				advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
@@ -285,15 +282,18 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 3px; margin-bottom: 10px";
 
 				layout.addComponent(contactInformationHeader);
-				Div eparator = new Div();
-				eparator.setAttribute("style", separatorStyle);
-				layout.addComponent(new Label(eparator.write(),
+				Div contactSeparator = new Div();
+				contactSeparator.setAttribute("style", separatorStyle);
+				layout.addComponent(new Label(contactSeparator.write(),
 						ContentMode.HTML));
 				HorizontalLayout contactInformationWrapper = new HorizontalLayout();
-				contactInformationWrapper.setWidth("100%");
 				contactInformationWrapper.addComponent(contactInformationTitle);
 				contactInformationWrapper.addComponent(contactInformation);
 				layout.addComponent(contactInformationWrapper);
+
+				final HorizontalLayout btnChangeContactInfoWrapper = new HorizontalLayout();
+				btnChangeContactInfoWrapper.setWidth("40px");
+				btnChangeContactInfoWrapper.setHeight("100%");
 				final Button btnChangeContactInfo = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 						new Button.ClickListener() {
@@ -307,21 +307,26 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 							}
 						});
 				btnChangeContactInfo.addStyleName("link");
-				contactInformationHeader.addComponent(btnChangeContactInfo);
-				contactInformationHeader.setComponentAlignment(
-						btnChangeContactInfo, Alignment.BOTTOM_LEFT);
+				btnChangeContactInfoWrapper.addComponent(btnChangeContactInfo);
+				btnChangeContactInfoWrapper.setComponentAlignment(
+						btnChangeContactInfo, Alignment.BOTTOM_RIGHT);
+				contactInformationHeader
+						.addComponent(btnChangeContactInfoWrapper);
 
 				layout.addComponent(advanceInfoHeader);
-				Div separator3 = new Div();
-				separator3.setAttribute("style", separatorStyle);
-				layout.addComponent(new Label(separator3.write(),
+				Div advanceSeparator = new Div();
+				advanceSeparator.setAttribute("style", separatorStyle);
+				layout.addComponent(new Label(advanceSeparator.write(),
 						ContentMode.HTML));
 				HorizontalLayout advancedInformationWrapper = new HorizontalLayout();
-				advancedInformationWrapper.setWidth("100%");
 				advancedInformationWrapper
 						.addComponent(advanceInformationTitle);
 				advancedInformationWrapper.addComponent(advanceInformation);
 				layout.addComponent(advancedInformationWrapper);
+
+				final HorizontalLayout btnChangeAdvanceInfoWrapper = new HorizontalLayout();
+				btnChangeAdvanceInfoWrapper.setWidth("40px");
+				btnChangeAdvanceInfoWrapper.setHeight("100%");
 				final Button btnChangeAdvanceInfo = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 						new Button.ClickListener() {
@@ -335,12 +340,11 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 							}
 						});
 				btnChangeAdvanceInfo.addStyleName("link");
-				advanceInfoHeader.addComponent(btnChangeAdvanceInfo);
-				advanceInfoHeader.setComponentAlignment(btnChangeAdvanceInfo,
-						Alignment.BOTTOM_LEFT);
-
-				accountAddLayout.addBody(layout);
-				return accountAddLayout;
+				btnChangeAdvanceInfoWrapper.addComponent(btnChangeAdvanceInfo);
+				btnChangeAdvanceInfoWrapper.setComponentAlignment(
+						btnChangeAdvanceInfo, Alignment.BOTTOM_RIGHT);
+				advanceInfoHeader.addComponent(btnChangeAdvanceInfoWrapper);
+				return layout;
 			}
 
 			@Override
@@ -396,22 +400,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			protected Field<?> onCreateField(final Object propertyId) {
 				String value = "";
 
-				if (propertyId.equals("email")) {
-					return new EmailViewField(PreviewForm.this.user.getEmail());
-				} else if (propertyId.equals("dateofbirth")) {
-					value = AppContext.formatDate(PreviewForm.this.user
-							.getDateofbirth());
-					return new DefaultViewField(value);
-				} else if (propertyId.equals("language")) {
-					value = AppContext.getMessage(LangI18Enum.class,
-							user.getLanguage());
-					return new DefaultViewField(value);
-				} else if (propertyId.equals("timezone")) {
-					value = TimezoneMapper.getTimezone(
-							PreviewForm.this.user.getTimezone())
-							.getDisplayName();
-					return new DefaultViewField(value);
-				} else if (propertyId.equals("website")) {
+				if (propertyId.equals("website")) {
 					value = PreviewForm.this.user.getWebsite();
 					return new UrlLinkViewField(value);
 				} else if (propertyId.equals("facebookaccount")) {

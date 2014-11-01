@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -97,12 +99,18 @@ public class BugListDisplay extends
 			lastUpdatedTimeLbl.setStyleName("bug-meta-info");
 			bugInfoLayout.addComponent(lastUpdatedTimeLbl);
 
+			A assigneeLink = new A();
+			assigneeLink.setHref(ProjectLinkGenerator
+					.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+							CurrentProjectVariables.getProjectId(),
+							bug.getAssignuser()));
+			assigneeLink.setCSSClass("bug-assignee");
+			assigneeLink.appendText(bug.getAssignuserFullName());
+
 			Label assigneeLbl = new Label(
 					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
 							+ (bug.getAssignuserFullName() == null ? ":&nbsp;N/A&nbsp;"
-									: ":&nbsp;<span class='bug-assignee'>"
-											+ bug.getAssignuserFullName()
-											+ "</span>"));
+									: ":&nbsp;" + assigneeLink.write()));
 			assigneeLbl.setStyleName("bug-meta-info");
 			assigneeLbl.setContentMode(ContentMode.HTML);
 			bugInfoLayout.addComponent(assigneeLbl);

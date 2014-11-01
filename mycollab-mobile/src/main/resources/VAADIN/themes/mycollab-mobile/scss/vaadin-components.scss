@@ -130,4 +130,12 @@
 			border-color: $light-gray-border;
 		}
 	}
+	
+	.v-touchkit-datepicker > input {
+		font-size: 1.5rem;
+		box-sizing: border-box;
+		min-height: 2rem;
+		height: 2rem;
+		line-height: 2rem;
+	}
 }

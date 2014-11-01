@@ -7,9 +7,8 @@
 				border-bottom: 0.1rem solid #DDDDDD;
 				color: #8C8C8C;
 				.task-list-name {
-					.v-button-caption {
-						font-size: 1.4rem;
-					}
+					color: $primary-blue;
+					font-size: 1.4rem;
 				}
 				.last-updated-time {
 					font-size: 1.1rem;
@@ -47,6 +46,9 @@
 					&.urgent-lbl {
 						background-color: $urgent-priority;
 					}
+				}
+				.task-key {
+					color: $primary-blue;
 				}
 				.task-name {
 					padding-top: 0.3rem;

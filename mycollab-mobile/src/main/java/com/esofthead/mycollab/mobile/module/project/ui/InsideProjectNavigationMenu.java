@@ -43,12 +43,6 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 	public InsideProjectNavigationMenu() {
 		super();
 
-		// setWidth("100%");
-		//
-		// UserPanel userPanel = new UserPanel();
-		// userPanel.setWidth("100%");
-		// addComponent(userPanel);
-
 		final MenuButton prjListBtn = new MenuButton(
 				AppContext
 						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
@@ -80,31 +74,6 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
 				IconConstants.PROJECT_BUG);
 		addMenu(bugBtn);
-
-		// final MenuButton fileBtn = new MenuButton(
-		// AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
-		// IconConstants.PROJECT_FILE);
-		// addMenu(fileBtn);
-		//
-		// final MenuButton riskBtn = new MenuButton(
-		// AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
-		// IconConstants.PROJECT_RISK);
-		// addMenu(riskBtn);
-		//
-		// final MenuButton problemBtn = new MenuButton(
-		// AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
-		// IconConstants.PROJECT_PROBLEM);
-		// addMenu(problemBtn);
-		//
-		// final MenuButton timeBtn = new MenuButton(
-		// AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
-		// IconConstants.PROJECT_TIME);
-		// addMenu(timeBtn);
-		//
-		// final MenuButton standupBtn = new MenuButton(
-		// AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
-		// IconConstants.PROJECT_STANDUP);
-		// addMenu(standupBtn);
 
 		final MenuButton userBtn = new MenuButton(
 				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS),

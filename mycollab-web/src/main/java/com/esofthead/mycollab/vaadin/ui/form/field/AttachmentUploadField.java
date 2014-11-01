@@ -29,7 +29,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.3
  *
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class AttachmentUploadField extends CustomField {
 	private static final long serialVersionUID = 1L;
 	private MultiFileUploadExt uploadExt;

@@ -82,7 +82,7 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 			if (task.getId() == null) {
 				AppContext
 						.addFragment(
-								"project/task/add/"
+								"project/task/task/add/"
 										+ GenericLinkUtils.encodeParam(new Object[] {
 												CurrentProjectVariables
 														.getProjectId(),

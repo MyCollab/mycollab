@@ -129,7 +129,7 @@ public class TaskListPresenter extends
 				doSearch(criteria);
 
 				AppContext.addFragment(
-						"project/task/list/"
+						"project/task/task/list/"
 								+ GenericLinkUtils.encodeParam(new Object[] {
 										CurrentProjectVariables.getProjectId(),
 										taskList.getId() }),

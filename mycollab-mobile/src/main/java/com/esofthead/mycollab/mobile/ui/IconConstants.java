@@ -16,11 +16,18 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.5.3
+ *
+ */
 public class IconConstants {
 	public static final String OPEN_NEW_VIEW = "&#xE128;";
 	public static final String CIRCLE_CHECK = "&#xE042;";
 	public static final String DOWNLOAD = "&#xE069;";
 	public static final String DELETE = "&#xE043;";
+	public static final String MORE_VERT = "&#xE619;";
 
 	public static final String CRM_ACCOUNT = "&#xE601;";
 	public static final String CRM_CONTACT = "&#xE603;";
@@ -32,20 +39,22 @@ public class IconConstants {
 	public static final String CRM_DOCUMENT = "&#xE607;";
 	public static final String CRM_SETTING = "&#xE608;";
 
-	public static final String PROJECT_DASHBOARD = "&#xe614;";
-	public static final String PROJECT_ACTIVITIES = "&#xe610;";
-	public static final String PROJECT_FOLLOWING = "&#xe613;";
-	public static final String PROJECT_MESSAGE = "&#xf04f;";
-	public static final String PROJECT_MILESTONE = "&#xf075;";
+	public static final String PROJECT_DASHBOARD = "&#xE614;";
+	public static final String PROJECT_ACTIVITIES = "&#xE610;";
+	public static final String PROJECT_FOLLOWING = "&#xE613;";
+	public static final String PROJECT_MESSAGE = "&#xF04F;";
+	public static final String PROJECT_MILESTONE = "&#xF075;";
 	public static final String PROJECT_MILESTONE_CLOSED = "&#xE617;";
 	public static final String PROJECT_MILESTONE_INPROGRESS = "&#xE615;";
 	public static final String PROJECT_MILESTONE_FUTURE = "&#xE616;";
-	public static final String PROJECT_TASK = "&#xe60f;";
-	public static final String PROJECT_BUG = "&#xf188;";
-	public static final String PROJECT_FILE = "&#xf017;";
-	public static final String PROJECT_RISK = "&#xf02d;";
-	public static final String PROJECT_PROBLEM = "&#xf0d2;";
-	public static final String PROJECT_TIME = "&#xe612;";
-	public static final String PROJECT_STANDUP = "&#xf0c0;";
-	public static final String PROJECT_USER = "&#xe601;";
+	public static final String PROJECT_TASK = "&#xE60F;";
+	public static final String PROJECT_BUG = "&#xF188;";
+	public static final String PROJECT_COMPONENT = "&#xE618;";
+	public static final String PROJECT_VERSION = "&#xF064;";
+	public static final String PROJECT_FILE = "&#xF017;";
+	public static final String PROJECT_RISK = "&#xF02D;";
+	public static final String PROJECT_PROBLEM = "&#xF0D2;";
+	public static final String PROJECT_TIME = "&#xE612;";
+	public static final String PROJECT_STANDUP = "&#xF0C0;";
+	public static final String PROJECT_USER = "&#xE601;";
 }

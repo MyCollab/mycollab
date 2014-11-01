@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import com.esofthead.mycollab.common.GenericLinkUtils;
+import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
@@ -123,9 +123,11 @@ public class ProjectMemberReadPresenter extends
 
 				AppContext.addFragment(
 						"project/user/preview/"
-								+ GenericLinkUtils.encodeParam(new Object[] {
-										CurrentProjectVariables.getProjectId(),
-										prjMember.getId() }),
+								+ UrlEncodeDecoder
+										.encode(CurrentProjectVariables
+												.getProjectId()
+												+ "/"
+												+ prjMember.getUsername()),
 						prjMember.getDisplayName());
 			} else {
 				NotificationUtil.showRecordNotExistNotification();

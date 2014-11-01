@@ -18,15 +18,18 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -95,11 +98,19 @@ public class MilestoneListDisplay
 			milestoneDatesInfo.setStyleName("milestone-meta-info");
 			milestoneInfoLayout.addComponent(milestoneDatesInfo);
 
+			A assigneeLink = new A();
+			assigneeLink.setHref(ProjectLinkGenerator
+					.generateProjectMemberFullLink(AppContext.getSiteUrl(),
+							CurrentProjectVariables.getProjectId(),
+							milestone.getOwner()));
+			assigneeLink.setCSSClass("milestone-assignee");
+			assigneeLink.appendText(milestone.getOwnerFullName());
+
 			Label assigneeLbl = new Label();
 			assigneeLbl.setValue(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-					+ ":&nbsp;<span class='milestone-assignee'>"
-					+ milestone.getOwnerFullName() + "</span>");
+					+ ":&nbsp;"
+					+ assigneeLink.write());
 			assigneeLbl.setStyleName("milestone-meta-info");
 			assigneeLbl.setContentMode(ContentMode.HTML);
 			milestoneInfoLayout.addComponent(assigneeLbl);
@@ -122,6 +133,5 @@ public class MilestoneListDisplay
 			layout.setWidth("100%");
 			return layout;
 		}
-
 	}
 }

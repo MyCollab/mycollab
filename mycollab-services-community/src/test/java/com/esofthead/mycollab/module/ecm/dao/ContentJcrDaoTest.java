@@ -23,11 +23,14 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
@@ -79,6 +82,20 @@ public class ContentJcrDaoTest extends IntergrationServiceTest {
 		Content resource = (Content) contentJcrDao
 				.getResource("a/b/xyz.mycollabtext");
 		assertThat(resource.getPath()).isEqualTo("a/b/xyz.mycollabtext");
+	}
+
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
+	@Test
+	public void testSaveInvalidContetName() {
+		thrown.expect(UserInvalidInputException.class);
+		Content pageContent = new Content(
+				"a/b/http-//anchoragesnowmobileclub.com/trail_report/weather-for-turnagain/");
+		pageContent.setCreatedBy("hainguyen");
+		pageContent.setTitle("page example");
+		pageContent.setDescription("aaa");
+		contentJcrDao.saveContent(pageContent, "abc");
 	}
 
 	@Test

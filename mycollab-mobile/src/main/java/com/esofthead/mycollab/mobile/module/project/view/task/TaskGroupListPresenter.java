@@ -66,7 +66,7 @@ public class TaskGroupListPresenter
 			doSearch(criteria);
 			AppContext
 					.addFragment(
-							"project/task/group/list/"
+							"project/task/taskgroup/list/"
 									+ GenericLinkUtils
 											.encodeParam(new Object[] { CurrentProjectVariables
 													.getProjectId() }),

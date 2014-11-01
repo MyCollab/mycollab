@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?-50erd9");
-  src: url("fonts/icomoon.eot?#iefix-50erd9") format("embedded-opentype"), url("fonts/icomoon.woff?-50erd9") format("woff"), url("fonts/icomoon.ttf?-50erd9") format("truetype"), url("fonts/icomoon.svg?-50erd9#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?-gt1ruz");
+  src: url("fonts/icomoon.eot?#iefix-gt1ruz") format("embedded-opentype"), url("fonts/icomoon.woff?-gt1ruz") format("woff"), url("fonts/icomoon.ttf?-gt1ruz") format("truetype"), url("fonts/icomoon.svg?-gt1ruz#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -229,6 +229,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   padding-top: 0px;
   height: auto;
   border-color: #dddddd;
+}
+.mycollab-mobile .v-touchkit-datepicker > input {
+  font-size: 1.5rem;
+  box-sizing: border-box;
+  min-height: 2rem;
+  height: 2rem;
+  line-height: 2rem;
 }
 .mycollab-mobile * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -431,11 +438,12 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: white;
   overflow: visible;
   height: 2.8rem;
+  min-height: 2.8rem;
   margin-top: 0.6rem;
-  padding: 0rem 0.8rem 0rem 0.5rem;
+  padding: 0rem 0.8rem 0rem 0.4rem;
   font-size: 1.3rem;
   margin-left: 2rem;
-  line-height: 2.8rem;
+  line-height: 2.5rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after {
   right: 100%;
@@ -474,6 +482,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   text-align: center;
   font-size: 1.6rem;
   color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-caption span {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  position: relative;
+  overflow: hidden;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn {
   border: 1px solid #2482c2;
@@ -1100,6 +1116,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .bugs-list .list-item .bug-meta-info .bug-assignee {
   color: #49a3e1;
+  text-decoration: none;
 }
 .mycollab-mobile .message-list-view .message-block, .mycollab-mobile .message-read-view .message-block {
   padding: 1.2rem 0.8rem 0rem 0.8rem;
@@ -1218,7 +1235,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border-bottom: 0.1rem solid #DDDDDD;
   color: #8C8C8C;
 }
-.mycollab-mobile .task-group-list .list-item.task-list-layout .task-list-name .v-button-caption {
+.mycollab-mobile .task-group-list .list-item.task-list-layout .task-list-name {
+  color: #49a3e1;
   font-size: 1.4rem;
 }
 .mycollab-mobile .task-group-list .list-item.task-list-layout .last-updated-time {
@@ -1253,6 +1271,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .task-list .list-item.task-layout .priority-lbl.urgent-lbl {
   background-color: #da4453;
+}
+.mycollab-mobile .task-list .list-item.task-layout .task-key {
+  color: #49a3e1;
 }
 .mycollab-mobile .task-list .list-item.task-layout .task-name {
   padding-top: 0.3rem;
@@ -1298,6 +1319,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info .milestone-assignee {
   color: #49a3e1;
+  text-decoration: none;
 }
 .mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info span[data-icon]:before {
   font-size: 1.5rem;

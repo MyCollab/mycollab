@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -59,21 +59,23 @@ public class TaskGroupListDisplay
 			HorizontalLayout taskListLayout = new HorizontalLayout();
 			taskListLayout.setStyleName("task-list-layout");
 			taskListLayout.setWidth("100%");
+			taskListLayout
+					.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+
+						private static final long serialVersionUID = -3495723609008813660L;
+
+						@Override
+						public void layoutClick(
+								LayoutEvents.LayoutClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new TaskEvent.GoInsideList(this, taskList
+											.getId()));
+						}
+					});
 
 			VerticalLayout taskListInfo = new VerticalLayout();
 			taskListInfo.setStyleName("task-list-info");
-			Button b = new Button(taskList.getName());
-			// b.setTargetViewCaption(taskList.getName());
-			b.addClickListener(new Button.ClickListener() {
-
-				private static final long serialVersionUID = -2481787976727400924L;
-
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new TaskEvent.GoInsideList(this, taskList.getId()));
-				}
-			});
+			Label b = new Label(taskList.getName());
 			b.setWidth("100%");
 			b.setStyleName("task-list-name");
 			taskListInfo.addComponent(b);

@@ -196,6 +196,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	 * 
 	 * @param <T>
 	 */
+	@SuppressWarnings("rawtypes")
 	public static abstract class RowDisplayHandler<T> implements Serializable {
 		private static final long serialVersionUID = 1L;
 

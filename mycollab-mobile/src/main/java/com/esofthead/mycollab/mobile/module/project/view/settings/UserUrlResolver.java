@@ -71,11 +71,11 @@ public class UserUrlResolver extends ProjectUrlResolver {
 			UrlTokenizer token = new UrlTokenizer(params[0]);
 
 			int projectId = token.getInt();
-			int memberId = token.getInt();
+			String memberName = token.getString();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new ProjectMemberScreenData.Read(memberId));
+					new ProjectMemberScreenData.Read(memberName));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

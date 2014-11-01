@@ -28,7 +28,18 @@ import org.vaadin.easyuploads.MultiFileUploadExt;
  */
 public interface AttachmentUploadComponent {
 
+	/**
+	 * 
+	 * @param file
+	 * @param fileName
+	 * @param mimeType
+	 * @param length
+	 */
 	void receiveFile(File file, String fileName, String mimeType, long length);
 
+	/**
+	 * 
+	 * @param multiUpload
+	 */
 	void registerMultiUpload(MultiFileUploadExt multiUpload);
 }

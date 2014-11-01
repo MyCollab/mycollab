@@ -141,4 +141,11 @@ public class StringUtils {
 			return true;
 		}
 	}
+
+	public static boolean isValidFileName(String value) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+			return false;
+		}
+		return !value.matches(".*[^\\w -.].*");
+	}
 }

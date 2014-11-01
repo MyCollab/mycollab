@@ -22,6 +22,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +34,12 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  */
 public class UrlEncodeDecoder {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(UrlEncodeDecoder.class);
-	
-	private UrlEncodeDecoder(){}
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(UrlEncodeDecoder.class);
+
+	private UrlEncodeDecoder() {
+	}
 
 	/**
 	 * 
@@ -45,7 +48,7 @@ public class UrlEncodeDecoder {
 	 */
 	public static String encode(String str) {
 		try {
-			if (str == null) {
+			if (StringUtils.isBlank(str)) {
 				return "";
 			}
 			return URLEncoder.encode(

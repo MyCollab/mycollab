@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
@@ -28,17 +29,6 @@ public class UrlDetectableLabel extends Label {
 	private static final long serialVersionUID = -8041297963487354112L;
 
 	public UrlDetectableLabel(String value) {
-		super(formatExtraLink(value), ContentMode.HTML);
+		super(StringUtils.formatRichText(value), ContentMode.HTML);
 	}
-
-	private static String formatExtraLink(String value) {
-		if (value == null || "".equals(value)) {
-			return "&nbsp;";
-		}
-		return value
-				.replaceAll(
-						"(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",
-						"<a href=\"$0\" target=\"_system\">$0</a>");
-	}
-
 }

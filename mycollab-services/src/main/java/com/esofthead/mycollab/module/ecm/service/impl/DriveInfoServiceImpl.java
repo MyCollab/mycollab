@@ -37,6 +37,7 @@ public class DriveInfoServiceImpl extends
 	@Autowired
 	private DriveInfoMapper driveInfoMapper;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ICrudGenericDAO<Integer, DriveInfo> getCrudMapper() {
 		return driveInfoMapper;

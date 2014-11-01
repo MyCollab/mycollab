@@ -40,7 +40,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 public class TaskUrlResolver extends ProjectUrlResolver {
 
 	public TaskUrlResolver() {
-		this.addSubResolver("group", new TaskGroupUrlResolver());
 		this.addSubResolver("list", new ListUrlResolver());
 		this.addSubResolver("preview", new ReadUrlResolver());
 		this.addSubResolver("edit", new EditUrlResolver());

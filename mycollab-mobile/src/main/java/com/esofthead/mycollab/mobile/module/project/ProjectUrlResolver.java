@@ -26,7 +26,7 @@ import com.esofthead.mycollab.mobile.module.project.view.message.MessageUrlResol
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.settings.UserUrlResolver;
-import com.esofthead.mycollab.mobile.module.project.view.task.TaskUrlResolver;
+import com.esofthead.mycollab.mobile.module.project.view.task.TaskModuleUrlResolver;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -45,7 +45,7 @@ public class ProjectUrlResolver extends UrlResolver {
 		this.addSubResolver("activities", new ActivityUrlResolver());
 		this.addSubResolver("message", new MessageUrlResolver());
 		this.addSubResolver("milestone", new MilestoneUrlResolver());
-		this.addSubResolver("task", new TaskUrlResolver());
+		this.addSubResolver("task", new TaskModuleUrlResolver());
 		this.addSubResolver("bug", new BugUrlResolver());
 		this.addSubResolver("user", new UserUrlResolver());
 		return this;

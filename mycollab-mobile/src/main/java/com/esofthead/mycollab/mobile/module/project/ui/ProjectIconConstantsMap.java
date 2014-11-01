@@ -44,6 +44,15 @@ public class ProjectIconConstantsMap {
 				IconConstants.PROJECT_MESSAGE);
 		constantsMap.put(ProjectTypeConstants.PROJECT,
 				IconConstants.PROJECT_DASHBOARD);
+		constantsMap.put(ProjectTypeConstants.BUG_COMPONENT,
+				IconConstants.PROJECT_COMPONENT);
+		constantsMap.put(ProjectTypeConstants.BUG_VERSION,
+				IconConstants.PROJECT_VERSION);
+		constantsMap.put(ProjectTypeConstants.PROBLEM,
+				IconConstants.PROJECT_PROBLEM);
+		constantsMap.put(ProjectTypeConstants.RISK, IconConstants.PROJECT_RISK);
+		constantsMap.put(ProjectTypeConstants.STANDUP,
+				IconConstants.PROJECT_STANDUP);
 	}
 
 	public static String getIcon(String type) {

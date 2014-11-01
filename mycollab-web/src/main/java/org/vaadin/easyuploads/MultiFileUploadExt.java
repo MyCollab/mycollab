@@ -23,12 +23,14 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.commons.io.FilenameUtils;
+
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.ui.AttachmentUploadComponent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamVariable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
@@ -96,8 +98,17 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				}
 
 				File file = receiver.getFile();
+				String candidateFileName = event.getFileName();
+				if (!StringUtils.isValidFileName(candidateFileName)) {
+					String extension = FilenameUtils
+							.getExtension(candidateFileName);
+					candidateFileName = StringUtils.generateSoftUniqueId();
+					if (!"".equals(extension)) {
+						candidateFileName += "." + extension;
+					}
+				}
 
-				handleFile(file, event.getFileName(), event.getMimeType(),
+				handleFile(file, candidateFileName, event.getMimeType(),
 						event.getBytesReceived());
 				receiver.setValue(null);
 			}
@@ -123,18 +134,21 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			public OutputStream getOutputStream() {
 				MultiUpload.FileDetail next = upload.getPendingFileNames()
 						.iterator().next();
+
 				return receiver.receiveUpload(next.getFileName(),
 						next.getMimeType());
+
 			}
 
 			@Override
 			public void filesQueued(
-					Collection<MultiUpload.FileDetail> pendingFileNames) {
-				UI.getCurrent().setPollInterval(500);
+					Collection<MultiUpload.FileDetail> pendingFiles) {
+				UI.getCurrent().setPollInterval(1000);
 				if (indicators == null) {
 					indicators = new LinkedList<ProgressBar>();
 				}
-				for (MultiUpload.FileDetail f : pendingFileNames) {
+
+				for (MultiUpload.FileDetail f : pendingFiles) {
 					ProgressBar pi = createProgressIndicator();
 					progressBars.addComponent(pi);
 					pi.setCaption(f.getFileName());
@@ -188,7 +202,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 	}
 
 	protected int getPollinInterval() {
-		return 300;
+		return 1000;
 	}
 
 	@Override

@@ -45,7 +45,8 @@ import com.vaadin.ui.VerticalLayout;
 public class DynaFormLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(DynaFormLayout.class);
 
 	private DynaForm dynaForm;
 
@@ -114,16 +115,8 @@ public class DynaFormLayout implements IFormLayoutFactory {
 				continue;
 			}
 
-			// if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
 			gridLayout = new GridFormLayoutHelper(1, section.getFieldCount(),
 					"100%", "150px", Alignment.TOP_RIGHT);
-			/*
-			 * } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-			 * gridLayout = new GridFormLayoutHelper(2, (section.getFieldCount()
-			 * + 3) / 2, "100%", "167px", Alignment.MIDDLE_LEFT); } else { throw
-			 * new MyCollabException(
-			 * "Does not support attachForm layout except 1 or 2 columns"); }
-			 */
 
 			gridLayout.getLayout().setWidth("100%");
 			gridLayout.getLayout().setMargin(false);
@@ -143,14 +136,8 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			DynaSection section = dynaField.getOwnSection();
 			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
 
-			// if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
 			gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
 					dynaField.getFieldIndex(), Alignment.TOP_RIGHT);
-			/*
-			 * } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-			 * gridLayout.addComponent(field, dynaField.getDisplayName(),
-			 * dynaField.getFieldIndex() % 2, dynaField.getFieldIndex() / 2); }
-			 */
 
 		}
 	}

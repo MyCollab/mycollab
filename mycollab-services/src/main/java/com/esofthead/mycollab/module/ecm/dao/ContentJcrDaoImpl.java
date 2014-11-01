@@ -90,45 +90,48 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						throw new ContentException(errorStr);
 					}
 				} else {
-					try {
-						String path = content.getPath();
-						String[] pathStr = path.split("/");
-						Node parentNode = rootNode;
-						// create the folder node
-						for (int i = 0; i < pathStr.length - 1; i++) {
-							// move to lastest node of the path
-							Node childNode = getNode(parentNode, pathStr[i]);
-							if (childNode != null) {
-								if (!isNodeFolder(childNode)) {
-									// node must is folder
-									String errorString = "Invalid path. User want to create a content has path %s but there is a content has path %s. This node has type %s";
-									throw new ContentException(String.format(
-											errorString, path, childNode
-													.getPath(), childNode
-													.getPrimaryNodeType()
-													.getName()));
-								}
-							} else {
-								// add node
-								childNode = JcrUtils.getOrAddNode(parentNode,
-										pathStr[i], "mycollab:folder");
-								childNode.setProperty("mycollab:createdUser",
-										createdUser);
-							}
-							parentNode = childNode;
+
+					String path = content.getPath();
+					String[] pathStr = path.split("/");
+					Node parentNode = rootNode;
+					// create the folder node
+					for (int i = 0; i < pathStr.length - 1; i++) {
+						if (!com.esofthead.mycollab.core.utils.StringUtils
+								.isValidFileName(pathStr[i])) {
+							throw new UserInvalidInputException(
+									"Invalid file name: " + path);
 						}
 
-						Node addNode = parentNode.addNode(
-								pathStr[pathStr.length - 1],
-								"{http://www.esofthead.com/mycollab}content");
-						addNode.addMixin(NodeType.MIX_LAST_MODIFIED);
-						addNode.addMixin(NodeType.MIX_TITLE);
-
-						convertContentToNode(content, addNode, createdUser);
-						session.save();
-					} catch (Exception e) {
-						LOG.error("error in convertToNode Method", e);
+						// move to lastest node of the path
+						Node childNode = getNode(parentNode, pathStr[i]);
+						if (childNode != null) {
+							if (!isNodeFolder(childNode)) {
+								// node must is folder
+								String errorString = "Invalid path. User want to create a content has path %s but there is a content has path %s. This node has type %s";
+								throw new ContentException(String.format(
+										errorString, path, childNode.getPath(),
+										childNode.getPrimaryNodeType()
+												.getName()));
+							}
+						} else {
+							// add node
+							childNode = JcrUtils.getOrAddNode(parentNode,
+									pathStr[i], "mycollab:folder");
+							childNode.setProperty("mycollab:createdUser",
+									createdUser);
+						}
+						parentNode = childNode;
 					}
+
+					String nodeName = pathStr[pathStr.length - 1];
+					Node addNode = parentNode.addNode(nodeName,
+							"{http://www.esofthead.com/mycollab}content");
+					addNode.addMixin(NodeType.MIX_LAST_MODIFIED);
+					addNode.addMixin(NodeType.MIX_TITLE);
+
+					convertContentToNode(content, addNode, createdUser);
+					session.save();
+
 				}
 				return null;
 			}
