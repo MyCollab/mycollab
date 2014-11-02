@@ -6,11 +6,11 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>parent-community</artifactId>
-    <version>4.5.2</version>
+    <version>4.5.3</version>
     <packaging>pom</packaging>
     <properties>
         <springVersion>4.1.1.RELEASE</springVersion>
-        <aspectjVersion>1.8.2</aspectjVersion>
+        <aspectjVersion>1.8.3</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.7</slf4jVersion>
         <log4jVersion>1.2.17</log4jVersion>
@@ -225,6 +225,12 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring-javaconfig</artifactId>
             <version>${camelVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.servicemix.bundles</groupId>
+                    <artifactId>org.apache.servicemix.bundles.cglib</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
