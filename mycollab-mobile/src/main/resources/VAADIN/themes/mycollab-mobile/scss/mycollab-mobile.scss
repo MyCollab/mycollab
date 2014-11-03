@@ -36,6 +36,9 @@
     .content-wrapper {
         margin: 0 auto;
         display: block;
+        &.v-margin-top {
+        	padding-top: 2.5rem;
+        }
 
         .intro-text {
             text-align: center;
@@ -441,6 +444,11 @@
 	/* Data List View */
 	.data-list-view {
 		background-color: rgb(255, 255, 255);
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
 		.list-item {
 			&.v-touchkit-navbutton {
 				padding: 1rem 2.7rem 1rem 1.4rem;

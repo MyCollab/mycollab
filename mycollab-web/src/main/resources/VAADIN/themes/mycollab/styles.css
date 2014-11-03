@@ -3093,7 +3093,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
     background-image: url('icons/grad-dark-bottom.png');
     background-repeat: repeat-x;
     background-position: left bottom;
-    background-color: #394754;
+    background-color: rgb(28, 125, 206);
     height: auto;
 }
 .v-widget.tokenfield .v-button-link .v-button-wrap, .v-widget.tokenfield .v-button-link:focus .v-button-wrap, .v-widget.tokenfield .v-button-link:active .v-button-wrap {

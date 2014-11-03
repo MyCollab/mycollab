@@ -55,6 +55,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -405,6 +406,10 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		mainLayout.addComponent(leftColumn);
 		mainLayout.addComponent(rightColumn);
 		mainLayout.setExpandRatio(leftColumn, 1.0f);
+
+		FloatingComponent floatSidebar = FloatingComponent
+				.floatThis(this.rightColumn);
+		floatSidebar.setContainerId("main-body");
 
 		implementTaskFilterButton();
 		basicSearchView = new TaskSearchViewImpl();

@@ -38,7 +38,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.vaadin.mobilecomponent.BackButton;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Component;
@@ -66,10 +66,11 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 	public AbstractMobilePageView() {
 		super();
 		this.setStyleName("mobilenavview");
-		BackButton backBtn = new BackButton();
-		backBtn.setStyleName("back");
-		backBtn.setCaption(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
-		this.setLeftComponent(backBtn);
+		if (this.getLeftComponent() != null
+				&& this.getLeftComponent() instanceof NavigationButton) {
+			this.getLeftComponent().setCaption(
+					AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+		}
 	}
 
 	public ViewState getViewState() {

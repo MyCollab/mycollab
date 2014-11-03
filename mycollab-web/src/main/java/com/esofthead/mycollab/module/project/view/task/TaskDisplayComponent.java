@@ -20,7 +20,10 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -171,34 +174,31 @@ class TaskDisplayComponent extends CssLayout {
 						TaskTableFieldDef.percentagecomplete));
 		this.addComponent(this.taskDisplay);
 
-		this.taskDisplay
-				.addTableListener(new TableClickListener() {
-					private static final long serialVersionUID = 1L;
+		this.taskDisplay.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void itemClick(final TableClickEvent event) {
-						final SimpleTask task = (SimpleTask) event.getData();
-						if ("taskname".equals(event.getFieldName())) {
-							EventBusFactory.getInstance().post(
-									new TaskEvent.GotoRead(
-											TaskDisplayComponent.this, task
-													.getId()));
-						} else if ("closeTask".equals(event.getFieldName())
-								|| "reopenTask".equals(event.getFieldName())
-								|| "pendingTask".equals(event.getFieldName())
-								|| "deleteTask".equals(event.getFieldName())) {
-							TaskDisplayComponent.this.removeAllComponents();
-							final ProjectTaskListService taskListService = ApplicationContextUtil
-									.getSpringBean(ProjectTaskListService.class);
-							TaskDisplayComponent.this.taskList = taskListService
-									.findById(
-											TaskDisplayComponent.this.taskList
-													.getId(), AppContext
-													.getAccountId());
-							TaskDisplayComponent.this.showTaskGroupInfo();
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleTask task = (SimpleTask) event.getData();
+				if ("taskname".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new TaskEvent.GotoRead(TaskDisplayComponent.this,
+									task.getId()));
+				} else if ("closeTask".equals(event.getFieldName())
+						|| "reopenTask".equals(event.getFieldName())
+						|| "pendingTask".equals(event.getFieldName())
+						|| "deleteTask".equals(event.getFieldName())) {
+					TaskDisplayComponent.this.removeAllComponents();
+					final ProjectTaskListService taskListService = ApplicationContextUtil
+							.getSpringBean(ProjectTaskListService.class);
+					TaskDisplayComponent.this.taskList = taskListService
+							.findById(
+									TaskDisplayComponent.this.taskList.getId(),
+									AppContext.getAccountId());
+					TaskDisplayComponent.this.showTaskGroupInfo();
+				}
+			}
+		});
 
 		this.createTaskBtn = new Button(
 				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
@@ -230,7 +230,9 @@ class TaskDisplayComponent extends CssLayout {
 				Alignment.MIDDLE_RIGHT);
 		this.addComponent(taskGroupFooter);
 
-		this.taskDisplay.setItems(this.taskList.getSubTasks());
+		if (CollectionUtils.isNotEmpty(taskList.getSubTasks())) {
+			taskDisplay.setItems(taskList.getSubTasks());
+		}
 	}
 
 	public void setSearchCriteria(final TaskSearchCriteria criteria) {
@@ -246,7 +248,8 @@ class TaskDisplayComponent extends CssLayout {
 					.getProjectId()));
 			criteria.setTaskListId(new NumberSearchField(this.taskList.getId()));
 			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { "Open", "Pending" }));
+					new String[] { StatusI18nEnum.Open.name(),
+							StatusI18nEnum.Pending.name() }));
 			this.criteria = criteria;
 		}
 

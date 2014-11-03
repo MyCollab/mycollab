@@ -10,12 +10,12 @@ You can checkout our latest development source codes at [https://github.com/esof
 For further information, please visit:
 
 * [http://www.mycollab.com/](http://www.mycollab.com/)
-* [http://wiki.mycollab.com/](http://wiki.mycollab.com/)
+* [http://community.mycollab.com/](http://community.mycollab.com/)
 
 Contact the MyCollab team at:
 
 * Our email [support@mycollab.com](support@mycollab.com)
-* Our web form [https://www.mycollab.com/support/](https://www.mycollab.com/support/)
+* Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 System requirements
 ===================
@@ -25,22 +25,36 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 Please have a look at MyCollab requirements
 
-* [http://wiki.mycollab.com/Installation_Guideline#System_Requirements](http://wiki.mycollab.com/Installation_Guideline#System_Requirements)
+* [http://community.mycollab.com/installation.html#System_Requirements](http://community.mycollab.com/installation.html#System_Requirements)
 
 Installation
 ============
 
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
-2. Follow installation guideline at [http://wiki.mycollab.com/Installation_Guideline](http://wiki.mycollab.com/Installation_Guideline)
-3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://wiki.mycollab.com/Upgrade_MyCollab](http://wiki.mycollab.com/Upgrade_MyCollab) will instruct steps to make your task easily
+2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade.html](http://community.mycollab.com/upgrade.html) will instruct steps to make your task easily
 
 
- 
-If you need to understand more MyCollab advanced configuration settings, please visit the link [http://wiki.mycollab.com/Configuration](http://wiki.mycollab.com/Configuration). You will finish reading and understanding in a matter of minutes.
+
+If you need to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/admin/configuration.html](http://community.mycollab.com/admin/configuration.html). You will finish reading and understanding in a matter of minutes.
 
 Last changelog
 ==============
+
+Version 4.5.4
+-----------------------------
+
+**Improvements**
+
+* Make the back button associates to native back action to improve the navigation performance
+* Support assignee link on phone
+* Make the right widgets fly over when user scroll to the bottom in the task list view
+
+**Bug Fixes**
+
+* View title is not aligned center in iOS
+* Can only upload one file in iOS
 
 Version 4.5.3
 -----------------------------
@@ -51,6 +65,7 @@ Version 4.5.3
 
 **Improvements**
 
+* The new MyCollab mobile is released! This is the alpha release, use it at your own risk.
 * All description supports rich text
 * Clean html in rich text to help html display html string correctly
 * Display the crm activity stream properly when there is several items user can not access
@@ -63,6 +78,7 @@ Version 4.5.3
 * Fix NPE when user navigate the project time tracking list
 * Throws error if user save the empty page content
 * Minor fixes in set the overdue title colors in project and crm items
+* Error when user upload the invalid file name
 
 Version 4.5.2
 -----------------------------
@@ -81,7 +97,7 @@ Version 4.5.2
 
 **Improvements**
 
-* Remove unused libraries for the community edition such as Dropbox, Solr to reduce the size of installer 
+* Remove unused libraries for the community edition such as Dropbox, Solr to reduce the size of installer
 * Tweak the error handling while init view
 * Refactor the file module management
 * Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements

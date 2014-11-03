@@ -252,6 +252,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   margin: 0 auto;
   display: block;
 }
+.mycollab-mobile .content-wrapper.v-margin-top {
+  padding-top: 2.5rem;
+}
 .mycollab-mobile .content-wrapper .intro-text {
   text-align: center;
 }
@@ -659,6 +662,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .data-list-view {
   background-color: white;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
 .mycollab-mobile .data-list-view .list-item.v-touchkit-navbutton {
   padding: 1rem 2.7rem 1rem 1.4rem;
