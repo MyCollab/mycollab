@@ -63,6 +63,11 @@ public abstract class AbstractDynaFieldBuilder<F extends AbstractDynaField> {
 		return this;
 	}
 
+	public AbstractDynaFieldBuilder<F> colSpan(boolean isColSpan) {
+		field.setColSpan(isColSpan);
+		return this;
+	}
+
 	public AbstractDynaField build() {
 		return field;
 	}

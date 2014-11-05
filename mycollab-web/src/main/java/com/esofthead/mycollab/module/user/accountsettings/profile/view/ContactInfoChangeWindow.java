@@ -53,11 +53,11 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 class ContactInfoChangeWindow extends Window {
 
-	private TextField txtWorkPhone;
-	private TextField txtHomePhone;
-	private TextField txtFaceBook;
-	private TextField txtTwitter;
-	private TextField txtSkype;
+	private TextField txtWorkPhone = new TextField();
+	private TextField txtHomePhone = new TextField();
+	private TextField txtFaceBook = new TextField();
+	private TextField txtTwitter = new TextField();
+	private TextField txtSkype = new TextField();
 	private final Validator validation;
 
 	private final User user;
@@ -85,16 +85,13 @@ class ContactInfoChangeWindow extends Window {
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
 				"100%", "150px", Alignment.TOP_LEFT);
 
-		this.txtWorkPhone = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtWorkPhone,
 				AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
-		this.txtHomePhone = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtHomePhone,
 				AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
-		this.txtFaceBook = (TextField) passInfo.addComponent(new TextField(),
-				"Facebook", 0, 2);
-		this.txtTwitter = (TextField) passInfo.addComponent(new TextField(),
-				"Twitter", 0, 3);
-		this.txtSkype = (TextField) passInfo.addComponent(new TextField(),
-				"Skype", 0, 4);
+		passInfo.addComponent(txtFaceBook, "Facebook", 0, 2);
+		passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
+		passInfo.addComponent(txtSkype, "Skype", 0, 4);
 
 		this.txtWorkPhone.setValue(this.user.getWorkphone() == null ? ""
 				: this.user.getWorkphone());

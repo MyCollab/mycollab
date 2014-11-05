@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -54,12 +55,12 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 class BasicInfoChangeWindow extends Window {
 
-	private TextField txtFirstName;
-	private TextField txtLastName;
-	private TextField txtEmail;
-	private DateComboboxSelectionField birthdayField;
-	private TimeZoneSelectionField timeZoneField;
-	private LanguageComboBox languageBox;
+	private TextField txtFirstName = new TextField();
+	private TextField txtLastName = new TextField();
+	private TextField txtEmail = new TextField();
+	private DateComboboxSelectionField birthdayField = new DateComboboxSelectionField();
+	private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField();
+	private LanguageComboBox languageBox = new LanguageComboBox();
 
 	private final User user;
 
@@ -83,27 +84,24 @@ class BasicInfoChangeWindow extends Window {
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
 				"100%", "150px", Alignment.TOP_LEFT);
 
-		this.txtFirstName = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtFirstName,
 				AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
-		this.txtLastName = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtLastName,
 				AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
 		this.txtLastName.setRequired(true);
-		this.txtEmail = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtEmail,
 				AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
 		this.txtEmail.setRequired(true);
-		this.birthdayField = (DateComboboxSelectionField) passInfo
-				.addComponent(new DateComboboxSelectionField(),
-						AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
+		passInfo.addComponent(birthdayField,
+				AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
 		this.birthdayField.setDate(this.user.getDateofbirth());
 
-		this.timeZoneField = (TimeZoneSelectionField) passInfo.addComponent(
-				new TimeZoneSelectionField(),
+		passInfo.addComponent(timeZoneField,
 				AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
 		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(this.user
 				.getTimezone()));
 
-		this.languageBox = (LanguageComboBox) passInfo.addComponent(
-				new LanguageComboBox(),
+		passInfo.addComponent(languageBox,
 				AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
 		this.languageBox.setValue(this.user.getLanguage());
 
@@ -152,7 +150,7 @@ class BasicInfoChangeWindow extends Window {
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 		hlayoutControls.addComponent(saveBtn);
 		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

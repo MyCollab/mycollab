@@ -213,9 +213,18 @@ public class ProjectCommentInput extends VerticalLayout {
 
 			@Override
 			public void streamingFinished(StreamVariable.StreamingEndEvent event) {
+				String fileName = event.getFileName();
+				int index = fileName.lastIndexOf(".");
+				if (index > 0) {
+					String fileExt = fileName.substring(index + 1,
+							fileName.length());
+					fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
+							+ System.currentTimeMillis() + "." + fileExt;
+				}
+
 				if (!indicators.isEmpty()) {
 					statusWrapper.replaceComponent(indicators.remove(0),
-							createAttachmentRow(event.getFileName()));
+							createAttachmentRow(fileName));
 				}
 
 				if (indicators.size() == 0) {
@@ -223,15 +232,6 @@ public class ProjectCommentInput extends VerticalLayout {
 				}
 
 				File file = receiver.getFile();
-
-				String fileName = event.getFileName();
-				int index = fileName.lastIndexOf(".");
-				if (index > 0) {
-					String fileExt = fileName.substring(index + 1,
-							fileName.length());
-					fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
-							+ System.currentTimeMillis() + fileExt;
-				}
 
 				receiveFile(file, fileName, event.getMimeType(),
 						event.getBytesReceived());

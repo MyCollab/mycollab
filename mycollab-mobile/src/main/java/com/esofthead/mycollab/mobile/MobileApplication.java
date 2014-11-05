@@ -31,10 +31,13 @@ import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.ShellUrlResolver;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.mobile.ui.MobileHistoryViewManager;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
+import com.esofthead.mycollab.vaadin.mvp.NullViewState;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -155,6 +158,7 @@ public class MobileApplication extends MyCollabUI {
 		manager.addNavigationListener(new NavigationManager.NavigationListener() {
 			private static final long serialVersionUID = -2317588983851761998L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void navigate(NavigationEvent event) {
 				NavigationManager currentNavigator = (NavigationManager) event
@@ -162,12 +166,33 @@ public class MobileApplication extends MyCollabUI {
 				if (event.getDirection() == Direction.BACK) {
 					Component nextComponent = currentNavigator
 							.getNextComponent();
+					ViewState currentState = MobileHistoryViewManager.peak();
+
+					if (!(currentState instanceof NullViewState)
+							&& currentState.getPresenter().getView()
+									.equals(nextComponent)) {
+						ViewState viewState = MobileHistoryViewManager.pop();
+						while (!(viewState instanceof NullViewState)) {
+							if (viewState
+									.getPresenter()
+									.getView()
+									.equals(currentNavigator
+											.getCurrentComponent())) {
+								viewState.getPresenter().go(
+										viewState.getContainer(),
+										viewState.getParams());
+								break;
+							}
+							viewState = MobileHistoryViewManager.pop(false);
+						}
+					}
 					if (nextComponent instanceof NavigationView) {
 						((NavigationView) nextComponent)
 								.setPreviousComponent(null);
 					}
 					currentNavigator.removeComponent(nextComponent);
 					currentNavigator.getState().setNextComponent(null);
+
 				}
 			}
 		});

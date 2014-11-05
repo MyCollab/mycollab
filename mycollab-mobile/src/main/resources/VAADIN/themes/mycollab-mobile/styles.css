@@ -833,6 +833,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.5rem;
   text-overflow: ellipsis;
 }
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label.v-has-width, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label.v-has-width {
+  white-space: nowrap;
+}
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label:after, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label:after {
   content: "";
   position: relative;

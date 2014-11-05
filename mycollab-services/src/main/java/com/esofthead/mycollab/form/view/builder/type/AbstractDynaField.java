@@ -59,6 +59,9 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
 	private boolean isCustom = false;
 
 	@Exclude
+	private boolean isColSpan = false;
+
+	@Exclude
 	private DynaSection ownSection;
 
 	public String getFieldName() {
@@ -115,6 +118,14 @@ public class AbstractDynaField implements Comparable<AbstractDynaField> {
 
 	public void setMandatory(boolean isMandatory) {
 		this.isMandatory = isMandatory;
+	}
+
+	public boolean isColSpan() {
+		return isColSpan;
+	}
+
+	public void setColSpan(boolean isColSpan) {
+		this.isColSpan = isColSpan;
 	}
 
 	@Override

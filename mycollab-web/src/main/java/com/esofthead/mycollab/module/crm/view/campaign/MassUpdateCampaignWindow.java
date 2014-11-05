@@ -108,21 +108,22 @@ public class MassUpdateCampaignWindow extends
 		public void attachField(final Object propertyId, final Field<?> field) {
 
 			if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
+						0);
 			}
 			if (propertyId.equals("status")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1,
 						0);
 			} else if (propertyId.equals("type")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(CampaignI18nEnum.FORM_TYPE), 0,
-						1, 2, "297px", Alignment.TOP_LEFT);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(CampaignI18nEnum.FORM_TYPE), 0, 1);
 			} else if (propertyId.equals("currencyid")) {
 				this.campaignGoal.addComponent(field,
 						AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY),
-						0, 0, "297px");
+						0, 0);
 			}
 
 		}

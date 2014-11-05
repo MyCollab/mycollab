@@ -118,7 +118,7 @@ class TaskDisplayComponent extends CssLayout {
 					if ("description".equals(propertyId)) {
 						layoutHelper.addComponent(field, AppContext
 								.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-								0, 0, 2);
+								0, 0, 2, "100%");
 					} else if ("owner".equals(propertyId)) {
 						layoutHelper.addComponent(field, AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);

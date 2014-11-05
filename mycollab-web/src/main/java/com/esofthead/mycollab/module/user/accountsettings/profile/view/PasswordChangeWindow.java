@@ -72,22 +72,26 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final Label lbInstruct1 = new Label(
-				AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
+				AppContext
+						.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
 		mainLayout.addComponent(lbInstruct1);
 		mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
 		final Label lbInstruct2 = new Label(
-				AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
+				AppContext
+						.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
 		mainLayout.addComponent(lbInstruct2);
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 3,
 				UIConstants.DEFAULT_CONTROL_WIDTH_1024_RESOLUTION, "150px");
 
-		this.txtNewPassword = (PasswordField) passInfo.addComponent(
-				new PasswordField(), "New Password", 0, 0);
-		this.txtConfirmPassword = (PasswordField) passInfo.addComponent(
-				new PasswordField(), "Confirmed New Password", 0, 1);
+		txtNewPassword = new PasswordField();
+		passInfo.addComponent(txtNewPassword, "New Password", 0, 0);
+
+		txtConfirmPassword = new PasswordField();
+		passInfo.addComponent(txtConfirmPassword, "Confirmed New Password", 0,
+				1);
 
 		passInfo.getLayout().setSpacing(true);
 		mainLayout.addComponent(passInfo.getLayout());

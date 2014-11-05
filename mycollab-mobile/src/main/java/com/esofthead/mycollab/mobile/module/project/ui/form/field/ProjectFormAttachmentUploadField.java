@@ -55,7 +55,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.3
  *
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({ "rawtypes" })
 public class ProjectFormAttachmentUploadField extends CustomField {
 	private static final long serialVersionUID = 1L;
 	private MultiUpload attachmentBtn;
@@ -91,19 +91,19 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 
 			@Override
 			public void streamingFinished(StreamVariable.StreamingEndEvent event) {
+				String tempName = event.getFileName();
+				final String fileName;
+				int index = tempName.lastIndexOf(".");
+				if (index > 0) {
+					String fileExt = tempName.substring(index + 1,
+							tempName.length());
+					fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
+							+ System.currentTimeMillis() + "." + fileExt;
+				} else {
+					fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
+							+ System.currentTimeMillis();
+				}
 				if (!indicators.isEmpty()) {
-					String tempName = event.getFileName();
-					final String fileName;
-					int index = tempName.lastIndexOf(".");
-					if (index > 0) {
-						String fileExt = tempName.substring(index + 1,
-								tempName.length());
-						fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
-								+ System.currentTimeMillis() + fileExt;
-					} else {
-						fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
-								+ System.currentTimeMillis();
-					}
 					content.replaceComponent(indicators.remove(0),
 							MobileAttachmentUtils.renderAttachmentFieldRow(
 									MobileAttachmentUtils.constructContent(
@@ -126,9 +126,10 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 
 				File file = receiver.getFile();
 
-				receiveFile(file, event.getFileName(), event.getMimeType(),
+				receiveFile(file, fileName, event.getMimeType(),
 						event.getBytesReceived());
 				receiver.setValue(null);
+
 			}
 
 			@Override

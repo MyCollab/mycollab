@@ -608,6 +608,10 @@
 					line-height: 2rem;
 					font-size: 1.5rem;
 					text-overflow: ellipsis;
+					&.v-has-width {
+						white-space: nowrap;
+					}
+					
 					&:after {
 						content: "";
 						position: relative;

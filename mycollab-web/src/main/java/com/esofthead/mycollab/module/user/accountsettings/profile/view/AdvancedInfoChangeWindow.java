@@ -46,9 +46,9 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 class AdvancedInfoChangeWindow extends Window {
 
-	private TextField txtWebsite;
-	private TextField txtCompany;
-	private CountryComboBox cboCountry;
+	private TextField txtWebsite = new TextField();
+	private TextField txtCompany = new TextField();
+	private CountryComboBox cboCountry = new CountryComboBox();
 
 	private final User user;
 
@@ -72,12 +72,11 @@ class AdvancedInfoChangeWindow extends Window {
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 4,
 				"100%", "150px", Alignment.TOP_LEFT);
 
-		this.txtWebsite = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtWebsite,
 				AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
-		this.txtCompany = (TextField) passInfo.addComponent(new TextField(),
+		passInfo.addComponent(txtCompany,
 				AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
-		this.cboCountry = (CountryComboBox) passInfo.addComponent(
-				new CountryComboBox(),
+		passInfo.addComponent(cboCountry,
 				AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
 		this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
