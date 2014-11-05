@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;

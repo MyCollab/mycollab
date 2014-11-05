@@ -25,6 +25,7 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -35,7 +36,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 public class ContactDefaultDynaFormLayoutFactory {
-	public static final DynaForm defaultForm;
+	private static final DynaForm defaultForm;
 
 	static {
 		defaultForm = new DynaForm();
@@ -48,85 +49,88 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.build();
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("firstname")
+				.fieldName(Contact.Field.firstname)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_FIRSTNAME))
 				.fieldIndex(0).build());
 
 		contactSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName("officephone")
+				.fieldName(Contact.Field.officephone)
 				.displayName(
 						AppContext
 								.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE))
 				.fieldIndex(1).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("lastname")
+				.fieldName(Contact.Field.lastname)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_LASTNAME))
 				.fieldIndex(2).mandatory(true).build());
 
 		contactSection
 				.addField(new PhoneDynaFieldBuilder()
-						.fieldName("mobile")
+						.fieldName(Contact.Field.mobile)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_MOBILE))
 						.fieldIndex(3).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("accountid")
+				.fieldName(Contact.Field.accountid)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS))
 				.fieldIndex(4).build());
 
 		contactSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName("homephone")
+				.fieldName(Contact.Field.homephone)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_HOME_PHONE))
 				.fieldIndex(5).build());
 
-		contactSection.addField(new TextDynaFieldBuilder().fieldName("title")
+		contactSection.addField(new TextDynaFieldBuilder()
+				.fieldName(Contact.Field.title)
 				.displayName(AppContext.getMessage(ContactI18nEnum.FORM_TITLE))
 				.fieldIndex(6).build());
 
 		contactSection
 				.addField(new PhoneDynaFieldBuilder()
-						.fieldName("otherphone")
+						.fieldName(Contact.Field.otherphone)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_OTHER_PHONE))
 						.fieldIndex(7).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("department")
+				.fieldName(Contact.Field.department)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_DEPARTMENT))
 				.fieldIndex(8).build());
 
-		contactSection.addField(new PhoneDynaFieldBuilder().fieldName("fax")
+		contactSection.addField(new PhoneDynaFieldBuilder()
+				.fieldName(Contact.Field.fax)
 				.displayName(AppContext.getMessage(ContactI18nEnum.FORM_FAX))
 				.fieldIndex(9).build());
 
-		contactSection.addField(new EmailDynaFieldBuilder().fieldName("email")
+		contactSection.addField(new EmailDynaFieldBuilder()
+				.fieldName(Contact.Field.email)
 				.displayName(AppContext.getMessage(ContactI18nEnum.FORM_EMAIL))
 				.fieldIndex(10).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("birthday")
+				.fieldName(Contact.Field.birthday)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_BIRTHDAY))
 				.fieldIndex(11).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("assistant")
+				.fieldName(Contact.Field.assistant)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_ASSISTANT))
 				.fieldIndex(12).build());
 
 		contactSection
 				.addField(new BooleanDynaFieldBuilder()
-						.fieldName("iscallable")
+						.fieldName(Contact.Field.iscallable)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_IS_CALLABLE))
@@ -134,21 +138,21 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		contactSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("assistantphone")
+						.fieldName(Contact.Field.assistantphone)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_ASSISTANT_PHONE))
 						.fieldIndex(14).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
-				.fieldName("assignuser")
+				.fieldName(Contact.Field.assignuser)
 				.displayName(
 						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
 				.fieldIndex(15).build());
 
 		contactSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("leadsource")
+						.fieldName(Contact.Field.leadsource)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_LEAD_SOURCE))
@@ -163,7 +167,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("primaddress")
+						.fieldName(Contact.Field.primaddress)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_PRIMARY_ADDRESS))
@@ -171,28 +175,28 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("otheraddress")
+						.fieldName(Contact.Field.otheraddress)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_OTHER_ADDRESS))
 						.fieldIndex(1).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primcity")
+				.fieldName(Contact.Field.primcity)
 				.displayName(
 						AppContext
 								.getMessage(ContactI18nEnum.FORM_PRIMARY_CITY))
 				.fieldIndex(2).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("othercity")
+				.fieldName(Contact.Field.othercity)
 				.displayName(
 						AppContext.getMessage(ContactI18nEnum.FORM_OTHER_CITY))
 				.fieldIndex(3).build());
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("primstate")
+						.fieldName(Contact.Field.primstate)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_PRIMARY_STATE))
@@ -200,7 +204,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("otherstate")
+						.fieldName(Contact.Field.otherstate)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_OTHER_STATE))
@@ -208,7 +212,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("primpostalcode")
+						.fieldName(Contact.Field.primpostalcode)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE))
@@ -216,7 +220,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("otherpostalcode")
+						.fieldName(Contact.Field.otherpostalcode)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_OTHER_POSTAL_CODE))
@@ -224,7 +228,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("primcountry")
+						.fieldName(Contact.Field.primcountry)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_PRIMARY_COUNTRY))
@@ -232,7 +236,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 
 		addressSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("othercountry")
+						.fieldName(Contact.Field.othercountry)
 						.displayName(
 								AppContext
 										.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY))
@@ -248,7 +252,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.build();
 
 		descSection.addField(new TextDynaFieldBuilder()
-				.fieldName("description")
+				.fieldName(Contact.Field.description)
 				.displayName(
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
 				.fieldIndex(0).build());

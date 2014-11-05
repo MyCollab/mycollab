@@ -67,6 +67,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
@@ -91,7 +92,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -113,7 +113,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 	private UserInvolvedProjectsListSelect projectField;
 	private UserInvolvedProjectsMemberListSelect userField;
-	private PopupDateField fromDateField, toDateField;
+	private PopupDateFieldExt fromDateField, toDateField;
 	private ComboBox groupField, orderField;
 
 	private Label totalHoursLoggingLabel;
@@ -275,7 +275,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			UiUtils.addComponent(fromLbWrapper, fromLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(fromLbWrapper, 0, 0);
 
-			this.fromDateField = new PopupDateField();
+			this.fromDateField = new PopupDateFieldExt();
 			this.fromDateField.setResolution(Resolution.DAY);
 			this.fromDateField.setDateFormat(AppContext.getUserDateFormat());
 			this.fromDateField.setWidth("100px");
@@ -288,7 +288,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			UiUtils.addComponent(toLbWrapper, toLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(toLbWrapper, 2, 0);
 
-			this.toDateField = new PopupDateField();
+			this.toDateField = new PopupDateFieldExt();
 			this.toDateField.setResolution(Resolution.DAY);
 			this.toDateField.setDateFormat(AppContext.getUserDateFormat());
 			this.toDateField.setWidth("100px");

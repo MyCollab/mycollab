@@ -130,7 +130,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 				final TextField tf = new TextField();
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Name");
+				tf.setRequiredError("Name is required");
 				return tf;
 			} else if ("percentagecomplete".equals(propertyId)) {
 				return new TaskPercentageCompleteComboBox();

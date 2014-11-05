@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -73,7 +74,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	private Label totalSpentTimeLbl;
 	private NumbericTextField newTimeInputField;
 	private CheckBox isBillableField;
-	private DateField forDateField;
+	private DateFieldExt forDateField;
 
 	private NumbericTextField remainTimeInputField;
 	private Label remainTimeLbl;
@@ -250,7 +251,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.newTimeInputField,
 				Alignment.MIDDLE_LEFT);
 
-		this.forDateField = new DateField();
+		this.forDateField = new DateFieldExt();
 		this.forDateField.setValue(new GregorianCalendar().getTime());
 		addLayout.addComponent(this.forDateField);
 		addLayout.setComponentAlignment(this.forDateField,

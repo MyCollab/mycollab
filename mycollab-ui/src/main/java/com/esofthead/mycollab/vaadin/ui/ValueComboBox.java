@@ -70,7 +70,7 @@ public class ValueComboBox extends ComboBox {
 		}
 	}
 
-	public final void loadData(Number... values) {
+	private final void loadData(Number... values) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 
 		for (int i = 0; i < values.length; i++) {

@@ -46,11 +46,11 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
@@ -75,8 +75,8 @@ class GanttChartTaskContainer extends VerticalLayout {
 
 	private final ProjectTaskService taskService;
 
-	private DateField start;
-	private DateField end;
+	private DateFieldExt start;
+	private DateFieldExt end;
 
 	public GanttChartTaskContainer() {
 		taskService = ApplicationContextUtil
@@ -305,14 +305,15 @@ class GanttChartTaskContainer extends VerticalLayout {
 		controls.setMargin(true);
 		panel.setContent(controls);
 
-		start = new DateField(
+		start = new DateFieldExt(
 				AppContext.getMessage(TaskI18nEnum.FORM_START_DATE));
 		start.setValue(gantt.getStartDate());
 		start.setResolution(Resolution.DAY);
 		start.setImmediate(true);
 		start.addValueChangeListener(startDateValueChangeListener);
 
-		end = new DateField(AppContext.getMessage(TaskI18nEnum.FORM_END_DATE));
+		end = new DateFieldExt(
+				AppContext.getMessage(TaskI18nEnum.FORM_END_DATE));
 		end.setValue(gantt.getEndDate());
 		end.setResolution(Resolution.DAY);
 		end.setImmediate(true);
@@ -386,10 +387,8 @@ class GanttChartTaskContainer extends VerticalLayout {
 							AppContext
 									.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
 							"Timeline range is a quite long for hour resolution. Rendering may be slow. Continue anyway?",
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
+							AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+							AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 

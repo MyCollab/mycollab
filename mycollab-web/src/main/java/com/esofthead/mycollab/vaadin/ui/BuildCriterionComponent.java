@@ -390,10 +390,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				String compareItem = (String) compareSelectionBox.getValue();
 				if (DateParam.BETWEEN.equals(compareItem)
 						|| DateParam.NOT_BETWEEN.equals(compareItem)) {
-					DateField field1 = new DateField();
+					DateFieldExt field1 = new DateFieldExt();
 					field1.setValue((Date) Array.get(
 							searchFieldInfo.getValue(), 0));
-					DateField field2 = new DateField();
+					DateFieldExt field2 = new DateFieldExt();
 					field2.setValue((Date) Array.get(
 							searchFieldInfo.getValue(), 1));
 					field1.setWidth(width);
@@ -401,7 +401,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					valueBox.addComponent(field1);
 					valueBox.addComponent(field2);
 				} else {
-					DateField field = new DateField();
+					DateFieldExt field = new DateFieldExt();
 					field.setValue((Date) searchFieldInfo.getValue());
 					field.setWidth(width);
 					valueBox.addComponent(field);

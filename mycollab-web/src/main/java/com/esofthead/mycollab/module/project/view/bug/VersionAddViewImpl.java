@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -34,7 +35,6 @@ import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
@@ -44,7 +44,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 		VersionAddView {
 	private static final long serialVersionUID = 1L;
@@ -116,7 +116,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 			} else if (propertyId.equals("description")) {
 				return new RichTextEditField();
 			} else if (propertyId.equals("duedate")) {
-				final DateField dateField = new DateField();
+				final DateFieldExt dateField = new DateFieldExt();
 				dateField.setResolution(Resolution.DAY);
 				return dateField;
 			}

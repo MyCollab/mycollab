@@ -26,7 +26,6 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IndustryComboBox;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -52,23 +51,23 @@ class AccountEditFormFieldFactory<B extends Account> extends
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
 
-		if ("type".equals(propertyId)) {
+		if (Account.Field.type.equalTo(propertyId)) {
 			AccountTypeComboBox accountTypeBox = new AccountTypeComboBox();
 			return accountTypeBox;
-		} else if ("industry".equals(propertyId)) {
+		} else if (Account.Field.industry.equalTo(propertyId)) {
 			IndustryComboBox accountIndustryBox = new IndustryComboBox();
 			return accountIndustryBox;
-		} else if ("assignuser".equals(propertyId)) {
+		} else if (Account.Field.assignuser.equalTo(propertyId)) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());
 			return userBox;
-		} else if ("description".equals(propertyId)) {
+		} else if (Account.Field.description.equalTo(propertyId)) {
 			return new RichTextEditField();
-		} else if ("billingcountry".equals(propertyId)
-				|| "shippingcountry".equals(propertyId)) {
+		} else if (Account.Field.billingcountry.equalTo(propertyId)
+				|| Account.Field.shippingcountry.equalTo(propertyId)) {
 			CountryComboBox billingCountryComboBox = new CountryComboBox();
 			return billingCountryComboBox;
-		} else if (propertyId.equals("accountname")) {
+		} else if (Account.Field.accountname.equalTo(propertyId)) {
 			TextField tf = new TextField();
 			if (isValidateForm) {
 				tf.setNullRepresentation("");

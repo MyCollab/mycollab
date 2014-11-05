@@ -26,6 +26,7 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -36,7 +37,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 public class AccountDefaultDynaFormLayoutFactory {
-	public static final DynaForm defaultForm;
+	private static final DynaForm defaultForm;
 
 	static {
 		defaultForm = new DynaForm();
@@ -49,33 +50,33 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION))
 				.build();
 		accountSection.addField(new TextDynaFieldBuilder()
-				.fieldName("accountname")
+				.fieldName(Account.Field.accountname)
 				.displayName(
 						AppContext
 								.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME))
 				.customField(false).fieldIndex(0).mandatory(true)
 				.required(true).build());
 		accountSection.addField(new TextDynaFieldBuilder()
-				.fieldName("phoneoffice")
+				.fieldName(Account.Field.phoneoffice)
 				.displayName(
 						AppContext
 								.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE))
 				.customField(false).fieldIndex(1).build());
 
 		accountSection.addField(new TextDynaFieldBuilder()
-				.fieldName("website")
+				.fieldName(Account.Field.website)
 				.fieldIndex(2)
 				.displayName(
 						AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE))
 				.customField(false).build());
 
-		accountSection.addField(new PhoneDynaFieldBuilder().fieldName("fax")
-				.fieldIndex(3)
+		accountSection.addField(new PhoneDynaFieldBuilder()
+				.fieldName(Account.Field.fax).fieldIndex(3)
 				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_FAX))
 				.customField(false).build());
 
 		accountSection.addField(new IntDynaFieldBuilder()
-				.fieldName("numemployees")
+				.fieldName(Account.Field.numemployees)
 				.fieldIndex(4)
 				.displayName(
 						AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES))
@@ -83,7 +84,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		accountSection
 				.addField(new PhoneDynaFieldBuilder()
-						.fieldName("alternatephone")
+						.fieldName(Account.Field.alternatephone)
 						.fieldIndex(5)
 						.displayName(
 								AppContext
@@ -91,41 +92,39 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.customField(false).build());
 
 		accountSection.addField(new PickListDynaFieldBuilder<String>()
-				.fieldName("industry")
+				.fieldName(Account.Field.industry)
 				.fieldIndex(6)
 				.displayName(
 						AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY))
 				.customField(false).build());
 
-		accountSection.addField(new EmailDynaFieldBuilder().fieldName("email")
-				.fieldIndex(7)
+		accountSection.addField(new EmailDynaFieldBuilder()
+				.fieldName(Account.Field.email).fieldIndex(7)
 				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMAIL))
 				.customField(false).build());
 
 		accountSection.addField(new PickListDynaFieldBuilder<String>()
-				.fieldName("type").fieldIndex(8)
+				.fieldName(Account.Field.type).fieldIndex(8)
 				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_TYPE))
 				.customField(false).build());
 
 		accountSection.addField(new TextDynaFieldBuilder()
-				.fieldName("ownership")
+				.fieldName(Account.Field.ownership)
 				.fieldIndex(9)
 				.displayName(
 						AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
 				.customField(false).build());
 
-		accountSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.fieldIndex(10)
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.customField(false).build());
+		accountSection.addField(new TextDynaFieldBuilder()
+				.fieldName(Account.Field.assignuser)
+				.fieldIndex(10)
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.customField(false).build());
 
 		accountSection
 				.addField(new TextDynaFieldBuilder()
-						.fieldName("annualrevenue")
+						.fieldName(Account.Field.annualrevenue)
 						.fieldIndex(11)
 						.displayName(
 								AppContext
@@ -143,7 +142,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(0)
-						.fieldName("billingaddress")
+						.fieldName(Account.Field.billingaddress)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS))
@@ -151,14 +150,14 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(1)
-						.fieldName("shippingaddress")
+						.fieldName(Account.Field.shippingaddress)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS))
 						.customField(false).build());
 		addressSection.addField(new TextDynaFieldBuilder()
 				.fieldIndex(2)
-				.fieldName("city")
+				.fieldName(Account.Field.city)
 				.displayName(
 						AppContext
 								.getMessage(AccountI18nEnum.FORM_BILLING_CITY))
@@ -167,7 +166,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(3)
-						.fieldName("shippingcity")
+						.fieldName(Account.Field.shippingcity)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY))
@@ -176,7 +175,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(4)
-						.fieldName("state")
+						.fieldName(Account.Field.state)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_STATE))
@@ -185,7 +184,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(5)
-						.fieldName("shippingstate")
+						.fieldName(Account.Field.shippingstate)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE))
@@ -194,7 +193,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(6)
-						.fieldName("postalcode")
+						.fieldName(Account.Field.postalcode)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE))
@@ -203,7 +202,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(7)
-						.fieldName("shippingpostalcode")
+						.fieldName(Account.Field.shippingpostalcode)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE))
@@ -212,7 +211,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(8)
-						.fieldName("billingcountry")
+						.fieldName(Account.Field.billingcountry)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY))
@@ -221,7 +220,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(9)
-						.fieldName("shippingcountry")
+						.fieldName(Account.Field.shippingcountry)
 						.displayName(
 								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY))
@@ -238,7 +237,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		descSection.addField(new TextDynaFieldBuilder()
 				.fieldIndex(0)
-				.fieldName("description")
+				.fieldName(Account.Field.description)
 				.customField(false)
 				.displayName(
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))

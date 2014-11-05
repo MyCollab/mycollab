@@ -21,6 +21,7 @@ import java.util.Date;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
@@ -28,7 +29,6 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.PopupDateField;
 
 /**
  * 
@@ -41,13 +41,13 @@ public class DateTimePickerField extends CustomField<Date> {
 
 	private static final long ONE_MINUTE_IN_MILLIS = 60000;
 
-	private PopupDateField popupDateField;
+	private PopupDateFieldExt popupDateField;
 	private HourPickerComboBox hourPickerComboBox;
 	private MinutePickerComboBox minutePickerComboBox;
 	private ValueComboBox timeFormatComboBox;
 
 	public DateTimePickerField() {
-		popupDateField = new PopupDateField();
+		popupDateField = new PopupDateFieldExt();
 		popupDateField.setResolution(Resolution.DAY);
 		popupDateField.setWidth("130px");
 

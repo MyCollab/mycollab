@@ -25,7 +25,6 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
@@ -35,13 +34,13 @@ import com.vaadin.ui.Label;
  * @since 2.0
  * 
  */
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DateRangeField extends CustomField {
 
 	private static final long serialVersionUID = 1L;
 
-	private DateField dateStart = new DateField();
-	private DateField dateEnd = new DateField();
+	private DateFieldExt dateStart = new DateFieldExt();
+	private DateFieldExt dateEnd = new DateFieldExt();
 
 	@Override
 	protected Component initContent() {

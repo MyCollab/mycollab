@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -25,6 +24,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;

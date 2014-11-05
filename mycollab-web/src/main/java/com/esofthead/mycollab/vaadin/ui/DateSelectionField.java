@@ -28,7 +28,6 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -41,24 +40,24 @@ import com.vaadin.ui.HorizontalLayout;
 @SuppressWarnings("serial")
 public class DateSelectionField extends GridLayout {
 
-	private DateField dateStart = new DateField();
-	private DateField dateEnd = new DateField();
+	private DateFieldExt dateStart = new DateFieldExt();
+	private DateFieldExt dateEnd = new DateFieldExt();
 
 	private DateSelectionComboBox dateSelectionBox;
 
-	public DateField getDateStart() {
+	public DateFieldExt getDateStart() {
 		return dateStart;
 	}
 
-	public void setDateStart(DateField dateStart) {
+	public void setDateStart(DateFieldExt dateStart) {
 		this.dateStart = dateStart;
 	}
 
-	public DateField getDateEnd() {
+	public DateFieldExt getDateEnd() {
 		return dateEnd;
 	}
 
-	public void setDateEnd(DateField dateEnd) {
+	public void setDateEnd(DateFieldExt dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 

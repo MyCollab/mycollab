@@ -94,7 +94,6 @@ public class ProjectAddWindow extends Window {
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("description")) {
 				final RichTextEditField field = new RichTextEditField();
-				field.setHeight("350px");
 				return field;
 			} else if (propertyId.equals("projectstatus")) {
 				final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();

@@ -75,7 +75,7 @@ public class TaskListViewImpl extends
 	@Override
 	protected Component createRightComponent() {
 		NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
-		editBtn.setButtonCaption("...");
+		editBtn.setButtonCaption(null);
 		editBtn.setStyleName("edit-btn");
 
 		ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleTaskList>(

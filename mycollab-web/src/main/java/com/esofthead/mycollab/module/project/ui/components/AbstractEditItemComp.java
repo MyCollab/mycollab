@@ -45,7 +45,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		super();
 		this.editForm = new AdvancedEditBeanForm<B>();
 		this.addComponent(this.editForm);
-		// this.setMargin(false);
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		return this.editForm;
 	}
 
-	class FormLayoutFactory implements IFormLayoutFactory {
+	private class FormLayoutFactory implements IFormLayoutFactory {
 		private static final long serialVersionUID = 1L;
 
 		private IFormLayoutFactory informationLayout;

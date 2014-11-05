@@ -42,6 +42,16 @@
 		}
 	}
 	
+	.v-touchkit-navbar {
+		.v-touchkit-navbar-right {
+			top: 0px;
+			right: 0px;
+			.v-button {
+				min-height: inherit;
+			}
+		}
+	}
+	
 	/* Confirm Dialog */
     .confirm-dialog {
     	.v-window-outerheader {

@@ -25,8 +25,6 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -102,12 +100,5 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 					AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT),
 					0, 7, 2, "100%");
 		}
-	}
-
-	public void setPercent(String labelPercent) {
-		((HorizontalLayout) this.informationLayout.getComponent(0, 5))
-				.removeAllComponents();
-		((HorizontalLayout) this.informationLayout.getComponent(0, 5))
-				.addComponent(new Label(labelPercent));
 	}
 }

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
@@ -45,8 +43,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		this.setContent(previewForm);
 
 		editBtn = new NavigationBarQuickMenu();
-		editBtn.setButtonCaption(AppContext
-				.getMessage(GenericI18Enum.BUTTON_EDIT));
+		editBtn.setButtonCaption(null);
 		editBtn.setStyleName("edit-btn");
 		editBtn.setContent(createButtonControls());
 		this.setRightComponent(editBtn);

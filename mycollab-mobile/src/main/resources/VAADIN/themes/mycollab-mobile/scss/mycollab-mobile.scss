@@ -305,10 +305,41 @@
 		   					padding: 0 12px;
 		   				}
 	    			}
+	    			.edit-btn {
+	    				&.v-navbar-quickmenu-button {
+	    					@include icomoon;
+	    					padding: 0rem;
+	    					height: 4rem;
+	    					width: 4rem;
+	    					background-color: transparent;
+	    					border: none;
+	    					text-align: center;
+	    					line-height: 4rem;
+	    					border-radius: 0px;
+	    					@include transition-with-prefix (transform 0.3s ease);
+	    					@include transform (rotate(90deg));
+	    					
+	    					&:before {
+								content: "\e619";
+								font-size: 2rem;
+								display: block;
+		    				}
+		    				&.expanded {
+		    					@include transform (rotate(0deg));
+		    				}
+		    				&:active {
+		    					background-color: $primary-focus-blue;
+		    				}
+	    				}
+	    			}
 	    			.save-btn {
-	    				padding: 0.5rem 0 0;
+	    				padding: 0.4rem 0 0;
+	    				top: 6px;
+	    				right: 6px;
 	    			}
 	    			.add-btn {
+	    				top: 6px;
+	    				right: 6px;
 	    				.v-button-wrap {
 	    					padding: 0rem 1rem;
 	    					

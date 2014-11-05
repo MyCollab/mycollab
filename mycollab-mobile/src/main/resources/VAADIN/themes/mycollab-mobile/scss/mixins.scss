@@ -64,3 +64,22 @@
 	-moz-box-shadow: $s;
 	box-shadow: $s;
 }
+@mixin transform ($s) {
+	-webkit-transform: $s;
+	-moz-transform: $s;
+	-o-transform: $s;
+	-ms-transform: $s;
+	transform: $s;
+}
+@mixin transition ($s) {
+	-webkit-transition: $s;
+	-moz-transition: $s;
+	-o-transition: $s;
+	transition: $s;
+}
+@mixin transition-with-prefix ($s) {
+	-webkit-transition: -webkit-+$s;
+	-moz-transition: -moz-+$s;
+	-o-transition: -o-+$s;
+	transition: $s;
+}
