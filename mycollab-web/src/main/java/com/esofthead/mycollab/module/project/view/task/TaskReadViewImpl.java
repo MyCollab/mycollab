@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -44,6 +45,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -62,6 +64,7 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
@@ -162,7 +165,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		} else {
 			Date now = new GregorianCalendar().getTime();
 
-			if ("Pending".equals(beanItem.getStatus())) {
+			if (StatusI18nEnum.Pending.name().equals(beanItem.getStatus())) {
 				addLayoutStyleName(UIConstants.LINK_PENDING);
 			} else if ((beanItem.getEnddate() != null && (beanItem.getEnddate()
 					.before(now)))
@@ -178,12 +181,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_CLOSE));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/closeTask.png"));
+					.newResource(WebResourceIds._16_project_closeTask));
 		} else {
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_REOPEN));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/reopenTask.png"));
+					.newResource(WebResourceIds._16_project_reopenTask));
 
 		}
 
@@ -210,7 +213,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new TaskFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.TASK,
+				TaskDefaultFormLayoutFactory.getForm(),
+				Task.Field.taskname.name());
 	}
 
 	@Override
@@ -246,7 +251,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_CLOSE));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/closeTask.png"));
+							.newResource(WebResourceIds._16_project_closeTask));
 				} else {
 					beanItem.setStatus(StatusI18nEnum.Closed.name());
 					beanItem.setPercentagecomplete(100d);
@@ -255,7 +260,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_REOPEN));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/reopenTask.png"));
+							.newResource(WebResourceIds._16_project_reopenTask));
 				}
 
 				ProjectTaskService service = ApplicationContextUtil
@@ -284,12 +289,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		tabTaskDetail.addTab(commentList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
 		tabTaskDetail.addTab(historyList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 
 		return tabTaskDetail;
 	}

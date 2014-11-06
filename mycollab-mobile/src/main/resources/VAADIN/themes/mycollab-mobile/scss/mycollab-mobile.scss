@@ -6,6 +6,7 @@
 @import "vaadin-components.scss";
 
 /* Import our component styles */
+@import "components/attachment-preview.scss";
 @import "components/project/dashboard.scss";
 @import "components/project/activities.scss";
 @import "components/project/bug.scss";
@@ -19,6 +20,9 @@
     /* Include all the styles from the reindeer theme */
     
     @include vaadin-components;
+    
+    /* Include common components */
+    @include attachment-preview;
     
     * {
 	   -webkit-tap-highlight-color: rgba(0,0,0,0);

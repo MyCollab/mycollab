@@ -41,7 +41,9 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
+import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
@@ -60,6 +62,7 @@ import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -96,7 +99,8 @@ public class ComponentReadViewImpl extends
 
 	public ComponentReadViewImpl() {
 		super(AppContext.getMessage(ComponentI18nEnum.VIEW_READ_TITLE),
-				MyCollabResource.newResource("icons/22/project/component.png"));
+				MyCollabResource
+						.newResource(WebResourceIds._22_project_component));
 	}
 
 	@Override
@@ -116,7 +120,9 @@ public class ComponentReadViewImpl extends
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ComponentFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
+				ComponentDefaultFormLayoutFactory.getForm(),
+				Component.Field.componentname.name());
 	}
 
 	@Override
@@ -154,13 +160,13 @@ public class ComponentReadViewImpl extends
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_CLOSE));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/closeTask.png"));
+					.newResource(WebResourceIds._16_project_closeTask));
 		} else {
 			addLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_REOPEN));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/reopenTask.png"));
+					.newResource(WebResourceIds._16_project_reopenTask));
 
 		}
 
@@ -179,7 +185,7 @@ public class ComponentReadViewImpl extends
 
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
-				if (propertyId.equals("userlead")) {
+				if (Component.Field.userlead.equalTo(propertyId)) {
 					return new ProjectUserFormLinkField(beanItem.getUserlead(),
 							beanItem.getUserLeadAvatarId(),
 							beanItem.getUserLeadFullName());
@@ -207,7 +213,7 @@ public class ComponentReadViewImpl extends
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_CLOSE));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/closeTask.png"));
+							.newResource(WebResourceIds._16_project_closeTask));
 				} else {
 					beanItem.setStatus(StatusI18nEnum.Closed.name());
 
@@ -216,7 +222,7 @@ public class ComponentReadViewImpl extends
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_REOPEN));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/reopenTask.png"));
+							.newResource(WebResourceIds._16_project_reopenTask));
 				}
 
 				ComponentService service = ApplicationContextUtil
@@ -245,15 +251,15 @@ public class ComponentReadViewImpl extends
 		tabContainer.addTab(commentDisplay, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
-		tabContainer.addTab(relatedBugComp,
-				AppContext.getMessage(BugI18nEnum.TAB_RELATED_BUGS),
-				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
+		tabContainer.addTab(relatedBugComp, AppContext
+				.getMessage(BugI18nEnum.TAB_RELATED_BUGS), MyCollabResource
+				.newResource(WebResourceIds._16_project_gray_bug));
 		tabContainer.addTab(historyLogList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 		return tabContainer;
 	}
 
@@ -291,7 +297,7 @@ public class ComponentReadViewImpl extends
 						}
 					});
 			simpleDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/list_display.png"));
+					.newResource(WebResourceIds._16_project_list_display));
 
 			viewGroup.addButton(simpleDisplay);
 
@@ -304,8 +310,9 @@ public class ComponentReadViewImpl extends
 							displayAdvancedView();
 						}
 					});
-			advanceDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/bug_advanced_display.png"));
+			advanceDisplay
+					.setIcon(MyCollabResource
+							.newResource(WebResourceIds._16_project_bug_advanced_display));
 			viewGroup.addButton(advanceDisplay);
 			header.addComponent(viewGroup);
 			header.setComponentAlignment(viewGroup, Alignment.MIDDLE_RIGHT);

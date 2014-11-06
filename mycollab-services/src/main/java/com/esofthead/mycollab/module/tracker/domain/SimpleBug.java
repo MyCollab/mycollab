@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 
@@ -51,6 +53,19 @@ public class SimpleBug extends BugWithBLOBs {
 	private String comment;
 	private String milestoneName;
 
+	public static enum Field {
+		components,
+		fixedVersions,
+		affectedVersions,
+		loguserFullName,
+		assignuserFullName,
+		milestoneName;
+
+		public boolean equalTo(Object value) {
+			return name().equals(value);
+		}
+	}
+
 	public String getProjectname() {
 		return projectname;
 	}
@@ -60,12 +75,10 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public String getLoguserFullName() {
-		if (loguserFullName == null || loguserFullName.trim().equals("")) {
+		if (StringUtils.isBlank(loguserFullName)) {
 			String displayName = getLogby();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return com.esofthead.mycollab.core.utils.StringUtils
+					.extractNameFromEmail(displayName);
 		}
 		return loguserFullName;
 	}
@@ -75,12 +88,10 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public String getAssignuserFullName() {
-		if (assignuserFullName == null || assignuserFullName.trim().equals("")) {
+		if (StringUtils.isBlank(assignuserFullName)) {
 			String displayName = getAssignuser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return com.esofthead.mycollab.core.utils.StringUtils
+					.extractNameFromEmail(displayName);
 		}
 		return assignuserFullName;
 	}

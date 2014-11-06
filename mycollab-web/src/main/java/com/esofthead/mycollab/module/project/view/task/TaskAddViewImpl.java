@@ -20,9 +20,11 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.ui.components.ProjectTaskListComboBox;
 import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -36,6 +38,7 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -49,7 +52,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 		TaskAddView {
 
@@ -80,7 +83,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/24/project/task.png");
+		return MyCollabResource.newResource(WebResourceIds._24_project_task);
 	}
 
 	@Override
@@ -100,7 +103,8 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new TaskFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.TASK,
+				TaskDefaultFormLayoutFactory.getForm());
 	}
 
 	@Override

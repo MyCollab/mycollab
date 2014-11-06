@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -30,13 +31,16 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -53,9 +57,10 @@ import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -133,7 +138,7 @@ public class TaskGroupReadViewImpl extends
 
 	@Override
 	protected String initFormTitle() {
-		if ("Closed".equals(beanItem.getStatus())) {
+		if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
 			this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 		}
 		return beanItem.getName();
@@ -146,7 +151,9 @@ public class TaskGroupReadViewImpl extends
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new TaskGroupFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.TASK_LIST,
+				TaskGroupDefaultFormLayoutFactory.getForm(),
+				TaskList.Field.name.name());
 	}
 
 	@Override
@@ -170,16 +177,16 @@ public class TaskGroupReadViewImpl extends
 		tabContainer.addTab(commentList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
 		tabContainer.addTab(historyList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 
-		tabContainer.addTab(taskDisplayComp,
-				AppContext.getMessage(TaskGroupI18nEnum.TASKS_TAB),
-				MyCollabResource.newResource("icons/16/project/gray/task.png"));
+		tabContainer.addTab(taskDisplayComp, AppContext
+				.getMessage(TaskGroupI18nEnum.TASKS_TAB), MyCollabResource
+				.newResource(WebResourceIds._16_project_gray_task));
 
 		return tabContainer;
 	}

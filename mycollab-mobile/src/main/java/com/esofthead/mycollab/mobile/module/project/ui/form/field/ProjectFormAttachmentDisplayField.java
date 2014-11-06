@@ -20,13 +20,21 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AttachmentPreviewView;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -38,13 +46,15 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.3
  *
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "rawtypes" })
 public class ProjectFormAttachmentDisplayField extends CustomField {
 	private static final long serialVersionUID = 1L;
 
 	private int projectid;
 	private AttachmentType type;
 	private int typeid;
+	private static final Resource DEFAULT_SOURCE = MyCollabResource
+			.newResource("icons/docs-256.png");
 
 	public ProjectFormAttachmentDisplayField(final int projectid,
 			final AttachmentType type, final int typeid) {
@@ -69,10 +79,41 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
 			VerticalLayout comp = new VerticalLayout();
 			comp.setStyleName("attachment-view-panel");
 
-			for (Content attachment : attachments) {
-				Label l = new Label(attachment.getTitle());
-				l.setWidth("100%");
-				comp.addComponent(l);
+			for (final Content attachment : attachments) {
+				String docName = attachment.getPath();
+				int lastIndex = docName.lastIndexOf("/");
+				if (lastIndex != -1) {
+					docName = docName
+							.substring(lastIndex + 1, docName.length());
+				}
+
+				if (MimeTypesUtil.isImage(docName)) {
+					Button b = new Button(attachment.getTitle(),
+							new Button.ClickListener() {
+
+								private static final long serialVersionUID = 293396615972447886L;
+
+								@Override
+								public void buttonClick(Button.ClickEvent event) {
+									AttachmentPreviewView previewView = new AttachmentPreviewView(
+											VaadinResourceManager
+													.getResourceManager()
+													.getImagePreviewResource(
+															attachment
+																	.getPath(),
+															DEFAULT_SOURCE));
+									EventBusFactory.getInstance().post(
+											new ShellEvent.PushView(this,
+													previewView));
+								}
+							});
+					b.setWidth("100%");
+					comp.addComponent(b);
+				} else {
+					Label l = new Label(attachment.getTitle());
+					l.setWidth("100%");
+					comp.addComponent(l);
+				}
 			}
 
 			return comp;

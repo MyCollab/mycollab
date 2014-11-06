@@ -17,8 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -31,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -43,7 +46,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 		implements ComponentAddView {
 
@@ -63,7 +66,8 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/component.png");
+		return MyCollabResource
+				.newResource(WebResourceIds._22_project_component);
 	}
 
 	@Override
@@ -80,7 +84,8 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ComponentFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
+				ComponentDefaultFormLayoutFactory.getForm());
 	}
 
 	@Override
@@ -103,8 +108,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
-
-			if (propertyId.equals("componentname")) {
+			if (Component.Field.componentname.equalTo(propertyId)) {
 				final TextField tf = new TextField();
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
@@ -113,9 +117,9 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 							.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
 				}
 				return tf;
-			} else if (propertyId.equals("description")) {
+			} else if (Component.Field.description.equalTo(propertyId)) {
 				return new RichTextEditField();
-			} else if (propertyId.equals("userlead")) {
+			} else if (Component.Field.userlead.equalTo(propertyId)) {
 				final ProjectMemberSelectionField userBox = new ProjectMemberSelectionField();
 				return userBox;
 			}

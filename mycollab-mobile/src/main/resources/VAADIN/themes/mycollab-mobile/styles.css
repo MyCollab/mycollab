@@ -114,6 +114,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Confirm Dialog */
   /* Filterselect */
   /* Datepicker Popopver */
+  /* Include common components */
   /* Navigation styles */
   /* Main Panel Styles */
   /* Controls QuickMenu */
@@ -243,6 +244,35 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   min-height: 2rem;
   height: 2rem;
   line-height: 2rem;
+}
+.mycollab-mobile .attachment-preview-view {
+  background-color: black;
+}
+.mycollab-mobile .attachment-preview-view .back-btn {
+  background-color: rgba(0, 0, 0, 0.4);
+  background-image: none;
+}
+.mycollab-mobile .attachment-preview-view .back-btn .v-button-wrap {
+  padding: 0.4rem 1rem;
+  border: 0.1rem solid white;
+  border-radius: 0.3rem;
+}
+.mycollab-mobile .attachment-preview-view .back-btn .v-button-wrap .v-button-caption {
+  color: white;
+}
+.mycollab-mobile .attachment-preview-view .image-wrap {
+  overflow: scroll;
+  white-space: nowrap;
+}
+.mycollab-mobile .attachment-preview-view .image-wrap:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.mycollab-mobile .attachment-preview-view .image-wrap img {
+  display: inline-block;
+  vertical-align: middle;
 }
 .mycollab-mobile * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

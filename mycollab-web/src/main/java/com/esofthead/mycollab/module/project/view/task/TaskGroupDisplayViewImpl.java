@@ -356,7 +356,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 			}
 		});
 		advanceDisplay.setIcon(MyCollabResource
-				.newResource("icons/16/project/advanced_display.png"));
+				.newResource(WebResourceIds._16_project_advanced_display));
 		advanceDisplay.setDescription(AppContext
 				.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
@@ -369,7 +369,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 			}
 		});
 		simpleDisplay.setIcon(MyCollabResource
-				.newResource("icons/16/project/list_display.png"));
+				.newResource(WebResourceIds._16_project_list_display));
 		simpleDisplay.setDescription(AppContext
 				.getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
 

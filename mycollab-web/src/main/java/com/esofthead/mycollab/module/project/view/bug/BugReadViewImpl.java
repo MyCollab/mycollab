@@ -51,6 +51,7 @@ import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
+import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -431,16 +432,16 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		tabBugDetail.addTab(commentList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
 		tabBugDetail.addTab(historyList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 
-		tabBugDetail.addTab(bugRelatedField,
-				AppContext.getMessage(BugI18nEnum.TAB_RELATED_BUGS),
-				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
+		tabBugDetail.addTab(bugRelatedField, AppContext
+				.getMessage(BugI18nEnum.TAB_RELATED_BUGS), MyCollabResource
+				.newResource(WebResourceIds._16_project_gray_bug));
 
 		return tabBugDetail;
 	}
@@ -451,65 +452,61 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
-			if (propertyId.equals("summary")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0,
-						2, "100%");
-			} else if (propertyId.equals("description")) {
+			if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 1, 2, "100%");
-			} else if (propertyId.equals("environment")) {
+						0, 0, 2, "100%");
+			} else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0,
-						2, 2, "100%");
-			} else if (propertyId.equals("status")) {
+						1, 2, "100%");
+			} else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_STATUS), 0, 3);
-			} else if (propertyId.equals("priority")) {
+						AppContext.getMessage(BugI18nEnum.FORM_STATUS), 0, 2);
+			} else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 1, 3);
-			} else if (propertyId.equals("severity")) {
+						AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 1, 2);
+			} else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 4);
-			} else if (propertyId.equals("resolution")) {
+						AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 3);
+			} else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 1,
-						4);
-			} else if (propertyId.equals("duedate")) {
+						3);
+			} else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 5);
-			} else if (propertyId.equals("createdtime")) {
+						AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 4);
+			} else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME),
-						1, 5);
-			} else if (propertyId.equals("loguserFullName")) {
+						1, 4);
+			} else if (SimpleBug.Field.loguserFullName.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 6);
-			} else if (propertyId.equals("assignuserFullName")) {
+						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 5);
+			} else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1,
-						6);
-			} else if (propertyId.equals("milestoneName")) {
+						5);
+			} else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 7, 2,
+						AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 6, 2,
 						"100%");
-			} else if (propertyId.equals("components")) {
+			} else if (SimpleBug.Field.components.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 0,
-						8, 2, "100%");
-			} else if (propertyId.equals("affectedVersions")) {
+						7, 2, "100%");
+			} else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 0, 9,
+						.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 0, 8,
 						2, "100%");
-			} else if (propertyId.equals("fixedVersions")) {
+			} else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
-						0, 10, 2, "100%");
-			} else if (propertyId.equals("id")) {
+						0, 9, 2, "100%");
+			} else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
-						11, 2, "100%");
+						10, 2, "100%");
 			}
 		}
 
@@ -517,7 +514,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			layout.setMargin(false);
-			this.informationLayout = new GridFormLayoutHelper(2, 12, "100%",
+			this.informationLayout = new GridFormLayoutHelper(2, 11, "100%",
 					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().addStyleName(
 					"colored-gridlayout");
@@ -540,23 +537,23 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
-			if (propertyId.equals("duedate")) {
+			if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
 				return new DateViewField(beanItem.getDuedate());
-			} else if (propertyId.equals("createdtime")) {
+			} else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
 				return new DateViewField(beanItem.getCreatedtime());
-			} else if (propertyId.equals("assignuserFullName")) {
+			} else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
 				return new ProjectUserFormLinkField(beanItem.getAssignuser(),
 						beanItem.getAssignUserAvatarId(),
 						beanItem.getAssignuserFullName());
-			} else if (propertyId.equals("loguserFullName")) {
+			} else if (SimpleBug.Field.loguserFullName.equalTo(propertyId)) {
 				return new ProjectUserFormLinkField(beanItem.getLogby(),
 						beanItem.getLoguserAvatarId(),
 						beanItem.getLoguserFullName());
-			} else if (propertyId.equals("id")) {
+			} else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
 				return new ProjectFormAttachmentDisplayField(
 						beanItem.getProjectid(),
 						AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
-			} else if (propertyId.equals("components")) {
+			} else if (SimpleBug.Field.components.equalTo(propertyId)) {
 				final List<Component> components = beanItem.getComponents();
 				if (CollectionUtils.isNotEmpty(components)) {
 					final ContainerViewField componentContainer = new ContainerViewField();
@@ -584,7 +581,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				} else {
 					return new DefaultViewField("");
 				}
-			} else if (propertyId.equals("affectedVersions")) {
+			} else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
 				final List<Version> affectedVersions = beanItem
 						.getAffectedVersions();
 				if (CollectionUtils.isNotEmpty(affectedVersions)) {
@@ -611,7 +608,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				} else {
 					return new DefaultViewField("");
 				}
-			} else if (propertyId.equals("fixedVersions")) {
+			} else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
 				final List<Version> fixedVersions = beanItem.getFixedVersions();
 				if (CollectionUtils.isNotEmpty(fixedVersions)) {
 					final ContainerViewField componentContainer = new ContainerViewField();
@@ -638,7 +635,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					return new DefaultViewField("");
 				}
 
-			} else if (propertyId.equals("milestoneName")) {
+			} else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
 				if (beanItem.getMilestoneid() != null) {
 					final LinkViewField phaseLink = new LinkViewField(
 							beanItem.getMilestoneName(),
@@ -653,14 +650,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					return new DefaultViewField("");
 				}
 
-			} else if (propertyId.equals("environment")) {
+			} else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
 				return new RichTextViewField(beanItem.getEnvironment());
-			} else if (propertyId.equals("description")) {
+			} else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
 				return new RichTextViewField(beanItem.getDescription());
-			} else if (propertyId.equals("status")) {
+			} else if (BugWithBLOBs.Field.status.equalTo(propertyId)) {
 				return new I18nFormViewField(beanItem.getStatus(),
 						BugStatus.class);
-			} else if (propertyId.equals("priority")) {
+			} else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
 				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
@@ -676,7 +673,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
 					return containerField;
 				}
-			} else if (propertyId.equals("severity")) {
+			} else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
 				if (StringUtils.isNotBlank(beanItem.getSeverity())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
@@ -693,7 +690,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
 					return containerField;
 				}
-			} else if (propertyId.equals("resolution")) {
+			} else if (BugWithBLOBs.Field.resolution.equalTo(propertyId)) {
 				return new I18nFormViewField(beanItem.getResolution(),
 						BugResolution.class);
 			}

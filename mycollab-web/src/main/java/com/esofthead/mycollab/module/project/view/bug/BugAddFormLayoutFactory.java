@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -33,8 +35,8 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class BugAddFormLayoutFactory implements IFormLayoutFactory {
-
 	private static final long serialVersionUID = 1L;
+
 	private GridFormLayoutHelper informationLayout;
 
 	@Override
@@ -55,57 +57,57 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 
 	@Override
 	public void attachField(final Object propertyId, final Field<?> field) {
-		if (propertyId.equals("summary")) {
+		if (BugWithBLOBs.Field.summary.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0, 2,
 					"100%");
-		} else if (propertyId.equals("priority")) {
+		} else if (BugWithBLOBs.Field.priority.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 0, 1);
-		} else if (propertyId.equals("severity")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
-		} else if (propertyId.equals("duedate")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 3);
-		} else if (propertyId.equals("assignuser")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-					0, 4);
-		} else if (propertyId.equals("components")) {
+		} else if (SimpleBug.Field.components.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 1, 1);
-		} else if (propertyId.equals("affectedVersions")) {
+		} else if (BugWithBLOBs.Field.severity.equalTo(propertyId)) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 2);
+		} else if (SimpleBug.Field.affectedVersions.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS),
 					1, 2);
-		} else if (propertyId.equals("fixedVersions")) {
+		} else if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 3);
+		} else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 1,
 					3);
-		} else if (propertyId.equals("estimatetime")) {
+		} else if (BugWithBLOBs.Field.assignuser.equalTo(propertyId)) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 4);
+		} else if (BugWithBLOBs.Field.milestoneid.equalTo(propertyId)) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
+		} else if (BugWithBLOBs.Field.estimatetime.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_ORIGINAL_ESTIMATE),
 					0, 5);
-		} else if (propertyId.equals("estimateremaintime")) {
+		} else if (BugWithBLOBs.Field.estimateremaintime.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE), 1,
 					5);
-		} else if (propertyId.equals("environment")) {
+		} else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0, 6,
 					2, "100%");
-		} else if (propertyId.equals("description")) {
+		} else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7,
-					2, "100%");
-		} else if (propertyId.equals("id")) {// add attachment box
+					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
+					7, 2, "100%");
+		} else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {// add attachment
+																// box
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 8,
 					2, "100%");
-		} else if (propertyId.equals("milestoneid")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(BugI18nEnum.FORM_PHASE), 1, 4);
 		}
 
 	}

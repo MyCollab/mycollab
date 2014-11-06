@@ -46,7 +46,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
 /**
@@ -58,7 +58,8 @@ import com.vaadin.ui.UI;
 public class ShellController extends AbstractController {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(ShellController.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ShellController.class);
 
 	final private NavigationManager mainNav;
 
@@ -138,8 +139,11 @@ public class ShellController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(ShellEvent.PushView event) {
-				if (event.getData() instanceof NavigationView) {
-					mainNav.navigateTo((NavigationView) event.getData());
+				// if (event.getData() instanceof NavigationView) {
+				// mainNav.navigateTo((NavigationView) event.getData());
+				// }
+				if (event.getData() instanceof Component) {
+					mainNav.navigateTo((Component) event.getData());
 				}
 			}
 		});

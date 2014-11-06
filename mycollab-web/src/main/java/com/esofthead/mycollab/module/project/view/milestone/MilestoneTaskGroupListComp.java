@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -128,7 +129,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 				}
 			});
 			advanceDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/advanced_display.png"));
+					.newResource(WebResourceIds._16_project_advanced_display));
 			advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 
 			simpleDisplay = new Button(null, new Button.ClickListener() {
@@ -141,7 +142,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 				}
 			});
 			simpleDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/list_display.png"));
+					.newResource(WebResourceIds._16_project_list_display));
 
 			viewGroup.addButton(simpleDisplay);
 			viewGroup.addButton(advanceDisplay);

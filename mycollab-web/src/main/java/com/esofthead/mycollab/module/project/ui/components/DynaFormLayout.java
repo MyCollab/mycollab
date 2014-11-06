@@ -23,13 +23,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.form.service.MasterFormService;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -65,12 +62,13 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm,
 			String excludeField) {
-		MasterFormService formService = ApplicationContextUtil
-				.getSpringBean(MasterFormService.class);
-		DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
-				moduleName);
-
-		this.dynaForm = (form != null) ? form : defaultForm;
+		// MasterFormService formService = ApplicationContextUtil
+		// .getSpringBean(MasterFormService.class);
+		// DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
+		// moduleName);
+		//
+		// this.dynaForm = (form != null) ? form : defaultForm;
+		this.dynaForm = defaultForm;
 		this.excludeField = excludeField;
 
 		LOG.debug("Fill fields of originSection to map field");
@@ -118,16 +116,18 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			}
 
 			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2,
-						section.getFieldCount(), "100%", "167px",
+				gridLayout = new GridFormLayoutHelper(2, 1, "100%", "167px",
 						Alignment.TOP_LEFT);
 
-				for (int j = 0; i < section.getFieldCount(); j++) {
+				for (int j = 0; j < section.getFieldCount(); j++) {
 					AbstractDynaField dynaField = section.getField(j);
 					if (!dynaField.getFieldName().equals(excludeField)) {
 						gridLayout.buildCell(dynaField.getDisplayName(), 0,
-								dynaField.getFieldIndex(), 2, "100%",
+								gridLayout.getRows() - 1, 2, "100%",
 								Alignment.TOP_LEFT);
+						if (j < section.getFieldCount() - 1) {
+							gridLayout.appendRow();
+						}
 					}
 				}
 			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
@@ -138,6 +138,9 @@ public class DynaFormLayout implements IFormLayoutFactory {
 					AbstractDynaField dynaField = section.getField(j);
 					if (!dynaField.getFieldName().equals(excludeField)) {
 						if (dynaField.isColSpan()) {
+							if (columnIndex > 0) {
+								gridLayout.appendRow();
+							}
 							LOG.debug("Build cell {}",
 									new Object[] { dynaField.getDisplayName() });
 							gridLayout.buildCell(dynaField.getDisplayName(), 0,

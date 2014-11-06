@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
@@ -144,7 +145,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new VersionFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+				VersionDefaultFormLayoutFactory.getForm(),
+				Version.Field.versionname.name());
 	}
 
 	@Override
@@ -154,9 +157,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 			@Override
 			protected Field<?> onCreateField(Object propertyId) {
-				if (propertyId.equals("duedate")) {
-					return new DateViewField(
-							beanItem.getDuedate());
+				if (Version.Field.duedate.equalTo(propertyId)) {
+					return new DateViewField(beanItem.getDuedate());
 				}
 				return null;
 			}
@@ -221,15 +223,15 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 		tabContainer.addTab(commentDisplay, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 
-		tabContainer.addTab(relatedBugComp,
-				AppContext.getMessage(VersionI18nEnum.TAB_RELATED_BUGS),
-				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
+		tabContainer.addTab(relatedBugComp, AppContext
+				.getMessage(VersionI18nEnum.TAB_RELATED_BUGS), MyCollabResource
+				.newResource(WebResourceIds._16_project_gray_bug));
 		tabContainer.addTab(historyLogList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 		return tabContainer;
 	}
 
@@ -270,7 +272,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 						}
 					});
 			simpleDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/list_display.png"));
+					.newResource(WebResourceIds._16_project_list_display));
 
 			viewGroup.addButton(simpleDisplay);
 
@@ -283,8 +285,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 							displayAdvancedView();
 						}
 					});
-			advanceDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/bug_advanced_display.png"));
+			advanceDisplay
+					.setIcon(MyCollabResource
+							.newResource(WebResourceIds._16_project_bug_advanced_display));
 			viewGroup.addButton(advanceDisplay);
 			header.addComponent(viewGroup);
 			header.setComponentAlignment(viewGroup, Alignment.MIDDLE_RIGHT);

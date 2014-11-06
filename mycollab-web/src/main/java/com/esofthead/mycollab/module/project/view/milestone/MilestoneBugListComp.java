@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -84,7 +85,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 					}
 				});
 		simpleDisplay.setIcon(MyCollabResource
-				.newResource("icons/16/project/list_display.png"));
+				.newResource(WebResourceIds._16_project_list_display));
 
 		this.viewGroup.addButton(simpleDisplay);
 
@@ -98,7 +99,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 					}
 				});
 		advanceDisplay.setIcon(MyCollabResource
-				.newResource("icons/16/project/bug_advanced_display.png"));
+				.newResource(WebResourceIds._16_project_bug_advanced_display));
 		this.viewGroup.addButton(advanceDisplay);
 		header.addComponent(this.viewGroup);
 		header.setComponentAlignment(this.viewGroup, Alignment.MIDDLE_RIGHT);

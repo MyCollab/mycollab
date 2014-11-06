@@ -17,8 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
@@ -31,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -68,7 +71,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/version.png");
+		return MyCollabResource.newResource(WebResourceIds._24_project_version);
 	}
 
 	@Override
@@ -85,7 +88,8 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new VersionFormLayoutFactory();
+		return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
+				VersionDefaultFormLayoutFactory.getForm());
 	}
 
 	@Override
@@ -104,7 +108,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 
-			if (propertyId.equals("versionname")) {
+			if (Version.Field.versionname.equalTo(propertyId)) {
 				final TextField tf = new TextField();
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
@@ -113,9 +117,9 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 							.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
 				}
 				return tf;
-			} else if (propertyId.equals("description")) {
+			} else if (Version.Field.description.equalTo(propertyId)) {
 				return new RichTextEditField();
-			} else if (propertyId.equals("duedate")) {
+			} else if (Version.Field.duedate.equalTo(propertyId)) {
 				final DateFieldExt dateField = new DateFieldExt();
 				dateField.setResolution(Resolution.DAY);
 				return dateField;

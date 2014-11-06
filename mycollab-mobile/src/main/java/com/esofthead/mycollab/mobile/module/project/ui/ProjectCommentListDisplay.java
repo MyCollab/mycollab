@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
@@ -23,7 +27,9 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.mobile.ui.UrlDetectableLabel;
+import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -138,10 +144,8 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 			metadataRow.addComponent(userNameLbl);
 			metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
-			Label commentTimePost = new Label(
-					DateTimeUtils.getPrettyDateValue(
-							comment.getCreatedtime(),
-							AppContext.getUserLocale()));
+			Label commentTimePost = new Label(DateTimeUtils.getPrettyDateValue(
+					comment.getCreatedtime(), AppContext.getUserLocale()));
 			commentTimePost.setStyleName("time-post");
 			commentTimePost.setWidthUndefined();
 			metadataRow.addComponent(commentTimePost);
@@ -150,6 +154,19 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 			Label commentContent = new UrlDetectableLabel(comment.getComment());
 			commentContent.setStyleName("comment-content");
 			rightCol.addComponent(commentContent);
+
+			List<Content> attachments = comment.getAttachments();
+			if (!CollectionUtils.isEmpty(attachments)) {
+				CssLayout attachmentPanel = new CssLayout();
+				attachmentPanel.setStyleName("attachment-panel");
+				attachmentPanel.setWidth("100%");
+
+				for (Content attachment : attachments) {
+					attachmentPanel.addComponent(MobileAttachmentUtils
+							.renderAttachmentRow(attachment));
+				}
+				rightCol.addComponent(attachmentPanel);
+			}
 
 			commentBlock.addComponent(rightCol);
 			commentBlock.setExpandRatio(rightCol, 1.0f);

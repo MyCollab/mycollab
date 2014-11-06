@@ -189,9 +189,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		tabContainer.addTab(this.standupComp, "Stand Ups", MyCollabResource
 				.newResource("icons/16/project/gray/standup.png"));
 		tabContainer.addTab(this.userTaskComp, "Task Assignments",
-				MyCollabResource.newResource("icons/16/project/gray/task.png"));
+				MyCollabResource.newResource(WebResourceIds._16_project_gray_task));
 		tabContainer.addTab(this.userBugComp, "Bug Assignments",
-				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
+				MyCollabResource.newResource(WebResourceIds._16_project_gray_bug));
 		return tabContainer;
 	}
 

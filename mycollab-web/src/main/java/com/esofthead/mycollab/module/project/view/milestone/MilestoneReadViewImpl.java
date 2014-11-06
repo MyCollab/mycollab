@@ -60,6 +60,7 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
@@ -147,17 +148,17 @@ public class MilestoneReadViewImpl extends
 		tabContainer.addTab(this.commentListComp, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+						.newResource(WebResourceIds._16_project_gray_comment));
 		tabContainer.addTab(historyListComp, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
-						.newResource("icons/16/project/gray/history.png"));
+						.newResource(WebResourceIds._16_project_gray_history));
 		tabContainer.addTab(this.associateTaskGroupListComp,
 				AppContext.getMessage(MilestoneI18nEnum.TAB_RELATED_TASKS),
-				MyCollabResource.newResource("icons/16/project/gray/task.png"));
+				MyCollabResource.newResource(WebResourceIds._16_project_gray_task));
 		tabContainer.addTab(this.associateBugListComp,
 				AppContext.getMessage(MilestoneI18nEnum.TAB_RELATED_BUGS),
-				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
+				MyCollabResource.newResource(WebResourceIds._16_project_gray_bug));
 
 		return tabContainer;
 	}
