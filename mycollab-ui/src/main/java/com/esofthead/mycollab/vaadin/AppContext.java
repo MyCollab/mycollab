@@ -35,7 +35,7 @@ import ch.qos.cal10n.IMessageConveyor;
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
-import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -250,7 +250,7 @@ public class AppContext implements Serializable {
 
 		if (account == null) {
 			throw new SubDomainNotExistException(AppContext.getMessage(
-					WebExceptionI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
+					ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
 		} else {
 			LOG.debug("Get billing account {} of subdomain {}",
 					BeanUtility.printBeanObj(account), domain);

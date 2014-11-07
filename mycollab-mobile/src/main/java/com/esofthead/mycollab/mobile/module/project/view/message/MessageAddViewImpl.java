@@ -57,7 +57,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 	private final TextArea contentField;
 	private final Switch isStickField;
 
-	private ProjectFormAttachmentUploadField attachment;
+	private MessageAttachmentField attachment;
 
 	private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<EditFormHandler<SimpleMessage>>();
 
@@ -72,7 +72,7 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 
 		VerticalLayout addFormLayout = new VerticalLayout();
 		addFormLayout.setStyleName("addform-layout");
-		addFormLayout.setWidth("90%");
+		addFormLayout.setWidth("100%");
 
 		subjectField = new TextField();
 		subjectField.setStyleName("title-field");
@@ -90,15 +90,14 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 
 		VerticalComponentGroup bottomRow = new VerticalComponentGroup();
 		bottomRow.setStyleName("bottom-row");
-		bottomRow.setWidth("90%");
+		bottomRow.setWidth("100%");
 		isStickField = new Switch(
 				AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
 		bottomRow.addComponent(isStickField);
 
-		attachment = new ProjectFormAttachmentUploadField();
+		attachment = new MessageAttachmentField();
 
-		attachment.setCaption(AppContext
-				.getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
+		attachment.setCaption(null);
 		bottomRow.addComponent(attachment);
 
 		this.content.addComponent(addFormLayout);

@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?-gt1ruz");
-  src: url("fonts/icomoon.eot?#iefix-gt1ruz") format("embedded-opentype"), url("fonts/icomoon.woff?-gt1ruz") format("woff"), url("fonts/icomoon.ttf?-gt1ruz") format("truetype"), url("fonts/icomoon.svg?-gt1ruz#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?-ghmg41");
+  src: url("fonts/icomoon.eot?#iefix-ghmg41") format("embedded-opentype"), url("fonts/icomoon.woff?-ghmg41") format("woff"), url("fonts/icomoon.ttf?-ghmg41") format("truetype"), url("fonts/icomoon.svg?-ghmg41#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -248,16 +248,12 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .attachment-preview-view {
   background-color: black;
 }
-.mycollab-mobile .attachment-preview-view .back-btn {
+.mycollab-mobile .attachment-preview-view .v-touchkit-navbutton-back-btn {
   background-color: rgba(0, 0, 0, 0.4);
   background-image: none;
-}
-.mycollab-mobile .attachment-preview-view .back-btn .v-button-wrap {
   padding: 0.4rem 1rem;
   border: 0.1rem solid white;
   border-radius: 0.3rem;
-}
-.mycollab-mobile .attachment-preview-view .back-btn .v-button-wrap .v-button-caption {
   color: white;
 }
 .mycollab-mobile .attachment-preview-view .image-wrap {
@@ -273,6 +269,53 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .attachment-preview-view .image-wrap img {
   display: inline-block;
   vertical-align: middle;
+}
+.mycollab-mobile .attachment-row .thumbnail-wrap:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.mycollab-mobile .attachment-row .thumbnail-wrap img {
+  display: inline-block;
+  vertical-align: middle;
+}
+.mycollab-mobile .attachment-row .v-button {
+  text-align: left;
+}
+.mycollab-mobile .attachment-row .v-button .v-button-wrap {
+  padding: 0px;
+}
+.mycollab-mobile .attachment-display-comp .attachment-row {
+  padding: 0.3rem 0.5rem 0.4rem;
+  border-bottom: 0.1rem solid #dddddd;
+  background-color: white;
+}
+.mycollab-mobile .attachment-field .v-upload .v-button {
+  font-size: 1.5rem;
+  min-height: inherit;
+  line-height: normal;
+  vertical-align: middle;
+}
+.mycollab-mobile .attachment-field .v-upload .v-button .v-button-wrap {
+  padding: 0px;
+}
+.mycollab-mobile .attachment-field .v-progressbar.upload-progress {
+  padding: 1.3rem 0.5rem 1.4rem;
+  display: block;
+  background-color: white;
+  border-bottom: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper {
+  border-color: #49a3e1;
+}
+.mycollab-mobile .attachment-field .v-progressbar.upload-progress .v-progressbar-wrapper .v-progressbar-indicator {
+  background-color: #49a3e1;
+}
+.mycollab-mobile .attachment-field .attachment-row {
+  padding: 0.3rem 0.5rem 0.4rem;
+  border-bottom: 0.1rem solid #dddddd;
+  background-color: white;
 }
 .mycollab-mobile * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -471,6 +514,24 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview.disabled .v-touchkit-navbar {
   background-color: #777777;
 }
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .toggle-nav-btn {
+  background: none;
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .toggle-nav-btn:before {
+  content: "\e120";
+  line-height: 4rem;
+  font-size: 2.5rem;
+}
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back {
   position: relative;
   background: #49a3e1;
@@ -574,7 +635,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   transform: rotate(90deg);
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn.v-navbar-quickmenu-button:before {
-  content: "\e619";
+  content: "\e61b";
   font-size: 2rem;
   display: block;
 }
@@ -611,8 +672,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  content: "\e60e";
-  font-size: 2rem;
+  content: "\e114";
+  font-size: 2.4rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-navbar-quickmenu-button {
   font-family: 'icomoon';
@@ -633,6 +694,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper {
   -webkit-tap-highlight-color: transparent;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper > div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
   overflow-x: auto;
@@ -749,11 +817,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .data-list-view {
   background-color: white;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
 }
 .mycollab-mobile .data-list-view .list-item.v-touchkit-navbutton {
   padding: 1rem 2.7rem 1rem 1.4rem;
@@ -1022,23 +1085,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.mycollab-mobile .attachment-field .v-upload .v-button {
-  font-size: 1.5rem;
-  min-height: inherit;
-  line-height: normal;
-}
-.mycollab-mobile .attachment-field .v-upload .v-button .v-button-wrap {
-  padding: 0px;
-}
-.mycollab-mobile .attachment-field .attachment-row .v-label {
-  font-size: 1.5rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.mycollab-mobile .attachment-field .attachment-row .v-button {
-  display: inline-block;
-  font-size: 1.5rem;
-}
 .mycollab-mobile .noteList {
   background-color: white;
 }
@@ -1245,6 +1291,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #959595;
   padding-bottom: 0.8rem;
 }
+.mycollab-mobile .message-list-view .message-block .attachment-row, .mycollab-mobile .message-read-view .message-block .attachment-row {
+  padding: 0.3rem 0.5rem 0.4rem;
+}
 .mycollab-mobile .comment-list .comment-block {
   padding: 0.8rem;
 }
@@ -1291,21 +1340,21 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #959595;
   padding-bottom: 0.8rem;
 }
+.mycollab-mobile .comment-list .comment-block .right-col .attachment-row {
+  padding: 0.3rem 0.5rem 0.4rem;
+}
 .mycollab-mobile .message-add-view .content-layout {
-  padding-top: 1.2rem;
   background-color: #252c34;
 }
 .mycollab-mobile .message-add-view .content-layout .addform-layout {
   display: block;
   margin: 0 auto;
-  border-radius: 0.4rem;
   background-color: white;
 }
 .mycollab-mobile .message-add-view .content-layout .addform-layout .title-field {
   border-color: #dddddd;
   border-width: 0px 0px 1px 0px;
   border-style: solid;
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
   padding: 0.8rem;
   font-size: 1.4rem;
 }
@@ -1315,18 +1364,29 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .message-add-view .content-layout .addform-layout .content-field {
   font-size: 1.4rem;
   padding: 0.8rem;
-  border-radius: 0rem 0rem 0.5rem 0.5rem;
 }
 .mycollab-mobile .message-add-view .content-layout .addform-layout .content-field.v-textarea-prompt {
   font-style: normal;
 }
 .mycollab-mobile .message-add-view .content-layout .bottom-row {
   margin: 1.2rem auto 0rem;
-  border-radius: 0.4rem;
   box-shadow: none;
 }
 .mycollab-mobile .message-add-view .content-layout .bottom-row .v-caption {
   font-size: 1.4rem;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row .attachment-field .attachment-field-header {
+  padding-bottom: 0.5rem;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap {
+  display: block;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row {
+  border-top: 0.1rem solid #dddddd;
+  border-bottom: none;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row .attachment-field .attachment-row-wrap .attachment-row .v-button {
+  display: inline-block;
 }
 .mycollab-mobile .task-group-list .list-item.task-list-layout {
   padding: 1rem 2.5rem 1rem 1.4rem;

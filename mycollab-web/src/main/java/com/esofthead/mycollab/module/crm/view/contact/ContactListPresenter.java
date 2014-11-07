@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
@@ -86,7 +86,7 @@ public class ContactListPresenter
 						if ("mail".equals(id)) {
 							if (isSelectAll) {
 								NotificationUtil.showWarningNotification(AppContext
-										.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+										.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 
 							} else {
 								List<String> lstMail = new ArrayList<String>();

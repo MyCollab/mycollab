@@ -32,16 +32,24 @@ import org.apache.log4j.Logger;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.ImageUtil;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
@@ -57,19 +65,82 @@ public class MobileAttachmentUtils {
 
 	public static String ATTACHMENT_NAME_PREFIX = "attachment_";
 
-	public static Component renderAttachmentRow(final Content attachment) {
+	private static final Resource DEFAULT_SOURCE = MyCollabResource
+			.newResource("icons/docs-256.png");
 
+	// public static Component renderAttachmentRow(final Content attachment) {
+	//
+	// String docName = attachment.getPath();
+	// int lastIndex = docName.lastIndexOf("/");
+	// if (lastIndex != -1) {
+	// docName = docName.substring(lastIndex + 1, docName.length());
+	// }
+	//
+	// Label attachmentName = new Label(docName);
+	// attachmentName.setStyleName("attachment-name");
+	// attachmentName.setWidth("100%");
+	//
+	// return attachmentName;
+	// }
+
+	public static Component renderAttachmentRow(final Content attachment) {
 		String docName = attachment.getPath();
 		int lastIndex = docName.lastIndexOf("/");
+		HorizontalLayout attachmentRow = new HorizontalLayout();
+		attachmentRow.setStyleName("attachment-row");
+		attachmentRow.setWidth("100%");
+		attachmentRow.setSpacing(true);
+		attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+		CssLayout thumbnailWrap = new CssLayout();
+		thumbnailWrap.setWidth("25px");
+		thumbnailWrap.setHeight("40px");
+		thumbnailWrap.setStyleName("thumbnail-wrap");
+
+		Image thumbnail = new Image(null);
+		if (org.apache.commons.lang3.StringUtils.isBlank(attachment
+				.getThumbnail())) {
+			thumbnail.setSource(DEFAULT_SOURCE);
+		} else {
+			thumbnail.setSource(VaadinResourceManager.getResourceManager()
+					.getImagePreviewResource(attachment.getThumbnail(),
+							DEFAULT_SOURCE));
+		}
+		thumbnail.setWidth("100%");
+		thumbnailWrap.addComponent(thumbnail);
+		attachmentRow.addComponent(thumbnailWrap);
+
 		if (lastIndex != -1) {
 			docName = docName.substring(lastIndex + 1, docName.length());
 		}
 
-		Label attachmentName = new Label(docName);
-		attachmentName.setStyleName("attachment-name");
-		attachmentName.setWidth("100%");
+		if (MimeTypesUtil.isImage(docName)) {
+			Button b = new Button(attachment.getTitle(),
+					new Button.ClickListener() {
 
-		return attachmentName;
+						private static final long serialVersionUID = -1713187920922886934L;
+
+						@Override
+						public void buttonClick(Button.ClickEvent event) {
+							AttachmentPreviewView previewView = new AttachmentPreviewView(
+									VaadinResourceManager.getResourceManager()
+											.getImagePreviewResource(
+													attachment.getPath(),
+													DEFAULT_SOURCE));
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this, previewView));
+						}
+					});
+			b.setWidth("100%");
+			attachmentRow.addComponent(b);
+			attachmentRow.setExpandRatio(b, 1.0f);
+		} else {
+			Label l = new Label(attachment.getTitle());
+			l.setWidth("100%");
+			attachmentRow.addComponent(l);
+			attachmentRow.setExpandRatio(l, 1.0f);
+		}
+		return attachmentRow;
 	}
 
 	public static Component renderAttachmentFieldRow(final Content attachment,
@@ -85,6 +156,24 @@ public class MobileAttachmentUtils {
 		attachmentLayout.setStyleName("attachment-row");
 		attachmentLayout.setWidth("100%");
 		attachmentLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+		CssLayout thumbnailWrap = new CssLayout();
+		thumbnailWrap.setWidth("25px");
+		thumbnailWrap.setHeight("40px");
+		thumbnailWrap.setStyleName("thumbnail-wrap");
+
+		Image thumbnail = new Image(null);
+		if (org.apache.commons.lang3.StringUtils.isBlank(attachment
+				.getThumbnail())) {
+			thumbnail.setSource(DEFAULT_SOURCE);
+		} else {
+			thumbnail.setSource(VaadinResourceManager.getResourceManager()
+					.getImagePreviewResource(attachment.getThumbnail(),
+							DEFAULT_SOURCE));
+		}
+		thumbnail.setWidth("100%");
+		thumbnailWrap.addComponent(thumbnail);
+		attachmentLayout.addComponent(thumbnailWrap);
 
 		Label attachmentLink = new Label(docName);
 		attachmentLayout.addComponent(attachmentLink);

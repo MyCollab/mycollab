@@ -70,6 +70,17 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 	}
 
 	@Override
+	public void editItem(SimpleBug item) {
+		attachmentUploadField = new ProjectFormAttachmentUploadField();
+		if (item.getId() != null) {
+			attachmentUploadField.getAttachments(item.getProjectid(),
+					AttachmentType.PROJECT_BUG_TYPE, item.getId());
+		}
+		super.editItem(item);
+
+	}
+
+	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new EditFormLayoutFactory();
 	}
@@ -141,14 +152,6 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 					|| (propertyId.equals("estimateremaintime"))) {
 				NumberField field = new NumberField();
 				return field;
-			} else if (propertyId.equals("id")) {
-				attachmentUploadField = new ProjectFormAttachmentUploadField();
-				if (beanItem.getId() != null) {
-					attachmentUploadField.getAttachments(
-							beanItem.getProjectid(),
-							AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
-				}
-				return attachmentUploadField;
 			}
 
 			return null;
@@ -170,7 +173,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 			header.setStyleName("h2");
 			layout.addComponent(header);
 
-			this.informationLayout = new GridFormLayoutHelper(1, 11, "100%",
+			this.informationLayout = new GridFormLayoutHelper(1, 10, "100%",
 					"150px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().addStyleName(
 					"colored-gridlayout");
@@ -179,6 +182,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 			layout.addComponent(this.informationLayout.getLayout());
 			layout.setComponentAlignment(this.informationLayout.getLayout(),
 					Alignment.BOTTOM_CENTER);
+			layout.addComponent(attachmentUploadField);
 			return layout;
 		}
 
@@ -215,14 +219,14 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 						8);
-			} else if (propertyId.equals("id")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
-						9);
+				// } else if (propertyId.equals("id")) {
+				// this.informationLayout.addComponent(field,
+				// AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
+				// 9);
 			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 10);
+						0, 9);
 			}
 		}
 

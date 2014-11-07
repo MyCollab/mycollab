@@ -16,11 +16,18 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
+import java.util.List;
+
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
+import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
@@ -76,9 +83,8 @@ public class MessageListDisplay
 			metadataRow.addComponent(userNameLbl);
 			metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
-			Label messageTimePost = new Label(
-					DateTimeUtils.getPrettyDateValue(message.getPosteddate(),
-							AppContext.getUserLocale()));
+			Label messageTimePost = new Label(DateTimeUtils.getPrettyDateValue(
+					message.getPosteddate(), AppContext.getUserLocale()));
 			messageTimePost.setStyleName("time-post");
 			messageTimePost.setWidthUndefined();
 			metadataRow.addComponent(messageTimePost);
@@ -108,6 +114,27 @@ public class MessageListDisplay
 					StringUtils.trimHtmlTags(message.getMessage()), 150, true));
 			messageContent.setStyleName("message-content");
 			rightCol.addComponent(messageContent);
+
+			ResourceService attachmentService = ApplicationContextUtil
+					.getSpringBean(ResourceService.class);
+			List<Content> attachments = attachmentService
+					.getContents(AttachmentUtils
+							.getProjectEntityAttachmentPath(
+									AppContext.getAccountId(),
+									message.getProjectid(),
+									AttachmentType.PROJECT_MESSAGE,
+									message.getId()));
+			if (attachments != null && !attachments.isEmpty()) {
+				CssLayout attachmentPanel = new CssLayout();
+				attachmentPanel.setStyleName("attachment-panel");
+				attachmentPanel.setWidth("100%");
+
+				for (Content attachment : attachments) {
+					attachmentPanel.addComponent(MobileAttachmentUtils
+							.renderAttachmentRow(attachment));
+				}
+				rightCol.addComponent(attachmentPanel);
+			}
 
 			mainLayout.addComponent(rightCol);
 			mainLayout.setExpandRatio(rightCol, 1.0f);

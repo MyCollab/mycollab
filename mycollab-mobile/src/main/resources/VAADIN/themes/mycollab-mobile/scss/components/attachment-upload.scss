@@ -1,0 +1,32 @@
+@mixin attachment-upload {
+	.attachment-field {
+		.v-upload {
+			.v-button {
+				font-size: 1.5rem;
+				min-height: inherit;
+				line-height: normal;
+				vertical-align: middle;
+				.v-button-wrap {
+					padding: 0px;
+				}
+			}
+		}
+		.v-progressbar.upload-progress {
+			padding: 1.3rem 0.5rem 1.4rem;
+			display: block;
+			background-color: rgb(255, 255, 255);
+			border-bottom: 0.1rem solid $light-gray-border;
+			.v-progressbar-wrapper {
+				border-color: $primary-blue;
+				.v-progressbar-indicator {
+					background-color: $primary-blue;
+				}
+			}
+		}
+		.attachment-row {
+			padding: 0.3rem 0.5rem 0.4rem;
+			border-bottom: 0.1rem solid $light-gray-border;
+			background-color: rgb(255, 255, 255);
+		}
+	}
+}

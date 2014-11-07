@@ -31,6 +31,7 @@ import org.vaadin.easyuploads.MultiUpload;
 import org.vaadin.easyuploads.MultiUploadHandler;
 import org.vaadin.easyuploads.UploadField;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.mobile.ui.TempFileFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -43,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.server.StreamVariable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressBar;
@@ -55,22 +57,20 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.3
  *
  */
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({ "rawtypes", "unused" })
 public class ProjectFormAttachmentUploadField extends CustomField {
 	private static final long serialVersionUID = 1L;
-	private MultiUpload attachmentBtn;
+	protected MultiUpload attachmentBtn;
 	private Map<String, File> fileStores;
 	private FileBuffer receiver;
 
-	private VerticalLayout content;
+	protected VerticalLayout content;
+	protected VerticalLayout rowWrap;
 	private ResourceService resourceService;
 	private int currentPollInterval;
 	private String attachmentPath;
 
 	public ProjectFormAttachmentUploadField() {
-		content = new VerticalLayout();
-		content.setStyleName("attachment-field");
-
 		resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
 		currentPollInterval = UI.getCurrent().getPollInterval();
@@ -78,7 +78,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 		receiver = createReceiver();
 
 		attachmentBtn = new MultiUpload();
-		attachmentBtn.setButtonCaption("Select File...");
+		attachmentBtn.setButtonCaption("Select File(s)");
 		attachmentBtn.setImmediate(true);
 
 		MultiUploadHandler handler = new MultiUploadHandler() {
@@ -104,7 +104,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 							+ System.currentTimeMillis();
 				}
 				if (!indicators.isEmpty()) {
-					content.replaceComponent(indicators.remove(0),
+					rowWrap.replaceComponent(indicators.remove(0),
 							MobileAttachmentUtils.renderAttachmentFieldRow(
 									MobileAttachmentUtils.constructContent(
 											fileName, attachmentPath),
@@ -138,7 +138,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 					Label uploadResult = new Label("Upload failed! File: "
 							+ event.getFileName());
 					uploadResult.setStyleName("upload-status");
-					content.replaceComponent(indicators.remove(0), uploadResult);
+					rowWrap.replaceComponent(indicators.remove(0), uploadResult);
 				}
 			}
 
@@ -170,7 +170,7 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 					pi.setValue(0f);
 					pi.setStyleName("upload-progress");
 					pi.setWidth("100%");
-					content.addComponent(pi);
+					rowWrap.addComponentAsFirst(pi);
 					pi.setEnabled(true);
 					pi.setVisible(true);
 					indicators.add(pi);
@@ -184,18 +184,43 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 		};
 		attachmentBtn.setHandler(handler);
 
-		content.addComponent(attachmentBtn);
-
 		fileStores = new HashMap<String, File>();
+
+		constructUI();
+	}
+
+	protected void constructUI() {
+		content = new VerticalLayout();
+		content.setStyleName("attachment-field");
+
+		rowWrap = new VerticalLayout();
+		rowWrap.setWidth("100%");
+		rowWrap.setStyleName("attachment-row-wrap");
+
+		Label compHeader = new Label(
+				AppContext.getMessage(GenericI18Enum.M_FORM_ATTACHMENT));
+		compHeader.setStyleName("h2");
+
+		content.addComponent(compHeader);
+
+		CssLayout btnWrap = new CssLayout();
+		btnWrap.setWidth("100%");
+		btnWrap.setStyleName("attachment-row");
+		btnWrap.addComponent(attachmentBtn);
+
+		content.addComponent(btnWrap);
+
+		content.addComponent(rowWrap);
 	}
 
 	public void getAttachments(int projectId, AttachmentType type, int typeid) {
 		attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
 				AppContext.getAccountId(), projectId, type, typeid);
 		List<Content> attachments = resourceService.getContents(attachmentPath);
+		rowWrap.removeAllComponents();
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			for (final Content attachment : attachments) {
-				content.addComponent(MobileAttachmentUtils
+				rowWrap.addComponent(MobileAttachmentUtils
 						.renderAttachmentFieldRow(attachment));
 			}
 		}

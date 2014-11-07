@@ -47,6 +47,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 
 	public TaskUrlResolver() {
 		this.addSubResolver("preview", new ReadUrlResolver());
+		this.addSubResolver("add", new AddUrlResolver());
 		this.addSubResolver("edit", new EditUrlResolver());
 	}
 
@@ -73,7 +74,8 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 									+ " and project " + prjShortName);
 				}
 			} else {
-				LOG.error("Shold not call this. Fall back function: " + params[0]);
+				LOG.error("Shold not call this. Fall back function: "
+						+ params[0]);
 				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
 				projectId = tokenizer.getInt();
 				taskId = tokenizer.getInt();
@@ -109,6 +111,19 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(task.getProjectid()),
 					new TaskScreenData.Edit(task));
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
+	}
+
+	private static class AddUrlResolver extends ProjectUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			int projectId = new UrlTokenizer(params[0]).getInt();
+
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new TaskScreenData.Add(new SimpleTask()));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

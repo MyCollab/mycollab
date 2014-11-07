@@ -47,7 +47,7 @@ public class BugFormLayoutFactory implements IFormLayoutFactory {
 		header.setStyleName("h2");
 		layout.addComponent(header);
 
-		this.informationLayout = new GridFormLayoutHelper(1, 13, "100%",
+		this.informationLayout = new GridFormLayoutHelper(1, 12, "100%",
 				"150px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);
@@ -93,13 +93,10 @@ public class BugFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("assignuserFullName")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 10);
-		} else if (propertyId.equals("id")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0, 11);
 		} else if (propertyId.equals("description")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
-					12);
+					11);
 		}
 	}
 

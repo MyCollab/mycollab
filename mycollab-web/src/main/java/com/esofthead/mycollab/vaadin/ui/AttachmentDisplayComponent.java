@@ -69,16 +69,11 @@ public class AttachmentDisplayComponent extends CssLayout {
 		}
 
 		final AbsoluteLayout attachmentLayout = new AbsoluteLayout();
-		// attachmentLayout.setSpacing(false);
 		attachmentLayout
 				.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
 		attachmentLayout
 				.setHeight(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT);
 		attachmentLayout.setStyleName("attachment-block");
-
-		// Image fileTypeIcon = new Image(null,
-		// UiUtils.getFileIconResource(docName));
-		// attachmentLayout.addComponent(fileTypeIcon);
 
 		CssLayout thumbnailWrap = new CssLayout();
 		thumbnailWrap.setSizeFull();
@@ -93,6 +88,7 @@ public class AttachmentDisplayComponent extends CssLayout {
 					.getImagePreviewResource(attachment.getThumbnail(),
 							DEFAULT_SOURCE));
 		}
+		thumbnail.setDescription(docName);
 		thumbnail.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
 		thumbnailWrap.addComponent(thumbnail);
 

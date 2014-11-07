@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -122,25 +123,26 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
-			if (propertyId.equals("assignuser")) {
+			if (Task.Field.assignuser.equalTo(propertyId)) {
 				return new ProjectMemberSelectionField();
-			} else if (propertyId.equals("tasklistid")) {
+			} else if (Task.Field.tasklistid.equalTo(propertyId)) {
 				return new ProjectTaskListComboBox();
-			} else if (propertyId.equals("notes")) {
+			} else if (Task.Field.notes.equalTo(propertyId)) {
 				final RichTextArea richTextArea = new RichTextArea();
 				richTextArea.setNullRepresentation("");
 				return richTextArea;
-			} else if ("name".equals(propertyId)) {
+			} else if (Task.Field.taskname.equalTo(propertyId)) {
 				final TextField tf = new TextField();
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError("Name is required");
+				tf.setRequiredError(AppContext.getMessage(
+						ErrorI18nEnum.FIELD_MUST_NOT_NULL, "Name"));
 				return tf;
-			} else if ("percentagecomplete".equals(propertyId)) {
+			} else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
 				return new TaskPercentageCompleteComboBox();
-			} else if ("priority".equals(propertyId)) {
+			} else if (Task.Field.priority.equalTo(propertyId)) {
 				return new TaskPriorityComboBox();
-			} else if (propertyId.equals("id")) {
+			} else if (Task.Field.id.equalTo(propertyId)) {
 				TaskAddViewImpl.this.attachmentUploadField = new AttachmentUploadField();
 				if (beanItem.getId() != null) {
 					String attachmentPath = AttachmentUtils

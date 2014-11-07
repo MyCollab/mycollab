@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Image;
 
@@ -31,13 +30,15 @@ import com.vaadin.ui.Image;
  *
  * @since 4.5.2
  */
-public class AttachmentPreviewView extends AbsoluteLayout {
+public class AttachmentPreviewView extends AbsoluteLayout implements
+		IMobileView {
 
 	private static final long serialVersionUID = -6489047489795500038L;
 
 	private Resource currentResource;
 	private CssLayout imgWrap;
 	private Image previewImage;
+	private NavigationButton backBtn;
 
 	public AttachmentPreviewView() {
 		imgWrap = new CssLayout();
@@ -48,18 +49,8 @@ public class AttachmentPreviewView extends AbsoluteLayout {
 		this.setSizeFull();
 		this.addComponent(imgWrap, "top: 0px left: 0px; z-index: 0;");
 
-		Button backBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK),
-				new Button.ClickListener() {
-
-					private static final long serialVersionUID = -5974915704928855021L;
-
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new ShellEvent.NavigateBack(this, null));
-					}
-				});
+		backBtn = new NavigationButton(
+				AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
 		backBtn.setStyleName("back-btn");
 
 		this.addComponent(backBtn, "top: 15px; left: 15px; z-index: 1;");
@@ -80,5 +71,10 @@ public class AttachmentPreviewView extends AbsoluteLayout {
 
 	public Resource getResource() {
 		return this.currentResource;
+	}
+
+	@Override
+	public void setPreviousComponent(Component comp) {
+		backBtn.setTargetView(comp);
 	}
 }

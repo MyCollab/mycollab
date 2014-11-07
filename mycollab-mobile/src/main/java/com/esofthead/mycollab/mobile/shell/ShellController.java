@@ -33,6 +33,7 @@ import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.shell.ui.MainViewPresenter;
+import com.esofthead.mycollab.mobile.ui.IMobileView;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
@@ -139,10 +140,12 @@ public class ShellController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(ShellEvent.PushView event) {
-				// if (event.getData() instanceof NavigationView) {
-				// mainNav.navigateTo((NavigationView) event.getData());
-				// }
 				if (event.getData() instanceof Component) {
+					if (event.getData() instanceof IMobileView) {
+						((IMobileView) event.getData())
+								.setPreviousComponent(mainNav
+										.getCurrentComponent());
+					}
 					mainNav.navigateTo((Component) event.getData());
 				}
 			}

@@ -16,15 +16,18 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayComp;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
@@ -35,7 +38,10 @@ import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAn
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.I18nFormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
@@ -81,6 +87,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	private VerticalLayout bugWorkFlowControl;
 
 	private BugTimeLogComp bugTimeLogComp;
+
+	private ProjectAttachmentDisplayComp attachmentComp;
 
 	public BugReadViewImpl() {
 		super();
@@ -253,6 +261,19 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		displayWorkflowControl();
 		bugTimeLogComp.displayTime(beanItem);
 		this.previewForm.addComponent(bugTimeLogComp);
+
+		ResourceService resourceService = ApplicationContextUtil
+				.getSpringBean(ResourceService.class);
+		List<Content> attachments = resourceService.getContents(AttachmentUtils
+				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
+						beanItem.getProjectid(),
+						AttachmentType.PROJECT_BUG_TYPE, beanItem.getId()));
+		if (CollectionUtils.isNotEmpty(attachments)) {
+			attachmentComp = new ProjectAttachmentDisplayComp(attachments);
+			this.previewForm.addComponent(attachmentComp);
+		} else {
+			this.previewForm.removeComponent(attachmentComp);
+		}
 	}
 
 	@Override
@@ -337,21 +358,16 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		@Override
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("duedate")) {
-				return new FormDateViewField(
-						beanItem.getDuedate());
+				return new FormDateViewField(beanItem.getDuedate());
 			} else if (propertyId.equals("createdtime")) {
-				return new FormDateViewField(
-						beanItem.getCreatedtime());
+				return new FormDateViewField(beanItem.getCreatedtime());
 			} else if (propertyId.equals("assignuserFullName")) {
-				return new FormViewField(
-						beanItem.getAssignuserFullName());
+				return new FormViewField(beanItem.getAssignuserFullName());
 			} else if (propertyId.equals("loguserFullName")) {
-				return new FormViewField(
-						beanItem.getLoguserFullName());
+				return new FormViewField(beanItem.getLoguserFullName());
 			} else if (propertyId.equals("milestoneid")) {
 				if (beanItem.getMilestoneid() != null) {
-					return new FormViewField(
-							beanItem.getMilestoneName());
+					return new FormViewField(beanItem.getMilestoneName());
 				} else {
 					return new FormViewField("");
 				}
@@ -363,8 +379,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				return new FormDetectAndDisplayUrlViewField(
 						beanItem.getDescription());
 			} else if (propertyId.equals("status")) {
-				return new I18nFormViewField(
-						beanItem.getStatus(), BugStatus.class);
+				return new I18nFormViewField(beanItem.getStatus(),
+						BugStatus.class);
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
@@ -399,12 +415,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 					return containerField;
 				}
 			} else if (propertyId.equals("resolution")) {
-				return new I18nFormViewField(
-						beanItem.getResolution(), BugResolution.class);
-			} else if (propertyId.equals("id")) {
-				return new ProjectFormAttachmentDisplayField(
-						beanItem.getProjectid(),
-						AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
+				return new I18nFormViewField(beanItem.getResolution(),
+						BugResolution.class);
+				// } else if (propertyId.equals("id")) {
+				// return new ProjectFormAttachmentDisplayField(
+				// beanItem.getProjectid(),
+				// AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
 			}
 			return null;
 		}

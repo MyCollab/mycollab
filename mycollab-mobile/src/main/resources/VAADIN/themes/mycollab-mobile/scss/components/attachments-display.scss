@@ -1,0 +1,29 @@
+@mixin attachments-display {
+	.attachment-row {
+		.thumbnail-wrap {
+			&:before {
+				content: "";
+				display: inline-block;
+				height: 100%;
+				vertical-align: middle;
+			}
+			img {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+		.v-button {
+			text-align: left;
+			.v-button-wrap {
+				padding: 0px;
+			}
+		}
+	}
+	.attachment-display-comp {
+		.attachment-row {
+			padding: 0.3rem 0.5rem 0.4rem;
+			border-bottom: 0.1rem solid $light-gray-border;
+			background-color: rgb(255, 255, 255);
+		}
+	}
+}

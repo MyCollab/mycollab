@@ -27,7 +27,11 @@ public class IconConstants {
 	public static final String CIRCLE_CHECK = "&#xE042;";
 	public static final String DOWNLOAD = "&#xE069;";
 	public static final String DELETE = "&#xE043;";
-	public static final String MORE_VERT = "&#xE619;";
+	public static final String MORE_VERT = "&#xE61B;";
+	public static final String MENU = "&#xE120;";
+	public static final String REPLY = "&#xE039;";
+	public static final String MAXIMIZE = "&#xE112;";
+	public static final String MINIMIZE = "&#xE113;";
 
 	public static final String CRM_ACCOUNT = "&#xE601;";
 	public static final String CRM_CONTACT = "&#xE603;";
@@ -49,8 +53,8 @@ public class IconConstants {
 	public static final String PROJECT_MILESTONE_FUTURE = "&#xE616;";
 	public static final String PROJECT_TASK = "&#xE60F;";
 	public static final String PROJECT_BUG = "&#xF188;";
-	public static final String PROJECT_COMPONENT = "&#xE618;";
-	public static final String PROJECT_VERSION = "&#xF064;";
+	public static final String PROJECT_COMPONENT = "&#xE61A;";
+	public static final String PROJECT_VERSION = "&#xF065;";
 	public static final String PROJECT_FILE = "&#xF017;";
 	public static final String PROJECT_RISK = "&#xF02D;";
 	public static final String PROJECT_PROBLEM = "&#xF0D2;";

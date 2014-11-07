@@ -98,10 +98,6 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setComponentAlignment(passInfo.getLayout(),
 				Alignment.MIDDLE_CENTER);
 
-		final Label lbSpace = new Label();
-		mainLayout.addComponent(lbSpace);
-		mainLayout.setExpandRatio(lbSpace, 1.0f);
-
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 
 		final Button cancelBtn = new Button(

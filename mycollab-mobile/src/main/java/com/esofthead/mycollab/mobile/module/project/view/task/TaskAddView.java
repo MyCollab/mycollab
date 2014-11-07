@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
@@ -25,4 +26,5 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  * @since 4.5.0
  */
 public interface TaskAddView extends IFormAddView<SimpleTask> {
+	ProjectFormAttachmentUploadField getAttachUploadField();
 }

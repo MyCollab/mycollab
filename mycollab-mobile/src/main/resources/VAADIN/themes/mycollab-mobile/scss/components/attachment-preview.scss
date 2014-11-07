@@ -1,17 +1,13 @@
 @mixin attachment-preview {
 	.attachment-preview-view {
 		background-color: rgb(0, 0, 0);
-		.back-btn {
+		.v-touchkit-navbutton-back-btn {
 			background-color: rgba(0, 0, 0, 0.4);
 			background-image: none;
-			.v-button-wrap {
-				padding: 0.4rem 1rem;
-				border: 0.1rem solid rgb(255, 255, 255);
-				border-radius: 0.3rem;
-				.v-button-caption {
-					color: rgb(255, 255, 255);
-				}
-			}
+			padding: 0.4rem 1rem;
+			border: 0.1rem solid rgb(255, 255, 255);
+			border-radius: 0.3rem;
+			color: rgb(255, 255, 255);
 		}
 		.image-wrap {
 			overflow: scroll;

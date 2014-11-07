@@ -36,11 +36,13 @@ public class DateFieldExt extends DateField {
 
 	public DateFieldExt(String caption) {
 		super(caption);
+		this.setDateFormat(AppContext.getUserDateFormat());
 		this.setTimeZone(AppContext.getTimezone());
 	}
 
 	public DateFieldExt(String caption, Date value) {
 		super(caption, value);
+		this.setDateFormat(AppContext.getUserDateFormat());
 		this.setTimeZone(AppContext.getTimezone());
 	}
 }

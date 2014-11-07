@@ -21,8 +21,10 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
+import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -124,10 +126,20 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 			task.setStatus(StatusI18nEnum.Open.name());
 		}
 
-		if (task.getId() != null) {
-			taskService.updateWithSession(task, AppContext.getUsername());
+		if (task.getId() == null) {
+			task.setLogby(AppContext.getUsername());
+			int taskId = taskService.saveWithSession(task,
+					AppContext.getUsername());
+			ProjectFormAttachmentUploadField uploadField = view
+					.getAttachUploadField();
+			uploadField.saveContentsToRepo(
+					CurrentProjectVariables.getProjectId(),
+					AttachmentType.PROJECT_TASK_TYPE, taskId);
 		} else {
-			taskService.saveWithSession(task, AppContext.getUsername());
+			taskService.updateWithSession(task, AppContext.getUsername());
+			ProjectFormAttachmentUploadField uploadField = view
+					.getAttachUploadField();
+			uploadField.saveContentsToRepo();
 		}
 	}
 

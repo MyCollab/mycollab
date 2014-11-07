@@ -47,11 +47,13 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.RiskEvent;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
@@ -89,6 +91,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -262,8 +265,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 							ProjectService projectService = ApplicationContextUtil
 									.getSpringBean(ProjectService.class);
 							project.setProjectstatus(StatusI18nEnum.Open.name());
-							projectService.updateSelectiveWithSession(
-									project, AppContext.getUsername());
+							projectService.updateSelectiveWithSession(project,
+									AppContext.getUsername());
 
 							PageActionChain chain = new PageActionChain(
 									new ProjectScreenData.Goto(
@@ -282,8 +285,9 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		} else {
 			final PopupButton controlsBtn = new PopupButton();
-			controlsBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/quick_action_edited.png"));
+			controlsBtn
+					.setIcon(MyCollabResource
+							.newResource(WebResourceIds._16_project_quick_action_edited));
 			controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 
 			VerticalLayout popupButtonsControl = new VerticalLayout();
@@ -304,9 +308,27 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			createPhaseBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.MILESTONES));
 			createPhaseBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/milestone.png"));
+					.newResource(WebResourceIds._16_project_milestone));
 			createPhaseBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createPhaseBtn);
+
+			Button createTaskBtn = new Button(
+					AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							EventBusFactory.getInstance().post(
+									new TaskEvent.GotoAdd(ProjectViewImpl.this,
+											null));
+						}
+					});
+			createTaskBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.TASKS));
+			createTaskBtn.setIcon(MyCollabResource
+					.newResource(WebResourceIds._16_project_task));
+			createTaskBtn.setStyleName("link");
+			popupButtonsControl.addComponent(createTaskBtn);
 
 			Button createBugBtn = new Button(
 					AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
@@ -321,7 +343,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			createBugBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.BUGS));
 			createBugBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/bug.png"));
+					.newResource(WebResourceIds._16_project_bug));
 			createBugBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createBugBtn);
 
@@ -338,7 +360,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			createRiskBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.RISKS));
 			createRiskBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/risk.png"));
+					.newResource(WebResourceIds._16_project_risk));
 			createRiskBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createRiskBtn);
 
@@ -355,7 +377,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			createProblemBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.PROBLEMS));
 			createProblemBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/problem.png"));
+					.newResource(WebResourceIds._16_project_problem));
 			createProblemBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createProblemBtn);
 
@@ -373,7 +395,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			editProjectBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.PROJECT));
 			editProjectBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/edit.png"));
+					.newResource(WebResourceIds._16_project_edit));
 			editProjectBtn.setStyleName("link");
 			popupButtonsControl.addComponent(editProjectBtn);
 
@@ -429,7 +451,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			archieveProjectBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.PROJECT));
 			archieveProjectBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/archive.png"));
+					.newResource(WebResourceIds._16_project_archive));
 			archieveProjectBtn.setStyleName("link");
 			popupButtonsControl.addComponent(archieveProjectBtn);
 
@@ -482,8 +504,9 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 						});
 				deleteProjectBtn.setEnabled(CurrentProjectVariables
 						.canAccess(ProjectRolePermissionCollections.PROJECT));
-				deleteProjectBtn.setIcon(MyCollabResource
-						.newResource("icons/16/project/delete_project.png"));
+				deleteProjectBtn
+						.setIcon(MyCollabResource
+								.newResource(WebResourceIds._16_project_delete_project));
 				deleteProjectBtn.setStyleName("link");
 				popupButtonsControl.addComponent(deleteProjectBtn);
 			}

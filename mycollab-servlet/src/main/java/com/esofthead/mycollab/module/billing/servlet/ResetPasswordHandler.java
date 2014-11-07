@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
+import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
@@ -66,7 +66,7 @@ public class ResetPasswordHandler extends GenericServletRequestHandler {
 		if (user == null) {
 			throw new UserInvalidInputException(LocalizationHelper.getMessage(
 					SiteConfiguration.getDefaultLocale(),
-					WebExceptionI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
+					ErrorI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
 		} else {
 			user.setPassword(PasswordEncryptHelper
 					.encryptSaltPassword(password));

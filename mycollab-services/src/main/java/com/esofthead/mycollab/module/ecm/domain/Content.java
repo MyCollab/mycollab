@@ -31,6 +31,7 @@ public class Content extends Resource {
 	private String lastModifiedBy;
 	private String mimeType;
 	private String thumbnail;
+	private String thumbnailMobile;
 
 	public Content() {
 		super();
@@ -87,6 +88,14 @@ public class Content extends Resource {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	public String getThumbnailMobile() {
+		return thumbnail;
+	}
+
+	public void setThumbnailMobile(String thumbnailMobile) {
+		this.thumbnailMobile = thumbnailMobile;
 	}
 
 	public static Content buildContentInstance(Integer accountId,

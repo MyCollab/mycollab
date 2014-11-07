@@ -47,7 +47,7 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 		header.setStyleName("h2");
 		layout.addComponent(header);
 
-		this.informationLayout = new GridFormLayoutHelper(1, 12, "100%",
+		this.informationLayout = new GridFormLayoutHelper(1, 11, "100%",
 				"150px", Alignment.TOP_LEFT);
 
 		this.informationLayout.getLayout().setMargin(false);
@@ -93,13 +93,10 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("percentagecomplete")) {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 9);
-		} else if (propertyId.equals("id")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT), 0, 10);
 		} else if (propertyId.equals("notes")) {
 			field.setSizeUndefined();
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 11);
+					AppContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 10);
 		}
 	}
 

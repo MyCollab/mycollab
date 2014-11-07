@@ -54,6 +54,17 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 	}
 
 	@Override
+	public void editItem(SimpleTask item) {
+		attachmentUploadField = new ProjectFormAttachmentUploadField();
+		if (item.getId() != null) {
+			attachmentUploadField.getAttachments(item.getProjectid(),
+					AttachmentType.PROJECT_TASK_TYPE, item.getId());
+		}
+		super.editItem(item);
+		this.editForm.addComponent(attachmentUploadField);
+	}
+
+	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new TaskFormLayoutFactory();
 	}
@@ -97,14 +108,6 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 				return new TaskPercentageCompleteComboBox();
 			} else if ("priority".equals(propertyId)) {
 				return new TaskPriorityComboBox();
-			} else if (propertyId.equals("id")) {
-				attachmentUploadField = new ProjectFormAttachmentUploadField();
-				if (beanItem.getId() != null) {
-					attachmentUploadField.getAttachments(
-							beanItem.getProjectid(),
-							AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
-				}
-				return attachmentUploadField;
 			} else if (propertyId.equals("startdate")
 					|| propertyId.equals("actualstartdate")
 					|| propertyId.equals("enddate")
@@ -115,6 +118,11 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 			return null;
 		}
 
+	}
+
+	@Override
+	public ProjectFormAttachmentUploadField getAttachUploadField() {
+		return attachmentUploadField;
 	}
 
 }
