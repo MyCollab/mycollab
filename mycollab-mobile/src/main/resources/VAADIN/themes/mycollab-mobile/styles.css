@@ -530,7 +530,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .toggle-nav-btn:before {
   content: "\e120";
   line-height: 4rem;
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back {
   position: relative;
@@ -655,8 +655,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   right: 6px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn {
-  top: 6px;
-  right: 6px;
+  top: 0px;
+  right: 0px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn .v-button-wrap {
   padding: 0rem 1rem;
@@ -673,7 +673,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -moz-osx-font-smoothing: grayscale;
   color: white;
   content: "\e114";
-  font-size: 2.4rem;
+  font-size: 2.2rem;
+  line-height: 4rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-navbar-quickmenu-button {
   font-family: 'icomoon';

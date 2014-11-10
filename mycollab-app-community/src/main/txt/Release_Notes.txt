@@ -47,21 +47,27 @@ Version 4.5.4
 
 **Library Upgrades**
 
-* Upgrade HirakiCP to 2.1.0
+* Upgrade HirakiCP to 2.2.4
+* Upgrade Vaadin to 7.3.4
+* Upgrade AspectJ library to 1.8.4
 
 **Improvements**
 
-* Make the back button associates to native back action to improve the navigation performance
-* Support assignee link on phone
 * Make the right widgets fly over when user scroll to the bottom in the task list view
+* Revise Task, Bug, Risk, Problem, Milestone read views
+* [Mobile] Make the back button associates to native back action to improve the navigation performance
+* [Mobile] Support thumbnail for attachment
+* [Mobile] User can preview attachment easily
+* [Mobile] Support display hyperlinks for assignee, task, task group, milestone etc
+* [Mobile] Revise time logging component
 
 **Bug Fixes**
 
-* Back in mobile actually perform the double steps of navigation
 * Fix timezone issue for datefield component
-* View title is not aligned center in iOS
-* Can only upload one file in iOS
 * Can not get the log date for time logging in several rare browsers
+* [Mobile] Back button does not work properly
+* [Mobile] View title is not aligned center in iOS
+* [Mobile] Can only upload one file in iOS
 
 Version 4.5.3
 -----------------------------

@@ -31,7 +31,7 @@ public class DateFieldExt extends DateField {
 	private static final long serialVersionUID = 1L;
 
 	public DateFieldExt() {
-		this("");
+		this(null);
 	}
 
 	public DateFieldExt(String caption) {

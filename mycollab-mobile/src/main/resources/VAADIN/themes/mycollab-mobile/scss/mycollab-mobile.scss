@@ -252,7 +252,7 @@
 	    			&:before {
 	    				content: "\e120";
 	    				line-height: 4rem;
-	    				font-size: 2.5rem;
+	    				font-size: 2rem;
 	    			}
 	    		} 
 	    		.v-touchkit-navbar-left {		    		
@@ -356,15 +356,16 @@
 	    				right: 6px;
 	    			}
 	    			.add-btn {
-	    				top: 6px;
-	    				right: 6px;
+	    				top: 0px;
+	    				right: 0px;
 	    				.v-button-wrap {
 	    					padding: 0rem 1rem;
 	    					
 	    					.v-button-caption:before {
 	    						@include icomoon;
 								content: "\e114";
-								font-size: 2.4rem;
+								font-size: 2.2rem;
+								line-height: 4rem;
 	    					}
 	    				}
     					

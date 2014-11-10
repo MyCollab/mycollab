@@ -36,10 +36,10 @@ import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
-import com.vaadin.event.LayoutEvents;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -133,6 +133,49 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 		this.tableItem.setWidth("100%");
 		content.addComponent(tableItem);
 		content.setExpandRatio(tableItem, 1.0f);
+
+		VerticalLayout controlBtns = new VerticalLayout();
+		controlBtns.setSpacing(true);
+		controlBtns.setWidth("100%");
+		controlBtns.setMargin(true);
+		controlBtns.addStyleName("edit-btn-layout");
+		controlBtns.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+		Button addNewEntryBtn = new Button(
+				AppContext
+						.getMessage(TimeTrackingI18nEnum.M_DIALOG_ADD_TIME_LOG_ENTRY),
+				new Button.ClickListener() {
+
+					private static final long serialVersionUID = -2540265040691537699L;
+
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						UI.getCurrent().addWindow(new NewTimeLogEntryWindow());
+					}
+				});
+		addNewEntryBtn.setWidth("100%");
+		controlBtns.addComponent(addNewEntryBtn);
+
+		Button updateRemainTimeBtn = new Button(
+				AppContext
+						.getMessage(TimeTrackingI18nEnum.M_DIALOG_UPDATE_REMAIN_HOURS),
+				new Button.ClickListener() {
+
+					private static final long serialVersionUID = 9215577509351959739L;
+
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						UI.getCurrent().addWindow(new UpdateRemainTimeWindow());
+					}
+				});
+		updateRemainTimeBtn.setWidth("100%");
+		controlBtns.addComponent(updateRemainTimeBtn);
+
+		NavigationBarQuickMenu editBtn = new NavigationBarQuickMenu();
+		editBtn.setButtonCaption(null);
+		editBtn.setStyleName("edit-btn");
+		editBtn.setContent(controlBtns);
+		this.setRightComponent(editBtn);
 	}
 
 	private void constructSpentTimeEntryPanel() {
@@ -150,17 +193,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 		this.totalSpentTimeLbl.setStyleName("block-value");
 		this.totalSpentTimeLbl.addStyleName("numberTotal");
 		totalLayout.addComponent(this.totalSpentTimeLbl);
-
-		totalLayout
-				.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-
-					private static final long serialVersionUID = 6011082762917349985L;
-
-					@Override
-					public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-						UI.getCurrent().addWindow(new NewTimeLogEntryWindow());
-					}
-				});
 
 		headerPanel.addComponent(totalLayout);
 	}
@@ -181,17 +213,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 		this.remainTimeLbl.setStyleName("block-value");
 		this.remainTimeLbl.addStyleName("numberTotal");
 		updateLayout.addComponent(this.remainTimeLbl);
-
-		updateLayout
-				.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-
-					private static final long serialVersionUID = 6011082762917349985L;
-
-					@Override
-					public void layoutClick(LayoutEvents.LayoutClickEvent event) {
-						UI.getCurrent().addWindow(new UpdateRemainTimeWindow());
-					}
-				});
 
 		this.headerPanel.addComponent(updateLayout);
 	}

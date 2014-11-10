@@ -78,7 +78,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 	@Override
 	protected boolean hasEditPermission() {
 		return CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS);
+				.canWrite(ProjectRolePermissionCollections.BUGS);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 			item.setLoguser(AppContext.getUsername());
 			item.setLogvalue(spentHours);
 			item.setTypeid(bean.getId());
-			item.setType(ProjectTypeConstants.TASK);
+			item.setType(ProjectTypeConstants.BUG);
 			item.setSaccountid(AppContext.getAccountId());
 			item.setProjectid(CurrentProjectVariables.getProjectId());
 			item.setLogforday(forDate);
@@ -114,10 +114,10 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 
 		@Override
 		protected void updateTimeRemain(double newValue) {
-			BugService taskService = ApplicationContextUtil
+			BugService bugService = ApplicationContextUtil
 					.getSpringBean(BugService.class);
-			bean.setEstimatetime(newValue);
-			taskService.updateWithSession(bean, AppContext.getUsername());
+			bean.setEstimateremaintime(newValue);
+			bugService.updateWithSession(bean, AppContext.getUsername());
 		}
 
 		@Override
@@ -126,7 +126,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 			searchCriteria.setProjectIds(new SetSearchField<Integer>(
 					CurrentProjectVariables.getProjectId()));
 			searchCriteria.setType(new StringSearchField(
-					ProjectTypeConstants.TASK));
+					ProjectTypeConstants.BUG));
 			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
 			return searchCriteria;
 		}
@@ -142,7 +142,7 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 		@Override
 		protected boolean isEnableAdd() {
 			return CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.TASKS);
+					.canWrite(ProjectRolePermissionCollections.BUGS);
 		}
 
 	}
