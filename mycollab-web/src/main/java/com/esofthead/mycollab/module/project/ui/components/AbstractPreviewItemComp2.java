@@ -21,6 +21,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
+import com.esofthead.mycollab.vaadin.ui.RightSidebarLayout;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.Resource;
@@ -47,7 +48,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected ReadViewLayout previewLayout;
 	protected HorizontalLayout header;
-	private HorizontalLayout bodyContainer;
+	private RightSidebarLayout bodyContainer;
 
 	private VerticalLayout sidebarContent;
 	private VerticalLayout bodyContent;
@@ -75,20 +76,19 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 
 		contentWrapper.addComponent(previewLayout);
 
-		bodyContainer = new HorizontalLayout();
+		bodyContainer = new RightSidebarLayout();
 		bodyContainer.setSizeFull();
-		bodyContainer.setStyleName("readview-body-wrap");
+		bodyContainer.addStyleName("readview-body-wrap");
 
 		bodyContent = new VerticalLayout();
 		bodyContent.addComponent(previewForm);
-		bodyContainer.addComponent(bodyContent);
-		bodyContainer.setExpandRatio(bodyContent, 1);
+		bodyContainer.setContent(bodyContent);
 
 		sidebarContent = new VerticalLayout();
 		sidebarContent.setWidth("250px");
 		sidebarContent.setSpacing(true);
 		sidebarContent.setStyleName("readview-sidebar");
-		bodyContainer.addComponent(sidebarContent);
+		bodyContainer.setSidebar(sidebarContent);
 
 		FloatingComponent floatSidebar = FloatingComponent
 				.floatThis(sidebarContent);
@@ -179,6 +179,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		return this;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	final public void addViewListener(ViewListener listener) {
 

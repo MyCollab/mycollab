@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.community.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.community.view.NotPresentedView;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizeContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
 
 /**
  * 

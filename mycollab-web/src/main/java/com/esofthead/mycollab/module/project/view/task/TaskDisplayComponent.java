@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -232,6 +233,8 @@ class TaskDisplayComponent extends CssLayout {
 
 		if (CollectionUtils.isNotEmpty(taskList.getSubTasks())) {
 			taskDisplay.setItems(taskList.getSubTasks());
+		} else {
+			taskDisplay.setItems(new ArrayList<SimpleTask>());
 		}
 	}
 

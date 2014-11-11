@@ -32,7 +32,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -66,7 +65,7 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public VerticalTabsheet(boolean isLeft) {
-		HorizontalLayout contentLayout = new HorizontalLayout();
+		CssLayout contentLayout = new CssLayout();
 		navigatorWrapper = new CssLayout();
 		navigatorWrapper.setStyleName("navigator-wrap");
 		tabNavigator = new VerticalLayout();
@@ -88,7 +87,7 @@ public class VerticalTabsheet extends CustomComponent {
 			contentLayout.addComponent(contentWrapper);
 			contentLayout.addComponent(navigatorWrapper);
 		}
-		contentLayout.setExpandRatio(contentWrapper, 1.0f);
+		// contentLayout.setExpandRatio(contentWrapper, 1.0f);
 
 		this.setCompositionRoot(contentLayout);
 		this.setStyleName(TABSHEET_STYLENAME);
