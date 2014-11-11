@@ -29,9 +29,11 @@ public class IconConstants {
 	public static final String DELETE = "&#xE043;";
 	public static final String MORE_VERT = "&#xE61B;";
 	public static final String MENU = "&#xE120;";
-	public static final String REPLY = "&#xE039;";
 	public static final String MAXIMIZE = "&#xE112;";
 	public static final String MINIMIZE = "&#xE113;";
+	public static final String REPLY = "&#xE039;";
+	public static final String LEFT_ARROW = "&#xE60B;";
+	public static final String RIGHT_ARROW = "&#xE60A;";
 
 	public static final String CRM_ACCOUNT = "&#xE601;";
 	public static final String CRM_CONTACT = "&#xE603;";

@@ -1,4 +1,22 @@
 @mixin project-timelog {
+	.timelog-comp-hdr {
+		.v-button.link {
+			margin: 0px;
+			text-align: left;
+			.v-button-wrap {
+				padding: 0rem 0.3rem 0rem 0rem;
+				.v-button-caption:after {
+					@include icomoon;
+					content: "\e60a";
+					display: inline-block;
+					font-size: 1.3rem;
+					line-height: 1.7rem;
+					vertical-align: top;
+					padding-left: 0.3rem;
+				}
+			}			
+		}
+	}
 	.timelog-edit-view {
 		div.v-vertical > .v-expand > .v-spacing {
 			display: block;

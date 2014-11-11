@@ -59,6 +59,7 @@ public class MilestoneReadViewImpl extends
 	private static final long serialVersionUID = -2466318105833801922L;
 
 	private ProjectCommentListDisplay associateComments;
+	private Button relatedComments;
 	private MilestoneRelatedBugView associateBugs;
 	private MilestoneRelatedTaskView associateTasks;
 
@@ -70,7 +71,25 @@ public class MilestoneReadViewImpl extends
 	@Override
 	protected void afterPreviewItem() {
 		associateComments.loadComments("" + beanItem.getId());
-
+		if (associateComments.getNumComments() > 0) {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\" data-count=\""
+							+ associateComments.getNumComments()
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		} else {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		}
 	}
 
 	@Override
@@ -152,7 +171,7 @@ public class MilestoneReadViewImpl extends
 		});
 		toolbarLayout.addComponent(relatedTasks);
 
-		Button relatedComments = new Button();
+		relatedComments = new Button();
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"
@@ -200,28 +219,23 @@ public class MilestoneReadViewImpl extends
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("startdate")) {
-				return new FormDateViewField(
-						beanItem.getStartdate());
+				return new FormDateViewField(beanItem.getStartdate());
 			} else if (propertyId.equals("enddate")) {
-				return new FormDateViewField(
-						beanItem.getEnddate());
+				return new FormDateViewField(beanItem.getEnddate());
 			} else if (propertyId.equals("owner")) {
-				return new FormViewField(
-						beanItem.getOwnerFullName());
+				return new FormViewField(beanItem.getOwnerFullName());
 			} else if (propertyId.equals("description")) {
 				return new FormDetectAndDisplayUrlViewField(
 						beanItem.getDescription());
 			} else if (propertyId.equals("numOpenTasks")) {
-				return new FormViewField(
-						beanItem.getNumOpenTasks() + "/"
-								+ beanItem.getNumTasks());
+				return new FormViewField(beanItem.getNumOpenTasks() + "/"
+						+ beanItem.getNumTasks());
 			} else if (propertyId.equals("numOpenBugs")) {
-				return new FormViewField(
-						beanItem.getNumOpenBugs() + "/" + beanItem.getNumBugs());
+				return new FormViewField(beanItem.getNumOpenBugs() + "/"
+						+ beanItem.getNumBugs());
 			} else if (propertyId.equals("status")) {
-				return new FormViewField(
-						AppContext.getMessage(MilestoneStatus.class,
-								beanItem.getStatus()));
+				return new FormViewField(AppContext.getMessage(
+						MilestoneStatus.class, beanItem.getStatus()));
 			}
 			return null;
 		}

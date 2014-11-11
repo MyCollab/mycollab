@@ -83,6 +83,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	private static final long serialVersionUID = 579279560838174387L;
 
 	private ProjectCommentListDisplay associateComments;
+	private Button relatedComments;
 
 	private VerticalLayout bugWorkFlowControl;
 
@@ -258,6 +259,26 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	@Override
 	protected void afterPreviewItem() {
 		associateComments.loadComments("" + beanItem.getId());
+		if (associateComments.getNumComments() > 0) {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\" data-count=\""
+							+ associateComments.getNumComments()
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		} else {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		}
+
 		displayWorkflowControl();
 		bugTimeLogComp.displayTime(beanItem);
 		this.previewForm.addComponent(bugTimeLogComp);
@@ -272,7 +293,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			attachmentComp = new ProjectAttachmentDisplayComp(attachments);
 			this.previewForm.addComponent(attachmentComp);
 		} else {
-			this.previewForm.removeComponent(attachmentComp);
+			if (attachmentComp != null) {
+				this.previewForm.removeComponent(attachmentComp);
+			}
 		}
 	}
 
@@ -324,7 +347,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		toolbarLayout.setSpacing(true);
 
-		Button relatedComments = new Button();
+		relatedComments = new Button();
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"

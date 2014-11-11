@@ -1968,12 +1968,7 @@ input.v-textfield-errorField {
     background-color: #FFFFFF;
 }
 
-.projectDashboardView .addViewLayout > .v-layout {
-    /* border: 1px solid #CFCFCF;
-    background: none no-repeat left top rgb(245, 245, 245);
-    box-shadow: none;
-    margin: 0px 0px 10px;
-    border-radius: 3px 3px 0px 0px; */
+.projectDashboardView .addViewLayout {
     padding: 0px 30px 10px;
 }
 

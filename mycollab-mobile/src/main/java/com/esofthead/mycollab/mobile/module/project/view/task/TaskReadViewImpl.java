@@ -82,6 +82,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private Button quickActionStatusBtn;
 
 	private ProjectCommentListDisplay associateComments;
+	private Button relatedComments;
 
 	private TaskTimeLogComp taskTimeLogComp;
 
@@ -109,6 +110,25 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 			this.addStyleName(UIConstants.STATUS_DISABLED);
 		}
 		associateComments.loadComments("" + beanItem.getId());
+		if (associateComments.getNumComments() > 0) {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\" data-count=\""
+							+ associateComments.getNumComments()
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		} else {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		}
 
 		taskTimeLogComp.displayTime(beanItem);
 
@@ -215,7 +235,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		toolbarLayout.setSpacing(true);
 
-		Button relatedComments = new Button();
+		relatedComments = new Button();
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"

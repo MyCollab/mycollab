@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -52,16 +52,17 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 		HorizontalLayout header = new HorizontalLayout();
 		header.setSpacing(true);
 		header.setStyleName("info-hdr");
+		header.addStyleName("timelog-comp-hdr");
 		header.setWidth("100%");
 		Label dateInfoHeader = new Label(
 				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
 		dateInfoHeader.setWidthUndefined();
 		header.addComponent(dateInfoHeader);
+		header.setExpandRatio(dateInfoHeader, 1.0f);
 
 		if (hasEditPermission()) {
 			Button editBtn = new Button(
-					"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.OPEN_NEW_VIEW + "\"></span>",
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -75,7 +76,6 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 			editBtn.setHtmlContentAllowed(true);
 			header.addComponent(editBtn);
 			header.setComponentAlignment(editBtn, Alignment.BOTTOM_LEFT);
-			header.setExpandRatio(editBtn, 1.0f);
 		}
 
 		this.addComponent(header);

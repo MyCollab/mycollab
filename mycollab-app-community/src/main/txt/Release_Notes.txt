@@ -60,6 +60,7 @@ Version 4.5.4
 * [Mobile] User can preview attachment easily
 * [Mobile] Support display hyperlinks for assignee, task, task group, milestone etc
 * [Mobile] Revise time logging component
+* [Mobile] Revise the mobile toolbar display
 
 **Bug Fixes**
 

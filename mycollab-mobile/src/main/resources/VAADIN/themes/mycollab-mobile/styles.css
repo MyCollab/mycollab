@@ -109,6 +109,22 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   padding: 0.5rem 0rem 0.8rem;
 }
 
+[data-count]:after {
+  content: attr(data-count);
+  font-family: "Open Sans",Verdana,Helvetica,sans-serif;
+  display: block;
+  position: absolute;
+  background-color: #f59330;
+  border-radius: 50%;
+  color: white;
+  font-size: 1rem;
+  right: -1.7rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  top: -1.6rem;
+}
+
 .mycollab-mobile {
   /* Include all the styles from the reindeer theme */
   /* Confirm Dialog */
@@ -467,13 +483,18 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button {
   color: #6a6a6a;
   background-color: #F7F7F7;
+  overflow: visible;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap {
-  font-size: 1.3rem;
-  line-height: 1.6rem;
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  overflow: visible;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap span[data-icon] {
+  position: relative;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap span[data-icon]:before {
-  font-size: 2.1rem;
+  font-size: 2.5rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button.v-button-selected {
   color: #00A3E8;
@@ -525,7 +546,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .toggle-nav-btn:before {
   content: "\e120";
@@ -615,7 +635,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
   padding: 0rem;
   height: 4rem;
   width: 4rem;
@@ -671,10 +690,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
   content: "\e114";
   font-size: 2.2rem;
   line-height: 4rem;
+  color: white;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-navbar-quickmenu-button {
   font-family: 'icomoon';
@@ -686,7 +705,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
   padding: 0rem 1.2rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-navbar-quickmenu-button:before {
@@ -718,13 +736,18 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button {
   color: #6a6a6a;
   background-color: #F7F7F7;
+  overflow: visible;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap {
-  font-size: 1.3rem;
-  line-height: 1.6rem;
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  overflow: visible;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon] {
+  position: relative;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon]:before {
-  font-size: 2.1rem;
+  font-size: 2.5rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button.v-button-selected {
   color: #00A3E8;
@@ -1015,7 +1038,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
 }
 .mycollab-mobile .editview-layout .v-select {
   border: none;
@@ -1489,6 +1511,30 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .milestones-list-view .v-touchkit-toolbar .v-button {
   width: 33%;
+}
+.mycollab-mobile .timelog-comp-hdr .v-button.link {
+  margin: 0px;
+  text-align: left;
+}
+.mycollab-mobile .timelog-comp-hdr .v-button.link .v-button-wrap {
+  padding: 0rem 0.3rem 0rem 0rem;
+}
+.mycollab-mobile .timelog-comp-hdr .v-button.link .v-button-wrap .v-button-caption:after {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\e60a";
+  display: inline-block;
+  font-size: 1.3rem;
+  line-height: 1.7rem;
+  vertical-align: top;
+  padding-left: 0.3rem;
 }
 .mycollab-mobile .timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
   display: block;

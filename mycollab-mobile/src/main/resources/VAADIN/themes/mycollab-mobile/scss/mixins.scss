@@ -14,14 +14,19 @@
 	.v-button  {
  		color: rgb(106, 106, 106);
  		background-color: #F7F7F7;
+ 		overflow: visible;
  			
  		.v-button-wrap {
- 			font-size: 1.3rem;
- 			line-height: 1.6rem;
+ 			font-size: 1.1rem;
+ 			line-height: 1.2rem;
+ 			overflow: visible;
  				
- 			span[data-icon]:before {
-	  			font-size: 2.1rem;
-	  		}
+ 			span[data-icon] {
+ 				position: relative;
+ 				&:before {
+		  			font-size: 2.5rem;
+		  		}
+ 			} 			
   		}    			
 	}
 	
@@ -41,7 +46,6 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: rgb(255, 255, 255);
 }
 
 @mixin backbtn {

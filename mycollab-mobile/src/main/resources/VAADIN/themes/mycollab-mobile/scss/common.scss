@@ -55,4 +55,20 @@
     	border-top: 1px solid $light-gray-border;
     	padding: 0.5rem 0rem 0.8rem;
     }
+    
+    [data-count]:after {
+		content: attr(data-count);
+		font-family: "Open Sans",Verdana,Helvetica,sans-serif;
+		display: block;
+		position: absolute;
+		background-color: rgb(245, 147, 48);
+		border-radius: 50%;
+		color: rgb(255, 255, 255);
+		font-size: 1rem;
+		right: -1.7rem;
+		width: 2.2rem;
+		height: 2.2rem;
+		line-height: 2.2rem;
+		top: -1.6rem;
+	}
 }

@@ -57,6 +57,7 @@ public class TaskGroupReadViewImpl extends
 	private static final long serialVersionUID = 8303226753169728418L;
 
 	private ProjectCommentListDisplay associateComments;
+	private Button relatedComments;
 
 	@Override
 	protected void afterPreviewItem() {
@@ -79,6 +80,25 @@ public class TaskGroupReadViewImpl extends
 				CommentType.PRJ_TASK_LIST,
 				CurrentProjectVariables.getProjectId(), true, true,
 				ProjectTaskGroupRelayEmailNotificationAction.class);
+		if (associateComments.getNumComments() > 0) {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\" data-count=\""
+							+ associateComments.getNumComments()
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		} else {
+			relatedComments
+					.setCaption("<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_MESSAGE
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ AppContext
+									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+							+ "</div>");
+		}
 	}
 
 	@Override
@@ -104,7 +124,7 @@ public class TaskGroupReadViewImpl extends
 		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		toolbarLayout.setSpacing(true);
 
-		Button relatedComments = new Button();
+		relatedComments = new Button();
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"
