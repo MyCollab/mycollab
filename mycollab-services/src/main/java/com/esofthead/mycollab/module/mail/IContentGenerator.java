@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.mail;
 
+import java.util.Locale;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -38,10 +40,23 @@ public interface IContentGenerator {
 	 */
 	String generateSubjectContent(String subject);
 
+	String generateBodyContent(String templateFilePath);
+
 	/**
 	 * 
 	 * @param templateFilePath
+	 * @param currentLocale
 	 * @return
 	 */
-	String generateBodyContent(String templateFilePath);
+	String generateBodyContent(String templateFilePath, Locale currentLocale);
+
+	/**
+	 * 
+	 * @param templateFilePath
+	 * @param currentLocale
+	 * @param defaultLocale
+	 * @return
+	 */
+	String generateBodyContent(String templateFilePath, Locale currentLocale,
+			Locale defaultLocale);
 }

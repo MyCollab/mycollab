@@ -69,6 +69,7 @@ Version 4.5.4
 * [Mobile] Back button does not work properly
 * [Mobile] View title is not aligned center in iOS
 * [Mobile] Can only upload one file in iOS
+* Can not send email if user switch to the locale not in the supported list
 
 Version 4.5.3
 -----------------------------

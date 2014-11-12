@@ -27,7 +27,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  */
 public class ComponentManagerFactory {
 	private static final String oauthWindowImplCls[] = new String[] {
-			"com.esofthead.mycollab.ondemand.module.file.view",
+			"com.esofthead.mycollab.ondemand.module.file.view.DropBoxOAuthWindow",
 			"com.esofthead.mycollab.module.file.view.DropBoxOAuthWindow" };
 
 	@SuppressWarnings("unchecked")

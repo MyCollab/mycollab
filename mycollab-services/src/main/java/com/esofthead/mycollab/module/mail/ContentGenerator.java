@@ -16,12 +16,14 @@
  */
 package com.esofthead.mycollab.module.mail;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.velocity.app.VelocityEngine;
@@ -34,6 +36,7 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 
 /**
@@ -52,41 +55,6 @@ public class ContentGenerator implements IContentGenerator, InitializingBean {
 	private VelocityEngine templateEngine;
 
 	@Override
-	public void putVariable(String key, Object value) {
-		templateContext.put(key, value);
-	}
-
-	@Override
-	public String generateSubjectContent(String subject) {
-		StringWriter writer = new StringWriter();
-		Reader reader = new StringReader(subject);
-		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
-				"log task", reader);
-		return writer.toString();
-	}
-
-	@Override
-	public String generateBodyContent(String templateFilePath) {
-		StringWriter writer = new StringWriter();
-		Reader reader;
-		try {
-			reader = new InputStreamReader(ContentGenerator.class
-					.getClassLoader().getResourceAsStream(templateFilePath),
-					"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(ContentGenerator.class
-					.getClassLoader().getResourceAsStream(templateFilePath));
-		} catch (Exception e) {
-			throw new MyCollabException("Exception while read file path "
-					+ templateFilePath, e);
-		}
-
-		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
-				"log task", reader);
-		return writer.toString();
-	}
-
-	@Override
 	public void afterPropertiesSet() throws Exception {
 		templateContext = new TemplateContext();
 		Map<String, String> defaultUrls = new HashMap<String, String>();
@@ -103,4 +71,66 @@ public class ContentGenerator implements IContentGenerator, InitializingBean {
 		templateContext.put("defaultUrls", defaultUrls);
 	}
 
+	@Override
+	public void putVariable(String key, Object value) {
+		templateContext.put(key, value);
+	}
+
+	@Override
+	public String generateSubjectContent(String subject) {
+		StringWriter writer = new StringWriter();
+		Reader reader = new StringReader(subject);
+		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
+				"log task", reader);
+		return writer.toString();
+	}
+
+	@Override
+	public String generateBodyContent(String templateFilePath) {
+		StringWriter writer = new StringWriter();
+		InputStream resourceStream = LocalizationHelper.class.getClassLoader()
+				.getResourceAsStream(templateFilePath);
+
+		Reader reader;
+		try {
+			reader = new InputStreamReader(resourceStream, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			reader = new InputStreamReader(resourceStream);
+		}
+
+		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
+				"log task", reader);
+		return writer.toString();
+	}
+
+	@Override
+	public String generateBodyContent(String templateFilePath,
+			Locale currentLocale, Locale defaultLocale) {
+		StringWriter writer = new StringWriter();
+		Reader reader = LocalizationHelper.templateReader(templateFilePath,
+				currentLocale);
+		if (reader == null) {
+			if (defaultLocale == null) {
+				throw new MyCollabException("Can not find file "
+						+ templateFilePath + " in locale " + currentLocale);
+			}
+			reader = LocalizationHelper.templateReader(templateFilePath,
+					defaultLocale);
+			if (reader == null) {
+				throw new MyCollabException("Can not find file "
+						+ templateFilePath + " in locale " + currentLocale
+						+ " and default locale " + defaultLocale);
+			}
+		}
+
+		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
+				"log task", reader);
+		return writer.toString();
+	}
+
+	@Override
+	public String generateBodyContent(String templateFilePath,
+			Locale currentLocale) {
+		return this.generateBodyContent(templateFilePath, currentLocale, null);
+	}
 }

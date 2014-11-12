@@ -19,6 +19,7 @@ package com.esofthead.mycollab.schedule.email.project.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
@@ -61,7 +62,7 @@ public abstract class SendMailToFollowersAction<B> implements
 	public void sendNotificationForCreateAction(
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
-		if ((notifiers != null) && !notifiers.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(notifiers)) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
@@ -90,8 +91,12 @@ public abstract class SendMailToFollowersAction<B> implements
 									null,
 									contentGenerator
 											.generateSubjectContent(getCreateSubject(context)),
-									contentGenerator.generateBodyContent(context
-											.templatePath("templates/email/project/itemCreatedNotifier.mt")),
+									contentGenerator
+											.generateBodyContent(
+													"templates/email/project/itemCreatedNotifier.mt",
+													context.getLocale(),
+													SiteConfiguration
+															.getDefaultLocale()),
 									null);
 				}
 			}
@@ -102,7 +107,7 @@ public abstract class SendMailToFollowersAction<B> implements
 	public void sendNotificationForUpdateAction(
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
-		if ((notifiers != null) && !notifiers.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(notifiers)) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
@@ -139,8 +144,12 @@ public abstract class SendMailToFollowersAction<B> implements
 									null,
 									contentGenerator
 											.generateSubjectContent(getUpdateSubject(context)),
-									contentGenerator.generateBodyContent(context
-											.templatePath("templates/email/project/itemUpdatedNotifier.mt")),
+									contentGenerator
+											.generateBodyContent(
+													"templates/email/project/itemUpdatedNotifier.mt",
+													context.getLocale(),
+													SiteConfiguration
+															.getDefaultLocale()),
 									null);
 				}
 			}
@@ -152,7 +161,7 @@ public abstract class SendMailToFollowersAction<B> implements
 	public void sendNotificationForCommentAction(
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
-		if ((notifiers != null) && !notifiers.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(notifiers)) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
@@ -180,8 +189,12 @@ public abstract class SendMailToFollowersAction<B> implements
 									null,
 									contentGenerator
 											.generateSubjectContent(getCommentSubject(context)),
-									contentGenerator.generateBodyContent(context
-											.templatePath("templates/email/project/itemCommentNotifier.mt")),
+									contentGenerator
+											.generateBodyContent(
+													"templates/email/project/itemCommentNotifier.mt",
+													context.getLocale(),
+													SiteConfiguration
+															.getDefaultLocale()),
 									null);
 				}
 			}

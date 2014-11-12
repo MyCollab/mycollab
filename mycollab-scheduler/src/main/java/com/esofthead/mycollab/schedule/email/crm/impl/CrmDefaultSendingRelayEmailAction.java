@@ -119,13 +119,16 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 					lst.add(userMail);
 
-					extMailService.sendHTMLMail(SiteConfiguration
-							.getNoReplyEmail(),
-							SiteConfiguration.getSiteName(), lst, null, null,
-							contentGenerator.generateSubjectContent(subject),
-							contentGenerator.generateBodyContent(context
-									.templatePath(getCreateContentPath())),
-							null);
+					extMailService
+							.sendHTMLMail(SiteConfiguration.getNoReplyEmail(),
+									SiteConfiguration.getSiteName(), lst, null,
+									null, contentGenerator
+											.generateSubjectContent(subject),
+									contentGenerator.generateBodyContent(
+											getCreateContentPath(), context
+													.getLocale(),
+											SiteConfiguration
+													.getDefaultLocale()), null);
 				}
 			}
 		}
@@ -172,13 +175,16 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 					lst.add(userMail);
 
-					extMailService.sendHTMLMail(SiteConfiguration
-							.getNoReplyEmail(),
-							SiteConfiguration.getSiteName(), lst, null, null,
-							contentGenerator.generateSubjectContent(subject),
-							contentGenerator.generateBodyContent(context
-									.templatePath(getUpdateContentPath())),
-							null);
+					extMailService
+							.sendHTMLMail(SiteConfiguration.getNoReplyEmail(),
+									SiteConfiguration.getSiteName(), lst, null,
+									null, contentGenerator
+											.generateSubjectContent(subject),
+									contentGenerator.generateBodyContent(
+											getUpdateContentPath(), context
+													.getLocale(),
+											SiteConfiguration
+													.getDefaultLocale()), null);
 
 				}
 			}
@@ -221,8 +227,9 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 						SiteConfiguration.getNoReplyEmail(), SiteConfiguration
 								.getSiteName(), lst, null, null,
 						contentGenerator.generateSubjectContent(subject),
-						contentGenerator.generateBodyContent(context
-								.templatePath(getNoteContentPath())), null);
+						contentGenerator.generateBodyContent(
+								getNoteContentPath(), context.getLocale(),
+								SiteConfiguration.getDefaultLocale()), null);
 
 			}
 		}

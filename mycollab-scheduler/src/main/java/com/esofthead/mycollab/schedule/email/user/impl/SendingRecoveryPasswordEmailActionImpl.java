@@ -87,10 +87,11 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 											locale,
 											UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
 											SiteConfiguration.getSiteName())),
-							contentGenerator.generateBodyContent(LocalizationHelper
-									.templatePath(
+							contentGenerator
+									.generateBodyContent(
 											"templates/email/user/userRecoveryPasswordNotifier.mt",
-											locale)), null);
+											locale, SiteConfiguration
+													.getDefaultLocale()), null);
 		}
 	}
 }

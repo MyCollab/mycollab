@@ -92,10 +92,6 @@ public class MailContext<B> {
 		return emailNotification.getType();
 	}
 
-	public String templatePath(String resourcePath) {
-		return LocalizationHelper.templatePath(resourcePath, locale);
-	}
-
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}

@@ -104,11 +104,11 @@ public class InviteProjectMembersCommandImpl implements
 									ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT,
 									user.getDisplayName(),
 									member.getProjectName())),
-							contentGenerator.generateBodyContent(LocalizationHelper
-									.templatePath(
+							contentGenerator
+									.generateBodyContent(
 											"templates/email/project/memberInvitation/memberInvitationNotifier.mt",
 											SiteConfiguration
-													.getDefaultLocale())));
+													.getDefaultLocale()));
 		}
 
 	}

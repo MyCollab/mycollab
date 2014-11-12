@@ -100,23 +100,18 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 					.getUsername() : "there";
 			contentGenerator.putVariable("userName", userName);
 			contentGenerator.putVariable("inviterName", inviterName);
-			extMailService
-					.sendHTMLMail(
-							SiteConfiguration.getNoReplyEmail(),
-							SiteConfiguration.getSiteName(),
-							Arrays.asList(new MailRecipientField(invitation
+			extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail(),
+					SiteConfiguration.getSiteName(), Arrays
+							.asList(new MailRecipientField(invitation
 									.getUsername(), invitation.getUsername())),
-							null,
-							null,
-							contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(
-									SiteConfiguration.getDefaultLocale(),
+					null, null,
+					contentGenerator.generateSubjectContent(LocalizationHelper
+							.getMessage(SiteConfiguration.getDefaultLocale(),
 									UserI18nEnum.MAIL_INVITE_USER_SUBJECT,
 									SiteConfiguration.getSiteName())),
-							contentGenerator.generateBodyContent(LocalizationHelper
-									.templatePath(
-											"templates/email/user/userInvitationNotifier.mt",
-											SiteConfiguration
-													.getDefaultLocale())), null);
+					contentGenerator.generateBodyContent(
+							"templates/email/user/userInvitationNotifier.mt",
+							SiteConfiguration.getDefaultLocale()), null);
 
 			// Send email and change register status of user to
 			// RegisterStatusConstants.SENT_VERIFICATION_EMAIL

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.i18n;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -128,16 +129,26 @@ public class LocalizationHelper {
 		}
 	}
 
+	/**
+	 * 
+	 * @param fileTemplatePath
+	 * @param locale
+	 * @return the reader of <code>fileTemplatePath</code> if it is found.
+	 *         Otherwise, return null
+	 */
 	public static Reader templateReader(String fileTemplatePath, Locale locale) {
 		String templatePath = templatePath(fileTemplatePath, locale);
+		InputStream resourceStream = LocalizationHelper.class.getClassLoader()
+				.getResourceAsStream(templatePath);
+		if (resourceStream == null) {
+			return null;
+		}
+
 		Reader reader;
 		try {
-			reader = new InputStreamReader(LocalizationHelper.class
-					.getClassLoader().getResourceAsStream(templatePath),
-					"UTF-8");
+			reader = new InputStreamReader(resourceStream, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(LocalizationHelper.class
-					.getClassLoader().getResourceAsStream(templatePath));
+			reader = new InputStreamReader(resourceStream);
 		}
 
 		return reader;

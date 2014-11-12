@@ -106,8 +106,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 				contentGenerator.generateSubjectContent(LocalizationHelper
 						.getMessage(SiteConfiguration.getDefaultLocale(),
 								UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-				contentGenerator.generateBodyContent(LocalizationHelper
-						.templatePath(CONFIRM_EMAIL_TEMPLATE,
-								SiteConfiguration.getDefaultLocale())), null);
+				contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE,
+						SiteConfiguration.getDefaultLocale()), null);
 	}
 }
