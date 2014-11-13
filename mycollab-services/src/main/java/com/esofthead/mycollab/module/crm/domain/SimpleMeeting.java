@@ -44,8 +44,7 @@ public class SimpleMeeting extends MeetingWithBLOBs {
 	}
 
 	public String getCreatedUserFullName() {
-		if (createdUserFullName == null
-				|| createdUserFullName.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(createdUserFullName)) {
 			return StringUtils.extractNameFromEmail(getCreateduser());
 		}
 		return createdUserFullName;

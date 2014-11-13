@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
@@ -81,7 +82,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 		Map<String, MValue> map = new HashMap<String, MValue>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
-				"assignUserFullName");
+				SimpleAccount.Field.assignUserFullName.name());
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -98,11 +99,11 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 			}
 		};
 
-		map.put("assignUserFullName", new HyperlinkValue(assigneeTitleExpr,
-				assigneeHrefExpr));
+		map.put(SimpleAccount.Field.assignUserFullName.name(),
+				new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
 
 		DRIExpression<String> accountTitleExpr = new StringExpression(
-				"accountname");
+				Account.Field.accountname.name());
 		DRIExpression<String> accountHrefExpr = new AbstractSimpleExpression<String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -113,8 +114,8 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 						AppContext.getSiteUrl(), accountid);
 			}
 		};
-		map.put("accountname", new HyperlinkValue(accountTitleExpr,
-				accountHrefExpr));
+		map.put(Account.Field.accountname.name(), new HyperlinkValue(
+				accountTitleExpr, accountHrefExpr));
 		return map;
 	}
 

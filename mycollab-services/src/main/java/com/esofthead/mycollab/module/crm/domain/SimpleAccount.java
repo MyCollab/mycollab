@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
-import com.esofthead.mycollab.core.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -44,9 +44,9 @@ public class SimpleAccount extends Account {
 	}
 
 	public String getCreatedUserFullName() {
-		if (createdUserFullName == null
-				|| createdUserFullName.trim().equals("")) {
-			return StringUtils.extractNameFromEmail(getCreateduser());
+		if (StringUtils.isBlank(createdUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils
+					.extractNameFromEmail(getCreateduser());
 		}
 
 		return createdUserFullName;
@@ -65,8 +65,9 @@ public class SimpleAccount extends Account {
 	}
 
 	public String getAssignUserFullName() {
-		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
-			return StringUtils.extractNameFromEmail(getAssignuser());
+		if (StringUtils.isBlank(assignUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils
+					.extractNameFromEmail(getAssignuser());
 		}
 
 		return assignUserFullName;
@@ -74,6 +75,14 @@ public class SimpleAccount extends Account {
 
 	public void setAssignUserFullName(String assignUserFullName) {
 		this.assignUserFullName = assignUserFullName;
+	}
+
+	public static enum Field {
+		assignUserFullName;
+
+		public boolean equalTo(Object value) {
+			return name().equals(value);
+		}
 	}
 
 }

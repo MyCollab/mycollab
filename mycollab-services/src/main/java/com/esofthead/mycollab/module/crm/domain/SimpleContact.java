@@ -46,7 +46,7 @@ public class SimpleContact extends Contact {
 	}
 
 	public String getAssignUserFullName() {
-		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
 			return StringUtils.extractNameFromEmail(getAssignuser());
 		}
 		return assignUserFullName;
@@ -81,8 +81,7 @@ public class SimpleContact extends Contact {
 	}
 
 	public String getCreatedUserFullName() {
-		if (createdUserFullName == null
-				|| createdUserFullName.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(createdUserFullName)) {
 			return StringUtils.extractNameFromEmail(getCreateduser());
 		}
 		return createdUserFullName;

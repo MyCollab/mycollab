@@ -59,7 +59,7 @@ public class SimpleTaskList extends TaskList {
 	}
 
 	public String getOwnerFullName() {
-		if (ownerFullName == null || ownerFullName.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(ownerFullName)) {
 			return StringUtils.extractNameFromEmail(getOwner());
 		}
 		return ownerFullName;

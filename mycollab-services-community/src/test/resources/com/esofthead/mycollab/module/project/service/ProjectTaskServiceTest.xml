@@ -14,14 +14,17 @@
         email="linhduong@esofthead.com" />
 
     <s_user_account id="1" isAccountOwner="1"
-        registerStatus="Active" username="hainguyen@esofthead.com" accountId="1"
-        registeredTime="2013-04-10 13:29:23" />
+        registerStatus="Active" username="hainguyen@esofthead.com"
+        accountId="1" registeredTime="2013-04-10 13:29:23" />
 
     <s_user_account id="2" isAccountOwner="0"
         registerStatus="Active" username="linhduong@esofthead.com"
         accountId="1" registeredTime="2013-04-10 13:29:23" />
 
     <m_prj_project id="1" name="a" sAccountId="1"
+        shortname="aaa" projectStatus="Open" />
+
+    <m_prj_project id="4" name="addd" sAccountId="1"
         shortname="aaa" projectStatus="Open" />
 
     <m_prj_project id="2" name="b" sAccountId="1"

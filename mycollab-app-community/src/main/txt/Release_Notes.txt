@@ -30,7 +30,6 @@ Please have a look at MyCollab requirements
 Installation
 ============
 
-
 1. Download MyCollab Binary File mycollab-x.xxx-dist
 2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
 3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade.html](http://community.mycollab.com/upgrade.html) will instruct steps to make your task easily
@@ -47,6 +46,7 @@ Version 4.5.4
 
 **Library Upgrades**
 
+* Upgrade Spring framework to 4.1.2.RELEASE
 * Upgrade HirakiCP to 2.2.4
 * Upgrade Vaadin to 7.3.4
 * Upgrade AspectJ library to 1.8.4
@@ -61,15 +61,16 @@ Version 4.5.4
 * [Mobile] Support display hyperlinks for assignee, task, task group, milestone etc
 * [Mobile] Revise time logging component
 * [Mobile] Revise the mobile toolbar display
+* [Mobile] Replace icons for better UI experience
 
 **Bug Fixes**
 
 * Fix timezone issue for datefield component
+* Can not send email if user switch to the locale not in the supported list
 * Can not get the log date for time logging in several rare browsers
 * [Mobile] Back button does not work properly
 * [Mobile] View title is not aligned center in iOS
 * [Mobile] Can only upload one file in iOS
-* Can not send email if user switch to the locale not in the supported list
 
 Version 4.5.3
 -----------------------------
