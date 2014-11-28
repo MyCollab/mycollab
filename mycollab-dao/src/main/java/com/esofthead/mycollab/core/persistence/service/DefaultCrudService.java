@@ -52,7 +52,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 	}
 
 	@Override
-	public int saveWithSession(T record, String username) {
+	public synchronized int saveWithSession(T record, String username) {
 		if (!StringUtils.isBlank(username)) {
 			try {
 				PropertyUtils.setProperty(record, "createduser", username);
@@ -97,6 +97,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void findCacheUpdateMethod() {
 		ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
 		Class<? extends ICrudGenericDAO> crudMapperCls = crudMapper.getClass();

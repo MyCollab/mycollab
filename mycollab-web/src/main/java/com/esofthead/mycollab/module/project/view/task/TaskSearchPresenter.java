@@ -29,6 +29,12 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0.0
+ *
+ */
 public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 		implements ListCommand<TaskSearchCriteria> {
 	private static final long serialVersionUID = 1L;

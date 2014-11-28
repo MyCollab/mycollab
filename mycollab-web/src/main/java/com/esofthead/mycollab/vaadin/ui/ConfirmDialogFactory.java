@@ -33,9 +33,10 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 
 	@Override
 	public ConfirmDialog create(final String caption, final String message,
-			final String okCaption, final String cancelCaption) {
+			final String okCaption, final String cancelCaption,
+			String notOkCaption) {
 		final ConfirmDialog d = super.create(caption, message, okCaption,
-				cancelCaption);
+				cancelCaption, notOkCaption);
 
 		d.getContent().setStyleName("custom-dialog");
 		d.getContent().setHeightUndefined();

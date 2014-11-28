@@ -127,8 +127,9 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new UserEvent.GotoRead(this, user));
+						EventBusFactory.getInstance()
+								.post(new UserEvent.GotoRead(this, user
+										.getUsername()));
 
 					}
 				}));

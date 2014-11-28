@@ -17,9 +17,12 @@
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.cache.CacheUtils;
@@ -28,11 +31,13 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
+import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand;
 import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
@@ -75,20 +80,30 @@ public class BugServiceImpl extends
 		return bugMapperExt;
 	}
 
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 	@Override
 	public int saveWithSession(BugWithBLOBs record, String username) {
-		Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
-		if (maxKey == null) {
-			record.setBugkey(1);
-		} else {
-			record.setBugkey(maxKey + 1);
+		Lock lock = DistributionLockUtil.getLock("bug-"
+				+ record.getSaccountid());
+		try {
+			if (lock.tryLock(120, TimeUnit.SECONDS)) {
+				Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
+				record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
+
+				CacheUtils.cleanCaches(record.getSaccountid(),
+						ProjectService.class, ProjectGenericTaskService.class,
+						ProjectMemberService.class,
+						ProjectActivityStreamService.class);
+
+				return super.saveWithSession(record, username);
+			} else {
+				throw new MyCollabException("Timeout operation");
+			}
+		} catch (InterruptedException e) {
+			throw new MyCollabException(e);
+		} finally {
+			lock.unlock();
 		}
-
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectGenericTaskService.class, ProjectMemberService.class,
-				ProjectActivityStreamService.class);
-
-		return super.saveWithSession(record, username);
 	}
 
 	@Override

@@ -22,6 +22,12 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0.0
+ *
+ */
 public interface TaskSearchView extends PageView {
 	public static final String VIEW_DEF_ID = "project-task-list";
 
@@ -32,6 +38,7 @@ public interface TaskSearchView extends PageView {
 	IPagedBeanTable<TaskSearchCriteria, SimpleTask> getPagedBeanTable();
 
 	void moveToAdvanceSearch();
+
 	void moveToBasicSearch();
 
 	void setSearchInputValue(String value);

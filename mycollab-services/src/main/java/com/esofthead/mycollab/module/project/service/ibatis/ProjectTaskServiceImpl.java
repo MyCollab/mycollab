@@ -17,9 +17,12 @@
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.cache.CacheUtils;
@@ -29,9 +32,11 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
@@ -83,6 +88,7 @@ public class ProjectTaskServiceImpl extends
 		return taskMapperExt.findTaskById(taskId);
 	}
 
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 	@Override
 	public int saveWithSession(Task record, String username) {
 		if ((record.getPercentagecomplete() != null)
@@ -92,22 +98,35 @@ public class ProjectTaskServiceImpl extends
 			record.setStatus(StatusI18nEnum.Open.name());
 		}
 		record.setLogby(username);
+		Lock lock = DistributionLockUtil.getLock("task-"
+				+ record.getSaccountid());
 
-		Integer key = taskMapperExt.getMaxKey(record.getProjectid());
-		record.setTaskkey((key == null) ? 1 : (key + 1));
+		try {
+			if (lock.tryLock(120, TimeUnit.SECONDS)) {
+				Integer key = taskMapperExt.getMaxKey(record.getProjectid());
+				record.setTaskkey((key == null) ? 1 : (key + 1));
 
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectGenericTaskService.class, ProjectTaskListService.class,
-				ProjectActivityStreamService.class, ProjectMemberService.class,
-				MilestoneService.class);
+				CacheUtils.cleanCaches(record.getSaccountid(),
+						ProjectService.class, ProjectGenericTaskService.class,
+						ProjectTaskListService.class,
+						ProjectActivityStreamService.class,
+						ProjectMemberService.class, MilestoneService.class);
 
-		return super.saveWithSession(record, username);
+				return super.saveWithSession(record, username);
+			} else {
+				throw new MyCollabException("Timeout operation.");
+			}
+		} catch (InterruptedException e) {
+			throw new MyCollabException(e);
+		} finally {
+			lock.unlock();
+		}
 	}
 
+	@Transactional
 	@Override
 	public int updateWithSession(Task record, String username) {
 		beforeUpdate(record);
-
 		return super.updateWithSession(record, username);
 	}
 
