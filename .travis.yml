@@ -8,7 +8,6 @@ before_install:
 before_script:
   - mysql -e 'create database mycollab_test;'
   - cd mycollab-deployer-community
-  - mvn eclipse:eclipse
 after_success:
   codecov
 notifications:
