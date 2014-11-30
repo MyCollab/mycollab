@@ -53,7 +53,7 @@ Version 4.5.5
 
 **Improvements**
 
-* Add user comment to activity stream
+* Add user comment to the activity stream
 
 **Bug Fixes**
 

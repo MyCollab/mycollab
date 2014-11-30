@@ -53,11 +53,11 @@
         id="1" />
 
     <s_activitystream typeId="1" id="2" type="Project-Task" module="Project"
-        sAccountId="1" extraTypeId="4" createdUser="admin" />
+        sAccountId="1" extraTypeId="4" createdUser="admin" action="create" />
         
     <s_activitystream typeId="1" id="1" type="Project-Bug" module="Project"
-        sAccountId="1" extraTypeId="4" createdUser="admin" />
+        sAccountId="1" extraTypeId="4" createdUser="admin" action="create" />
         
     <s_activitystream typeId="1" id="3" type="Project-Risk" module="Project"
-        sAccountId="1" extraTypeId="4" createdUser="admin" />
+        sAccountId="1" extraTypeId="4" createdUser="admin" action="create" />
 </dataset>

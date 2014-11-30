@@ -62,7 +62,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 		assertThat(projectId).isGreaterThan(0);
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DataSet
 	@Test
 	public void testGetListProjects() {
@@ -74,7 +74,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DataSet
 	@Test
 	public void testGetListProjectsByCriteria() {
@@ -89,7 +89,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@DataSet
 	@Test
 	public void testGetListProjectsByUsername() {
@@ -124,7 +124,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 	public void testGetActivityStreams() {
 		ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
 		criteria.setModuleSet(new SetSearchField<String>(
-				new String[]{ModuleNameConstants.PRJ}));
+				new String[] { ModuleNameConstants.PRJ }));
 		criteria.setExtraTypeIds(new SetSearchField<Integer>(4));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<ProjectActivityStream> streams = projectActivityStreamService
@@ -133,7 +133,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 
 		assertThat(streams.size()).isEqualTo(3);
 		assertThat(streams).extracting("type", "typeid", "itemKey").contains(
-				tuple("Project-Task", 1, 10), tuple("Project-Bug", 1, 20),
-				tuple("Project-Risk", 1, null));
+				tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
+				tuple("Project-Risk", "1", null));
 	}
 }
