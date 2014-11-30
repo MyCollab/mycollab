@@ -201,8 +201,29 @@
             #trimext("WHERE" "AND|OR")
                 <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Bug'
+                AND s_activitystream.action != 'comment'
             #end
         #end)
+        UNION(
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_bug.summary AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId, s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_tracker_bug ON (s_activitystream.typeid=m_tracker_bug.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+         #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Bug'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
         UNION
         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_task.taskkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
@@ -221,9 +242,32 @@
             #trimext("WHERE" "AND|OR")
                 <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type = 'Project-Task'
+                AND s_activitystream.action != 'comment'
             #end
         #end)
-        UNION(SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+        UNION
+        (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_task.taskkey AS itemKey, 
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_task.taskname AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_prj_task ON (s_activitystream.typeid=m_prj_task.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Task'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
@@ -239,8 +283,147 @@
             #trimext("WHERE" "AND|OR")
                 <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
                 AND s_activitystream.type NOT IN ('Project-Task', 'Project-Bug')
+                AND s_activitystream.action != 'comment'
             #end
         #end)
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_message.title AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_prj_message ON (s_activitystream.typeid=m_prj_message.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Message'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_task_list.name AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_prj_task_list ON (s_activitystream.typeid=m_prj_task_list.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-TaskList'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_component.componentname AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_tracker_component ON (s_activitystream.typeid=m_tracker_component.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Component'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_tracker_version.versionname AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_tracker_version ON (s_activitystream.typeid=m_tracker_version.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Version'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_risk.riskname AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_prj_risk ON (s_activitystream.typeid=m_prj_risk.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Risk'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
+        UNION
+        (
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, m_prj_problem.issuename AS nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser, 
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module, 
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        INNER JOIN m_prj_problem ON (s_activitystream.typeid=m_prj_problem.id)
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=s_activitystream.extraTypeId)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+                AND s_activitystream.type = 'Project-Problem'
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
+        )
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderByField)
             ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},

@@ -177,7 +177,7 @@ public class ProjectActivityStreamListDisplay
 				|| ProjectTypeConstants.BUG.equals(stream.getType())) {
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 					stream.getProjectShortName(), stream.getExtratypeid(),
-					stream.getType(), stream.getItemKey()));
+					stream.getType(), stream.getItemKey() + ""));
 		} else {
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 					stream.getProjectShortName(), stream.getExtratypeid(),

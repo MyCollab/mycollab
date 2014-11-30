@@ -120,7 +120,7 @@ public class ProjectActivityStreamPagedList
 							currentFeedBlock);
 					currentDate = itemCreatedDate;
 				}
-				String content = "";
+				StringBuffer content = new StringBuffer();
 				String uid = UUID.randomUUID().toString();
 				String itemType = AppContext
 						.getMessage(ProjectLocalizationTypeMap
@@ -130,22 +130,35 @@ public class ProjectActivityStreamPagedList
 
 				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
 						.getAction())) {
-					content = AppContext
+					content.append(AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-									assigneeParam, itemType, itemParam);
+									assigneeParam, itemType, itemParam));
 				} else if (ActivityStreamConstants.ACTION_UPDATE
 						.equals(activityStream.getAction())) {
-					content = AppContext
+					content.append(AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-									assigneeParam, itemType, itemParam);
+									assigneeParam, itemType, itemParam));
 					if (activityStream.getAssoAuditLog() != null) {
-						content += ProjectAuditLogStreamGenerator
-								.generatorDetailChangeOfActivity(activityStream);
+						content.append(ProjectAuditLogStreamGenerator
+								.generatorDetailChangeOfActivity(activityStream));
 					}
+				} else if (ActivityStreamConstants.ACTION_COMMENT
+						.equals(activityStream.getAction())) {
+					content.append(AppContext
+							.getMessage(
+									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+									assigneeParam, itemType, itemParam));
+					if (activityStream.getAssoAuditLog() != null) {
+						content.append("<p><ul><li>\"")
+								.append(activityStream.getAssoAuditLog()
+										.getChangeset()).append("\"</li></ul></p>");
+					}
+
 				}
-				final Label actionLbl = new Label(content, ContentMode.HTML);
+				final Label actionLbl = new Label(content.toString(),
+						ContentMode.HTML);
 				final CssLayout streamWrapper = new CssLayout();
 				streamWrapper.setWidth("100%");
 				streamWrapper.addStyleName("stream-wrapper");
@@ -217,7 +230,7 @@ public class ProjectActivityStreamPagedList
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 					activityStream.getProjectShortName(),
 					activityStream.getExtratypeid(), activityStream.getType(),
-					activityStream.getItemKey()));
+					activityStream.getItemKey() + ""));
 		} else {
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 					activityStream.getProjectShortName(),

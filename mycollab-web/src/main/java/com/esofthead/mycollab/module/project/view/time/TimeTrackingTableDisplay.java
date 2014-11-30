@@ -106,7 +106,7 @@ public class TimeTrackingTableDisplay
 										itemLogging.getProjectShortName(),
 										itemLogging.getProjectid(),
 										itemLogging.getType(),
-										itemLogging.getTypeid()));
+										itemLogging.getTypeid() + ""));
 						timeTrackingLink.setIconLink(MyCollabResource
 								.newResourceLink("icons/16/project/bug.png"));
 
@@ -128,7 +128,7 @@ public class TimeTrackingTableDisplay
 										itemLogging.getProjectShortName(),
 										itemLogging.getProjectid(),
 										itemLogging.getType(),
-										itemLogging.getTypeid()));
+										itemLogging.getTypeid() + ""));
 
 						timeTrackingLink.setIconLink(MyCollabResource
 								.newResourceLink("icons/16/project/task.png"));
@@ -157,7 +157,7 @@ public class TimeTrackingTableDisplay
 										itemLogging.getProjectShortName(),
 										itemLogging.getProjectid(),
 										itemLogging.getType(),
-										itemLogging.getTypeid()));
+										itemLogging.getTypeid() + ""));
 
 						if (type.equals(ProjectTypeConstants.PROBLEM)) {
 							timeTrackingLink.setIconLink(MyCollabResource

@@ -3,7 +3,7 @@
 <mapper namespace="com.esofthead.mycollab.common.dao.CommentMapperExt">
     
     <resultMap id="BaseResultMap"
-        extends="com.esofthead.mycollab.common.dao.CommentMapper.BaseResultMap"
+        extends="com.esofthead.mycollab.common.dao.CommentMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.common.domain.SimpleComment">
 
         <result column="ownerAvatarId" jdbcType="VARCHAR"

@@ -103,7 +103,7 @@ public class ProjectTaskOverdueComponent extends Depot {
 					ProjectLinkBuilder.generateProjectItemLink(
 							CurrentProjectVariables.getShortName(),
 							genericTask.getProjectId(), genericTask.getType(),
-							genericTask.getTypeId()));
+							genericTask.getTypeId() + ""));
 
 			taskLink.setIconLink(ProjectResources.getResourceLink(genericTask
 					.getType()));

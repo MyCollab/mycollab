@@ -391,7 +391,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 	}
 
 	@Override
-	public void addViewListener(ViewListener listener) {
+	public void addViewListener(@SuppressWarnings("rawtypes") ViewListener listener) {
 	}
 
 	@Override

@@ -104,7 +104,7 @@ public class ActivityStreamPanel extends CssLayout {
 		private ActivityStreamService activityStreamService;
 		private ActivityStreamSearchCriteria searchCriteria;
 
-		private int firstIndex = 0, lastIndex = 0;
+		private int firstIndex = 0;
 		private Date currentDate;
 
 		public CrmActivityStreamPagedList() {
@@ -119,7 +119,7 @@ public class ActivityStreamPanel extends CssLayout {
 				final ActivityStreamSearchCriteria searchCriteria) {
 			this.listContainer.removeAllComponents();
 			this.searchCriteria = searchCriteria;
-			navigateToNext();
+			doSearch(true);
 		}
 
 		@SuppressWarnings("unchecked")
@@ -131,10 +131,12 @@ public class ActivityStreamPanel extends CssLayout {
 
 			Integer currentItemsDisplay = 0;
 
+			int tmpFirstIndex = firstIndex;
+
 			while (currentItemsDisplay < MAX_NUMBER_DISPLAY) {
 				final List<SimpleActivityStream> currentListData = this.activityStreamService
-						.findAbsoluteListByCriteria(searchCriteria, firstIndex,
-								MAX_NUMBER_DISPLAY);
+						.findAbsoluteListByCriteria(searchCriteria,
+								tmpFirstIndex, MAX_NUMBER_DISPLAY);
 
 				if (currentListData.size() == 0) {
 					break;
@@ -151,13 +153,17 @@ public class ActivityStreamPanel extends CssLayout {
 				}
 
 				if (isMoveForward) {
-					firstIndex = lastIndex;
-					lastIndex = lastIndex + MAX_NUMBER_DISPLAY;
+					tmpFirstIndex += MAX_NUMBER_DISPLAY;
 				} else {
-					lastIndex = firstIndex;
-					firstIndex = firstIndex - MAX_NUMBER_DISPLAY;
+					tmpFirstIndex = Math.max(
+							tmpFirstIndex - MAX_NUMBER_DISPLAY, 0);
+					if (tmpFirstIndex == 0) {
+						break;
+					}
 				}
 			}
+
+			firstIndex = tmpFirstIndex;
 
 			if (hasPrevious() || hasNext()) {
 				this.addComponent(createPageControls());
@@ -165,14 +171,12 @@ public class ActivityStreamPanel extends CssLayout {
 		}
 
 		private void navigateToPrevious() {
-			lastIndex = firstIndex;
-			firstIndex = firstIndex - MAX_NUMBER_DISPLAY;
+			firstIndex = Math.max(firstIndex - MAX_NUMBER_DISPLAY, 0);
 			doSearch(false);
 		}
 
 		private void navigateToNext() {
-			firstIndex = lastIndex;
-			lastIndex = lastIndex + MAX_NUMBER_DISPLAY;
+			firstIndex += MAX_NUMBER_DISPLAY;
 			doSearch(true);
 		}
 
@@ -224,15 +228,6 @@ public class ActivityStreamPanel extends CssLayout {
 				currentDate = itemCreatedDate;
 			}
 
-			CrmCommonI18nEnum action = null;
-
-			if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
-					.getAction())) {
-				action = CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION;
-			} else if (ActivityStreamConstants.ACTION_UPDATE
-					.equals(activityStream.getAction())) {
-				action = CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION;
-			}
 			// --------------Item hidden div tooltip----------------
 			String uid = UUID.randomUUID().toString();
 			String itemType = AppContext.getMessage(CrmLocalizationTypeMap
@@ -240,8 +235,23 @@ public class ActivityStreamPanel extends CssLayout {
 			String assigneeValue = buildAssigneeValue(activityStream, uid);
 			String itemValue = buildItemValue(activityStream, uid);
 
-			StringBuffer content = new StringBuffer(AppContext.getMessage(
-					action, assigneeValue, itemType, itemValue));
+			StringBuffer content = new StringBuffer();
+
+			if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
+					.getAction())) {
+				content.append(AppContext.getMessage(
+						CrmCommonI18nEnum.WIDGET_ACTIVITY_CREATE_ACTION,
+						assigneeValue, itemType, itemValue));
+			} else if (ActivityStreamConstants.ACTION_UPDATE
+					.equals(activityStream.getAction())) {
+				content.append(AppContext.getMessage(
+						CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION,
+						assigneeValue, itemType, itemValue));
+			} else if (ActivityStreamConstants.ACTION_COMMENT
+					.equals(activityStream.getAction())) {
+
+			}
+
 			if (activityStream.getAssoAuditLog() != null) {
 				content.append(CrmActivityStreamGenerator
 						.generatorDetailChangeOfActivity(activityStream));
@@ -303,7 +313,8 @@ public class ActivityStreamPanel extends CssLayout {
 
 		private boolean hasNext() {
 			return !this.activityStreamService.findAbsoluteListByCriteria(
-					this.searchCriteria, lastIndex, 1).isEmpty();
+					this.searchCriteria, firstIndex + MAX_NUMBER_DISPLAY, 1)
+					.isEmpty();
 		}
 
 		private boolean hasPrevious() {
@@ -365,7 +376,8 @@ public class ActivityStreamPanel extends CssLayout {
 			A itemLink = new A();
 			itemLink.setId("crmActivitytagA" + uid);
 			itemLink.setHref(CrmLinkGenerator.generateCrmItemLink(
-					activityStream.getType(), activityStream.getTypeid()));
+					activityStream.getType(),
+					Integer.parseInt(activityStream.getTypeid())));
 
 			String arg17 = "'" + uid + "'";
 			String arg18 = "'" + activityStream.getType() + "'";

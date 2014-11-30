@@ -44,7 +44,8 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 @Component
 public class TraceableAspect {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TraceableAspect.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TraceableAspect.class);
 	@Autowired
 	private ActivityStreamService activityStreamService;
 
@@ -79,8 +80,8 @@ public class TraceableAspect {
 		ActivityStream activity = new ActivityStream();
 		activity.setModule(traceableAnnotation.module());
 		activity.setType(traceableAnnotation.type());
-		activity.setTypeid((Integer) PropertyUtils.getProperty(bean,
-				traceableAnnotation.idField()));
+		activity.setTypeid(String.valueOf(PropertyUtils.getProperty(bean,
+				traceableAnnotation.idField())));
 		activity.setCreatedtime(new GregorianCalendar().getTime());
 		activity.setAction(action);
 		activity.setSaccountid((Integer) PropertyUtils.getProperty(bean,

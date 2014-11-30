@@ -178,6 +178,7 @@ public class CrmController extends AbstractController {
 
 		this.register(new ApplicationEventListener<AccountEvent.GotoRead>() {
 
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Subscribe
 			@Override
 			public void handle(GotoRead event) {

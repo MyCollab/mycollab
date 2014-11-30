@@ -222,41 +222,41 @@ public class ProjectLinkBuilder {
 	}
 
 	public static String generateProjectItemLink(String prjShortName,
-			Integer projectId, String type, Integer typeid) {
+			Integer projectId, String type, String typeid) {
 		String result = "";
 
 		try {
 			if (ProjectTypeConstants.PROJECT.equals(type)) {
 			} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
 				result = ProjectLinkGenerator.generateMessagePreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
 				result = ProjectLinkGenerator.generateMilestonePreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
 				result = ProjectLinkGenerator.generateProblemPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.RISK.equals(type)) {
 				result = ProjectLinkGenerator.generateRiskPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.TASK.equals(type)) {
-				result = ProjectLinkGenerator.generateTaskPreviewLink(typeid,
-						prjShortName);
+				result = ProjectLinkGenerator.generateTaskPreviewLink(
+						Integer.parseInt(typeid), prjShortName);
 			} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
 				result = ProjectLinkGenerator.generateTaskGroupPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.BUG.equals(type)) {
-				result = ProjectLinkGenerator.generateBugPreviewLink(typeid,
-						prjShortName);
+				result = ProjectLinkGenerator.generateBugPreviewLink(
+						Integer.parseInt(typeid), prjShortName);
 			} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
 				result = ProjectLinkGenerator.generateBugComponentPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
 				result = ProjectLinkGenerator.generateBugVersionPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
 				result = ProjectLinkGenerator.generateStandUpPreviewLink(
-						projectId, typeid);
+						projectId, Integer.parseInt(typeid));
 			}
 		} catch (Exception e) {
 			LOG.error("Error while generate link {} {} {} {}", new Object[] {

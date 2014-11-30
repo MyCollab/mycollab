@@ -128,7 +128,7 @@ public class ActivityStreamComponent extends CssLayout {
 						currentDate = itemCreatedDate;
 					}
 
-					String content = "";
+					StringBuffer content = new StringBuffer("");
 
 					// --------------Item hidden div tooltip----------------
 					String uid = UUID.randomUUID().toString();
@@ -144,40 +144,54 @@ public class ActivityStreamComponent extends CssLayout {
 							.equals(activityStream.getAction())) {
 						if (ProjectTypeConstants.PROJECT.equals(activityStream
 								.getType())) {
-							content = AppContext
+							content.append(AppContext
 									.getMessage(
 											ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-											assigneeValue, type, projectLink);
+											assigneeValue, type, projectLink));
 						} else {
-							content = AppContext
+							content.append(AppContext
 									.getMessage(
 											ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
 											assigneeValue, type, itemLink,
-											projectLink);
+											projectLink));
 						}
 
 					} else if (ActivityStreamConstants.ACTION_UPDATE
 							.equals(activityStream.getAction())) {
 						if (ProjectTypeConstants.PROJECT.equals(activityStream
 								.getType())) {
-							content = AppContext
+							content.append(AppContext
 									.getMessage(
 											ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-											assigneeValue, type, projectLink);
+											assigneeValue, type, projectLink));
 						} else {
-							content = AppContext
+							content.append(AppContext
 									.getMessage(
 											ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
 											assigneeValue, type, itemLink,
-											projectLink);
+											projectLink));
 						}
 						if (activityStream.getAssoAuditLog() != null) {
-							content += ProjectAuditLogStreamGenerator
-									.generatorDetailChangeOfActivity(activityStream);
+							content.append(ProjectAuditLogStreamGenerator
+									.generatorDetailChangeOfActivity(activityStream));
+						}
+					} else if (ActivityStreamConstants.ACTION_COMMENT
+							.equals(activityStream.getAction())) {
+						content.append(AppContext
+								.getMessage(
+										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+										assigneeValue, type, itemLink,
+										projectLink));
+
+						if (activityStream.getAssoAuditLog() != null) {
+							content.append("<p><ul><li>\"")
+									.append(activityStream.getAssoAuditLog()
+											.getChangeset()).append("\"</li></ul></p>");
 						}
 					}
 
-					final Label actionLbl = new Label(content, ContentMode.HTML);
+					final Label actionLbl = new Label(content.toString(),
+							ContentMode.HTML);
 					final CssLayout streamWrapper = new CssLayout();
 					streamWrapper.setWidth("100%");
 					streamWrapper.addStyleName("stream-wrapper");
@@ -253,7 +267,8 @@ public class ActivityStreamComponent extends CssLayout {
 				itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 						activityStream.getProjectShortName(),
 						activityStream.getExtratypeid(),
-						activityStream.getType(), activityStream.getItemKey()));
+						activityStream.getType(), activityStream.getItemKey()
+								+ ""));
 			} else {
 				itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
 						activityStream.getProjectShortName(),

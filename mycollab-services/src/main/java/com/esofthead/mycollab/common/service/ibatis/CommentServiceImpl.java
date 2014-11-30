@@ -22,19 +22,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.common.ActivityStreamConstants;
+import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.dao.CommentMapperExt;
+import com.esofthead.mycollab.common.domain.ActivityStream;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
+import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
 /**
@@ -61,7 +68,8 @@ public class CommentServiceImpl extends
 	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@Autowired
-	// private ActivityStreamService activityStreamService;
+	private ActivityStreamService activityStreamService;
+
 	@Override
 	public ICrudGenericDAO<Integer, Comment> getCrudMapper() {
 		return commentMapper;
@@ -94,33 +102,34 @@ public class CommentServiceImpl extends
 							emailHandler), username);
 		}
 
-		// activityStreamService.saveWithSession(
-		// getActivityStream(record, username), username);
+		activityStreamService.saveWithSession(
+				getActivityStream(record, username), username);
 
 		return saveId;
 	}
 
-	// private ActivityStream getActivityStream(Comment record, String username)
-	// {
-	// ActivityStream activityStream = new ActivityStream();
-	// activityStream.setAction(ActivityStreamConstants.ACTION_COMMENT);
-	// activityStream.setCreateduser(username);
-	// activityStream.setSaccountid(record.getSaccountid());
-	// activityStream.setType(record.getType());
-	// activityStream.setTypeid(record.getTypeid());
-	// activityStream.setNamefield(record.getComment());
-	// if (record.getType() != null && record.getType().startsWith("Project-"))
-	// {
-	// activityStream.setModule(ModuleNameConstants.PRJ);
-	// } else if (record.getType() != null
-	// && record.getType().startsWith("Crm-")) {
-	// activityStream.setModule(ModuleNameConstants.CRM);
-	// } else {
-	// LOG.error("Can not define module type of bean {}",
-	// BeanUtility.printBeanObj(record));
-	// }
-	// return activityStream;
-	// }
+	private ActivityStream getActivityStream(Comment record, String username) {
+		ActivityStream activityStream = new ActivityStream();
+		activityStream.setAction(ActivityStreamConstants.ACTION_COMMENT);
+		activityStream.setCreateduser(username);
+		activityStream.setSaccountid(record.getSaccountid());
+		activityStream.setType(record.getType());
+		activityStream.setTypeid(record.getTypeid());
+		activityStream.setNamefield(record.getComment());
+		activityStream.setExtratypeid(record.getExtratypeid());
+		if (record.getType() != null && record.getType().startsWith("Project-")) {
+			activityStream.setModule(ModuleNameConstants.PRJ);
+			CacheUtils.cleanCaches(record.getSaccountid(),
+					ProjectActivityStreamService.class);
+		} else if (record.getType() != null
+				&& record.getType().startsWith("Crm-")) {
+			activityStream.setModule(ModuleNameConstants.CRM);
+		} else {
+			LOG.error("Can not define module type of bean {}",
+					BeanUtility.printBeanObj(record));
+		}
+		return activityStream;
+	}
 
 	private RelayEmailNotification getRelayEmailNotification(Comment record,
 			String username, boolean isSendingEmail,
