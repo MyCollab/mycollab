@@ -5,19 +5,19 @@
     <name>mycollab-deployer-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>mycollab-deployer-community</artifactId>
-    <version>4.5.4</version>
+    <version>4.5.5</version>
     <packaging>pom</packaging>
     <modules>
         <module>../mycollab-parent-community</module>
+        <module>../mycollab-test</module>
         <module>../mycollab-core</module>
         <module>../mycollab-localization</module>
         <module>../mycollab-config</module>
         <module>../mycollab-dao</module>
-        <module>../mycollab-test</module>
         <module>../mycollab-caching</module>
         <module>../mycollab-jackrabbit</module>
-        <module>../mycollab-migration</module>
         <module>../mycollab-services</module>
+        <module>../mycollab-migration</module>
         <module>../mycollab-server-runner</module>
         <module>../mycollab-esb</module>
         <module>../mycollab-reporting</module>
