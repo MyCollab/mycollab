@@ -76,6 +76,7 @@ public class StringUtils {
 		}
 
 		value = Jsoup.clean(value, Whitelist.relaxed());
+//		value = Emoji.replaceInText(value);
 		value = value
 				.replaceAll(
 						"(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",

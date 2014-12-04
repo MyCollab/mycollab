@@ -55,6 +55,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -188,7 +189,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 						}
 					});
 			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/16/delete2.png"));
+					.newResource(WebResourceIds._16_delete2));
 			deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));

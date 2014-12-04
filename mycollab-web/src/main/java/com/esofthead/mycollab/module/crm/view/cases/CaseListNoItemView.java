@@ -24,7 +24,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.Sizeable;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -53,7 +53,7 @@ public class CaseListNoItemView extends AbstractPageView {
 		layout.setMargin(true);
 
 		Image image = new Image(null,
-				MyCollabResource.newResource("icons/48/crm/case.png"));
+				MyCollabResource.newResource(WebResourceIds._48_crm_case));
 		layout.addComponent(image);
 
 		Label title = new Label(

@@ -904,7 +904,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						}
 					});
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(

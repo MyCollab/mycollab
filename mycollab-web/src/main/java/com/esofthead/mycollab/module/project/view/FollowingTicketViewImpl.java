@@ -80,7 +80,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		header.setSpacing(true);
 
 		final Image timeIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/follow.png"));
+				MyCollabResource.newResource(WebResourceIds._24_follow));
 		header.addComponent(timeIcon);
 
 		final Label layoutHeader = new Label("My Following Tickets");
@@ -133,7 +133,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		exportButtonControl.setWidthUndefined();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
-				.newResource("icons/16/export.png"));
+				.newResource(WebResourceIds._16_export));
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);

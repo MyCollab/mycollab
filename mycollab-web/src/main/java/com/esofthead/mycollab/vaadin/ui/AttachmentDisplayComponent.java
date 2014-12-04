@@ -155,7 +155,7 @@ public class AttachmentDisplayComponent extends CssLayout {
 			}
 		});
 		trashBtn.setIcon(MyCollabResource
-				.newResource("icons/16/trash-white.png"));
+				.newResource(WebResourceIds._16_trash_white));
 		trashBtn.setStyleName("attachment-control");
 		attachmentLayout.addComponent(trashBtn,
 				"top: 9px; left: 9px; z-index: 1;");
@@ -167,7 +167,7 @@ public class AttachmentDisplayComponent extends CssLayout {
 		fileDownloader.extend(downloadBtn);
 
 		downloadBtn.setIcon(MyCollabResource
-				.newResource("icons/16/download-white.png"));
+				.newResource(WebResourceIds._16_download_white));
 		downloadBtn.setStyleName("attachment-control");
 		attachmentLayout.addComponent(downloadBtn,
 				"right: 9px; top: 9px; z-index: 1;");

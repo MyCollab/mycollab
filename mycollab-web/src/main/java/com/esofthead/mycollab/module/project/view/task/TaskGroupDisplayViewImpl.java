@@ -203,7 +203,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		this.taskGroupSelection.addStyleName("link");
 		this.taskGroupSelection.addStyleName("hdr-text");
 		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/task.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_task));
 		header.addComponent(icon);
 		header.addComponent(this.taskGroupSelection);
 		header.setExpandRatio(this.taskGroupSelection, 1.0f);
@@ -316,7 +316,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
 		exportButtonControl.setIcon(MyCollabResource
-				.newResource("icons/16/export.png"));
+				.newResource(WebResourceIds._16_export));
 		exportButtonControl.setDescription("Export to file");
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
@@ -479,7 +479,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	}
 
 	private VerticalLayout createSearchPanel() {
-
 		VerticalLayout basicSearchBody = new VerticalLayout();
 		basicSearchBody.setSpacing(true);
 		basicSearchBody.setMargin(new MarginInfo(true, false, true, false));
@@ -497,7 +496,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 		final Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -578,7 +577,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		header.setWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/task.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_task));
 		header.addComponent(icon);
 
 		UiUtils.addComponent(header, taskSelection, Alignment.MIDDLE_LEFT);

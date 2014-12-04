@@ -41,7 +41,7 @@ public class NotPresentedView extends AbstractPageView {
 		VerticalLayout layout = new VerticalLayout();
 		final Embedded titleIcon = new Embedded();
 		titleIcon.setSource(MyCollabResource
-				.newResource("icons/not_present.png"));
+				.newResource(WebResourceIds._not_present));
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
 

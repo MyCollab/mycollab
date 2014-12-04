@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -73,7 +74,7 @@ public class FilterTaskViewImpl extends AbstractPageView implements
 		header.setStyleName(UIConstants.HEADER_VIEW);
 		header.setWidth("100%");
 		Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/task.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_task));
 
 		headerText = new Label();
 		headerText.setSizeUndefined();

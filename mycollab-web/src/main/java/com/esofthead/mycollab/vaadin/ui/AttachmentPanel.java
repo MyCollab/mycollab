@@ -96,7 +96,7 @@ public class AttachmentPanel extends VerticalLayout implements
 				}
 			}
 		});
-		removeBtn.setIcon(MyCollabResource.newResource("icons/16/trash.png"));
+		removeBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_trash));
 		removeBtn.setStyleName("link");
 
 		Embedded fileIcon = new Embedded(null,

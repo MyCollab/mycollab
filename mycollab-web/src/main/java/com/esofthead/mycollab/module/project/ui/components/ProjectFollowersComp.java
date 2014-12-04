@@ -393,7 +393,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 								});
 						deleteBtn.setStyleName("link");
 						deleteBtn.setIcon(MyCollabResource
-								.newResource("icons/16/delete.png"));
+								.newResource(WebResourceIds._16_delete));
 						return deleteBtn;
 					}
 				});

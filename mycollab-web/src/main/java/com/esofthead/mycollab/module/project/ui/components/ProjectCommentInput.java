@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -193,7 +194,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 				});
 		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		newCommentBtn
-				.setIcon(MyCollabResource.newResource("icons/16/post.png"));
+				.setIcon(MyCollabResource.newResource(WebResourceIds._16_post));
 		controlsLayout.addComponent(newCommentBtn);
 
 		textAreaWrap.addComponent(commentArea);

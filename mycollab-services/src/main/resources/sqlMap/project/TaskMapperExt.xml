@@ -57,6 +57,10 @@
             ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
         #end
         
+        #ifnotnull($searchCriteria.parentTaskId)
+             ${searchCriteria.parentTaskId.operation} m_prj_task.parentTaskId = @{searchCriteria.parentTaskId.value,jdbcType=NUMERIC}
+        #end
+        
         #ifnotnull($searchCriteria.assignUser)
             #ifnotnull($searchCriteria.assignUser.value)
                 ${searchCriteria.assignUser.operation} m_prj_task.assignUser = @{searchCriteria.assignUser.value}
@@ -109,6 +113,10 @@
             ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
         #end
         
+        #ifnotnull($searchCriteria.parentTaskId)
+             ${searchCriteria.parentTaskId.operation} m_prj_task.parentTaskId = @{searchCriteria.parentTaskId.value,jdbcType=NUMERIC}
+        #end
+        
         #ifnotnull($searchCriteria.assignUser)
             ${searchCriteria.assignUser.operation} m_prj_task.assignUser = @{searchCriteria.assignUser.value}
         #end
@@ -126,7 +134,7 @@
           SELECT m_prj_task.id, m_prj_task.taskname, m_prj_task.percentagecomplete, m_prj_task.startdate, m_prj_task.enddate, m_prj_task.priority, 
                  m_prj_task.duration, m_prj_task.isestimated, m_prj_task.projectid, m_prj_task.deadline, m_prj_task.notes, m_prj_task.taskindex, 
                  m_prj_task.actualStartDate, m_prj_task.actualEndDate, m_prj_task.originalEstimate, m_prj_task.remainEstimate,
-                 m_prj_task.tasklistid, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId,
+                 m_prj_task.tasklistid, m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.assignUser, m_prj_task.sAccountId, m_prj_task.parentTaskId,
                  m_prj_task_list.name AS taskListName, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortname, m_prj_task.status,
                  m_prj_task.logBy, m_prj_task.taskkey,
                  s_user.avatarId AS assignUserAvatarId,

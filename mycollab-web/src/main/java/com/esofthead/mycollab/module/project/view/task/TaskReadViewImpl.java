@@ -113,7 +113,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	public TaskReadViewImpl() {
 		super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
-				MyCollabResource.newResource("icons/24/project/task.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_task));
 	}
 
 	@Override

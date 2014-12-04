@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.BlockWidget;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -140,7 +141,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
 				});
 		updateBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		updateBtn.setIcon(MyCollabResource
-				.newResource("icons/16/crm/refresh.png"));
+				.newResource(WebResourceIds._16_crm_refresh));
 		body.addComponent(updateBtn);
 		body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 

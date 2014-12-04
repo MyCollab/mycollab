@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
@@ -57,7 +58,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/24/project/phase.png");
+		return MyCollabResource.newResource(WebResourceIds._24_project_phase);
 	}
 
 	@Override

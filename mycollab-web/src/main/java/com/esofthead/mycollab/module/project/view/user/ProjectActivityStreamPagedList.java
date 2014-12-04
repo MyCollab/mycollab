@@ -35,12 +35,14 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -111,6 +113,16 @@ public class ProjectActivityStreamPagedList
 		try {
 
 			for (final ProjectActivityStream activityStream : currentListData) {
+				if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+					ProjectPageService pageService = ApplicationContextUtil
+							.getSpringBean(ProjectPageService.class);
+					Page page = pageService.getPage(activityStream.getTypeid(),
+							AppContext.getUsername());
+					if (page != null) {
+						activityStream.setNamefield(page.getSubject());
+					}
+				}
+
 				final Date itemCreatedDate = activityStream.getCreatedtime();
 
 				if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
@@ -153,7 +165,8 @@ public class ProjectActivityStreamPagedList
 					if (activityStream.getAssoAuditLog() != null) {
 						content.append("<p><ul><li>\"")
 								.append(activityStream.getAssoAuditLog()
-										.getChangeset()).append("\"</li></ul></p>");
+										.getChangeset())
+								.append("\"</li></ul></p>");
 					}
 
 				}

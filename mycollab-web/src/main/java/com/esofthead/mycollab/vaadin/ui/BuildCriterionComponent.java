@@ -190,7 +190,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 		filterBox.addComponent(saveBtn);
 
 		Button cancelBtn = new Button(
@@ -810,7 +810,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 							Button updateBtn = new Button("Update");
 							updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 							updateBtn.setIcon(MyCollabResource
-									.newResource("icons/16/crm/refresh.png"));
+									.newResource(WebResourceIds._16_crm_refresh));
 							updateBtn
 									.addClickListener(new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
@@ -861,7 +861,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 									});
 							deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 							deleteBtn.setIcon(MyCollabResource
-									.newResource("icons/16/delete2.png"));
+									.newResource(WebResourceIds._16_delete2));
 
 							filterBox.addComponent(deleteBtn, 1);
 							filterBox.addComponent(updateBtn, 1);

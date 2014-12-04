@@ -59,6 +59,7 @@ public class GanttChartViewImpl extends AbstractPageView implements
 	private TreeTable taskTree;
 	private Gantt gantt;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void displayGanttChart() {
 		this.removeAllComponents();

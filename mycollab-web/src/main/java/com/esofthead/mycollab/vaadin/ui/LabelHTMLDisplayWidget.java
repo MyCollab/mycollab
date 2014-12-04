@@ -38,10 +38,10 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 
 	private static String pathIconPlus = String.format(
 			"<img class='plus-btn' src=\"%s\">",
-			MyCollabResource.newResourceLink("icons/16/plus.png"));
+			MyCollabResource.newResourceLink(WebResourceIds._16_plus));
 	private String pathIconMinus = String.format(
 			"<img class='plus-btn' src=\"%s\">",
-			MyCollabResource.newResourceLink("icons/16/minus.png"));
+			MyCollabResource.newResourceLink(WebResourceIds._16_minus));
 	private static int NUM_CUT = 100;
 
 	public LabelHTMLDisplayWidget(String content) {

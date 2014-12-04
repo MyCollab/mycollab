@@ -111,7 +111,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 		});
 
 		clearBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/clearItem.png"));
+				MyCollabResource.newResource(WebResourceIds._16_clearItem));
 		clearBtn.addClickListener(new MouseEvents.ClickListener() {
 
 			@Override

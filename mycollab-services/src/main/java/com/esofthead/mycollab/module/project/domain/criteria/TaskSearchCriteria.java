@@ -76,12 +76,21 @@ public class TaskSearchCriteria extends SearchCriteria {
 
 	private NumberSearchField projectid;
 	private NumberSearchField taskListId;
+	private NumberSearchField parentTaskId;
 	private StringSearchField taskName;
 	private NumberSearchField milestoneId;
 	private NumberSearchField id;
 	private StringSearchField assignUser;
 	private SetSearchField<String> statuses;
 	private SetSearchField<String> priorities;
+
+	public NumberSearchField getParentTaskId() {
+		return parentTaskId;
+	}
+
+	public void setParentTaskId(NumberSearchField parentTaskId) {
+		this.parentTaskId = parentTaskId;
+	}
 
 	public StringSearchField getTaskName() {
 		return taskName;

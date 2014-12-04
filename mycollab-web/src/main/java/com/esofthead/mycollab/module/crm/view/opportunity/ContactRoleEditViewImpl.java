@@ -135,7 +135,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 				updateContactRoles();
 			}
 		});
-		updateBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+		updateBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		buttonWrapper.addComponent(updateBtn);
 
@@ -355,7 +355,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 				}
 			});
 			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/16/delete.png"));
+					.newResource(WebResourceIds._16_delete));
 			deleteBtn.setStyleName("link");
 			this.addComponent(deleteBtn);
 			this.setExpandRatio(deleteBtn, 1.0f);

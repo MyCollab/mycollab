@@ -41,6 +41,7 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -139,7 +140,7 @@ class TaskAddPopup extends CustomComponent {
 						}
 					}
 				});
-		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(saveBtn);
 		controlsLayout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);

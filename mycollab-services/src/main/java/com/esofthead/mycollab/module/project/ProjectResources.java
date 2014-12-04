@@ -81,6 +81,8 @@ public class ProjectResources {
 				.newResourceLink("icons/16/project/component.png"));
 		resourceLinks.put(ProjectTypeConstants.BUG_VERSION,
 				MyCollabAssets.newResourceLink("icons/16/project/version.png"));
+		resourceLinks.put(ProjectTypeConstants.PAGE,
+				MyCollabAssets.newResourceLink("icons/16/project/page.png"));
 		resourceLinks.put(ProjectTypeConstants.STANDUP,
 				MyCollabAssets.newResourceLink("icons/16/project/standup.png"));
 	}

@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.addon.touchkit.settings.ApplicationCacheSettings;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -170,7 +171,7 @@ public class CommentInput extends VerticalLayout {
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
+		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_post));
 		controlsLayout.addComponent(saveBtn);
 
 		VerticalLayout editBox = new VerticalLayout();

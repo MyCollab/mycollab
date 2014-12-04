@@ -165,7 +165,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 						}
 					});
 			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/16/delete2.png"));
+					.newResource(WebResourceIds._16_delete2));
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 			layout.addComponent(deleteBtn);
 			deleteBtn.setEnabled(canAccess);
@@ -202,7 +202,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 						}
 					});
 			historyBtn.setIcon(MyCollabResource
-					.newResource("icons/16/history.png"));
+					.newResource(WebResourceIds._16_history));
 			historyBtn.setStyleName("link");
 			popupButtonsControl.addComponent(historyBtn);
 		}

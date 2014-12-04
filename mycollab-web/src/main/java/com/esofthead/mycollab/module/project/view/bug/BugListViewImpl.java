@@ -45,6 +45,7 @@ import com.esofthead.mycollab.vaadin.resources.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resources.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -140,7 +141,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/option_white.png"));
+				.newResource(WebResourceIds._16_option_white));
 		customizeViewBtn.setDescription("Layout Options");
 		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonControls.addComponent(customizeViewBtn);
@@ -148,7 +149,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
-				.newResource("icons/16/export.png"));
+				.newResource(WebResourceIds._16_export));
 		exportButtonControl.setDescription(AppContext
 				.getMessage(FileI18nEnum.EXPORT_FILE));
 

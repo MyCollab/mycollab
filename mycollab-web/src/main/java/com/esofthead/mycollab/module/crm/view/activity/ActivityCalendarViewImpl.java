@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.StyleCalendarExp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -871,7 +872,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 								}
 							});
 					saveBtn.setIcon(MyCollabResource
-							.newResource("icons/16/save.png"));
+							.newResource(WebResourceIds._16_save));
 					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 					layout.addComponent(saveBtn);
 					layout.setComponentAlignment(saveBtn,

@@ -114,7 +114,7 @@ public class ProjectRoleSearchPanel extends
 					});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search.png"));
+					.newResource(WebResourceIds._16_search));
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button(

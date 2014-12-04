@@ -100,7 +100,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 			+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
 			+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
 
-	private static final Logger LOG = LoggerFactory.getLogger(PageReadViewImpl.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(PageReadViewImpl.class);
 
 	private CommentDisplay commentListComp;
 
@@ -162,7 +163,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected void onPreviewItem() {
-		commentListComp.loadComments(beanItem.getId());
+		commentListComp.loadComments(beanItem.getPath());
 		pageInfoComp.displayEntryInfo();
 		pageVersionsSelection.displayVersions(beanItem.getPath());
 	}
@@ -205,7 +206,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 		exportPdfBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
-				MyCollabResource.newResource("icons/16/export.png"));
+				MyCollabResource.newResource(WebResourceIds._16_export));
 		exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		FileDownloader fileDownloader = new FileDownloader(getPDFStream());

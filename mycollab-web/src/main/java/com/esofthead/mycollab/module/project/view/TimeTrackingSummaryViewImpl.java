@@ -392,7 +392,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			exportButtonControl.setWidthUndefined();
 			exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 			exportButtonControl.setIcon(MyCollabResource
-					.newResource("icons/16/export.png"));
+					.newResource(WebResourceIds._16_export));
 
 			VerticalLayout popupButtonsControl = new VerticalLayout();
 			exportButtonControl.setContent(popupButtonsControl);

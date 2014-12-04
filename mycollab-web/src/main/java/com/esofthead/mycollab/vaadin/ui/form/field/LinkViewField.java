@@ -18,7 +18,7 @@ package com.esofthead.mycollab.vaadin.ui.form.field;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;

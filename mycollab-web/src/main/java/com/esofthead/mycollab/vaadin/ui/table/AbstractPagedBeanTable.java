@@ -109,6 +109,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		this(type, null, requiredColumn, displayColumns);
 	}
 
+	@SuppressWarnings("unchecked")
 	public AbstractPagedBeanTable(Class<B> type, String viewId,
 			TableViewField requiredColumn, List<TableViewField> displayColumns) {
 		if (viewId != null) {

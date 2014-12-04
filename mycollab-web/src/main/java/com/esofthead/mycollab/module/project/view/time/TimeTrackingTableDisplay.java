@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
@@ -35,6 +34,7 @@ import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
@@ -229,10 +229,10 @@ public class TimeTrackingTableDisplay
 				Button icon = new Button();
 				if (timeLogging.getIsbillable().booleanValue()) {
 					icon.setIcon(MyCollabResource
-							.newResource("icons/16/yes.png"));
+							.newResource(WebResourceIds._16_yes));
 				} else {
 					icon.setIcon(MyCollabResource
-							.newResource("icons/16/no.png"));
+							.newResource(WebResourceIds._16_no));
 				}
 				icon.setStyleName("link");
 				return icon;
@@ -293,7 +293,7 @@ public class TimeTrackingTableDisplay
 				});
 				deleteBtn.setStyleName("link");
 				deleteBtn.setIcon(MyCollabResource
-						.newResource("icons/16/delete.png"));
+						.newResource(WebResourceIds._16_delete));
 				layout.addComponent(deleteBtn);
 				return layout;
 			}

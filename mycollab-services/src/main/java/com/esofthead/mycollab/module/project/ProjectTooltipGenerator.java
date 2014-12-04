@@ -36,6 +36,7 @@ import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
@@ -827,6 +828,34 @@ public class ProjectTooltipGenerator {
 			div.appendChild(table);
 
 			return div.write();
+
+		} catch (Exception e) {
+			LOG.error(
+					"Error while generate tooltip for servlet project tooltip",
+					e);
+			return null;
+		}
+	}
+
+	public static String generateToolTipPage(Locale locale, Page page,
+			String siteURL, TimeZone timeZone) {
+		if (page == null)
+			return generateTolltipNull(locale);
+
+		try {
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(page.getSubject());
+
+			Tr trRow2 = new Tr();
+			Td cell21 = new Td()
+					.setStyle(
+							"vertical-align: top; text-align: left;word-wrap: break-word; white-space: normal;vertical-align: top;")
+					.appendText(StringUtils.trim(page.getContent(), 500, true));
+
+			trRow2.appendChild(cell21);
+			tooltipManager.appendRow(trRow2);
+
+			return tooltipManager.create().write();
 
 		} catch (Exception e) {
 			LOG.error(

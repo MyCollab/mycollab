@@ -106,7 +106,7 @@ public class MilestoneReadViewImpl extends
 
 	public MilestoneReadViewImpl() {
 		super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE),
-				MyCollabResource.newResource("icons/24/project/phase.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_phase));
 	}
 
 	@Override

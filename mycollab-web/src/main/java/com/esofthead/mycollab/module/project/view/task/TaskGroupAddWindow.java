@@ -41,6 +41,7 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -160,7 +161,7 @@ public class TaskGroupAddWindow extends Window {
 						});
 				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				saveBtn.setIcon(MyCollabResource
-						.newResource("icons/16/save.png"));
+						.newResource(WebResourceIds._16_save));
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
@@ -182,7 +183,7 @@ public class TaskGroupAddWindow extends Window {
 						});
 				saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				saveAndNewBtn.setIcon(MyCollabResource
-						.newResource("icons/16/save_new.png"));
+						.newResource(WebResourceIds._16_save_new));
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(

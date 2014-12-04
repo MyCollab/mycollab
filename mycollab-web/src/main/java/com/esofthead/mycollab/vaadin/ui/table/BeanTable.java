@@ -63,6 +63,7 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		this.setStyleName("list-view");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setSearchCriteria(S searchCriteria) {
 		List itemsCol = searchService
 				.findPagableListByCriteria(new SearchRequest<S>(searchCriteria,

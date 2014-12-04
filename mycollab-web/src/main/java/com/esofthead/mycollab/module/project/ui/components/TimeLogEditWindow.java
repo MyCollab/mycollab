@@ -174,10 +174,10 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 				Button icon = new Button();
 				if (monitorItem.getIsbillable().booleanValue()) {
 					icon.setIcon(MyCollabResource
-							.newResource("icons/16/yes.png"));
+							.newResource(WebResourceIds._16_yes));
 				} else {
 					icon.setIcon(MyCollabResource
-							.newResource("icons/16/no.png"));
+							.newResource(WebResourceIds._16_no));
 				}
 				icon.setStyleName("link");
 				return icon;
@@ -208,7 +208,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 						});
 				deleteBtn.setStyleName("link");
 				deleteBtn.setIcon(MyCollabResource
-						.newResource("icons/16/delete.png"));
+						.newResource(WebResourceIds._16_delete));
 				itemTimeLogging.setExtraData(deleteBtn);
 
 				deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()

@@ -102,7 +102,7 @@ public class PreviewFormControlsGenerator<B> {
 						previewForm.fireDeleteForm(item);
 					}
 				});
-		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
+		deleteBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_delete2));
 		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);

@@ -145,7 +145,7 @@ public class AccountListViewImpl extends
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/customize.png"));
+				.newResource(WebResourceIds._16_customize));
 		customizeViewBtn.setDescription("Layout Options");
 		customizeViewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		this.addExtraComponent(customizeViewBtn);
@@ -160,7 +160,7 @@ public class AccountListViewImpl extends
 			}
 		});
 		importBtn.setDescription("Import");
-		importBtn.setIcon(MyCollabResource.newResource("icons/16/import.png"));
+		importBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_import));
 		importBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 		importBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));

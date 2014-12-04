@@ -261,7 +261,7 @@ public class ProjectLinkGenerator {
 				+ GenericLinkUtils
 						.encodeParam(new Object[] { projectId, roleId });
 	}
-
+	
 	public static String generateStandUpPreviewLink(Integer projectId,
 			Integer reportId) {
 		return "project/standup/list/"

@@ -263,6 +263,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 	public static class ItemSelectionComp<T> extends CheckBox {
 		private static final long serialVersionUID = 1L;
 
+		@SuppressWarnings("unused")
 		private T item;
 
 		public ItemSelectionComp(T item, String caption) {

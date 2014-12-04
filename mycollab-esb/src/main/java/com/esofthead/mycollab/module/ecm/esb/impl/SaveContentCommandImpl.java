@@ -55,6 +55,9 @@ public class SaveContentCommandImpl implements SaveContentCommand {
 			Integer sAccountId) {
 		LOG.debug("Save content {} by {}", BeanUtility.printBeanObj(content),
 				createdUser);
+		if (sAccountId == null) {
+			return;
+		}
 
 		Lock lock = DistributionLockUtil.getLock("ecm-" + sAccountId);
 		long totalSize = content.getSize();

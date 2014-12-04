@@ -172,7 +172,7 @@ public class AccountCaseListComp extends
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
 			Image caseIcon = new Image(null,
-					MyCollabResource.newResource("icons/48/crm/case.png"));
+					MyCollabResource.newResource(WebResourceIds._48_crm_case));
 			iconWrap.addComponent(caseIcon);
 			blockTop.addComponent(iconWrap);
 

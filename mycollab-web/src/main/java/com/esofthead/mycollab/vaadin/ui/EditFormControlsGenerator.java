@@ -68,7 +68,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 							}
 						}
 					});
-			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveBtn);
 			layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
@@ -90,7 +90,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 						}
 					});
 			saveAndNewBtn.setIcon(MyCollabResource
-					.newResource("icons/16/save_new.png"));
+					.newResource(WebResourceIds._16_save_new));
 			saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveAndNewBtn);
 			layout.setComponentAlignment(saveAndNewBtn, Alignment.MIDDLE_CENTER);

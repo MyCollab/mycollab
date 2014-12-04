@@ -83,7 +83,6 @@ public class DeleteResourcesCommandImpl implements DeleteResourcesCommand {
 
 				driveInfoService.saveOrUpdateDriveInfo(driveInfo);
 			}
-
 		} catch (Exception e) {
 			LOG.error("Error while delete content " + paths, e);
 		} finally {

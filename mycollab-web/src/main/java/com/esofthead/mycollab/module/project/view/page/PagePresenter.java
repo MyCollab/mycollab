@@ -42,6 +42,7 @@ public class PagePresenter extends AbstractPresenter<PageContainer> {
 		super.go(container, data, false);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;

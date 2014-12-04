@@ -105,6 +105,7 @@ public final class WebResourceIds {
   public static final String _16_delete2 = "icons/16/delete2.png";
   public static final String _16_document = "icons/16/document.png";
   public static final String _16_document_gray = "icons/16/document_gray.png";
+  public static final String _16_download_white = "icons/16/download-white.png";
   public static final String _16_download = "icons/16/download.png";
   public static final String _16_duplicate = "icons/16/duplicate.png";
   public static final String _16_ecm_add = "icons/16/ecm/add.png";
@@ -248,6 +249,7 @@ public final class WebResourceIds {
   public static final String _16_severity_trivial = "icons/16/severity_trivial.png";
   public static final String _16_statistic = "icons/16/statistic.png";
   public static final String _16_switch_view = "icons/16/switch-view.png";
+  public static final String _16_trash_white = "icons/16/trash-white.png";
   public static final String _16_trash = "icons/16/trash.png";
   public static final String _16_upload = "icons/16/upload.png";
   public static final String _16_view = "icons/16/view.png";
@@ -425,6 +427,7 @@ public final class WebResourceIds {
   public static final String _default_user_avatar_32 = "icons/default_user_avatar_32.png";
   public static final String _default_user_avatar_48 = "icons/default_user_avatar_48.png";
   public static final String _default_user_avatar_64 = "icons/default_user_avatar_64.png";
+  public static final String _docs_256 = "icons/docs-256.png";
   public static final String _lazy_load_icon = "icons/lazy-load-icon.gif";
   public static final String _logo = "icons/logo.png";
   public static final String _not_present = "icons/not_present.png";

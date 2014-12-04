@@ -59,6 +59,7 @@ public class TaskGroupReorderPresenter extends
 						new ApplicationEventListener<TaskListEvent.SaveReoderTaskList>() {
 							private static final long serialVersionUID = 1L;
 
+							@SuppressWarnings("unchecked")
 							@Subscribe
 							@Override
 							public void handle(SaveReoderTaskList event) {

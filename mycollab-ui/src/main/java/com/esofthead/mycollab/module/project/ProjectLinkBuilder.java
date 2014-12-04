@@ -257,6 +257,9 @@ public class ProjectLinkBuilder {
 			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
 				result = ProjectLinkGenerator.generateStandUpPreviewLink(
 						projectId, Integer.parseInt(typeid));
+			} else if (ProjectTypeConstants.PAGE.equals(type)) {
+				result = ProjectLinkGenerator.generatePageRead(projectId,
+						typeid);
 			}
 		} catch (Exception e) {
 			LOG.error("Error while generate link {} {} {} {}", new Object[] {

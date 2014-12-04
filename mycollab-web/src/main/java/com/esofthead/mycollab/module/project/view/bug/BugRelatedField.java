@@ -24,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -42,6 +41,7 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.RelatedBugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
@@ -160,7 +160,7 @@ public class BugRelatedField extends CustomComponent {
 				setItemFieldValue("");
 			}
 		});
-		clearBtn.setIcon(MyCollabResource.newResource("icons/16/clearItem.png"));
+		clearBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clearItem));
 		clearBtn.setStyleName("link");
 
 		layoutAdd.addComponent(clearBtn);
@@ -376,7 +376,7 @@ public class BugRelatedField extends CustomComponent {
 				});
 				deleteBtn.setStyleName("link");
 				deleteBtn.setIcon(MyCollabResource
-						.newResource("icons/16/delete.png"));
+						.newResource(WebResourceIds._16_delete));
 				relatedItem.setExtraData(deleteBtn);
 
 				ProjectMemberService memberService = ApplicationContextUtil

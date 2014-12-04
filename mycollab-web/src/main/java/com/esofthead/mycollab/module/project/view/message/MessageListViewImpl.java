@@ -448,7 +448,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search.png"));
+					.newResource(WebResourceIds._16_search));
 			basicSearchBody.addComponent(searchBtn);
 
 			this.setCompositionRoot(basicSearchBody);
@@ -584,7 +584,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 						}
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 			controls.addComponent(saveBtn);
 			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
@@ -56,7 +57,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	private CrmFollowersComp<SimpleMeeting> followersComp;
 
 	public MeetingReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/meeting.png"));
+		super(MyCollabResource.newResource(WebResourceIds._22_crm_meeting));
 	}
 
 	@Override

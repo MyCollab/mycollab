@@ -109,7 +109,7 @@ public class CampaignLeadListComp extends
 						controlsBtn.setPopupVisible(false);
 					}
 				});
-		selectBtn.setIcon(MyCollabResource.newResource("icons/16/select.png"));
+		selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
 		selectBtn.setStyleName("link");
 		VerticalLayout buttonControlLayout = new VerticalLayout();
 		buttonControlLayout.addComponent(selectBtn);

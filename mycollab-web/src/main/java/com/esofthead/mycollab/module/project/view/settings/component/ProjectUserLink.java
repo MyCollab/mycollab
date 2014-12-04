@@ -20,8 +20,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
 /**

@@ -46,4 +46,6 @@ public class ProjectTypeConstants {
 	public static final String BUG_VERSION = "Project-Version";
 
 	public static final String STANDUP = "Project-StandUp";
+	
+	public static final String PAGE = "Project-Page";
 }

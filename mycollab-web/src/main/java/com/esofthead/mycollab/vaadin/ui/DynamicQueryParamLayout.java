@@ -86,7 +86,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 				});
 		UiUtils.addComponent(buttonControls, searchBtn, Alignment.MIDDLE_CENTER);
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
 
 		final Button clearBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),

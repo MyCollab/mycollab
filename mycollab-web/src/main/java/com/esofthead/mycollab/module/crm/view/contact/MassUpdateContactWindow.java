@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -43,7 +44,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 
 	public MassUpdateContactWindow(final String title,
 			final ContactListPresenter presenter) {
-		super(title, MyCollabResource.newResource("icons/18/crm/contact.png"),
+		super(title, MyCollabResource.newResource(WebResourceIds._18_crm_contact),
 				new Contact(), presenter);
 	}
 

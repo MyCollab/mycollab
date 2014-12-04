@@ -47,6 +47,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -175,7 +176,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 		newAccountBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/account.png"));
+				.newResource(WebResourceIds._18_crm_account));
 		addBtnLayout.addComponent(newAccountBtn);
 
 		final ButtonLink newContactBtn = new ButtonLink(
@@ -184,7 +185,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newContactBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
 		newContactBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/contact.png"));
+				.newResource(WebResourceIds._18_crm_contact));
 		addBtnLayout.addComponent(newContactBtn);
 
 		final ButtonLink newCampaignBtn = new ButtonLink(
@@ -230,7 +231,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newTaskBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
 		newTaskBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/task.png"));
+				.newResource(WebResourceIds._18_crm_task));
 		addBtnLayout.addComponent(newTaskBtn);
 
 		final ButtonLink newCallBtn = new ButtonLink(
