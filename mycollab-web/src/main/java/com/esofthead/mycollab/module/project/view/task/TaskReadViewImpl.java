@@ -75,7 +75,9 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
@@ -310,39 +312,39 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 
-			if (propertyId.equals("assignuser")) {
+			if (Task.Field.assignuser.equalTo(propertyId)) {
 				return new ProjectUserFormLinkField(beanItem.getAssignuser(),
 						beanItem.getAssignUserAvatarId(),
 						beanItem.getAssignUserFullName());
 			} else if (propertyId.equals("taskListName")) {
 				return new DefaultViewField(beanItem.getTaskListName());
-			} else if (propertyId.equals("startdate")) {
+			} else if (Task.Field.startdate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getStartdate()));
-			} else if (propertyId.equals("enddate")) {
+			} else if (Task.Field.enddate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getEnddate()));
-			} else if (propertyId.equals("actualstartdate")) {
+			} else if (Task.Field.actualstartdate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getActualstartdate()));
 			} else if (propertyId.equals("actualenddate")) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getActualenddate()));
-			} else if (propertyId.equals("deadline")) {
+			} else if (Task.Field.deadline.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getDeadline()));
-			} else if (propertyId.equals("tasklistid")) {
+			} else if (Task.Field.tasklistid.equalTo(propertyId)) {
 				return new LinkViewField(beanItem.getTaskListName(),
 						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
 								beanItem.getProjectid(),
 								beanItem.getTasklistid()),
 						MyCollabResource
 								.newResourceLink("icons/16/crm/task_group.png"));
-			} else if (propertyId.equals("id")) {
+			} else if (Task.Field.id.equalTo(propertyId)) {
 				return new ProjectFormAttachmentDisplayField(
 						beanItem.getProjectid(),
 						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
-			} else if (propertyId.equals("priority")) {
+			} else if (Task.Field.priority.equalTo(propertyId)) {
 				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
@@ -362,11 +364,49 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
 					return containerField;
 				}
-			} else if (propertyId.equals("notes")) {
+			} else if (Task.Field.notes.equalTo(propertyId)) {
 				return new RichTextViewField(beanItem.getNotes());
+			} else if (Task.Field.parenttaskid.equalTo(propertyId)) {
+				return new SubTasksComp();
 			}
 			return null;
 		}
+	}
+
+	class SubTasksComp extends CustomField {
+		private static final long serialVersionUID = 1L;
+
+		private VerticalLayout tasksLayout;
+
+		SubTasksComp() {
+			tasksLayout = new VerticalLayout();
+		}
+
+		@Override
+		protected Component initContent() {
+			HorizontalLayout contentLayout = new HorizontalLayout();
+			contentLayout.addComponent(tasksLayout);
+			contentLayout.setExpandRatio(tasksLayout, 1.0f);
+
+			Button addNewTaskBtn = new Button("Add",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+			contentLayout.addComponent(addNewTaskBtn);
+			return contentLayout;
+		}
+
+		@Override
+		public Class getType() {
+			return Object.class;
+		}
+
 	}
 
 	class PeopleInfoComp extends VerticalLayout {

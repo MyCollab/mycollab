@@ -89,7 +89,6 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-
 		final Layout controlButtons = (new EditFormControlsGenerator<Task>(
 				editForm)).createButtonControls(true, true, true);
 		controlButtons.setSizeUndefined();
@@ -105,7 +104,8 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(ProjectTypeConstants.TASK,
-				TaskDefaultFormLayoutFactory.getForm());
+				TaskDefaultFormLayoutFactory.getForm(),
+				Task.Field.parenttaskid.name());
 	}
 
 	@Override

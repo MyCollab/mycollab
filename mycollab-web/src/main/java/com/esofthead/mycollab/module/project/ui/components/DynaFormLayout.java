@@ -16,8 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,14 +58,14 @@ public class DynaFormLayout implements IFormLayoutFactory {
 	private Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
 	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
-	private String excludeField;
+	private Set<String> excludeFields;
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-		this(moduleName, defaultForm, null);
+		this(moduleName, defaultForm, new String[0]);
 	}
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm,
-			String excludeField) {
+			String... excludeField) {
 		// MasterFormService formService = ApplicationContextUtil
 		// .getSpringBean(MasterFormService.class);
 		// DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
@@ -69,7 +73,9 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		//
 		// this.dynaForm = (form != null) ? form : defaultForm;
 		this.dynaForm = defaultForm;
-		this.excludeField = excludeField;
+		if (excludeField.length > 0) {
+			this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
+		}
 
 		LOG.debug("Fill fields of originSection to map field");
 
@@ -121,7 +127,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 				for (int j = 0; j < section.getFieldCount(); j++) {
 					AbstractDynaField dynaField = section.getField(j);
-					if (!dynaField.getFieldName().equals(excludeField)) {
+					if (!excludeFields.contains(dynaField.getFieldName())) {
 						gridLayout.buildCell(dynaField.getDisplayName(), 0,
 								gridLayout.getRows() - 1, 2, "100%",
 								Alignment.TOP_LEFT);
@@ -136,7 +142,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 				int columnIndex = 0;
 				for (int j = 0; j < section.getFieldCount(); j++) {
 					AbstractDynaField dynaField = section.getField(j);
-					if (!dynaField.getFieldName().equals(excludeField)) {
+					if (!excludeFields.contains(dynaField.getFieldName())) {
 						if (dynaField.isColSpan()) {
 							if (columnIndex > 0) {
 								gridLayout.appendRow();
