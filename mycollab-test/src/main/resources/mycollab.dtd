@@ -281,6 +281,7 @@
     lastUpdatedTime CDATA #IMPLIED
     billingCountry CDATA #IMPLIED
     shippingCountry CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_accounts_leads EMPTY>
@@ -336,6 +337,7 @@
     type CDATA #IMPLIED
     assignUser CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_campaigns_accounts EMPTY>
@@ -420,6 +422,7 @@
     otherCountry CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     accountId CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_contacts_cases EMPTY>
@@ -532,6 +535,7 @@
     industry CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     noEmployees CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_meeting EMPTY>
@@ -588,7 +592,6 @@
 <!ATTLIST m_crm_notifications
     id CDATA #REQUIRED
     username CDATA #REQUIRED
-    projectId CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
     level CDATA #REQUIRED
 >
@@ -623,6 +626,7 @@
     opportunityType CDATA #IMPLIED
     salesStage CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_product EMPTY>
@@ -897,7 +901,7 @@
 <!ELEMENT m_monitor_item EMPTY>
 <!ATTLIST m_monitor_item
     id CDATA #REQUIRED
-    user CDATA #REQUIRED
+    user CDATA #IMPLIED
     monitor_date CDATA #REQUIRED
     type CDATA #REQUIRED
     typeid CDATA #REQUIRED
@@ -931,6 +935,8 @@
     isAdmin CDATA #REQUIRED
     status CDATA #REQUIRED
     sAccountId CDATA #REQUIRED
+    billingRate CDATA #IMPLIED
+    overtimeBillingRate CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_message EMPTY>
@@ -1028,6 +1034,7 @@
     sAccountId CDATA #REQUIRED
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_risk EMPTY>
@@ -1113,6 +1120,7 @@
     taskkey CDATA #IMPLIED
     originalEstimate CDATA #IMPLIED
     remainEstimate CDATA #IMPLIED
+    parentTaskId CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_task_list EMPTY>
@@ -1336,7 +1344,6 @@
     module CDATA #IMPLIED
     nameField CDATA #IMPLIED
     extraTypeId CDATA #IMPLIED
-    createdUserDisplayName CDATA #IMPLIED
 >
 
 <!ELEMENT s_billing_plan EMPTY>
