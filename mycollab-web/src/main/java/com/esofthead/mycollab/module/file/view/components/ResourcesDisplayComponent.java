@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -69,7 +71,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -112,7 +113,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 	private ExternalResourceService externalResourceService;
 	private ExternalDriveService externalDriveService;
 
-	private HorizontalLayout controllGroupBtn;
+	private MHorizontalLayout controllGroupBtn;
 
 	private FileBreadcrumb fileBreadCrumb;
 	private ResourcesContainer resourcesContainer;
@@ -147,15 +148,15 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		mainBodyLayout.addComponent(breadcrumbContainer);
 
 		// Construct controllGroupBtn
-		controllGroupBtn = new HorizontalLayout();
-		controllGroupBtn.setMargin(new MarginInfo(false, false, false, true));
-		controllGroupBtn.setSpacing(true);
-		controllGroupBtn.addStyleName(UIConstants.THEME_SMALL_PADDING);
+		controllGroupBtn = new MHorizontalLayout()
+				.withMargin(new MarginInfo(false, false, false, true))
+				.withSpacing(true)
+				.withStyleName(UIConstants.THEME_SMALL_PADDING);
 
 		final Button selectAllBtn = new Button();
 		selectAllBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		selectAllBtn.setIcon(MyCollabResource
-				.newResource("icons/16/checkbox_empty.png"));
+				.newResource(WebResourceIds._16_checkbox_empty));
 		selectAllBtn.setData(false);
 		selectAllBtn.setImmediate(true);
 		selectAllBtn.setDescription("Select all");
@@ -178,12 +179,12 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				}
 			}
 		});
-		UiUtils.addComponent(controllGroupBtn, selectAllBtn,
+		controllGroupBtn.with(selectAllBtn).withAlign(selectAllBtn,
 				Alignment.MIDDLE_LEFT);
 
 		Button goUpBtn = new Button("Up");
 		goUpBtn.setIcon(MyCollabResource
-				.newResource("icons/16/ecm/up_to_root.png"));
+				.newResource(WebResourceIds._16_ecm_up_to_root));
 
 		goUpBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -216,7 +217,9 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		goUpBtn.setDescription("Back to parent folder");
 		goUpBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
 		goUpBtn.setDescription("Go up");
-		UiUtils.addComponent(controllGroupBtn, goUpBtn, Alignment.MIDDLE_LEFT);
+
+		controllGroupBtn.with(goUpBtn)
+				.withAlign(goUpBtn, Alignment.MIDDLE_LEFT);
 
 		ButtonGroup navButton = new ButtonGroup();
 		navButton.addStyleName(UIConstants.THEME_BROWN_LINK);
@@ -756,23 +759,23 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		}
 
 		private void constructBody() {
-			final VerticalLayout layout = new VerticalLayout();
-			layout.setMargin(new MarginInfo(false, true, true, true));
-			final HorizontalLayout topRename = new HorizontalLayout();
-			topRename.setSpacing(true);
-			topRename.setMargin(true);
+			final MVerticalLayout layout = new MVerticalLayout()
+					.withMargin(new MarginInfo(false, true, true, true));
+
+			final MHorizontalLayout topRename = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			final Label label = new Label("Enter new name: ");
-			UiUtils.addComponent(topRename, label, Alignment.MIDDLE_CENTER);
 
 			final TextField newName = new TextField();
 			newName.setWidth("150px");
-			UiUtils.addComponent(topRename, newName, Alignment.MIDDLE_CENTER);
+			topRename.with(label, newName).alignAll(Alignment.MIDDLE_CENTER);
 
-			UiUtils.addComponent(layout, topRename, Alignment.MIDDLE_CENTER);
+			layout.with(topRename)
+					.withAlign(topRename, Alignment.MIDDLE_CENTER);
 
-			final HorizontalLayout controlButtons = new HorizontalLayout();
-			controlButtons.setSpacing(true);
+			final MHorizontalLayout controlButtons = new MHorizontalLayout()
+					.withSpacing(true);
 			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new ClickListener() {
@@ -805,9 +808,6 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 					});
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-			UiUtils.addComponent(controlButtons, saveBtn,
-					Alignment.MIDDLE_CENTER);
-
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new ClickListener() {
@@ -819,9 +819,9 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						}
 					});
 			cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-			UiUtils.addComponent(controlButtons, cancelBtn,
+			controlButtons.with(saveBtn, cancelBtn).alignAll(
 					Alignment.MIDDLE_CENTER);
-			UiUtils.addComponent(layout, controlButtons,
+			layout.with(controlButtons).withAlign(controlButtons,
 					Alignment.MIDDLE_CENTER);
 
 			this.setContent(layout);
@@ -904,7 +904,8 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						}
 					});
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+			saveBtn.setIcon(MyCollabResource
+					.newResource(WebResourceIds._16_save));
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(

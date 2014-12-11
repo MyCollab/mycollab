@@ -62,6 +62,7 @@ import com.vaadin.ui.UI;
  * @since 2.0
  * 
  */
+@SuppressWarnings("rawtypes")
 public class RelatedEditItemField extends CustomField<String> implements
 		FieldSelection {
 
@@ -88,6 +89,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 		browseBtn.addClickListener(new MouseEvents.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
 				String type = (String) relatedItemComboBox.getValue();

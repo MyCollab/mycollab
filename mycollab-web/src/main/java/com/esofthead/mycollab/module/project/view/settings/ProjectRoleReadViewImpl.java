@@ -17,13 +17,14 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -34,9 +35,13 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -47,21 +52,49 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleReadViewImpl extends
-		AbstractPreviewItemComp<SimpleProjectRole> implements
+public class ProjectRoleReadViewImpl extends VerticalLayout implements
 		ProjectRoleReadView {
 
 	private static final long serialVersionUID = 1L;
+
+	private SimpleProjectRole beanItem;
+	private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
+	private ReadViewLayout previewLayout;
+	private Label headerText;
+	private MHorizontalLayout header;
+	private Image titleIcon;
 
 	private VerticalLayout permissionsPanel;
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadViewImpl() {
-		super(AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE),
+		this.titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/user/group.png"));
+		this.headerText = new Label(
+				AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
+		this.headerText.setSizeUndefined();
+		this.addComponent(constructHeader());
+
+		previewForm = initPreviewForm();
+		ComponentContainer actionControls = createButtonControls();
+		if (actionControls != null) {
+			actionControls.addStyleName("control-buttons");
+		}
+
+		addHeaderRightContent(actionControls);
+
+		CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+
+		previewLayout = new ReadViewLayout("");
+
+		contentWrapper.addComponent(previewLayout);
+
+		previewLayout.addBody(previewForm);
+
+		this.addComponent(contentWrapper);
 	}
 
-	@Override
 	protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
 		return new AdvancedPreviewBeanForm<SimpleProjectRole>() {
 			private static final long serialVersionUID = 1L;
@@ -77,14 +110,12 @@ public class ProjectRoleReadViewImpl extends
 		};
 	}
 
-	@Override
 	protected ComponentContainer createButtonControls() {
 		return (new ProjectPreviewFormControlsGenerator<SimpleProjectRole>(
 				previewForm))
 				.createButtonControls(ProjectRolePermissionCollections.ROLES);
 	}
 
-	@Override
 	protected ComponentContainer createBottomPanel() {
 		permissionsPanel = new VerticalLayout();
 		final Label organizationHeader = new Label(
@@ -104,12 +135,6 @@ public class ProjectRoleReadViewImpl extends
 		return permissionsPanel;
 	}
 
-	@Override
-	protected void initRelatedComponents() {
-
-	}
-
-	@Override
 	protected void onPreviewItem() {
 		projectFormHelper.getLayout().removeAllComponents();
 
@@ -127,17 +152,14 @@ public class ProjectRoleReadViewImpl extends
 
 	}
 
-	@Override
 	protected String initFormTitle() {
 		return beanItem.getRolename();
 	}
 
-	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new ProjectRoleFormLayoutFactory();
 	}
 
-	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole> initBeanFormFieldFactory() {
 		return new AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole>(
 				previewForm) {
@@ -158,6 +180,67 @@ public class ProjectRoleReadViewImpl extends
 	@Override
 	public HasPreviewFormHandlers<SimpleProjectRole> getPreviewFormHandlers() {
 		return previewForm;
+	}
+
+	private void initLayout() {
+		ComponentContainer bottomPanel = createBottomPanel();
+		if (bottomPanel != null) {
+			previewLayout.addBottomControls(bottomPanel);
+		}
+	}
+
+	private ComponentContainer constructHeader() {
+		header = new MHorizontalLayout().withStyleName("hdr-view")
+				.withWidth("100%").withSpacing(true).withMargin(true);
+
+		this.headerText.setStyleName("hdr-text");
+
+		header.with(titleIcon, headerText).alignAll(Alignment.MIDDLE_LEFT)
+				.expand(headerText);
+
+		return header;
+	}
+
+	public void addHeaderRightContent(Component c) {
+		header.addComponent(c);
+	}
+
+	public void previewItem(final SimpleProjectRole item) {
+		this.beanItem = item;
+		initLayout();
+		previewLayout.setTitle(initFormTitle());
+
+		previewForm.setFormLayoutFactory(initFormLayoutFactory());
+		previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+		previewForm.setBean(item);
+
+		onPreviewItem();
+	}
+
+	public SimpleProjectRole getBeanItem() {
+		return beanItem;
+	}
+
+	public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
+		return previewForm;
+	}
+
+	protected void addLayoutStyleName(String styleName) {
+		previewLayout.addTitleStyleName(styleName);
+	}
+
+	protected void removeLayoutStyleName(String styleName) {
+		previewLayout.removeTitleStyleName(styleName);
+	}
+
+	@Override
+	public ComponentContainer getWidget() {
+		return this;
+	}
+
+	@Override
+	public void addViewListener(ViewListener listener) {
+
 	}
 
 }

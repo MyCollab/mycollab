@@ -77,6 +77,7 @@ public class ProjectRoleListPresenter
 						return "Roles";
 					}
 
+					@SuppressWarnings({ "unchecked", "rawtypes" })
 					@Override
 					protected Class getReportModelClassType() {
 						return SimpleProjectRole.class;

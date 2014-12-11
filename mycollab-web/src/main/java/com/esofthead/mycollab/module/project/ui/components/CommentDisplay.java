@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
@@ -26,7 +28,6 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -34,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-public class CommentDisplay extends VerticalLayout implements
+public class CommentDisplay extends MVerticalLayout implements
 		ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
@@ -50,9 +51,8 @@ public class CommentDisplay extends VerticalLayout implements
 			final boolean isDisplayCommentInput,
 			final boolean isSendingRelayEmail,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		setSpacing(true);
+		withStyleName("comment-display").withSpacing(true).withMargin(false);
 		this.type = type;
-		this.setStyleName("comment-display");
 		if (isDisplayCommentInput) {
 			commentBox = new ProjectCommentInput(this, type, extraTypeId,
 					false, isSendingRelayEmail, emailHandler);

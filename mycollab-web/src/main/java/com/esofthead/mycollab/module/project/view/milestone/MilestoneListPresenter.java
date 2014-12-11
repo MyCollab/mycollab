@@ -99,6 +99,7 @@ public class MilestoneListPresenter
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void doSearch(MilestoneSearchCriteria searchCriteria) {
 		List<SimpleMilestone> milestones = milestoneService

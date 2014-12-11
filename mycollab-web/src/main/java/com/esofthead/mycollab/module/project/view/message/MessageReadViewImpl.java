@@ -19,7 +19,10 @@ package com.esofthead.mycollab.module.project.view.message;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -53,7 +56,6 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -73,14 +75,13 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class MessageReadViewImpl extends AbstractPageView implements
 		MessageReadView {
 	private static final long serialVersionUID = 1L;
@@ -88,14 +89,16 @@ public class MessageReadViewImpl extends AbstractPageView implements
 	private final AdvancedPreviewBeanForm<SimpleMessage> previewForm;
 	private SimpleMessage message;
 	private CssLayout contentWrapper;
-	private HorizontalLayout header;
+	private MHorizontalLayout header;
 	private CommentDisplay commentDisplay;
 	private CheckBox stickyCheck;
 
 	public MessageReadViewImpl() {
 		super();
 
-		this.header = new HorizontalLayout();
+		this.header = new MHorizontalLayout().withStyleName("hdr-view")
+				.withWidth("100%").withSpacing(true).withMargin(true);
+
 		this.addComponent(header);
 		previewForm = new AdvancedPreviewBeanForm<SimpleMessage>();
 
@@ -140,10 +143,10 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
 		@Override
 		public ComponentContainer getLayout() {
-			VerticalLayout messageAddLayout = new VerticalLayout();
-			messageAddLayout.setSpacing(true);
-
 			header.removeAllComponents();
+
+			MVerticalLayout messageAddLayout = new MVerticalLayout()
+					.withSpacing(true).withMargin(false).withWidth("100%");
 
 			Label headerText = new Label(message.getTitle());
 			headerText.setStyleName("hdr-text");
@@ -194,8 +197,8 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-			HorizontalLayout isSticky = new HorizontalLayout();
-			isSticky.setSpacing(true);
+			MHorizontalLayout isSticky = new MHorizontalLayout()
+					.withSpacing(true);
 			Label isStickyText = new Label(
 					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 			isSticky.setStyleName("hdr-text");
@@ -224,33 +227,28 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			isSticky.addComponent(isStickyText);
 			isSticky.addComponent(stickyCheck);
 
-			UiUtils.addComponent(
-					header,
-					new Image(null, MyCollabResource
-							.newResource("icons/24/project/message.png")),
-					Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, isSticky, Alignment.MIDDLE_RIGHT);
-			UiUtils.addComponent(header, deleteBtn, Alignment.MIDDLE_RIGHT);
+			Image msgIcon = new Image(null,
+					MyCollabResource
+							.newResource(WebResourceIds._24_project_message));
 
-			header.setExpandRatio(headerText, 1.0f);
+			header.with(msgIcon, headerText, isSticky, deleteBtn)
+					.withAlign(msgIcon, Alignment.MIDDLE_LEFT)
+					.withAlign(headerText, Alignment.MIDDLE_LEFT)
+					.withAlign(isSticky, Alignment.MIDDLE_RIGHT)
+					.withAlign(deleteBtn, Alignment.MIDDLE_RIGHT)
+					.expand(headerText);
 
-			header.setStyleName("hdr-view");
-			header.setWidth("100%");
-			header.setSpacing(true);
-			header.setMargin(true);
+			MHorizontalLayout messageLayout = new MHorizontalLayout()
+					.withStyleName("message").withWidth("100%")
+					.withSpacing(true);
 
-			HorizontalLayout messageLayout = new HorizontalLayout();
-			messageLayout.setStyleName("message");
-			messageLayout.setWidth("100%");
-			messageLayout.setSpacing(true);
 			if (message.getIsstick() != null && message.getIsstick()) {
 				messageLayout.addStyleName("important-message");
 			}
-			VerticalLayout userBlock = new VerticalLayout();
+
+			MVerticalLayout userBlock = new MVerticalLayout().withWidth("80px")
+					.withSpacing(true).withMargin(false);
 			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-			userBlock.setWidth("80px");
-			userBlock.setSpacing(true);
 			ClickListener gotoUser = new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -282,10 +280,10 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			rowLayout.setStyleName("message-container");
 			rowLayout.setWidth("100%");
 
-			final HorizontalLayout messageHeader = new HorizontalLayout();
-			messageHeader.setStyleName("message-header");
-			messageHeader.setMargin(new MarginInfo(true, true, false, true));
-			messageHeader.setSpacing(true);
+			final MHorizontalLayout messageHeader = new MHorizontalLayout()
+					.withStyleName("message-header").withSpacing(true)
+					.withMargin(new MarginInfo(true, true, false, true))
+					.withWidth("100%");
 			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			final Label timePostLbl = new Label(AppContext.getMessage(
@@ -299,7 +297,6 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
 			messageHeader.addComponent(timePostLbl);
 			messageHeader.setExpandRatio(timePostLbl, 1.0f);
-			messageHeader.setWidth("100%");
 
 			rowLayout.addComponent(messageHeader);
 
@@ -318,7 +315,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 									message.getProjectid(),
 									AttachmentType.PROJECT_MESSAGE,
 									message.getId()));
-			if (attachments != null && !attachments.isEmpty()) {
+			if (CollectionUtils.isNotEmpty(attachments)) {
 				HorizontalLayout attachmentField = new HorizontalLayout();
 				Image attachmentIcon = new Image(null,
 						MyCollabResource.newResource("icons/16/attachment.png"));
@@ -333,13 +330,11 @@ public class MessageReadViewImpl extends AbstractPageView implements
 						.getAttachmentDisplayComponent(message.getProjectid(),
 								AttachmentType.PROJECT_MESSAGE, message.getId());
 
-				VerticalLayout messageFooter = new VerticalLayout();
-				messageFooter.setWidth("100%");
-				messageFooter.setStyleName("message-footer");
-				messageFooter.setMargin(true);
-				messageFooter.setSpacing(true);
-				messageFooter.addComponent(attachmentField);
-				messageFooter.addComponent(attachmentDisplayComp);
+				MVerticalLayout messageFooter = new MVerticalLayout()
+						.withWidth("100%").withStyleName("message-footer")
+						.withMargin(true).withSpacing(true)
+						.with(attachmentField, attachmentDisplayComp);
+
 				rowLayout.addComponent(messageFooter);
 			}
 
@@ -347,7 +342,6 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			messageLayout.setExpandRatio(rowLayout, 1.0f);
 
 			messageAddLayout.addComponent(messageLayout);
-			messageAddLayout.setWidth("100%");
 
 			if (commentDisplay != null
 					&& commentDisplay.getParent() == contentWrapper) {

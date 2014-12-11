@@ -18,8 +18,9 @@ package com.esofthead.mycollab.vaadin.mvp;
 
 import java.io.Serializable;
 
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -28,11 +29,11 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @SuppressWarnings("serial")
-public abstract class AbstractPageView extends VerticalLayout implements
+public abstract class AbstractPageView extends MVerticalLayout implements
 		PageView, Serializable {
 
 	public AbstractPageView() {
-		this.setStyleName("page-view");
+		this.withStyleName("page-view").withSpacing(false).withMargin(false);
 	}
 
 	@Override

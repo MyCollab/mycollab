@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -75,6 +74,8 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		this.dynaForm = defaultForm;
 		if (excludeField.length > 0) {
 			this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
+		} else {
+			this.excludeFields = new HashSet<String>();
 		}
 
 		LOG.debug("Fill fields of originSection to map field");

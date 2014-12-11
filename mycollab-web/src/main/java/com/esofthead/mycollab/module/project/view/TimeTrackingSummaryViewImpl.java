@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -212,7 +213,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			HorizontalLayout controlsPanel = new HorizontalLayout();
 			HorizontalLayout loggingPanel = new HorizontalLayout();
+
 			HorizontalLayout controlBtns = new HorizontalLayout();
+			controlBtns.setMargin(new MarginInfo(true, false, true, false));
 
 			final Embedded timeIcon = new Embedded();
 			timeIcon.setSource(MyCollabResource
@@ -253,7 +256,6 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			backBtn.setIcon(MyCollabResource
 					.newResource(WebResourceIds._16_back));
 
-			controlBtns.setMargin(new MarginInfo(true, false, true, false));
 			controlBtns.addComponent(backBtn);
 
 			VerticalLayout selectionLayoutWrapper = new VerticalLayout();
@@ -268,11 +270,12 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			selectionLayout.setMargin(true);
 			selectionLayoutWrapper.addComponent(selectionLayout);
 
-			VerticalLayout fromLbWrapper = new VerticalLayout();
-			fromLbWrapper.setWidth("50px");
+			MVerticalLayout fromLbWrapper = new MVerticalLayout()
+					.withWidth("50px");
+
 			Label fromLb = new Label("From:");
 			fromLb.setWidthUndefined();
-			UiUtils.addComponent(fromLbWrapper, fromLb, Alignment.TOP_RIGHT);
+			fromLbWrapper.with(fromLb).withAlign(fromLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(fromLbWrapper, 0, 0);
 
 			this.fromDateField = new PopupDateFieldExt();
@@ -281,11 +284,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			this.fromDateField.setWidth("100px");
 			selectionLayout.addComponent(this.fromDateField, 1, 0);
 
-			VerticalLayout toLbWrapper = new VerticalLayout();
-			toLbWrapper.setWidth("50px");
+			MVerticalLayout toLbWrapper = new MVerticalLayout()
+					.withWidth("50px");
 			Label toLb = new Label("To:");
 			toLb.setWidthUndefined();
-			UiUtils.addComponent(toLbWrapper, toLb, Alignment.TOP_RIGHT);
+			toLbWrapper.with(toLb).withAlign(toLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(toLbWrapper, 2, 0);
 
 			this.toDateField = new PopupDateFieldExt();
@@ -294,11 +297,12 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			this.toDateField.setWidth("100px");
 			selectionLayout.addComponent(this.toDateField, 3, 0);
 
-			VerticalLayout groupLbWrapper = new VerticalLayout();
-			groupLbWrapper.setWidth("50px");
+			MVerticalLayout groupLbWrapper = new MVerticalLayout()
+					.withWidth("50px");
 			Label groupLb = new Label("Group:");
 			groupLb.setWidthUndefined();
-			UiUtils.addComponent(groupLbWrapper, groupLb, Alignment.TOP_RIGHT);
+			groupLbWrapper.with(groupLb)
+					.withAlign(groupLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(groupLbWrapper, 0, 1);
 
 			this.groupField = new ValueComboBox(false, GROUPBY_PROJECT,
@@ -306,22 +310,22 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			this.groupField.setWidth("100px");
 			selectionLayout.addComponent(this.groupField, 1, 1);
 
-			VerticalLayout sortLbWrapper = new VerticalLayout();
-			sortLbWrapper.setWidth("50px");
+			MVerticalLayout sortLbWrapper = new MVerticalLayout()
+					.withWidth("50px");
 			Label sortLb = new Label("Sort:");
 			sortLb.setWidthUndefined();
-			UiUtils.addComponent(sortLbWrapper, sortLb, Alignment.TOP_RIGHT);
+			sortLbWrapper.with(sortLb).withAlign(sortLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(sortLbWrapper, 2, 1);
 
 			this.orderField = new ItemOrderComboBox();
 			this.orderField.setWidth("100px");
 			selectionLayout.addComponent(this.orderField, 3, 1);
 
-			VerticalLayout projectLbWrapper = new VerticalLayout();
-			projectLbWrapper.setWidth("70px");
+			MVerticalLayout projectLbWrapper = new MVerticalLayout()
+					.withWidth("70px");
 			Label projectLb = new Label("Project:");
 			projectLb.setWidthUndefined();
-			UiUtils.addComponent(projectLbWrapper, projectLb,
+			projectLbWrapper.with(projectLb).withAlign(projectLb,
 					Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(projectLbWrapper, 4, 0);
 
@@ -329,11 +333,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			initListSelectStyle(this.projectField);
 			selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
 
-			VerticalLayout userLbWrapper = new VerticalLayout();
-			userLbWrapper.setWidth("70px");
+			MVerticalLayout userLbWrapper = new MVerticalLayout()
+					.withWidth("70px");
 			Label userLb = new Label("User:");
 			userLb.setWidthUndefined();
-			UiUtils.addComponent(userLbWrapper, userLb, Alignment.TOP_RIGHT);
+			userLbWrapper.with(userLb).withAlign(userLb, Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(userLbWrapper, 6, 0);
 
 			this.userField = new UserInvolvedProjectsMemberListSelect(
@@ -358,9 +362,10 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					});
 			queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-			VerticalLayout queryBtnWrapper = new VerticalLayout();
-			queryBtnWrapper.setWidth("100px");
-			UiUtils.addComponent(queryBtnWrapper, queryBtn, Alignment.TOP_RIGHT);
+			MVerticalLayout queryBtnWrapper = new MVerticalLayout()
+					.withWidth("100px");
+			queryBtnWrapper.with(queryBtn).withAlign(queryBtn,
+					Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(queryBtnWrapper, 8, 0);
 
 			controlsPanel.setWidth("100%");

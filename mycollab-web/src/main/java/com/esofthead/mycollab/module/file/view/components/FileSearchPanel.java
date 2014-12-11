@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.EventListener;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
@@ -27,7 +29,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -96,21 +97,23 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
+
+			Label nameLbl = new Label("Name:");
+			basicSearchBody.with(nameLbl).withAlign(nameLbl,
 					Alignment.MIDDLE_LEFT);
+
 			this.addStyleName("file-list-view");
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -129,7 +132,7 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 							fillupSearchCriteria()));
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, searchBtn,
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
@@ -144,7 +147,7 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 				}
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			basicSearchBody.addComponent(cancelBtn);
+			basicSearchBody.with(cancelBtn);
 
 			return basicSearchBody;
 		}

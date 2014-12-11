@@ -29,6 +29,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -62,7 +63,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
@@ -124,21 +124,16 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected ComponentContainer constructHeader(String headerText) {
-		header = new HorizontalLayout();
+		header = new MHorizontalLayout();
 		pageVersionsSelection = new PageVersionSelectionBox();
 
 		Label headerLbl = new Label(headerText);
 		headerLbl.setWidthUndefined();
 		headerLbl.setStyleName(UIConstants.HEADER_TEXT);
-		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, pageVersionsSelection,
-				Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(pageVersionsSelection, 1.0f);
 
-		header.setStyleName("hdr-view");
-		header.setWidth("100%");
-		header.setSpacing(true);
-		header.setMargin(true);
+		header.withWidth("100%").withStyleName("hdr-view").withSpacing(true)
+				.withMargin(true).with(headerLbl, pageVersionsSelection)
+				.alignAll(Alignment.MIDDLE_LEFT).expand(pageVersionsSelection);
 
 		return header;
 	}

@@ -24,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
@@ -66,11 +68,9 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -79,17 +79,17 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class BuildCriterionComponent<S extends SearchCriteria> extends
-		VerticalLayout {
+		MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private Param[] paramFields;
 	private String searchCategory;
 	private Class<S> type;
 
-	private HorizontalLayout filterBox;
+	private MHorizontalLayout filterBox;
 	private SavedSearchResultComboBox filterComboBox;
-	private VerticalLayout searchContainer;
-	private HorizontalLayout controlsBtn;
+	private MVerticalLayout searchContainer;
+	private MHorizontalLayout controlsBtn;
 
 	public BuildCriterionComponent(Param[] paramFields, Class<S> type,
 			String searchCategory) {
@@ -98,28 +98,25 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		this.type = type;
 		this.searchCategory = searchCategory;
 
-		HorizontalLayout headerBox = new HorizontalLayout();
-		headerBox.setSpacing(true);
-		headerBox.setMargin(new MarginInfo(true, false, true, true));
+		MHorizontalLayout headerBox = new MHorizontalLayout().withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, true));
 		headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-		UiUtils.addComponent(headerBox, new Label("&nbsp; Saved Filter: ",
-				ContentMode.HTML), Alignment.MIDDLE_LEFT);
-
-		filterBox = new HorizontalLayout();
-		filterBox.setSpacing(true);
-		UiUtils.addComponent(headerBox, filterBox, Alignment.MIDDLE_LEFT);
 		this.addComponent(headerBox);
+
+		Label filterLbl = new Label("&nbsp; Saved Filter: ", ContentMode.HTML);
+		headerBox.with(filterLbl).withAlign(filterLbl, Alignment.MIDDLE_LEFT);
+
+		filterBox = new MHorizontalLayout().withSpacing(true);
+		headerBox.with(filterBox).withAlign(filterBox, Alignment.MIDDLE_LEFT);
+
 		buildFilterBox(null);
 
-		this.searchContainer = new VerticalLayout();
-		this.searchContainer.setSpacing(true);
+		this.searchContainer = new MVerticalLayout().withSpacing(true).withMargin(false);
 		this.searchContainer
 				.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		controlsBtn = new HorizontalLayout();
-		controlsBtn.setSpacing(true);
-		controlsBtn.setMargin(true);
+		controlsBtn = new MHorizontalLayout().withSpacing(true)
+				.withMargin(true);
 
 		Button addCriteriaBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA),
@@ -136,12 +133,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		addCriteriaBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
 		addCriteriaBtn.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_add));
-		UiUtils.addComponent(this, addCriteriaBtn, Alignment.MIDDLE_CENTER);
 
-		controlsBtn.addComponent(addCriteriaBtn);
+		controlsBtn.with(addCriteriaBtn);
 
-		this.addComponent(searchContainer);
-		this.addComponent(controlsBtn);
+		this.with(searchContainer, controlsBtn);
 	}
 
 	private void buildFilterBox(String queryname) {
@@ -165,10 +160,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		saveSearchBtn.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_addRecord));
 		filterBox.addComponent(saveSearchBtn);
-
-		if (queryname != null) {
-
-		}
 	}
 
 	private void buildSaveFilterBox() {
@@ -287,7 +278,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		private ValueComboBox operatorSelectionBox;
 		private ComboBox fieldSelectionBox;
 		private ValueComboBox compareSelectionBox;
-		private VerticalLayout valueBox;
+		private MVerticalLayout valueBox;
 		private Button deleteBtn;
 
 		public CriteriaSelectionLayout(int index) {
@@ -315,9 +306,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 			buildFieldSelectionBox();
 
-			valueBox = new VerticalLayout();
-			valueBox.setSpacing(true);
-			valueBox.setWidth("200px");
+			valueBox = new MVerticalLayout().withSpacing(true)
+					.withMargin(false).withWidth("200px");
+
 			deleteBtn = new Button("", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 

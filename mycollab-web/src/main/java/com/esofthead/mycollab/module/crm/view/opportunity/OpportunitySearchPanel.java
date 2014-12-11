@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -39,7 +40,6 @@ import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -82,11 +82,10 @@ public class OpportunitySearchPanel extends
 	}
 
 	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(true, false, true, false));
-		layout.setStyleName(UIConstants.HEADER_VIEW);
+		final MHorizontalLayout layout = new MHorizontalLayout()
+				.withWidth("100%").withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false))
+				.withStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/opportunity.png"));
@@ -118,7 +117,8 @@ public class OpportunitySearchPanel extends
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
+		layout.with(createAccountBtn).withAlign(createAccountBtn,
+				Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
@@ -153,21 +153,20 @@ public class OpportunitySearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setSpacing(true);
-			layout.setMargin(true);
+			final MHorizontalLayout layout = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfSearch");
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(layout, this.nameField,
+			layout.with(this.nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(layout, this.myItemCheckbox,
+			layout.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -182,7 +181,7 @@ public class OpportunitySearchPanel extends
 					OpportunityBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			UiUtils.addComponent(layout, searchBtn, Alignment.MIDDLE_LEFT);
+			layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -194,7 +193,8 @@ public class OpportunitySearchPanel extends
 					OpportunityBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(layout, cancelBtn, Alignment.MIDDLE_CENTER);
+			layout.with(cancelBtn)
+					.withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
 			final Button advancedSearchBtn = new Button(
 					AppContext
@@ -209,7 +209,7 @@ public class OpportunitySearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			UiUtils.addComponent(layout, advancedSearchBtn,
+			layout.with(advancedSearchBtn).withAlign(advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
 			return layout;
 		}
@@ -221,8 +221,8 @@ public class OpportunitySearchPanel extends
 					.setSaccountid(new NumberSearchField(SearchField.AND,
 							AppContext.getAccountId()));
 
-			if (StringUtils.isNotBlank(this.nameField.getValue()
-					.toString().trim())) {
+			if (StringUtils.isNotBlank(this.nameField.getValue().toString()
+					.trim())) {
 				OpportunitySearchPanel.this.searchCriteria
 						.setOpportunityName(new StringSearchField(
 								SearchField.AND, this.nameField.getValue()

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -30,7 +32,6 @@ import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -101,24 +102,23 @@ public class TaskSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
-			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+			Label nameLbl = new Label("Name:");
+			basicSearchBody.with(nameLbl).withAlign(nameLbl,
 					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
-
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -134,7 +134,7 @@ public class TaskSearchPanel extends
 					callSearchAction();
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, searchBtn,
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
@@ -149,7 +149,7 @@ public class TaskSearchPanel extends
 					nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, cancelBtn,
+			basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
 			final Button advancedSearchBtn = new Button(
@@ -164,8 +164,9 @@ public class TaskSearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
-					Alignment.MIDDLE_CENTER);
+
+			basicSearchBody.with(advancedSearchBtn).withAlign(
+					advancedSearchBtn, Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}
 

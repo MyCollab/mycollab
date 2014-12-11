@@ -16,18 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -47,7 +47,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected ReadViewLayout previewLayout;
 	private Label headerText;
-	private HorizontalLayout header;
+	private MHorizontalLayout header;
 	private Image titleIcon;
 
 	abstract protected void initRelatedComponents();
@@ -88,17 +88,12 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 	}
 
 	private ComponentContainer constructHeader() {
-		header = new HorizontalLayout();
 		this.headerText.setStyleName("hdr-text");
+		header = new MHorizontalLayout().withStyleName("hdr-view")
+				.withWidth("100%").withSpacing(true).withMargin(true);
 
-		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(headerText, 1.0f);
-
-		header.setStyleName("hdr-view");
-		header.setWidth("100%");
-		header.setSpacing(true);
-		header.setMargin(true);
+		header.with(titleIcon, headerText).alignAll(Alignment.MIDDLE_LEFT)
+				.expand(headerText);
 
 		return header;
 	}

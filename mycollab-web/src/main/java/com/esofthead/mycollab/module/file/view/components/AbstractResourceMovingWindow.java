@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
@@ -37,7 +38,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -48,7 +48,6 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Tree.CollapseEvent;
 import com.vaadin.ui.Tree.ExpandEvent;
 import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /**
@@ -108,9 +107,8 @@ public abstract class AbstractResourceMovingWindow extends Window {
 	}
 
 	private void constructBody() {
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setSpacing(true);
-		contentLayout.setMargin(true);
+		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(true)
+				.withMargin(true);
 		this.setContent(contentLayout);
 
 		final HorizontalLayout resourceContainer = new HorizontalLayout();
@@ -342,8 +340,8 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 		controlGroupBtnLayout.addComponent(cancelBtn);
 
-		UiUtils.addComponent(contentLayout, controlGroupBtnLayout,
-				Alignment.MIDDLE_CENTER);
+		contentLayout.with(controlGroupBtnLayout).withAlign(
+				controlGroupBtnLayout, Alignment.MIDDLE_CENTER);
 	}
 
 	public abstract void displayAfterMoveSuccess(Folder folder, boolean checking);

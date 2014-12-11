@@ -19,12 +19,19 @@ package com.esofthead.mycollab.vaadin.mvp;
 
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class NullViewState extends ViewState {
 
 	public NullViewState() {
 		super(null, new EmptyPresenter(), null);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static class EmptyPresenter implements IPresenter {
 
 		private static final long serialVersionUID = 1L;

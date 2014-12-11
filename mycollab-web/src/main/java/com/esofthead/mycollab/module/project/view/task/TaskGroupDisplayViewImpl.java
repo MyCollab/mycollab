@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -52,7 +54,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
@@ -62,7 +63,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -94,8 +94,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private TaskSearchViewImpl basicSearchView;
 
-	private HorizontalLayout header;
-	private HorizontalLayout mainLayout;
+	private MHorizontalLayout header;
+	private MHorizontalLayout mainLayout;
 	private Button advanceDisplay;
 	private Button simpleDisplay;
 	private Button chartDisplay;
@@ -185,14 +185,12 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private void constructUI() {
 		this.removeAllComponents();
-		this.setMargin(new MarginInfo(false, true, true, true));
-		this.setSpacing(true);
+		this.withMargin(new MarginInfo(false, true, true, true)).withSpacing(
+				true);
 
-		header = new HorizontalLayout();
-		header.setMargin(new MarginInfo(true, false, true, false));
-		header.setStyleName("hdr-view");
-		header.setSpacing(true);
-		header.setWidth("100%");
+		header = new MHorizontalLayout()
+				.withMargin(new MarginInfo(true, false, true, false))
+				.withStyleName("hdr-view").withSpacing(true).withWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		this.taskGroupSelection = new PopupButton(
@@ -204,16 +202,12 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		this.taskGroupSelection.addStyleName("hdr-text");
 		final Image icon = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._24_project_task));
-		header.addComponent(icon);
-		header.addComponent(this.taskGroupSelection);
-		header.setExpandRatio(this.taskGroupSelection, 1.0f);
-		header.setComponentAlignment(this.taskGroupSelection,
-				Alignment.MIDDLE_LEFT);
+		header.with(icon, taskGroupSelection)
+				.withAlign(taskGroupSelection, Alignment.MIDDLE_LEFT)
+				.expand(taskGroupSelection);
 
-		final VerticalLayout filterBtnLayout = new VerticalLayout();
-		filterBtnLayout.setMargin(true);
-		filterBtnLayout.setSpacing(true);
-		filterBtnLayout.setWidth("200px");
+		final MVerticalLayout filterBtnLayout = new MVerticalLayout()
+				.withMargin(true).withSpacing(true).withWidth("200px");
 
 		final Button allTasksFilterBtn = new Button(
 				AppContext
@@ -306,7 +300,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		this.reOrderBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		this.reOrderBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/reorder.png"));
+				.newResource(WebResourceIds._16_project_reorder));
 		this.reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		this.reOrderBtn.setDescription(AppContext
 				.getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
@@ -382,7 +376,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 			}
 		});
 		chartDisplay.setIcon(MyCollabResource
-				.newResource("icons/16/project/chart_view.png"));
+				.newResource(WebResourceIds._16_project_chart_view));
 
 		viewButtons = new ToggleButtonGroup();
 		viewButtons.addButton(simpleDisplay);
@@ -390,22 +384,17 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		viewButtons.addButton(chartDisplay);
 		viewButtons.setDefaultButton(advanceDisplay);
 
-		mainLayout = new HorizontalLayout();
-		mainLayout.setSizeFull();
-		mainLayout.setSpacing(true);
+		mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth()
+				.withSpacing(true);
 		this.taskLists = new TaskGroupDisplayWidget();
 
-		this.leftColumn = new VerticalLayout();
-		this.leftColumn.addComponent(taskLists);
-		this.leftColumn.setMargin(new MarginInfo(false, true, false, false));
+		this.leftColumn = new MVerticalLayout().withMargin(
+				new MarginInfo(false, true, false, false)).with(taskLists);
 
-		this.rightColumn = new VerticalLayout();
-		this.rightColumn.setWidth("300px");
-		this.rightColumn.setMargin(new MarginInfo(true, false, false, false));
+		this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(
+				new MarginInfo(true, false, false, false));
 
-		mainLayout.addComponent(leftColumn);
-		mainLayout.addComponent(rightColumn);
-		mainLayout.setExpandRatio(leftColumn, 1.0f);
+		mainLayout.with(leftColumn, rightColumn).expand(leftColumn);
 
 		FloatingComponent floatSidebar = FloatingComponent
 				.floatThis(this.rightColumn);
@@ -479,24 +468,23 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	}
 
 	private VerticalLayout createSearchPanel() {
-		VerticalLayout basicSearchBody = new VerticalLayout();
-		basicSearchBody.setSpacing(true);
-		basicSearchBody.setMargin(new MarginInfo(true, false, true, false));
+		MVerticalLayout basicSearchBody = new MVerticalLayout().withSpacing(
+				true).withMargin(new MarginInfo(true, false, true, false));
 		basicSearchBody.addStyleName(UIConstants.BORDER_BOX_2);
 
 		nameField = new TextField();
 
 		nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-		UiUtils.addComponent(basicSearchBody, nameField,
+		basicSearchBody.with(nameField).withAlign(nameField,
 				Alignment.MIDDLE_CENTER);
 
-		HorizontalLayout control = new HorizontalLayout();
-		control.setSpacing(true);
-		control.setMargin(new MarginInfo(true, false, true, false));
+		MHorizontalLayout control = new MHorizontalLayout().withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
 
 		final Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
+		searchBtn.setIcon(MyCollabResource
+				.newResource(WebResourceIds._16_search));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -514,7 +502,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 				moveToTaskSearch(taskFilter);
 			}
 		});
-		UiUtils.addComponent(control, searchBtn, Alignment.MIDDLE_CENTER);
+		control.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
 		final Button advancedSearchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
@@ -535,9 +523,10 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 					}
 				});
 		advancedSearchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		UiUtils.addComponent(control, advancedSearchBtn,
+		control.with(advancedSearchBtn).withAlign(advancedSearchBtn,
 				Alignment.MIDDLE_CENTER);
-		UiUtils.addComponent(basicSearchBody, control, Alignment.MIDDLE_CENTER);
+		basicSearchBody.with(control).withAlign(control,
+				Alignment.MIDDLE_CENTER);
 
 		return basicSearchBody;
 	}
@@ -570,19 +559,18 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	private void displaySimpleView() {
 		this.removeAllComponents();
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setMargin(new MarginInfo(true, false, true, false));
-		header.setStyleName("hdr-view");
-		header.setSpacing(true);
-		header.setWidth("100%");
+		MHorizontalLayout header = new MHorizontalLayout()
+				.withMargin(new MarginInfo(true, false, true, false))
+				.withStyleName("hdr-view").withSpacing(true).withWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
 		final Image icon = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._24_project_task));
-		header.addComponent(icon);
 
-		UiUtils.addComponent(header, taskSelection, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(taskSelection, 1.0f);
-		UiUtils.addComponent(header, viewButtons, Alignment.MIDDLE_RIGHT);
+		header.with(icon, taskSelection, viewButtons)
+				.withAlign(taskSelection, Alignment.MIDDLE_LEFT)
+				.withAlign(viewButtons, Alignment.MIDDLE_RIGHT)
+				.expand(taskSelection);
 
 		this.addComponent(header);
 		basicSearchView.setMargin(new MarginInfo(false, false, true, false));
@@ -594,11 +582,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private void displayAdvancedView() {
 		this.removeAllComponents();
-		this.addComponent(header);
-		this.addComponent(mainLayout);
-		UiUtils.addComponent(this, header, Alignment.TOP_RIGHT);
-		UiUtils.addComponent(header, viewButtons, Alignment.MIDDLE_RIGHT);
-		this.addComponent(mainLayout);
+		header.with(viewButtons).withAlign(viewButtons, Alignment.MIDDLE_RIGHT);
+		this.with(header, mainLayout).withAlign(header, Alignment.TOP_RIGHT);
 	}
 
 	private void displayGanttChartView() {

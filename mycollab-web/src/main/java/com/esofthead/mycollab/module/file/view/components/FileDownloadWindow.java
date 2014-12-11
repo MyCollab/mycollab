@@ -19,6 +19,9 @@ package com.esofthead.mycollab.module.file.view.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -28,7 +31,6 @@ import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -38,9 +40,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /**
@@ -65,11 +65,11 @@ public class FileDownloadWindow extends Window {
 	}
 
 	private void constructBody() {
-		final VerticalLayout layout = new VerticalLayout();
+		final MVerticalLayout layout = new MVerticalLayout();
 		final Embedded iconEmbed = new Embedded();
 		iconEmbed.setSource(MyCollabResource
 				.newResource("icons/page_white.png"));
-		UiUtils.addComponent(layout, iconEmbed, Alignment.MIDDLE_CENTER);
+		layout.with(iconEmbed).withAlign(iconEmbed, Alignment.MIDDLE_CENTER);
 
 		final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
 				"100%", "80px", Alignment.TOP_LEFT);
@@ -78,7 +78,6 @@ public class FileDownloadWindow extends Window {
 		info.getLayout().setSpacing(false);
 
 		if (this.content.getDescription() != null) {
-
 			final Label desvalue = new Label();
 			if (!this.content.getDescription().equals("")) {
 				desvalue.setData(this.content.getDescription());
@@ -101,7 +100,7 @@ public class FileDownloadWindow extends Window {
 
 		layout.addComponent(info.getLayout());
 
-		final HorizontalLayout buttonControls = new HorizontalLayout();
+		final MHorizontalLayout buttonControls = new MHorizontalLayout();
 		buttonControls.setSpacing(true);
 		buttonControls.setMargin(new MarginInfo(true, false, true, false));
 
@@ -116,7 +115,8 @@ public class FileDownloadWindow extends Window {
 		fileDownloader.extend(downloadBtn);
 
 		downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		UiUtils.addComponent(buttonControls, downloadBtn,
+
+		buttonControls.with(downloadBtn).withAlign(downloadBtn,
 				Alignment.MIDDLE_CENTER);
 
 		final Button cancelBtn = new Button(
@@ -130,9 +130,10 @@ public class FileDownloadWindow extends Window {
 					}
 				});
 		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-
-		UiUtils.addComponent(buttonControls, cancelBtn, Alignment.MIDDLE_CENTER);
-		UiUtils.addComponent(layout, buttonControls, Alignment.MIDDLE_CENTER);
+		buttonControls.with(cancelBtn).withAlign(cancelBtn,
+				Alignment.MIDDLE_CENTER);
+		layout.with(buttonControls).withAlign(buttonControls,
+				Alignment.MIDDLE_CENTER);
 		this.setContent(layout);
 	}
 }

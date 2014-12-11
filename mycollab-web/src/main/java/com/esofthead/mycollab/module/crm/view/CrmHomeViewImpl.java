@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.module.crm.view.account.AccountListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.CallListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.MeetingListDashlet;
@@ -29,7 +32,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -58,9 +60,8 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 
 	@Override
 	protected void displayView() {
-		HorizontalLayout contentLayout = new HorizontalLayout();
-		contentLayout.setSpacing(true);
-		contentLayout.setWidth("100%");
+		MHorizontalLayout contentLayout = new MHorizontalLayout().withSpacing(
+				true).withWidth("100%");
 
 		VerticalLayout myAssignmentsLayout = new VerticalLayout();
 
@@ -93,9 +94,9 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 		contentLayout.addComponent(myAssignmentsLayout);
 		contentLayout.setExpandRatio(myAssignmentsLayout, 1.0f);
 
-		VerticalLayout streamsLayout = new VerticalLayout();
+		MVerticalLayout streamsLayout = new MVerticalLayout()
+				.withMargin(new MarginInfo(false, false, false, true));
 		streamsLayout.setSizeUndefined();
-		streamsLayout.setMargin(new MarginInfo(false, false, false, true));
 
 		salesDashboard = new SalesDashboardView();
 		salesDashboard.setWidth("550px");

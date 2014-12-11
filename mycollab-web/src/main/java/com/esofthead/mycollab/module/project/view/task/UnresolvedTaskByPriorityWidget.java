@@ -106,8 +106,8 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 					final HorizontalLayout priorityLayout = new HorizontalLayout();
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
-					final Button userLbl = new Button(
-							AppContext.getMessage(priority), listener);
+					final ButtonI18nComp userLbl = new ButtonI18nComp(
+							priority.name(), priority, listener);
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
 									.getIconResourceLink12ByTaskPriority(priority
@@ -134,7 +134,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
-			final String key = ((ButtonI18nComp)event.getButton()).getKey();
+			final String key = ((ButtonI18nComp) event.getButton()).getKey();
 			searchCriteria.setPriorities(new SetSearchField<String>(
 					new String[] { key }));
 			TaskFilterParameter filterParam = new TaskFilterParameter(

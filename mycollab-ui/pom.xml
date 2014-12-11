@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.peimari</groupId>
+            <artifactId>maddon</artifactId>
+            <version>1.20</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC2</version>

@@ -16,20 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.RightSidebarLayout;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -47,7 +47,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	protected B beanItem;
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected ReadViewLayout previewLayout;
-	protected HorizontalLayout header;
+	protected MHorizontalLayout header;
 	private RightSidebarLayout bodyContainer;
 
 	private VerticalLayout sidebarContent;
@@ -133,19 +133,16 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	protected ComponentContainer constructHeader(String headerText) {
 		Label headerLbl = new Label(headerText);
 		headerLbl.setSizeUndefined();
-		header = new HorizontalLayout();
+		header = new MHorizontalLayout();
 		headerLbl.setStyleName("hdr-text");
 
-		if (titleIcon != null)
-			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		if (titleIcon != null) {
+			header.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
+		}
 
-		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(headerLbl, 1.0f);
-
-		header.setStyleName("hdr-view");
-		header.setWidth("100%");
-		header.setSpacing(true);
-		header.setMargin(true);
+		header.with(headerLbl).withAlign(headerLbl, Alignment.MIDDLE_LEFT)
+				.expand(headerLbl).withStyleName("hdr-view").withWidth("100%")
+				.withSpacing(true).withMargin(true);
 
 		return header;
 	}

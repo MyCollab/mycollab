@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -177,6 +179,16 @@ public class ProjectTaskServiceImpl extends
 			String projectShortName, int sAccountId) {
 		return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
 				sAccountId);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SimpleTask> findSubTasks(int parentTaskId, int sAccountId) {
+		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
+		searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
+		return taskMapperExt.findPagableListByCriteria(searchCriteria,
+				new RowBounds(0, Integer.MAX_VALUE));
 	}
 
 }

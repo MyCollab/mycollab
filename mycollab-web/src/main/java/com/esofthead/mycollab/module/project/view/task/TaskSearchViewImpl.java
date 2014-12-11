@@ -18,6 +18,9 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.Arrays;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -31,7 +34,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
@@ -40,10 +42,8 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -51,14 +51,15 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.0
  * 
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskSearchViewImpl extends AbstractPageView implements
 		TaskSearchView {
 
 	private static final long serialVersionUID = 1L;
+	
 	private TaskSearchPanel taskSearchPanel;
 	private TaskSearchTableDisplay tableItem;
-	private final VerticalLayout taskListLayout;
+	private MVerticalLayout taskListLayout;
 	private Label headerText;
 
 	public void setSearchInputValue(String value) {
@@ -66,19 +67,17 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 	}
 
 	public TaskSearchViewImpl() {
+		this.taskListLayout = new MVerticalLayout().withMargin(true);
+		with(taskListLayout);
 
 		this.taskSearchPanel = new TaskSearchPanel();
-
-		this.taskListLayout = new VerticalLayout();
-		this.setMargin(true);
 		this.generateDisplayTable();
 
-		final HorizontalLayout header = new HorizontalLayout();
-		header.setSpacing(true);
-		header.setSpacing(true);
-		header.setMargin(new MarginInfo(true, false, true, false));
-		header.setStyleName(UIConstants.HEADER_VIEW);
-		header.setWidth("100%");
+		final MHorizontalLayout header = new MHorizontalLayout()
+				.withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false))
+				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%");
+		
 		Image titleIcon = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._24_project_task));
 
@@ -103,19 +102,16 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 		backtoTaskListBtn.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_back));
 
-		UiUtils.addComponent(header, titleIcon, Alignment.TOP_LEFT);
-		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, backtoTaskListBtn, Alignment.MIDDLE_RIGHT);
-		header.setExpandRatio(headerText, 1.0f);
+		header.with(titleIcon, headerText, backtoTaskListBtn)
+				.withAlign(titleIcon, Alignment.TOP_LEFT)
+				.withAlign(headerText, Alignment.MIDDLE_LEFT)
+				.withAlign(backtoTaskListBtn, Alignment.MIDDLE_RIGHT)
+				.expand(headerText);
 
-		addComponent(header);
-		addComponent(this.taskSearchPanel);
-
-		addComponent(this.taskListLayout);
+		taskListLayout.with(header, taskSearchPanel, tableItem);
 	}
 
 	private void generateDisplayTable() {
-
 		this.tableItem = new TaskSearchTableDisplay(TaskTableFieldDef.id,
 				Arrays.asList(TaskTableFieldDef.taskname,
 						TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
@@ -135,8 +131,6 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 				}
 			}
 		});
-
-		this.taskListLayout.addComponent(this.tableItem);
 	}
 
 	@Override

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -37,7 +39,6 @@ import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -46,7 +47,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -112,21 +112,22 @@ public class BugSearchPanel extends
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
 
-		HorizontalLayout header = new HorizontalLayout();
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
-		rightComponent = new HorizontalLayout();
+		rightComponent = new MHorizontalLayout();
 
-		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
-		UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
-		header.setExpandRatio(headerText, 1.0f);
+		MHorizontalLayout header = new MHorizontalLayout()
+				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+				.withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
 
-		header.setStyleName(UIConstants.HEADER_VIEW);
-		header.setWidth("100%");
-		header.setSpacing(true);
-		header.setMargin(new MarginInfo(true, false, true, false));
+		header.with(titleIcon, headerText, createBtn, rightComponent)
+				.withAlign(titleIcon, Alignment.MIDDLE_LEFT)
+				.withAlign(headerText, Alignment.MIDDLE_LEFT)
+				.withAlign(createBtn, Alignment.MIDDLE_RIGHT)
+				.withAlign(rightComponent, Alignment.MIDDLE_RIGHT)
+				.expand(headerText);
+
 		return header;
 	}
 
@@ -154,21 +155,21 @@ public class BugSearchPanel extends
 		@SuppressWarnings("serial")
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
+			Label nameLbl = new Label("Name:");
+			basicSearchBody.with(nameLbl).withAlign(nameLbl,
 					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+			basicSearchBody.with(nameField).withAlign(nameLbl,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -185,7 +186,7 @@ public class BugSearchPanel extends
 				}
 			});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			UiUtils.addComponent(basicSearchBody, searchBtn,
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
@@ -209,8 +210,8 @@ public class BugSearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(advancedSearchBtn).withAlign(
+					advancedSearchBtn, Alignment.MIDDLE_CENTER);
 
 			return basicSearchBody;
 		}

@@ -40,6 +40,8 @@ public class SimpleTask extends Task {
 	private String logByUserTimeZone;
 	private int numComments;
 	private String comment;
+	private String parentTaskName;
+	private int parentTaskKey;
 
 	public int getNumComments() {
 		return numComments;
@@ -146,5 +148,21 @@ public class SimpleTask extends Task {
 
 	public void setProjectShortname(String projectShortname) {
 		this.projectShortname = projectShortname;
+	}
+
+	public String getParentTaskName() {
+		return parentTaskName;
+	}
+
+	public void setParentTaskName(String parentTaskName) {
+		this.parentTaskName = parentTaskName;
+	}
+
+	public int getParentTaskKey() {
+		return parentTaskKey;
+	}
+
+	public void setParentTaskKey(int parentTaskKey) {
+		this.parentTaskKey = parentTaskKey;
 	}
 }

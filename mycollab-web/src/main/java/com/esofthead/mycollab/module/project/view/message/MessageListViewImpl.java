@@ -24,6 +24,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -64,7 +66,6 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
@@ -307,10 +308,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 									SiteConfiguration.getSiteName()),
 							AppContext
 									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
+							AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+							AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
@@ -390,10 +389,9 @@ public class MessageListViewImpl extends AbstractPageView implements
 		}
 
 		private void createBasicSearchLayout() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setStyleName("message-search");
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withStyleName("message-search").withSpacing(true);
 			basicSearchBody.setSizeUndefined();
-			basicSearchBody.setSpacing(true);
 
 			final TextField nameField = new TextField();
 			nameField.addTextChangeListener(new TextChangeListener() {
@@ -421,7 +419,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 			nameField.setTextChangeEventMode(TextChangeEventMode.LAZY);
 			nameField.setTextChangeTimeout(200);
 			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, nameField,
+
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_LEFT);
 
 			final Button searchBtn = new Button(
@@ -481,16 +480,15 @@ public class MessageListViewImpl extends AbstractPageView implements
 		private void createAddMessageLayout() {
 			this.messagePanelBody.removeAllComponents();
 
-			final VerticalLayout addMessageWrapper = new VerticalLayout();
-			addMessageWrapper.setSpacing(true);
-			addMessageWrapper.setWidth("500px");
+			final MVerticalLayout addMessageWrapper = new MVerticalLayout()
+					.withSpacing(true).withWidth("500px");
 
 			final RichTextArea ckEditorTextField = new RichTextArea();
 			final AttachmentPanel attachments = new AttachmentPanel();
 			final TextField titleField = new TextField();
 
-			final HorizontalLayout titleLayout = new HorizontalLayout();
-			titleLayout.setSpacing(true);
+			final MHorizontalLayout titleLayout = new MHorizontalLayout()
+					.withSpacing(true);
 			final Label titleLbl = new Label(
 					AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
 			titleLbl.setWidthUndefined();
@@ -584,7 +582,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 						}
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+			saveBtn.setIcon(MyCollabResource
+					.newResource(WebResourceIds._16_save));
 			controls.addComponent(saveBtn);
 			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

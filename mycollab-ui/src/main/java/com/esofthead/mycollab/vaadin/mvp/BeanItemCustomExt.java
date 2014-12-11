@@ -29,6 +29,13 @@ import com.esofthead.mycollab.form.domain.FormCustomFieldValueWithBLOBs;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.NestedMethodProperty;
 
+/**
+ * 
+ * @author MyCollab Ltd
+ * @since 3.0
+ *
+ * @param <T>
+ */
 public class BeanItemCustomExt<T> extends BeanItem<T> {
 	private static final long serialVersionUID = 1L;
 

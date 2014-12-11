@@ -234,8 +234,14 @@ public class ProjectController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoAdd event) {
-				TaskScreenData.Add data = new TaskScreenData.Add(
-						new SimpleTask());
+				Object param = event.getData();
+				TaskScreenData.Add data;
+				if (param instanceof SimpleTask) {
+					data = new TaskScreenData.Add((SimpleTask) param);
+				} else {
+					data = new TaskScreenData.Add(new SimpleTask());
+				}
+
 				projectView.gotoTaskList(data);
 			}
 		});

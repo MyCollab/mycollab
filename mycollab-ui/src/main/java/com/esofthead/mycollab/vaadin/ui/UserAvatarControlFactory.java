@@ -33,7 +33,13 @@ public class UserAvatarControlFactory {
 			int size) {
 		Image embedded = new Image(null, createAvatarResource(avatarId, size));
 		return embedded;
+	}
 
+	public static Image createUserAvatarEmbeddedComponent(String avatarId,
+			int size, String tooltip) {
+		Image embedded = new Image(null, createAvatarResource(avatarId, size));
+		embedded.setDescription(tooltip);
+		return embedded;
 	}
 
 	public static Button createUserAvatarEmbeddedButton(String avatarId,

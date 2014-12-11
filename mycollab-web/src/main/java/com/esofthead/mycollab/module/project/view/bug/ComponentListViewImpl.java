@@ -79,7 +79,6 @@ public class ComponentListViewImpl extends AbstractPageView implements
 	private final Label selectedItemsNumberLabel = new Label();
 
 	public ComponentListViewImpl() {
-
 		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.componentSearchPanel = new ComponentSearchPanel();
@@ -197,6 +196,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 	private ComponentContainer constructTableActionControls() {
 		final CssLayout layoutWrapper = new CssLayout();
 		layoutWrapper.setWidth("100%");
+		
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);

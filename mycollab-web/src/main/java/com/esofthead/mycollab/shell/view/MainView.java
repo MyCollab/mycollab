@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -151,7 +152,7 @@ public final class MainView extends AbstractPageView {
 			}
 		});
 		Link blogLink = new Link("Blog", new ExternalResource(
-				"http://blog.mycollab.com"));
+				"https://www.mycollab.com/blog"));
 		blogLink.setTargetName("_blank");
 
 		Link forumLink = new Link("Forum", new ExternalResource(
@@ -275,10 +276,10 @@ public final class MainView extends AbstractPageView {
 
 		layout.addComponent(serviceMenu, "serviceMenu");
 
-		final HorizontalLayout accountLayout = new HorizontalLayout();
+		final MHorizontalLayout accountLayout = new MHorizontalLayout()
+				.withMargin(new MarginInfo(false, true, false, false))
+				.withSpacing(true);
 		accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		accountLayout.setMargin(new MarginInfo(false, true, false, false));
-		accountLayout.setSpacing(true);
 
 		final Label accountNameLabel = new Label(AppContext.getSubDomain());
 		accountNameLabel.setStyleName("subdomain");

@@ -140,30 +140,34 @@
                  s_user.avatarId AS assignUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                  log_user.avatarId AS logByAvatarId,
-                 concat(log_user.firstname, ' ', LTRIM(concat(IFNULL(log_user.middlename, ''), ' ')), log_user.lastname) AS logByFullName
+                 concat(log_user.firstname, ' ', LTRIM(concat(IFNULL(log_user.middlename, ''), ' ')), log_user.lastname) AS logByFullName,
+                 parentTask.taskname AS parentTaskName, parentTask.taskkey AS parentTaskKey
           FROM m_prj_task
               LEFT OUTER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id) 
               LEFT OUTER JOIN m_prj_task_list ON (m_prj_task_list.id = m_prj_task.tasklistid)
               LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task.assignUser)
               LEFT OUTER JOIN s_user AS log_user ON (log_user.username = m_prj_task.logBy)
+              LEFT OUTER JOIN m_prj_task AS parentTask ON (m_prj_task.parentTaskId=parentTask.id)
         ]]>
     </sql>
 
     <sql id="orderStatement">
+        <![CDATA[
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderByField)
-        ${_parameter.searchCriteria.orderByField}
-        ${_parameter.searchCriteria.sortDirection},
+            ${_parameter.searchCriteria.orderByField}
+            ${_parameter.searchCriteria.sortDirection},
         #end
         m_prj_task.startdate ASC, m_prj_task.enddate ASC
+        ]]>
     </sql>
 
     <select id="findByProjectAndTaskKey" parameterType="map"
         resultMap="TaskResult" lang="velocity">
         <include refid="selectTask" />
         WHERE m_prj_project.shortname = @{prjShortName}
-        AND m_prj_task.taskkey = @{taskkey}
-        AND m_prj_task.sAccountId = @{sAccountId}
+            AND m_prj_task.taskkey = @{taskkey}
+            AND m_prj_task.sAccountId = @{sAccountId}
     </select>
 
     <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria"
@@ -171,9 +175,9 @@
         SELECT count(*) as totalCount FROM m_prj_task
         	LEFT OUTER JOIN m_prj_task_list ON (m_prj_task_list.id = m_prj_task.tasklistid)
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
         #end
     </select>
 
@@ -181,9 +185,9 @@
         parameterType="TaskSearchCriteria" lang="velocity">
         <include refid="selectTask" />
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
         <include refid="orderStatement" />
     </select>
@@ -200,26 +204,23 @@
         SELECT MIN(id) FROM m_prj_task
 
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
+            <include refid="querySearchCriteria" />
         #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_task
-
         #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
+            <include refid="querySearchCriteria" />
         #end
     </select>
 
     <select id="getMaxKey" parameterType="java.lang.Integer"
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(taskkey)
-        FROM
-        m_prj_task
-        WHERE m_prj_task.projectid=@{projectId,
-        jdbcType=NUMERIC}
+        FROM m_prj_task
+        WHERE m_prj_task.projectid=@{projectId,jdbcType=NUMERIC}
     </select>
 
     <select id="getPrioritySummary" parameterType="TaskSearchCriteria"
@@ -232,9 +233,9 @@
         FROM m_prj_task
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
         GROUP BY m_prj_task.priority
     </select>
@@ -242,19 +243,15 @@
     <select id="getAssignedDefectsSummary" parameterType="TaskSearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
         lang="velocity">
-        SELECT m_prj_task.assignUser AS groupid,
-        COUNT(IFNULL(m_prj_task.assignUser, '')) AS value,
-        s_user.avatarId AS extraValue,
-        concat(s_user.firstname, ' ',
-        LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),
-        s_user.lastname) as groupname
+        SELECT m_prj_task.assignUser AS groupid, COUNT(IFNULL(m_prj_task.assignUser, '')) AS value,
+            s_user.avatarId AS extraValue, concat(s_user.firstname, ' ',
+            LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as groupname
         FROM m_prj_task
-        LEFT OUTER JOIN
-        s_user ON (m_prj_task.assignUser = s_user.username)
+            LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
         GROUP BY m_prj_task.assignUser
     </select>

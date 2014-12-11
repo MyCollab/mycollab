@@ -19,13 +19,14 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 /**
@@ -44,15 +45,14 @@ public class DateRangeField extends CustomField {
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout container = new HorizontalLayout();
+		MHorizontalLayout container = new MHorizontalLayout();
 		container.setSpacing(true);
 		Label dateStartLb = new Label("From:");
 		Label dateEndLb = new Label("To:");
 
-		UiUtils.addComponent(container, dateStartLb, Alignment.MIDDLE_CENTER);
-		container.addComponent(dateStart);
-		UiUtils.addComponent(container, dateEndLb, Alignment.MIDDLE_CENTER);
-		container.addComponent(dateEnd);
+		container.with(dateStartLb, dateEndLb)
+				.withAlign(dateStartLb, Alignment.MIDDLE_CENTER)
+				.withAlign(dateEndLb, Alignment.MIDDLE_CENTER);
 
 		setDateWidth(120);
 		setDefaultValue();

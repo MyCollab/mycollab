@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -33,7 +35,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -87,9 +88,8 @@ public class ProjectRoleSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 			basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			basicSearchBody.addComponent(new Label("Name"));
@@ -167,18 +167,16 @@ public class ProjectRoleSearchPanel extends
 			createBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.ROLES));
 
-			HorizontalLayout header = new HorizontalLayout();
-			headerText.setStyleName(UIConstants.HEADER_TEXT);
+			MHorizontalLayout header = new MHorizontalLayout()
+					.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+					.withSpacing(true)
+					.withMargin(new MarginInfo(true, false, true, false))
+					.with(titleIcon, headerText, createBtn)
+					.withAlign(titleIcon, Alignment.MIDDLE_LEFT)
+					.withAlign(headerText, Alignment.MIDDLE_LEFT)
+					.withAlign(createBtn, Alignment.MIDDLE_RIGHT)
+					.expand(headerText);
 
-			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
-			header.setExpandRatio(headerText, 1.0f);
-
-			header.setStyleName(UIConstants.HEADER_VIEW);
-			header.setWidth("100%");
-			header.setSpacing(true);
-			header.setMargin(new MarginInfo(true, false, true, false));
 			return header;
 		}
 	}

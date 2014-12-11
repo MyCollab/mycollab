@@ -22,6 +22,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -51,7 +53,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SortButton;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.google.common.collect.Ordering;
@@ -79,9 +80,9 @@ import com.vaadin.ui.Window;
 public class PageListViewImpl extends AbstractPageView implements PageListView {
 	private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout headerLayout;
+	private MHorizontalLayout headerLayout;
 
-	private VerticalLayout pagesLayout;
+	private MVerticalLayout pagesLayout;
 
 	private List<PageResource> resources;
 
@@ -128,33 +129,37 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 	public PageListViewImpl() {
 		this.setMargin(new MarginInfo(false, true, false, true));
 
-		headerLayout = new HorizontalLayout();
+		headerLayout = new MHorizontalLayout()
+				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+				.withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
+		headerLayout.setHeightUndefined();
+
 		this.addComponent(headerLayout);
 		initHeader();
 
-		pagesLayout = new VerticalLayout();
-		pagesLayout.setStyleName("pages-list-layout");
+		pagesLayout = new MVerticalLayout().withStyleName("pages-list-layout");
 		this.addComponent(pagesLayout);
 	}
 
 	private void initHeader() {
 		Image titleIcon = new Image(null,
 				MyCollabResource
-						.newResource("icons/22/project/page_selected.png"));
+						.newResource(WebResourceIds._22_project_page_selected));
 		Label headerText = new Label(
 				AppContext.getMessage(Page18InEnum.VIEW_LIST_TITLE));
 
-		UiUtils.addComponent(headerLayout, titleIcon, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(headerLayout, headerText, Alignment.MIDDLE_LEFT);
-		headerLayout.setExpandRatio(headerText, 1.0f);
+		headerLayout.with(titleIcon, headerText)
+				.alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
 
 		Label sortLbl = new Label(
 				AppContext.getMessage(Page18InEnum.OPT_SORT_LABEL));
 		sortLbl.setSizeUndefined();
-		UiUtils.addComponent(headerLayout, sortLbl, Alignment.MIDDLE_RIGHT);
+		headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
 
 		ToggleButtonGroup sortGroup = new ToggleButtonGroup();
-		UiUtils.addComponent(headerLayout, sortGroup, Alignment.MIDDLE_RIGHT);
+		headerLayout.with(sortGroup).withAlign(sortGroup,
+				Alignment.MIDDLE_RIGHT);
 
 		SortButton sortDateBtn = new SortButton(
 				AppContext.getMessage(Page18InEnum.OPT_SORT_BY_DATE),
@@ -239,7 +244,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 				.newResource(WebResourceIds._16_addRecord));
 		newGroupBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
-		UiUtils.addComponent(headerLayout, newGroupBtn, Alignment.MIDDLE_RIGHT);
+		headerLayout.with(newGroupBtn).withAlign(newGroupBtn,
+				Alignment.MIDDLE_RIGHT);
 
 		final Button newPageBtn = new Button(
 				AppContext.getMessage(Page18InEnum.BUTTON_NEW_PAGE),
@@ -259,14 +265,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 				.canWrite(ProjectRolePermissionCollections.PAGES));
 
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
-
-		UiUtils.addComponent(headerLayout, newPageBtn, Alignment.MIDDLE_RIGHT);
-
-		headerLayout.setStyleName(UIConstants.HEADER_VIEW);
-		headerLayout.setWidth("100%");
-		headerLayout.setHeightUndefined();
-		headerLayout.setSpacing(true);
-		headerLayout.setMargin(new MarginInfo(true, false, true, false));
+		headerLayout.with(newPageBtn).withAlign(newPageBtn,
+				Alignment.MIDDLE_RIGHT);
 	}
 
 	private void displayPages(List<PageResource> resources) {

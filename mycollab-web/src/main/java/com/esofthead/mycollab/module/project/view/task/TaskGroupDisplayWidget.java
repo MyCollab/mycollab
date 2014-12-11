@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -42,16 +44,13 @@ import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -102,7 +101,9 @@ public class TaskGroupDisplayWidget
 		}
 
 		private void initHeader() {
-			final HorizontalLayout headerElement = new HorizontalLayout();
+			final MHorizontalLayout headerElement = new MHorizontalLayout()
+					.withSpacing(true).withMargin(false);
+
 			final Button parentTaskListFilterButton = new Button(
 					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
 
@@ -123,15 +124,11 @@ public class TaskGroupDisplayWidget
 			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
 			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
 
-			headerElement.setSpacing(true);
-			headerElement.setMargin(false);
-			UiUtils.addComponent(headerElement, this.taskListFilterControl,
-					Alignment.TOP_CENTER);
+			headerElement.with(taskListFilterControl).withAlign(
+					taskListFilterControl, Alignment.TOP_CENTER);
 
-			final VerticalLayout filterBtnLayout = new VerticalLayout();
-			filterBtnLayout.setMargin(true);
-			filterBtnLayout.setSpacing(true);
-			filterBtnLayout.setWidth("200px");
+			final MVerticalLayout filterBtnLayout = new MVerticalLayout()
+					.withMargin(true).withSpacing(true).withWidth("200px");
 
 			final Button allTasksFilterBtn = new Button(
 					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
@@ -209,16 +206,17 @@ public class TaskGroupDisplayWidget
 			this.taskListActionControl
 					.addStyleName(UIConstants.THEME_BLANK_LINK);
 			this.taskListActionControl.setIcon(MyCollabResource
-					.newResource("icons/16/option.png"));
+					.newResource(WebResourceIds._16_option));
 			taskListActionControl.setWidthUndefined();
-			UiUtils.addComponent(headerElement, this.taskListActionControl,
-					Alignment.MIDDLE_CENTER);
+
+			headerElement.with(taskListActionControl).withAlign(
+					taskListActionControl, Alignment.MIDDLE_CENTER);
+
 			this.addHeaderElement(headerElement);
 
-			final VerticalLayout actionBtnLayout = new VerticalLayout();
-			actionBtnLayout.setMargin(true);
-			actionBtnLayout.setSpacing(true);
-			actionBtnLayout.setWidth("200px");
+			final MVerticalLayout actionBtnLayout = new MVerticalLayout()
+					.withMargin(true).withSpacing(true).withWidth("200px");
+			
 			this.taskListActionControl.setContent(actionBtnLayout);
 
 			final Button readBtn = new Button(
@@ -347,6 +345,7 @@ public class TaskGroupDisplayWidget
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.TASKS));
 			deleteBtn.setStyleName("link");
+			
 			actionBtnLayout.addComponent(deleteBtn);
 		}
 

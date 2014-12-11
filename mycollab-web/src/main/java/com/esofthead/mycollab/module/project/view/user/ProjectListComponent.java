@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.user;
 import java.util.List;
 
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -42,7 +44,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -51,7 +53,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -69,7 +70,7 @@ public class ProjectListComponent extends VerticalLayout {
 
 	private Label componentHeader;
 
-	private VerticalLayout contentLayout;
+	private MVerticalLayout contentLayout;
 
 	private ProjectPagedList projectList;
 
@@ -81,7 +82,7 @@ public class ProjectListComponent extends VerticalLayout {
 		setSpacing(true);
 		setStyleName("project-list-comp");
 
-		HorizontalLayout headerBar = new HorizontalLayout();
+		MHorizontalLayout headerBar = new MHorizontalLayout();
 
 		headerPopupButton = new PopupButton();
 		headerPopupButton.setStyleName("project-list-comp-hdr");
@@ -91,8 +92,8 @@ public class ProjectListComponent extends VerticalLayout {
 		componentHeader.setStyleName("h2");
 
 		headerPopupButton.setIcon(MyCollabResource
-				.newResource("icons/project_dropdown.png"));
-		headerBar.addComponent(headerPopupButton);
+				.newResource(WebResourceIds._project_dropdown));
+		headerBar.with(headerPopupButton);
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			final Button createProjectBtn = new Button("+",
@@ -109,17 +110,17 @@ public class ProjectListComponent extends VerticalLayout {
 			createProjectBtn.setDescription("New Project");
 			createProjectBtn.setWidth("20px");
 			createProjectBtn.setHeight("20px");
-			UiUtils.addComponent(headerBar, createProjectBtn,
+
+			headerBar.with(createProjectBtn).withAlign(createProjectBtn,
 					Alignment.MIDDLE_RIGHT);
 		}
 
-		headerBar.setWidth("100%");
-		headerBar.setSpacing(true);
-		headerBar.setExpandRatio(headerPopupButton, 1.0f);
+		headerBar.withWidth("100%").withSpacing(true).expand(headerPopupButton);
+
 		this.addComponent(headerBar);
-		contentLayout = new VerticalLayout();
-		contentLayout.setStyleName("project-list-comp-content");
-		contentLayout.setWidth("205px");
+
+		contentLayout = new MVerticalLayout().withStyleName(
+				"project-list-comp-content").withWidth("205px");
 
 		projectList = new ProjectPagedList();
 		headerPopupButton.setContent(projectList);
@@ -171,9 +172,8 @@ public class ProjectListComponent extends VerticalLayout {
 			super.loadItems(currentListData);
 
 			if (searchService.getTotalCount(currentCriteria) > 3) {
-				VerticalLayout btnWrap = new VerticalLayout();
-				btnWrap.setWidth("100%");
-				btnWrap.setMargin(true);
+				MVerticalLayout btnWrap = new MVerticalLayout().withWidth(
+						"100%").withMargin(true);
 
 				final MyProjectListWindow projectListWindow = new MyProjectListWindow();
 
@@ -202,10 +202,9 @@ public class ProjectListComponent extends VerticalLayout {
 
 		@Override
 		public Component generateRow(final SimpleProject obj, int rowIndex) {
-			final VerticalLayout layout = new VerticalLayout();
-			layout.setWidth("100%");
-			layout.setStyleName("project-name");
-			layout.setMargin(new MarginInfo(true, false, true, true));
+			final MVerticalLayout layout = new MVerticalLayout()
+					.withWidth("100%").withStyleName("project-name")
+					.withMargin(new MarginInfo(true, false, true, true));
 
 			if (obj.getId() == CurrentProjectVariables.getProject().getId()) {
 				layout.addStyleName("current-project");

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -31,7 +32,6 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -70,22 +70,21 @@ public class ActivitySearchPanel extends
 	}
 
 	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
+		final MHorizontalLayout layout = new MHorizontalLayout()
+				.withWidth("100%").withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
 		layout.setSizeUndefined();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(true, false, true, false));
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		final Image iconComp = new Image();
 		iconComp.setSource(MyCollabResource
-				.newResource("icons/22/crm/event.png"));
+				.newResource(WebResourceIds._22_crm_event));
 		layout.addComponent(iconComp);
 		final Label searchtitle = new Label("Events");
 		searchtitle.setStyleName(Reindeer.LABEL_H2);
-		layout.addComponent(searchtitle);
-		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
-		layout.setExpandRatio(searchtitle, 1.0f);
+
+		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
+				.expand(searchtitle);
 
 		final SplitButton controlsBtn = new SplitButton();
 		controlsBtn.setSizeUndefined();
@@ -141,7 +140,7 @@ public class ActivitySearchPanel extends
 		createCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
 		btnControlsLayout.addComponent(createCallBtn);
-		UiUtils.addComponent(layout, controlsBtn, Alignment.MIDDLE_RIGHT);
+		layout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
 
 		ButtonGroup viewSwitcher = new ButtonGroup();
 
@@ -163,8 +162,8 @@ public class ActivitySearchPanel extends
 		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(activityListBtn);
 
-		layout.addComponent(viewSwitcher);
-		layout.setComponentAlignment(viewSwitcher, Alignment.MIDDLE_RIGHT);
+		layout.with(viewSwitcher).withAlign(viewSwitcher,
+				Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
@@ -187,20 +186,19 @@ public class ActivitySearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setMargin(true);
-			basicSearchBody.setSpacing(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -215,10 +213,11 @@ public class ActivitySearchPanel extends
 					EventBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, searchBtn,
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
-			final Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+			final Button clearBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			clearBtn.addStyleName("cancel-button");
 			clearBtn.addClickListener(new Button.ClickListener() {
@@ -227,7 +226,7 @@ public class ActivitySearchPanel extends
 					EventBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, clearBtn,
+			basicSearchBody.with(clearBtn).withAlign(clearBtn,
 					Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}

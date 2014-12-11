@@ -39,6 +39,9 @@ public interface ProjectTaskService extends
 	SimpleTask findById(int taskId, @CacheKey int sAccountId);
 
 	@Cacheable
+	List<SimpleTask> findSubTasks(int parentTaskId, @CacheKey int sAccountId);
+
+	@Cacheable
 	SimpleTask findByProjectAndTaskKey(int taskkey, String projectShortName,
 			@CacheKey int sAccountId);
 

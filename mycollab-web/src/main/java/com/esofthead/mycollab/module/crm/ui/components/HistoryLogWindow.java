@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.utils.FieldGroupFomatter;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 import com.vaadin.ui.Window;
 

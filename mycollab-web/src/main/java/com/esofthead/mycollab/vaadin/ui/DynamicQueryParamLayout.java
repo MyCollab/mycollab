@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.db.query.Param;
@@ -71,9 +73,9 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	}
 
 	private HorizontalLayout createButtonControls() {
-		HorizontalLayout buttonControls = new HorizontalLayout();
-		buttonControls.setSpacing(true);
-		buttonControls.setMargin(true);
+		MHorizontalLayout buttonControls = new MHorizontalLayout().withSpacing(
+				true).withMargin(true);
+
 		final Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
 				new Button.ClickListener() {
@@ -84,9 +86,12 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 						DynamicQueryParamLayout.this.callSearchAction();
 					}
 				});
-		UiUtils.addComponent(buttonControls, searchBtn, Alignment.MIDDLE_CENTER);
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
+		searchBtn.setIcon(MyCollabResource
+				.newResource(WebResourceIds._16_search));
+
+		buttonControls.with(searchBtn).withAlign(searchBtn,
+				Alignment.MIDDLE_CENTER);
 
 		final Button clearBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
@@ -99,7 +104,9 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 					}
 				});
 		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
+
+		buttonControls.with(clearBtn).withAlign(clearBtn,
+				Alignment.MIDDLE_CENTER);
 
 		final Button basicSearchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
@@ -113,7 +120,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 					}
 				});
 		basicSearchBtn.setStyleName("link");
-		UiUtils.addComponent(buttonControls, basicSearchBtn,
+		buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn,
 				Alignment.MIDDLE_CENTER);
 		return buttonControls;
 	}

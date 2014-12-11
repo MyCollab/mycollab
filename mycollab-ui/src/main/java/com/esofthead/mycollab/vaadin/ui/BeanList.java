@@ -115,6 +115,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private RowDisplayHandler<T> constructRowDisplayHandler() {
 		RowDisplayHandler<T> rowHandler = null;
 		try {
@@ -143,6 +144,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		return setSearchRequest(searchRequest);
 	}
 
+	@SuppressWarnings("unchecked")
 	public int setSearchRequest(SearchRequest<S> searchRequest) {
 		List<T> currentListData = searchService
 				.findPagableListByCriteria(searchRequest);

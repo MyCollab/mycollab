@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -34,7 +35,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -58,10 +58,8 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 	}
 
 	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(true);
+		final MHorizontalLayout layout = new MHorizontalLayout()
+				.withWidth("100%").withSpacing(true).withMargin(true);
 
 		final Label searchtitle = new Label("Users");
 		searchtitle.setStyleName(Reindeer.LABEL_H2);
@@ -84,7 +82,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
-		UiUtils.addComponent(layout, createBtn, Alignment.MIDDLE_RIGHT);
+		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
@@ -107,10 +105,8 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.addComponent(new Label("Name"));
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true).with(new Label("Name"));
 
 			final HorizontalLayout searchComp = new HorizontalLayout();
 			searchComp.addStyleName("search-comp");

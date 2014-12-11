@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.SingleFileUploadField;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -38,7 +40,6 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
@@ -105,14 +106,11 @@ public abstract class EntityImportWindow<E> extends Window {
 		private ComboBox fileformatComboBox;
 
 		public FileConfigurationLayout() {
-			final VerticalLayout layout = new VerticalLayout();
-			layout.setWidth("100%");
-			layout.setMargin(true);
-			layout.setSpacing(true);
+			final MVerticalLayout layout = new MVerticalLayout()
+					.withWidth("100%").withMargin(true).withSpacing(true);
 
-			final HorizontalLayout informationLayout = new HorizontalLayout();
-			informationLayout.setWidth("100%");
-			informationLayout.setSpacing(true);
+			final MHorizontalLayout informationLayout = new MHorizontalLayout()
+					.withWidth("100%").withSpacing(true);
 
 			CssLayout fileUploadLayout = fileUploadLayout();
 			CssLayout fileInfomationLayout = fileConfigurationLayout();
@@ -121,8 +119,8 @@ public abstract class EntityImportWindow<E> extends Window {
 			informationLayout.addComponent(fileInfomationLayout);
 			layout.addComponent(informationLayout);
 
-			HorizontalLayout controlGroupBtn = new HorizontalLayout();
-			controlGroupBtn.setSpacing(true);
+			MHorizontalLayout controlGroupBtn = new MHorizontalLayout()
+					.withSpacing(true);
 			Button nextBtn = new Button("Next");
 
 			nextBtn.addClickListener(new ClickListener() {
@@ -215,7 +213,7 @@ public abstract class EntityImportWindow<E> extends Window {
 				}
 			});
 			nextBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			UiUtils.addComponent(controlGroupBtn, nextBtn,
+			controlGroupBtn.with(nextBtn).withAlign(nextBtn,
 					Alignment.MIDDLE_CENTER);
 
 			Button cancelBtn = new Button(
@@ -229,10 +227,10 @@ public abstract class EntityImportWindow<E> extends Window {
 				}
 			});
 			cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
-			UiUtils.addComponent(controlGroupBtn, cancelBtn,
+			controlGroupBtn.with(cancelBtn).withAlign(cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
-			UiUtils.addComponent(layout, controlGroupBtn,
+			layout.with(controlGroupBtn).withAlign(controlGroupBtn,
 					Alignment.MIDDLE_CENTER);
 			this.addComponent(layout);
 		}
@@ -243,17 +241,15 @@ public abstract class EntityImportWindow<E> extends Window {
 			bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
 			bodyLayoutWapper.setWidth("100%");
 
-			final HorizontalLayout bodyLayout = new HorizontalLayout();
-			bodyLayout.setSpacing(true);
-			bodyLayout.setMargin(true);
+			final MHorizontalLayout bodyLayout = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			Label title = new Label("Step 2:");
 			title.addStyleName("h3");
-			UiUtils.addComponent(bodyLayout, title, Alignment.TOP_LEFT);
+			bodyLayout.with(title).withAlign(title, Alignment.TOP_LEFT);
 
-			VerticalLayout informationLayout = new VerticalLayout();
-			informationLayout.setSpacing(true);
-			informationLayout.setWidth("100%");
+			MVerticalLayout informationLayout = new MVerticalLayout()
+					.withSpacing(true).withWidth("100%");
 
 			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(1, 4,
 					"100%", "200px", Alignment.TOP_LEFT);
@@ -330,15 +326,13 @@ public abstract class EntityImportWindow<E> extends Window {
 			bodyLayoutWapper.setHeight("100%");
 			bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
 
-			final HorizontalLayout bodyLayout = new HorizontalLayout();
-			bodyLayout.setSpacing(true);
-			bodyLayout.setMargin(true);
-			bodyLayout.setHeight("100%");
+			final MHorizontalLayout bodyLayout = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true).withHeight("100%");
 
 			Label title = new Label("Step 1:");
 			title.addStyleName("h3");
 
-			UiUtils.addComponent(bodyLayout, title, Alignment.TOP_LEFT);
+			bodyLayout.with(title).withAlign(title, Alignment.TOP_LEFT);
 
 			uploadFieldVerticalLayout = new VerticalLayout();
 			uploadFieldVerticalLayout.setSpacing(true);
@@ -384,7 +378,7 @@ public abstract class EntityImportWindow<E> extends Window {
 
 	private class MappingCrmConfigurationLayout extends CssLayout {
 		private static final long serialVersionUID = 1L;
-		private VerticalLayout columnMappingCrmLayout;
+		private MVerticalLayout columnMappingCrmLayout;
 		private GridFormLayoutHelper gridCrmMapping;
 		private File uploadFile;
 		private final List<FieldMapperDef> contactCrmFields = constructCSVFieldMapper();
@@ -396,9 +390,9 @@ public abstract class EntityImportWindow<E> extends Window {
 			this.setWidth("100%");
 			this.addStyleName(UIConstants.BORDER_BOX_2);
 
-			final HorizontalLayout bodyLayout = new HorizontalLayout();
-			bodyLayout.setMargin(new MarginInfo(false, false, false, true));
-			bodyLayout.setSpacing(true);
+			final MHorizontalLayout bodyLayout = new MHorizontalLayout()
+					.withMargin(new MarginInfo(false, false, false, true))
+					.withSpacing(true);
 
 			final HorizontalLayout titleHorizontal = new HorizontalLayout();
 			Label title = new Label("Step 3:");
@@ -406,9 +400,9 @@ public abstract class EntityImportWindow<E> extends Window {
 			titleHorizontal.addComponent(title);
 			bodyLayout.addComponent(titleHorizontal);
 
-			columnMappingCrmLayout = new VerticalLayout();
-			columnMappingCrmLayout.setWidth("100%");
-			columnMappingCrmLayout.setMargin(true);
+			columnMappingCrmLayout = new MVerticalLayout().withWidth("100%")
+					.withMargin(true);
+
 			Label infoLabel = new Label("Map the columns to Module fields");
 			infoLabel.addStyleName("h3");
 			columnMappingCrmLayout.addComponent(infoLabel);
@@ -437,11 +431,11 @@ public abstract class EntityImportWindow<E> extends Window {
 			gridCrmMapping.addComponent(new Label(), "CRM Fields", 1, 0);
 			columnMappingCrmLayout.addComponent(gridCrmMapping.getLayout());
 
-			HorizontalLayout controlGroupBtn = new HorizontalLayout();
-			controlGroupBtn
-					.setMargin(new MarginInfo(false, false, false, false));
-			UiUtils.addComponent(columnMappingCrmLayout, controlGroupBtn,
-					Alignment.MIDDLE_CENTER);
+			MHorizontalLayout controlGroupBtn = new MHorizontalLayout()
+					.withMargin(new MarginInfo(false, false, false, false));
+
+			columnMappingCrmLayout.with(controlGroupBtn).withAlign(
+					controlGroupBtn, Alignment.MIDDLE_CENTER);
 
 			Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),

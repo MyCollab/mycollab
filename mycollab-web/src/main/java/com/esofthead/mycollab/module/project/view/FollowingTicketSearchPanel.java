@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -36,7 +38,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -49,7 +51,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 public class FollowingTicketSearchPanel extends
 		DefaultGenericSearchPanel<FollowingTicketSearchCriteria> {
@@ -99,9 +100,8 @@ public class FollowingTicketSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			final GridLayout selectionLayout = new GridLayout(5, 2);
 			selectionLayout.setSpacing(true);
@@ -109,11 +109,12 @@ public class FollowingTicketSearchPanel extends
 			selectionLayout.setMargin(true);
 			basicSearchBody.addComponent(selectionLayout);
 
-			VerticalLayout summaryLbWrapper = new VerticalLayout();
-			summaryLbWrapper.setWidth("70px");
+			MVerticalLayout summaryLbWrapper = new MVerticalLayout()
+					.withWidth("70px");
 			Label summaryLb = new Label("Summary:");
 			summaryLb.setWidthUndefined();
-			UiUtils.addComponent(summaryLbWrapper, summaryLb,
+
+			summaryLbWrapper.with(summaryLb).withAlign(summaryLb,
 					Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(summaryLbWrapper, 0, 0);
 
@@ -121,11 +122,14 @@ public class FollowingTicketSearchPanel extends
 			this.summaryField.setWidth("100%");
 			selectionLayout.addComponent(this.summaryField, 1, 0);
 
-			VerticalLayout typeLbWrapper = new VerticalLayout();
-			typeLbWrapper.setWidth("70px");
+			MVerticalLayout typeLbWrapper = new MVerticalLayout()
+					.withWidth("70px");
+
 			Label typeLb = new Label("Type:");
 			typeLb.setWidthUndefined();
-			UiUtils.addComponent(typeLbWrapper, typeLb, Alignment.TOP_RIGHT);
+
+			typeLbWrapper.with(typeLb).withAlign(typeLb, Alignment.TOP_RIGHT);
+
 			selectionLayout.addComponent(typeLbWrapper, 0, 1);
 
 			HorizontalLayout typeSelectWrapper = new HorizontalLayout();
@@ -136,33 +140,34 @@ public class FollowingTicketSearchPanel extends
 
 			this.taskSelect = new CheckBox("Task");
 			this.taskSelect.setIcon(MyCollabResource
-					.newResource("icons/16/project/task.png"));
+					.newResource(WebResourceIds._16_project_task));
 			this.taskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.taskSelect);
 
 			this.bugSelect = new CheckBox("Bug");
 			this.bugSelect.setIcon(MyCollabResource
-					.newResource("icons/16/project/bug.png"));
+					.newResource(WebResourceIds._16_project_bug));
 			this.bugSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.bugSelect);
 
 			this.problemSelect = new CheckBox("Problem");
 			this.problemSelect.setIcon(MyCollabResource
-					.newResource("icons/16/project/problem.png"));
+					.newResource(WebResourceIds._16_project_problem));
 			this.problemSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.problemSelect);
 
 			this.riskSelect = new CheckBox("Risk");
 			this.riskSelect.setIcon(MyCollabResource
-					.newResource("icons/16/project/risk.png"));
+					.newResource(WebResourceIds._16_project_risk));
 			this.riskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.riskSelect);
 
-			VerticalLayout projectLbWrapper = new VerticalLayout();
-			projectLbWrapper.setWidth("70px");
+			MVerticalLayout projectLbWrapper = new MVerticalLayout()
+					.withWidth("70px");
 			Label projectLb = new Label("Project:");
 			projectLb.setWidthUndefined();
-			UiUtils.addComponent(projectLbWrapper, projectLb,
+
+			projectLbWrapper.with(projectLb).withAlign(projectLb,
 					Alignment.TOP_RIGHT);
 			selectionLayout.addComponent(projectLbWrapper, 2, 0);
 
@@ -186,9 +191,10 @@ public class FollowingTicketSearchPanel extends
 					});
 			queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-			VerticalLayout queryBtnWrapper = new VerticalLayout();
-			queryBtnWrapper.setWidth("100px");
-			UiUtils.addComponent(queryBtnWrapper, queryBtn, Alignment.TOP_RIGHT);
+			MVerticalLayout queryBtnWrapper = new MVerticalLayout()
+					.withWidth("100px").with(queryBtn)
+					.withAlign(queryBtn, Alignment.TOP_RIGHT);
+
 			selectionLayout.addComponent(queryBtnWrapper, 4, 0);
 
 			return basicSearchBody;

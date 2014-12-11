@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -34,7 +36,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -74,23 +75,22 @@ public class VersionSearchPanel extends
 	}
 
 	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setStyleName(UIConstants.HEADER_VIEW);
-		layout.setMargin(new MarginInfo(true, false, true, false));
+		final MHorizontalLayout layout = new MHorizontalLayout()
+				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+				.withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
 
 		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/22/project/version.png"));
-		layout.addComponent(titleIcon);
-		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
+				MyCollabResource
+						.newResource(WebResourceIds._22_project_version));
+		layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label versionTitle = new Label(
 				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
 		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
-		layout.addComponent(versionTitle);
-		layout.setComponentAlignment(versionTitle, Alignment.MIDDLE_LEFT);
-		layout.setExpandRatio(versionTitle, 1.0f);
+		layout.with(versionTitle)
+				.withAlign(versionTitle, Alignment.MIDDLE_LEFT)
+				.expand(versionTitle);
 
 		final Button createBtn = new Button(
 				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
@@ -109,7 +109,7 @@ public class VersionSearchPanel extends
 		createBtn.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_addRecord));
 
-		UiUtils.addComponent(layout, createBtn, Alignment.MIDDLE_RIGHT);
+		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_LEFT);
 
 		return layout;
 	}
@@ -134,21 +134,22 @@ public class VersionSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
+
+			Label nameLbl = new Label("Name:");
+			basicSearchBody.with(nameLbl).withAlign(nameLbl,
 					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -166,8 +167,8 @@ public class VersionSearchPanel extends
 					VersionBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, searchBtn,
-					Alignment.MIDDLE_LEFT);
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
+					Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -180,7 +181,7 @@ public class VersionSearchPanel extends
 				}
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			basicSearchBody.addComponent(cancelBtn);
+			basicSearchBody.with(cancelBtn);
 
 			return basicSearchBody;
 		}

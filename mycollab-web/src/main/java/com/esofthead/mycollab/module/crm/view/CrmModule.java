@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -25,7 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -38,17 +39,16 @@ public class CrmModule extends AbstractPageView implements IModule {
 
 	private static final long serialVersionUID = 1L;
 
-	private final VerticalLayout container;
+	private final MVerticalLayout container;
 
 	private final CrmToolbar toolbar;
 
 	public CrmModule() {
 		this.setStyleName("crm-module");
 		ControllerRegistry.addController(new CrmController(this));
-		// container = CustomLayoutLoader.createLayout("crmContainer");
-		container = new VerticalLayout();
-		container.setWidth("100%");
-		container.setStyleName("crmContainer");
+
+		container = new MVerticalLayout().withWidth("100%").withSpacing(false)
+				.withMargin(false).withStyleName("crmContainer");
 
 		toolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		container.addComponent(toolbar);

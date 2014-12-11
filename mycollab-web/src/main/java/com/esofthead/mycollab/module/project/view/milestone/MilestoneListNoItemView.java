@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -27,14 +29,13 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.Sizeable;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -48,14 +49,14 @@ public class MilestoneListNoItemView extends AbstractPageView {
 	private static final long serialVersionUID = 740826537581761743L;
 
 	public MilestoneListNoItemView() {
-		VerticalLayout layout = new VerticalLayout();
+		MVerticalLayout layout = new MVerticalLayout().withSpacing(true)
+				.withMargin(true);
 		layout.addStyleName("milestone-noitem");
-		layout.setSpacing(true);
 		layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		layout.setMargin(true);
 
 		Image image = new Image(null,
-				MyCollabResource.newResource("icons/48/project/milestone.png"));
+				MyCollabResource
+						.newResource(WebResourceIds._48_project_milestone));
 		layout.addComponent(image);
 
 		Label title = new Label(

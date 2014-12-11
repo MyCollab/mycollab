@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -33,7 +35,6 @@ import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -71,23 +72,21 @@ public class AccountSearchPanel extends
 			AccountSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(true, false, true, false));
-		layout.setStyleName(UIConstants.HEADER_VIEW);
+		final MHorizontalLayout layout = new MHorizontalLayout()
+				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+				.withSpacing(true)
+				.withMargin(new MarginInfo(true, false, true, false));
 
 		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/22/crm/account.png"));
-		layout.addComponent(titleIcon);
-		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
+				MyCollabResource.newResource(WebResourceIds._22_crm_account));
+		layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label(
 				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-		layout.addComponent(searchtitle);
-		layout.setExpandRatio(searchtitle, 1.0f);
-		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
+
+		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
+				.expand(searchtitle);
 
 		final Button createAccountBtn = new Button(
 				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
@@ -104,7 +103,8 @@ public class AccountSearchPanel extends
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 
-		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
+		layout.with(createAccountBtn).withAlign(createAccountBtn,
+				Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
@@ -162,22 +162,22 @@ public class AccountSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
+					.withSpacing(true).withMargin(true);
 
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfBasicSearch");
-
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
+
+			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
@@ -192,7 +192,7 @@ public class AccountSearchPanel extends
 				}
 			});
 
-			UiUtils.addComponent(basicSearchBody, searchBtn,
+			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
@@ -205,7 +205,7 @@ public class AccountSearchPanel extends
 					AccountBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, cancelBtn,
+			basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
 			final Button advancedSearchBtn = new Button(
@@ -219,8 +219,8 @@ public class AccountSearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(advancedSearchBtn).withAlign(
+					advancedSearchBtn, Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}
 

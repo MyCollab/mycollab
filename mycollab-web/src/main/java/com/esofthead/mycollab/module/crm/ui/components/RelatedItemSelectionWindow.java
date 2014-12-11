@@ -32,7 +32,9 @@ import com.vaadin.ui.Window;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
+@SuppressWarnings("rawtypes")
 public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
 		extends Window {
 	private static final long serialVersionUID = 1L;
@@ -59,6 +61,7 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
 		tableItem.addTableListener(new TableClickListener() {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void itemClick(TableClickEvent event) {
 				try {
