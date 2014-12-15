@@ -1,13 +1,26 @@
-.v-popupbutton. .v-button-wrap * {
+.popupbutton-legacy .v-button-wrap * {
 	float: left;
-}	
+}
 
 .v-popupbutton .v-popup-indicator {
 	display: inline-block;
 	cursor: pointer;
 	width: 13px;
 	height: 11px;
+}
+
+.popupbutton-legacy .v-popup-indicator {
 	background: transparent url(../../../themes/base/common/img/sprites.png) no-repeat -5px -10px;
+}
+
+.v-popupbutton .v-popup-indicator:before {
+	font-size: 1.1em;
+	font-family: FontAwesome;
+	content: '\f0d7'
+}
+
+.popupbutton-legacy .v-popup-indicator:before {
+	content: ' '
 }
 
 .v-popupbutton.v-disabled .v-popup-indicator {
@@ -26,17 +39,23 @@
 }
 
 .v-popupbutton-popup {
-	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
-	font-size: 12px;
-	line-height: normal;
-	color: #222;
-	
 	background: #f8f8f9;
 	border: none;
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-o-border-radius: 3px;
+}
+
+.v-popupbutton-popup-popupbutton-legacy {
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: normal;
+	color: #222;
+}
+
+.v-popupbutton-popup > .popupContent > .v-captionwrapper > .v-caption {
+	display: block;
 }
 
 .v-popupbutton-popup.fixed {

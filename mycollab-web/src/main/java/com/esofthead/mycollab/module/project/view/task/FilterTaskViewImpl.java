@@ -21,6 +21,7 @@ import java.util.Arrays;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -154,7 +155,7 @@ public class FilterTaskViewImpl extends AbstractPageView implements
 		searchCriteria.setProjectid(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
 		searchCriteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Open" }));
+				new String[] { StatusI18nEnum.Open.name() }));
 
 		unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
 		unresolvedTaskByPriorityWidget.setSearchCriteria(searchCriteria);

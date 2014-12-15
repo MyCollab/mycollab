@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -69,7 +70,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 
 	public ProjectRoleReadViewImpl() {
 		this.titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/22/user/group.png"));
+				MyCollabResource.newResource(WebResourceIds._22_user_group));
 		this.headerText = new Label(
 				AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
 		this.headerText.setSizeUndefined();

@@ -407,7 +407,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					constructStreamResource(ReportExportType.PDF));
 			pdfDownloader.extend(exportPdfBtn);
 			exportPdfBtn.setIcon(MyCollabResource
-					.newResource("icons/16/filetypes/pdf.png"));
+					.newResource(WebResourceIds._16_filetypes_pdf));
 			exportPdfBtn.setStyleName("link");
 			popupButtonsControl.addComponent(exportPdfBtn);
 
@@ -416,7 +416,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					constructStreamResource(ReportExportType.EXCEL));
 			excelDownloader.extend(exportExcelBtn);
 			exportExcelBtn.setIcon(MyCollabResource
-					.newResource("icons/16/filetypes/excel.png"));
+					.newResource(WebResourceIds._16_filetypes_excel));
 			exportExcelBtn.setStyleName("link");
 			popupButtonsControl.addComponent(exportExcelBtn);
 

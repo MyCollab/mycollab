@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.GregorianCalendar;
 
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -62,9 +64,9 @@ public class AssignTaskWindow extends Window {
 		super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE,
 				task.getTaskname()));
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setSpacing(true);
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(true)
+				.withMargin(false)
+				.withMargin(new MarginInfo(false, false, true, false));
 
 		this.task = task;
 		this.setWidth("750px");
@@ -114,8 +116,7 @@ public class AssignTaskWindow extends Window {
 				layout.addComponent(controlsBtn);
 
 				Button cancelBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -130,8 +131,7 @@ public class AssignTaskWindow extends Window {
 						Alignment.MIDDLE_LEFT);
 
 				Button approveBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_ASSIGN),
+						AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -190,7 +190,7 @@ public class AssignTaskWindow extends Window {
 
 			@Override
 			public void attachField(Object propertyId, Field<?> field) {
-				if (propertyId.equals("assignuser")) {
+				if (Task.Field.assignuser.equalTo(propertyId)) {
 					informationLayout
 							.addComponent(field, AppContext
 									.getMessage(GenericI18Enum.FORM_ASSIGNEE),

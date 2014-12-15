@@ -40,7 +40,7 @@ public class UiUtils {
 				themeLink = "icons/16/filetypes/bmp.png";
 			} else if ("xls".equalsIgnoreCase(suffix)
 					|| "xlsx".equalsIgnoreCase(suffix)) {
-				themeLink = "icons/16/filetypes/excel.png";
+				themeLink = WebResourceIds._16_filetypes_excel;
 			} else if ("gz".equalsIgnoreCase(suffix)) {
 				themeLink = "icons/16/filetypes/gz.png";
 			} else if ("html".equalsIgnoreCase(suffix)
@@ -51,7 +51,7 @@ public class UiUtils {
 			} else if ("png".equalsIgnoreCase(suffix)) {
 				themeLink = "icons/16/filetypes/png.png";
 			} else if ("pdf".equalsIgnoreCase(suffix)) {
-				themeLink = "icons/16/filetypes/pdf.png";
+				themeLink = WebResourceIds._16_filetypes_pdf;
 			} else if ("ppt".equalsIgnoreCase(suffix)
 					|| "pptx".equalsIgnoreCase(suffix)
 					|| "pps".equalsIgnoreCase(suffix)

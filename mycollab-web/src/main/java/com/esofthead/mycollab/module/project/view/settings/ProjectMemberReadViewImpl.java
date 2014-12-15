@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import java.util.Arrays;
 
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -68,8 +69,8 @@ import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -189,9 +190,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		tabContainer.addTab(this.standupComp, "Stand Ups", MyCollabResource
 				.newResource("icons/16/project/gray/standup.png"));
 		tabContainer.addTab(this.userTaskComp, "Task Assignments",
-				MyCollabResource.newResource(WebResourceIds._16_project_gray_task));
+				MyCollabResource
+						.newResource(WebResourceIds._16_project_gray_task));
 		tabContainer.addTab(this.userBugComp, "Bug Assignments",
-				MyCollabResource.newResource(WebResourceIds._16_project_gray_bug));
+				MyCollabResource
+						.newResource(WebResourceIds._16_project_gray_bug));
 		return tabContainer;
 	}
 
@@ -237,9 +240,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							beanItem.getMemberAvatarId(), 100);
 			blockContent.addComponent(memberAvatar);
 
-			VerticalLayout memberInfo = new VerticalLayout();
-			memberInfo.setStyleName("member-info");
-			memberInfo.setMargin(new MarginInfo(false, false, false, true));
+			MVerticalLayout memberInfo = new MVerticalLayout().withStyleName(
+					"member-info").withMargin(
+					new MarginInfo(false, false, false, true));
 
 			Label memberLink = new Label(beanItem.getMemberFullName());
 			memberLink.setWidth("100%");
