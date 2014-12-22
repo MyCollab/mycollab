@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
-import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 

@@ -31,13 +31,13 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.dao.TaskMapper;
-import com.esofthead.mycollab.module.crm.dao.TaskMapperExt;
+import com.esofthead.mycollab.module.crm.dao.CrmTaskMapperExt;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
+import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 
 /**
@@ -59,7 +59,7 @@ public class TaskServiceImpl extends
 	protected TaskMapper taskMapper;
 
 	@Autowired
-	private TaskMapperExt taskMapperExt;
+	private CrmTaskMapperExt taskMapperExt;
 
 	@Override
 	public ICrudGenericDAO<Integer, Task> getCrudMapper() {

@@ -86,6 +86,22 @@
             <version>0.9.9-RC1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.scala</groupId>
+            <artifactId>spring-scala_2.10</artifactId>
+            <version>1.0.0.RC1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-reflect</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -106,8 +122,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-                <!-- 
-                     <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
+                    <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
                         <overwrite>true</overwrite> </configuration> </execution> <execution> <id>User 
                         Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
@@ -127,8 +142,7 @@
                         <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Form 
                         Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
                         </goals> <configuration> <configurationFile>${basedir}/src/main/resources/FormGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> 
-                        -->
+                        <overwrite>true</overwrite> </configuration> </execution> -->
                 </executions>
             </plugin>
         </plugins>

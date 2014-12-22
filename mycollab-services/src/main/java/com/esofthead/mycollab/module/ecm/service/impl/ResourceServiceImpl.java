@@ -42,7 +42,6 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
-import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogBuilder;
@@ -53,6 +52,7 @@ import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
 import com.esofthead.mycollab.module.ecm.esb.EcmEndPoints;
 import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;
 import com.esofthead.mycollab.module.ecm.service.ContentActivityLogService;
+import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 

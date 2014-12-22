@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 

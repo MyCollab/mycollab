@@ -34,6 +34,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
+import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)

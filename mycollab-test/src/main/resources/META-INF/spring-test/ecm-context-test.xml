@@ -21,28 +21,4 @@
         <property name="sessionFactory" ref="jcrSessionFactory" />
         <property name="allowCreate" value="true" />
     </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="contentActivityLogMapper">
-        <property name="sqlSessionTemplate" ref="sqlMapClient" />
-        <property name="mapperInterface"
-            value="com.esofthead.mycollab.module.ecm.dao.ContentActivityLogMapper" />
-    </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="contentActivityLogMapperExt">
-        <property name="sqlSessionTemplate" ref="sqlMapClient" />
-        <property name="mapperInterface"
-            value="com.esofthead.mycollab.module.ecm.dao.ContentActivityLogMapperExt" />
-    </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="driveInfoMapper">
-        <property name="sqlSessionTemplate" ref="sqlMapClient" />
-        <property name="mapperInterface"
-            value="com.esofthead.mycollab.module.ecm.dao.DriveInfoMapper" />
-    </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="externalDriveMapper">
-        <property name="sqlSessionTemplate" ref="sqlMapClient" />
-        <property name="mapperInterface"
-            value="com.esofthead.mycollab.module.ecm.dao.ExternalDriveMapper" />
-    </bean>
 </beans>

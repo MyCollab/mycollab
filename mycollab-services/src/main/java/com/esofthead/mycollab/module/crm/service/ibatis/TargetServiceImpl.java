@@ -25,9 +25,9 @@ import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.module.crm.dao.CrmTaskMapper;
 import com.esofthead.mycollab.module.crm.dao.TargetMapper;
 import com.esofthead.mycollab.module.crm.dao.TargetMapperExt;
-import com.esofthead.mycollab.module.crm.dao.TaskMapper;
 import com.esofthead.mycollab.module.crm.domain.SimpleTarget;
 import com.esofthead.mycollab.module.crm.domain.Target;
 import com.esofthead.mycollab.module.crm.domain.criteria.TargetSearchCriteria;
@@ -48,7 +48,7 @@ public class TargetServiceImpl extends
 	private TargetMapperExt targetMapperExt;
 
 	@Autowired
-	private TaskMapper taskMapper;
+	private CrmTaskMapper taskMapper;
 
 	@Override
 	public ICrudGenericDAO<Integer, Target> getCrudMapper() {

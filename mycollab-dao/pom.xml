@@ -17,29 +17,11 @@
             <artifactId>mycollab-core</artifactId>
             <version>4.5.5</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
             <version>4.5.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.2.8</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis.scripting</groupId>
-            <artifactId>mybatis-velocity</artifactId>
-            <version>1.1</version>
         </dependency>
 
         <dependency>

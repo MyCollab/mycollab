@@ -7,51 +7,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="java:comp/env/jdbc/mycollabdatasource" />
-        <property name="lookupOnStartup" value="true" />
-        <property name="proxyInterface" value="javax.sql.DataSource" />
-        <property name="resourceRef" value="true" />
-    </bean>
-
-    <bean id="txManager"
-        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
 
     <tx:annotation-driven transaction-manager="txManager" />
-
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="typeAliasesPackage"
-            value="com.esofthead.mycollab.common.domain.criteria;com.esofthead.mycollab.module.crm.domain.criteria;com.esofthead.mycollab.module.ecm.domain.criteria;com.esofthead.mycollab.module.file.domain.criteria;com.esofthead.mycollab.module.project.domain.criteria;com.esofthead.mycollab.module.tracker.domain.criteria;com.esofthead.mycollab.module.user.domain.criteria" />
-        <property name="typeAliasesSuperType"
-            value="com.esofthead.mycollab.core.arguments.SearchCriteria" />
-        <property name="typeAliases"
-            value="com.esofthead.mycollab.core.persistence.VelocityDriverDeclare" />
-        <property name="typeHandlersPackage" value="com.esofthead.mybatis.plugin.ext" />
-        <property name="mapperLocations">
-            <list>
-                <value>classpath*:sqlMap/common/*Mapper.xml</value>
-                <value>classpath*:sqlMap/common/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/user/*Mapper.xml</value>
-                <value>classpath*:sqlMap/user/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/form/*Mapper.xml</value>
-                <value>classpath*:sqlMap/form/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/ecm/*Mapper.xml</value>
-                <value>classpath*:sqlMap/ecm/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/crm/*Mapper.xml</value>
-                <value>classpath*:sqlMap/crm/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/project/*Mapper.xml</value>
-                <value>classpath*:sqlMap/project/*MapperExt.xml</value>
-                <value>classpath*:sqlMap/tracker/*Mapper.xml</value>
-                <value>classpath*:sqlMap/tracker/*MapperExt.xml</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlMapClient">
-        <constructor-arg index="0" ref="sqlSessionFactory" />
-    </bean>
 
 </beans>

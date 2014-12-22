@@ -115,7 +115,7 @@
         <table domainObjectName="TargetGroup" schema="mycollab"
             tableName="m_crm_target_list" />
 
-        <table domainObjectName="Task" schema="mycollab"
+        <table domainObjectName="CrmTask" schema="mycollab"
             tableName="m_crm_task" />
     </context>
 

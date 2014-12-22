@@ -34,18 +34,14 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:/META-INF/spring/core-context.xml
-            classpath:/META-INF/spring/common-context.xml
             classpath:/META-INF/spring/datasource-context.xml
-            classpath:/META-INF/spring/mail-context.xml
-            classpath:/META-INF/spring/crm-context.xml
-            classpath:/META-INF/spring/ecm-context.xml
-            classpath:/META-INF/spring/page-context.xml
-            classpath:/META-INF/spring/form-context.xml
-            classpath:/META-INF/spring/project-context.xml
-            classpath:/META-INF/spring/tracker-context.xml
-            classpath:/META-INF/spring/user-context.xml
             classpath:/META-INF/spring-scheduler-standalone/*-context.xml
         </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>production</param-value>
     </context-param>
 
     <!-- VAADIN PARAMS -->
@@ -105,7 +101,7 @@
         <servlet-name>userAvatarFSServlet</servlet-name>
         <url-pattern>/avatar/*</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <display-name>PageUploadServlet</display-name>
         <servlet-name>pageUploadServlet</servlet-name>
@@ -121,13 +117,13 @@
         <servlet-name>pageUploadServlet</servlet-name>
         <url-pattern>/page/upload</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <display-name>ResourceGetHandler</display-name>
         <servlet-name>resourceGetHandler</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>resourceGetHandler</servlet-name>
         <url-pattern>/file</url-pattern>

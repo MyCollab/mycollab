@@ -21,19 +21,5 @@
 
     </reflections:component-scan>
 
-    <bean id="validator"
-        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-        <property name="mappingLocations">
-            <list>
-                <value>classpath:validator/crm-constraints.xml</value>
-                <value>classpath:validator/user-constraints.xml</value>
-                <value>classpath:validator/project-constraints.xml
-                </value>
-                <value>classpath:validator/tracker-constraints.xml
-                </value>
-            </list>
-        </property>
-    </bean>
-
     <aop:aspectj-autoproxy />
 </beans>
