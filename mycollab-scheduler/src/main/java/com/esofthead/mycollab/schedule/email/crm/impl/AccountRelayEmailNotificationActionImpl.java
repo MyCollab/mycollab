@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -167,7 +168,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -193,42 +194,42 @@ public class AccountRelayEmailNotificationActionImpl extends
 	public static class AccountFieldNameMapper extends ItemFieldMapper {
 
 		public AccountFieldNameMapper() {
-			put("accountname", AccountI18nEnum.FORM_ACCOUNT_NAME);
-			put("phoneoffice", AccountI18nEnum.FORM_OFFICE_PHONE);
+			put(Account.Field.accountname, AccountI18nEnum.FORM_ACCOUNT_NAME);
+			put(Account.Field.phoneoffice, AccountI18nEnum.FORM_OFFICE_PHONE);
 
-			put("website", AccountI18nEnum.FORM_WEBSITE);
-			put("numemployees", AccountI18nEnum.FORM_EMPLOYEES);
+			put(Account.Field.website, AccountI18nEnum.FORM_WEBSITE);
+			put(Account.Field.numemployees, AccountI18nEnum.FORM_EMPLOYEES);
 
-			put("fax", AccountI18nEnum.FORM_FAX);
-			put("alternatephone", AccountI18nEnum.FORM_OTHER_PHONE);
+			put(Account.Field.fax, AccountI18nEnum.FORM_FAX);
+			put(Account.Field.alternatephone, AccountI18nEnum.FORM_OTHER_PHONE);
 
-			put("industry", AccountI18nEnum.FORM_INDUSTRY);
-			put("email", AccountI18nEnum.FORM_EMAIL);
+			put(Account.Field.industry, AccountI18nEnum.FORM_INDUSTRY);
+			put(Account.Field.email, AccountI18nEnum.FORM_EMAIL);
 
-			put("type", new I18nFieldFormat("type", AccountI18nEnum.FORM_TYPE,
+			put(Account.Field.type, new I18nFieldFormat(Account.Field.type.name(), AccountI18nEnum.FORM_TYPE,
 					AccountType.class));
-			put("ownership", AccountI18nEnum.FORM_OWNERSHIP);
+			put(Account.Field.ownership, AccountI18nEnum.FORM_OWNERSHIP);
 
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(Account.Field.assignuser, new AssigneeFieldFormat(Account.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
-			put("annualrevenue", AccountI18nEnum.FORM_ANNUAL_REVENUE);
+			put(Account.Field.annualrevenue, AccountI18nEnum.FORM_ANNUAL_REVENUE);
 
-			put("billingaddress", AccountI18nEnum.FORM_BILLING_ADDRESS);
-			put("shippingaddress", AccountI18nEnum.FORM_SHIPPING_ADDRESS);
+			put(Account.Field.billingaddress, AccountI18nEnum.FORM_BILLING_ADDRESS);
+			put(Account.Field.shippingaddress, AccountI18nEnum.FORM_SHIPPING_ADDRESS);
 
-			put("city", AccountI18nEnum.FORM_BILLING_CITY);
-			put("shippingcity", AccountI18nEnum.FORM_SHIPPING_CITY);
+			put(Account.Field.city, AccountI18nEnum.FORM_BILLING_CITY);
+			put(Account.Field.shippingcity, AccountI18nEnum.FORM_SHIPPING_CITY);
 
-			put("state", AccountI18nEnum.FORM_BILLING_STATE);
-			put("shippingstate", AccountI18nEnum.FORM_SHIPPING_STATE);
+			put(Account.Field.state, AccountI18nEnum.FORM_BILLING_STATE);
+			put(Account.Field.shippingstate, AccountI18nEnum.FORM_SHIPPING_STATE);
 
-			put("postalcode", AccountI18nEnum.FORM_BILLING_POSTAL_CODE);
-			put("shippingpostalcode", AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE);
+			put(Account.Field.postalcode, AccountI18nEnum.FORM_BILLING_POSTAL_CODE);
+			put(Account.Field.shippingpostalcode, AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE);
 
-			put("billingcountry", AccountI18nEnum.FORM_BILLING_COUNTRY);
-			put("shippingcountry", AccountI18nEnum.FORM_SHIPPING_COUNTRY);
+			put(Account.Field.billingcountry, AccountI18nEnum.FORM_BILLING_COUNTRY);
+			put(Account.Field.shippingcountry, AccountI18nEnum.FORM_SHIPPING_COUNTRY);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Account.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 }

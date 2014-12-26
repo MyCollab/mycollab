@@ -32,138 +32,124 @@ import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
-		AbstractPageView implements ListView<S, B> {
-	private static final long serialVersionUID = 1L;
+        AbstractPageView implements ListView<S, B> {
+    private static final long serialVersionUID = 1L;
 
-	protected VerticalLayout contentLayout;
-	protected GenericSearchPanel<S> searchPanel;
-	protected AbstractPagedBeanTable<S, B> tableItem;
+    protected MVerticalLayout contentLayout;
+    protected GenericSearchPanel<S> searchPanel;
+    protected AbstractPagedBeanTable<S, B> tableItem;
 
-	protected Label selectedItemsNumberLabel = new Label();
+    protected Label selectedItemsNumberLabel = new Label();
 
-	protected SelectionOptionButton selectOptionButton;
-	protected DefaultMassItemActionHandlersContainer tableActionControls;
-	protected HorizontalLayout extraControlsLayout;
+    protected SelectionOptionButton selectOptionButton;
+    protected DefaultMassItemActionHandlersContainer tableActionControls;
+    protected HorizontalLayout extraControlsLayout;
 
-	public AbstractListItemComp() {
-		super();
-		this.setMargin(new MarginInfo(false, true, true, true));
+    public AbstractListItemComp() {
+        super();
+        this.setMargin(new MarginInfo(false, true, true, true));
 
-		this.searchPanel = createSearchPanel();
-		this.addComponent(this.searchPanel);
+        this.searchPanel = createSearchPanel();
+        this.addComponent(this.searchPanel);
 
-		this.contentLayout = new VerticalLayout();
-		this.addComponent(this.contentLayout);
+        this.contentLayout = new MVerticalLayout();
+        this.addComponent(this.contentLayout);
 
-		this.tableItem = createBeanTable();
-		buildLayout();
-	}
+        this.tableItem = createBeanTable();
+        buildLayout();
+    }
 
-	private void buildLayout() {
-		final CssLayout layoutWrapper = new CssLayout();
-		layoutWrapper.setWidth("100%");
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
-		layoutWrapper.addComponent(layout);
+    private void buildLayout() {
+        final CssLayout layoutWrapper = new CssLayout();
+        layoutWrapper.setWidth("100%");
 
-		this.selectOptionButton = new SelectionOptionButton(this.tableItem);
-		this.selectOptionButton.setSizeUndefined();
-		layout.addComponent(this.selectOptionButton);
+        final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withWidth("100%");
 
-		final Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-		deleteBtn.setEnabled(AppContext
-				.canAccess(RolePermissionCollections.CRM_ACCOUNT));
+        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addComponent(layout);
 
-		this.tableActionControls = createActionControls();
+        this.selectOptionButton = new SelectionOptionButton(this.tableItem);
+        this.selectOptionButton.setSizeUndefined();
+        layout.addComponent(this.selectOptionButton);
 
-		layout.addComponent(this.tableActionControls);
-		layout.addComponent(this.selectedItemsNumberLabel);
-		layout.setComponentAlignment(this.selectedItemsNumberLabel,
-				Alignment.MIDDLE_LEFT);
+        final Button deleteBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
+        deleteBtn.setEnabled(AppContext
+                .canAccess(RolePermissionCollections.CRM_ACCOUNT));
 
-		layout.setExpandRatio(this.selectedItemsNumberLabel, 1.0f);
+        this.tableActionControls = createActionControls();
 
-		extraControlsLayout = new HorizontalLayout();
-		extraControlsLayout.setSpacing(true);
-		layout.addComponent(extraControlsLayout);
-		extraControlsLayout.addStyleName(UIConstants.THEME_SMALL_PADDING);
-		layout.setComponentAlignment(this.extraControlsLayout,
-				Alignment.MIDDLE_RIGHT);
+        layout.with(this.tableActionControls, this.selectedItemsNumberLabel).withAlign(this.selectedItemsNumberLabel,
+                Alignment.MIDDLE_LEFT).setExpandRatio(this.selectedItemsNumberLabel, 1.0f);
 
-		contentLayout.addComponent(layoutWrapper);
-		contentLayout.addComponent(this.tableItem);
+        contentLayout.with(layoutWrapper, tableItem);
 
-		buildExtraControls();
-		layout.addComponent(extraControlsLayout);
-	}
+        extraControlsLayout = new HorizontalLayout();
+        extraControlsLayout.setSpacing(true);
+        extraControlsLayout.addStyleName(UIConstants.THEME_SMALL_PADDING);
+        buildExtraControls();
 
-	@Override
-	public void disableActionControls() {
-		this.tableActionControls.setVisible(false);
-		this.selectOptionButton.setSelectedChecbox(false);
-		this.selectedItemsNumberLabel.setValue("");
-	}
+        layout.with(extraControlsLayout).withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
+    }
 
-	@Override
-	public void enableActionControls(final int numOfSelectedItems) {
-		this.tableActionControls.setVisible(true);
-		this.selectedItemsNumberLabel.setValue(AppContext
-				.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE,
-						numOfSelectedItems));
-	}
+    @Override
+    public void disableActionControls() {
+        this.tableActionControls.setVisible(false);
+        this.selectOptionButton.setSelectedChecbox(false);
+        this.selectedItemsNumberLabel.setValue("");
+    }
 
-	public void addExtraComponent(Component component) {
-		extraControlsLayout.addComponent(component);
-	}
+    @Override
+    public void enableActionControls(final int numOfSelectedItems) {
+        this.tableActionControls.setVisible(true);
+        this.selectedItemsNumberLabel.setValue(AppContext
+                .getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE,
+                        numOfSelectedItems));
+    }
 
-	@Override
-	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-		return this.selectOptionButton;
-	}
+    public void addExtraComponent(Component component) {
+        extraControlsLayout.addComponent(component);
+    }
 
-	@Override
-	public AbstractPagedBeanTable<S, B> getPagedBeanTable() {
-		return this.tableItem;
-	}
+    @Override
+    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+        return this.selectOptionButton;
+    }
 
-	@Override
-	public HasMassItemActionHandlers getPopupActionHandlers() {
-		return tableActionControls;
-	}
+    @Override
+    public AbstractPagedBeanTable<S, B> getPagedBeanTable() {
+        return this.tableItem;
+    }
 
-	@Override
-	public HasSearchHandlers<S> getSearchHandlers() {
-		return this.searchPanel;
-	}
+    @Override
+    public HasMassItemActionHandlers getPopupActionHandlers() {
+        return tableActionControls;
+    }
 
-	@Override
-	public HasSelectableItemHandlers<B> getSelectableItemHandlers() {
-		return this.tableItem;
-	}
+    @Override
+    public HasSearchHandlers<S> getSearchHandlers() {
+        return this.searchPanel;
+    }
 
-	abstract protected void buildExtraControls();
+    @Override
+    public HasSelectableItemHandlers<B> getSelectableItemHandlers() {
+        return this.tableItem;
+    }
 
-	abstract protected GenericSearchPanel<S> createSearchPanel();
+    abstract protected void buildExtraControls();
 
-	abstract protected AbstractPagedBeanTable<S, B> createBeanTable();
+    abstract protected GenericSearchPanel<S> createSearchPanel();
 
-	abstract protected DefaultMassItemActionHandlersContainer createActionControls();
+    abstract protected AbstractPagedBeanTable<S, B> createBeanTable();
+
+    abstract protected DefaultMassItemActionHandlersContainer createActionControls();
 }

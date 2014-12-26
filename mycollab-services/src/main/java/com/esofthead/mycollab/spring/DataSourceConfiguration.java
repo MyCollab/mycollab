@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 
@@ -34,6 +35,7 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 @Configuration
 @Profile("production")
 @MapperScan("com.esofthead.mycollab.**.dao")
+@EnableTransactionManagement
 public class DataSourceConfiguration {
 
 	@Bean
@@ -47,8 +49,7 @@ public class DataSourceConfiguration {
 
 	@Bean
 	public DataSourceTransactionManager txManager() {
-		DataSourceTransactionManager bean = new DataSourceTransactionManager();
-		bean.setDataSource(dataSource());
+		DataSourceTransactionManager bean = new DataSourceTransactionManager(dataSource());
 		return bean;
 	}
 }

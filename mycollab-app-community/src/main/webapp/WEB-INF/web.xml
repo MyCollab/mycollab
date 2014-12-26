@@ -34,7 +34,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:/META-INF/spring/core-context.xml
-            classpath:/META-INF/spring/datasource-context.xml
             classpath:/META-INF/spring-scheduler-standalone/*-context.xml
         </param-value>
     </context-param>

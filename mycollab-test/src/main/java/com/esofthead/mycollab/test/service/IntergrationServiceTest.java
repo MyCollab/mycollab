@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.test.service;
 
+import com.esofthead.mycollab.spring.test.RootConfigurationTest;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,10 +31,8 @@ import com.esofthead.mycollab.test.rule.EssentialInitRule;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ContextConfiguration(locations = {
-		"classpath:META-INF/spring-test/ecm-context-test.xml",
-		"classpath:META-INF/spring-test/page-context-test.xml",
-		"classpath:META-INF/spring-test/service-context-test.xml" })
+
+@ContextConfiguration(classes = {RootConfigurationTest.class})
 @ActiveProfiles(profiles = "test")
 public class IntergrationServiceTest {
 	@ClassRule

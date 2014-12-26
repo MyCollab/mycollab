@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -310,33 +311,33 @@ public class BugRelayEmailNotificationActionImpl extends
 	public static class BugFieldNameMapper extends ItemFieldMapper {
 
 		public BugFieldNameMapper() {
-			put("summary", BugI18nEnum.FORM_SUMMARY, true);
+			put(BugWithBLOBs.Field.summary, BugI18nEnum.FORM_SUMMARY, true);
 
-			put("environment", BugI18nEnum.FORM_ENVIRONMENT, true);
+			put(BugWithBLOBs.Field.environment, BugI18nEnum.FORM_ENVIRONMENT, true);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(BugWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(BugWithBLOBs.Field.assignuser, new AssigneeFieldFormat(BugWithBLOBs.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("milestoneid", new MilestoneFieldFormat("milestoneid",
+			put(BugWithBLOBs.Field.milestoneid, new MilestoneFieldFormat(BugWithBLOBs.Field.milestoneid.name(),
 					BugI18nEnum.FORM_PHASE));
 
-			put("status", new I18nFieldFormat("status",
+			put(BugWithBLOBs.Field.status, new I18nFieldFormat(BugWithBLOBs.Field.status.name(),
 					BugI18nEnum.FORM_STATUS, BugStatus.class));
 
-			put("resolution", new I18nFieldFormat("resolution",
+			put(BugWithBLOBs.Field.resolution, new I18nFieldFormat(BugWithBLOBs.Field.resolution.name(),
 					BugI18nEnum.FORM_RESOLUTION, BugResolution.class));
 
-			put("severity", new I18nFieldFormat("severity",
+			put(BugWithBLOBs.Field.severity, new I18nFieldFormat(BugWithBLOBs.Field.severity.name(),
 					BugI18nEnum.FORM_SEVERITY, BugSeverity.class));
-			put("priority", new I18nFieldFormat("priority",
+			put(BugWithBLOBs.Field.priority, new I18nFieldFormat(BugWithBLOBs.Field.priority.name(),
 					BugI18nEnum.FORM_PRIORITY, BugPriority.class));
 
-			put("duedate", new DateFieldFormat("duedate",
+			put(BugWithBLOBs.Field.duedate, new DateFieldFormat(BugWithBLOBs.Field.duedate.name(),
 					BugI18nEnum.FORM_DUE_DATE));
 
-			put("logby", new LogUserFieldFormat("logby",
+			put(BugWithBLOBs.Field.logby, new LogUserFieldFormat(BugWithBLOBs.Field.logby.name(),
 					BugI18nEnum.FORM_LOG_BY));
 		}
 	}

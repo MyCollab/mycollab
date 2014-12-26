@@ -19,6 +19,7 @@ package com.esofthead.mycollab.schedule.email.format;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +66,7 @@ public class DefaultFieldFormat extends FieldFormat {
 
 	@Override
 	public String formatField(MailContext<?> context, String value) {
-		if (value == null || "".equals(value)) {
+		if (StringUtils.isBlank(value)) {
 			return new Span().write();
 		}
 

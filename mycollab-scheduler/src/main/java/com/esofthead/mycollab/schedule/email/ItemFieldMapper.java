@@ -32,18 +32,18 @@ import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 public class ItemFieldMapper {
 	private Map<String, FieldFormat> fieldNameMap = new LinkedHashMap<String, FieldFormat>();
 
-	public void put(String fieldname, Enum<?> displayName) {
-		fieldNameMap.put(fieldname, new DefaultFieldFormat(fieldname,
+	public void put(Enum<?> fieldname, Enum<?> displayName) {
+		fieldNameMap.put(fieldname.name(), new DefaultFieldFormat(fieldname.name(),
 				displayName));
 	}
 
-	public void put(String fieldname, Enum<?> displayName, boolean isColSpan) {
-		fieldNameMap.put(fieldname, new DefaultFieldFormat(fieldname,
+	public void put(Enum<?> fieldname, Enum<?> displayName, boolean isColSpan) {
+		fieldNameMap.put(fieldname.name(), new DefaultFieldFormat(fieldname.name(),
 				displayName, isColSpan));
 	}
 
-	public void put(String fieldname, FieldFormat format) {
-		fieldNameMap.put(fieldname, format);
+	public void put(Enum<?> fieldname, FieldFormat format) {
+		fieldNameMap.put(fieldname.name(), format);
 	}
 
 	public boolean hasField(String fieldName) {

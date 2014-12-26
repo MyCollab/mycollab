@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -143,28 +144,28 @@ public class CampaignRelayEmailNotificationActionImpl extends
 	public static class CampaignFieldNameMapper extends ItemFieldMapper {
 
 		public CampaignFieldNameMapper() {
-			put("campaignname", CampaignI18nEnum.FORM_CAMPAIGN_NAME, true);
+			put(CampaignWithBLOBs.Field.campaignname, CampaignI18nEnum.FORM_CAMPAIGN_NAME, true);
 
-			put("status", CampaignI18nEnum.FORM_STATUS);
-			put("type", CampaignI18nEnum.FORM_TYPE);
+			put(CampaignWithBLOBs.Field.status, CampaignI18nEnum.FORM_STATUS);
+			put(CampaignWithBLOBs.Field.type, CampaignI18nEnum.FORM_TYPE);
 
-			put("currencyid", new CurrencyFieldFormat("currencyid",
+			put(CampaignWithBLOBs.Field.currencyid, new CurrencyFieldFormat(CampaignWithBLOBs.Field.currencyid.name(),
 					CampaignI18nEnum.FORM_CURRENCY));
-			put("budget", CampaignI18nEnum.FORM_BUDGET);
+			put(CampaignWithBLOBs.Field.budget, CampaignI18nEnum.FORM_BUDGET);
 
-			put("expectedcost", CampaignI18nEnum.FORM_EXPECTED_COST);
-			put("expectedrevenue", CampaignI18nEnum.FORM_EXPECTED_REVENUE);
+			put(CampaignWithBLOBs.Field.expectedcost, CampaignI18nEnum.FORM_EXPECTED_COST);
+			put(CampaignWithBLOBs.Field.expectedrevenue, CampaignI18nEnum.FORM_EXPECTED_REVENUE);
 
-			put("actualcost", CampaignI18nEnum.FORM_ACTUAL_COST);
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(CampaignWithBLOBs.Field.actualcost, CampaignI18nEnum.FORM_ACTUAL_COST);
+			put(CampaignWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CampaignWithBLOBs.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("startdate", new DateFieldFormat("startdate",
+			put(CampaignWithBLOBs.Field.startdate, new DateFieldFormat(CampaignWithBLOBs.Field.startdate.name(),
 					CampaignI18nEnum.FORM_START_DATE));
-			put("enddate", new DateFieldFormat("enddate",
+			put(CampaignWithBLOBs.Field.enddate, new DateFieldFormat(CampaignWithBLOBs.Field.enddate.name(),
 					CampaignI18nEnum.FORM_END_DATE));
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(CampaignWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 
@@ -196,7 +197,7 @@ public class CampaignRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return "";
 			}
 

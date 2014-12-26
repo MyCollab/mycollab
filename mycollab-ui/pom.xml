@@ -50,12 +50,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>scaladin</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>maddon</artifactId>
             <version>1.21</version>

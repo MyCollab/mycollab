@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.project.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,6 @@ import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
-import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -291,35 +286,35 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 		public TaskFieldNameMapper() {
 
-			put("taskname", TaskI18nEnum.FORM_TASK_NAME, true);
+			put(Task.Field.taskname, TaskI18nEnum.FORM_TASK_NAME, true);
 
-			put("startdate", new DateFieldFormat("startdate",
+			put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name(),
 					TaskI18nEnum.FORM_START_DATE));
 
-			put("actualstartdate", new DateFieldFormat("actualstartdate",
+			put(Task.Field.actualstartdate, new DateFieldFormat(Task.Field.actualstartdate.name(),
 					TaskI18nEnum.FORM_ACTUAL_START_DATE));
 
-			put("enddate", new DateFieldFormat("enddate",
+			put(Task.Field.enddate, new DateFieldFormat(Task.Field.enddate.name(),
 					TaskI18nEnum.FORM_END_DATE));
 
-			put("actualenddate", new DateFieldFormat("actualenddate",
+			put(Task.Field.actualenddate, new DateFieldFormat(Task.Field.actualenddate.name(),
 					TaskI18nEnum.FORM_ACTUAL_END_DATE));
 
-			put("deadline", new DateFieldFormat("deadline",
+			put(Task.Field.deadline, new DateFieldFormat(Task.Field.deadline.name(),
 					TaskI18nEnum.FORM_DEADLINE));
-			put("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
+			put(Task.Field.percentagecomplete, TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
 
-			put("priority", new I18nFieldFormat("priority",
+			put(Task.Field.priority, new I18nFieldFormat(Task.Field.priority.name(),
 					TaskI18nEnum.FORM_PRIORITY, TaskPriority.class));
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("isestimated", TaskI18nEnum.FORM_IS_ESTIMATED);
-			put("remainestimate", TaskI18nEnum.FORM_REMAIN_ESTIMATE);
+			put(Task.Field.isestimated, TaskI18nEnum.FORM_IS_ESTIMATED);
+			put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE);
 
-			put("tasklistid", new TaskGroupFieldFormat("tasklistid",
+			put(Task.Field.tasklistid, new TaskGroupFieldFormat(Task.Field.tasklistid.name(),
 					TaskI18nEnum.FORM_TASKGROUP));
-			put("notes", TaskI18nEnum.FORM_NOTES);
+			put(Task.Field.notes, TaskI18nEnum.FORM_NOTES);
 		}
 	}
 
@@ -351,7 +346,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -400,7 +395,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

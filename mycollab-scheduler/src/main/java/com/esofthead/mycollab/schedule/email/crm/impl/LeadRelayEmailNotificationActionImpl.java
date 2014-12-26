@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.Lead;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -139,48 +140,48 @@ public class LeadRelayEmailNotificationActionImpl extends
 	public static class LeadFieldNameMapper extends ItemFieldMapper {
 		public LeadFieldNameMapper() {
 
-			put("firstname", LeadI18nEnum.FORM_FIRSTNAME);
-			put("email", new EmailLinkFieldFormat("email",
+			put(Lead.Field.firstname, LeadI18nEnum.FORM_FIRSTNAME);
+			put(Lead.Field.email, new EmailLinkFieldFormat("email",
 					LeadI18nEnum.FORM_EMAIL));
 
-			put("lastname", LeadI18nEnum.FORM_LASTNAME);
-			put("officephone", LeadI18nEnum.FORM_OFFICE_PHONE);
+			put(Lead.Field.lastname, LeadI18nEnum.FORM_LASTNAME);
+			put(Lead.Field.officephone, LeadI18nEnum.FORM_OFFICE_PHONE);
 
-			put("title", LeadI18nEnum.FORM_TITLE);
-			put("mobile", LeadI18nEnum.FORM_MOBILE);
+			put(Lead.Field.title, LeadI18nEnum.FORM_TITLE);
+			put(Lead.Field.mobile, LeadI18nEnum.FORM_MOBILE);
 
-			put("department", LeadI18nEnum.FORM_DEPARTMENT);
-			put("otherphone", LeadI18nEnum.FORM_OTHER_PHONE);
+			put(Lead.Field.department, LeadI18nEnum.FORM_DEPARTMENT);
+			put(Lead.Field.otherphone, LeadI18nEnum.FORM_OTHER_PHONE);
 
-			put("accountname", LeadI18nEnum.FORM_ACCOUNT_NAME);
-			put("fax", LeadI18nEnum.FORM_FAX);
+			put(Lead.Field.accountname, LeadI18nEnum.FORM_ACCOUNT_NAME);
+			put(Lead.Field.fax, LeadI18nEnum.FORM_FAX);
 
-			put("leadsourcedesc", LeadI18nEnum.FORM_LEAD_SOURCE);
-			put("website", LeadI18nEnum.FORM_WEBSITE);
+			put(Lead.Field.leadsourcedesc, LeadI18nEnum.FORM_LEAD_SOURCE);
+			put(Lead.Field.website, LeadI18nEnum.FORM_WEBSITE);
 
-			put("industry", LeadI18nEnum.FORM_INDUSTRY);
-			put("status", LeadI18nEnum.FORM_STATUS);
+			put(Lead.Field.industry, LeadI18nEnum.FORM_INDUSTRY);
+			put(Lead.Field.status, LeadI18nEnum.FORM_STATUS);
 
-			put("noemployees", LeadI18nEnum.FORM_NO_EMPLOYEES);
-			put("assignuser", new LeadAssigneeFieldFormat("assignuser",
+			put(Lead.Field.noemployees, LeadI18nEnum.FORM_NO_EMPLOYEES);
+			put(Lead.Field.assignuser, new LeadAssigneeFieldFormat(Lead.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("primaddress", LeadI18nEnum.FORM_PRIMARY_ADDRESS);
-			put("otheraddress", LeadI18nEnum.FORM_OTHER_ADDRESS);
+			put(Lead.Field.primaddress, LeadI18nEnum.FORM_PRIMARY_ADDRESS);
+			put(Lead.Field.otheraddress, LeadI18nEnum.FORM_OTHER_ADDRESS);
 
-			put("primcity", LeadI18nEnum.FORM_PRIMARY_CITY);
-			put("othercity", LeadI18nEnum.FORM_OTHER_CITY);
+			put(Lead.Field.primcity, LeadI18nEnum.FORM_PRIMARY_CITY);
+			put(Lead.Field.othercity, LeadI18nEnum.FORM_OTHER_CITY);
 
-			put("primstate", LeadI18nEnum.FORM_PRIMARY_STATE);
-			put("otherstate", LeadI18nEnum.FORM_OTHER_STATE);
+			put(Lead.Field.primstate, LeadI18nEnum.FORM_PRIMARY_STATE);
+			put(Lead.Field.otherstate, LeadI18nEnum.FORM_OTHER_STATE);
 
-			put("primpostalcode", LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE);
-			put("otherpostalcode", LeadI18nEnum.FORM_OTHER_POSTAL_CODE);
+			put(Lead.Field.primpostalcode, LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE);
+			put(Lead.Field.otherpostalcode, LeadI18nEnum.FORM_OTHER_POSTAL_CODE);
 
-			put("primcountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY);
-			put("othercountry", LeadI18nEnum.FORM_OTHER_COUNTRY);
+			put(Lead.Field.primcountry, LeadI18nEnum.FORM_PRIMARY_COUNTRY);
+			put(Lead.Field.othercountry, LeadI18nEnum.FORM_OTHER_COUNTRY);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Lead.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
 		}
 	}
@@ -214,7 +215,7 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

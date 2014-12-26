@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-jackrabbit</artifactId>
+            <version>4.5.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>2.3.3</version>
@@ -34,7 +40,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junitVersion}</version>
         </dependency>
 
         <dependency>
@@ -47,11 +53,6 @@
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <version>2.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
         </dependency>
 
         <dependency>

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.project.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,6 @@ import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -192,16 +189,16 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		public ProjectFieldNameMapper() {
 
-			put("name", TaskGroupI18nEnum.FORM_NAME_FIELD, true);
+			put(TaskList.Field.name, TaskGroupI18nEnum.FORM_NAME_FIELD, true);
 
-			put("owner", new AssigneeFieldFormat("owner",
+			put(TaskList.Field.owner, new AssigneeFieldFormat(TaskList.Field.owner.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
-			put("status", TaskGroupI18nEnum.FORM_STATUS);
+			put(TaskList.Field.status, TaskGroupI18nEnum.FORM_STATUS);
 
-			put("milestoneid", new MilestoneFieldFormat("milestoneid",
+			put(TaskList.Field.milestoneid, new MilestoneFieldFormat(TaskList.Field.milestoneid.name(),
 					TaskGroupI18nEnum.FORM_PHASE_FIELD, true));
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(TaskList.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
 		}
 	}
@@ -234,7 +231,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -287,7 +284,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

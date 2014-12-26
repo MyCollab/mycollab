@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.project.domain.Risk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -178,23 +179,23 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 
 		public ProjectFieldNameMapper() {
-			put("riskname", RiskI18nEnum.FORM_NAME, true);
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Risk.Field.riskname, RiskI18nEnum.FORM_NAME, true);
+			put(Risk.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("probalitity", RiskI18nEnum.FORM_PROBABILITY);
-			put("consequence", RiskI18nEnum.FORM_CONSEQUENCE);
+			put(Risk.Field.probalitity, RiskI18nEnum.FORM_PROBABILITY);
+			put(Risk.Field.consequence, RiskI18nEnum.FORM_CONSEQUENCE);
 
-			put("datedue", new DateFieldFormat("datedue",
+			put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name(),
 					RiskI18nEnum.FORM_DATE_DUE));
-			put("status", new I18nFieldFormat("status",
+			put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name(),
 					RiskI18nEnum.FORM_STATUS, StatusI18nEnum.class));
 
-			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+			put(Risk.Field.assigntouser, new AssigneeFieldFormat(Risk.Field.assigntouser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
-			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
+			put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name(),
 					RiskI18nEnum.FORM_RAISED_BY));
 
-			put("response", RiskI18nEnum.FORM_RESPONSE, true);
+			put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, true);
 
 		}
 	}

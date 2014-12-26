@@ -14,8 +14,8 @@
         <module>../mycollab-localization</module>
         <module>../mycollab-config</module>
         <module>../mycollab-dao</module>
-        <module>../mycollab-caching</module>
         <module>../mycollab-jackrabbit</module>
+        <module>../mycollab-caching</module>
         <module>../mycollab-services</module>
         <module>../mycollab-migration</module>
         <module>../mycollab-server-runner</module>

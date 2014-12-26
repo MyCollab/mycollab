@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.tracker.domain.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -169,11 +170,11 @@ public class VersionRelayEmailNotificationActionImpl extends
 
 	public static class VersionFieldNameMapper extends ItemFieldMapper {
 		public VersionFieldNameMapper() {
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
-			put("status", new I18nFieldFormat("status",
+			put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name(),
 					VersionI18nEnum.FORM_STATUS, StatusI18nEnum.class));
-			put("versionname", VersionI18nEnum.FORM_NAME);
-			put("duedate", new DateFieldFormat("duedate",
+			put(Version.Field.versionname, VersionI18nEnum.FORM_NAME);
+			put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name(),
 					VersionI18nEnum.FORM_DUE_DATE));
 		}
 	}

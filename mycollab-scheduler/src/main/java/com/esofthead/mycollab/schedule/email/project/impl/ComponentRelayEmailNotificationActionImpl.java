@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.tracker.domain.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -184,10 +185,10 @@ public class ComponentRelayEmailNotificationActionImpl extends
 
 	public static class ComponentFieldNameMapper extends ItemFieldMapper {
 		public ComponentFieldNameMapper() {
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
-			put("status", new I18nFieldFormat("status",
+			put(Component.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Component.Field.status, new I18nFieldFormat(Component.Field.status.name(),
 					ComponentI18nEnum.FORM_STATUS, StatusI18nEnum.class));
-			put("userlead", new LeadFieldFormat("userlead",
+			put(Component.Field.userlead, new LeadFieldFormat(Component.Field.userlead.name(),
 					ComponentI18nEnum.FORM_LEAD));
 		}
 	}

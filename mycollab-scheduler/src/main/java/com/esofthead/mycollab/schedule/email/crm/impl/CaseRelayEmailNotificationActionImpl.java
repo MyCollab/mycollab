@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,26 +148,26 @@ public class CaseRelayEmailNotificationActionImpl extends
 	public static class CaseFieldNameMapper extends ItemFieldMapper {
 
 		public CaseFieldNameMapper() {
-			put("subject", CaseI18nEnum.FORM_SUBJECT, true);
+			put(CaseWithBLOBs.Field.subject, CaseI18nEnum.FORM_SUBJECT, true);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION);
-			put("accountid", new AccountFieldFormat("accountid",
+			put(CaseWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION);
+			put(CaseWithBLOBs.Field.accountid, new AccountFieldFormat("accountid",
 					CaseI18nEnum.FORM_ACCOUNT));
 
-			put("priority", CaseI18nEnum.FORM_PRIORITY);
-			put("type", CaseI18nEnum.FORM_TYPE);
+			put(CaseWithBLOBs.Field.priority, CaseI18nEnum.FORM_PRIORITY);
+			put(CaseWithBLOBs.Field.type, CaseI18nEnum.FORM_TYPE);
 
-			put("status", CaseI18nEnum.FORM_STATUS);
-			put("reason", CaseI18nEnum.FORM_REASON);
+			put(CaseWithBLOBs.Field.status, CaseI18nEnum.FORM_STATUS);
+			put(CaseWithBLOBs.Field.reason, CaseI18nEnum.FORM_REASON);
 
-			put("phonenumber", CaseI18nEnum.FORM_PHONE);
-			put("email", CaseI18nEnum.FORM_EMAIL);
+			put(CaseWithBLOBs.Field.phonenumber, CaseI18nEnum.FORM_PHONE);
+			put(CaseWithBLOBs.Field.email, CaseI18nEnum.FORM_EMAIL);
 
-			put("origin", CaseI18nEnum.FORM_ORIGIN);
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(CaseWithBLOBs.Field.origin, CaseI18nEnum.FORM_ORIGIN);
+			put(CaseWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CaseWithBLOBs.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("resolution", CaseI18nEnum.FORM_RESOLUTION, true);
+			put(CaseWithBLOBs.Field.resolution, CaseI18nEnum.FORM_RESOLUTION, true);
 		}
 	}
 
@@ -197,7 +198,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -257,7 +258,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

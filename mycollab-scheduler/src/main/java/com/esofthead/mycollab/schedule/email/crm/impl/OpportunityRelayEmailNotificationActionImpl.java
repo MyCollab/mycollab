@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,30 +157,30 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 	public static class OpportunityFieldNameMapper extends ItemFieldMapper {
 
 		public OpportunityFieldNameMapper() {
-			put("opportunityname", OpportunityI18nEnum.FORM_NAME);
-			put("accountid", new AccountFieldFormat("accountid",
+			put(Opportunity.Field.opportunityname, OpportunityI18nEnum.FORM_NAME);
+			put(Opportunity.Field.accountid, new AccountFieldFormat(Opportunity.Field.accountid.name(),
 					OpportunityI18nEnum.FORM_ACCOUNT_NAME));
 
-			put("currencyid", new CurrencyFieldFormat("currency",
+			put(Opportunity.Field.currencyid, new CurrencyFieldFormat(Opportunity.Field.currencyid.name(),
 					OpportunityI18nEnum.FORM_CURRENCY));
-			put("expectedcloseddate", new DateFieldFormat("expectedcloseddate",
+			put(Opportunity.Field.expectedcloseddate, new DateFieldFormat(Opportunity.Field.expectedcloseddate.name(),
 					OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE));
 
-			put("amount", OpportunityI18nEnum.FORM_AMOUNT);
-			put("opportunitytype", OpportunityI18nEnum.FORM_TYPE);
+			put(Opportunity.Field.amount, OpportunityI18nEnum.FORM_AMOUNT);
+			put(Opportunity.Field.opportunitytype, OpportunityI18nEnum.FORM_TYPE);
 
-			put("salesstage", OpportunityI18nEnum.FORM_SALE_STAGE);
-			put("source", OpportunityI18nEnum.FORM_LEAD_SOURCE);
+			put(Opportunity.Field.salesstage, OpportunityI18nEnum.FORM_SALE_STAGE);
+			put(Opportunity.Field.source, OpportunityI18nEnum.FORM_LEAD_SOURCE);
 
-			put("probability", OpportunityI18nEnum.FORM_PROBABILITY);
-			put("campaignid", new CampaignFieldFormat("campaignid",
+			put(Opportunity.Field.probability, OpportunityI18nEnum.FORM_PROBABILITY);
+			put(Opportunity.Field.campaignid, new CampaignFieldFormat(Opportunity.Field.campaignid.name(),
 					OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
 
-			put("nextstep", OpportunityI18nEnum.FORM_NEXT_STEP);
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(Opportunity.Field.nextstep, OpportunityI18nEnum.FORM_NEXT_STEP);
+			put(Opportunity.Field.assignuser, new AssigneeFieldFormat(Opportunity.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Opportunity.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 
@@ -211,7 +212,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -270,7 +271,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

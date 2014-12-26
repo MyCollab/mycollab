@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -133,17 +134,17 @@ public class MeetingRelayEmailNotificationActionImpl extends
 
 		public MeetingFieldNameMapper() {
 
-			put("subject", MeetingI18nEnum.FORM_SUBJECT, true);
+			put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, true);
 
-			put("status", MeetingI18nEnum.FORM_STATUS);
-			put("startdate", new DateTimeFieldFormat("startdate",
+			put(MeetingWithBLOBs.Field.status, MeetingI18nEnum.FORM_STATUS);
+			put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name(),
 					MeetingI18nEnum.FORM_START_DATE_TIME));
 
-			put("location", MeetingI18nEnum.FORM_LOCATION);
-			put("enddate", new DateTimeFieldFormat("enddate",
+			put(MeetingWithBLOBs.Field.location, MeetingI18nEnum.FORM_LOCATION);
+			put(MeetingWithBLOBs.Field.enddate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.enddate.name(),
 					MeetingI18nEnum.FORM_END_DATE_TIME));
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(MeetingWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 }

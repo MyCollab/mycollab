@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,52 +151,52 @@ public class ContactRelayEmailNotificationActionImpl extends
 	public static class ContactFieldNameMapper extends ItemFieldMapper {
 
 		ContactFieldNameMapper() {
-			put("firstname", ContactI18nEnum.FORM_FIRSTNAME);
-			put("officephone", ContactI18nEnum.FORM_OFFICE_PHONE);
+			put(Contact.Field.firstname, ContactI18nEnum.FORM_FIRSTNAME);
+			put(Contact.Field.officephone, ContactI18nEnum.FORM_OFFICE_PHONE);
 
-			put("lastname", ContactI18nEnum.FORM_LASTNAME);
-			put("mobile", ContactI18nEnum.FORM_MOBILE);
+			put(Contact.Field.lastname, ContactI18nEnum.FORM_LASTNAME);
+			put(Contact.Field.mobile, ContactI18nEnum.FORM_MOBILE);
 
-			put("accountid", new AccountFieldFormat("accountid",
+			put(Contact.Field.accountid, new AccountFieldFormat(Contact.Field.accountid.name(),
 					ContactI18nEnum.FORM_ACCOUNTS));
-			put("homephone", ContactI18nEnum.FORM_HOME_PHONE);
+			put(Contact.Field.homephone, ContactI18nEnum.FORM_HOME_PHONE);
 
-			put("title", ContactI18nEnum.FORM_TITLE);
-			put("otherphone", ContactI18nEnum.FORM_OTHER_PHONE);
+			put(Contact.Field.title, ContactI18nEnum.FORM_TITLE);
+			put(Contact.Field.otherphone, ContactI18nEnum.FORM_OTHER_PHONE);
 
-			put("department", ContactI18nEnum.FORM_DEPARTMENT);
-			put("fax", ContactI18nEnum.FORM_FAX);
+			put(Contact.Field.department, ContactI18nEnum.FORM_DEPARTMENT);
+			put(Contact.Field.fax, ContactI18nEnum.FORM_FAX);
 
-			put("email", new EmailLinkFieldFormat("email",
+			put(Contact.Field.email, new EmailLinkFieldFormat(Contact.Field.email.name(),
 					ContactI18nEnum.FORM_EMAIL));
-			put("birthday", new DateFieldFormat("birthday",
+			put(Contact.Field.birthday, new DateFieldFormat(Contact.Field.birthday.name(),
 					ContactI18nEnum.FORM_BIRTHDAY));
 
-			put("assistant", ContactI18nEnum.FORM_ASSISTANT);
-			put("iscallable", ContactI18nEnum.FORM_IS_CALLABLE);
+			put(Contact.Field.assistant, ContactI18nEnum.FORM_ASSISTANT);
+			put(Contact.Field.iscallable, ContactI18nEnum.FORM_IS_CALLABLE);
 
-			put("assistantphone", ContactI18nEnum.FORM_ASSISTANT_PHONE);
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(Contact.Field.assistantphone, ContactI18nEnum.FORM_ASSISTANT_PHONE);
+			put(Contact.Field.assignuser, new AssigneeFieldFormat(Contact.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("leadsource", ContactI18nEnum.FORM_LEAD_SOURCE, true);
+			put(Contact.Field.leadsource, ContactI18nEnum.FORM_LEAD_SOURCE, true);
 
-			put("primaddress", ContactI18nEnum.FORM_PRIMARY_ADDRESS);
-			put("otheraddress", ContactI18nEnum.FORM_OTHER_ADDRESS);
+			put(Contact.Field.primaddress, ContactI18nEnum.FORM_PRIMARY_ADDRESS);
+			put(Contact.Field.otheraddress, ContactI18nEnum.FORM_OTHER_ADDRESS);
 
-			put("primcity", ContactI18nEnum.FORM_PRIMARY_CITY);
-			put("othercity", ContactI18nEnum.FORM_OTHER_CITY);
+			put(Contact.Field.primcity, ContactI18nEnum.FORM_PRIMARY_CITY);
+			put(Contact.Field.othercity, ContactI18nEnum.FORM_OTHER_CITY);
 
-			put("primstate", ContactI18nEnum.FORM_PRIMARY_STATE);
-			put("otherstate", ContactI18nEnum.FORM_OTHER_STATE);
+			put(Contact.Field.primstate, ContactI18nEnum.FORM_PRIMARY_STATE);
+			put(Contact.Field.otherstate, ContactI18nEnum.FORM_OTHER_STATE);
 
-			put("primpostalcode", ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE);
-			put("otherpostalcode", ContactI18nEnum.FORM_OTHER_POSTAL_CODE);
+			put(Contact.Field.primpostalcode, ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE);
+			put(Contact.Field.otherpostalcode, ContactI18nEnum.FORM_OTHER_POSTAL_CODE);
 
-			put("primcountry", ContactI18nEnum.FORM_PRIMARY_COUNTRY);
-			put("othercountry", ContactI18nEnum.FORM_OTHER_COUNTRY);
+			put(Contact.Field.primcountry, ContactI18nEnum.FORM_PRIMARY_COUNTRY);
+			put(Contact.Field.othercountry, ContactI18nEnum.FORM_OTHER_COUNTRY);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Contact.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
 		}
 	}
@@ -229,7 +230,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -278,7 +279,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

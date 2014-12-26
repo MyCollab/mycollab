@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,22 +149,22 @@ public class TaskRelayEmailNotificationActionImpl extends
 	public static class TaskFieldNameMapper extends ItemFieldMapper {
 
 		public TaskFieldNameMapper() {
-			put("subject", TaskI18nEnum.FORM_SUBJECT, true);
+			put(Task.Field.subject, TaskI18nEnum.FORM_SUBJECT, true);
 
-			put("status", TaskI18nEnum.FORM_STATUS);
-			put("startdate", new DateFieldFormat("startdate",
+			put(Task.Field.status, TaskI18nEnum.FORM_STATUS);
+			put(Task.Field.startdate, new DateFieldFormat(Task.Field.startdate.name(),
 					TaskI18nEnum.FORM_START_DATE));
 
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(Task.Field.assignuser, new AssigneeFieldFormat(Task.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
-			put("duedate", new DateFieldFormat("duedate",
+			put(Task.Field.duedate, new DateFieldFormat(Task.Field.duedate.name(),
 					TaskI18nEnum.FORM_DUE_DATE));
 
-			put("contactid", new ContactFieldFormat("contactid",
+			put(Task.Field.contactid, new ContactFieldFormat(Task.Field.contactid.name(),
 					TaskI18nEnum.FORM_CONTACT));
-			put("priority", TaskI18nEnum.FORM_PRIORITY);
+			put(Task.Field.priority, TaskI18nEnum.FORM_PRIORITY);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Task.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 
@@ -193,7 +194,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
@@ -254,7 +255,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 

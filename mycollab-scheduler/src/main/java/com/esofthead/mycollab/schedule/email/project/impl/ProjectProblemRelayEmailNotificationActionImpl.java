@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.project.domain.Problem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -179,24 +180,24 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 		public ProjectFieldNameMapper() {
-			put("issuename", ProblemI18nEnum.FORM_NAME, true);
+			put(Problem.Field.issuename, ProblemI18nEnum.FORM_NAME, true);
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(Problem.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("datedue", new DateFieldFormat("datedue",
+			put(Problem.Field.datedue, new DateFieldFormat(Problem.Field.datedue.name(),
 					ProblemI18nEnum.FORM_DATE_DUE));
-			put("status", new I18nFieldFormat("status",
+			put(Problem.Field.status, new I18nFieldFormat(Problem.Field.status.name(),
 					ProblemI18nEnum.FORM_STATUS, StatusI18nEnum.class));
 
-			put("impact", ProblemI18nEnum.FORM_IMPACT);
-			put("priority", ProblemI18nEnum.FORM_PRIORITY);
+			put(Problem.Field.impact, ProblemI18nEnum.FORM_IMPACT);
+			put(Problem.Field.priority, ProblemI18nEnum.FORM_PRIORITY);
 
-			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+			put(Problem.Field.assigntouser, new AssigneeFieldFormat(Problem.Field.assigntouser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
-			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
+			put(Problem.Field.raisedbyuser, new RaisedByFieldFormat(Problem.Field.raisedbyuser.name(),
 					ProblemI18nEnum.FORM_RAISED_BY));
 
-			put("resolution", ProblemI18nEnum.FORM_RESOLUTION, true);
+			put(Problem.Field.resolution, ProblemI18nEnum.FORM_RESOLUTION, true);
 		}
 	}
 

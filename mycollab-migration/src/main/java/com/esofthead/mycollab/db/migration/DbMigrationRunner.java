@@ -61,7 +61,7 @@ public class DbMigrationRunner {
 	public void migrate() {
 		try {
 			Flyway flyway = new Flyway();
-			flyway.setInitOnMigrate(true);
+			flyway.setBaselineOnMigrate(true);
 			flyway.setDataSource(dataSource);
 			flyway.setValidateOnMigrate(false);
 			flyway.migrate();

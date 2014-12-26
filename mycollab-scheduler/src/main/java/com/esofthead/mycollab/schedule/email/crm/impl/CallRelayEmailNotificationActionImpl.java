@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -139,22 +140,22 @@ public class CallRelayEmailNotificationActionImpl extends
 	public static class CallFieldNameMapper extends ItemFieldMapper {
 
 		public CallFieldNameMapper() {
-			put("subject", CallI18nEnum.FORM_SUBJECT, true);
+			put(CallWithBLOBs.Field.subject, CallI18nEnum.FORM_SUBJECT, true);
 
-			put("status", CallI18nEnum.FORM_STATUS);
-			put("startdate", new DateTimeFieldFormat("startdate",
+			put(CallWithBLOBs.Field.status, CallI18nEnum.FORM_STATUS);
+			put(CallWithBLOBs.Field.startdate, new DateTimeFieldFormat(CallWithBLOBs.Field.startdate.name(),
 					CallI18nEnum.FORM_START_DATE_TIME));
 
-			put("typeid", CallI18nEnum.FORM_RELATED);
-			put("durationinseconds", CallI18nEnum.FORM_DURATION);
+			put(CallWithBLOBs.Field.typeid, CallI18nEnum.FORM_RELATED);
+			put(CallWithBLOBs.Field.durationinseconds, CallI18nEnum.FORM_DURATION);
 
-			put("purpose", CallI18nEnum.FORM_PURPOSE);
-			put("assignuser", new AssigneeFieldFormat("assignuser",
+			put(CallWithBLOBs.Field.purpose, CallI18nEnum.FORM_PURPOSE);
+			put(CallWithBLOBs.Field.assignuser, new AssigneeFieldFormat(CallWithBLOBs.Field.assignuser.name(),
 					GenericI18Enum.FORM_ASSIGNEE));
 
-			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
+			put(CallWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("result", CallI18nEnum.FORM_RESULT, true);
+			put(CallWithBLOBs.Field.result, CallI18nEnum.FORM_RESULT, true);
 		}
 	}
 
@@ -188,7 +189,7 @@ public class CallRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			if (value == null || "".equals(value)) {
+			if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 				return new Span().write();
 			}
 
