@@ -23,6 +23,8 @@ import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.SendingErrorReportEmailJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -132,18 +134,17 @@ public class DefaultScheduleConfiguration {
         return bean;
     }
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Bean public SchedulerFactoryBean quartzScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-        bean.setConfigLocation(new ClassPathResource("classpath:quartz.properties"));
+        bean.setConfigLocation(new ClassPathResource("quartz.properties"));
         bean.setOverwriteExistingJobs(true);
-        bean.setAutoStartup(true);
+        AutowiringSpringBeanJobFactory factory = new AutowiringSpringBeanJobFactory();
+        factory.setApplicationContext(applicationContext);
+        bean.setJobFactory(factory);
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
-        bean.setJobFactory(new AutowiringSpringBeanJobFactory());
-
-        // NOTE: Must add both the jobDetail and trigger to the scheduler!
-        bean.setJobDetails(sendRelayEmailJob().getObject(), projectSendRelayNotificationEmailJob().getObject(),
-                crmSendRelayNotificationEmailJob().getObject(), sendErrorReportEmailJob().getObject(),
-                sendInviteUserEmailJob().getObject(), userSignUpNotificationEmailJob().getObject());
 
         bean.setTriggers(sendingRelayEmailTrigger().getObject(), projectSendRelayNotificationEmailTrigger().getObject
                 (), crmSendRelayNotificationEmailTrigger().getObject(), sendErrorReportEmailTrigger().getObject(),
