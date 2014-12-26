@@ -31,8 +31,6 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
         pattern = "com.esofthead.mycollab..dao.*"), @ComponentScan.Filter(type = FilterType.ASPECTJ,
         pattern = "com.esofthead.mycollab..service.*Test"), @ComponentScan.Filter(type = FilterType.ASPECTJ,
         pattern = "com.esofthead.mycollab.schedule.email.*"), @ComponentScan.Filter(type = FilterType.REGEX, pattern = "test.com.esofthead.mycollab.service.*")})
-@ImportResource(value = {"classpath:META-INF/spring-test/ecm-context-test.xml",
-        "classpath:META-INF/spring-test/page-context-test.xml"})
 @Profile("test")
 public class RootConfigurationTest {
 
