@@ -23,7 +23,7 @@
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo-test/workspaces'
+    <Workspaces rootPath='wiki-repo-test/workspaces'
         defaultWorkspace='default' />
     <Workspace name="wiki">
         <FileSystem class='org.apache.jackrabbit.core.fs.mem.MemoryFileSystem'>

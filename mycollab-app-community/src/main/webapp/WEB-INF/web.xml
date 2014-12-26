@@ -31,11 +31,13 @@
     </filter-mapping>
 
     <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath:/META-INF/spring/core-context.xml
-            classpath:/META-INF/spring-scheduler-standalone/*-context.xml
-        </param-value>
+        <param-value>com.esofthead.mycollab.spring.RootConfiguration</param-value>
     </context-param>
 
     <context-param>

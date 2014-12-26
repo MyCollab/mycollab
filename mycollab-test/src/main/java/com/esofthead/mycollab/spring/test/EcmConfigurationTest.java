@@ -38,7 +38,7 @@ public class EcmConfigurationTest {
     public RepositoryFactoryBean repository() {
         RepositoryFactoryBean bean = new RepositoryFactoryBean();
         bean.setConfiguration(new ClassPathResource("jackrabbit-repo-test.xml"));
-        bean.setHomeDir(new FileSystemResource("ecm-repo-test"));
+        bean.setHomeDir(new FileSystemResource("repo-test"));
         return bean;
     }
 

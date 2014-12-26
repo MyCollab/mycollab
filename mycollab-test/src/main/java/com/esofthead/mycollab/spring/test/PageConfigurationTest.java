@@ -38,7 +38,7 @@ public class PageConfigurationTest {
     public RepositoryFactoryBean pageRepository() {
         RepositoryFactoryBean bean = new RepositoryFactoryBean();
         bean.setConfiguration(new ClassPathResource("wiki-repo-test.xml"));
-        bean.setHomeDir(new FileSystemResource("page-repo-test"));
+        bean.setHomeDir(new FileSystemResource("wiki-repo-test"));
         return bean;
     }
 

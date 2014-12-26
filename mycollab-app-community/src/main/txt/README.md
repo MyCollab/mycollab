@@ -41,6 +41,19 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 4.6.0
+-----------------------------
+**Library Upgrades**
+
+* Upgrade Vaadin to 7.3.7
+* Upgrade Spring frameworks to 4.1.3.RELEASE
+* Upgrade several Vaadin addons
+
+**Improvements**
+
+* Support sub tasks for project task
+* Simplify application configuration (for developers)
+
 Version 4.5.5
 -----------------------------
 **Library Upgrades**
