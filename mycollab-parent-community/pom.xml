@@ -16,7 +16,7 @@
         <log4jVersion>1.2.17</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.3.7</vaadinVersion>
-        <jettyVersion>9.2.5.v20141112</jettyVersion>
+        <jettyVersion>9.2.6.v20141205</jettyVersion>
         <mysqlVersion>5.1.32</mysqlVersion>
         <camelVersion>2.14.0</camelVersion>
         <junitVersion>4.12</junitVersion>
@@ -181,11 +181,19 @@
             <artifactId>cglib</artifactId>
             <version>3.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.4.4</version>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

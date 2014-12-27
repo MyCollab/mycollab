@@ -282,5 +282,4 @@ public class TooltipGeneratorServletRequestHandler extends
 			return;
 		}
 	}
-
 }

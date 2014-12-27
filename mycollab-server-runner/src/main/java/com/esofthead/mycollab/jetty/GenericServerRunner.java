@@ -34,6 +34,9 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
+import org.eclipse.jetty.util.resource.FileResource;
+import org.eclipse.jetty.util.resource.JarResource;
+import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.FragmentConfiguration;
 import org.eclipse.jetty.webapp.MetaInfConfiguration;
@@ -55,7 +58,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Generic MyCollab embedded server
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -77,7 +80,7 @@ public abstract class GenericServerRunner {
 
 	/**
 	 * Detect web app folder
-	 * 
+	 *
 	 * @return
 	 */
 	private String detectWebApp() {
@@ -97,7 +100,7 @@ public abstract class GenericServerRunner {
 
 	/**
 	 * Run web server with arguments
-	 * 
+	 *
 	 * @param args
 	 * @throws Exception
 	 */
@@ -161,8 +164,8 @@ public abstract class GenericServerRunner {
 		if (!checkConfigFileExist()) {
 			System.err
 					.println("It seems this is the first time you run MyCollab. For complete installation, you must open the brower and type address http://localhost:"
-							+ port
-							+ " and complete the steps to install MyCollab.");
+                            + port
+                            + " and complete the steps to install MyCollab.");
 			installationContextHandler = new ServletContextHandler(
 					ServletContextHandler.SESSIONS);
 			installationContextHandler.setContextPath("/");
@@ -263,11 +266,25 @@ public abstract class GenericServerRunner {
 		LOG.debug("Detect web location: {}", webappDirLocation);
 		WebAppContext appContext = buildContext(webappDirLocation);
 		appContext.setServer(server);
-		appContext.setConfigurations(new Configuration[] {
+		appContext.setConfigurations(new Configuration[]{
 				new AnnotationConfiguration(), new WebXmlConfiguration(),
 				new WebInfConfiguration(), new PlusConfiguration(),
 				new MetaInfConfiguration(), new FragmentConfiguration(),
-				new EnvConfiguration() });
+				new EnvConfiguration()});
+
+		String[] classpaths = System.getProperty("java.class.path").split(":");
+
+		for (String classpath:classpaths) {
+			if(classpath.matches("\\S+/mycollab-\\S+/target/classes$")) {
+                appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
+            } else if (classpath.matches("\\S+/mycollab-\\S+.jar$")) {
+				try {
+					appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(new File(classpath).toURI().toURL()));
+				} catch(Exception e) {
+					LOG.error("Exception to resolve classpath: " + classpath, e);
+				}
+            }
+		}
 
 		// Register a mock DataSource scoped to the webapp
 		// This must be linked to the webapp via an entry in
@@ -330,6 +347,7 @@ public abstract class GenericServerRunner {
 						WebAppContext appContext = initWebAppContext();
 						appContext.setClassLoader(GenericServerRunner.class
 								.getClassLoader());
+
 						contexts.addHandler(appContext);
 						try {
 							appContext.start();
