@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,7 +50,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  * 
  */
-@Component("denyUserInviteServlet")
+@WebServlet(name = "denyUserInviteServlet", urlPatterns = "/user/deny_invite/*")
 public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,7 +53,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * @since 1.0
  * 
  */
-@Component("acceptUserInvitationServlet")
+@WebServlet(name = "acceptUserInvitationServlet", urlPatterns = "/user/confirm_invite/*")
 public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
 	private static final Logger LOG = LoggerFactory

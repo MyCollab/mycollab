@@ -99,7 +99,7 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 		verify(verifyPrjMemberHandler).generatePageByTemplate(
 				localeArgument.capture(), strArgument.capture(),
 				mapArgument.capture());
-		Assert.assertEquals(AcceptProjectInvitationHandler.EXPIER_PAGE,
+		Assert.assertEquals(AcceptProjectInvitationHandler.EXPIRE_PAGE,
 				strArgument.getValue());
 	}
 

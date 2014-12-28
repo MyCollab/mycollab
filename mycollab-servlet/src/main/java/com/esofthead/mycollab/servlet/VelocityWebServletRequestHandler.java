@@ -16,19 +16,18 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.Reader;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.Reader;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * 
@@ -37,7 +36,7 @@ import com.esofthead.mycollab.template.velocity.TemplateEngine;
  * 
  */
 public abstract class VelocityWebServletRequestHandler extends
-		GenericServletRequestHandler {
+		GenericHttpServlet {
 
 	@Autowired
 	private TemplateEngine templateEngine;

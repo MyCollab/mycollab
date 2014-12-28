@@ -16,23 +16,21 @@
  */
 package com.esofthead.mycollab.module.file.servlet;
 
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
+import com.esofthead.mycollab.servlet.GenericHttpServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.core.utils.MimeTypesUtil;
-import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
 /**
  * 
@@ -40,8 +38,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * @since 4.4.0
  *
  */
-@Component("resourceGetHandler")
-public class ResourceGetHandler extends GenericServletRequestHandler {
+@WebServlet(urlPatterns = "/file/*", name = "resourceGetHandler")
+public class ResourceGetHandler extends GenericHttpServlet {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ResourceGetHandler.class);

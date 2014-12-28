@@ -16,60 +16,18 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCall;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CallService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.module.crm.service.TaskService;
+import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleMessage;
-import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
-import com.esofthead.mycollab.module.project.domain.SimpleProblem;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.SimpleRisk;
-import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
+import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.module.project.service.MessageService;
-import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.module.project.service.ProblemService;
-import com.esofthead.mycollab.module.project.service.ProjectPageService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
-import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.service.RiskService;
-import com.esofthead.mycollab.module.project.service.StandupReportService;
+import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
@@ -80,6 +38,17 @@ import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * 
@@ -87,9 +56,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  * 
  */
-@Component("tooltipGeneratorServlet")
+@WebServlet(urlPatterns = "/tooltip/*", name = "tooltipGeneratorServlet")
 public class TooltipGeneratorServletRequestHandler extends
-		GenericServletRequestHandler {
+		GenericHttpServlet {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TooltipGeneratorServletRequestHandler.class);

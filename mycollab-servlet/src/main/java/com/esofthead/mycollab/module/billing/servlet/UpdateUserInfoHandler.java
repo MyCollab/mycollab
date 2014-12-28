@@ -16,18 +16,6 @@
  */
 package com.esofthead.mycollab.module.billing.servlet;
 
-import java.io.IOException;
-import java.util.Locale;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -39,8 +27,18 @@ import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.GenericHttpServlet;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * 
@@ -48,8 +46,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  * 
  */
-@Component("updateUserInfoServlet")
-public class UpdateUserInfoHandler extends GenericServletRequestHandler {
+@WebServlet(name = "updateUserInfoServlet", urlPatterns = "/user/confirm_invite/update_info/*")
+public class UpdateUserInfoHandler extends GenericHttpServlet {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UpdateUserInfoHandler.class);
 
@@ -59,7 +57,6 @@ public class UpdateUserInfoHandler extends GenericServletRequestHandler {
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String errMsg = "";
 
 		String username = request.getParameter("username");
 		int sAccountId = Integer.parseInt(request.getParameter("accountId"));
@@ -86,7 +83,7 @@ public class UpdateUserInfoHandler extends GenericServletRequestHandler {
 					RegisterStatusConstants.ACTIVE);
 		} catch (Exception e) {
 			LOG.error("Error when update user - userAccount", e);
-			errMsg = LocalizationHelper.getMessage(Locale.US,
+			String errMsg = LocalizationHelper.getMessage(Locale.US,
 					GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
 			throw new MyCollabException(errMsg);
 		}

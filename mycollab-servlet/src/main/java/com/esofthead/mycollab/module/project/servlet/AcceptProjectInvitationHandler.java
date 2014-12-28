@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -56,12 +57,13 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * @since 1.0
  * 
  */
-@Component("acceptMemberInvitationServlet")
+@WebServlet(name="acceptMemberInvitationServlet", urlPatterns = "project/member/invitation/confirm_invite/*")
 public class AcceptProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 
-	static String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
-	static String EXPIER_PAGE = "templates/page/ExpirePage.mt";
+	static final String OUTSIDE_MEMBER_WELCOME_PAGE =
+			"templates/page/project/OutsideMemberAcceptInvitationPage.mt";
+	static final String EXPIRE_PAGE = "templates/page/ExpirePage.mt";
 
 	@Autowired
 	private ProjectMemberService projectMemberService;
@@ -105,7 +107,7 @@ public class AcceptProjectInvitationHandler extends
 					context.put("inviterName", inviterName);
 
 					String html = generatePageByTemplate(response.getLocale(),
-							EXPIER_PAGE, context);
+							EXPIRE_PAGE, context);
 
 					PrintWriter out = response.getWriter();
 					out.println(html);

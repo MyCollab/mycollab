@@ -16,20 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -41,6 +27,18 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -48,7 +46,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * @since 1.0
  * 
  */
-@Component("denyMemberInvitationServlet")
+@WebServlet(name = "denyMemberInvitationServlet", urlPatterns = "/project/member/invitation/deny_invite/*")
 public class DenyProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 

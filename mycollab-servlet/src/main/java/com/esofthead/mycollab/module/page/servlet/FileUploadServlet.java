@@ -16,28 +16,27 @@
  */
 package com.esofthead.mycollab.module.page.servlet;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.GregorianCalendar;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageConfiguration;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.GenericHttpServlet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -45,8 +44,9 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * @since 4.4.0
  *
  */
-@Component("pageUploadServlet")
-public class FileUploadServlet extends GenericServletRequestHandler {
+@WebServlet(urlPatterns = "/page/upload", name = "pageUploadServlet")
+@MultipartConfig(maxFileSize = 24657920, maxRequestSize = 24657920, fileSizeThreshold = 1024)
+public class FileUploadServlet extends GenericHttpServlet {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(FileUploadServlet.class);

@@ -16,19 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.GenericHttpServlet;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 
@@ -36,9 +34,9 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * @since 1.0
  *
  */
-@Component("denyMemberInvitationFeedbackServlet")
+@WebServlet(urlPatterns = "/project/member/feedback/*", name = "denyMemberInvitationFeedbackServlet")
 public class DenyInvitationSendFeedBackHandler extends
-		GenericServletRequestHandler {
+		GenericHttpServlet {
 
 	@Autowired
 	private MailRelayService mailRelayService;

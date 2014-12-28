@@ -16,6 +16,18 @@
  */
 package com.esofthead.mycollab.servlet;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.esofthead.mycollab.template.velocity.TemplateContext;
+import com.esofthead.mycollab.template.velocity.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -23,28 +35,14 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.template.velocity.TemplateContext;
-import com.esofthead.mycollab.template.velocity.TemplateEngine;
-
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  * 
  */
-@Component("appExceptionHandlerServlet")
-public class AppExceptionHandler extends GenericServletRequestHandler {
+@WebServlet(urlPatterns = "/error", name = "appExceptionHandlerServlet")
+public class AppExceptionHandler extends GenericHttpServlet {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AppExceptionHandler.class);
 

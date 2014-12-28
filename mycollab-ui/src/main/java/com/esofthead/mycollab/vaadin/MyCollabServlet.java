@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.vaadin;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.addon.touchkit.server.TouchKitServlet;
 import com.vaadin.addon.touchkit.settings.TouchKitSettings;
@@ -29,6 +31,8 @@ import com.vaadin.server.SessionInitListener;
  * @since 3.0
  * 
  */
+@WebServlet(name = "MyCollabApplication", urlPatterns = "/*", asyncSupported = false, loadOnStartup = 0, initParams =
+		{@WebInitParam(name = "closeIdleSessions", value = "true")})
 public class MyCollabServlet extends TouchKitServlet {
 	private static final long serialVersionUID = 1L;
 

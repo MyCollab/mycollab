@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

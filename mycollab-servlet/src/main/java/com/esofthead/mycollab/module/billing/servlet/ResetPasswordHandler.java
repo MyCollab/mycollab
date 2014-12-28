@@ -16,15 +16,6 @@
  */
 package com.esofthead.mycollab.module.billing.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -34,7 +25,14 @@ import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.GenericHttpServlet;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 
@@ -42,8 +40,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * @since 1.0
  * 
  */
-@Component("updateUserPasswordServlet")
-public class ResetPasswordHandler extends GenericServletRequestHandler {
+@WebServlet(urlPatterns = "/user/recoverypassword/action/*", name = "updateUserPasswordServlet")
+public class ResetPasswordHandler extends GenericHttpServlet {
 
 	@Autowired
 	private UserService userService;

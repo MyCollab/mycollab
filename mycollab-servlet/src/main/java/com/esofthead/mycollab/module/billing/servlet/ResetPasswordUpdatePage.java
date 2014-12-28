@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,7 +42,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * @since 1.0
  * 
  */
-@Component("recoverUserPasswordServlet")
+@WebServlet(name = "recoverUserPasswordServlet", urlPatterns = "/user/recoverypassword/*")
 public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 
 	@Autowired
