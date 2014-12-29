@@ -93,6 +93,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -116,7 +117,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	private DateInfoComp dateInfoComp;
 
-	private TaskTimeLogSheet timesheet;
+	private TaskTimeLogSheet timesheetComp;
 
 	private PeopleInfoComp peopleInfoComp;
 
@@ -163,8 +164,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 				ProjectRolePermissionCollections.TASKS);
 		addToSideBar(followerSheet);
 
-		timesheet = new TaskTimeLogSheet();
-		addToSideBar(timesheet);
+		timesheetComp = new TaskTimeLogSheet();
+		addToSideBar(timesheetComp);
 	}
 
 	@Override
@@ -209,7 +210,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
-		timesheet.displayTime(beanItem);
+		timesheetComp.displayTime(beanItem);
 	}
 
 	@Override
@@ -294,11 +295,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		final TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
-		tabTaskDetail.setWidth("100%");
+		TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
 
 		tabTaskDetail.addTab(commentList, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0),
 				MyCollabResource
 						.newResource(WebResourceIds._16_project_gray_comment));
 
@@ -325,7 +325,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 				return new ProjectUserFormLinkField(beanItem.getAssignuser(),
 						beanItem.getAssignUserAvatarId(),
 						beanItem.getAssignUserFullName());
-			} else if (propertyId.equals("taskListName")) {
+			} else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
 				return new DefaultViewField(beanItem.getTaskListName());
 			} else if (Task.Field.startdate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
@@ -336,7 +336,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 			} else if (Task.Field.actualstartdate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getActualstartdate()));
-			} else if (propertyId.equals("actualenddate")) {
+			} else if (Task.Field.actualstartdate.equalTo(propertyId)) {
 				return new DefaultViewField(AppContext.formatDate(beanItem
 						.getActualenddate()));
 			} else if (Task.Field.deadline.equalTo(propertyId)) {
@@ -477,13 +477,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	}
 
-	class PeopleInfoComp extends VerticalLayout {
+	class PeopleInfoComp extends MVerticalLayout {
 		private static final long serialVersionUID = 1L;
 
 		public void displayEntryPeople(ValuedBean bean) {
 			this.removeAllComponents();
-			this.setSpacing(true);
-			this.setMargin(new MarginInfo(false, false, false, true));
+			this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
 			Label peopleInfoHeader = new Label(
 					AppContext

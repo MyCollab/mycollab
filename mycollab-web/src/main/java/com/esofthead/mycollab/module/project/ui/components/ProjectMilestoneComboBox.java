@@ -57,10 +57,7 @@ public class ProjectMilestoneComboBox extends ComboBox {
 		BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<String, SimpleMilestone>(
 				SimpleMilestone.class);
 		beanItem.setBeanIdProperty("id");
-
-		for (SimpleMilestone milestone : milestoneList) {
-			beanItem.addBean(milestone);
-		}
+		beanItem.addAll(milestoneList);
 
 		this.setContainerDataSource(beanItem);
 		this.setItemCaptionPropertyId("name");

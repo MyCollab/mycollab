@@ -16,26 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
@@ -62,38 +49,22 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.util.List;
 
 /**
  * 
@@ -130,7 +101,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	public BugReadViewImpl() {
 		super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
-				MyCollabResource.newResource("icons/24/project/bug.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_bug));
 	}
 
 	private void displayWorkflowControl() {
@@ -426,7 +397,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		final TabSheet tabBugDetail = new TabSheet();
+		final TabsheetLazyLoadComp tabBugDetail = new TabsheetLazyLoadComp();
 		tabBugDetail.setWidth("100%");
 
 		tabBugDetail.addTab(commentList, AppContext

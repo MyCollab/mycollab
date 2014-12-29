@@ -165,4 +165,11 @@ public class SimpleTask extends Task {
 	public void setParentTaskKey(int parentTaskKey) {
 		this.parentTaskKey = parentTaskKey;
 	}
+
+	public static enum Field {
+		taskListName;
+		public boolean equalTo(Object value) {
+			return name().equals(value);
+		}
+	}
 }

@@ -57,6 +57,8 @@ import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -64,7 +66,7 @@ import com.vaadin.ui.Window;
  * @since 4.3.3
  *
  */
-public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
+public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory
@@ -94,11 +96,9 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 	public void displayFollowers(final V bean) {
 		this.bean = bean;
 		this.removeAllComponents();
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, false, true));
+		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setSpacing(true);
+		MHorizontalLayout header = new MHorizontalLayout().withSpacing(true);
 		Label followerHeader = new Label(
 				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS));
 		followerHeader.setStyleName("info-hdr");
@@ -161,11 +161,9 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 					.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
 		}
 
-		VerticalLayout layout = new VerticalLayout();
+		MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withSpacing(true).withMargin(new MarginInfo
+				(false, false, false, true));
 		this.addComponent(layout);
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(false, false, false, true));
 
 		int totalFollowers = getTotalFollowers(bean);
 		followersBtn = new Button(AppContext.getMessage(
@@ -272,14 +270,11 @@ public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 					.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
 			this.setWidth("600px");
 
-			VerticalLayout content = new VerticalLayout();
-			content.setMargin(true);
-			content.setSpacing(true);
+			MVerticalLayout content = new MVerticalLayout();
 			this.setContent(content);
 
 			if (isEdit) {
-				HorizontalLayout headerPanel = new HorizontalLayout();
-				headerPanel.setSpacing(true);
+				MHorizontalLayout headerPanel = new MHorizontalLayout().withSpacing(true);
 				content.addComponent(headerPanel);
 
 				final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();

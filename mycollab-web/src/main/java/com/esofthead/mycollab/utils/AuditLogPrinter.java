@@ -43,8 +43,7 @@ public class AuditLogPrinter {
 		boolean isAppended = false;
 		List<AuditChangeItem> changeItems = auditLog.getChangeItems();
 		if (CollectionUtils.isNotEmpty(changeItems)) {
-			for (int i = 0; i < changeItems.size(); i++) {
-				AuditChangeItem item = changeItems.get(i);
+			for (AuditChangeItem item:changeItems) {
 				String fieldName = item.getField();
 				FieldDisplayHandler fieldDisplayHandler = groupFormatter
 						.getFieldDisplayHandler(fieldName);

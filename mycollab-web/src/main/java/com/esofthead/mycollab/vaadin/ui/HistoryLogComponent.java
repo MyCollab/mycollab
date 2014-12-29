@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.criteria.AuditLogSearchCriteria;
@@ -30,25 +25,25 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFomatter;
 import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class HistoryLogComponent extends VerticalLayout {
+public abstract class HistoryLogComponent extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	protected BeanList<AuditLogService, AuditLogSearchCriteria, SimpleAuditLog> logTable;
@@ -64,10 +59,9 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 				this,
 				ApplicationContextUtil.getSpringBean(AuditLogService.class),
 				HistoryLogRowDisplay.class);
-		this.setWidth("100%");
+
+		this.withWidth("100%").withMargin(true).withSpacing(true).withStyleName("historylog-component");
 		this.setHeightUndefined();
-		this.setMargin(true);
-		this.setStyleName("historylog-component");
 
 		this.addComponent(logTable);
 		groupFormatter = buildFormatter();
@@ -81,7 +75,13 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 		criteria.setModule(new StringSearchField(module));
 		criteria.setType(new StringSearchField(type));
 		criteria.setTypeid(new NumberSearchField(typeid));
-		logTable.setSearchCriteria(criteria);
+		int numHistories = logTable.setSearchCriteria(criteria);
+
+		Object parentComp = this.getParent();
+		if (parentComp instanceof TabsheetLazyLoadComp) {
+			((TabsheetLazyLoadComp)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
+					.TAB_HISTORY, numHistories));
+		}
 	}
 
 	public class HistoryLogRowDisplay extends

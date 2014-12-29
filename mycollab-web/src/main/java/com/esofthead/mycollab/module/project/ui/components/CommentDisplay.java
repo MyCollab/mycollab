@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -42,7 +45,6 @@ public class CommentDisplay extends MVerticalLayout implements
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
 	private CommentType type;
 	private String typeid;
-	private Integer numComments;
 	private ProjectCommentInput commentBox;
 
 	public CommentDisplay(
@@ -81,11 +83,13 @@ public class CommentDisplay extends MVerticalLayout implements
 		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 		searchCriteria.setType(new StringSearchField(type.toString()));
 		searchCriteria.setTypeid(new StringSearchField(typeid));
-		numComments = commentList.setSearchCriteria(searchCriteria);
-	}
+		int numComments = commentList.setSearchCriteria(searchCriteria);
 
-	public int getNumComments() {
-		return numComments;
+		Object parentComp = this.getParent();
+		if (parentComp instanceof TabsheetLazyLoadComp) {
+			((TabsheetLazyLoadComp)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
+					.TAB_COMMENT, numComments));
+		}
 	}
 
 	public void loadComments(final String typeid) {

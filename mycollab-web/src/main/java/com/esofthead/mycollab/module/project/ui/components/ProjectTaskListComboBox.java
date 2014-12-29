@@ -57,10 +57,7 @@ public class ProjectTaskListComboBox extends ComboBox {
 		BeanContainer<String, SimpleTaskList> beanItem = new BeanContainer<String, SimpleTaskList>(
 				SimpleTaskList.class);
 		beanItem.setBeanIdProperty("id");
-
-		for (SimpleTaskList taskList : taskLists) {
-			beanItem.addBean(taskList);
-		}
+		beanItem.addAll(taskLists);
 
 		this.setContainerDataSource(beanItem);
 		this.setItemCaptionPropertyId("name");

@@ -27,5 +27,6 @@ public class TabsheetLazyLoadComp extends TabsheetDecor {
 
 	public TabsheetLazyLoadComp() {
 		super();
+		this.setWidth("100%");
 	}
 }

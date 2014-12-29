@@ -48,13 +48,14 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectCommentInput extends HorizontalLayout {
+public class ProjectCommentInput extends MHorizontalLayout {
 	private static final long serialVersionUID = 1L;
 	private final RichTextArea commentArea;
 
@@ -70,9 +71,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 			final boolean isSendingEmailRelay,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		super();
-		this.setSpacing(true);
-		this.setStyleName("message");
-		this.setWidth("100%");
+		this.withSpacing(true).withWidth("100%").withStyleName("message");
 
 		final SimpleUser currentUser = AppContext.getSession();
 		VerticalLayout userBlock = new VerticalLayout();

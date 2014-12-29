@@ -24,6 +24,7 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -44,18 +45,15 @@ public class ReadViewLayout extends CustomLayoutExt {
 		this.addComponent(headerPanel, "readViewHeader");
 	}
 
-	protected ComponentContainer buildHeader(String title) {
-		HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setSpacing(true);
+	private ComponentContainer buildHeader(String title) {
+		MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withSpacing(true);
 
 		this.icon = new Image();
 		this.titleLbl = new Label();
 		this.titleLbl.setStyleName("headerName");
 		this.titleLbl.setImmediate(true);
 
-		header.addComponent(titleLbl);
-		header.setExpandRatio(titleLbl, 1.0f);
+		header.with(titleLbl).expand(titleLbl);
 
 		if (StringUtils.isBlank(title)) {
 			this.setTitle("Undefined");
@@ -71,10 +69,6 @@ public class ReadViewLayout extends CustomLayoutExt {
 
 	public void addBottomControls(final ComponentContainer bottomControls) {
 		this.addComponent(bottomControls, "readViewBottomControls");
-	}
-
-	public void addHeaderRight(final ComponentContainer headerRight) {
-		this.headerPanel.addComponent(headerRight);
 	}
 
 	public void clearTitleStyleName() {

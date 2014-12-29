@@ -28,6 +28,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -35,7 +37,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.3.3
  *
  */
-public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
+public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	protected ItemTimeLoggingService itemTimeLoggingService;
@@ -47,11 +49,10 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 
 	public void displayTime(final V bean) {
 		this.removeAllComponents();
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, false, true));
+		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setSpacing(true);
+		HorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false);
+
 		Label dateInfoHeader = new Label(
 				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
 		dateInfoHeader.setStyleName("info-hdr");
@@ -76,10 +77,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 
 		this.addComponent(header);
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(false, false, false, true));
+		MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
 		double billableHours = getTotalBillableHours(bean);
 		double nonBillableHours = getTotalNonBillableHours(bean);
