@@ -70,7 +70,7 @@ public class Q extends FertileNode {
 	 * @return the node
 	 */
 	public Q appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

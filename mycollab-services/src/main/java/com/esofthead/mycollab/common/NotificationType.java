@@ -23,5 +23,5 @@ package com.esofthead.mycollab.common;
  *
  */
 public enum NotificationType {
-	None, Default, Minimal, Full;
+	None, Default, Minimal, Full
 }

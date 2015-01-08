@@ -39,7 +39,7 @@ public class DeleteProjectMilestoneCommandImpl implements
 	public void milestoneRemoved(String username, int accountId, int projectId,
 			int milestoneId) {
 		LOG.debug("Remove milestone id {} of project {} by user {}",
-				new Object[] { milestoneId, projectId, username });
+				milestoneId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, milestoneId);
 		removeRelatedComments(milestoneId);

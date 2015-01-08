@@ -119,8 +119,8 @@ public class DateSelectionField extends GridLayout {
 	public SearchField getValue() {
 		String filterStr = (String) dateSelectionBox.getValue();
 		filterStr = (filterStr != null) ? filterStr : "";
-		Date fDate = (Date) dateStart.getValue();
-		Date tDate = (Date) dateEnd.getValue();
+		Date fDate = dateStart.getValue();
+		Date tDate = dateEnd.getValue();
 
 		if (filterStr.equals(DateSelectionComboBox.ISBETWEEN)) {
 			if (fDate == null || tDate == null)

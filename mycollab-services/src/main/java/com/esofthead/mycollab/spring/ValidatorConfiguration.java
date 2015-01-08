@@ -34,11 +34,10 @@ public class ValidatorConfiguration {
 	@Bean
 	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-		bean.setMappingLocations(new Resource[] {
-				new ClassPathResource("validator/crm-constraints.xml"),
+		bean.setMappingLocations(new ClassPathResource("validator/crm-constraints.xml"),
 				new ClassPathResource("validator/user-constraints.xml"),
 				new ClassPathResource("validator/project-constraints.xml"),
-				new ClassPathResource("validator/tracker-constraints.xml") });
+				new ClassPathResource("validator/tracker-constraints.xml"));
 		return bean;
 	}
 }

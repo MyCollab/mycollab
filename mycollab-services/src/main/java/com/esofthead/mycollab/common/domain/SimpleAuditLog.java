@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -37,26 +38,19 @@ public class SimpleAuditLog extends AuditLog {
 
 	private String postedUserAvatarId;
 
-	public SimpleAuditLog() {
-	}
-
 	public List<AuditChangeItem> getChangeItems() {
 		if (changeItems == null) {
 			changeItems = parseChangeItems();
 		}
 		if (changeItems == null) {
-			changeItems = new ArrayList<AuditChangeItem>();
+			changeItems = new ArrayList<>();
 		}
 		return changeItems;
 	}
 
 	public String getPostedUserFullName() {
-		if (postedUserFullName == null || postedUserFullName.trim().equals("")) {
-			String displayName = getPosteduser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+		if (StringUtils.isBlank(postedUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getPosteduser());
 		}
 		return postedUserFullName;
 	}

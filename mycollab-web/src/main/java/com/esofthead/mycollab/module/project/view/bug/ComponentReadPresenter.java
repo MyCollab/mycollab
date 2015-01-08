@@ -149,7 +149,7 @@ public class ComponentReadPresenter extends
 				SimpleComponent component = componentService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (component != null) {
-					ComponentContainer componentContainer = (ComponentContainer) container;
+					ComponentContainer componentContainer = container;
 					componentContainer.removeAllComponents();
 					componentContainer.addComponent(view.getWidget());
 					view.previewItem(component);

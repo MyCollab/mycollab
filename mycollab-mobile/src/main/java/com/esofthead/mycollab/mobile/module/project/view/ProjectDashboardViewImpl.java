@@ -100,19 +100,19 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 				.getMessage(ProjectCommonI18nEnum.VIEW_BUG), "&#xf188;"));
 
 		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;"));
+		// .getMessageClsEnum(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;"));
 		//
 		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;"));
+		// .getMessageClsEnum(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;"));
 		//
 		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;"));
+		// .getMessageClsEnum(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;"));
 		//
 		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;"));
+		// .getMessageClsEnum(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;"));
 		//
 		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;"));
+		// .getMessageClsEnum(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;"));
 
 		projectModulesList.addComponent(
 				new ProjectModuleButton(AppContext

@@ -41,7 +41,7 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		MainView mainView = (MainView) container;
-		mainView.addModule((IModule) view);
+		mainView.addModule(view);
 
 		String[] params = (String[]) data.getParams();
 		if (params == null || params.length == 0) {

@@ -70,7 +70,7 @@ public class H4 extends FertileNode {
 	 * @return the node
 	 */
 	public H4 appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

@@ -162,8 +162,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 									UserService userService = ApplicationContextUtil
 											.getSpringBean(UserService.class);
 									userService.pendingUserAccounts(Arrays
-											.asList(new String[] { member
-													.getUsername() }),
+											.asList(member
+													.getUsername()),
 											AppContext.getAccountId());
 									EventBusFactory
 											.getInstance()

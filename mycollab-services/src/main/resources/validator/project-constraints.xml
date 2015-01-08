@@ -1,7 +1,7 @@
 <constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
+                     xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
 	http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.0.xsd"
-    xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+                     xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
     <default-package>com.esofthead.mycollab.module.project.domain</default-package>
 
     <bean class="Project" ignore-annotations="false">

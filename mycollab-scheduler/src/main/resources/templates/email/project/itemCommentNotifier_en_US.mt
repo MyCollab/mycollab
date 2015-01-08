@@ -6,7 +6,8 @@
 </head>
 <body style="background-color: rgb(235, 236, 237); font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
 	#macro( hyperLink $displayName $webLink )
-		<a href="$webLink" style="color: rgb(36, 127, 211); text-decoration: none; white-space: normal;">$displayName</a>
+	    <a href="$webLink" style="color: rgb(36, 127, 211); text-decoration: none; white-space: normal;
+	    ">$displayName</a>
 	#end
 	
 	#macro( messageBlock $messageContent )
@@ -23,7 +24,7 @@
        			<div style="padding: 10px 30px; background-color: rgb(106, 201, 228);">
        				<img src="${defaultUrls.cdn_url}logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;">
        			</div>
-       		</td>			
+       		</td>
 		</tr>
         <tr>
             <td style="color: #4e4e4e; padding: 10px 30px;">

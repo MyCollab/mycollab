@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import com.esofthead.mycollab.schedule.email.format.FormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,6 @@ import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
@@ -67,7 +67,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				Img img = FormatUtils.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkGenerator
 						.generatePreviewFullUserLink(
@@ -82,8 +82,8 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 							.extractNameFromEmail(displayName);
 				}
 
-				A link = TagBuilder.newA(userLink, userDisplayName);
-				return TagBuilder.newLink(img, link).write();
+				A link = FormatUtils.newA(userLink, userDisplayName);
+				return FormatUtils.newLink(img, link).write();
 			}
 		} catch (Exception e) {
 			LOG.error("Error", e);

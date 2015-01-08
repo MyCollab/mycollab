@@ -221,7 +221,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 						8);
 				// } else if (propertyId.equals("id")) {
 				// this.informationLayout.addComponent(field,
-				// AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
+				// AppContext.getMessageClsEnum(BugI18nEnum.FORM_ATTACHMENT), 0,
 				// 9);
 			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,

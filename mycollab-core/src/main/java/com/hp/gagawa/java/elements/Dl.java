@@ -70,7 +70,7 @@ public class Dl extends FertileNode {
 	 * @return the node
 	 */
 	public Dl appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

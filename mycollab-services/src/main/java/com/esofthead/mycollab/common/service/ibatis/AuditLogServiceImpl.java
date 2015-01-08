@@ -75,7 +75,7 @@ public class AuditLogServiceImpl extends
 
 		static public String getChangeSet(Object oldObj, Object newObj) {
 			Class cl = oldObj.getClass();
-			List<AuditChangeItem> changeItems = new ArrayList<AuditChangeItem>();
+			List<AuditChangeItem> changeItems = new ArrayList<>();
 
 			try {
 				BeanInfo beanInfo = Introspector.getBeanInfo(cl, Object.class);
@@ -83,14 +83,14 @@ public class AuditLogServiceImpl extends
 				for (PropertyDescriptor propertyDescriptor : beanInfo
 						.getPropertyDescriptors()) {
 
-					String fieldname = propertyDescriptor.getName();
+					String fieldName = propertyDescriptor.getName();
 					String oldProp = getValue(PropertyUtils.getProperty(oldObj,
-							fieldname));
+							fieldName));
 
 					Object newPropVal = null;
 					try {
 						newPropVal = PropertyUtils.getProperty(newObj,
-								fieldname);
+								fieldName);
 					} catch (Exception e) {
 						continue;
 					}
@@ -98,7 +98,7 @@ public class AuditLogServiceImpl extends
 
 					if (!oldProp.equals(newProp)) {
 						AuditChangeItem changeItem = new AuditChangeItem();
-						changeItem.setField(fieldname);
+						changeItem.setField(fieldName);
 						changeItem.setNewvalue(newProp);
 						changeItem.setOldvalue(oldProp);
 						changeItems.add(changeItem);
@@ -126,7 +126,6 @@ public class AuditLogServiceImpl extends
 		}
 
 		static private String formatDateW3C(Date date) {
-
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 			String text = df.format(date);
 			String result = text.substring(0, 22) + ":" + text.substring(22);

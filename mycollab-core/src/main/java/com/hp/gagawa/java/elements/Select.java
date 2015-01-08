@@ -70,7 +70,7 @@ public class Select extends FertileNode {
 	 * @return the node
 	 */
 	public Select appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

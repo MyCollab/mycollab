@@ -74,9 +74,9 @@ public class Depot extends VerticalLayout {
 			this.headerContent = headerElement;
 		} else {
 			this.headerContent = new HorizontalLayout();
-			((HorizontalLayout) this.headerContent).setSpacing(true);
-			((HorizontalLayout) this.headerContent).setMargin(true);
-			((HorizontalLayout) this.headerContent)
+			this.headerContent.setSpacing(true);
+			this.headerContent.setMargin(true);
+			this.headerContent
 					.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 			this.headerContent.setVisible(false);
 		}

@@ -117,12 +117,12 @@ public class SplitButton extends CustomComponent {
 		try {
 			SPLIT_BUTTON_CLICK_CHANGE_METHOD = SplitButtonClickListener.class
 					.getDeclaredMethod("splitButtonClick",
-							new Class[] { SplitButtonClickEvent.class });
+							SplitButtonClickEvent.class);
 
 			SPLIT_POPUP_VISIBLE_CHANGE_METHOD = SplitButtonPopupVisibilityListener.class
 					.getDeclaredMethod(
 							"splitButtonPopupVisibilityChange",
-							new Class[] { SplitButtonPopupVisibilityEvent.class });
+							SplitButtonPopupVisibilityEvent.class);
 		} catch (final java.lang.NoSuchMethodException e) {
 			// This should never happen
 			throw new java.lang.RuntimeException(

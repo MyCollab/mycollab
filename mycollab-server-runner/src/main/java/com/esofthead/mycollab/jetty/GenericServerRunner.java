@@ -105,6 +105,7 @@ public abstract class GenericServerRunner {
 	 * @throws Exception
 	 */
 	void run(String[] args) throws Exception {
+		System.setProperty("org.eclipse.jetty.annotations.maxWait", "180");
 		int stopPort = 0;
 		String stopKey = null;
 		boolean isStop = false;

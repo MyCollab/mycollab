@@ -40,6 +40,6 @@ public class OptionI18nEnum {
 		Press,
 		Prospect,
 		Reseller,
-		Other;
+		Other
 	}
 }

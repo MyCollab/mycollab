@@ -96,7 +96,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
 
 	@Override
 	public void fireValueChange(Account data) {
-		account = (Account) data;
+		account = data;
 		if (account != null) {
 			accountName.setValue(account.getAccountname());
 			setInternalValue(account.getId());

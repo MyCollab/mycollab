@@ -512,10 +512,10 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		}
 
 		searchCriteria.setIsBillable(new BooleanSearchField(false));
-		Double nonbillableHour = this.itemTimeLoggingService
+		Double nonBillableHours = this.itemTimeLoggingService
 				.getTotalHoursByCriteria(searchCriteria);
-		if (nonbillableHour == null || nonbillableHour < 0) {
-			nonbillableHour = 0d;
+		if (nonBillableHours == null || nonBillableHours < 0) {
+			nonBillableHours = 0d;
 		}
 
 		searchCriteria.setIsBillable(null);
@@ -530,7 +530,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 							.getMessage(
 									TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
 									fromDate, toDate, totalHour, billableHour,
-									nonbillableHour));
+									nonBillableHours));
 		}
 
 		timeTrackingWrapper.removeAllComponents();

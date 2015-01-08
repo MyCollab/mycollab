@@ -64,7 +64,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 			throw new ContentException("Jcr session setup not successful.");
 		}
 
-		NodeTypeManager manager = (NodeTypeManager) session.getWorkspace()
+		NodeTypeManager manager = session.getWorkspace()
 				.getNodeTypeManager();
 		manager.registerNodeType(createMyCollabContentType(manager), true);
 		manager.registerNodeType(createMyCollabFolderType(manager), true);
@@ -73,7 +73,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager)
-			throws NoSuchNodeTypeException, RepositoryException {
+			throws RepositoryException {
 		LOG.info("Register mycollab content type");
 		NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
 		// Create content node type
@@ -151,7 +151,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createMyCollabFolderType(NodeTypeManager manager)
-			throws NoSuchNodeTypeException, RepositoryException {
+			throws RepositoryException {
 		// Create content node type
 		NodeTypeTemplate contentTypeTemplate = manager.createNodeTypeTemplate();
 

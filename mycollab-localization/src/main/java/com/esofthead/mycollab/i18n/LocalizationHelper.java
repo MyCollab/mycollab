@@ -53,7 +53,7 @@ public class LocalizationHelper {
 			Locale.US);
 
 	static {
-		languageMap = new HashMap<Locale, IMessageConveyor>();
+		languageMap = new HashMap<>();
 		languageMap.put(Locale.US, defaultMessage);
 	}
 
@@ -88,8 +88,8 @@ public class LocalizationHelper {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static String getMessage(Locale locale, Class<? extends Enum> cls,
-			String option, Object... objects) {
+	public static String getMessageClsEnum(Locale locale, Class<? extends Enum> cls,
+										   String option, Object... objects) {
 		if (StringUtils.isBlank(option)) {
 			return "";
 		}
@@ -144,13 +144,10 @@ public class LocalizationHelper {
 			return null;
 		}
 
-		Reader reader;
 		try {
-			reader = new InputStreamReader(resourceStream, "UTF-8");
+			return new InputStreamReader(resourceStream, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(resourceStream);
+			return new InputStreamReader(resourceStream);
 		}
-
-		return reader;
 	}
 }

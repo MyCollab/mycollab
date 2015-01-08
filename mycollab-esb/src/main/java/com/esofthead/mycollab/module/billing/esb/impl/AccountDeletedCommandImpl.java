@@ -45,8 +45,8 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 	private PageService wikiService;
 
 	@Override
-	public void accountDeleted(int accountid, CustomerFeedbackWithBLOBs feedback) {
-		deleteAccountFiles(accountid);
+	public void accountDeleted(int accountId, CustomerFeedbackWithBLOBs feedback) {
+		deleteAccountFiles(accountId);
 	}
 
 	private void deleteAccountFiles(int accountId) {

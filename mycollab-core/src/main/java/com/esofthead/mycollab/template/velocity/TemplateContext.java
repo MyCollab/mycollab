@@ -22,35 +22,37 @@ import org.apache.velocity.tools.ToolManager;
 import org.apache.velocity.tools.config.EasyFactoryConfiguration;
 import org.apache.velocity.tools.generic.DateTool;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Template wrapper of velocity context
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class TemplateContext {
-	private final VelocityContext velocityContext;
+    private final VelocityContext velocityContext;
 
-	private static ToolManager toolManager;
+    private static ToolManager toolManager;
 
-	static {
-		EasyFactoryConfiguration config = new EasyFactoryConfiguration();
-		config.toolbox(Scope.APPLICATION).tool(DateTool.class);
+    static {
+        EasyFactoryConfiguration config = new EasyFactoryConfiguration();
+        config.toolbox(Scope.APPLICATION).tool(DateTool.class);
 
-		toolManager = new ToolManager();
-		toolManager.configure(config);
-	}
+        toolManager = new ToolManager();
+        toolManager.configure(config);
+    }
 
-	public TemplateContext() {
-		velocityContext = new VelocityContext(toolManager.createContext());
-	}
+    public TemplateContext() {
+        velocityContext = new VelocityContext(toolManager.createContext());
+    }
 
-	public void put(String key, Object value) {
-		velocityContext.put(key, value);
-	}
+    public void put(String key, Object value) {
+        velocityContext.put(key, value);
+    }
 
-	public VelocityContext getVelocityContext() {
-		return velocityContext;
-	}
+    public VelocityContext getVelocityContext() {
+        return velocityContext;
+    }
 }

@@ -75,7 +75,7 @@ public class Map extends FertileNode {
 	 * @return the node
 	 */
 	public Map appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

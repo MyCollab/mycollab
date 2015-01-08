@@ -65,9 +65,8 @@ public class AccountSimpleSearchPanel extends
 
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
-		final ValueComboBox group = new ValueComboBox(false, new String[] {
-				"Name", "Email", "Website", "Phone",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) });
+		final ValueComboBox group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {

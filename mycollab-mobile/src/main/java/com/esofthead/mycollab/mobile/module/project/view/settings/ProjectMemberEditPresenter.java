@@ -89,9 +89,8 @@ public class ProjectMemberEditPresenter extends
 
 			AppContext.addFragment(
 					"project/user/edit/"
-							+ GenericLinkUtils.encodeParam(new Object[] {
-									CurrentProjectVariables.getProjectId(),
-									member.getId() }), member.getDisplayName());
+							+ GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
+							member.getId()), member.getDisplayName());
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

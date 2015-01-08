@@ -133,7 +133,7 @@ public class ImageUtil {
 			int height = (int) (imgHeight / scale);
 
 			BufferedImage rescaledImage = Scalr.resize(source, Method.QUALITY,
-					Mode.AUTOMATIC, idealWidth, (int) height);
+					Mode.AUTOMATIC, idealWidth, height);
 			if (height > 400) {
 				rescaledImage = rescaledImage.getSubimage(0, 0,
 						Math.min(256, rescaledImage.getWidth()), 400);

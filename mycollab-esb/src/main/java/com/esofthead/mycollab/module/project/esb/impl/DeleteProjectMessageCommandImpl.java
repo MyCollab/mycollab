@@ -39,7 +39,7 @@ public class DeleteProjectMessageCommandImpl implements
 	public void messageRemoved(String username, int accountId, int projectId,
 			int messageId) {
 		LOG.debug("Remove message id {} of project {} by user {}",
-				new Object[] { messageId, projectId, username });
+				messageId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, messageId);
 		removeRelatedComments(messageId);

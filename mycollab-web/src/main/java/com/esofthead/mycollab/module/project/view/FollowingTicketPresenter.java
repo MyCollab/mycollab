@@ -53,7 +53,7 @@ public class FollowingTicketPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
-		prjContainer.addComponent((Component) view);
+		prjContainer.addComponent(view);
 		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
 		view.displayTickets();
 	}

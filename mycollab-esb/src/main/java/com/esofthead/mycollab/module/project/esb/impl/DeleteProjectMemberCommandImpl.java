@@ -43,7 +43,7 @@ public class DeleteProjectMemberCommandImpl implements
 			Integer projectId, Integer accountId) {
 		LOG.debug(
 				"Remove project member has username {}, project member id {} and project id {}",
-				new Object[] { username, projectMemberId, projectId });
+				username, projectMemberId, projectId);
 
 	}
 

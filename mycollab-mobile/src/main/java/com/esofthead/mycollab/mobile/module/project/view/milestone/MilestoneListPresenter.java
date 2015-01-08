@@ -60,8 +60,8 @@ public class MilestoneListPresenter extends
 					.addFragment(
 							"project/milestone/list/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext
 									.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
 

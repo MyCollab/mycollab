@@ -38,8 +38,6 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
-;
-
 /**
  * 
  * @author MyCollab Ltd.

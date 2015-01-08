@@ -40,6 +40,11 @@ public interface IContentGenerator {
 	 */
 	String generateSubjectContent(String subject);
 
+	/**
+	 *
+	 * @param templateFilePath
+	 * @return
+	 */
 	String generateBodyContent(String templateFilePath);
 
 	/**

@@ -263,7 +263,7 @@ public class PageServiceImpl implements PageService {
 					} catch (Exception e) {
 						LOG.error(
 								"Error when restore document {} to version {}",
-								new Object[] { path, versionName, e });
+								path, versionName, e);
 					}
 				}
 				return null;

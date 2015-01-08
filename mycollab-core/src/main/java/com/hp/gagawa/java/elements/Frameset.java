@@ -70,7 +70,7 @@ public class Frameset extends FertileNode {
 	 * @return the node
 	 */
 	public Frameset appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

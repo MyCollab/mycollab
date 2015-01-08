@@ -24,7 +24,9 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 /**
  * Abstract mailer. Note: in MyCollab we now support send HTML content email
  * only.
- * 
+ *
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface IMailer {
 	/**

@@ -70,7 +70,7 @@ public class Label extends FertileNode {
 	 * @return the node
 	 */
 	public Label appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

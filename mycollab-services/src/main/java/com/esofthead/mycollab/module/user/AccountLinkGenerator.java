@@ -45,6 +45,6 @@ public class AccountLinkGenerator {
 			String username) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
 				+ "account/user/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { username });
+				+ GenericLinkUtils.encodeParam(username);
 	}
 }

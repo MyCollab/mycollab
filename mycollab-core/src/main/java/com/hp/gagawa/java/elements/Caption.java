@@ -70,7 +70,7 @@ public class Caption extends FertileNode {
 	 * @return the node
 	 */
 	public Caption appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

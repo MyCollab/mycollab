@@ -138,9 +138,8 @@ public class TaskListPresenter extends
 
 				AppContext.addFragment(
 						"project/task/task/list/"
-								+ GenericLinkUtils.encodeParam(new Object[] {
-										CurrentProjectVariables.getProjectId(),
-										taskList.getId() }),
+								+ GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
+								taskList.getId()),
 						AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
 			}
 		} else {

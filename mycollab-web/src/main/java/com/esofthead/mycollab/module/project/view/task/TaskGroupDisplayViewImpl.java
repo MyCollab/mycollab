@@ -534,7 +534,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	void moveToTaskSearch(TaskFilterParameter taskFilter) {
 		EventBusFactory.getInstance().post(
 				new TaskEvent.Search(this, taskFilter));
-	};
+	}
 
 	private void displayTaskStatistic() {
 		rightColumn.removeAllComponents();

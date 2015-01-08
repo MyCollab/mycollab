@@ -73,8 +73,8 @@ public class ProjectActivityStreamPresenter
 					.addFragment(
 							"project/activities/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext
 									.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
 		} else {

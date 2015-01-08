@@ -32,7 +32,7 @@ public class ProjectLinkGenerator {
 
 	public static String generateProjectLink(Integer projectId) {
 		return "project/dashboard/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
+				+ GenericLinkUtils.encodeParam(projectId);
 	}
 
 	public static String generateProjectFullLink(String siteUrl,
@@ -44,8 +44,8 @@ public class ProjectLinkGenerator {
 	public static String generateTaskGroupPreviewLink(Integer projectId,
 			Integer taskgroupId) {
 		return "project/task/taskgroup/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						taskgroupId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				taskgroupId);
 	}
 
 	public static String generateTaskGroupPreviewFullLink(String siteUrl,
@@ -83,8 +83,8 @@ public class ProjectLinkGenerator {
 	public static String generateMilestonePreviewLink(Integer projectId,
 			Integer milestoneId) {
 		return "project/milestone/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						milestoneId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				milestoneId);
 	}
 
 	public static String generateMilestonePreviewFullLink(String siteUrl,
@@ -95,26 +95,26 @@ public class ProjectLinkGenerator {
 
 	public static String generatePagesLink(Integer projectId, String folderPath) {
 		return "project/page/list/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						folderPath });
+				+ GenericLinkUtils.encodeParam(projectId,
+				folderPath);
 	}
 
 	public static String generatePageAdd(Integer projectId, String pagePath) {
 		return "project/page/add/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						pagePath });
+				+ GenericLinkUtils.encodeParam(projectId,
+				pagePath);
 	}
 
 	public static String generatePageRead(Integer projectId, String pagePath) {
 		return "project/page/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						pagePath });
+				+ GenericLinkUtils.encodeParam(projectId,
+				pagePath);
 	}
 
 	public static String generatePageEdit(Integer projectId, String pagePath) {
 		return "project/page/edit/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						pagePath });
+				+ GenericLinkUtils.encodeParam(projectId,
+				pagePath);
 	}
 
 	public static String generateProblemsLink(Integer projectId) {
@@ -124,8 +124,8 @@ public class ProjectLinkGenerator {
 	public static String generateProblemPreviewLink(Integer projectId,
 			Integer problemId) {
 		return "project/problem/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						problemId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				problemId);
 	}
 
 	public static String generateProblemPreviewFullLink(String siteUrl,
@@ -142,8 +142,8 @@ public class ProjectLinkGenerator {
 		return siteUrl
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ "project/user/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						memberName });
+				+ GenericLinkUtils.encodeParam(projectId,
+				memberName);
 	}
 
 	public static String generateRisksLink(Integer projectId) {
@@ -154,7 +154,7 @@ public class ProjectLinkGenerator {
 			Integer riskId) {
 		return "project/risk/preview/"
 				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, riskId });
+						.encodeParam(projectId, riskId);
 	}
 
 	public static String generateRiskPreviewFullLink(String siteUrl,
@@ -183,8 +183,8 @@ public class ProjectLinkGenerator {
 	public static String generateMessagePreviewLink(Integer projectId,
 			Integer messageId) {
 		return "project/message/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						messageId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				messageId);
 	}
 
 	public static String generateMessagePreviewFullLink(String siteUrl,
@@ -196,8 +196,8 @@ public class ProjectLinkGenerator {
 	public static String generateBugComponentPreviewLink(Integer projectId,
 			Integer componentId) {
 		return "project/bug/component/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						componentId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				componentId);
 	}
 
 	public static String generateBugComponentPreviewFullLink(String siteUrl,
@@ -209,8 +209,8 @@ public class ProjectLinkGenerator {
 	public static String generateBugVersionPreviewLink(Integer projectId,
 			Integer versionId) {
 		return "project/bug/version/preview/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
-						versionId });
+				+ GenericLinkUtils.encodeParam(projectId,
+				versionId);
 	}
 
 	public static String generateBugVersionPreviewFullLink(String siteUrl,
@@ -250,7 +250,7 @@ public class ProjectLinkGenerator {
 			Integer roleId) {
 		return "project/role/preview/"
 				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, roleId });
+						.encodeParam(projectId, roleId);
 	}
 
 	public static String generateRolePreviewFullLink(String siteUrl,
@@ -259,20 +259,20 @@ public class ProjectLinkGenerator {
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ "project/role/preview/"
 				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, roleId });
+						.encodeParam(projectId, roleId);
 	}
 	
 	public static String generateStandUpPreviewLink(Integer projectId,
 			Integer reportId) {
 		return "project/standup/list/"
-				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
+				+ GenericLinkUtils.encodeParam(projectId);
 	}
 
 	public static String generateTimeTrackingPreviewLink(Integer projectId,
 			Integer timeId) {
 		return "project/time/list/"
 				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, timeId });
+						.encodeParam(projectId, timeId);
 	}
 
 	public static String generateStandupDashboardLink(Integer projectId) {

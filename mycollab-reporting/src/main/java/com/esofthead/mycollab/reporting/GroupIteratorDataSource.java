@@ -76,8 +76,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
 				LOG.debug("Current data {}", currentData.size());
 			}
 
-			LOG.debug("Current index {} - {} - {} - {}", new Object[] {
-					currentIndex, currentPage, currentData.size(), totalItems });
+			LOG.debug("Current index {} - {} - {} - {}", currentIndex, currentPage, currentData.size(), totalItems);
 			if (currentIndex % ITEMS_PER_PAGE < currentData.size()) {
 				currentItem = currentData.get(currentIndex % ITEMS_PER_PAGE);
 			}

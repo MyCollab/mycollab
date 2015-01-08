@@ -38,7 +38,7 @@ import com.esofthead.mycollab.test.DataSourceFactoryBean;
 public class DbUnitUtil {
 
 	public static void main(String[] args) throws Exception {
-		DataSource dataSource = (DataSource) new DataSourceFactoryBean()
+		DataSource dataSource = new DataSourceFactoryBean()
 				.getDataSource();
 		File file = new File("src/main/resources/mycollab.dtd");
 		IDatabaseConnection connection = null;

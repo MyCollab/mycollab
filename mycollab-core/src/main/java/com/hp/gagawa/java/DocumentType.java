@@ -40,4 +40,4 @@ public enum DocumentType {
 		return spec;
 	}
 	
-};
+}

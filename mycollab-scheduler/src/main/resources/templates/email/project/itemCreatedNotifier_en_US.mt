@@ -46,7 +46,8 @@
                 	    #set($fieldFormat=$mapper.getFieldLabel($key))
                         #if ($currentRowElements == 0) 
                             <tr>
-                                <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.DisplayName)</td>
+                                <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255);
+                                border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.displayName)</td>
                             #if ($fieldFormat.IsColSpan)
                                 <td style="width: 615px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">$fieldFormat.formatField($context)</td>
                             #elseif (!$foreach.hasNext)
@@ -56,7 +57,8 @@
                                 #set($currentRowElements = $currentRowElements + 1)
                             #end 
                         #else
-                            <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.DisplayName)</td>
+                            <td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255);
+                            border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253); vertical-align: top;">$context.getMessage($fieldFormat.displayName)</td>
                             <td style="width: 245px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);">$fieldFormat.formatField($context)</td>
                             </tr>
                             #set($currentRowElements = 0)

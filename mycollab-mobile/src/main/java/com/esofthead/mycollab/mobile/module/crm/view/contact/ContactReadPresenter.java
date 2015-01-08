@@ -263,7 +263,7 @@ public class ContactReadPresenter extends
 			/*
 			 * CrmNavigationMenu crmToolbar = (CrmNavigationMenu) container
 			 * .getNavigationMenu(); crmToolbar.selectButton(AppContext
-			 * .getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
+			 * .getMessageClsEnum(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 			 */
 
 			if (data.getParams() instanceof Integer) {

@@ -60,7 +60,7 @@ public class DateTimePickerField extends CustomField<Date> {
 		timeFormatComboBox = new ValueComboBox();
 		timeFormatComboBox.setWidth("50px");
 		timeFormatComboBox.setCaption(null);
-		timeFormatComboBox.loadData(new String[] { "AM", "PM" });
+		timeFormatComboBox.loadData("AM", "PM");
 		timeFormatComboBox.setNullSelectionAllowed(false);
 		timeFormatComboBox.setImmediate(true);
 	}
@@ -132,7 +132,7 @@ public class DateTimePickerField extends CustomField<Date> {
 		if (popupDateField.getValue() == null) {
 			return null;
 		}
-		Date baseDate = DateTimeUtils.trimHMSOfDate((Date) popupDateField
+		Date baseDate = DateTimeUtils.trimHMSOfDate(popupDateField
 				.getValue());
 		Integer hour = Integer.parseInt((String) hourPickerComboBox.getValue());
 		Integer minus = Integer.parseInt((String) minutePickerComboBox

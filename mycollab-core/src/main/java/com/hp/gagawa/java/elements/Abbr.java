@@ -70,7 +70,7 @@ public class Abbr extends FertileNode {
 	 * @return the node
 	 */
 	public Abbr appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

@@ -93,7 +93,7 @@ public class TrackerContainer extends AbstractPageView {
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = (Tab) ((TabsheetDecor) event
+						final Tab tab = ((TabsheetDecor) event
 								.getTabSheet()).getSelectedTabInfo();
 						final String caption = tab.getCaption();
 						final SimpleProject project = CurrentProjectVariables

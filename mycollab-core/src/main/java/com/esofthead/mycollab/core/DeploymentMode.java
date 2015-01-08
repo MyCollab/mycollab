@@ -24,5 +24,5 @@ package com.esofthead.mycollab.core;
  * 
  */
 public enum DeploymentMode {
-	site, standalone, development;
+	site, standalone, development
 }

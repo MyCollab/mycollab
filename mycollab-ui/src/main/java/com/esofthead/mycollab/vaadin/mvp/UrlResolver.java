@@ -99,7 +99,7 @@ public abstract class UrlResolver {
 					}
 				}
 			} else {
-				handlePage(new String[0]);
+				handlePage();
 			}
 		} catch (Exception e) {
 			LOG.error("Error while navigation", e);

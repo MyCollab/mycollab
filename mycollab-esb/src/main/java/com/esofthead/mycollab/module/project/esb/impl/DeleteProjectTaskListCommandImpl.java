@@ -39,7 +39,7 @@ public class DeleteProjectTaskListCommandImpl implements
 	public void taskListRemoved(String username, int accountId, int projectId,
 			int taskListId) {
 		LOG.debug("Remove task list id {} of project {} by user {}",
-				new Object[] { taskListId, projectId, username });
+				taskListId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, taskListId);
 		removeRelatedComments(taskListId);

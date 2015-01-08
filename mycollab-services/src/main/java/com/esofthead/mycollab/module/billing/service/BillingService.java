@@ -44,9 +44,9 @@ public interface BillingService extends IService {
 	BillingPlan findBillingPlan(@CacheKey Integer sAccountId);
 
 	@CacheEvict
-	void updateBillingPlan(@CacheKey Integer accountid, int newBillingPlanId);
+	void updateBillingPlan(@CacheKey Integer accountId, int newBillingPlanId);
 
-	List<String> getSubdomainsOfUser(String username);
+	List<String> getSubDomainsOfUser(String username);
 
 	List<BillingPlan> getAvailablePlans();
 

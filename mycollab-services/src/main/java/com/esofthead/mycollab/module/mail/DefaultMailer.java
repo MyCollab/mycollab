@@ -33,7 +33,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  *
@@ -54,8 +54,8 @@ public class DefaultMailer implements IMailer {
 	}
 
 	private HtmlEmail getBasicEmail(String fromEmail, String fromName,
-			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-			List<MailRecipientField> bccEmail, String subject, String html) {
+									List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+									List<MailRecipientField> bccEmail, String subject, String html) {
 		try {
 			HtmlEmail email = new HtmlEmail();
 			email.setHostName(host);
@@ -119,8 +119,8 @@ public class DefaultMailer implements IMailer {
 
 	@Override
 	public void sendHTMLMail(String fromEmail, String fromName,
-			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-			List<MailRecipientField> bccEmail, String subject, String html) {
+							 List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+							 List<MailRecipientField> bccEmail, String subject, String html) {
 		try {
 			HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail,
 					ccEmail, bccEmail, subject, html);
@@ -136,11 +136,11 @@ public class DefaultMailer implements IMailer {
 
 	@Override
 	public void sendHTMLMail(String fromEmail, String fromName,
-			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
-			List<MailRecipientField> bccEmail, String subject, String html,
-			List<EmailAttachementSource> attachments) {
+							 List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
+							 List<MailRecipientField> bccEmail, String subject, String html,
+							 List<EmailAttachementSource> attachments) {
 		try {
-			if (attachments == null || attachments.isEmpty()) {
+			if (CollectionUtils.isEmpty(attachments)) {
 				sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail,
 						subject, html);
 			} else {
@@ -164,8 +164,8 @@ public class DefaultMailer implements IMailer {
 
 	@Override
 	public void sendHTMLMail(String fromEmail, String fromName,
-			List<SimpleUser> users, String subject, String html,
-			List<EmailAttachementSource> attachment) {
+							 List<SimpleUser> users, String subject, String html,
+							 List<EmailAttachementSource> attachment) {
 
 		List<MailRecipientField> lstRecipient = new ArrayList<MailRecipientField>();
 		for (int i = 0; i < users.size(); i++) {
@@ -181,6 +181,6 @@ public class DefaultMailer implements IMailer {
 	}
 
 	private boolean isValidate(String val) {
-		return (val != null) && (val.trim().length() > 0);
+		return StringUtils.isNotBlank(val);
 	}
 }

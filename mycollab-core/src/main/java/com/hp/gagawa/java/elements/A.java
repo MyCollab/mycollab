@@ -147,7 +147,7 @@ public class A extends FertileNode {
 	 * @return the node
 	 */
 	public A appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

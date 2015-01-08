@@ -57,7 +57,7 @@ public class ShellController extends AbstractController {
 				MainViewPresenter mainViewPresenter = PresenterResolver
 						.getPresenter(MainViewPresenter.class);
 				MainView mainView = mainViewPresenter.getView();
-				((MainWindowContainer) container).setContent(mainView);
+				container.setContent(mainView);
 
 				container.setStyleName("mainView");
 

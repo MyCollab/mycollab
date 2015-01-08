@@ -313,7 +313,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (account != null) {
 					super.onGo(container, data);
-					view.previewItem((SimpleAccount) account);
+					view.previewItem(account);
 					AppContext
 							.addFragment(
 									CrmLinkGenerator

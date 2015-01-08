@@ -77,8 +77,8 @@ public class TaskGroupListPresenter
 					.addFragment(
 							"project/task/taskgroup/list/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext
 									.getMessage(TaskGroupI18nEnum.M_VIEW_LIST_TITLE));
 		} else {

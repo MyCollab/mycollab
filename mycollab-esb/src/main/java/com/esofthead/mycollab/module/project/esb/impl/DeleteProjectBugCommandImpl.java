@@ -43,8 +43,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 	@Override
 	public void bugRemoved(String username, int accountId, int projectId,
 			int bugId) {
-		LOG.debug("Remove bug {} of project {} by user {}", new Object[] {
-				bugId, projectId, username });
+		LOG.debug("Remove bug {} of project {} by user {}", bugId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, bugId);
 		removeRelatedComments(bugId);

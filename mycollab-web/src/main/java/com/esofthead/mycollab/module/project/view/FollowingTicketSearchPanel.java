@@ -235,14 +235,14 @@ public class FollowingTicketSearchPanel extends
 			Collection<Integer> selectedProjects = (Collection<Integer>) projectField
 					.getValue();
 			if (CollectionUtils.isNotEmpty(selectedProjects)) {
-				searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(
+				searchCriteria.setExtraTypeIds(new SetSearchField<>(
 						SearchField.AND, selectedProjects));
 			} else {
 				List<Integer> keys = new ArrayList<Integer>();
 				for (SimpleProject project : projects) {
 					keys.add(project.getId());
 				}
-				searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(
+				searchCriteria.setExtraTypeIds(new SetSearchField<>(
 						SearchField.AND, keys));
 			}
 

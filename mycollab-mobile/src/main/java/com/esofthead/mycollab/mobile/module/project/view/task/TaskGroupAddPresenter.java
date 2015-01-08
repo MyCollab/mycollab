@@ -108,18 +108,17 @@ public class TaskGroupAddPresenter extends
 						.addFragment(
 								"project/task/taskgroup/add/"
 										+ GenericLinkUtils
-												.encodeParam(new Object[] { CurrentProjectVariables
-														.getProjectId() }),
+												.encodeParam(CurrentProjectVariables
+														.getProjectId()),
 								AppContext
 										.getMessage(TaskGroupI18nEnum.M_VIEW_NEW_TITLE));
 			} else {
 				AppContext
 						.addFragment(
 								"project/task/taskgroup/edit/"
-										+ GenericLinkUtils.encodeParam(new Object[] {
-												CurrentProjectVariables
-														.getProjectId(),
-												taskList.getId() }), taskList
+										+ GenericLinkUtils.encodeParam(CurrentProjectVariables
+                                                .getProjectId(),
+										taskList.getId()), taskList
 										.getName());
 			}
 		} else {

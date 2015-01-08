@@ -26,8 +26,8 @@ public class UrlTokenizerTest {
 
 	@Before
 	public void setUp() {
-		testData = GenericLinkUtils.encodeParam(new Object[] { 1, "a", "b",
-				"1/2/3" });
+		testData = GenericLinkUtils.encodeParam(1, "a", "b",
+				"1/2/3");
 	}
 
 	@Test

@@ -495,7 +495,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 	}
 
 	public enum Mode {
-		MONTH, WEEK, DAY;
+		MONTH, WEEK, DAY
 	}
 
 	class CalendarDisplay extends Calendar {
@@ -962,7 +962,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 				public MeetingStatusComboBox() {
 					super();
 					setCaption(null);
-					this.loadData(new String[] { "Planned", "Held", "Not Held" });
+					this.loadData("Planned", "Held", "Not Held");
 				}
 			}
 		}

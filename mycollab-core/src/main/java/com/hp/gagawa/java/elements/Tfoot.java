@@ -70,7 +70,7 @@ public class Tfoot extends FertileNode {
 	 * @return the node
 	 */
 	public Tfoot appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

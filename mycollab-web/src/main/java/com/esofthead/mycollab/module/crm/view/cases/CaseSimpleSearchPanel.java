@@ -66,9 +66,8 @@ public class CaseSimpleSearchPanel extends
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
 
-		final ValueComboBox group = new ValueComboBox(false, new String[] {
-				"Subject", "Account Name", "Status",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) });
+		final ValueComboBox group = new ValueComboBox(false, "Subject", "Account Name", "Status",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -108,7 +107,7 @@ public class CaseSimpleSearchPanel extends
 				if (StringUtils.isNotBlank(searchType)) {
 
 					if (textValueField != null) {
-						String strSearch = (String) textValueField.getValue();
+						String strSearch = textValueField.getValue();
 						if (StringUtils.isNotBlank(strSearch)) {
 
 							if (searchType.equals("Subject")) {

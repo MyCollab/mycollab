@@ -48,7 +48,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 
 	@Override
 	public T findByPrimaryKey(K primaryKey, int accountId) {
-		return (T) getCrudMapper().selectByPrimaryKey(primaryKey);
+		return getCrudMapper().selectByPrimaryKey(primaryKey);
 	}
 
 	@Override

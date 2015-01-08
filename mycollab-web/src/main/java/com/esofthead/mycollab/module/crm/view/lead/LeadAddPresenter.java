@@ -100,7 +100,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 			} else if (data.getParams() instanceof Integer) {
 				LeadService leadService = ApplicationContextUtil
 						.getSpringBean(LeadService.class);
-				lead = (SimpleLead) leadService.findById(
+				lead = leadService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (lead == null) {
 					NotificationUtil.showRecordNotExistNotification();

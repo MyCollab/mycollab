@@ -61,7 +61,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
 			@Override
 			public void selectedTabChange(SelectedTabChangeEvent event) {
-				Tab tab = (Tab) ((TabsheetDecor) event.getTabSheet())
+				Tab tab = ((TabsheetDecor) event.getTabSheet())
 						.getSelectedTabInfo();
 				String caption = tab.getCaption();
 				if ("Users".equals(caption)) {
@@ -80,7 +80,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
 	@Override
 	public Component gotoSubView(String name) {
-		PageView component = (PageView) ((Tab) groupTab.selectTab(name))
+		PageView component = (PageView) groupTab.selectTab(name)
 				.getComponent();
 		return component;
 	}

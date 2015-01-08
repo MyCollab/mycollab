@@ -70,7 +70,7 @@ public final class PresenterResolver {
 		if (value == null) {
 			try {
 				if (!presenterClass.isInterface()) {
-					value = (P) presenterClass.newInstance();
+					value = presenterClass.newInstance();
 				} else {
 					for (Class<?> classInstance : presenterClasses) {
 						if (presenterClass.isAssignableFrom(classInstance)

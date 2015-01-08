@@ -98,8 +98,8 @@ public class ProjectMemberInvitePresenter extends
 					.addFragment(
 							"project/user/invite/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext
 									.getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE));
 

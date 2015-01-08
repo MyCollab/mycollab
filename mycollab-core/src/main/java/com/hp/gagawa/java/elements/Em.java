@@ -70,7 +70,7 @@ public class Em extends FertileNode {
 	 * @return the node
 	 */
 	public Em appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

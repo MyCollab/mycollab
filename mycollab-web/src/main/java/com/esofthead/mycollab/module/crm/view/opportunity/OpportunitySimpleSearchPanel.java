@@ -65,9 +65,8 @@ public class OpportunitySimpleSearchPanel extends
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
 
-		final ValueComboBox group = new ValueComboBox(false, new String[] {
-				"Name", "Account Name", "Sales Stage",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) });
+		final ValueComboBox group = new ValueComboBox(false, "Name", "Account Name", "Sales Stage",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -109,7 +108,7 @@ public class OpportunitySimpleSearchPanel extends
 				if (StringUtils.isNotBlank(searchType)) {
 
 					if (textValueField != null) {
-						String strSearch = (String) textValueField.getValue();
+						String strSearch = textValueField.getValue();
 						if (StringUtils.isNotBlank(strSearch)) {
 
 							if (searchType.equals("Name")) {

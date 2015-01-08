@@ -65,7 +65,7 @@ public class TaskGroupReorderPresenter extends
 							public void handle(SaveReoderTaskList event) {
 								Set<SimpleTaskList> changeSet = (Set<SimpleTaskList>) event
 										.getData();
-								ProjectTaskListService taskListService = (ProjectTaskListService) ApplicationContextUtil
+								ProjectTaskListService taskListService = ApplicationContextUtil
 										.getSpringBean(ProjectTaskListService.class);
 								taskListService.updateTaskListIndex(
 										changeSet.toArray(new TaskList[] {}),

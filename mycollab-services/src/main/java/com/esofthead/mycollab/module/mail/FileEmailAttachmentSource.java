@@ -20,6 +20,10 @@ import java.io.File;
 
 import org.apache.commons.mail.EmailAttachment;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0
+ */
 public class FileEmailAttachmentSource implements EmailAttachementSource {
 	private File file;
 

@@ -63,8 +63,7 @@ public class CampaignSimpleSearchPanel extends
 		layoutSearchPane = new GridLayout(3, 2);
 		layoutSearchPane.setSpacing(true);
 
-		final ValueComboBox group = new ValueComboBox(false, new String[] {
-				"Campaign Name", "Start Date", "End Date" });
+		final ValueComboBox group = new ValueComboBox(false, "Campaign Name", "Start Date", "End Date");
 		group.select("Campaign Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -101,7 +100,7 @@ public class CampaignSimpleSearchPanel extends
 				if (StringUtils.isNotBlank(searchType)) {
 
 					if (textValueField != null) {
-						String strSearch = (String) textValueField.getValue();
+						String strSearch = textValueField.getValue();
 						if (StringUtils.isNotBlank(strSearch)) {
 
 							if (searchType.equals("Campaign Name")) {

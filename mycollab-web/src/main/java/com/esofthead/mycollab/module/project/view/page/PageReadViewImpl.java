@@ -227,7 +227,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		}, "Document.pdf");
 	}
 
-	private File writePdf() throws FileNotFoundException, IOException,
+	private File writePdf() throws IOException,
 			DocumentException {
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.setDocumentFromString(String.format(XHTML_PAGE,

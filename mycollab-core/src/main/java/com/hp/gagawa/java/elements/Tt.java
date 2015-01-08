@@ -70,7 +70,7 @@ public class Tt extends FertileNode {
 	 * @return the node
 	 */
 	public Tt appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

@@ -75,7 +75,7 @@ public class Html extends FertileNode {
 	 * @return the node
 	 */
 	public Html appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

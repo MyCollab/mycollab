@@ -42,7 +42,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 
 	public DataSource getDataSource() {
 		try {
-			return (DataSource) createInstance();
+			return createInstance();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

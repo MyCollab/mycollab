@@ -37,8 +37,7 @@ public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 	@Override
 	public void taskRemoved(String username, int accountId, int projectId,
 			int taskId) {
-		LOG.debug("Remove task id {} of project {} by user {}", new Object[] {
-				taskId, projectId, username });
+		LOG.debug("Remove task id {} of project {} by user {}", taskId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, taskId);
 		removeRelatedComments(taskId);

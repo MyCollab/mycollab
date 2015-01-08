@@ -25,5 +25,5 @@ import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
  * 
  */
 public interface AccountDeletedCommand {
-	void accountDeleted(int accountid, CustomerFeedbackWithBLOBs feedback);
+	void accountDeleted(int accountId, CustomerFeedbackWithBLOBs feedback);
 }

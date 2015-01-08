@@ -391,7 +391,6 @@ public class CrmModuleController extends AbstractController {
 				}
 			}
 		});
-		;
 	}
 
 	private void bindContactEvents() {

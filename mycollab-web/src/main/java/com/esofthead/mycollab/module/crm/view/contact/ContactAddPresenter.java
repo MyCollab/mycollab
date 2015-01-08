@@ -102,7 +102,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 			} else if (data.getParams() instanceof Integer) {
 				ContactService contactService = ApplicationContextUtil
 						.getSpringBean(ContactService.class);
-				contact = (SimpleContact) contactService.findById(
+				contact = contactService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (contact == null) {
 					NotificationUtil.showRecordNotExistNotification();

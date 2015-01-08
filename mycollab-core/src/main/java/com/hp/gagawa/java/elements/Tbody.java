@@ -70,7 +70,7 @@ public class Tbody extends FertileNode {
 	 * @return the node
 	 */
 	public Tbody appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

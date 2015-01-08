@@ -61,8 +61,8 @@ public class DateRangeField extends CustomField {
 	}
 
 	public RangeDateSearchField getRangeSearchValue() {
-		Date fDate = (Date) dateStart.getValue();
-		Date tDate = (Date) dateEnd.getValue();
+		Date fDate = dateStart.getValue();
+		Date tDate = dateEnd.getValue();
 
 		if (fDate == null || tDate == null)
 			return null;

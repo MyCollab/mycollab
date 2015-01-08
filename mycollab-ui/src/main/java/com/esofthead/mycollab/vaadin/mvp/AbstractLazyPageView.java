@@ -63,7 +63,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 				}
 
 			});
-		};
+		}
 	}
 
 	private static class ProgressIndicator extends Window {

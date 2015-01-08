@@ -75,7 +75,7 @@ public class MyBatisConfiguration {
 				"classpath:sqlMap/tracker/*Mapper.xml",
 				"classpath:sqlMap/tracker/*MapperExt.xml"));
 
-		return (SqlSessionFactory) sqlSessionFactory.getObject();
+		return sqlSessionFactory.getObject();
 	}
 
 	@Bean

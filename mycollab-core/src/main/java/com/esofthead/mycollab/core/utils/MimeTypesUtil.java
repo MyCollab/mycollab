@@ -91,8 +91,8 @@ public class MimeTypesUtil {
 	}
 
 	private static final List<String> SUPPORTED_IMAGES = Arrays
-			.asList(new String[] { "image/jpg", "image/jpeg", "image/png",
-					"image/gif", "image/bmp" });
+			.asList("image/jpg", "image/jpeg", "image/png",
+					"image/gif", "image/bmp");
 
 	public static boolean isImageMimetype(String mimeType) {
 		return SUPPORTED_IMAGES.contains(mimeType);

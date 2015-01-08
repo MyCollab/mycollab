@@ -67,4 +67,4 @@ public class DenyInvitationSendFeedBackHandler extends
 			throw new ResourceNotFoundException();
 		}
 	}
-};
+}

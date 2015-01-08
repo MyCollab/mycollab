@@ -142,7 +142,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 		public MeetingStatusComboBox() {
 			super();
 			setCaption(null);
-			this.loadData(new String[] { "Planned", "Held", "Not Held" });
+			this.loadData("Planned", "Held", "Not Held");
 		}
 	}
 }

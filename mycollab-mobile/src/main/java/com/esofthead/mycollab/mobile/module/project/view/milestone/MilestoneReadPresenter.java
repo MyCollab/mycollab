@@ -130,10 +130,9 @@ public class MilestoneReadPresenter extends
 					AppContext.addFragment(
 							"project/milestone/preview/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] {
-													CurrentProjectVariables
-															.getProjectId(),
-													milestone.getId() }),
+											.encodeParam(CurrentProjectVariables
+                                                    .getProjectId(),
+													milestone.getId()),
 							milestone.getName());
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

@@ -27,6 +27,13 @@ import java.io.Writer;
  * 
  */
 public interface TemplateEngine {
+	/**
+	 *
+	 * @param context
+	 * @param writer
+	 * @param message
+	 * @param reader
+	 */
 	void evaluate(TemplateContext context, Writer writer, String message,
 			Reader reader);
 }

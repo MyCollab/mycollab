@@ -140,8 +140,8 @@ public class MasterFormServiceImpl implements MasterFormService {
 
 			LOG.debug(
 					"Save section name {} of module {} of account {} successfully, Return id is {}",
-					new Object[] { section.getHeader(), moduleName, sAccountId,
-							sectionId });
+					section.getHeader(), moduleName, sAccountId,
+					sectionId);
 
 			int fieldCount = section.getFieldCount();
 			for (int j = 0; j < fieldCount; j++) {

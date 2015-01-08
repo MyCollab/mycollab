@@ -64,8 +64,8 @@ public class BugListPresenter extends
 					.addFragment(
 							"project/bug/list/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
 
 		} else {

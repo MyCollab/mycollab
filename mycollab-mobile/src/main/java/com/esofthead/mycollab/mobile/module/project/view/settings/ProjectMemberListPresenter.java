@@ -77,8 +77,8 @@ public class ProjectMemberListPresenter
 					.addFragment(
 							"project/user/list/"
 									+ GenericLinkUtils
-											.encodeParam(new Object[] { CurrentProjectVariables
-													.getProjectId() }),
+											.encodeParam(CurrentProjectVariables
+													.getProjectId()),
 							AppContext
 									.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
 

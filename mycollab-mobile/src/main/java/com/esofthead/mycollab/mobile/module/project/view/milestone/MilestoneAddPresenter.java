@@ -98,16 +98,15 @@ public class MilestoneAddPresenter extends
 						.addFragment(
 								"project/milestone/add/"
 										+ GenericLinkUtils
-												.encodeParam(new Object[] { CurrentProjectVariables
-														.getProjectId() }),
+												.encodeParam(CurrentProjectVariables
+														.getProjectId()),
 								AppContext
 										.getMessage(MilestoneI18nEnum.FORM_NEW_TITLE));
 			} else {
 				AppContext.addFragment(
 						"project/milestone/edit/"
-								+ GenericLinkUtils.encodeParam(new Object[] {
-										CurrentProjectVariables.getProjectId(),
-										milestone.getId() }),
+								+ GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
+								milestone.getId()),
 						milestone.getName());
 			}
 		} else {

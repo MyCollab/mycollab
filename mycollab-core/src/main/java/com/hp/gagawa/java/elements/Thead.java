@@ -70,7 +70,7 @@ public class Thead extends FertileNode {
 	 * @return the node
 	 */
 	public Thead appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

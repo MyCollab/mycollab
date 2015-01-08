@@ -165,8 +165,8 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 		public CallPurposeComboBox() {
 			super();
 			setCaption(null);
-			this.loadData(new String[] { "Prospecting", "Administrative",
-					"Negotiation", "Project", "Support" });
+			this.loadData("Prospecting", "Administrative",
+					"Negotiation", "Project", "Support");
 		}
 	}
 
@@ -182,7 +182,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
 			minutesField = new ValueComboBox();
 			minutesField.setWidth("100%");
-			minutesField.loadData(new String[] { "0", "15", "30", "45" });
+			minutesField.loadData("0", "15", "30", "45");
 		}
 
 		@Override
@@ -269,7 +269,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 			super();
 			setCaption(null);
 			this.setWidth("80px");
-			this.loadData(new String[] { "Inbound", "Outbound" });
+			this.loadData("Inbound", "Outbound");
 			this.addValueChangeListener(new Property.ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -291,7 +291,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 			super();
 			setCaption(null);
 			this.setWidth("100px");
-			this.loadData(new String[] { "Planned", "Held", "Not Held" });
+			this.loadData("Planned", "Held", "Not Held");
 			this.addValueChangeListener(new Property.ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 

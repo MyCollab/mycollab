@@ -31,6 +31,6 @@ public class MeetingStatusComboBox extends ValueComboBox {
 	public MeetingStatusComboBox() {
 		super();
 		setCaption(null);
-		this.loadData(new String[] { "Planned", "Held", "Not Held" });
+		this.loadData("Planned", "Held", "Not Held");
 	}
 }

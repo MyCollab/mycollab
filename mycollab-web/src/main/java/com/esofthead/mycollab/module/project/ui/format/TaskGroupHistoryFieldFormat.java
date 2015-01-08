@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.schedule.email.format.FormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
-import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
@@ -76,14 +76,14 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 			if (taskgroup != null) {
 				String taskgroupIconLink = ProjectResources
 						.getResourceLink(ProjectTypeConstants.TASK_LIST);
-				Img img = TagBuilder.newImg("icon", taskgroupIconLink);
+				Img img = FormatUtils.newImg("icon", taskgroupIconLink);
 
 				String taskgroupLink = ProjectLinkGenerator
 						.generateTaskGroupPreviewFullLink(
 								AppContext.getSiteUrl(),
 								taskgroup.getProjectid(), taskgroup.getId());
-				A link = TagBuilder.newA(taskgroupLink, taskgroup.getName());
-				return TagBuilder.newLink(img, link).write();
+				A link = FormatUtils.newA(taskgroupLink, taskgroup.getName());
+				return FormatUtils.newLink(img, link).write();
 			}
 		} catch (Exception e) {
 			LOG.error("Error", e);

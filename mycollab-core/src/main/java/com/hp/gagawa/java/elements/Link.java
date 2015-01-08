@@ -70,7 +70,7 @@ public class Link extends FertileNode {
 	 * @return the node
 	 */
 	public Link appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

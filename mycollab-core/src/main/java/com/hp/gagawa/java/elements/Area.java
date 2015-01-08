@@ -75,7 +75,7 @@ public class Area extends FertileNode {
 	 * @return the node
 	 */
 	public Area appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

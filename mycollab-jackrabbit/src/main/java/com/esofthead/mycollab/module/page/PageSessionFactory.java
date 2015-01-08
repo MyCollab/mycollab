@@ -63,7 +63,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 			throw new ContentException("Jcr session setup not successful.");
 		}
 
-		NodeTypeManager manager = (NodeTypeManager) session.getWorkspace()
+		NodeTypeManager manager = session.getWorkspace()
 				.getNodeTypeManager();
 		manager.registerNodeType(createWikiPageType(manager), true);
 		manager.registerNodeType(createWikiFolderType(manager), true);
@@ -72,7 +72,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createWikiPageType(NodeTypeManager manager)
-			throws NoSuchNodeTypeException, RepositoryException {
+			throws RepositoryException {
 		LOG.info("Register mycollab content type");
 		NodeType hierachyNode = manager.getNodeType(NodeType.NT_HIERARCHY_NODE);
 		// Create content node type
@@ -150,7 +150,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 
 	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createWikiFolderType(NodeTypeManager manager)
-			throws NoSuchNodeTypeException, RepositoryException {
+			throws RepositoryException {
 		// Create content node type
 		NodeTypeTemplate folderTypeTemplate = manager.createNodeTypeTemplate();
 

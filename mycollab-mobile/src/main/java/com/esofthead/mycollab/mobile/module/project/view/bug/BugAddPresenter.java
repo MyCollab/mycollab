@@ -100,8 +100,8 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 						.addFragment(
 								"project/bug/add/"
 										+ GenericLinkUtils
-												.encodeParam(new Object[] { CurrentProjectVariables
-														.getProjectId() }),
+												.encodeParam(CurrentProjectVariables
+														.getProjectId()),
 								AppContext
 										.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE));
 			} else {

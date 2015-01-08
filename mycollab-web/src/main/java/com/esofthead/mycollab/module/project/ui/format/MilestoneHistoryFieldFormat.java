@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.schedule.email.format.FormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
@@ -77,14 +77,14 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 			if (milestone != null) {
 				String milestoneIconLink = ProjectResources
 						.getResourceLink(ProjectTypeConstants.MILESTONE);
-				Img img = TagBuilder.newImg("icon", milestoneIconLink);
+				Img img = FormatUtils.newImg("icon", milestoneIconLink);
 
 				String milestoneLink = ProjectLinkGenerator
 						.generateMilestonePreviewFullLink(
 								AppContext.getSiteUrl(),
 								milestone.getProjectid(), milestone.getId());
-				A link = TagBuilder.newA(milestoneLink, milestone.getName());
-				return TagBuilder.newLink(img, link).write();
+				A link = FormatUtils.newA(milestoneLink, milestone.getName());
+				return FormatUtils.newLink(img, link).write();
 			}
 		} catch (Exception e) {
 			LOG.error("Error", e);

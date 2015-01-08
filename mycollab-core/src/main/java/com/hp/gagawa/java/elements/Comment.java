@@ -91,7 +91,7 @@ public class Comment extends FertileNode {
 	 * @return the node
 	 */
 	public Comment appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}

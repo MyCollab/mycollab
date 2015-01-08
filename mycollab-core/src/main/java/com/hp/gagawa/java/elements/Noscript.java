@@ -70,7 +70,7 @@ public class Noscript extends FertileNode {
 	 * @return the node
 	 */
 	public Noscript appendChild(List<Node> children){
-		if(children != null){;
+		if(children != null){
 			for(Node child: children){
 				appendChild(child);
 			}
