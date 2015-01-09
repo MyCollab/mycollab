@@ -75,9 +75,9 @@ public class ActivityStreamComponent extends CssLayout {
 		this.addComponent(this.activityStreamList);
 
 		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
+		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
 				new String[] { ModuleNameConstants.PRJ }));
-		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys
+		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
 				.toArray(new Integer[0])));
 		searchCriteria.setSaccountid(new NumberSearchField(AppContext
 				.getAccountId()));
@@ -264,7 +264,7 @@ public class ActivityStreamComponent extends CssLayout {
 			div13.setId("projectuserserverdata" + uid);
 			div12.appendChild(div13);
 
-			div.appendChild(userAvatar, EMPTY_SPACE, userLink, EMPTY_SPACE,
+			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
 					div1);
 			return div.write();
 		}
@@ -307,7 +307,7 @@ public class ActivityStreamComponent extends CssLayout {
 			itemLink.setAttribute("onmouseover", mouseOverFunc);
 			itemLink.appendText(activityStream.getNamefield());
 
-			div.appendChild(itemImg, EMPTY_SPACE, itemLink);
+			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink);
 			return div.write();
 		}
 
@@ -340,7 +340,7 @@ public class ActivityStreamComponent extends CssLayout {
 			div14.setId("projectOverViewserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(prjImg, EMPTY_SPACE, prjLink, EMPTY_SPACE, div1);
+			div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink, DivLessFormatter.EMPTY_SPACE(), div1);
 
 			return div.write();
 		}

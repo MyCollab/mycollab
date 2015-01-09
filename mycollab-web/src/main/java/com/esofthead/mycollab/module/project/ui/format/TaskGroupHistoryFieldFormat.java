@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
-import com.esofthead.mycollab.schedule.email.format.FormatUtils;
+import com.esofthead.mycollab.html.FormatUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +54,7 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 			int taskgroupId = Integer.parseInt(value);
 			String html = ProjectLinkBuilder
 					.generateTaskGroupHtmlLink(taskgroupId);
-			return (value != null) ? new Label(html, ContentMode.HTML)
-					: new Label("");
+			return new Label(html, ContentMode.HTML);
 		} catch (NumberFormatException e) {
 			return new Label("");
 		}

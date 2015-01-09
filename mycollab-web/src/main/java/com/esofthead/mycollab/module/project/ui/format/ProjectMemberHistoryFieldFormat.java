@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
-import com.esofthead.mycollab.schedule.email.format.FormatUtils;
+import com.esofthead.mycollab.html.FormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

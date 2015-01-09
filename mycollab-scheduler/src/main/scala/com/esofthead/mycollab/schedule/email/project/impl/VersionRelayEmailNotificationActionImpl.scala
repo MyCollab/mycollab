@@ -21,13 +21,14 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.{GenericI18Enum, OptionI18nEnum}
 import com.esofthead.mycollab.configuration.StorageManager
 import com.esofthead.mycollab.core.utils.StringUtils
+import com.esofthead.mycollab.html.{LinkUtils, FormatUtils}
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleProject, SimpleProjectMember}
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.tracker.domain.{SimpleVersion, Version}
 import com.esofthead.mycollab.module.tracker.service.VersionService
-import com.esofthead.mycollab.schedule.email.format.{WebItem, FormatUtils, DateFieldFormat, I18nFieldFormat}
+import com.esofthead.mycollab.schedule.email.format.{WebItem, DateFieldFormat, I18nFieldFormat}
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.hp.gagawa.java.elements.Img
@@ -62,7 +63,7 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
     val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
     val avatarId: String =  if (projectMember != null) projectMember.getMemberAvatarId else ""
-    val userAvatar: Img = FormatUtils.newAvatar(avatarId)
+    val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
     val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
     val actionEnum:Enum[_] = emailNotification.getAction match {

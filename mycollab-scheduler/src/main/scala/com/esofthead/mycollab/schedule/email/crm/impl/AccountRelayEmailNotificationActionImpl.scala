@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.core.utils.StringUtils
+import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator
 import com.esofthead.mycollab.module.crm.domain.{Account, SimpleAccount}
 import com.esofthead.mycollab.module.crm.i18n.{AccountI18nEnum, OptionI18nEnum}
@@ -29,7 +30,7 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.service.UserService
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction
-import com.esofthead.mycollab.schedule.email.format.{FieldFormat, FormatUtils, I18nFieldFormat}
+import com.esofthead.mycollab.schedule.email.format.{FieldFormat, I18nFieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.hp.gagawa.java.elements.{A, Img, Span}
@@ -66,7 +67,7 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     val user: SimpleUser = userService.findUserByUserNameInAccount(emailNotification.getChangeby, context.getSaccountid)
 
     val avatarId: String = if (user != null) user.getAvatarid else ""
-    val userAvatar: Img = FormatUtils.newAvatar(avatarId)
+    val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
     val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
     val actionEnum: Enum[_] = emailNotification.getAction match {

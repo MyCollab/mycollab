@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
-
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -35,6 +33,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -58,7 +57,7 @@ public class ProjectMessageListComponent extends Depot {
 		super(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS),
 				new VerticalLayout());
 
-		messageList = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
+		messageList = new DefaultBeanPagedList<>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),
 				new MessageRowDisplayHandler(), 5);
 		addStyleName("activity-panel");
@@ -69,7 +68,7 @@ public class ProjectMessageListComponent extends Depot {
 		bodyContent.removeAllComponents();
 		bodyContent.addComponent(messageList);
 		final MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-		searchCriteria.setProjectids(new SetSearchField<Integer>(
+		searchCriteria.setProjectids(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
 
 		messageList.setSearchCriteria(searchCriteria);
@@ -122,7 +121,7 @@ public class ProjectMessageListComponent extends Depot {
 					.generateProjectMemberFullLink(message.getProjectid(),
 							message.getPosteduser()));
 			assigneeLink.appendText(message.getFullPostedUserName());
-			div.appendChild(avatar, EMPTY_SPACE, assigneeLink);
+			div.appendChild(avatar, DivLessFormatter.EMPTY_SPACE(), assigneeLink);
 			return div.write();
 		}
 
@@ -130,13 +129,13 @@ public class ProjectMessageListComponent extends Depot {
 			DivLessFormatter div = new DivLessFormatter();
 			Img messageIcon = new Img("",
 					MyCollabResource
-							.newResourceLink("icons/16/project/message.png"));
+							.newResourceLink(WebResourceIds._16_project_message));
 			A msgLink = new A();
 			msgLink.setHref(ProjectLinkBuilder.generateMessagePreviewFullLink(
 					message.getProjectid(), message.getId(),
 					GenericLinkUtils.URL_PREFIX_PARAM));
 			msgLink.appendText(message.getTitle());
-			div.appendChild(messageIcon, EMPTY_SPACE, msgLink);
+			div.appendChild(messageIcon, DivLessFormatter.EMPTY_SPACE(), msgLink);
 			return div.write();
 		}
 	}

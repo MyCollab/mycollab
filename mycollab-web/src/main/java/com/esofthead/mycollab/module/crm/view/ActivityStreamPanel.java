@@ -362,7 +362,7 @@ public class ActivityStreamPanel extends CssLayout {
 			div14.setId("crmuserserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(userAvatar, EMPTY_SPACE, userLink, EMPTY_SPACE,
+			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
 					div1);
 
 			return div.write();
@@ -411,7 +411,7 @@ public class ActivityStreamPanel extends CssLayout {
 			div14.setId("crmActivityserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(itemImg, EMPTY_SPACE, itemLink, EMPTY_SPACE, div1);
+			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), div1);
 
 			return div.write();
 		}

@@ -56,14 +56,14 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
-		criteria.setRegisterStatuses(new SetSearchField<String>(
+		criteria.setRegisterStatuses(new SetSearchField<>(
 				SearchField.AND,
 				new String[] { RegisterStatusConstants.ACTIVE }));
 
 		UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);
 		List<SimpleUser> userList = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		return userList;
 	}

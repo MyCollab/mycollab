@@ -1,63 +1,81 @@
-@import url(../chameleon/legacy-styles.css);
+@import "../chameleon/legacy-styles.css";
+
 /** 
  * "optional-" prefix means that the style is not necessarily used, it can be left blank
  * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
  *
  **/
+
 /* Application background */
+
 .v-app {
-  background: #92bd84;
+  background: rgb(146, 189, 132);
 }
 
 .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
-  background-color: #92bd84;
+  background-color: rgb(146, 189, 132);
   background-color: rgba(146, 189, 132, 0.85);
 }
 
-body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.v-ie7 .v-popupview-popup, body.v-ie6 .v-filterselect-suggestpopup, body.v-ie7 .v-filterselect-suggestpopup, body.v-ie6 .v-datefield-popup, body.v-ie7 .v-datefield-popup, body.v-ie6 .v-contextmenu, body.v-ie7 .v-contextmenu, body.v-ie6 .v-menubar-submenu, body.v-ie7 .v-menubar-submenu {
-  background-color: whitesmoke;
+body {
+  &.v-ie6 .v-window, &.v-ie7 .v-window, &.v-ie6 .v-popupview-popup, &.v-ie7 .v-popupview-popup, &.v-ie6 .v-filterselect-suggestpopup, &.v-ie7 .v-filterselect-suggestpopup, &.v-ie6 .v-datefield-popup, &.v-ie7 .v-datefield-popup, &.v-ie6 .v-contextmenu, &.v-ie7 .v-contextmenu, &.v-ie6 .v-menubar-submenu, &.v-ie7 .v-menubar-submenu {
+    background-color: rgb(245, 245, 245);
+  }
 }
 
 .v-panel-content {
-  background-color: whitesmoke;
+  background-color: rgb(245, 245, 245);
 }
 
-.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-deco-bubble {
-  background-color: whitesmoke;
+.v-panel-bubble {
+  .v-panel-captionwrap, .v-panel-deco-bubble {
+    background-color: rgb(245, 245, 245);
+  }
 }
 
 .v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
-  background-color: whitesmoke;
+  background-color: rgb(245, 245, 245);
 }
 
 /* Base font size and color */
+
 .v-app, .v-window, .v-popupview-popup {
   font-size: 13px;
-  color: #0f0d0d;
+  color: rgb(15, 13, 13);
 }
 
-.v-app input, .v-app button, .v-app textarea {
-  font-size: 13px;
-  color: #0f0d0d;
+.v-app {
+  input, button, textarea {
+    font-size: 13px;
+    color: rgb(15, 13, 13);
+  }
 }
 
-.v-window input, .v-window button, .v-window textarea {
-  font-size: 13px;
-  color: #0f0d0d;
+.v-window {
+  input, button, textarea {
+    font-size: 13px;
+    color: rgb(15, 13, 13);
+  }
 }
 
-.v-popupview-popup input, .v-popupview-popup button, .v-popupview-popup textarea {
-  font-size: 13px;
-  color: #0f0d0d;
+.v-popupview-popup {
+  input, button, textarea {
+    font-size: 13px;
+    color: rgb(15, 13, 13);
+  }
 }
 
 .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
   font-size: 13px;
-  color: #0f0d0d;
+  color: rgb(15, 13, 13);
 }
 
 .v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
   font-size: 13px;
+}
+
+.v-label, .sidebar-menu .v-label, .v-table-scrollposition {
+  //@optional-generated-shadow@
 }
 
 /* Base background color */
@@ -68,64 +86,70 @@ div.v-button-down,
 	background-color: rgb(82,104,75);
 	border-color: rgb(55,66,51);
 }*/
+
 div.v-button-down:active {
-  background-color: #43533e;
+  background-color: rgb(67, 83, 62);
 }
 
-.v-button:focus {
-  background-color: #52684b;
-}
-.v-button:active .v-button-wrap {
-  border-color: #43533e;
+.v-button {
+  &:focus {
+    background-color: rgb(82, 104, 75);
+  }
+  &:active .v-button-wrap {
+    border-color: rgb(67, 83, 62);
+  }
 }
 
 /* Base border color */
+
 .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
-  border-color: #43533e;
+  border-color: rgb(67, 83, 62);
 }
 
 .v-tabsheet-scrollerNext-disabled {
-  border-color: #43533e;
-}
-.v-tabsheet-scrollerNext-disabled:active {
-  border-color: #43533e;
+  border-color: rgb(67, 83, 62);
+  &:active {
+    border-color: rgb(67, 83, 62);
+  }
 }
 
 .v-table-header-wrap, .v-table-body, .v-table-resizer {
-  border-color: #43533e;
+  border-color: rgb(67, 83, 62);
 }
 
-div.v-table-focus-slot-left, div.v-table-focus-slot-right {
-  border-color: #43533e;
+div {
+  &.v-table-focus-slot-left, &.v-table-focus-slot-right {
+    border-color: rgb(67, 83, 62);
+  }
 }
 
 input.v-textfield, textarea.v-textarea, .v-filterselect {
-  border-color: #43533e;
+  border-color: rgb(67, 83, 62);
 }
 
 input.v-textfield, textarea.v-textarea, .v-filterselect {
-  border-bottom-color: #52684b;
-  border-left-color: #52684b;
-  border-right-color: #52684b;
+  border-bottom-color: rgb(82, 104, 75);
+  border-left-color: rgb(82, 104, 75);
+  border-right-color: rgb(82, 104, 75);
 }
 
 .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
-  background-color: #64825a;
-  border-color: #43533e;
+  background-color: rgb(100, 130, 90);
+  border-color: rgb(67, 83, 62);
 }
 
 .v-accordion-opaque {
-  background-color: #64825a;
-  border-color: #43533e;
-}
-.v-accordion-opaque .v-accordion-item-open, .v-accordion-opaque .v-accordion-item-caption, .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
-  background-color: #64825a;
-  border-color: #43533e;
+  background-color: rgb(100, 130, 90);
+  border-color: rgb(67, 83, 62);
+  .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
+    background-color: rgb(100, 130, 90);
+    border-color: rgb(67, 83, 62);
+  }
 }
 
 .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
-  background-color: #64825a;
-  border-color: #43533e;
+  background-color: rgb(100, 130, 90);
+  border-color: rgb(67, 83, 62);
 }
 
 .v-button .v-button-wrap {
@@ -133,9 +157,11 @@ input.v-textfield, textarea.v-textarea, .v-filterselect {
   background-position: left top;
 }
 
-.v-disabled.v-button:focus .v-button-wrap, .v-disabled.v-button:active .v-button-wrap {
-  /*background-image: url(../chameleon/img/grad-light-top2.png);*/
-  background-position: left top;
+.v-disabled.v-button {
+  &:focus .v-button-wrap, &:active .v-button-wrap {
+    /*background-image: url(../chameleon/img/grad-light-top2.png);*/
+    background-position: left top;
+  }
 }
 
 .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-window-wrap, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-panel-bubble .v-panel-caption-bubble, .v-slider-handle, .v-tabsheet-tabitem-selected .v-caption, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-progressindicator-indicator, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
@@ -144,157 +170,173 @@ input.v-textfield, textarea.v-textarea, .v-filterselect {
 }
 
 .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
-  background-color: #52684b;
+  background-color: rgb(82, 104, 75);
 }
 
 .v-progressindicator-wrapper {
-  border-color: #52684b;
+  border-color: rgb(82, 104, 75);
 }
 
 .v-button {
-  text-shadow: 0 -1px 0 #43533e;
+  text-shadow: 0 -1px 0 rgb(67, 83, 62);
 }
 
-.v-disabled.v-button:focus, .v-disabled.v-button:active {
-  text-shadow: 0 -1px 0 #43533e;
+.v-disabled.v-button {
+  &:focus, &:active {
+    text-shadow: 0 -1px 0 rgb(67, 83, 62);
+  }
 }
 
 .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
-  text-shadow: 0 -1px 0 #43533e;
+  text-shadow: 0 -1px 0 rgb(67, 83, 62);
 }
 
 /* Background border color */
+
 .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
-  border-color: #78976e;
+  border-color: rgb(120, 151, 110);
 }
 
-.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-content-bubble, .v-panel-bubble .v-panel-deco-bubble {
-  border-color: #78976e;
+.v-panel-bubble {
+  .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
+    border-color: rgb(120, 151, 110);
+  }
 }
 
 .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
-  border-color: #78976e;
+  border-color: rgb(120, 151, 110);
 }
 
 /* Alternate colors */
+
 .v-label-color {
-  color: #6482b3;
+  color: rgb(100, 130, 179);
 }
 
 .v-button-link, .v-disabled.v-button-link {
-  color: #6482b3;
-}
-.v-button-link:focus, .v-button-link:active, .v-disabled.v-button-link:focus, .v-disabled.v-button-link:active {
-  color: #6482b3;
+  color: rgb(100, 130, 179);
+  &:focus, &:active {
+    color: rgb(100, 130, 179);
+  }
 }
 
 .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
-  color: #6482b3;
+  color: rgb(100, 130, 179);
 }
 
 .v-button-default {
-  border-color: #495972;
+  border-color: rgb(73, 89, 114);
 }
 
 .v-disabled.v-button-default {
-  border-color: #495972;
-}
-.v-disabled.v-button-default:focus {
-  border-color: #495972;
+  border-color: rgb(73, 89, 114);
+  &:focus {
+    border-color: rgb(73, 89, 114);
+  }
 }
 
 .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
-  border-color: #495972;
+  border-color: rgb(73, 89, 114);
 }
 
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  border-color: #495972;
+.sidebar-menu {
+  .tab-selected, .selected {
+    border-color: rgb(73, 89, 114);
+  }
 }
 
 .v-horizontallayout-segment-alternate .v-button-down {
-  border-color: #495972;
+  border-color: rgb(73, 89, 114);
 }
 
 .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
-  background-color: #566c8f;
+  background-color: rgb(86, 108, 143);
 }
 
 .v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
-  border-color: #566c8f;
+  border-color: rgb(86, 108, 143);
 }
 
 .v-button-default {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
 }
 
 .v-disabled.v-button-default {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
-}
-.v-disabled.v-button-default:focus {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
+  &:focus {
+    background-color: rgb(100, 130, 179);
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 rgb(73, 89, 114);
+  }
 }
 
 .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
 }
 
 .v-contextmenu .gwt-MenuItem-selected {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
-}
-.v-contextmenu .gwt-MenuItem-selected div {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
+  div {
+    background-color: rgb(100, 130, 179);
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 rgb(73, 89, 114);
+  }
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
 }
 
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+.sidebar-menu {
+  .tab-selected, .selected {
+    background-color: rgb(100, 130, 179);
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 rgb(73, 89, 114);
+  }
 }
 
 .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
-  background-color: #6482b3;
-  color: #f4f4f5;
-  text-shadow: 0 -1px 0 #495972;
+  background-color: rgb(100, 130, 179);
+  color: rgb(244, 244, 245);
+  text-shadow: 0 -1px 0 rgb(73, 89, 114);
 }
 
 .v-ie6 .v-progressindicator-indicator {
-  background-color: #6482b3;
+  background-color: rgb(100, 130, 179);
 }
 
 .v-panel-caption, .v-table-striped .v-table-row-odd {
-  background: #f7f7f7;
+  background: rgb(247, 247, 247);
 }
 
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  text-shadow: 0 1px 0 #495972;
+.sidebar-menu {
+  .tab-selected, .selected {
+    text-shadow: 0 1px 0 rgb(73, 89, 114);
+  }
 }
+
+//@import "../chameleon/styles.css";
 
 /** 
  * "optional-" prefix means that the style is not necessarily used, it can be left blank
  * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
  *
  **/
+
 /* Application background */
+
 .v-app {
-  background: #f9f9f9;
+  background: rgb(249, 249, 249);
 }
 
 .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
@@ -304,16 +346,20 @@ input.v-textfield, textarea.v-textarea, .v-filterselect {
   border-radius: 3px;
 }
 
-body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.v-ie7 .v-popupview-popup, body.v-ie6 .v-filterselect-suggestpopup, body.v-ie7 .v-filterselect-suggestpopup, body.v-ie6 .v-datefield-popup, body.v-ie7 .v-datefield-popup, body.v-ie6 .v-contextmenu, body.v-ie7 .v-contextmenu, body.v-ie6 .v-menubar-submenu, body.v-ie7 .v-menubar-submenu {
-  /* 	background-color: transparent; */
+body {
+  &.v-ie6 .v-window, &.v-ie7 .v-window, &.v-ie6 .v-popupview-popup, &.v-ie7 .v-popupview-popup, &.v-ie6 .v-filterselect-suggestpopup, &.v-ie7 .v-filterselect-suggestpopup, &.v-ie6 .v-datefield-popup, &.v-ie7 .v-datefield-popup, &.v-ie6 .v-contextmenu, &.v-ie7 .v-contextmenu, &.v-ie6 .v-menubar-submenu, &.v-ie7 .v-menubar-submenu {
+    /* 	background-color: transparent; */
+  }
 }
 
 .v-panel-content {
   /* 	background-color: transparent; */
 }
 
-.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-deco-bubble {
-  /* 	background-color: transparent; */
+.v-panel-bubble {
+  .v-panel-captionwrap, .v-panel-deco-bubble {
+    /* 	background-color: transparent; */
+  }
 }
 
 .v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
@@ -321,28 +367,35 @@ body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.
 }
 
 /* Base font size and color */
+
 .v-app, .v-window, .v-popupview-popup {
   font-size: 13px;
   /*color: rgb(34,34,34);*/
   color: #525252;
 }
 
-.v-app input, .v-app button, .v-app textarea {
-  font-size: 13px;
-  /*color: rgb(34,34,34);*/
-  color: #525252;
+.v-app {
+  input, button, textarea {
+    font-size: 13px;
+    /*color: rgb(34,34,34);*/
+    color: #525252;
+  }
 }
 
-.v-window input, .v-window button, .v-window textarea {
-  font-size: 13px;
-  /*color: rgb(34,34,34);*/
-  color: #525252;
+.v-window {
+  input, button, textarea {
+    font-size: 13px;
+    /*color: rgb(34,34,34);*/
+    color: #525252;
+  }
 }
 
-.v-popupview-popup input, .v-popupview-popup button, .v-popupview-popup textarea {
-  font-size: 13px;
-  /*color: rgb(34,34,34);*/
-  color: #525252;
+.v-popupview-popup {
+  input, button, textarea {
+    font-size: 13px;
+    /*color: rgb(34,34,34);*/
+    color: #525252;
+  }
 }
 
 .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
@@ -355,6 +408,10 @@ body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.
   font-size: 13px;
 }
 
+.v-label, .sidebar-menu .v-label, .v-table-scrollposition {
+  //@optional-generated-shadow@
+}
+
 /* Base background color */
 /*.v-button:active,
 .v-ie .v-button.v-pressed,
@@ -363,32 +420,36 @@ div.v-button-down,
 	background-color: rgb(161,161,161);
 	border-color: rgb(103,103,103);
 	}*/
+
 div.v-button-down:active {
-  background-color: #818181;
+  background-color: rgb(129, 129, 129);
 }
 
 .v-button:focus {
-  background-color: #a1a1a1;
+  background-color: rgb(161, 161, 161);
 }
 
 /* Base border color */
+
 .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
   border-color: #CFCFCF;
 }
 
 .v-tabsheet-scrollerNext-disabled {
   border-color: #CFCFCF;
-}
-.v-tabsheet-scrollerNext-disabled:active {
-  border-color: #CFCFCF;
+  &:active {
+    border-color: #CFCFCF;
+  }
 }
 
 .v-table-header-wrap, .v-table-body, .v-table-resizer {
   border-color: #CFCFCF;
 }
 
-div.v-table-focus-slot-left, div.v-table-focus-slot-right {
-  border-color: #CFCFCF;
+div {
+  &.v-table-focus-slot-left, &.v-table-focus-slot-right {
+    border-color: #CFCFCF;
+  }
 }
 
 input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, textarea.v-textarea, .v-filterselect {
@@ -396,58 +457,72 @@ input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, text
 }
 
 .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
-  background-color: #c9c9c9;
+  background-color: rgb(201, 201, 201);
   border-color: #CFCFCF;
 }
 
 .v-accordion-opaque {
-  background-color: #c9c9c9;
+  background-color: rgb(201, 201, 201);
   border-color: #CFCFCF;
-}
-.v-accordion-opaque .v-accordion-item-open, .v-accordion-opaque .v-accordion-item-caption, .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
-  background-color: #c9c9c9;
-  border-color: #CFCFCF;
+  .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
+    background-color: rgb(201, 201, 201);
+    border-color: #CFCFCF;
+  }
 }
 
 .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
-  background-color: #c9c9c9;
+  background-color: rgb(201, 201, 201);
   border-color: #CFCFCF;
 }
 
+.v-button! .v-button-wrap {}
+
+.v-disabled.v-button! {
+  &:focus .v-button-wrap, &:active .v-button-wrap {}
+}
+
+.v-datefield-calendarpanel-header! button, td.v-datefield-calendarpanel-month!, .v-window-wrap!, .v-popupview-popup!, .v-filterselect-suggestpopup!, .v-datefield-popup!, .v-contextmenu!, .v-menubar-submenu!, .v-panel-bubble! .v-panel-caption-bubble, .v-slider-handle!, .v-tabsheet-tabitem-selected! .v-caption, .v-table-header-wrap!, .v-table-generated-row!, .v-table-header-drag!, .v-filterselect-prevpage-off!, .v-filterselect-nextpage-off!, .v-filterselect-prevpage!, .v-filterselect-nextpage!, .v-filterselect-select-button!, .v-progressindicator-indicator!, .v-accordion-item-caption!, .v-accordion-item-open! .v-accordion-item-caption:active, .v-tabsheet-scroller!, .v-csslayout-toolbar!, .v-menubar!, .v-button:active! .v-button-wrap, .v-ie7! .v-pressed.v-button .v-button-wrap, .v-ie8! .v-pressed.v-button .v-button-wrap, .v-button-down! .v-button-wrap {}
+
 .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
-  background-color: #a1a1a1;
+  background-color: rgb(161, 161, 161);
 }
 
 .v-progressindicator-wrapper {
-  border-color: #a1a1a1;
+  border-color: rgb(161, 161, 161);
 }
 
 .v-button {
-  text-shadow: 0 1px 0 #dfdfdf;
+  text-shadow: 0 1px 0 rgb(223, 223, 223);
 }
 
-.v-disabled.v-button:focus, .v-disabled.v-button:active {
-  text-shadow: 0 1px 0 #dfdfdf;
+.v-disabled.v-button {
+  &:focus, &:active {
+    text-shadow: 0 1px 0 rgb(223, 223, 223);
+  }
 }
 
 .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
-  text-shadow: 0 1px 0 #dfdfdf;
+  text-shadow: 0 1px 0 rgb(223, 223, 223);
 }
 
 /* Background border color */
+
 .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
-  border-color: darkgrey;
+  border-color: rgb(169, 169, 169);
 }
 
-.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-content-bubble, .v-panel-bubble .v-panel-deco-bubble {
-  border-color: darkgrey;
+.v-panel-bubble {
+  .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
+    border-color: rgb(169, 169, 169);
+  }
 }
 
 .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
-  border-color: darkgrey;
+  border-color: rgb(169, 169, 169);
 }
 
 /* Alternate colors */
+
 .v-label-color {
   /*color: rgb(40,126,206);*/
   color: #006dac;
@@ -456,10 +531,10 @@ input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, text
 .v-button-link, .v-disabled.v-button-link {
   /*color: rgb(40,126,206);*/
   color: #006dac;
-}
-.v-button-link:focus, .v-button-link:active, .v-disabled.v-button-link:focus, .v-disabled.v-button-link:active {
-  /*color: rgb(40,126,206);*/
-  color: #006dac;
+  &:focus, &:active {
+    /*color: rgb(40,126,206);*/
+    color: #006dac;
+  }
 }
 
 .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
@@ -468,90 +543,94 @@ input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, text
 }
 
 .v-button-default {
-  border-color: #2e5a84;
+  border-color: rgb(46, 90, 132);
 }
 
 .v-disabled.v-button-default {
-  border-color: #2e5a84;
-}
-.v-disabled.v-button-default:focus {
-  border-color: #2e5a84;
+  border-color: rgb(46, 90, 132);
+  &:focus {
+    border-color: rgb(46, 90, 132);
+  }
 }
 
 .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
-  border-color: #2e5a84;
+  border-color: rgb(46, 90, 132);
 }
 
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  border-color: #2e5a84;
+.sidebar-menu {
+  .tab-selected, .selected {
+    border-color: rgb(46, 90, 132);
+  }
 }
 
 .v-horizontallayout-segment-alternate .v-button-down {
-  border-color: #2e5a84;
+  border-color: rgb(46, 90, 132);
 }
 
 .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
-  background-color: #2d6ba5;
+  background-color: rgb(45, 107, 165);
 }
 
 .v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
-  border-color: #2d6ba5;
+  border-color: rgb(45, 107, 165);
 }
 
 .v-button-default {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
 }
 
 .v-disabled.v-button-default {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
-}
-.v-disabled.v-button-default:focus {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
+  &:focus {
+    background-color: rgb(40, 126, 206);
+    color: rgb(247, 248, 249);
+    text-shadow: 0 -1px 0 rgb(46, 90, 132);
+  }
 }
 
 .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
 }
 
 .v-contextmenu .gwt-MenuItem-selected {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
-}
-.v-contextmenu .gwt-MenuItem-selected div {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
+  div {
+    background-color: rgb(40, 126, 206);
+    color: rgb(247, 248, 249);
+    text-shadow: 0 -1px 0 rgb(46, 90, 132);
+  }
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
 }
 
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+.sidebar-menu {
+  .tab-selected, .selected {
+    background-color: rgb(40, 126, 206);
+    color: rgb(247, 248, 249);
+    text-shadow: 0 -1px 0 rgb(46, 90, 132);
+  }
 }
 
 .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
-  background-color: #287ece;
-  color: #f7f8f9;
-  text-shadow: 0 -1px 0 #2e5a84;
+  background-color: rgb(40, 126, 206);
+  color: rgb(247, 248, 249);
+  text-shadow: 0 -1px 0 rgb(46, 90, 132);
 }
 
 .v-ie6 .v-progressindicator-indicator {
-  background-color: #287ece;
+  background-color: rgb(40, 126, 206);
 }
 
 .v-panel-caption, .v-table-striped .v-table-row-odd {
@@ -560,7 +639,7 @@ input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, text
 
 .sidebar-menu {
   /*background: rgb(220,229,238);*/
-}
-.sidebar-menu .tab-selected, .sidebar-menu .selected {
-  text-shadow: 0 1px 0 #2e5a84;
+  .tab-selected, .selected {
+    text-shadow: 0 1px 0 rgb(46, 90, 132);
+  }
 }

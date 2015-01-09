@@ -1,0 +1,195 @@
+.gantt {
+  background: lightgray;
+  overflow: hidden;
+  .timeline {
+    overflow: hidden;
+    position: relative;
+  }
+  .year, .month, .day {
+    padding-left: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-right: 1px solid #A9A9A9;
+    background-color: #d0d0d0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+}
+
+.v-ie8 .gantt {
+  .month.even, .day.even {
+    background-color: #ddd;
+  }
+}
+
+.gantt {
+  .month:nth-of-type(even), .day:nth-of-type(even) {
+    background-color: #ddd;
+  }
+  .col {
+    &.even {
+      background-color: #ccc;
+    }
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    border-right: 1px solid #A9A9A9;
+    background-color: #ddd;
+    font-size: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    &.w {
+      text-align: left;
+    }
+    &.weekend {
+      background-color: #ccc;
+    }
+  }
+  .row {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    height: 15px;
+    display: -ms-inline-flexbox;
+    /* works with ie10 */
+    -ms-flex-pack: justify;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .resolution! {}
+  .gantt-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #fff;
+  }
+  .gantt-content {
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .bar {
+    position: absolute;
+    height: 30px;
+    z-index: 1;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: pan-y;
+    -ms-touch-action: pan-y;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+    -moz-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+    box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+  }
+  .bar-label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 7px;
+  }
+  .bar {
+    &.moving {
+      background: orange;
+      cursor: move;
+      z-index: 3;
+    }
+    &.resizing {
+      background: orange;
+      cursor: e-resize;
+      z-index: 3;
+    }
+    &.invalid {
+      visibility: hidden;
+    }
+  }
+  .mv-el {
+    position: absolute;
+    top: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 100%;
+    z-index: 2;
+    background: transparent;
+    border-left: 1px dashed #ddd;
+    border-right: 1px dashed #ddd;
+  }
+}
+
+/* Gantt Chart */
+
+.v-table-focus .v-table-cell-content {
+  border: none;
+}
+
+.v-table-row.v-selected .v-button-link .v-button-caption, .v-table-row-odd.v-selected .v-button-link .v-button-caption {
+  color: #FFF;
+}
+
+.gantt-chart {
+  border-width: 0px;
+  .v-table-body {
+    border: none;
+  }
+  .v-table-header-wrap {
+    background: url("icons/grad-light-top.png") repeat-x scroll 0% 0% rgb(201, 201, 201);
+    border-radius: 0px;
+    .v-table-caption-container {
+      color: rgb(34, 34, 34);
+    }
+  }
+  input.v-textfield[type="text"] {
+    padding: 0px;
+    border-radius: 0px;
+    height: 17px !important;
+  }
+}
+
+.gantt {
+  .bar! a {}
+  .bar-label img {
+    vertical-align: bottom;
+  }
+}
+
+.gantt-chart div {
+  &[id^='ganttFilterApplyButton'], &[id^='ganttFilterResetButton'] {
+    border-top: 1px solid rgb(129, 129, 129);
+  }
+  &[id^='canvas'] {
+    overflow: hidden !important;
+  }
+}
+
+.bar.completed a {
+  color: black;
+  text-decoration: line-through;
+}
+
+/* End Gantt Chart */

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -226,7 +224,7 @@ public class ProjectActivityStreamPagedList
 		div14.setId("userserverdata" + uid);
 		div13.appendChild(div14);
 
-		div.appendChild(userAvatar, EMPTY_SPACE, userLink, EMPTY_SPACE, div1);
+		div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), div1);
 
 		return div.write();
 	}
@@ -284,7 +282,7 @@ public class ProjectActivityStreamPagedList
 		div14.setId("serverdata" + uid);
 		div13.appendChild(div14);
 
-		div.appendChild(image, EMPTY_SPACE, itemLink, EMPTY_SPACE, div1);
+		div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), div1);
 		return div.write();
 	}
 

@@ -14,30 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.html;
+package com.esofthead.mycollab.html
 
-import com.hp.gagawa.java.Node;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.{Div, Text}
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.3.1
- *
+ * @since 4.6.0
  */
-public class DivLessFormatter extends Div {
-	public static Text EMPTY_SPACE = new Text(" ");
+class DivLessFormatter extends Div {
 
-	@Override
-	public String write() {
-		StringBuffer b = new StringBuffer();
-		if ((this.children != null) && (this.children.size() > 0)) {
-			for (Node child : this.children) {
-				b.append(child.write());
-			}
-		}
-		return b.toString();
-	}
+  override def write: String = {
+    val b: StringBuffer = new StringBuffer
+    if ((this.children != null) && (this.children.size > 0)) {
+      import scala.collection.JavaConversions._
+      for (child <- this.children) {
+        b.append(child.write)
+      }
+    }
+    return b.toString
+  }
+}
 
+object DivLessFormatter {
+  val EMPTY_SPACE = new Text(" ")
 }
