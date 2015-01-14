@@ -17,12 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import java.util.List;
-
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -45,27 +39,16 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.web.CustomLayoutLoader;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.web.CustomLayoutExt;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.List;
 
 /**
  * 
@@ -163,7 +146,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void constructBody() {
-		this.bodyContent = CustomLayoutLoader.createLayout("milestoneView");
+		this.bodyContent = CustomLayoutExt.createLayout("milestoneView");
 
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");

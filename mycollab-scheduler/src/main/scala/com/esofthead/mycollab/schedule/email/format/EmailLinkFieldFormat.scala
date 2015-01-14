@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory
  * @since 4.6.0
  */
 class EmailLinkFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-  val LOG = LoggerFactory.getLogger(classOf[EmailLinkFieldFormat]);
+  val LOG = LoggerFactory.getLogger(classOf[EmailLinkFieldFormat])
 
   override def formatField(context: MailContext[_]): String = {
     val wrappedBean = context.wrappedBean

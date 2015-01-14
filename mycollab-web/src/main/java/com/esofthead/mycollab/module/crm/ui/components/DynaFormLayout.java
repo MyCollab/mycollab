@@ -52,9 +52,9 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 	private DynaForm dynaForm;
 
-	private VerticalLayout layout;
+	private VerticalLayout layout = new VerticalLayout();
 
-	private Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
+	private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
 	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
@@ -90,9 +90,8 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 	@Override
 	public ComponentContainer getLayout() {
-		layout = new VerticalLayout();
 		int sectionCount = dynaForm.getSectionCount();
-		sectionMappings = new HashMap<DynaSection, GridFormLayoutHelper>();
+		sectionMappings = new HashMap<>();
 
 		for (int i = 0; i < sectionCount; i++) {
 			DynaSection section = dynaForm.getSection(i);

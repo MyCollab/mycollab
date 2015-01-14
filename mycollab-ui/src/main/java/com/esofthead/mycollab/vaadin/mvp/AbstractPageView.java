@@ -18,9 +18,9 @@ package com.esofthead.mycollab.vaadin.mvp;
 
 import java.io.Serializable;
 
-import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.vaadin.ui.ComponentContainer;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 

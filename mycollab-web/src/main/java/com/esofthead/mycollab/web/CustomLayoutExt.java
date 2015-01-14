@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.web;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.ui.CustomLayout;
 
 /**
@@ -37,6 +38,15 @@ public class CustomLayoutExt extends CustomLayout {
 							"layouts/" + layoutId + ".html"));
 		} catch (Exception e) {
 			this.setTemplateName(layoutId);
+		}
+	}
+
+	public static CustomLayout createLayout(String layoutId) {
+		try {
+			return new CustomLayout(CustomLayoutExt.class.getClassLoader()
+					.getResourceAsStream("layouts/" + layoutId + ".html"));
+		} catch (Exception e) {
+			throw new MyCollabException(e);
 		}
 	}
 }

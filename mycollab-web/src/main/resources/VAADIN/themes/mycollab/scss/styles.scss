@@ -1,8 +1,8 @@
-@import "my-chameleon-styles.css";
+@import "my-chameleon-styles.scss";
 
-@import "calendar.css";
+@import "calendar.scss";
 
-@import "ganttstyle.css";
+@import "ganttstyle.scss";
 
 @media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
   .projectDashboardView {

@@ -632,7 +632,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 										folder.setCreatedTime(new GregorianCalendar());
 										folder.setCreatedUser(AppContext
 												.getUsername());
-										if (isEditMode == false) {
+										if (!isEditMode) {
 											resources.add(folder);
 										}
 

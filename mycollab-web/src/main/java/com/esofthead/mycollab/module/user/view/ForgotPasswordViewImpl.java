@@ -32,7 +32,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.CustomLayoutLoader;
+import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -59,7 +59,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 		private final TextField nameOrEmailField;
 
 		public ForgotPwdForm() {
-			CustomLayout customLayout = CustomLayoutLoader
+			CustomLayout customLayout = CustomLayoutExt
 					.createLayout("forgotPassword");
 			customLayout.setStyleName("forgotPwdForm");
 
@@ -85,7 +85,6 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 								.getMessage(
 										GenericI18Enum.ERROR_USER_IS_NOT_EXISTED,
 										username));
-						return;
 					} else {
 						String hideEmailStr = user.getEmail();
 						hideEmailStr = "***"

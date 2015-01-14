@@ -88,8 +88,8 @@ public class LocalizationHelper {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static String getMessageClsEnum(Locale locale, Class<? extends Enum> cls,
-										   String option, Object... objects) {
+	public static String getMessage(Locale locale, Class cls,
+									String option, Object... objects) {
 		if (StringUtils.isBlank(option)) {
 			return "";
 		}
@@ -108,7 +108,7 @@ public class LocalizationHelper {
 		}
 	}
 
-	private static Map<String, String> cacheFile = new HashMap<String, String>();
+	private static Map<String, String> cacheFile = new HashMap<>();
 
 	public static String templatePath(String fileTemplatePath, Locale locale) {
 		String key = (locale != null) ? (fileTemplatePath + locale.toString())
@@ -131,8 +131,8 @@ public class LocalizationHelper {
 
 	/**
 	 * 
-	 * @param fileTemplatePath
-	 * @param locale
+	 * @param fileTemplatePath the path of template file
+	 * @param locale locale associates with the template file
 	 * @return the reader of <code>fileTemplatePath</code> if it is found.
 	 *         Otherwise, return null
 	 */

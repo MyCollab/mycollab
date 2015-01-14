@@ -31,7 +31,7 @@ public class RpParameterBuilder {
 	private List<TableViewFieldDecorator> viewFields;
 
 	public RpParameterBuilder(List<TableViewField> fields) {
-		viewFields = new ArrayList<TableViewFieldDecorator>();
+		viewFields = new ArrayList<>();
 
 		for (TableViewField field : fields) {
 			TableViewFieldDecorator fieldDecorator = new TableViewFieldDecorator(

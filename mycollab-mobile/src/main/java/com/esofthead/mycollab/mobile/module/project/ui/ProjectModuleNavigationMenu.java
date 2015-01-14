@@ -54,7 +54,7 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 
 		// final MenuButton ticketBtn = new MenuButton(
 		// AppContext
-		// .getMessageClsEnum(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
+		// .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
 		// IconConstants.PROJECT_FOLLOWING);
 		// addMenu(ticketBtn);
 	}

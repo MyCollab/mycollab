@@ -1,6 +1,1105 @@
-@import url(my-chameleon-styles.css);
-@import url(calendar.css);
-@import url(ganttstyle.css);
+@import url(../chameleon/legacy-styles.css);
+/** 
+ * "optional-" prefix means that the style is not necessarily used, it can be left blank
+ * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
+ *
+ **/
+/* Application background */
+.v-app {
+  background: #92bd84;
+}
+
+.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+  background-color: #92bd84;
+  background-color: rgba(146, 189, 132, 0.85);
+}
+
+body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.v-ie7 .v-popupview-popup, body.v-ie6 .v-filterselect-suggestpopup, body.v-ie7 .v-filterselect-suggestpopup, body.v-ie6 .v-datefield-popup, body.v-ie7 .v-datefield-popup, body.v-ie6 .v-contextmenu, body.v-ie7 .v-contextmenu, body.v-ie6 .v-menubar-submenu, body.v-ie7 .v-menubar-submenu {
+  background-color: whitesmoke;
+}
+
+.v-panel-content {
+  background-color: whitesmoke;
+}
+
+.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-deco-bubble {
+  background-color: whitesmoke;
+}
+
+.v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
+  background-color: whitesmoke;
+}
+
+/* Base font size and color */
+.v-app, .v-window, .v-popupview-popup {
+  font-size: 13px;
+  color: #0f0d0d;
+}
+
+.v-app input, .v-app button, .v-app textarea {
+  font-size: 13px;
+  color: #0f0d0d;
+}
+
+.v-window input, .v-window button, .v-window textarea {
+  font-size: 13px;
+  color: #0f0d0d;
+}
+
+.v-popupview-popup input, .v-popupview-popup button, .v-popupview-popup textarea {
+  font-size: 13px;
+  color: #0f0d0d;
+}
+
+.v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
+  font-size: 13px;
+  color: #0f0d0d;
+}
+
+.v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
+  font-size: 13px;
+}
+
+/* Base background color */
+/*.v-button:active,
+.v-ie .v-button.v-pressed,
+div.v-button-down,
+.v-slider .v-slider-handle-active {
+	background-color: rgb(82,104,75);
+	border-color: rgb(55,66,51);
+}*/
+div.v-button-down:active {
+  background-color: #43533e;
+}
+
+.v-button:focus {
+  background-color: #52684b;
+}
+.v-button:active .v-button-wrap {
+  border-color: #43533e;
+}
+
+/* Base border color */
+.v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
+  border-color: #43533e;
+}
+
+.v-tabsheet-scrollerNext-disabled {
+  border-color: #43533e;
+}
+.v-tabsheet-scrollerNext-disabled:active {
+  border-color: #43533e;
+}
+
+.v-table-header-wrap, .v-table-body, .v-table-resizer {
+  border-color: #43533e;
+}
+
+div.v-table-focus-slot-left, div.v-table-focus-slot-right {
+  border-color: #43533e;
+}
+
+input.v-textfield, textarea.v-textarea, .v-filterselect {
+  border-color: #43533e;
+}
+
+input.v-textfield, textarea.v-textarea, .v-filterselect {
+  border-bottom-color: #52684b;
+  border-left-color: #52684b;
+  border-right-color: #52684b;
+}
+
+.v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
+  background-color: #64825a;
+  border-color: #43533e;
+}
+
+.v-accordion-opaque {
+  background-color: #64825a;
+  border-color: #43533e;
+}
+.v-accordion-opaque .v-accordion-item-open, .v-accordion-opaque .v-accordion-item-caption, .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
+  background-color: #64825a;
+  border-color: #43533e;
+}
+
+.v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+  background-color: #64825a;
+  border-color: #43533e;
+}
+
+.v-button .v-button-wrap {
+  /*background-image: url(../chameleon/img/grad-light-top2.png);*/
+  background-position: left top;
+}
+
+.v-disabled.v-button:focus .v-button-wrap, .v-disabled.v-button:active .v-button-wrap {
+  /*background-image: url(../chameleon/img/grad-light-top2.png);*/
+  background-position: left top;
+}
+
+.v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-window-wrap, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-panel-bubble .v-panel-caption-bubble, .v-slider-handle, .v-tabsheet-tabitem-selected .v-caption, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-progressindicator-indicator, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+  /*background-image: url(../chameleon/img/grad-light-top2.png);*/
+  background-position: left top;
+}
+
+.v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
+  background-color: #52684b;
+}
+
+.v-progressindicator-wrapper {
+  border-color: #52684b;
+}
+
+.v-button {
+  text-shadow: 0 -1px 0 #43533e;
+}
+
+.v-disabled.v-button:focus, .v-disabled.v-button:active {
+  text-shadow: 0 -1px 0 #43533e;
+}
+
+.v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
+  text-shadow: 0 -1px 0 #43533e;
+}
+
+/* Background border color */
+.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
+  border-color: #78976e;
+}
+
+.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-content-bubble, .v-panel-bubble .v-panel-deco-bubble {
+  border-color: #78976e;
+}
+
+.v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
+  border-color: #78976e;
+}
+
+/* Alternate colors */
+.v-label-color {
+  color: #6482b3;
+}
+
+.v-button-link, .v-disabled.v-button-link {
+  color: #6482b3;
+}
+.v-button-link:focus, .v-button-link:active, .v-disabled.v-button-link:focus, .v-disabled.v-button-link:active {
+  color: #6482b3;
+}
+
+.v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
+  color: #6482b3;
+}
+
+.v-button-default {
+  border-color: #495972;
+}
+
+.v-disabled.v-button-default {
+  border-color: #495972;
+}
+.v-disabled.v-button-default:focus {
+  border-color: #495972;
+}
+
+.v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
+  border-color: #495972;
+}
+
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  border-color: #495972;
+}
+
+.v-horizontallayout-segment-alternate .v-button-down {
+  border-color: #495972;
+}
+
+.v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
+  background-color: #566c8f;
+}
+
+.v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+  border-color: #566c8f;
+}
+
+.v-button-default {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-disabled.v-button-default {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+.v-disabled.v-button-default:focus {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-contextmenu .gwt-MenuItem-selected {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+.v-contextmenu .gwt-MenuItem-selected div {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
+  background-color: #6482b3;
+  color: #f4f4f5;
+  text-shadow: 0 -1px 0 #495972;
+}
+
+.v-ie6 .v-progressindicator-indicator {
+  background-color: #6482b3;
+}
+
+.v-panel-caption, .v-table-striped .v-table-row-odd {
+  background: #f7f7f7;
+}
+
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  text-shadow: 0 1px 0 #495972;
+}
+
+/** 
+ * "optional-" prefix means that the style is not necessarily used, it can be left blank
+ * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
+ *
+ **/
+/* Application background */
+.v-app {
+  background: #f9f9f9;
+}
+
+.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+  /* 	background-color: rgb(209,209,209); */
+  background-color: white;
+  /* background-color: rgba(255,255,255,.85); */
+  border-radius: 3px;
+}
+
+body.v-ie6 .v-window, body.v-ie7 .v-window, body.v-ie6 .v-popupview-popup, body.v-ie7 .v-popupview-popup, body.v-ie6 .v-filterselect-suggestpopup, body.v-ie7 .v-filterselect-suggestpopup, body.v-ie6 .v-datefield-popup, body.v-ie7 .v-datefield-popup, body.v-ie6 .v-contextmenu, body.v-ie7 .v-contextmenu, body.v-ie6 .v-menubar-submenu, body.v-ie7 .v-menubar-submenu {
+  /* 	background-color: transparent; */
+}
+
+.v-panel-content {
+  /* 	background-color: transparent; */
+}
+
+.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-deco-bubble {
+  /* 	background-color: transparent; */
+}
+
+.v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
+  /* 	background-color: transparent; */
+}
+
+/* Base font size and color */
+.v-app, .v-window, .v-popupview-popup {
+  font-size: 13px;
+  /*color: rgb(34,34,34);*/
+  color: #525252;
+}
+
+.v-app input, .v-app button, .v-app textarea {
+  font-size: 13px;
+  /*color: rgb(34,34,34);*/
+  color: #525252;
+}
+
+.v-window input, .v-window button, .v-window textarea {
+  font-size: 13px;
+  /*color: rgb(34,34,34);*/
+  color: #525252;
+}
+
+.v-popupview-popup input, .v-popupview-popup button, .v-popupview-popup textarea {
+  font-size: 13px;
+  /*color: rgb(34,34,34);*/
+  color: #525252;
+}
+
+.v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
+  font-size: 13px;
+  /*color: rgb(34,34,34);*/
+  color: #525252;
+}
+
+.v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
+  font-size: 13px;
+}
+
+/* Base background color */
+/*.v-button:active,
+.v-ie .v-button.v-pressed,
+div.v-button-down,
+.v-slider .v-slider-handle-active {
+	background-color: rgb(161,161,161);
+	border-color: rgb(103,103,103);
+	}*/
+div.v-button-down:active {
+  background-color: #818181;
+}
+
+.v-button:focus {
+  background-color: #a1a1a1;
+}
+
+/* Base border color */
+.v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
+  border-color: #CFCFCF;
+}
+
+.v-tabsheet-scrollerNext-disabled {
+  border-color: #CFCFCF;
+}
+.v-tabsheet-scrollerNext-disabled:active {
+  border-color: #CFCFCF;
+}
+
+.v-table-header-wrap, .v-table-body, .v-table-resizer {
+  border-color: #CFCFCF;
+}
+
+div.v-table-focus-slot-left, div.v-table-focus-slot-right {
+  border-color: #CFCFCF;
+}
+
+input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, textarea.v-textarea, .v-filterselect {
+  border-color: #CFCFCF;
+}
+
+.v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
+  background-color: #c9c9c9;
+  border-color: #CFCFCF;
+}
+
+.v-accordion-opaque {
+  background-color: #c9c9c9;
+  border-color: #CFCFCF;
+}
+.v-accordion-opaque .v-accordion-item-open, .v-accordion-opaque .v-accordion-item-caption, .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
+  background-color: #c9c9c9;
+  border-color: #CFCFCF;
+}
+
+.v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+  background-color: #c9c9c9;
+  border-color: #CFCFCF;
+}
+
+.v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
+  background-color: #a1a1a1;
+}
+
+.v-progressindicator-wrapper {
+  border-color: #a1a1a1;
+}
+
+.v-button {
+  text-shadow: 0 1px 0 #dfdfdf;
+}
+
+.v-disabled.v-button:focus, .v-disabled.v-button:active {
+  text-shadow: 0 1px 0 #dfdfdf;
+}
+
+.v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
+  text-shadow: 0 1px 0 #dfdfdf;
+}
+
+/* Background border color */
+.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
+  border-color: darkgrey;
+}
+
+.v-panel-bubble .v-panel-captionwrap, .v-panel-bubble .v-panel-content-bubble, .v-panel-bubble .v-panel-deco-bubble {
+  border-color: darkgrey;
+}
+
+.v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
+  border-color: darkgrey;
+}
+
+/* Alternate colors */
+.v-label-color {
+  /*color: rgb(40,126,206);*/
+  color: #006dac;
+}
+
+.v-button-link, .v-disabled.v-button-link {
+  /*color: rgb(40,126,206);*/
+  color: #006dac;
+}
+.v-button-link:focus, .v-button-link:active, .v-disabled.v-button-link:focus, .v-disabled.v-button-link:active {
+  /*color: rgb(40,126,206);*/
+  color: #006dac;
+}
+
+.v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
+  /*color: rgb(40,126,206);*/
+  color: #006dac;
+}
+
+.v-button-default {
+  border-color: #2e5a84;
+}
+
+.v-disabled.v-button-default {
+  border-color: #2e5a84;
+}
+.v-disabled.v-button-default:focus {
+  border-color: #2e5a84;
+}
+
+.v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
+  border-color: #2e5a84;
+}
+
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  border-color: #2e5a84;
+}
+
+.v-horizontallayout-segment-alternate .v-button-down {
+  border-color: #2e5a84;
+}
+
+.v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
+  background-color: #2d6ba5;
+}
+
+.v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+  border-color: #2d6ba5;
+}
+
+.v-button-default {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-disabled.v-button-default {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+.v-disabled.v-button-default:focus {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-contextmenu .gwt-MenuItem-selected {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+.v-contextmenu .gwt-MenuItem-selected div {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
+  background-color: #287ece;
+  color: #f7f8f9;
+  text-shadow: 0 -1px 0 #2e5a84;
+}
+
+.v-ie6 .v-progressindicator-indicator {
+  background-color: #287ece;
+}
+
+.v-panel-caption, .v-table-striped .v-table-row-odd {
+  /*background: rgb(220,229,238);*/
+}
+
+.sidebar-menu {
+  /*background: rgb(220,229,238);*/
+}
+.sidebar-menu .tab-selected, .sidebar-menu .selected {
+  text-shadow: 0 1px 0 #2e5a84;
+}
+
+/** Calendar */
+.v-calendar-nresize DIV DIV {
+  cursor: n-resize !important;
+}
+
+.v-calendar-sresize DIV DIV {
+  cursor: s-resize !important;
+}
+
+.v-calendar {
+  background-color: #fff;
+}
+
+.v-calendar-header-month, .v-calendar-header-week {
+  border-bottom: 1px solid #c1c1c1;
+}
+
+.v-calendar-header-day {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  line-height: normal;
+}
+
+.v-calendar-header-week .v-calendar-header-day:hover {
+  cursor: pointer;
+  color: #222;
+}
+
+.v-calendar-header-day-today {
+  font-weight: bold;
+  color: #444;
+}
+
+.v-calendar-header-month td:first-child {
+  padding-left: 20px;
+}
+
+.v-calendar-header-week .v-calendar-back, .v-calendar-header-week .v-calendar-next {
+  border: none;
+  padding: 0;
+  margin: 0;
+  height: 12px;
+  width: 12px;
+  overflow: hidden;
+  background: transparent url(icons/calendar_arrows.png) no-repeat 50% 0;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+  cursor: default;
+}
+.v-calendar-header-week .v-calendar-back:hover, .v-calendar-header-week .v-calendar-next:hover {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.v-calendar-header-week .v-calendar-back:active {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.v-calendar-header-week .v-calendar-next {
+  background-position: 50% -12px;
+}
+.v-calendar-header-week .v-calendar-next:active {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.v-calendar-month {
+  outline: none;
+}
+
+.v-calendar-week-numbers {
+  width: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.v-calendar-week-number {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0.5;
+  width: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+.v-calendar-week-number:hover {
+  opacity: 1;
+}
+
+.v-calendar-month-day {
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  outline: none;
+}
+
+.v-calendar-month-day-today {
+  background-color: #e7f0f5;
+}
+
+.v-calendar-month-day-selected {
+  background-color: #fffee7;
+}
+
+.v-calendar-month-day-dragemphasis {
+  background-color: #a8a8a8;
+}
+
+.v-calendar-month-day-scrollable {
+  overflow-y: scroll;
+}
+
+.v-calendar-day-number {
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px;
+  text-align: right;
+  padding-right: 3px;
+  white-space: nowrap;
+}
+.v-calendar-day-number:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+
+.v-calendar-month .v-calendar-spacer, .v-calendar-month .v-calendar-bottom-spacer, .v-calendar-month .v-calendar-bottom-spacer-empty {
+  height: 15px;
+  font-size: 11px;
+}
+.v-calendar-month .v-calendar-bottom-spacer:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+
+.v-calendar-event {
+  line-height: 14px;
+  font-size: 11px;
+  padding: 0 0 0 4px;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  outline: none;
+}
+
+.v-calendar-event-month {
+  margin-bottom: 1px;
+  white-space: nowrap;
+}
+.v-calendar-event-month:hover {
+  text-decoration: underline;
+}
+
+.v-calendar-event-all-day {
+  background: #999;
+  display: block;
+  margin-left: -2px;
+}
+
+div.v-calendar-event-all-day {
+  color: #fff;
+  height: 14px;
+}
+
+.v-calendar-event-continued-from {
+  margin-left: 0;
+}
+
+.v-calendar-event-start {
+  -webkit-border-top-left-radius: 6px;
+  -webkit-border-bottom-left-radius: 6px;
+  -moz-border-radius-topleft: 6px;
+  -moz-border-radius-bottomleft: 6px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  margin-left: 0;
+}
+
+.v-calendar-event-end {
+  -webkit-border-top-right-radius: 6px;
+  -webkit-border-bottom-right-radius: 6px;
+  -moz-border-radius-topright: 6px;
+  -moz-border-radius-bottomright: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.v-calendar-week-wrapper {
+  position: relative;
+}
+
+.v-calendar-times {
+  width: 51px;
+}
+
+.v-calendar-time {
+  padding: 0 8px 7px 0;
+  margin-top: -7px;
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+  border-right: 1px solid #ccc;
+}
+
+.v-calendar-weekly-longevents {
+  border-left: 1px solid #ccc;
+  border-bottom: 2px solid #bbb;
+  margin-left: 50px;
+}
+.v-calendar-weekly-longevents .v-calendar-datecell {
+  border-right: 1px solid #ccc;
+  padding: 1px 0 0;
+}
+.v-calendar-weekly-longevents .v-calendar-event {
+  height: 14px;
+  margin-bottom: 1px;
+}
+.v-calendar-weekly-longevents .v-calendar-event:hover {
+  text-decoration: underline;
+}
+
+.v-calendar-day-times {
+  border-right: 1px solid #ccc;
+  outline: none;
+}
+.v-calendar-day-times .v-datecellslot {
+  border-bottom: 1px solid #ccc;
+}
+.v-calendar-day-times .v-datecellslot-even {
+  border-bottom: 1px solid #ccc;
+  border-bottom-color: #eee;
+}
+.v-calendar-day-times .v-daterange {
+  background-color: #a8a8a8;
+}
+.v-calendar-day-times .v-reserved {
+  background-color: #FF3333;
+}
+.v-calendar-day-times .dragemphasis {
+  background-color: #a8a8a8;
+}
+
+.v-calendar-week-wrapper .v-calendar-event {
+  padding: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-top: -1px;
+}
+
+.v-calendar-event-caption {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  left: 4px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal;
+}
+
+.v-calendar-event-content {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #777;
+  background: #eee;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  height: 14px;
+}
+
+.v-calendar-current-time {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+  background: #5a6c86;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  z-index: 2;
+}
+
+.v-calendar-event-resizetop {
+  position: absolute;
+  cursor: n-resize;
+  height: 5%;
+  min-height: 3px;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.v-calendar-event-resizebottom {
+  position: absolute;
+  cursor: s-resize;
+  height: 5%;
+  min-height: 3px;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.v-calendar-month-sizedheight .v-calendar-month-day {
+  height: 100px;
+}
+
+.v-calendar-month-sizedwidth .v-calendar-month-day {
+  width: 100px;
+}
+
+.v-calendar-header-month-Hsized .v-calendar-header-day {
+  width: 101px;
+}
+.v-calendar-header-month-Hsized td:first-child {
+  padding-left: 21px;
+}
+
+.v-calendar-header-day-Hsized {
+  width: 200px;
+}
+
+.v-calendar-week-numbers-Vsized .v-calendar-week-number {
+  height: 100px;
+  line-height: 100px;
+}
+
+.v-calendar-week-wrapper-Vsized {
+  height: 400px;
+  overflow-x: hidden !important;
+}
+
+.v-calendar-times-Vsized .v-calendar-time {
+  height: 38px;
+}
+
+.v-calendar-times-Hsized .v-calendar-time {
+  width: 42px;
+}
+
+.v-calendar-day-times-Vsized .v-datecellslot, .v-calendar-day-times-Vsized .v-datecellslot-even {
+  height: 18px;
+}
+
+.v-calendar-day-times-Hsized {
+  width: 200px;
+}
+.v-calendar-day-times-Hsized .v-datecellslot, .v-calendar-day-times-Hsized .v-datecellslot-even {
+  width: 200px;
+}
+
+.gantt {
+  background: lightgray;
+  overflow: hidden;
+}
+.gantt .timeline {
+  overflow: hidden;
+  position: relative;
+}
+.gantt .year, .gantt .month, .gantt .day {
+  padding-left: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-right: 1px solid #A9A9A9;
+  background-color: #d0d0d0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.v-ie8 .gantt .month.even, .v-ie8 .gantt .day.even {
+  background-color: #ddd;
+}
+
+.gantt .month:nth-of-type(even), .gantt .day:nth-of-type(even) {
+  background-color: #ddd;
+}
+.gantt .col {
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  border-right: 1px solid #A9A9A9;
+  background-color: #ddd;
+  font-size: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.gantt .col.even {
+  background-color: #ccc;
+}
+.gantt .col.w {
+  text-align: left;
+}
+.gantt .col.weekend {
+  background-color: #ccc;
+}
+.gantt .row {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  height: 15px;
+  display: -ms-inline-flexbox;
+  /* works with ie10 */
+  -ms-flex-pack: justify;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.gantt .gantt-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #fff;
+}
+.gantt .gantt-content {
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.gantt .bar {
+  position: absolute;
+  height: 30px;
+  z-index: 1;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+  box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+}
+.gantt .bar-label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 7px;
+}
+.gantt .bar.moving {
+  background: orange;
+  cursor: move;
+  z-index: 3;
+}
+.gantt .bar.resizing {
+  background: orange;
+  cursor: e-resize;
+  z-index: 3;
+}
+.gantt .bar.invalid {
+  visibility: hidden;
+}
+.gantt .mv-el {
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 100%;
+  z-index: 2;
+  background: transparent;
+  border-left: 1px dashed #ddd;
+  border-right: 1px dashed #ddd;
+}
+
+/* Gantt Chart */
+.v-table-focus .v-table-cell-content {
+  border: none;
+}
+
+.v-table-row.v-selected .v-button-link .v-button-caption, .v-table-row-odd.v-selected .v-button-link .v-button-caption {
+  color: #FFF;
+}
+
+.gantt-chart {
+  border-width: 0px;
+}
+.gantt-chart .v-table-body {
+  border: none;
+}
+.gantt-chart .v-table-header-wrap {
+  background: url("icons/grad-light-top.png") repeat-x scroll 0% 0% #c9c9c9;
+  border-radius: 0px;
+}
+.gantt-chart .v-table-header-wrap .v-table-caption-container {
+  color: #222222;
+}
+.gantt-chart input.v-textfield[type="text"] {
+  padding: 0px;
+  border-radius: 0px;
+  height: 17px !important;
+}
+
+.gantt .bar-label img {
+  vertical-align: bottom;
+}
+
+.gantt-chart div[id^='ganttFilterApplyButton'], .gantt-chart div[id^='ganttFilterResetButton'] {
+  border-top: 1px solid #818181;
+}
+.gantt-chart div[id^='canvas'] {
+  overflow: hidden !important;
+}
+
+.bar.completed a {
+  color: black;
+  text-decoration: line-through;
+}
+
+/* End Gantt Chart */
 @media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
   .projectDashboardView {
     margin: 0px 15px 20px 0px;

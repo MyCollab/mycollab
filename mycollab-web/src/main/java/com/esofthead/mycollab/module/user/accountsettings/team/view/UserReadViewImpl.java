@@ -148,7 +148,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 				+ ": "
 				+ AppContext.formatDate(user.getDateofbirth())));
 		// basicLayout.addComponent(new Label(AppContext
-		// .getMessageClsEnum(UserI18nEnum.FORM_EMAIL) + ": " + user.getEmail()));
+		// .getMessage(UserI18nEnum.FORM_EMAIL) + ": " + user.getEmail()));
 		basicLayout.addComponent(new MHorizontalLayout()
 				.add(new Label(AppContext.getMessage(UserI18nEnum.FORM_EMAIL)
 						+ ": ")).add(

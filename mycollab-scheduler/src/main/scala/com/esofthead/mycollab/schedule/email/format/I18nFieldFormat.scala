@@ -41,7 +41,7 @@ class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_<
         new Span().write
       }
       else {
-        new Span().appendText(LocalizationHelper.getMessageClsEnum(context.locale, enumKey, value.toString)).write
+        new Span().appendText(LocalizationHelper.getMessage(context.locale, enumKey, value.toString)).write
       }
     }
     catch {
@@ -53,7 +53,7 @@ class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_<
 
   override def formatField(context: MailContext[_], value: String): String = {
     try {
-      LocalizationHelper.getMessageClsEnum(context.locale, enumKey, value.toString)
+      LocalizationHelper.getMessage(context.locale, enumKey, value.toString)
     }
     catch {
       case e: Exception =>

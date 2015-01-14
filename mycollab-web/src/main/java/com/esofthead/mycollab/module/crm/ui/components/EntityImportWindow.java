@@ -482,7 +482,7 @@ public abstract class EntityImportWindow<E> extends Window {
 							// listImportFieldDef);
 							// } catch (IllegalArgumentException e) {
 							// StringBuffer msg = new StringBuffer(e
-							// .getMessageClsEnum());
+							// .getMessage());
 							// if (msg.indexOf("numRowSuccess") > 0) {
 							// int numRowSuccess =
 							// Integer.parseInt(msg.substring(

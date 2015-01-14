@@ -46,11 +46,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
@@ -80,7 +76,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 	private CrmFollowersComp<SimpleAccount> compFollowers;
 
 	public AccountReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/account.png"));
+		super(MyCollabResource.newResource(WebResourceIds._22_crm_account));
 	}
 
 	@Override

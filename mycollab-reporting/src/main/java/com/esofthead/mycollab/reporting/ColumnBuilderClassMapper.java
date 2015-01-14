@@ -30,7 +30,7 @@ import com.esofthead.mycollab.reporting.expression.MValue;
  */
 public class ColumnBuilderClassMapper {
 	@SuppressWarnings("rawtypes")
-	private static Map<Class, Map<String, MValue>> mapInjection = new HashMap<Class, Map<String, MValue>>();
+	private static Map<Class, Map<String, MValue>> mapInjection = new HashMap<>();
 
 	static {
 		ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());

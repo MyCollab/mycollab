@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory;
-
 /**
  * 
  * @author MyCollab Ltd.
@@ -38,8 +36,6 @@ public class ReportTemplateFactory {
 	static {
 		reportMap = new HashMap<>();
 		reportMap.put(Locale.US, enReport);
-		
-		SimpleFontExtensionsRegistryFactory a;
 	}
 
 	@SuppressWarnings("unchecked")

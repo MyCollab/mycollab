@@ -16,13 +16,6 @@
  */
 package com.esofthead.mycollab.shell.view;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
@@ -45,33 +38,23 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AccountLogoFactory;
-import com.esofthead.mycollab.vaadin.ui.FeedbackWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationButton;
-import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
-import com.esofthead.mycollab.vaadin.ui.ThemeManager;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.esofthead.mycollab.web.CustomLayoutLoader;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 
@@ -123,7 +106,7 @@ public final class MainView extends AbstractPageView {
 	}
 
 	private CustomLayout createFooter() {
-		final CustomLayout footer = CustomLayoutLoader.createLayout("footer");
+		final CustomLayout footer = CustomLayoutExt.createLayout("footer");
 
 		Link companyLink = new Link("eSoftHead", new ExternalResource(
 				"http://www.esofthead.com"));
@@ -173,7 +156,7 @@ public final class MainView extends AbstractPageView {
 	}
 
 	private CustomLayout createTopMenu() {
-		final CustomLayout layout = CustomLayoutLoader
+		final CustomLayout layout = CustomLayoutExt
 				.createLayout("topNavigation");
 		layout.setStyleName("topNavigation");
 		layout.setHeight("40px");

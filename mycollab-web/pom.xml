@@ -150,6 +150,7 @@
             <artifactId>contextmenu</artifactId>
             <version>4.5.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.lexaden.components</groupId>
             <artifactId>breadcrumb</artifactId>
@@ -165,12 +166,6 @@
             <groupId>org.vaadin.addons</groupId>
             <artifactId>listbuilder</artifactId>
             <version>0.7.3.v7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>formsender</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <dependency>
@@ -267,7 +262,7 @@
         <dependency>
             <groupId>com.googlecode.ez-vcard</groupId>
             <artifactId>ez-vcard</artifactId>
-            <version>0.9.5</version>
+            <version>0.9.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.freemarker</groupId>
@@ -291,7 +286,7 @@
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
-            <version>9.0.6</version>
+            <version>9.0.7</version>
             <exclusions>
                 <exclusion>
                     <groupId>bouncycastle</groupId>
@@ -337,7 +332,7 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>compile</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>update-stylesheets</goal>
                         </goals>

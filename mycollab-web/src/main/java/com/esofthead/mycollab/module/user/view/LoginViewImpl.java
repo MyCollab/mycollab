@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.CustomLayoutLoader;
+import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -63,7 +63,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 		private final CheckBox rememberMe;
 
 		public LoginForm() {
-			final CustomLayout custom = CustomLayoutLoader
+			final CustomLayout custom = CustomLayoutExt
 					.createLayout("loginForm");
 			custom.addStyleName("customLoginForm");
 			usernameField = new TextField(
@@ -89,7 +89,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 							custom.removeComponent("customErrorMsg");
 
 							LoginViewImpl.this
-									.fireEvent(new ViewEvent<PlainLogin>(
+									.fireEvent(new ViewEvent<>(
 											LoginViewImpl.this, new PlainLogin(
 													usernameField.getValue(),
 													passwordField.getValue(),
@@ -123,7 +123,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
 								custom.removeComponent("customErrorMsg");
 
-								LoginViewImpl.this.fireEvent(new ViewEvent<PlainLogin>(
+								LoginViewImpl.this.fireEvent(new ViewEvent<>(
 										LoginViewImpl.this, new PlainLogin(
 												usernameField.getValue(),
 												passwordField.getValue(),

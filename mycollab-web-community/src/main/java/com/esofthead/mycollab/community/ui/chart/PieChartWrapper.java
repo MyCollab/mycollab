@@ -16,10 +16,15 @@
  */
 package com.esofthead.mycollab.community.ui.chart;
 
-import java.awt.Color;
-import java.text.AttributedString;
-import java.util.List;
-
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.web.CustomLayoutExt;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
@@ -29,19 +34,9 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.Rotation;
 
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.web.CustomLayoutLoader;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Button.ClickEvent;
+import java.awt.*;
+import java.text.AttributedString;
+import java.util.List;
 
 /**
  * 
@@ -138,7 +133,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends
 
 	@Override
 	protected final ComponentContainer createLegendBox() {
-		final CustomLayout boxWrapper = CustomLayoutLoader
+		final CustomLayout boxWrapper = CustomLayoutExt
 				.createLayout("legendBox");
 		final CssLayout mainLayout = new CssLayout();
 
@@ -157,7 +152,7 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends
 			final Label lblCircle = new Label(color);
 			lblCircle.setContentMode(ContentMode.HTML);
 
-			String btnCaption = "";
+			String btnCaption;
 			if (enumKeyCls == null) {
 				btnCaption = String.format("%s(%d)", key,
 						pieDataSet.getValue(key).intValue());
