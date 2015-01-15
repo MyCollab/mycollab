@@ -120,13 +120,13 @@ public class TaskDefaultFormLayoutFactory {
 						AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT))
 				.colSpan(true).fieldIndex(11).build());
 		
-		mainSection
-		.addField(new TextDynaFieldBuilder()
-				.fieldName(Task.Field.parenttaskid)
-				.displayName(
-						AppContext
-								.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
-				.colSpan(true).fieldIndex(12).build());
+//		mainSection
+//		.addField(new TextDynaFieldBuilder()
+//				.fieldName(Task.Field.parenttaskid)
+//				.displayName(
+//						AppContext
+//								.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
+//				.colSpan(true).fieldIndex(12).build());
 
 		defaultForm.addSection(mainSection);
 	}

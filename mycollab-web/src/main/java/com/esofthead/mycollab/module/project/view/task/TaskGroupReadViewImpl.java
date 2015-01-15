@@ -17,15 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -34,7 +27,6 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
-import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
@@ -47,385 +39,222 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
-import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskGroupReadViewImpl extends
-		AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
-	private static final long serialVersionUID = 1L;
+        AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TaskGroupReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(TaskGroupReadViewImpl.class);
 
-	private CommentDisplay commentList;
+    private CommentDisplay commentList;
 
-	private SubTasksDisplayComp taskDisplayComp;
+    private TaskGroupHistoryLogList historyList;
 
-	private TaskGroupHistoryLogList historyList;
-	private SplitButton taskListFilterControl;
+    private DateInfoComp dateInfoComp;
 
-	private DateInfoComp dateInfoComp;
+    private PeopleInfoComp peopleInfoComp;
 
-	private PeopleInfoComp peopleInfoComp;
+    public TaskGroupReadViewImpl() {
+        super(AppContext
+                        .getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
+                MyCollabResource.newResource(WebResourceIds._22_project_task_group));
+    }
 
-	public TaskGroupReadViewImpl() {
-		super(AppContext
-				.getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
-				MyCollabResource.newResource("icons/22/project/task_group.png"));
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleTaskList> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleTaskList> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    protected void initRelatedComponents() {
+        commentList = new CommentDisplay(CommentType.PRJ_TASK_LIST,
+                CurrentProjectVariables.getProjectId(), true, true,
+                ProjectTaskGroupRelayEmailNotificationAction.class);
+        commentList.setWidth("100%");
+        commentList.setMargin(true);
 
-	@Override
-	protected void initRelatedComponents() {
-		commentList = new CommentDisplay(CommentType.PRJ_TASK_LIST,
-				CurrentProjectVariables.getProjectId(), true, true,
-				ProjectTaskGroupRelayEmailNotificationAction.class);
-		commentList.setWidth("100%");
-		commentList.setMargin(true);
+        historyList = new TaskGroupHistoryLogList();
+        historyList.setMargin(true);
 
-		taskDisplayComp = new SubTasksDisplayComp();
+        dateInfoComp = new DateInfoComp();
+        addToSideBar(dateInfoComp);
 
-		historyList = new TaskGroupHistoryLogList();
-		historyList.setMargin(true);
+        peopleInfoComp = new PeopleInfoComp();
+        addToSideBar(peopleInfoComp);
+    }
 
-		dateInfoComp = new DateInfoComp();
-		addToSideBar(dateInfoComp);
+    @Override
+    protected void onPreviewItem() {
+        commentList.loadComments("" + beanItem.getId());
+        historyList.loadHistory(beanItem.getId());
 
-		peopleInfoComp = new PeopleInfoComp();
-		addToSideBar(peopleInfoComp);
-	}
+        peopleInfoComp.displayEntryPeople(beanItem);
+        dateInfoComp.displayEntryDateTime(beanItem);
+    }
 
-	@Override
-	protected void onPreviewItem() {
-		commentList.loadComments("" + beanItem.getId());
-		historyList.loadHistory(beanItem.getId());
+    @Override
+    protected String initFormTitle() {
+        if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
+            this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+        }
+        return beanItem.getName();
+    }
 
-		peopleInfoComp.displayEntryPeople(beanItem);
-		dateInfoComp.displayEntryDateTime(beanItem);
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleTaskList> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected String initFormTitle() {
-		if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
-			this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
-		}
-		return beanItem.getName();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(ProjectTypeConstants.TASK_LIST,
+                TaskGroupDefaultFormLayoutFactory.getForm(),
+                TaskList.Field.name.name());
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleTaskList> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleTaskList>();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return (new ProjectPreviewFormControlsGenerator<>(
+                previewForm))
+                .createButtonControls(
+                        ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                        ProjectRolePermissionCollections.TASKS);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(ProjectTypeConstants.TASK_LIST,
-				TaskGroupDefaultFormLayoutFactory.getForm(),
-				TaskList.Field.name.name());
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return (new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
-				previewForm))
-				.createButtonControls(
-						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-						ProjectRolePermissionCollections.TASKS);
-	}
+        tabContainer.addTab(commentList, AppContext
+                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+                MyCollabResource
+                        .newResource(WebResourceIds._16_project_gray_comment));
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-		tabContainer.setWidth("100%");
+        tabContainer.addTab(historyList, AppContext
+                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
+                MyCollabResource
+                        .newResource(WebResourceIds._16_project_gray_history));
 
-		tabContainer.addTab(commentList, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_gray_comment));
+        return tabContainer;
+    }
 
-		tabContainer.addTab(historyList, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_gray_history));
+    @Override
+    public SimpleTaskList getItem() {
+        return beanItem;
+    }
 
-		tabContainer.addTab(taskDisplayComp, AppContext
-				.getMessage(TaskGroupI18nEnum.TASKS_TAB), MyCollabResource
-				.newResource(WebResourceIds._16_project_gray_task));
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> initBeanFormFieldFactory() {
+        return new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(
+                previewForm) {
+            private static final long serialVersionUID = 1L;
 
-		return tabContainer;
-	}
+            @Override
+            protected Field<?> onCreateField(final Object propertyId) {
+                if (TaskList.Field.milestoneid.equalTo(propertyId)) {
+                    return new LinkViewField(
+                            beanItem.getMilestoneName(),
+                            ProjectLinkBuilder
+                                    .generateMilestonePreviewFullLink(
+                                            beanItem.getProjectid(),
+                                            beanItem.getMilestoneid()),
+                            MyCollabResource
+                                    .newResourceLink(WebResourceIds._16_project_milestone));
+                } else if (TaskList.Field.owner.equalTo(propertyId)) {
+                    return new ProjectUserFormLinkField(beanItem.getOwner(),
+                            beanItem.getOwnerAvatarId(),
+                            beanItem.getOwnerFullName());
+                } else if (TaskList.Field.description.equalTo(propertyId)) {
+                    return new DefaultViewField(beanItem.getDescription(),
+                            ContentMode.HTML);
+                } else if (TaskList.Field.groupindex.equalTo(propertyId)) {
+                    return new ContainerHorizontalViewField();
+                }
 
-	@Override
-	public SimpleTaskList getItem() {
-		return beanItem;
-	}
+                return null;
+            }
+        };
+    }
 
-	class SubTasksDisplayComp extends VerticalLayout {
-		private static final long serialVersionUID = 1L;
+    private class PeopleInfoComp extends VerticalLayout {
+        private static final long serialVersionUID = 1L;
 
-		private final TaskDisplayComponent taskDisplayComponent;
+        public void displayEntryPeople(ValuedBean bean) {
+            this.removeAllComponents();
+            this.setSpacing(true);
+            this.setMargin(new MarginInfo(false, false, false, true));
 
-		public SubTasksDisplayComp() {
-			this.addStyleName("task-list");
-			this.initHeader();
-			this.taskDisplayComponent = new TaskDisplayComponent(beanItem,
-					false);
+            Label peopleInfoHeader = new Label(
+                    AppContext
+                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+            peopleInfoHeader.setStyleName("info-hdr");
+            this.addComponent(peopleInfoHeader);
 
-			this.addComponent(taskDisplayComponent);
-		}
+            GridLayout layout = new GridLayout(2, 2);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            layout.setMargin(new MarginInfo(false, false, false, true));
+            try {
+                Label createdLbl = new Label(
+                        AppContext
+                                .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                createdLbl.setSizeUndefined();
+                layout.addComponent(createdLbl, 0, 0);
 
-		private void initHeader() {
-			final CssLayout componentHeader = new CssLayout();
-			componentHeader.setStyleName("comp-header");
+                String createdUserName = (String) PropertyUtils.getProperty(
+                        bean, "createduser");
+                String createdUserAvatarId = (String) PropertyUtils
+                        .getProperty(bean, "createdUserAvatarId");
+                String createdUserDisplayName = (String) PropertyUtils
+                        .getProperty(bean, "createdUserFullName");
 
-			final Button parentTaskListFilterButton = new Button(
-					AppContext
-							.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
-					new Button.ClickListener() {
+                UserLink createdUserLink = new UserLink(createdUserName,
+                        createdUserAvatarId, createdUserDisplayName);
+                layout.addComponent(createdUserLink, 1, 0);
+                layout.setColumnExpandRatio(1, 1.0f);
 
-						private static final long serialVersionUID = 1L;
+                Label assigneeLbl = new Label(
+                        AppContext
+                                .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                assigneeLbl.setSizeUndefined();
+                layout.addComponent(assigneeLbl, 0, 1);
+                String assignUserName = (String) PropertyUtils.getProperty(
+                        bean, "owner");
+                String assignUserAvatarId = (String) PropertyUtils.getProperty(
+                        bean, "ownerAvatarId");
+                String assignUserDisplayName = (String) PropertyUtils
+                        .getProperty(bean, "ownerFullName");
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setPopupVisible(false);
-							SubTasksDisplayComp.this.displayActiveTasksOnly();
-						}
+                UserLink assignUserLink = new UserLink(assignUserName,
+                        assignUserAvatarId, assignUserDisplayName);
+                layout.addComponent(assignUserLink, 1, 1);
+            } catch (Exception e) {
+                LOG.error("Can not build user link {} ",
+                        BeanUtility.printBeanObj(bean));
+            }
 
-					});
+            this.addComponent(layout);
 
-			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
-			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
-			taskListFilterControl.setWidthUndefined();
-
-			final VerticalLayout filterBtnLayout = new VerticalLayout();
-
-			filterBtnLayout.setWidth("120px");
-
-			filterBtnLayout.setMargin(true);
-			filterBtnLayout.setSpacing(true);
-
-			final Button allTasksFilterBtn = new Button(
-					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption(AppContext
-									.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS));
-							SubTasksDisplayComp.this.displayAllTasks();
-						}
-					});
-			allTasksFilterBtn.setStyleName("link");
-			filterBtnLayout.addComponent(allTasksFilterBtn);
-
-			final Button activeTasksFilterBtn = new Button(
-					AppContext
-							.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption(AppContext
-									.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS));
-							SubTasksDisplayComp.this.displayActiveTasksOnly();
-						}
-					});
-			activeTasksFilterBtn.setStyleName("link");
-			filterBtnLayout.addComponent(activeTasksFilterBtn);
-
-			final Button archievedTasksFilterBtn = new Button(
-					AppContext
-							.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setCaption(AppContext
-									.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS));
-							taskListFilterControl.setPopupVisible(false);
-							SubTasksDisplayComp.this.displayInActiveTasks();
-						}
-					});
-			archievedTasksFilterBtn.setStyleName("link");
-			filterBtnLayout.addComponent(archievedTasksFilterBtn);
-			taskListFilterControl.setContent(filterBtnLayout);
-
-			componentHeader.addComponent(taskListFilterControl);
-			this.addComponent(componentHeader);
-		}
-
-		private TaskSearchCriteria createBaseSearchCriteria() {
-			final TaskSearchCriteria criteria = new TaskSearchCriteria();
-			criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-					.getProjectId()));
-			criteria.setTaskListId(new NumberSearchField(beanItem.getId()));
-			return criteria;
-		}
-
-		private void displayActiveTasksOnly() {
-			final TaskSearchCriteria criteria = this.createBaseSearchCriteria();
-			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { "Open", "Pending" }));
-			this.taskDisplayComponent.setSearchCriteria(criteria);
-		}
-
-		private void displayAllTasks() {
-			final TaskSearchCriteria criteria = this.createBaseSearchCriteria();
-			this.taskDisplayComponent.setSearchCriteria(criteria);
-		}
-
-		private void displayInActiveTasks() {
-			final TaskSearchCriteria criteria = this.createBaseSearchCriteria();
-			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { "Closed" }));
-			this.taskDisplayComponent.setSearchCriteria(criteria);
-		}
-	}
-
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList> initBeanFormFieldFactory() {
-		return new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(
-				previewForm) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected Field<?> onCreateField(final Object propertyId) {
-				if (propertyId.equals("milestoneid")) {
-					return new LinkViewField(
-							beanItem.getMilestoneName(),
-							ProjectLinkBuilder
-									.generateMilestonePreviewFullLink(
-											beanItem.getProjectid(),
-											beanItem.getMilestoneid()),
-							MyCollabResource
-									.newResourceLink("icons/16/project/milestone.png"));
-				} else if (propertyId.equals("owner")) {
-					return new ProjectUserFormLinkField(beanItem.getOwner(),
-							beanItem.getOwnerAvatarId(),
-							beanItem.getOwnerFullName());
-				} else if (propertyId.equals("percentageComplete")) {
-					final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
-					final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
-							beanItem.getPercentageComplete());
-					fieldContainer.addComponentField(progressField);
-					return fieldContainer;
-				} else if (propertyId.equals("description")) {
-					return new DefaultViewField(beanItem.getDescription(),
-							ContentMode.HTML);
-				} else if (propertyId.equals("numOpenTasks")) {
-					final ContainerHorizontalViewField fieldContainer = new ContainerHorizontalViewField();
-					final Label numTaskLbl = new Label("("
-							+ beanItem.getNumOpenTasks() + "/"
-							+ beanItem.getNumAllTasks() + ")");
-					fieldContainer.addComponentField(numTaskLbl);
-					return fieldContainer;
-				}
-
-				return null;
-			}
-		};
-	}
-
-	private class PeopleInfoComp extends VerticalLayout {
-		private static final long serialVersionUID = 1L;
-
-		public void displayEntryPeople(ValuedBean bean) {
-			this.removeAllComponents();
-			this.setSpacing(true);
-			this.setMargin(new MarginInfo(false, false, false, true));
-
-			Label peopleInfoHeader = new Label(
-					AppContext
-							.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
-			peopleInfoHeader.setStyleName("info-hdr");
-			this.addComponent(peopleInfoHeader);
-
-			GridLayout layout = new GridLayout(2, 2);
-			layout.setSpacing(true);
-			layout.setWidth("100%");
-			layout.setMargin(new MarginInfo(false, false, false, true));
-			try {
-				Label createdLbl = new Label(
-						AppContext
-								.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
-				createdLbl.setSizeUndefined();
-				layout.addComponent(createdLbl, 0, 0);
-
-				String createdUserName = (String) PropertyUtils.getProperty(
-						bean, "createduser");
-				String createdUserAvatarId = (String) PropertyUtils
-						.getProperty(bean, "createdUserAvatarId");
-				String createdUserDisplayName = (String) PropertyUtils
-						.getProperty(bean, "createdUserFullName");
-
-				UserLink createdUserLink = new UserLink(createdUserName,
-						createdUserAvatarId, createdUserDisplayName);
-				layout.addComponent(createdUserLink, 1, 0);
-				layout.setColumnExpandRatio(1, 1.0f);
-
-				Label assigneeLbl = new Label(
-						AppContext
-								.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-				assigneeLbl.setSizeUndefined();
-				layout.addComponent(assigneeLbl, 0, 1);
-				String assignUserName = (String) PropertyUtils.getProperty(
-						bean, "owner");
-				String assignUserAvatarId = (String) PropertyUtils.getProperty(
-						bean, "ownerAvatarId");
-				String assignUserDisplayName = (String) PropertyUtils
-						.getProperty(bean, "ownerFullName");
-
-				UserLink assignUserLink = new UserLink(assignUserName,
-						assignUserAvatarId, assignUserDisplayName);
-				layout.addComponent(assignUserLink, 1, 1);
-			} catch (Exception e) {
-				LOG.error("Can not build user link {} ",
-						BeanUtility.printBeanObj(bean));
-			}
-
-			this.addComponent(layout);
-
-		}
-	}
+        }
+    }
 }

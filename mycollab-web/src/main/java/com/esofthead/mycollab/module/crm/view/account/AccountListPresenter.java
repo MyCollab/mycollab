@@ -90,7 +90,7 @@ public class AccountListPresenter
 								NotificationUtil.showWarningNotification(AppContext
 										.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
-								List<String> lstMail = new ArrayList<String>();
+								List<String> lstMail = new ArrayList<>();
 								List<SimpleAccount> tableData = view
 										.getPagedBeanTable()
 										.getCurrentDataList();
@@ -124,7 +124,7 @@ public class AccountListPresenter
 		if (!isSelectAll) {
 			Collection<SimpleAccount> currentDataList = view
 					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (SimpleAccount item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());
@@ -174,7 +174,7 @@ public class AccountListPresenter
 		if (!isSelectAll) {
 			Collection<SimpleAccount> currentDataList = view
 					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (SimpleAccount item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());

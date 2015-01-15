@@ -61,7 +61,7 @@ public class CommentDisplay extends MVerticalLayout implements
 			this.addComponent(commentBox);
 		}
 
-		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
+		commentList = new BeanList<>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);

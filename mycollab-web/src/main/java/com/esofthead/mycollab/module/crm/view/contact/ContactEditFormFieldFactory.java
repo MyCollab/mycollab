@@ -20,12 +20,7 @@ import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSourceComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
-import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
-import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.PrefixNameComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
@@ -64,8 +59,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 			LeadSourceComboBox leadSource = new LeadSourceComboBox();
 			return leadSource;
 		} else if (propertyId.equals("accountid")) {
-			AccountSelectionField accountField = new AccountSelectionField();
-			return accountField;
+			return new AccountSelectionField();
 		} else if (propertyId.equals("lastname")) {
 			TextField tf = new TextField();
 			if (isValidateForm) {
@@ -83,8 +77,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 			return userBox;
 		} else if (propertyId.equals("primcountry")
 				|| propertyId.equals("othercountry")) {
-			CountryComboBox otherCountryComboBox = new CountryComboBox();
-			return otherCountryComboBox;
+			return new CountryComboBox();
 		} else if (propertyId.equals("birthday")) {
 			return new DateComboboxSelectionField();
 		}

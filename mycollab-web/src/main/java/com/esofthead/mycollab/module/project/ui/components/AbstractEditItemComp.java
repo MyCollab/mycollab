@@ -43,7 +43,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 
 	public AbstractEditItemComp() {
 		super();
-		this.editForm = new AdvancedEditBeanForm<B>();
+		this.editForm = new AdvancedEditBeanForm<>();
 		this.addComponent(this.editForm);
 	}
 

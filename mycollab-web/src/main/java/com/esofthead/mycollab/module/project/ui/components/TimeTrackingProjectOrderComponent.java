@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.google.common.collect.Ordering;
 
@@ -67,7 +68,7 @@ public class TimeTrackingProjectOrderComponent
 					ProjectLinkBuilder.generateProjectFullLink(firstItem
 							.getProjectid()));
 			link.setIconLink(MyCollabResource
-					.newResourceLink("icons/16/project/project.png"));
+					.newResourceLink(WebResourceIds._16_project_project));
 
 			addComponent(link);
 			addComponent(new TimeLoggingBockLayout(visibleFields,

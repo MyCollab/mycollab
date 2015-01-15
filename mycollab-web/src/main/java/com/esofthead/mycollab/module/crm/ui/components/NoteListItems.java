@@ -85,6 +85,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -146,12 +147,8 @@ public class NoteListItems extends VerticalLayout {
 	}
 
 	private void initUI() {
-		noteWrapper = new VerticalLayout();
-		noteWrapper.setMargin(new MarginInfo(false, true, false, true));
-		this.setWidth("100%");
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, true, false));
-		this.setStyleName("note-view");
+		noteWrapper = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, true, false, true))
+				.withWidth("100%").withStyleName("note-view");
 
 		this.addComponent(noteWrapper);
 		addStyleName("note-list");
@@ -177,8 +174,7 @@ public class NoteListItems extends VerticalLayout {
 		noteWrapper.addComponent(createBtn);
 		noteWrapper.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
 
-		noteList = new BeanList<NoteService, NoteSearchCriteria, SimpleNote>(
-				noteService, NoteRowDisplayHandler.class);
+		noteList = new BeanList<>(noteService, NoteRowDisplayHandler.class);
 		noteList.setDisplayEmptyListText(false);
 		noteList.setStyleName("noteList");
 
@@ -387,7 +383,7 @@ public class NoteListItems extends VerticalLayout {
 
 			noteContentLayout.addComponent(constructNoteHeader(note));
 
-			commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
+			commentList = new BeanList<>(
 					ApplicationContextUtil.getSpringBean(CommentService.class),
 					CommentRowDisplayHandler.class);
 			commentList.setDisplayEmptyListText(false);
@@ -521,6 +517,7 @@ public class NoteListItems extends VerticalLayout {
 							relayNotification
 									.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
 							relayNotification.setTypeid("" + typeid);
+
 							if (type.equals(CrmTypeConstants.ACCOUNT)) {
 								relayNotification
 										.setEmailhandlerbean(AccountRelayEmailNotificationAction.class

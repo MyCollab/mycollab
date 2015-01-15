@@ -60,20 +60,15 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 			return firstNamePrefixField;
 		} else if (propertyId.equals("primcountry")
 				|| propertyId.equals("othercountry")) {
-			CountryComboBox otherCountryComboBox = new CountryComboBox();
-			return otherCountryComboBox;
+			return new CountryComboBox();
 		} else if (propertyId.equals("status")) {
-			LeadStatusComboBox statusComboBox = new LeadStatusComboBox();
-			return statusComboBox;
+			return new LeadStatusComboBox();
 		} else if (propertyId.equals("industry")) {
-			IndustryComboBox industryComboBox = new IndustryComboBox();
-			return industryComboBox;
+			return new IndustryComboBox();
 		} else if (propertyId.equals("assignuser")) {
-			ActiveUserComboBox userComboBox = new ActiveUserComboBox();
-			return userComboBox;
+			return new ActiveUserComboBox();
 		} else if (propertyId.equals("source")) {
-			LeadSourceComboBox statusComboBox = new LeadSourceComboBox();
-			return statusComboBox;
+			return new LeadSourceComboBox();
 		} else if (propertyId.equals("lastname")) {
 			TextField tf = new TextField();
 			if (isValidateForm) {

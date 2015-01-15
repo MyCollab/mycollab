@@ -35,5 +35,6 @@ public interface LeadConvertReadView extends IPreviewView<SimpleLead> {
 	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
 
 	IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers();
+
 	void displayConvertLeadInfo(SimpleLead lead);
 }

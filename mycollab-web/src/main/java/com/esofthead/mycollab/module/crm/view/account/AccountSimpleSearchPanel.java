@@ -137,7 +137,7 @@ public class AccountSimpleSearchPanel extends
 						String user = (String) userBox.getValue();
 						if (StringUtils.isNotBlank(user)) {
 							searchCriteria
-									.setAssignUsers(new SetSearchField<String>(
+									.setAssignUsers(new SetSearchField<>(
 											SearchField.AND,
 											new String[] { user }));
 						}

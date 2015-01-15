@@ -57,13 +57,13 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<SimpleAccount>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleAccount>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -74,6 +74,6 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<SimpleAccount>(editForm);
+		return new AccountEditFormFieldFactory<>(editForm);
 	}
 }

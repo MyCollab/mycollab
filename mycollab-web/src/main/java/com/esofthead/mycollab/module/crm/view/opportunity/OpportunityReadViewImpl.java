@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -34,28 +31,21 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
-import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -80,7 +70,7 @@ public class OpportunityReadViewImpl extends
 	private CrmFollowersComp<SimpleOpportunity> followersComp;
 
 	public OpportunityReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/opportunity.png"));
+		super(MyCollabResource.newResource(WebResourceIds._22_crm_opportunity));
 	}
 
 	@Override
@@ -100,7 +90,7 @@ public class OpportunityReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleOpportunity>(
+		return new CrmPreviewFormControlsGenerator<>(
 				previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
 	}
@@ -179,7 +169,7 @@ public class OpportunityReadViewImpl extends
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-		followersComp = new CrmFollowersComp<SimpleOpportunity>(
+		followersComp = new CrmFollowersComp<>(
 				CrmTypeConstants.OPPORTUNITY,
 				RolePermissionCollections.CRM_OPPORTUNITY);
 		basicInfo.addComponent(followersComp);

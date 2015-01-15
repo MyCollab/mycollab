@@ -21,6 +21,7 @@ import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormCont
 import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.NEXT_BTN_PRESENTED;
 import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.PREVIOUS_BTN_PRESENTED;
 
+import com.esofthead.mycollab.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,12 +58,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -95,7 +90,7 @@ public class LeadConvertReadViewImpl extends
 	private DateInfoComp dateInfoComp;
 
 	public LeadConvertReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/lead.png"));
+		super(MyCollabResource.newResource(WebResourceIds._22_crm_lead));
 	}
 
 	@Override
@@ -120,7 +115,7 @@ public class LeadConvertReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<SimpleLead>(
+		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
 				previewForm);
 		return controlsButton.createButtonControls(BACK_BTN_PRESENTED
 				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED

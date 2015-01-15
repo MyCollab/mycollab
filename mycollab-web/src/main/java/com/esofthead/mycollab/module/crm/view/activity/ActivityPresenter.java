@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.AssignmentScreenData;
@@ -53,7 +54,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 				.gotoView(AppContext
 						.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
 
-		AbstractPresenter presenter = null;
+		AbstractPresenter presenter;
 
 		if (data instanceof AssignmentScreenData.Add) {
 			presenter = PresenterResolver
@@ -82,6 +83,8 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 		} else if (data instanceof ActivityScreenData.GotoActivityList) {
 			presenter = PresenterResolver
 					.getPresenter(ActivityListPresenter.class);
+		} else {
+			throw new MyCollabException("Do not support data " + data);
 		}
 
 		presenter.go(eventContainer, data);

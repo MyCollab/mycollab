@@ -69,6 +69,14 @@ public class TaskGroupDefaultFormLayoutFactory {
 										.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD))
 						.fieldIndex(3).build());
 
+		mainSection
+				.addField(new TextDynaFieldBuilder()
+						.fieldName(TaskList.Field.groupindex)
+						.displayName(
+								AppContext
+										.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD))
+						.fieldIndex(4).colSpan(true).build());
+
 		defaultForm.addSection(mainSection);
 	}
 

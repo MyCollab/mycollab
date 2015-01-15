@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
@@ -43,128 +39,130 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ActivityListPresenter
-		extends
-		CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
-	private static final long serialVersionUID = 1L;
+        extends
+        CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
+    private static final long serialVersionUID = 1L;
 
-	public ActivityListPresenter() {
-		super(ActivityListView.class);
-	}
+    public ActivityListPresenter() {
+        super(ActivityListView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
+    @Override
+    protected void postInitView() {
+        super.postInitView();
 
-		view.getPopupActionHandlers().addMassItemActionHandler(
-				new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().addMassItemActionHandler(
+                new DefaultMassEditActionHandler(this) {
 
-					@Override
-					protected void onSelectExtra(String id) {
-						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
-							UI.getCurrent().addWindow(new MailFormWindow());
-						}
-					}
+                    @Override
+                    protected void onSelectExtra(String id) {
+                        if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+                            UI.getCurrent().addWindow(new MailFormWindow());
+                        }
+                    }
 
-					@Override
-					protected String getReportTitle() {
-						return "Event List";
-					}
+                    @Override
+                    protected String getReportTitle() {
+                        return "Event List";
+                    }
 
-					@Override
-					protected Class<?> getReportModelClassType() {
-						return SimpleActivity.class;
-					}
-				});
-	}
+                    @Override
+                    protected Class<?> getReportModelClassType() {
+                        return SimpleActivity.class;
+                    }
+                });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)
-				|| AppContext.canRead(RolePermissionCollections.CRM_TASK)
-				|| AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)
+                || AppContext.canRead(RolePermissionCollections.CRM_TASK)
+                || AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 
-			CrmToolbar crmToolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			crmToolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+            CrmToolbar crmToolbar = ViewManager
+                    .getCacheComponent(CrmToolbar.class);
+            crmToolbar.gotoItem(AppContext
+                    .getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-			searchCriteria = (ActivitySearchCriteria) data.getParams();
-			this.displayListView(container, data);
-			doSearch(searchCriteria);
+            searchCriteria = (ActivitySearchCriteria) data.getParams();
+            this.displayListView(container, data);
+            doSearch(searchCriteria);
 
-			AppContext.addFragment("crm/activity/todo", "Assignments");
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            AppContext.addFragment("crm/activity/todo", "Assignments");
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		Collection<SimpleActivity> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		List<Integer> keyListCall = new ArrayList<Integer>();
-		List<Integer> keyListMeeting = new ArrayList<Integer>();
-		List<Integer> keyListTask = new ArrayList<Integer>();
-		if (!isSelectAll) {
-			for (SimpleActivity item : currentDataList) {
-				if (item.isSelected()) {
-					if (CrmTypeConstants.CALL.equals(item.getEventType())) {
-						keyListCall.add(item.getId());
-					} else if (CrmTypeConstants.MEETING.equals(item
-							.getEventType())) {
-						keyListMeeting.add(item.getId());
-					} else if (CrmTypeConstants.TASK
-							.equals(item.getEventType())) {
-						keyListTask.add(item.getId());
-					}
-				}
-			}
-		} else {
-			for (SimpleActivity item : currentDataList) {
-				if ((CrmTypeConstants.CALL.equals(item.getEventType()))) {
-					keyListCall.add(item.getId());
-				} else if (CrmTypeConstants.MEETING.equals(item.getEventType())) {
-					keyListMeeting.add(item.getId());
-				} else if (CrmTypeConstants.TASK.equals(item.getEventType())) {
-					keyListTask.add(item.getId());
-				}
-			}
-		}
+    @Override
+    protected void deleteSelectedItems() {
+        Collection<SimpleActivity> currentDataList = view.getPagedBeanTable()
+                .getCurrentDataList();
+        List<Integer> keyListCall = new ArrayList<>();
+        List<Integer> keyListMeeting = new ArrayList<>();
+        List<Integer> keyListTask = new ArrayList<>();
+        if (!isSelectAll) {
+            for (SimpleActivity item : currentDataList) {
+                if (item.isSelected()) {
+                    if (CrmTypeConstants.CALL.equals(item.getEventType())) {
+                        keyListCall.add(item.getId());
+                    } else if (CrmTypeConstants.MEETING.equals(item
+                            .getEventType())) {
+                        keyListMeeting.add(item.getId());
+                    } else if (CrmTypeConstants.TASK
+                            .equals(item.getEventType())) {
+                        keyListTask.add(item.getId());
+                    }
+                }
+            }
+        } else {
+            for (SimpleActivity item : currentDataList) {
+                if ((CrmTypeConstants.CALL.equals(item.getEventType()))) {
+                    keyListCall.add(item.getId());
+                } else if (CrmTypeConstants.MEETING.equals(item.getEventType())) {
+                    keyListMeeting.add(item.getId());
+                } else if (CrmTypeConstants.TASK.equals(item.getEventType())) {
+                    keyListTask.add(item.getId());
+                }
+            }
+        }
 
-		if (keyListCall.size() > 0) {
-			CallService callService = ApplicationContextUtil
-					.getSpringBean(CallService.class);
-			callService.massRemoveWithSession(keyListCall,
-					AppContext.getUsername(), AppContext.getAccountId());
-		}
+        if (keyListCall.size() > 0) {
+            CallService callService = ApplicationContextUtil
+                    .getSpringBean(CallService.class);
+            callService.massRemoveWithSession(keyListCall,
+                    AppContext.getUsername(), AppContext.getAccountId());
+        }
 
-		if (keyListMeeting.size() > 0) {
-			MeetingService meetingService = ApplicationContextUtil
-					.getSpringBean(MeetingService.class);
-			meetingService.massRemoveWithSession(keyListMeeting,
-					AppContext.getUsername(), AppContext.getAccountId());
-		}
+        if (keyListMeeting.size() > 0) {
+            MeetingService meetingService = ApplicationContextUtil
+                    .getSpringBean(MeetingService.class);
+            meetingService.massRemoveWithSession(keyListMeeting,
+                    AppContext.getUsername(), AppContext.getAccountId());
+        }
 
-		if (keyListTask.size() > 0) {
-			TaskService taskService = ApplicationContextUtil
-					.getSpringBean(TaskService.class);
-			taskService.massRemoveWithSession(keyListTask,
-					AppContext.getUsername(), AppContext.getAccountId());
-		}
-		doSearch(searchCriteria);
-		checkWhetherEnableTableActionControl();
-	}
+        if (keyListTask.size() > 0) {
+            TaskService taskService = ApplicationContextUtil
+                    .getSpringBean(TaskService.class);
+            taskService.massRemoveWithSession(keyListTask,
+                    AppContext.getUsername(), AppContext.getAccountId());
+        }
+        doSearch(searchCriteria);
+        checkWhetherEnableTableActionControl();
+    }
 
-	@Override
-	public ISearchableService<ActivitySearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(EventService.class);
-	}
+    @Override
+    public ISearchableService<ActivitySearchCriteria> getSearchService() {
+        return ApplicationContextUtil.getSpringBean(EventService.class);
+    }
 
 }

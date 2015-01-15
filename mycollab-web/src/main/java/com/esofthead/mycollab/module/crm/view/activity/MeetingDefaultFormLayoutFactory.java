@@ -26,6 +26,10 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0
+ */
 public class MeetingDefaultFormLayoutFactory {
 	public static final DynaForm defaultForm;
 

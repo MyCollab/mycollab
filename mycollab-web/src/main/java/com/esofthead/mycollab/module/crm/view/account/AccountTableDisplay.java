@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -27,133 +25,129 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
-import com.esofthead.mycollab.vaadin.ui.EmailLink;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.UrlLink;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class AccountTableDisplay
-		extends
-		DefaultPagedBeanTable<AccountService, AccountSearchCriteria, SimpleAccount> {
-	private static final long serialVersionUID = 1L;
+        extends
+        DefaultPagedBeanTable<AccountService, AccountSearchCriteria, SimpleAccount> {
+    private static final long serialVersionUID = 1L;
 
-	public AccountTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public AccountTableDisplay(List<TableViewField> displayColumns) {
+        this(null, displayColumns);
+    }
 
-	public AccountTableDisplay(TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		this(null, requiredColumn, displayColumns);
+    public AccountTableDisplay(TableViewField requiredColumn,
+                               List<TableViewField> displayColumns) {
+        this(null, requiredColumn, displayColumns);
 
-	}
+    }
 
-	public AccountTableDisplay(String viewId, TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(AccountService.class),
-				SimpleAccount.class, viewId, requiredColumn, displayColumns);
+    public AccountTableDisplay(String viewId, TableViewField requiredColumn,
+                               List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(AccountService.class),
+                SimpleAccount.class, viewId, requiredColumn, displayColumns);
 
-		addGeneratedColumn("selected", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", account
-						.isSelected());
-				cb.addValueChangeListener(new ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       final Object columnId) {
+                final SimpleAccount account = AccountTableDisplay.this
+                        .getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", account
+                        .isSelected());
+                cb.addValueChangeListener(new ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
 
-						AccountTableDisplay.this.fireSelectItemEvent(account);
-						fireTableEvent(new TableClickEvent(
-								AccountTableDisplay.this, account, "selected"));
+                        AccountTableDisplay.this.fireSelectItemEvent(account);
+                        fireTableEvent(new TableClickEvent(
+                                AccountTableDisplay.this, account, "selected"));
 
-					}
-				});
-				account.setExtraData(cb);
-				return cb;
-			}
-		});
+                    }
+                });
+                account.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		addGeneratedColumn("email", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("email", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new EmailLink(account.getEmail());
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleAccount account = AccountTableDisplay.this
+                        .getBeanByIndex(itemId);
+                return new EmailLink(account.getEmail());
+            }
+        });
 
-		addGeneratedColumn("accountname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("accountname", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleAccount account = AccountTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(account.getAccountname(),
-						CrmLinkBuilder.generateAccountPreviewLinkFull(account
-								.getId()));
-				b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-						AppContext.getUserLocale(), account,
-						AppContext.getSiteUrl()));
-				return b;
-			}
-		});
+                LabelLink b = new LabelLink(account.getAccountname(),
+                        CrmLinkBuilder.generateAccountPreviewLinkFull(account
+                                .getId()));
+                b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+                        AppContext.getUserLocale(), account,
+                        AppContext.getSiteUrl()));
+                return b;
+            }
+        });
 
-		addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
-				final UserLink b = new UserLink(account.getAssignuser(),
-						account.getAssignUserAvatarId(), account
-								.getAssignUserFullName());
-				return b;
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleAccount account = AccountTableDisplay.this
+                        .getBeanByIndex(itemId);
+                return new UserLink(account.getAssignuser(),
+                        account.getAssignUserAvatarId(), account
+                        .getAssignUserFullName());
 
-			}
-		});
+            }
+        });
 
-		addGeneratedColumn("website", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("website", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
-				if (account.getWebsite() != null) {
-					return new UrlLink(account.getWebsite());
-				} else {
-					return new Label("");
-				}
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleAccount account = AccountTableDisplay.this
+                        .getBeanByIndex(itemId);
+                if (account.getWebsite() != null) {
+                    return new UrlLink(account.getWebsite());
+                } else {
+                    return new Label("");
+                }
 
-			}
-		});
+            }
+        });
 
-		this.setWidth("100%");
-	}
+        this.setWidth("100%");
+    }
 }

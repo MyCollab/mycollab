@@ -21,11 +21,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -48,18 +44,18 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/crm/lead.png");
+		return MyCollabResource.newResource(WebResourceIds._22_crm_lead);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<SimpleLead>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleLead> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleLead>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -70,6 +66,6 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleLead> initBeanFormFieldFactory() {
-		return new LeadEditFormFieldFactory<SimpleLead>(editForm);
+		return new LeadEditFormFieldFactory<>(editForm);
 	}
 }

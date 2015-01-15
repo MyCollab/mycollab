@@ -63,9 +63,6 @@ public class RelatedReadItemField extends CustomField {
 				return new Label("");
 			}
 
-			final String subject = (String) PropertyUtils.getProperty(
-					RelatedReadItemField.this.bean, "subject");
-
 			final String type = (String) PropertyUtils
 					.getProperty(bean, "type");
 			if (type == null || type.equals("")) {

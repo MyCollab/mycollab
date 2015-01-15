@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -33,6 +31,8 @@ import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
+
+import java.util.List;
 
 /**
  * 
@@ -91,11 +91,10 @@ public class OpportunityContactTableDisplay
 						.getBeanByIndex(itemId);
 				if (contact.getAccountName() != null) {
 
-					LabelLink b = new LabelLink(contact.getAccountName(),
+					return new LabelLink(contact.getAccountName(),
 							CrmLinkBuilder
 									.generateAccountPreviewLinkFull(contact
 											.getAccountid()));
-					return b;
 				} else {
 					return new Label();
 				}

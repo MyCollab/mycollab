@@ -173,7 +173,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 			toolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-			SimpleMeeting meeting = null;
+			SimpleMeeting meeting;
 			if (data.getParams() instanceof Integer) {
 				MeetingService meetingService = ApplicationContextUtil
 						.getSpringBean(MeetingService.class);

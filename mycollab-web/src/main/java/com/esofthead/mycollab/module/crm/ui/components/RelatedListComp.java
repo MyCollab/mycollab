@@ -17,65 +17,51 @@
 
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.vaadin.ui.VerticalLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public abstract class RelatedListComp<T, S extends SearchCriteria> extends
-		VerticalLayout implements IRelatedListHandlers<T> {
+        VerticalLayout implements IRelatedListHandlers<T> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected Set<RelatedListHandler<T>> handlers;
-	protected IPagedBeanTable<S, T> tableItem;
+    protected Set<RelatedListHandler<T>> handlers;
+    protected IPagedBeanTable<S, T> tableItem;
 
-	public RelatedListComp() {
-		this.setWidth("100%");
-		this.setMargin(true);
-		this.setSpacing(true);
-	}
+    public RelatedListComp() {
+        this.setWidth("100%");
+        this.setMargin(true);
+        this.setSpacing(true);
+    }
 
-	@Override
-	public void addRelatedListHandler(final RelatedListHandler<T> handler) {
-		if (handlers == null) {
-			handlers = new HashSet<RelatedListHandler<T>>();
-		}
+    @Override
+    public void addRelatedListHandler(final RelatedListHandler<T> handler) {
+        if (handlers == null) {
+            handlers = new HashSet<>();
+        }
 
-		handlers.add(handler);
-	}
+        handlers.add(handler);
+    }
 
-	protected void fireNewRelatedItem(final String itemId) {
-		if (handlers != null) {
-			for (final RelatedListHandler handler : handlers) {
-				handler.createNewRelatedItem(itemId);
-			}
-		}
-	}
+    protected void fireNewRelatedItem(final String itemId) {
+        if (handlers != null) {
+            for (final RelatedListHandler handler : handlers) {
+                handler.createNewRelatedItem(itemId);
+            }
+        }
+    }
 
-	protected void fireSelectedRelatedItems(final Set selectedItems) {
-		if (handlers != null) {
-			for (final RelatedListHandler handler : handlers) {
-				handler.selectAssociateItems(selectedItems);
-			}
-		}
-	}
-
-	public void setSearchCriteria(final S criteria) {
-		tableItem.setSearchCriteria(criteria);
-	}
-
-	public void setSelectedItems(final Set<T> selectedItems) {
-		throw new MyCollabException("Must be override by support class");
-	}
+    public void setSearchCriteria(final S criteria) {
+        tableItem.setSearchCriteria(criteria);
+    }
 }

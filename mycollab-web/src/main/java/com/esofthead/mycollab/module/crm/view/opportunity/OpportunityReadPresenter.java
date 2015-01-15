@@ -16,29 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
-
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
-import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
-import com.esofthead.mycollab.module.crm.domain.SimpleCall;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
@@ -60,6 +44,12 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -231,7 +221,7 @@ public class OpportunityReadPresenter extends
 					@Override
 					public void selectAssociateItems(
 							Set<SimpleContactOpportunityRel> items) {
-						List<ContactOpportunity> associateContacts = new ArrayList<ContactOpportunity>();
+						List<ContactOpportunity> associateContacts = new ArrayList<>();
 						SimpleOpportunity opportunity = view.getItem();
 						for (SimpleContact contact : items) {
 							ContactOpportunity associateContact = new ContactOpportunity();
@@ -266,7 +256,7 @@ public class OpportunityReadPresenter extends
 					@Override
 					public void selectAssociateItems(Set<SimpleLead> items) {
 						SimpleOpportunity opportunity = view.getItem();
-						List<OpportunityLead> associateLeads = new ArrayList<OpportunityLead>();
+						List<OpportunityLead> associateLeads = new ArrayList<>();
 						for (SimpleLead lead : items) {
 							OpportunityLead associateLead = new OpportunityLead();
 							associateLead.setLeadid(lead.getId());
@@ -312,7 +302,6 @@ public class OpportunityReadPresenter extends
 									opportunity.getOpportunityname()));
 				} else {
 					NotificationUtil.showRecordNotExistNotification();
-					return;
 				}
 			}
 		} else {

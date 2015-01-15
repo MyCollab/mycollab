@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.form;
 
-import org.vaadin.easyuploads.MultiFileUploadExt;
-
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -25,6 +23,7 @@ import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.easyuploads.MultiFileUploadExt;
 
 /**
  * 

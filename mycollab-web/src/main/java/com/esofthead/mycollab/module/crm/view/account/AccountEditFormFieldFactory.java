@@ -52,11 +52,9 @@ class AccountEditFormFieldFactory<B extends Account> extends
 	protected Field<?> onCreateField(Object propertyId) {
 
 		if (Account.Field.type.equalTo(propertyId)) {
-			AccountTypeComboBox accountTypeBox = new AccountTypeComboBox();
-			return accountTypeBox;
+			return new AccountTypeComboBox();
 		} else if (Account.Field.industry.equalTo(propertyId)) {
-			IndustryComboBox accountIndustryBox = new IndustryComboBox();
-			return accountIndustryBox;
+			return  new IndustryComboBox();
 		} else if (Account.Field.assignuser.equalTo(propertyId)) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());
@@ -65,8 +63,7 @@ class AccountEditFormFieldFactory<B extends Account> extends
 			return new RichTextEditField();
 		} else if (Account.Field.billingcountry.equalTo(propertyId)
 				|| Account.Field.shippingcountry.equalTo(propertyId)) {
-			CountryComboBox billingCountryComboBox = new CountryComboBox();
-			return billingCountryComboBox;
+			return new CountryComboBox();
 		} else if (Account.Field.accountname.equalTo(propertyId)) {
 			TextField tf = new TextField();
 			if (isValidateForm) {

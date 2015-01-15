@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
@@ -36,123 +35,96 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public class ActivityRootView extends AbstractPageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final HorizontalLayout root;
-	private final VerticalTabsheet activityTabs;
+    private final HorizontalLayout root;
+    private final VerticalTabsheet activityTabs;
 
-	private ActivityCalendarPresenter calendarPresenter;
-	private ActivityPresenter eventPresenter;
+    private ActivityCalendarPresenter calendarPresenter;
+    private ActivityPresenter eventPresenter;
 
-	public ActivityRootView() {
-		super();
-		this.setSizeFull();
+    public ActivityRootView() {
+        super();
+        this.setSizeFull();
 
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("verticalTabView");
-		contentWrapper.setWidth("100%");
-		this.addComponent(contentWrapper);
+        final CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setStyleName("verticalTabView");
+        contentWrapper.setWidth("100%");
+        this.addComponent(contentWrapper);
 
-		root = new HorizontalLayout();
-		root.setStyleName("menuContent");
+        root = new HorizontalLayout();
+        root.setStyleName("menuContent");
 
-		activityTabs = new VerticalTabsheet();
-		activityTabs.setSizeFull();
-		activityTabs.setNavigatorWidth("170px");
-		activityTabs.setNavigatorStyleName("sidebar-menu");
-		activityTabs.setContainerStyleName("tab-content");
-		activityTabs.setHeight(null);
+        activityTabs = new VerticalTabsheet();
+        activityTabs.setSizeFull();
+        activityTabs.setNavigatorWidth("170px");
+        activityTabs.setNavigatorStyleName("sidebar-menu");
+        activityTabs.setContainerStyleName("tab-content");
+        activityTabs.setHeight(null);
 
-		root.addComponent(activityTabs);
-		root.setWidth("100%");
-		buildComponents();
-		contentWrapper.addComponent(root);
-	}
+        root.addComponent(activityTabs);
+        root.setWidth("100%");
+        buildComponents();
+        contentWrapper.addComponent(root);
+    }
 
-	private void buildComponents() {
-		activityTabs.addTab(constructCalendarView(), "calendar",
-				AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
-				MyCollabResource.newResource("icons/22/crm/calendar.png"));
+    private void buildComponents() {
+        activityTabs.addTab(constructCalendarView(), "calendar",
+                AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
+                MyCollabResource.newResource("icons/22/crm/calendar.png"));
 
-		activityTabs.addTab(constructActivityListView(), "activities",
-				AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
-				MyCollabResource.newResource("icons/22/crm/activitylist.png"));
+        activityTabs.addTab(constructActivityListView(), "activities",
+                AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
+                MyCollabResource.newResource("icons/22/crm/activitylist.png"));
 
-		activityTabs
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+        activityTabs
+                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						String caption = tab.getCaption();
+                    @Override
+                    public void selectedTabChange(SelectedTabChangeEvent event) {
+                        Tab tab = ((VerticalTabsheet) event.getSource())
+                                .getSelectedTab();
+                        String caption = tab.getCaption();
 
-						if (AppContext.getMessage(
-								ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(
-								caption)) {
-							calendarPresenter.go(ActivityRootView.this,
-									new ActivityScreenData.GotoCalendar());
-						} else if (AppContext.getMessage(
-								ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(
-								caption)) {
-							ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-							criteria.setSaccountid(new NumberSearchField(
-									AppContext.getAccountId()));
-							eventPresenter.go(ActivityRootView.this,
-									new ActivityScreenData.GotoActivityList(
-											criteria));
-						}
+                        if (AppContext.getMessage(
+                                ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(
+                                caption)) {
+                            calendarPresenter.go(ActivityRootView.this,
+                                    new ActivityScreenData.GotoCalendar());
+                        } else if (AppContext.getMessage(
+                                ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(
+                                caption)) {
+                            ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+                            criteria.setSaccountid(new NumberSearchField(
+                                    AppContext.getAccountId()));
+                            eventPresenter.go(ActivityRootView.this,
+                                    new ActivityScreenData.GotoActivityList(
+                                            criteria));
+                        }
 
-					}
-				});
-	}
+                    }
+                });
+    }
 
-	private ComponentContainer constructCalendarView() {
-		calendarPresenter = PresenterResolver
-				.getPresenter(ActivityCalendarPresenter.class);
-		ActivityCalendarView activityCalendarView = calendarPresenter
-				.getView();
-		return activityCalendarView;
-	}
+    private ComponentContainer constructCalendarView() {
+        calendarPresenter = PresenterResolver.getPresenter(ActivityCalendarPresenter.class);
+        return calendarPresenter.getView();
+    }
 
-	private ComponentContainer constructActivityListView() {
-		eventPresenter = PresenterResolver
-				.getPresenter(ActivityPresenter.class);
-		return eventPresenter.getView();
-	}
+    private ComponentContainer constructActivityListView() {
+        eventPresenter = PresenterResolver
+                .getPresenter(ActivityPresenter.class);
+        return eventPresenter.getView();
+    }
 
-	public void gotoCalendar() {
-		com.vaadin.ui.Component calendarComp = activityTabs
-				.selectTab(AppContext
-						.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE));
+    public Component gotoView(String viewName) {
+        return activityTabs.selectTab(viewName);
+    }
 
-		if (calendarComp != null) {
-			calendarPresenter.go(this, null);
-		}
-	}
-
-	public Component gotoView(String viewName) {
-		return activityTabs.selectTab(viewName);
-	}
-
-	public void gotoActivityList() {
-		Component activityList = activityTabs.selectTab(AppContext
-				.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
-
-		if (activityList != null) {
-			ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
-			eventPresenter.go(this, new ActivityScreenData.GotoActivityList(
-					searchCriteria));
-		}
-	}
 }

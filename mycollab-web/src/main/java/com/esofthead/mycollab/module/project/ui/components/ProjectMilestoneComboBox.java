@@ -51,10 +51,10 @@ public class ProjectMilestoneComboBox extends ComboBox {
 		MilestoneService milestoneService = ApplicationContextUtil
 				.getSpringBean(MilestoneService.class);
 		List<SimpleMilestone> milestoneList = milestoneService
-				.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
-		BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<String, SimpleMilestone>(
+		BeanContainer<String, SimpleMilestone> beanItem = new BeanContainer<>(
 				SimpleMilestone.class);
 		beanItem.setBeanIdProperty("id");
 		beanItem.addAll(milestoneList);

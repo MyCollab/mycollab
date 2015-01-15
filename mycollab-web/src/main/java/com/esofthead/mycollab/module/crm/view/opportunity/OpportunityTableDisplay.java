@@ -17,9 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -38,173 +35,172 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
+import java.util.GregorianCalendar;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 public class OpportunityTableDisplay
-		extends
-		DefaultPagedBeanTable<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+        extends
+        DefaultPagedBeanTable<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
 
-	public OpportunityTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public OpportunityTableDisplay(List<TableViewField> displayColumns) {
+        this(null, displayColumns);
+    }
 
-	public OpportunityTableDisplay(TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		this(null, requiredColumn, displayColumns);
+    public OpportunityTableDisplay(TableViewField requiredColumn,
+                                   List<TableViewField> displayColumns) {
+        this(null, requiredColumn, displayColumns);
 
-	}
+    }
 
-	public OpportunityTableDisplay(String viewId,
-			TableViewField requiredColumn, List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-				SimpleOpportunity.class, viewId, requiredColumn, displayColumns);
+    public OpportunityTableDisplay(String viewId,
+                                   TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
+                SimpleOpportunity.class, viewId, requiredColumn, displayColumns);
 
-		this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", opportunity
-						.isSelected());
-				cb.setImmediate(true);
-				cb.addValueChangeListener(new Property.ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       Object columnId) {
+                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                        .getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", opportunity
+                        .isSelected());
+                cb.setImmediate(true);
+                cb.addValueChangeListener(new Property.ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						OpportunityTableDisplay.this
-								.fireSelectItemEvent(opportunity);
-						fireTableEvent(new TableClickEvent(
-								OpportunityTableDisplay.this, opportunity,
-								"selected"));
-					}
-				});
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
+                        OpportunityTableDisplay.this
+                                .fireSelectItemEvent(opportunity);
+                        fireTableEvent(new TableClickEvent(
+                                OpportunityTableDisplay.this, opportunity,
+                                "selected"));
+                    }
+                });
 
-				opportunity.setExtraData(cb);
-				return cb;
-			}
-		});
+                opportunity.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		this.addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
+        this.addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(opportunity.getOpportunityname(),
-						CrmLinkBuilder
-								.generateOpportunityPreviewLinkFull(opportunity
-										.getId()));
-				if ("Closed Won".equals(opportunity.getSalesstage())
-						|| "Closed Lost".equals(opportunity.getSalesstage())) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				} else {
-					if (opportunity.getExpectedcloseddate() != null
-							&& (opportunity.getExpectedcloseddate()
-									.before(new GregorianCalendar().getTime()))) {
-						b.addStyleName(UIConstants.LINK_OVERDUE);
-					}
-				}
-				b.setDescription(CrmTooltipGenerator
-						.generateTooltipOpportunity(AppContext.getUserLocale(),
-								opportunity, AppContext.getSiteUrl(),
-								AppContext.getTimezone()));
+                LabelLink b = new LabelLink(opportunity.getOpportunityname(),
+                        CrmLinkBuilder
+                                .generateOpportunityPreviewLinkFull(opportunity
+                                        .getId()));
+                if ("Closed Won".equals(opportunity.getSalesstage())
+                        || "Closed Lost".equals(opportunity.getSalesstage())) {
+                    b.addStyleName(UIConstants.LINK_COMPLETED);
+                } else {
+                    if (opportunity.getExpectedcloseddate() != null
+                            && (opportunity.getExpectedcloseddate()
+                            .before(new GregorianCalendar().getTime()))) {
+                        b.addStyleName(UIConstants.LINK_OVERDUE);
+                    }
+                }
+                b.setDescription(CrmTooltipGenerator
+                        .generateTooltipOpportunity(AppContext.getUserLocale(),
+                                opportunity, AppContext.getSiteUrl(),
+                                AppContext.getTimezone()));
 
-				return b;
-			}
-		});
+                return b;
+            }
+        });
 
-		this.addGeneratedColumn("amount", new Table.ColumnGenerator() {
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
+        this.addGeneratedColumn("amount", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				String amount = "";
-				if (opportunity.getAmount() != null) {
-					amount = opportunity.getAmount() + "";
+                String amount = "";
+                if (opportunity.getAmount() != null) {
+                    amount = opportunity.getAmount() + "";
 
-					if (opportunity.getCurrency() != null) {
-						amount += " " + opportunity.getCurrency().getSymbol();
-					}
-				}
+                    if (opportunity.getCurrency() != null) {
+                        amount += " " + opportunity.getCurrency().getSymbol();
+                    }
+                }
 
-				return new Label(amount);
-			}
-		});
+                return new Label(amount);
+            }
+        });
 
-		this.addGeneratedColumn("assignUserFullName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("assignUserFullName",
+                new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(Table source,
-							final Object itemId, Object columnId) {
-						final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-								.getBeanByIndex(itemId);
-						UserLink b = new UserLink(opportunity.getAssignuser(),
-								opportunity.getAssignUserAvatarId(),
-								opportunity.getAssignUserFullName());
-						return b;
+                    @Override
+                    public com.vaadin.ui.Component generateCell(Table source,
+                                                                final Object itemId, Object columnId) {
+                        final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                                .getBeanByIndex(itemId);
+                        return new UserLink(opportunity.getAssignuser(),
+                                opportunity.getAssignUserAvatarId(),
+                                opportunity.getAssignUserFullName());
 
-					}
-				});
+                    }
+                });
 
-		this.addGeneratedColumn("accountName", new Table.ColumnGenerator() {
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
+        this.addGeneratedColumn("accountName", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(opportunity.getAccountName(),
-						CrmLinkBuilder
-								.generateAccountPreviewLinkFull(opportunity
-										.getAccountid()));
-				return b;
-			}
-		});
+                return new LabelLink(opportunity.getAccountName(),
+                        CrmLinkBuilder
+                                .generateAccountPreviewLinkFull(opportunity
+                                        .getAccountid()));
+            }
+        });
 
-		this.addGeneratedColumn("campaignName", new Table.ColumnGenerator() {
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
+        this.addGeneratedColumn("campaignName", new Table.ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(opportunity.getCampaignName(),
-						CrmLinkBuilder
-								.generateCampaignPreviewLinkFull(opportunity
-										.getCampaignid()));
-				return b;
-			}
-		});
+                return new LabelLink(opportunity.getCampaignName(),
+                        CrmLinkBuilder
+                                .generateCampaignPreviewLinkFull(opportunity
+                                        .getCampaignid()));
+            }
+        });
 
-		this.addGeneratedColumn("expectedcloseddate",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("expectedcloseddate",
+                new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(Table source,
-							Object itemId, Object columnId) {
-						final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-								.getBeanByIndex(itemId);
-						Label l = new Label();
-						l.setValue(AppContext.formatDate(opportunity
-								.getExpectedcloseddate()));
-						return l;
-					}
-				});
+                    @Override
+                    public com.vaadin.ui.Component generateCell(Table source,
+                                                                Object itemId, Object columnId) {
+                        final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+                                .getBeanByIndex(itemId);
+                        Label l = new Label();
+                        l.setValue(AppContext.formatDate(opportunity
+                                .getExpectedcloseddate()));
+                        return l;
+                    }
+                });
 
-		this.setWidth("100%");
-	}
+        this.setWidth("100%");
+    }
 }

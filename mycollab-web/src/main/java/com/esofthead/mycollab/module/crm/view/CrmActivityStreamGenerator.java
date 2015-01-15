@@ -43,7 +43,7 @@ public class CrmActivityStreamGenerator {
 
 	private static final Map<String, AuditLogPrinter> auditPrinters;
 	static {
-		auditPrinters = new HashMap<String, AuditLogPrinter>();
+		auditPrinters = new HashMap<>();
 		auditPrinters.put(CrmTypeConstants.ACCOUNT, new AuditLogPrinter(
 				accountFormatter));
 		auditPrinters.put(CrmTypeConstants.CONTACT, new AuditLogPrinter(

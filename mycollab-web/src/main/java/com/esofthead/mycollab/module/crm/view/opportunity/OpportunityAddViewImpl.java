@@ -23,11 +23,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -51,18 +47,18 @@ public class OpportunityAddViewImpl extends
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/crm/opportunity.png");
+		return MyCollabResource.newResource(WebResourceIds._22_crm_opportunity);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<SimpleOpportunity>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleOpportunity> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleOpportunity>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -73,6 +69,6 @@ public class OpportunityAddViewImpl extends
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
-		return new OpportunityEditFormFieldFactory<SimpleOpportunity>(editForm);
+		return new OpportunityEditFormFieldFactory<>(editForm);
 	}
 }

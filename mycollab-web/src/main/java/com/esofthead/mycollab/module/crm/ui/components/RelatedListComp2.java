@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -70,7 +70,7 @@ public abstract class RelatedListComp2<SearchService extends ISearchableService<
 	@Override
 	public void addRelatedListHandler(final RelatedListHandler<T> handler) {
 		if (handlers == null) {
-			handlers = new HashSet<RelatedListHandler<T>>();
+			handlers = new HashSet<>();
 		}
 
 		handlers.add(handler);

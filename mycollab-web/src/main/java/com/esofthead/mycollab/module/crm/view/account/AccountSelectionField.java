@@ -48,8 +48,6 @@ public class AccountSelectionField extends CustomField<Integer> implements
 
 	private TextField accountName = new TextField();
 	private Account account = null;
-	private Image browseBtn;
-	private Image clearBtn;
 
 	private void clearValue() {
 		accountName.setValue("");
@@ -116,7 +114,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
 		layout.addComponent(accountName);
 		layout.setComponentAlignment(accountName, Alignment.MIDDLE_LEFT);
 
-		browseBtn = new Image(null,
+		Image browseBtn = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._16_browseItem));
 		layout.addComponent(browseBtn);
 		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
@@ -133,7 +131,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
 			}
 		});
 
-		clearBtn = new Image(null,
+		Image clearBtn = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._16_clearItem));
 
 		clearBtn.addClickListener(new MouseEvents.ClickListener() {

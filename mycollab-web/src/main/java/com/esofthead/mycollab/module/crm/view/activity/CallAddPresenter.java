@@ -94,7 +94,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 			toolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-			CallWithBLOBs call = null;
+			CallWithBLOBs call;
 
 			if (data.getParams() instanceof Integer) {
 				CallService callService = ApplicationContextUtil

@@ -16,99 +16,88 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.Arrays;
-
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("rawtypes")
 public class CaseSelectionWindow extends Window {
 
-	private static final long serialVersionUID = 1L;
-	private CaseSearchCriteria searchCriteria;
-	private CaseTableDisplay tableItem;
-	private FieldSelection fieldSelection;
+    private static final long serialVersionUID = 1L;
+    private CaseTableDisplay tableItem;
+    private FieldSelection fieldSelection;
 
-	public CaseSelectionWindow(FieldSelection fieldSelection) {
-		super("Case Name Lookup");
-		this.setWidth("900px");
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-		this.setResizable(false);
-	}
+    public CaseSelectionWindow(FieldSelection fieldSelection) {
+        super("Case Name Lookup");
+        this.setWidth("900px");
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+        this.setResizable(false);
+    }
 
-	public void show() {
-		searchCriteria = new CaseSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    public void show() {
+        CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+        MVerticalLayout layout = new MVerticalLayout().withSpacing(true).withMargin(true);
 
-		createCaseList();
-		CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
-		caseSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
+        createCaseList();
+        CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
+        caseSimpleSearchPanel
+                .addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
 
-					@Override
-					public void onSearch(CaseSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+                    @Override
+                    public void onSearch(CaseSearchCriteria criteria) {
+                        tableItem.setSearchCriteria(criteria);
+                    }
 
-				});
-		layout.addComponent(caseSimpleSearchPanel);
-		layout.addComponent(tableItem);
-		this.setContent(layout);
+                });
+        layout.addComponent(caseSimpleSearchPanel);
+        layout.addComponent(tableItem);
+        this.setContent(layout);
 
-		tableItem.setSearchCriteria(searchCriteria);
-		center();
-	}
+        tableItem.setSearchCriteria(searchCriteria);
+        center();
+    }
 
-	@SuppressWarnings("serial")
-	private void createCaseList() {
-		tableItem = new CaseTableDisplay(Arrays.asList(
-				CaseTableFieldDef.subject, CaseTableFieldDef.account,
-				CaseTableFieldDef.priority, CaseTableFieldDef.status,
-				CaseTableFieldDef.assignUser));
+    @SuppressWarnings("serial")
+    private void createCaseList() {
+        tableItem = new CaseTableDisplay(Arrays.asList(
+                CaseTableFieldDef.subject, CaseTableFieldDef.account,
+                CaseTableFieldDef.priority, CaseTableFieldDef.status,
+                CaseTableFieldDef.assignUser));
 
-		tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleCase cases = tableItem.getBeanByIndex(itemId);
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-				ButtonLink b = new ButtonLink(cases.getSubject(),
-						new Button.ClickListener() {
+                return new ButtonLink(cases.getSubject(),
+                        new Button.ClickListener() {
 
-							@SuppressWarnings("unchecked")
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								fieldSelection.fireValueChange(cases);
-								CaseSelectionWindow.this.close();
-							}
-						});
-				return b;
-			}
-		});
-	}
+                            @SuppressWarnings("unchecked")
+                            @Override
+                            public void buttonClick(
+                                    final Button.ClickEvent event) {
+                                fieldSelection.fireValueChange(cases);
+                                CaseSelectionWindow.this.close();
+                            }
+                        });
+            }
+        });
+    }
 }

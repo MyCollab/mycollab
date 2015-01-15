@@ -55,8 +55,7 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
 		final Component comp = ProjectAttachmentDisplayComponentFactory
 				.getAttachmentDisplayComponent(projectid, type, typeid);
 		if (comp == null || !(comp instanceof AttachmentDisplayComponent)) {
-			final Label l = new Label("&nbsp;", ContentMode.HTML);
-			return l;
+			return new Label("&nbsp;", ContentMode.HTML);
 		} else {
 			return comp;
 		}

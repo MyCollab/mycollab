@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.Order;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -35,6 +30,11 @@ import com.google.common.collect.Ordering;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 
@@ -67,7 +67,7 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 		this.removeAllComponents();
 
 		List<SimpleItemTimeLogging> timeLoggingEntries = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria));
 
 		Ordering<SimpleItemTimeLogging> ordering = sortEntries()
@@ -80,7 +80,7 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 			Collections.sort(timeLoggingEntries, ordering);
 		}
 
-		List<SimpleItemTimeLogging> groupLogEntries = new ArrayList<SimpleItemTimeLogging>();
+		List<SimpleItemTimeLogging> groupLogEntries = new ArrayList<>();
 		String groupCriteria = null;
 
 		for (SimpleItemTimeLogging timeLoggingEntry : timeLoggingEntries) {

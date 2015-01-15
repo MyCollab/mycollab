@@ -27,30 +27,15 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
-import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -72,7 +57,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	private CrmFollowersComp<SimpleLead> compFollowers;
 
 	public LeadReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/lead.png"));
+		super(MyCollabResource.newResource(WebResourceIds._22_crm_lead));
 	}
 
 	@Override
@@ -92,7 +77,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<SimpleLead>(
+		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
 				previewForm);
 
 		Button convertButton = new Button(
@@ -157,7 +142,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-		compFollowers = new CrmFollowersComp<SimpleLead>(
+		compFollowers = new CrmFollowersComp<>(
 				CrmTypeConstants.LEAD, RolePermissionCollections.CRM_LEAD);
 		basicInfo.addComponent(compFollowers);
 

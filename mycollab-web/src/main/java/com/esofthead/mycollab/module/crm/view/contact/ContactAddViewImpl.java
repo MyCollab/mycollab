@@ -23,11 +23,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -51,18 +47,18 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/crm/contact.png");
+		return MyCollabResource.newResource(WebResourceIds._22_crm_contact);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<SimpleContact>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleContact> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleContact>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -73,6 +69,6 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
-		return new ContactEditFormFieldFactory<SimpleContact>(editForm);
+		return new ContactEditFormFieldFactory<>(editForm);
 	}
 }

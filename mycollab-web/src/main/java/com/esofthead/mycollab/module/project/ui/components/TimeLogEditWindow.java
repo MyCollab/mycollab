@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -34,24 +29,16 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -106,7 +93,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		constructSpentTimeEntryPanel();
 		constructRemainTimeEntryPanel();
 
-		this.tableItem = new DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
+		this.tableItem = new DefaultPagedBeanTable<>(
 				ApplicationContextUtil
 						.getSpringBean(ItemTimeLoggingService.class),
 				SimpleItemTimeLogging.class, Arrays.asList(
@@ -172,7 +159,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 				final SimpleItemTimeLogging monitorItem = tableItem
 						.getBeanByIndex(itemId);
 				Button icon = new Button();
-				if (monitorItem.getIsbillable().booleanValue()) {
+				if (monitorItem.getIsbillable()) {
 					icon.setIcon(MyCollabResource
 							.newResource(WebResourceIds._16_yes));
 				} else {
@@ -272,8 +259,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 					public void buttonClick(final ClickEvent event) {
 						double d = 0;
 						try {
-							d = Double.parseDouble(newTimeInputField.getValue()
-									.toString());
+							d = Double.parseDouble(newTimeInputField.getValue());
 						} catch (NumberFormatException e) {
 							NotificationUtil
 									.showWarningNotification("You must enter a positive number value");
@@ -337,7 +323,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 							double d = 0;
 							try {
 								d = Double.parseDouble(remainTimeInputField
-										.getValue().toString());
+										.getValue());
 							} catch (Exception e) {
 								NotificationUtil
 										.showWarningNotification("You must enter a positive number value");
@@ -373,7 +359,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		double total = 0;
 		final ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
 		final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
 			total += simpleItemTimeLogging.getLogvalue();
@@ -394,7 +380,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	}
 
 	protected double getInvestValue() {
-		return Double.parseDouble(newTimeInputField.getValue().toString());
+		return Double.parseDouble(newTimeInputField.getValue());
 	}
 
 	protected Boolean isBillableHours() {
@@ -417,7 +403,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	protected abstract boolean isEnableAdd();
 
 	protected double getUpdateRemainTime() {
-		return Double.parseDouble(remainTimeInputField.getValue().toString());
+		return Double.parseDouble(remainTimeInputField.getValue());
 	}
 
 	private class NumbericTextField extends TextField {

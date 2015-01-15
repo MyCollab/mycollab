@@ -61,7 +61,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
         this.searchPanel = createSearchPanel();
         this.addComponent(this.searchPanel);
 
-        this.contentLayout = new MVerticalLayout();
+        this.contentLayout = new MVerticalLayout().withSpacing(false).withMargin(false);
         this.addComponent(this.contentLayout);
 
         this.tableItem = createBeanTable();
@@ -93,8 +93,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
         contentLayout.with(layoutWrapper, tableItem);
 
-        extraControlsLayout = new HorizontalLayout();
-        extraControlsLayout.setSpacing(true);
+        extraControlsLayout = new MHorizontalLayout().withSpacing(true);
         extraControlsLayout.addStyleName(UIConstants.THEME_SMALL_PADDING);
         buildExtraControls();
 

@@ -33,7 +33,7 @@ class CrmLocalizationTypeMap {
 	private static Map<String, CrmTypeI18nEnum> typeMap;
 
 	static {
-		typeMap = new HashMap<String, CrmTypeI18nEnum>();
+		typeMap = new HashMap<>();
 		typeMap.put(CrmTypeConstants.ACCOUNT, CrmTypeI18nEnum.ACCOUNT);
 		typeMap.put(CrmTypeConstants.CALL, CrmTypeI18nEnum.CALL);
 		typeMap.put(CrmTypeConstants.CAMPAIGN, CrmTypeI18nEnum.CAMPAIGN);

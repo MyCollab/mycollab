@@ -85,8 +85,8 @@ public class DateTimePickerField extends CustomField<Date> {
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof Date) {
-			long min = 0, hrs = 0;
-			String timeFormat = "AM";
+			long min, hrs;
+			String timeFormat;
 
 			Date dateVal = (Date) value;
 			Calendar cal = java.util.Calendar.getInstance();

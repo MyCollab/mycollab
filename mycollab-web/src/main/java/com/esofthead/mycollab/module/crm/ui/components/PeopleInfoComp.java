@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -28,7 +24,10 @@ import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -36,15 +35,14 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.0
  * 
  */
-public class PeopleInfoComp extends VerticalLayout {
+public class PeopleInfoComp extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(PeopleInfoComp.class);
 
 	public void displayEntryPeople(ValuedBean bean) {
 		this.removeAllComponents();
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, false, true));
+		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
 		Label peopleInfoHeader = new Label(
 				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE));

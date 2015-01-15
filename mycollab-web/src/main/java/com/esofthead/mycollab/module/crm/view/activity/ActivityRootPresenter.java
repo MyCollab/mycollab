@@ -59,7 +59,7 @@ public class ActivityRootPresenter extends
 		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-		AbstractPresenter presenter = null;
+		AbstractPresenter presenter;
 
 		if (ClassUtils.instanceOf(data, AssignmentScreenData.Read.class,
 				AssignmentScreenData.Add.class,

@@ -41,7 +41,7 @@ import com.vaadin.ui.Window;
 public class AccountSelectionWindow extends Window {
 
 	private static final long serialVersionUID = 1L;
-	private AccountSearchCriteria searchCriteria;
+
 	private AccountTableDisplay tableItem;
 	private FieldSelection<Account> fieldSelection;
 
@@ -55,7 +55,7 @@ public class AccountSelectionWindow extends Window {
 	}
 
 	public void show() {
-		searchCriteria = new AccountSearchCriteria();
+		AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
@@ -101,7 +101,7 @@ public class AccountSelectionWindow extends Window {
 						final SimpleAccount account = tableItem
 								.getBeanByIndex(itemId);
 
-						ButtonLink b = new ButtonLink(account.getAccountname(),
+						return new ButtonLink(account.getAccountname(),
 								new Button.ClickListener() {
 
 									@Override
@@ -112,7 +112,6 @@ public class AccountSelectionWindow extends Window {
 										AccountSelectionWindow.this.close();
 									}
 								});
-						return b;
 					}
 				});
 

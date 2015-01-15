@@ -68,7 +68,7 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
 					Object rowItem = event.getData();
 					Boolean selectedVal = (Boolean) PropertyUtils.getProperty(
 							rowItem, selectedFieldName);
-					if (selectedVal == true) {
+					if (selectedVal) {
 						selectedItems.remove(rowItem);
 						PropertyUtils.setProperty(rowItem, selectedFieldName,
 								false);

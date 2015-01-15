@@ -102,10 +102,11 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 						.getSpringBean(AccountService.class);
 				account = accountService.findById((Integer) data.getParams(),
 						AppContext.getAccountId());
-				if (account == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
+			}
+
+			if (account == null) {
+				NotificationUtil.showRecordNotExistNotification();
+				return;
 			}
 
 			super.onGo(container, data);

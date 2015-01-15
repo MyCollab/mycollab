@@ -48,7 +48,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 	@Override
 	public void addSearchHandler(final SearchHandler<S> handler) {
 		if (this.handers == null) {
-			this.handers = new ArrayList<SearchHandler<S>>();
+			this.handers = new ArrayList<>();
 		}
 		this.handers.add(handler);
 	}
@@ -97,24 +97,6 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 		public TextField createSeachSupportTextField(final TextField textField,
 				final String keyField) {
 			textField.addShortcutListener(new ShortcutListener(keyField,
-					ShortcutAction.KeyCode.ENTER, null) {
-				@Override
-				public void handleAction(final Object sender,
-						final Object target) {
-					if (target == textField) {
-						SearchLayout.this.callSearchAction();
-					}
-				}
-
-			});
-			return textField;
-		}
-
-		@SuppressWarnings("hiding")
-		public <S extends ListSelect> S createSeachSupportComboBox(
-				final S textField) {
-			textField.addShortcutListener(new ShortcutListener(String
-					.valueOf(textField.hashCode()),
 					ShortcutAction.KeyCode.ENTER, null) {
 				@Override
 				public void handleAction(final Object sender,

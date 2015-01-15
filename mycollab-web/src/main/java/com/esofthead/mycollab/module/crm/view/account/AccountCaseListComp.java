@@ -66,13 +66,13 @@ public class AccountCaseListComp extends
 	private static final long serialVersionUID = -8763667647686473453L;
 	private Account account;
 
-	public static Map<String, String> colormap = new HashMap<String, String>();
+	public static Map<String, String> colorsMap = new HashMap<>();
 
 	static {
 		for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
 			String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i];
-			if (!colormap.containsKey(roleKeyName)) {
-				colormap.put(roleKeyName,
+			if (!colorsMap.containsKey(roleKeyName)) {
+				colorsMap.put(roleKeyName,
 						AbstractBeanBlockList.getColorStyleNameList()[i]);
 			}
 		}
@@ -102,7 +102,7 @@ public class AccountCaseListComp extends
 		for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
 			Label note = new Label(CrmDataTypeFactory.getCasesStatusList()[i]);
 			note.setStyleName("note-label");
-			note.addStyleName(colormap.get(CrmDataTypeFactory
+			note.addStyleName(colorsMap.get(CrmDataTypeFactory
 					.getCasesStatusList()[i]));
 			note.setSizeUndefined();
 
@@ -239,7 +239,7 @@ public class AccountCaseListComp extends
 			caseInfo.addComponent(caseStatus);
 
 			if (oneCase.getStatus() != null) {
-				beanBlock.addStyleName(colormap.get(oneCase.getStatus()));
+				beanBlock.addStyleName(colorsMap.get(oneCase.getStatus()));
 			}
 
 			Label caseAssignUser = new Label("Assigned User: "

@@ -61,17 +61,17 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 
 	public void displayListView(ComponentContainer container, ScreenData<?> data) {
 		this.candidateView = view;
-		displayView(container, data);
+		displayView(container);
 	}
 
 	public void displayNoExistItems(ComponentContainer container,
 			ScreenData<?> data) {
 		this.candidateView = ViewManager
 				.getCacheComponent(noItemFallbackViewClass);
-		displayView(container, data);
+		displayView(container);
 	}
 
-	private void displayView(ComponentContainer container, ScreenData<?> data) {
+	private void displayView(ComponentContainer container) {
 		CrmModule crmModule = (CrmModule) container;
 		crmModule.addView(candidateView);
 	}
