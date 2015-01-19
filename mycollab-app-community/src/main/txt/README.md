@@ -45,14 +45,17 @@ Version 4.6.0
 -----------------------------
 **Library Upgrades**
 
-* Upgrade Vaadin to 7.3.7
-* Upgrade Spring frameworks to 4.1.3.RELEASE
+* Upgrade Vaadin to 7.3.8
+* Upgrade Spring frameworks to 4.1.4.RELEASE
 * Upgrade several Vaadin addons
 
 **Improvements**
 
+* Revise task group layout
 * Support sub tasks for project task
 * Simplify application configuration (for developers)
+* Using Scala for several back-end components such as scheduler
+* Use SASS to maintain the CSS files more effectively
 
 Version 4.5.5
 -----------------------------

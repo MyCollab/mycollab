@@ -81,12 +81,12 @@ public class AccountSearchPanel extends
 				MyCollabResource.newResource(WebResourceIds._22_crm_account));
 		layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label searchtitle = new Label(
+		final Label searchTitle = new Label(
 				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
-		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
+		searchTitle.setStyleName(UIConstants.HEADER_TEXT);
 
-		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
-				.expand(searchtitle);
+		layout.with(searchTitle).withAlign(searchTitle, Alignment.MIDDLE_LEFT)
+				.expand(searchTitle);
 
 		final Button createAccountBtn = new Button(
 				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),

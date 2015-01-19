@@ -16,25 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.arguments.BooleanSearchField;
-import com.esofthead.mycollab.core.arguments.Order;
-import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
@@ -45,11 +30,7 @@ import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.components.AbstractTimeTrackingDisplayComp;
-import com.esofthead.mycollab.module.project.ui.components.ItemOrderComboBox;
-import com.esofthead.mycollab.module.project.ui.components.TimeTrackingDateOrderComponent;
-import com.esofthead.mycollab.module.project.ui.components.TimeTrackingProjectOrderComponent;
-import com.esofthead.mycollab.module.project.ui.components.TimeTrackingUserOrderComponent;
+import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
@@ -67,13 +48,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
@@ -83,17 +58,13 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.*;
+import java.util.Calendar;
 
 /**
  * 
@@ -576,7 +547,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	};
 
 	private List<Integer> getProjectIds() {
-		List<Integer> keys = new ArrayList<Integer>();
+		List<Integer> keys = new ArrayList<>();
 		for (SimpleProject project : projects) {
 			keys.add(project.getId());
 		}
@@ -612,7 +583,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		}
 
 		public List<String> getUsernames() {
-			List<String> keys = new ArrayList<String>();
+			List<String> keys = new ArrayList<>();
 			for (SimpleUser user : users) {
 				keys.add(user.getUsername());
 			}

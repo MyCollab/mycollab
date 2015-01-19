@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
@@ -42,22 +38,15 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
 
 /**
  * 
@@ -71,14 +60,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 	private static final long serialVersionUID = 1L;
 
 	private ButtonLink followingTicketsLink;
-
-	private ButtonLink timeTrackingLink;
-
-	private MyProjectListComponent myProjectListComponent;
-
-	private ActivityStreamComponent activityStreamComponent;
-
-	private TaskStatusComponent taskStatusComponent;
 
 	private List<Integer> prjKeys;
 
@@ -173,7 +154,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			}
 		});
 
-		timeTrackingLink = new ButtonLink(
+		ButtonLink timeTrackingLink = new ButtonLink(
 				AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER));
 		timeTrackingLink.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -207,16 +188,16 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		final VerticalLayout leftPanel = new VerticalLayout();
 		leftPanel.setMargin(new MarginInfo(false, true, false, false));
-		this.activityStreamComponent = new ActivityStreamComponent();
-		leftPanel.addComponent(this.activityStreamComponent);
+		ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
+		leftPanel.addComponent(activityStreamComponent);
 		leftPanel.setWidth("100%");
 
 		final VerticalLayout rightPanel = new VerticalLayout();
-		this.myProjectListComponent = new MyProjectListComponent();
-		this.taskStatusComponent = new TaskStatusComponent();
+		MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
+		TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
 		rightPanel.setWidth("565px");
-		rightPanel.addComponent(this.myProjectListComponent);
-		rightPanel.addComponent(this.taskStatusComponent);
+		rightPanel.addComponent(myProjectListComponent);
+		rightPanel.addComponent(taskStatusComponent);
 
 		layout.addComponent(leftPanel);
 		layout.addComponent(rightPanel);
@@ -233,12 +214,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		prjKeys = prjService.getProjectKeysUserInvolved(
 				AppContext.getUsername(), AppContext.getAccountId());
 		if (CollectionUtils.isNotEmpty(prjKeys)) {
-			this.activityStreamComponent.showFeeds(prjKeys);
-			this.myProjectListComponent.displayDefaultProjectsList();
+			activityStreamComponent.showFeeds(prjKeys);
+			myProjectListComponent.displayDefaultProjectsList();
 			displayFollowingTicketsCount();
 		}
 
-		this.taskStatusComponent.showProjectTasksByStatus();
+		taskStatusComponent.showProjectTasksByStatus();
 
 	}
 
@@ -247,8 +228,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
 		searchCriteria.setUser(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
-		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys
-				.toArray(new Integer[0])));
+		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
+				.toArray(new Integer[prjKeys.size()])));
 		MonitorItemService monitorService = ApplicationContextUtil
 				.getSpringBean(MonitorItemService.class);
 		int followingItemsCount = monitorService.getTotalCount(searchCriteria);

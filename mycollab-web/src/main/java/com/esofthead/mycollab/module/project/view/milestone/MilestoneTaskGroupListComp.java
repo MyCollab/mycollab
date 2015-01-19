@@ -256,7 +256,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		TaskListSearchCriteria criteria = new TaskListSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
-		criteria.setMilestoneIds(new SetSearchField<Integer>(milestone.getId()));
+		criteria.setMilestoneIds(new SetSearchField<>(milestone.getId()));
 		return criteria;
 	}
 

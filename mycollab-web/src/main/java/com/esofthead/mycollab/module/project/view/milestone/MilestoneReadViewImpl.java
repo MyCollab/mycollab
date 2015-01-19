@@ -111,12 +111,12 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleMilestone> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleMilestone>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleMilestone>(
+		ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(
 				this.previewForm);
 		Button toggleViewBtn = new Button("Toggle View",
 				new Button.ClickListener() {
@@ -188,7 +188,7 @@ public class MilestoneReadViewImpl extends
 		final BugSearchCriteria bugCriteria = new BugSearchCriteria();
 		bugCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
-		bugCriteria.setMilestoneIds(new SetSearchField<Integer>(this.beanItem
+		bugCriteria.setMilestoneIds(new SetSearchField<>(this.beanItem
 				.getId()));
 
 		final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();

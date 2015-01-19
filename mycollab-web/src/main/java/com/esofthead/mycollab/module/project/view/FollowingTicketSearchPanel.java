@@ -59,8 +59,6 @@ public class FollowingTicketSearchPanel extends
 
 	private FollowingTicketBasicSearchLayout basicSearchLayout;
 
-	private FollowingTicketSearchCriteria searchCriteria;
-
 	private List<SimpleProject> projects;
 
 	@Override
@@ -203,11 +201,11 @@ public class FollowingTicketSearchPanel extends
 		@Override
 		@SuppressWarnings("unchecked")
 		protected SearchCriteria fillupSearchCriteria() {
-			searchCriteria = new FollowingTicketSearchCriteria();
+			FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
 			searchCriteria.setUser(new StringSearchField(AppContext
 					.getUsername()));
 
-			List<String> types = new ArrayList<String>();
+			List<String> types = new ArrayList<>();
 			if (this.taskSelect.getValue()) {
 				types.add("Project-Task");
 			}
@@ -228,7 +226,7 @@ public class FollowingTicketSearchPanel extends
 				searchCriteria.setTypes(null);
 			}
 
-			String summary = summaryField.getValue().toString().trim();
+			String summary = summaryField.getValue().trim();
 			searchCriteria.setSummary(new StringSearchField(StringUtils
 					.isEmpty(summary) ? "" : summary));
 
@@ -238,7 +236,7 @@ public class FollowingTicketSearchPanel extends
 				searchCriteria.setExtraTypeIds(new SetSearchField<>(
 						SearchField.AND, selectedProjects));
 			} else {
-				List<Integer> keys = new ArrayList<Integer>();
+				List<Integer> keys = new ArrayList<>();
 				for (SimpleProject project : projects) {
 					keys.add(project.getId());
 				}

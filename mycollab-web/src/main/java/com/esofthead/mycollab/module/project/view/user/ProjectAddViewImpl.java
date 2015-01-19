@@ -25,146 +25,135 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 @ViewComponent
 public class ProjectAddViewImpl extends AbstractPageView implements
-		ProjectAddView {
+        ProjectAddView {
 
-	private Project project;
-	private final AdvancedEditBeanForm<Project> editForm;
+    private Project project;
+    private final AdvancedEditBeanForm<Project> editForm;
 
-	public ProjectAddViewImpl() {
-		this.editForm = new AdvancedEditBeanForm<Project>();
-		this.addComponent(this.editForm);
-		this.setMargin(true);
-	}
+    public ProjectAddViewImpl() {
+        this.editForm = new AdvancedEditBeanForm<>();
+        this.addComponent(this.editForm);
+        this.setMargin(true);
+    }
 
-	@Override
-	public HasEditFormHandlers<Project> getEditFormHandlers() {
-		return this.editForm;
-	}
+    @Override
+    public HasEditFormHandlers<Project> getEditFormHandlers() {
+        return this.editForm;
+    }
 
-	@Override
-	public void editItem(final Project item) {
-		this.project = item;
-		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-		this.editForm
-				.setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
-		this.editForm.setBean(this.project);
-	}
+    @Override
+    public void editItem(final Project item) {
+        this.project = item;
+        this.editForm.setFormLayoutFactory(new FormLayoutFactory());
+        this.editForm
+                .setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
+        this.editForm.setBean(this.project);
+    }
 
-	class FormLayoutFactory extends ProjectFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    class FormLayoutFactory extends ProjectFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		public FormLayoutFactory() {
-			super(
-					(ProjectAddViewImpl.this.project.getId() == null) ? AppContext
-							.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE)
-							: ProjectAddViewImpl.this.project.getName());
-		}
+        public FormLayoutFactory() {
+            super(
+                    (ProjectAddViewImpl.this.project.getId() == null) ? AppContext
+                            .getMessage(ProjectI18nEnum.VIEW_NEW_TITLE)
+                            : ProjectAddViewImpl.this.project.getName());
+        }
 
-		private Layout createButtonControls() {
-			final HorizontalLayout controlPanel = new HorizontalLayout();
-			final Layout controlButtons;
+        private Layout createButtonControls() {
+            final HorizontalLayout controlPanel = new HorizontalLayout();
+            final Layout controlButtons;
 
-			if (ProjectAddViewImpl.this.project.getId() == null) {
-				controlButtons = (new EditFormControlsGenerator<Project>(
-						editForm)).createButtonControls();
-			} else {
-				controlButtons = (new EditFormControlsGenerator<Project>(
-						editForm)).createButtonControls(true, false, true);
-			}
-			controlButtons.setSizeUndefined();
-			controlPanel.addComponent(controlButtons);
-			controlPanel
-					.setWidthUndefined();
-			controlPanel.setComponentAlignment(controlButtons,
-					Alignment.MIDDLE_CENTER);
+            if (ProjectAddViewImpl.this.project.getId() == null) {
+                controlButtons = (new EditFormControlsGenerator<>(
+                        editForm)).createButtonControls();
+            } else {
+                controlButtons = (new EditFormControlsGenerator<>(
+                        editForm)).createButtonControls(true, false, true);
+            }
+            controlButtons.setSizeUndefined();
+            controlPanel.addComponent(controlButtons);
+            controlPanel
+                    .setWidthUndefined();
+            controlPanel.setComponentAlignment(controlButtons,
+                    Alignment.MIDDLE_CENTER);
 
-			return controlPanel;
-		}
+            return controlPanel;
+        }
 
-		@Override
-		protected Layout createTopPanel() {
-			return this.createButtonControls();
-		}
+        @Override
+        protected Layout createTopPanel() {
+            return this.createButtonControls();
+        }
 
-		@Override
-		protected Layout createBottomPanel() {
-			return null;
-		}
-	}
+        @Override
+        protected Layout createBottomPanel() {
+            return null;
+        }
+    }
 
-	private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<Project> {
-		private static final long serialVersionUID = 1L;
+    private class EditFormFieldFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<Project> {
+        private static final long serialVersionUID = 1L;
 
-		public EditFormFieldFactory(GenericBeanForm<Project> form) {
-			super(form);
-		}
+        public EditFormFieldFactory(GenericBeanForm<Project> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
-			if (propertyId.equals("description")) {
-				final RichTextArea field = new RichTextArea();
-				field.setHeight("350px");
-				return field;
-			} else if (propertyId.equals("projectstatus")) {
-				final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-				projectCombo.setRequired(true);
-				projectCombo.setRequiredError("Please enter a project status");
-				if (ProjectAddViewImpl.this.project.getProjectstatus() == null) {
-					ProjectAddViewImpl.this.project
-							.setProjectstatus(StatusI18nEnum.Open.name());
-				}
-				return projectCombo;
-			} else if (propertyId.equals("shortname")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter a project short name");
-				return tf;
-			} else if (propertyId.equals("currencyid")) {
-				return new CurrencyComboBoxField();
-			} else if (propertyId.equals("name")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Name");
-				return tf;
-			}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
+            if (propertyId.equals("description")) {
+                final RichTextArea field = new RichTextArea();
+                field.setHeight("350px");
+                return field;
+            } else if (propertyId.equals("projectstatus")) {
+                final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
+                projectCombo.setRequired(true);
+                projectCombo.setRequiredError("Please enter a project status");
+                if (ProjectAddViewImpl.this.project.getProjectstatus() == null) {
+                    ProjectAddViewImpl.this.project
+                            .setProjectstatus(StatusI18nEnum.Open.name());
+                }
+                return projectCombo;
+            } else if (propertyId.equals("shortname")) {
+                final TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Please enter a project short name");
+                return tf;
+            } else if (propertyId.equals("currencyid")) {
+                return new CurrencyComboBoxField();
+            } else if (propertyId.equals("name")) {
+                final TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Please enter a Name");
+                return tf;
+            }
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
-	private static class ProjectStatusComboBox extends ValueComboBox {
+    private static class ProjectStatusComboBox extends ValueComboBox {
 
-		public ProjectStatusComboBox() {
-			super(false, ProjectDataTypeFactory.getProjectStatusList());
-		}
-	}
+        public ProjectStatusComboBox() {
+            super(false, ProjectDataTypeFactory.getProjectStatusList());
+        }
+    }
 
-	@Override
-	public Project getItem() {
-		return this.project;
-	}
+    @Override
+    public Project getItem() {
+        return this.project;
+    }
 }

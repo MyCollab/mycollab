@@ -27,31 +27,28 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.CssLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectActivityStreamComponent extends CssLayout {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final ProjectActivityStreamPagedList activityStreamList;
+    public ProjectActivityStreamComponent() {
+        this.setStyleName("project-activity-list");
+    }
 
-	public ProjectActivityStreamComponent() {
-		this.setStyleName("project-activity-list");
-		this.activityStreamList = new ProjectActivityStreamPagedList();
-	}
+    public void showProjectFeeds() {
+        this.removeAllComponents();
+        ProjectActivityStreamPagedList activityStreamList = new ProjectActivityStreamPagedList();
+        this.addComponent(activityStreamList);
+        final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+        searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
+                new String[]{ModuleNameConstants.PRJ}));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext
+                .getAccountId()));
 
-	public void showProjectFeeds() {
-		this.removeAllComponents();
-		this.addComponent(this.activityStreamList);
-		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
-				new String[] { ModuleNameConstants.PRJ }));
-		searchCriteria.setSaccountid(new NumberSearchField(AppContext
-				.getAccountId()));
-
-		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-		this.activityStreamList.setSearchCriteria(searchCriteria);
-	}
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(
+                CurrentProjectVariables.getProjectId()));
+        activityStreamList.setSearchCriteria(searchCriteria);
+    }
 }

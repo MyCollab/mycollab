@@ -33,7 +33,7 @@ public class ProjectLocalizationTypeMap {
 	private static Map<String, ProjectTypeI18nEnum> typeMap;
 
 	static {
-		typeMap = new HashMap<String, ProjectTypeI18nEnum>();
+		typeMap = new HashMap<>();
 		typeMap.put(ProjectTypeConstants.PROJECT,
 				ProjectTypeI18nEnum.PROJECT_ITEM);
 		typeMap.put(ProjectTypeConstants.MESSAGE,

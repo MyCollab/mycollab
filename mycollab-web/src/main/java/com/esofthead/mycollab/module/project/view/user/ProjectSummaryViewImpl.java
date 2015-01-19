@@ -36,12 +36,6 @@ import com.vaadin.ui.VerticalLayout;
 public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		ProjectSummaryView {
 
-	private ProjectActivityStreamComponent activityPanel;
-	private ProjectInformationComponent prjView;
-	private ProjectMembersWidget membersWidget;
-	private ProjectTaskOverdueComponent taskOverdueWidget;
-	private ProjectMessageListComponent messageWidget;
-
 	@Override
 	protected void displayView() {
 		this.setMargin(new MarginInfo(true, false, false, false));
@@ -52,8 +46,8 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		contentWrapper.setWidth("100%");
 		this.addComponent(contentWrapper);
 
-		this.prjView = new ProjectInformationComponent();
-		contentWrapper.addComponent(this.prjView);
+		ProjectInformationComponent prjView = new ProjectInformationComponent();
+		contentWrapper.addComponent(prjView);
 
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
@@ -62,8 +56,8 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 
 		final VerticalLayout leftPanel = new VerticalLayout();
 
-		this.activityPanel = new ProjectActivityStreamComponent();
-		leftPanel.addComponent(this.activityPanel);
+		ProjectActivityStreamComponent activityPanel = new ProjectActivityStreamComponent();
+		leftPanel.addComponent(activityPanel);
 		layout.addComponent(leftPanel);
 
 		final VerticalLayout rightPanel = new VerticalLayout();
@@ -71,20 +65,19 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		rightPanel.setSpacing(true);
 		layout.addComponent(rightPanel);
 
-		this.messageWidget = new ProjectMessageListComponent();
-		rightPanel.addComponent(this.messageWidget);
+		ProjectMessageListComponent messageWidget = new ProjectMessageListComponent();
+		rightPanel.addComponent(messageWidget);
 
-		this.membersWidget = new ProjectMembersWidget();
-		this.taskOverdueWidget = new ProjectTaskOverdueComponent();
+		ProjectMembersWidget membersWidget = new ProjectMembersWidget();
+		ProjectTaskOverdueComponent taskOverdueWidget = new ProjectTaskOverdueComponent();
 
-		rightPanel.addComponent(this.membersWidget);
-		rightPanel.addComponent(this.taskOverdueWidget);
+		rightPanel.addComponent(membersWidget);
+		rightPanel.addComponent(taskOverdueWidget);
 
-		this.activityPanel.showProjectFeeds();
-		this.prjView.displayProjectInformation();
-		this.membersWidget.showInformation();
-		this.taskOverdueWidget.showOverdueTasks();
-		this.messageWidget.showLatestMessages();
-
+		activityPanel.showProjectFeeds();
+		prjView.displayProjectInformation();
+		membersWidget.showInformation();
+		taskOverdueWidget.showOverdueTasks();
+		messageWidget.showLatestMessages();
 	}
 }

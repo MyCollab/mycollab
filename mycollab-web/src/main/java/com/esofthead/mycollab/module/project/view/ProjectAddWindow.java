@@ -72,7 +72,7 @@ public class ProjectAddWindow extends Window {
 		this.setContent(contentLayout);
 
 		this.project = new Project();
-		this.editForm = new AdvancedEditBeanForm<Project>();
+		this.editForm = new AdvancedEditBeanForm<>();
 		contentLayout.addComponent(this.editForm);
 		this.setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
 
@@ -94,8 +94,7 @@ public class ProjectAddWindow extends Window {
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
 			if (propertyId.equals("description")) {
-				final RichTextEditField field = new RichTextEditField();
-				return field;
+				return new RichTextEditField();
 			} else if (propertyId.equals("projectstatus")) {
 				final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
 				projectCombo.setRequired(true);

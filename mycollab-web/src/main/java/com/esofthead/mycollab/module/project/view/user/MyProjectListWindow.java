@@ -290,7 +290,7 @@ public class MyProjectListWindow extends Window {
 		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
-		searchCriteria.setProjectStatuses(new SetSearchField<String>(
+		searchCriteria.setProjectStatuses(new SetSearchField<>(
 				new String[] { StatusI18nEnum.Open.name() }));
 		this.projectList.setSearchCriteria(searchCriteria);
 	}

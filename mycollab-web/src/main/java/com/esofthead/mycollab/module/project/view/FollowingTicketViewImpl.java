@@ -62,7 +62,6 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 	private SplitButton exportButtonControl;
 	private final FollowingTicketTableDisplay ticketTable;
-	private FollowingTicketSearchCriteria searchCriteria;
 
 	private FollowingTicketSearchPanel searchPanel;
 
@@ -175,19 +174,18 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 			@Override
 			protected StreamSource buildStreamSource() {
-				return new SimpleGridExportItemsStreamResource.AllItems<FollowingTicketSearchCriteria, FollowingTicket>(
+				return new SimpleGridExportItemsStreamResource.AllItems<>(
 						"Following Tickets Report",
 						new RpParameterBuilder(ticketTable.getDisplayColumns()),
 						exportType,
 						ApplicationContextUtil
 								.getSpringBean(ProjectFollowingTicketService.class),
-						searchCriteria, FollowingTicket.class);
+						new FollowingTicketSearchCriteria(), FollowingTicket.class);
 			}
 		};
 
-		StreamResource res = new StreamResource(streamSource,
+		return new StreamResource(streamSource,
 				ExportItemsStreamResource.getDefaultExportFileName(exportType));
-		return res;
 	}
 
 	@Override

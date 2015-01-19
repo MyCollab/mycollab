@@ -1,0 +1,11 @@
+@import "mycollab.scss";
+
+@import "calendar.scss";
+
+@import "ganttstyle.scss";
+
+.mycollab {
+  @include mycollab;
+  @include calendar;
+  @include ganttstyle;
+}

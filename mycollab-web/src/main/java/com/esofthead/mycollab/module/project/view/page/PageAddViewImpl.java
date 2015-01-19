@@ -22,63 +22,54 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Layout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
-		PageAddView {
-	private static final long serialVersionUID = 1L;
+        PageAddView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormHeader() {
-		return (beanItem.isNew()) ? AppContext
-				.getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext
-				.getMessage(Page18InEnum.VIEW_EDIT_TITLE);
-	}
+    @Override
+    protected String initFormHeader() {
+        return (beanItem.isNew()) ? AppContext
+                .getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext
+                .getMessage(Page18InEnum.VIEW_EDIT_TITLE);
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.isNew()) ? null : beanItem.getSubject();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.isNew()) ? null : beanItem.getSubject();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return MyCollabResource
-				.newResource("icons/22/project/page_selected.png");
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return MyCollabResource
+                .newResource("icons/22/project/page_selected.png");
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<Page>(
-				editForm)).createButtonControls();
-		return controlButtons;
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<Page> initPreviewForm() {
-		return new AdvancedEditBeanForm<Page>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<Page> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new PageFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new PageFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Page> initBeanFormFieldFactory() {
-		return new PageEditFormFieldFactory(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Page> initBeanFormFieldFactory() {
+        return new PageEditFormFieldFactory(editForm);
+    }
 }

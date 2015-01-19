@@ -16,22 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.xhtmlrenderer.pdf.ITextRenderer;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
@@ -55,15 +39,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.hp.gagawa.java.elements.A;
@@ -76,15 +52,16 @@ import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.*;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * 
@@ -170,7 +147,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected AdvancedPreviewBeanForm<Page> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<Page>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -190,7 +167,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<Page>(
+		ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(
 				previewForm);
 		final HorizontalLayout topPanel = pagesPreviewForm
 				.createButtonControls(

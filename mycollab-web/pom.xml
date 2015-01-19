@@ -321,36 +321,15 @@
             <version>2.5.0</version>
             <scope>provided</scope>
         </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jasig.maven</groupId>
-                <artifactId>sass-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>update-stylesheets</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <resources>
-                        <resource>
-                            <source>
-                                <directory>${basedir}/src/main/resources/VAADIN/themes/mycollab/scss</directory>
-                            </source>
-                            <destination>${basedir}/src/main/resources/VAADIN/themes/mycollab/</destination>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-sass-compiler</artifactId>
+            <version>0.9.11</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
 
     <profiles>
         <profile>
@@ -395,4 +374,5 @@
             <url>https://raw.githubusercontent.com/esofthead/mycollab-maven-repo/master</url>
         </repository>
     </repositories>
+
 </project>

@@ -75,7 +75,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					String username = nameOrEmailField.getValue().toString();
+					String username = nameOrEmailField.getValue();
 					UserService userService = ApplicationContextUtil
 							.getSpringBean(UserService.class);
 					User user = userService.findUserByUserName(username);
