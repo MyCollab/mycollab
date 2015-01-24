@@ -76,10 +76,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		headerWrapper.setWidth("100%");
 		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
 
-		final HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setMargin(false);
-		header.setSpacing(true);
+		final MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
 		header.addStyleName("projectfeed-hdr");
 
 		Button avatar = UserAvatarControlFactory

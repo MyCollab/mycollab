@@ -16,6 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class SimpleRisk extends Risk {
 	private static final long serialVersionUID = 1L;
 
@@ -40,13 +47,8 @@ public class SimpleRisk extends Risk {
 	}
 
 	public String getRaisedByUserFullName() {
-		if (raisedByUserFullName == null
-				|| raisedByUserFullName.trim().equals("")) {
-			String displayName = getRaisedbyuser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+		if (StringUtils.isBlank(raisedByUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
 		}
 		return raisedByUserFullName;
 	}
@@ -56,13 +58,8 @@ public class SimpleRisk extends Risk {
 	}
 
 	public String getAssignedToUserFullName() {
-		if (assignedToUserFullName == null
-				|| assignedToUserFullName.trim().equals("")) {
-			String displayName = getAssigntouser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+		if (StringUtils.isBlank(assignedToUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
 		}
 		return assignedToUserFullName;
 	}
@@ -93,5 +90,11 @@ public class SimpleRisk extends Risk {
 
 	public void setAssignToUserAvatarId(String assignToUserAvatarId) {
 		this.assignToUserAvatarId = assignToUserAvatarId;
+	}
+
+	public boolean isOverdue() {
+		Date now = DateTimeUtils.getCurrentDateWithoutMS();
+		return OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus()) && (getDatedue() != null) &&
+				getDatedue().before(now);
 	}
 }

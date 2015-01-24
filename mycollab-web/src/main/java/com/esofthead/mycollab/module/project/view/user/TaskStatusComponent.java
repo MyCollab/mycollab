@@ -118,7 +118,7 @@ public class TaskStatusComponent extends Depot {
 					ProjectGenericTaskService prjGenericTaskService = ApplicationContextUtil
 							.getSpringBean(ProjectGenericTaskService.class);
 					List<ProjectGenericTask> genericTasks = prjGenericTaskService
-							.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+							.findPagableListByCriteria(new SearchRequest<>(
 									searchCriteria, 0, Integer.MAX_VALUE));
 
 					for (ProjectGenericTask task : genericTasks) {
@@ -140,7 +140,7 @@ public class TaskStatusComponent extends Depot {
 				.getSpringBean(ProjectGenericTaskService.class);
 
 		List<ProjectGenericTaskCount> taskCountList = prjGenericTaskService
-				.findPagableTaskCountListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+				.findPagableTaskCountListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 
 		for (ProjectGenericTaskCount taskCount : taskCountList) {

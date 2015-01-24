@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
@@ -40,113 +37,110 @@ import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class ProjectTaskOverdueComponent extends Depot {
 
-	private static final long serialVersionUID = 1L;
-	private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
+    private static final long serialVersionUID = 1L;
+    private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
-	public ProjectTaskOverdueComponent() {
-		super(AppContext
-				.getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_TASKS_TITLE),
-				new VerticalLayout());
+    public ProjectTaskOverdueComponent() {
+        super(AppContext
+                        .getMessage(ProjectCommonI18nEnum.WIDGET_OVERDUE_TASKS_TITLE),
+                new VerticalLayout());
 
-		taskList = new DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask>(
-				ApplicationContextUtil
-						.getSpringBean(ProjectGenericTaskService.class),
-				new TaskRowDisplayHandler(), 10);
-		addStyleName("activity-panel");
-		((VerticalLayout) bodyContent).setMargin(false);
-	}
+        taskList = new DefaultBeanPagedList<>(
+                ApplicationContextUtil
+                        .getSpringBean(ProjectGenericTaskService.class),
+                new TaskRowDisplayHandler(), 10);
+        addStyleName("activity-panel");
+        ((VerticalLayout) bodyContent).setMargin(false);
+    }
 
-	public void showOverdueTasks() {
-		bodyContent.removeAllComponents();
-		bodyContent.addComponent(taskList);
-		final ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
-		searchCriteria.setIsOpenned(new SearchField());
-		searchCriteria.setDueDate(new DateSearchField(DateSearchField.AND,
-				new GregorianCalendar().getTime()));
-		searchCriteria.setProjectId(new NumberSearchField(
-				CurrentProjectVariables.getProjectId()));
-		taskList.setSearchCriteria(searchCriteria);
-	}
+    public void showOverdueTasks() {
+        bodyContent.removeAllComponents();
+        bodyContent.addComponent(taskList);
+        final ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
+        searchCriteria.setIsOpenned(new SearchField());
+        searchCriteria.setDueDate(new DateSearchField(DateSearchField.AND,
+                new GregorianCalendar().getTime()));
+        searchCriteria.setProjectId(new NumberSearchField(
+                CurrentProjectVariables.getProjectId()));
+        taskList.setSearchCriteria(searchCriteria);
+    }
 
-	public static class TaskRowDisplayHandler implements
-			DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+    public static class TaskRowDisplayHandler implements
+            DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
-		@Override
-		public Component generateRow(final ProjectGenericTask genericTask,
-				final int rowIndex) {
-			final CssLayout layout = new CssLayout();
-			layout.setWidth("100%");
-			layout.setStyleName("activity-stream");
+        @Override
+        public Component generateRow(final ProjectGenericTask genericTask,
+                                     final int rowIndex) {
+            final CssLayout layout = new CssLayout();
+            layout.setWidth("100%");
+            layout.setStyleName("activity-stream");
 
-			if ((rowIndex + 1) % 2 != 0) {
-				layout.addStyleName("odd");
-			}
+            if ((rowIndex + 1) % 2 != 0) {
+                layout.addStyleName("odd");
+            }
 
-			final CssLayout header = new CssLayout();
-			header.setStyleName("stream-content");
+            final CssLayout header = new CssLayout();
+            header.setStyleName("stream-content");
 
-			final LabelLink taskLink = new LabelLink(genericTask.getName(),
-					ProjectLinkBuilder.generateProjectItemLink(
-							CurrentProjectVariables.getShortName(),
-							genericTask.getProjectId(), genericTask.getType(),
-							genericTask.getTypeId() + ""));
+            final LabelLink taskLink = new LabelLink(genericTask.getName(),
+                    ProjectLinkBuilder.generateProjectItemLink(
+                            CurrentProjectVariables.getShortName(),
+                            genericTask.getProjectId(), genericTask.getType(),
+                            genericTask.getTypeId() + ""));
 
-			taskLink.setIconLink(ProjectResources.getResourceLink(genericTask
-					.getType()));
-			taskLink.setStyleName("overdue");
-			taskLink.addStyleName(UIConstants.THEME_LINK);
+            taskLink.setIconLink(ProjectResources.getResourceLink(genericTask
+                    .getType()));
+            taskLink.setStyleName("overdue");
+            taskLink.addStyleName(UIConstants.THEME_LINK);
 
-			header.addComponent(taskLink);
+            header.addComponent(taskLink);
 
-			layout.addComponent(header);
+            layout.addComponent(header);
 
-			final HorizontalLayout body = new HorizontalLayout();
-			body.setStyleName("activity-date");
-			body.setSpacing(true);
+            final HorizontalLayout body = new HorizontalLayout();
+            body.setStyleName("activity-date");
+            body.setSpacing(true);
 
-			Date dueDate = genericTask.getDueDate();
+            Date dueDate = genericTask.getDueDate();
 
-			final Label dateLbl = new Label(AppContext.getMessage(
-					TaskI18nEnum.OPT_DUE_DATE,
-					DateTimeUtils.getPrettyDateValue(dueDate,
-							AppContext.getUserLocale())));
-			dateLbl.setDescription(AppContext.formatDate(dueDate));
+            final Label dateLbl = new Label(AppContext.getMessage(
+                    TaskI18nEnum.OPT_DUE_DATE,
+                    DateTimeUtils.getPrettyDateValue(dueDate,
+                            AppContext.getUserLocale())));
+            dateLbl.setDescription(AppContext.formatDate(dueDate));
 
-			body.addComponent(dateLbl);
+            body.addComponent(dateLbl);
 
-			final Label assigneeLabel = new Label("&nbsp;&nbsp;&nbsp;&nbsp;"
-					+ AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-					+ ": ", ContentMode.HTML);
-			final LabelLink assignee = new LabelLink(
-					genericTask.getAssignUserFullName(),
-					ProjectLinkBuilder.generateProjectMemberFullLink(
-							genericTask.getProjectId(),
-							genericTask.getAssignUser()));
-			if (genericTask.getAssignUser() != null) {
-				assignee.setIconLink(StorageManager.getAvatarLink(
-						genericTask.getAssignUserAvatarId(), 16));
-				body.addComponent(assigneeLabel);
-			}
-			body.addComponent(assignee);
+            final Label assigneeLabel = new Label("&nbsp;&nbsp;&nbsp;&nbsp;"
+                    + AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
+                    + ": ", ContentMode.HTML);
+            final LabelLink assignee = new LabelLink(
+                    genericTask.getAssignUserFullName(),
+                    ProjectLinkBuilder.generateProjectMemberFullLink(
+                            genericTask.getProjectId(),
+                            genericTask.getAssignUser()));
+            if (genericTask.getAssignUser() != null) {
+                assignee.setIconLink(StorageManager.getAvatarLink(
+                        genericTask.getAssignUserAvatarId(), 16));
+                body.addComponent(assigneeLabel);
+            }
+            body.addComponent(assignee);
 
-			layout.addComponent(body);
+            layout.addComponent(body);
 
-			return layout;
-		}
-	}
+            return layout;
+        }
+    }
 
 }

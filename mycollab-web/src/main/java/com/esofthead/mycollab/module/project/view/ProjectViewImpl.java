@@ -16,59 +16,27 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.GregorianCalendar;
-
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.arguments.DateSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
-import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
-import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.events.MilestoneEvent;
-import com.esofthead.mycollab.module.project.events.ProblemEvent;
-import com.esofthead.mycollab.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.module.project.events.RiskEvent;
-import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.domain.criteria.*;
+import com.esofthead.mycollab.module.project.events.*;
+import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter;
 import com.esofthead.mycollab.module.project.view.page.PagePresenter;
-import com.esofthead.mycollab.module.project.view.parameters.FileScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.PageScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProblemScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.RiskScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.StandupScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.TimeTrackingScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter;
 import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter;
 import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter;
@@ -80,31 +48,22 @@ import com.esofthead.mycollab.module.project.view.user.ProjectListComponent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
-import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.hene.popupbutton.PopupButton;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -130,7 +89,6 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private ITimeTrackingPresenter timePresenter;
 	private UserSettingPresenter userPresenter;
 	private IStandupPresenter standupPresenter;
-	private ProjectBreadcrumb breadCrumb;
 
 	@Override
 	public void initView(final SimpleProject project) {
@@ -142,7 +100,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		this.addStyleName("projectDashboardView");
 		this.setVerticalTabsheetFix(true);
 
-		breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+		ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
 		topPanel = new HorizontalLayout();
 		topPanel.setWidth("100%");
@@ -215,7 +173,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 						} else if ("time".equals(caption)) {
 							ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
 							searchCriteria
-									.setProjectIds(new SetSearchField<Integer>(
+									.setProjectIds(new SetSearchField<>(
 											CurrentProjectVariables
 													.getProjectId()));
 							searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
@@ -523,8 +481,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 	@Override
 	public Component gotoSubView(String viewId) {
-		PageView component = (PageView) myProjectTab.selectTab(viewId);
-		return component;
+		return myProjectTab.selectTab(viewId);
 	}
 
 	private void buildComponents() {

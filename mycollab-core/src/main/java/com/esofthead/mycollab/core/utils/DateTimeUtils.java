@@ -64,6 +64,13 @@ public class DateTimeUtils {
 		}
 	}
 
+	public static Date getCurrentDateWithoutMS() {
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		return calendar.getTime();
+	}
+
 	public static Date convertDateByString(String strDate, String format) {
 		if (!StringUtils.isEmpty(strDate)) {
 			try {
@@ -194,15 +201,14 @@ public class DateTimeUtils {
 	 *         the second is the end week date
 	 */
 	public static Date[] getBounceDateofWeek(Date date) {
-		Date begin = null, end = null;
 		Calendar calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(Calendar.MONDAY);
 		calendar.setTime(date);
 		calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		begin = calendar.getTime();
+		Date begin = calendar.getTime();
 
 		calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		end = calendar.getTime();
+		Date end = calendar.getTime();
 		return new Date[] { begin, end };
 	}
 

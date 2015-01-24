@@ -16,6 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class SimpleProblem extends Problem {
 	private static final long serialVersionUID = 1L;
 
@@ -54,13 +61,8 @@ public class SimpleProblem extends Problem {
 	}
 
 	public String getRaisedByUserFullName() {
-		if (raisedByUserFullName == null
-				|| raisedByUserFullName.trim().equals("")) {
-			String displayName = getRaisedbyuser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+		if (StringUtils.isBlank(raisedByUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getRaisedbyuser());
 		}
 		return raisedByUserFullName;
 	}
@@ -70,18 +72,20 @@ public class SimpleProblem extends Problem {
 	}
 
 	public String getAssignedUserFullName() {
-		if (assignedUserFullName == null
-				|| assignedUserFullName.trim().equals("")) {
-			String displayName = getAssigntouser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+		if (StringUtils.isBlank(assignedUserFullName)) {
+			return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssigntouser());
 		}
 		return assignedUserFullName;
 	}
 
 	public void setAssignedUserFullName(String assignedUserFullName) {
 		this.assignedUserFullName = assignedUserFullName;
+	}
+
+	public boolean isOverdue() {
+		Date now = DateTimeUtils.getCurrentDateWithoutMS();
+		return (OptionI18nEnum.StatusI18nEnum.Open.name().equals(getStatus())
+				&& (getDatedue() != null) && getDatedue().before(
+				now));
 	}
 }

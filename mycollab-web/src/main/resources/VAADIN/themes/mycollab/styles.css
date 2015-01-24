@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.3.8";
+	content: "7.3.9";
 }
 
 .v-generated-body {
@@ -3580,7 +3580,9 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .v-sa .mycollab .v-tooltip {
-	outline: 1px solid rgba(0, 0, 0, 0.2);
+	outline-color: #000000;
+	outline-color: rgba(0, 0, 0, 0.2);
+	outline: 1px solid;
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border: none;
@@ -3595,6 +3597,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-Notification, .mycollab .v-menubar-submenu {
 	border: 1px solid #adadad;
+	border-color: #000000;
 	border-color: rgba(0, 0, 0, 0.4);
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -3603,7 +3606,9 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-menubar-submenu {
-	background: rgba(232, 232, 232, 0.9) url(../chameleon/img/grad-light-top.png) repeat-x;
+	background: #e8e8e8;
+	background: rgba(232, 232, 232, 0.9);
+	background-image: url(../chameleon/img/grad-light-top.png) repeat-x;
 }
 
 .mycollab .v-filterselect-suggestpopup, .mycollab .v-contextmenu, .mycollab .v-menubar-submenu {
@@ -6492,7 +6497,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-widget {
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .mycollab .v-label-h1 {
@@ -7730,7 +7735,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .customSignUpForm #policy {
 	text-align: left;
-	font-size: 11px;
+	font-size: 12px;
 	display: block;
 	padding: 0px 20px;
 }
@@ -7925,7 +7930,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab #loginForm .customErrorMsg .v-label {
 	color: red;
-	font-size: 12px;
+	font-size: 13px;
 	padding-left: 20px;
 }
 
@@ -8402,13 +8407,13 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .projectDashboardView .v-label-h2 {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	padding: 0px;
 }
 
 .mycollab .v-label h2 {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: bold;
 	padding: 0px;
 }
@@ -9136,7 +9141,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .activity-date {
 	color: gray;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .v-panel-caption-activity-panel {
@@ -9184,7 +9189,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .date-wrapper {
 	background: url('icons/timehdr-bg.png') no-repeat left top #d4dfef;
-	font-size: 11px;
+	font-size: 12px;
 	padding: 0px 5px;
 	border-width: 0px 1px 1px;
 	border-style: solid;
@@ -9193,7 +9198,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .date-wrapper .v-label {
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .date-wrapper  > .v-csslayout-margin {
@@ -9408,7 +9413,7 @@ body .mycollab.v-app .v-app-loading {
 	text-shadow: none;
 	color: #3f3f3f;
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 11px;
 	cursor: pointer;
 }
 
@@ -9677,7 +9682,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .message-header .time-post {
 	color: gray;
-	font-size: 10px;
+	font-size: 11px;
 }
 
 .mycollab .message-header .notification {
@@ -9800,11 +9805,11 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .task-component .created-time {
 	color: gray;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .widget-row .metadata {
-	font-size: 12px;
+	font-size: 13px;
 	color: gray;
 }
 
@@ -10484,7 +10489,7 @@ body .mycollab.v-app .v-app-loading {
 	display: inline-block;
 	background-color: #e9f2f7;
 	margin-bottom: 15px;
-	font-size: 12px;
+	font-size: 13px;
 	vertical-align: top;
 	width: 350px;
 	margin-right: 11px;
@@ -10523,12 +10528,12 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .member-block .member-email a {
 	color: gray;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .mycollab .member-role {
 	color: gray;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .mycollab .v-label.is-admin {
@@ -10575,7 +10580,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .milestone-view-header .v-label {
-	font-size: 12px;
+	font-size: 13px;
 	text-shadow: 0px 1px 0px #f0f0f0;
 	font-weight: bold;
 }
@@ -11459,7 +11464,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .project-status .createdtime-lbl {
 	color: #808080;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .project-status .status-lbl {
@@ -11509,7 +11514,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .project-status .phase-status-btn .v-button-caption small {
 	font-weight: 400;
-	font-size: 11px;
+	font-size: 12px;
 	display: block;
 }
 
@@ -11821,7 +11826,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .pri-bott-block p {
-	font-size: 12px;
+	font-size: 13px;
 	color: #5F5F5F;
 	padding-bottom: 10px;
 	text-align: justify;
@@ -11896,7 +11901,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .updateplan-window .billing-type {
 	color: #19739a;
 	text-transform: uppercase;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: bold;
 }
 
@@ -11988,7 +11993,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .cancelAccountHeader .header-note {
-	font-size: 11px;
+	font-size: 12px;
 	color: #898989;
 }
 
@@ -13014,7 +13019,7 @@ body .mycollab.v-app .v-app-loading {
 	display: inline-block;
 	background-color: #e9f2f7;
 	margin-bottom: 15px;
-	font-size: 12px;
+	font-size: 13px;
 	vertical-align: top;
 	width: 290px;
 	margin-right: 11px;
@@ -13220,7 +13225,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-context-menu {
 	float: left;
 	font-family: Arial;
-	font-size: 12px;
+	font-size: 13px;
 	background-color: #f0f0f0;
 }
 
@@ -13422,7 +13427,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .gantt-table.list-view .v-table-header .v-table-caption-container {
 	line-height: 42px;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .gantt-table .v-table-body-wrapper.v-table-body {
@@ -13547,13 +13552,13 @@ body .mycollab.v-app .v-app-loading {
 	padding-top: 3px;
 	color: #8a8a8a;
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .pages-list-layout .page-item-block .last-update-info a {
 	color: #8a8a8a;
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .page-read-layout {
@@ -13793,7 +13798,7 @@ body .mycollab.v-app .v-app-loading {
 	overflow: hidden;
 	border-right: 1px solid #A9A9A9;
 	background-color: #ddd;
-	font-size: 10px;
+	font-size: 11px;
 	text-align: center;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -13976,7 +13981,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-calendar-header-day {
 	text-align: center;
 	color: #666;
-	font-size: 12px;
+	font-size: 13px;
 	line-height: normal;
 }
 
@@ -14076,7 +14081,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-calendar-day-number {
 	height: 18px;
 	line-height: 18px;
-	font-size: 12px;
+	font-size: 13px;
 	text-align: right;
 	padding-right: 3px;
 	white-space: nowrap;
@@ -14090,7 +14095,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-calendar-month .v-calendar-spacer, .mycollab .v-calendar-month .v-calendar-bottom-spacer, .mycollab .v-calendar-month .v-calendar-bottom-spacer-empty {
 	height: 15px;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 .mycollab .v-calendar-month .v-calendar-bottom-spacer:hover {
@@ -14101,7 +14106,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-calendar-event {
 	line-height: 14px;
-	font-size: 11px;
+	font-size: 12px;
 	padding: 0 0 0 4px;
 	cursor: pointer;
 	overflow: hidden;
@@ -14164,7 +14169,7 @@ body .mycollab.v-app .v-app-loading {
 	padding: 0 8px 7px 0;
 	margin-top: -7px;
 	text-align: right;
-	font-size: 11px;
+	font-size: 12px;
 	color: #666;
 	border-right: 1px solid #ccc;
 }

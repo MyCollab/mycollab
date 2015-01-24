@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
@@ -227,15 +228,15 @@ public class TaskGroupReadViewImpl extends
         }
 
         private Div buildTaskDiv(SimpleTask task) {
-            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getId(), task
+            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
                     .getTaskname());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName);
             String uid = UUID.randomUUID().toString();
-            taskLink.setId("tagA"+uid);
+            taskLink.setId("tag" + uid);
             String arg17 = "'" + uid + "'";
             String arg18 = "'" + ProjectTypeConstants.TASK + "'";
-            String arg19 = "'" + task.getTaskkey() + "'";
+            String arg19 = "'" + task.getId() + "'";
             String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
             String arg21 = "'" + AppContext.getAccountId() + "'";
             String arg22 = "'" + AppContext.getSiteUrl() + "'";
@@ -253,11 +254,13 @@ public class TaskGroupReadViewImpl extends
                 A avatarDiv = new A().setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
                         .getProjectId(), task.getAssignuser()))
                         .appendChild(avatarImg);
-                return new Div().appendChild(avatarDiv, DivLessFormatter.EMPTY_SPACE(), taskLink).setStyle("display: list-item; " +
+                return new Div().appendChild(avatarDiv, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+                        TooltipBuilder.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
                         "list-style-position: " +
                         "inside;");
             } else {
-                return new Div().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink).setStyle("display: list-item; " +
+                return new Div().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+                        TooltipBuilder.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
                         "list-style-position: " +
                         "inside;");
             }
