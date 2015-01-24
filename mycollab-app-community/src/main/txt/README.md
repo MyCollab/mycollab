@@ -56,6 +56,7 @@ Version 4.6.0
 * Simplify application configuration (for developers)
 * Using Scala for several back-end components such as scheduler
 * Use SASS to maintain the CSS files more effectively
+* Allow deselect assignee in bug or task
 
 Version 4.5.5
 -----------------------------

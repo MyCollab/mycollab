@@ -69,7 +69,7 @@ public class AssetHandler extends GenericHttpServlet {
                 input = new BufferedInputStream(inputStream);
                 output = new BufferedOutputStream(response.getOutputStream());
                 byte[] buffer = new byte[8192];
-                int length = 0;
+                int length;
                 while ((length = input.read(buffer)) > 0) {
                     output.write(buffer, 0, length);
                 }

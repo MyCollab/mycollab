@@ -91,7 +91,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 	}
 
 	private void generateDisplayTable() {
-		this.tableItem = new DefaultPagedBeanTable<ComponentService, ComponentSearchCriteria, SimpleComponent>(
+		this.tableItem = new DefaultPagedBeanTable<>(
 				ApplicationContextUtil.getSpringBean(ComponentService.class),
 				SimpleComponent.class,
 				new TableViewField(null, "selected",

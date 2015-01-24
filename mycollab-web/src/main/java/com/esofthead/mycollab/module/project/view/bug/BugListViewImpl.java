@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.Arrays;
-
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -51,13 +47,12 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -173,8 +168,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 								SearchField.AND, CurrentProjectVariables
 										.getProject().getId()));
 
-						StreamResource res = new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
+						return new StreamResource(
+								new SimpleGridExportItemsStreamResource.AllItems<>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
@@ -183,7 +178,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 												.getSpringBean(BugService.class),
 										searchCriteria, SimpleBug.class),
 								"export.pdf");
-						return res;
 					}
 
 				});
@@ -209,8 +203,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 								SearchField.AND, CurrentProjectVariables
 										.getProject().getId()));
 
-						StreamResource res = new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
+						return new StreamResource(
+								new SimpleGridExportItemsStreamResource.AllItems<>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
@@ -219,7 +213,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 												.getSpringBean(BugService.class),
 										searchCriteria, SimpleBug.class),
 								"export.xlsx");
-						return res;
 					}
 				});
 		excelDownloader.extend(exportExcelBtn);
@@ -245,8 +238,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 								SearchField.AND, CurrentProjectVariables
 										.getProject().getId()));
 
-						StreamResource res = new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
+						return new StreamResource(
+								new SimpleGridExportItemsStreamResource.AllItems<>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
@@ -255,7 +248,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 												.getSpringBean(BugService.class),
 										searchCriteria, SimpleBug.class),
 								"export.csv");
-						return res;
 					}
 				});
 		csvFileDownloader.extend(exportCsvBtn);

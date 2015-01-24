@@ -45,6 +45,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -97,18 +99,14 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		header.addComponent(avatar);
 
-		final VerticalLayout headerContent = new VerticalLayout();
+		final MVerticalLayout headerContent = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 		headerContent.addStyleName("projectfeed-hdr-content");
-		headerContent.setSpacing(true);
-		headerContent.setMargin(new MarginInfo(false, false, false, true));
 
 		final Label headerLabel = new Label(AppContext.getSession()
 				.getDisplayName());
 		headerLabel.setStyleName(Reindeer.LABEL_H1);
 
-		final HorizontalLayout headerContentTop = new HorizontalLayout();
-		headerContentTop.setSpacing(true);
-		headerContentTop.setMargin(new MarginInfo(false, false, true, false));
+		final MHorizontalLayout headerContentTop = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, false, true, false));
 		headerContentTop.addComponent(headerLabel);
 		headerContentTop.setComponentAlignment(headerLabel, Alignment.TOP_LEFT);
 
@@ -133,14 +131,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 					Alignment.MIDDLE_LEFT);
 		}
 
-		final HorizontalLayout headerContentBottom = new HorizontalLayout();
-		headerContentBottom.setSpacing(true);
+
 		followingTicketsLink = new ButtonLink(AppContext.getMessage(
-				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0));
+				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0), false);
 
 		followingTicketsLink.setIcon(MyCollabResource
-				.newResource("icons/16/follow.png"));
-		followingTicketsLink.removeStyleName("wordWrap");
+				.newResource(WebResourceIds._16_follow));
 		followingTicketsLink.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -155,7 +151,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		});
 
 		ButtonLink timeTrackingLink = new ButtonLink(
-				AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER));
+				AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER), false);
 		timeTrackingLink.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -167,13 +163,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			}
 		});
 		timeTrackingLink.setIcon(MyCollabResource
-				.newResource("icons/16/project/time_white.png"));
-		timeTrackingLink.removeStyleName("wordWrap");
-		headerContentBottom.addComponent(followingTicketsLink);
-		headerContentBottom.addComponent(timeTrackingLink);
+				.newResource(WebResourceIds._16_project_time_white));
 
-		headerContent.addComponent(headerContentTop);
-		headerContent.addComponent(headerContentBottom);
+		final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withSpacing(true).withMargin(false)
+				.with(followingTicketsLink, timeTrackingLink);
+
+		headerContent.with(headerContentTop, headerContentBottom);
 
 		header.addComponent(headerContent);
 		header.setExpandRatio(headerContent, 1.0f);
@@ -181,16 +176,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		this.addComponent(headerWrapper);
 
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setMargin(new MarginInfo(false, false, true, false));
-		layout.setSpacing(true);
+		final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false,
+				false, true, false)).withWidth("100%");
 
-		final VerticalLayout leftPanel = new VerticalLayout();
-		leftPanel.setMargin(new MarginInfo(false, true, false, false));
 		ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
-		leftPanel.addComponent(activityStreamComponent);
-		leftPanel.setWidth("100%");
+		final MVerticalLayout leftPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
+				true, false, false)).withWidth("100%").with(activityStreamComponent);
 
 		final VerticalLayout rightPanel = new VerticalLayout();
 		MyProjectListComponent myProjectListComponent = new MyProjectListComponent();

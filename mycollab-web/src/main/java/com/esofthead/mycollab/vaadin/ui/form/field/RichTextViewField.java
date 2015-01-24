@@ -53,6 +53,7 @@ public class RichTextViewField extends CustomField {
 		} else {
 			final Label link = new Label(StringUtils.formatRichText(value),
 					ContentMode.HTML);
+			link.setWidth("100%");
 			return link;
 		}
 	}

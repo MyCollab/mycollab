@@ -17,17 +17,9 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
-import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.lang3.time.DateUtils;
-
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -47,12 +39,18 @@ import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 
@@ -146,14 +144,12 @@ public class ActivityStreamComponent extends CssLayout {
 					StringBuffer content = new StringBuffer("");
 
 					// --------------Item hidden div tooltip----------------
-					String uid = UUID.randomUUID().toString();
 					String type = AppContext
 							.getMessage(ProjectLocalizationTypeMap
 									.getType(activityStream.getType()));
-					String assigneeValue = buildAssigneeValue(activityStream,
-							uid);
-					String itemLink = buildItemValue(activityStream, uid);
-					String projectLink = buildProjectValue(activityStream, uid);
+					String assigneeValue = buildAssigneeValue(activityStream);
+					String itemLink = buildItemValue(activityStream);
+					String projectLink = buildProjectValue(activityStream);
 
 					if (ActivityStreamConstants.ACTION_CREATE
 							.equals(activityStream.getAction())) {
@@ -219,13 +215,13 @@ public class ActivityStreamComponent extends CssLayout {
 			}
 		}
 
-		private String buildAssigneeValue(ProjectActivityStream activityStream,
-				String uid) {
+		private String buildAssigneeValue(ProjectActivityStream activityStream) {
+			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Img userAvatar = new Img("", StorageManager.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
-			userLink.setId("projectusertagA" + uid);
+			userLink.setId("tag" + uid);
 			userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
 					activityStream.getExtratypeid(),
 					activityStream.getCreateduser()));
@@ -246,36 +242,18 @@ public class ActivityStreamComponent extends CssLayout {
 			String arg10 = activityStream.getCreatedUserFullName();
 			userLink.appendText(arg10);
 
-			Div div1 = new Div();
-			div1.setId("projectusermystickyTooltip" + uid);
-			div1.setAttribute("class", "stickytooltip");
-
-			Div div11 = new Div();
-			div11.setAttribute("style", "padding:5px");
-			div1.appendChild(div11);
-
-			Div div12 = new Div();
-			div12.setId("projectusertooltip" + uid);
-			div12.setAttribute("class", "atip");
-			div12.setAttribute("style", "width:400px");
-			div11.appendChild(div12);
-
-			Div div13 = new Div();
-			div13.setId("projectuserserverdata" + uid);
-			div12.appendChild(div13);
-
 			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-					div1);
+					TooltipBuilder.buildDivTooltipEnable(uid));
 			return div.write();
 		}
 
-		private String buildItemValue(ProjectActivityStream activityStream,
-				String uid) {
+		private String buildItemValue(ProjectActivityStream activityStream) {
+			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Img itemImg = new Img("",
 					ProjectResources.getResourceLink(activityStream.getType()));
 			A itemLink = new A();
-			itemLink.setId("projectOverViewtagA" + uid);
+			itemLink.setId("tag" + uid);
 
 			if (ProjectTypeConstants.TASK.equals(activityStream.getType())
 					|| ProjectTypeConstants.BUG
@@ -311,36 +289,19 @@ public class ActivityStreamComponent extends CssLayout {
 			return div.write();
 		}
 
-		private String buildProjectValue(ProjectActivityStream activityStream,
-				String uid) {
+		private String buildProjectValue(ProjectActivityStream activityStream) {
+			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Img prjImg = new Img("",
 					MyCollabResource
-							.newResourceLink("icons/16/project/project.png"));
+							.newResourceLink(WebResourceIds._16_project_project));
 			A prjLink = new A(
 					ProjectLinkBuilder.generateProjectFullLink(activityStream
 							.getProjectId()));
 			prjLink.appendText(activityStream.getProjectName());
 
-			Div div1 = new Div();
-			div1.setId("projectOverViewmystickyTooltip" + uid);
-			div1.setAttribute("class", "stickytooltip");
-
-			Div div12 = new Div();
-			div12.setAttribute("style", "padding:5px");
-			div1.appendChild(div12);
-
-			Div div13 = new Div();
-			div13.setId("projectOverViewtooltip" + uid);
-			div13.setAttribute("class", "atip");
-			div13.setAttribute("style", "width:500px");
-			div12.appendChild(div13);
-
-			Div div14 = new Div();
-			div14.setId("projectOverViewserverdata" + uid);
-			div13.appendChild(div14);
-
-			div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink, DivLessFormatter.EMPTY_SPACE(), div1);
+			div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink, DivLessFormatter.EMPTY_SPACE(),
+					TooltipBuilder.buildDivTooltipEnable(uid));
 
 			return div.write();
 		}

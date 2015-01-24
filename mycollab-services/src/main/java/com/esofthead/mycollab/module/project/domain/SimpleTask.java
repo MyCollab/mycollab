@@ -16,160 +16,167 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
-import java.util.Calendar;
-import java.util.Date;
-
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class SimpleTask extends Task {
 
-	private static final long serialVersionUID = 1L;
-	private String projectName;
-	private String projectShortname;
-	private String taskListName;
-	private String assignUserAvatarId;
-	private String assignUserFullName;
-	private String assignUserTimeZone;
-	private String logByAvatarId;
-	private String logByFullName;
-	private String logByUserTimeZone;
-	private int numComments;
-	private String comment;
-	private String parentTaskName;
-	private int parentTaskKey;
+    private static final long serialVersionUID = 1L;
+    private String projectName;
+    private String projectShortname;
+    private String taskListName;
+    private String assignUserAvatarId;
+    private String assignUserFullName;
+    private String assignUserTimeZone;
+    private String logByAvatarId;
+    private String logByFullName;
+    private String logByUserTimeZone;
+    private int numComments;
+    private String comment;
+    private String parentTaskName;
+    private int parentTaskKey;
 
-	public int getNumComments() {
-		return numComments;
-	}
+    public int getNumComments() {
+        return numComments;
+    }
 
-	public void setNumComments(int numComments) {
-		this.numComments = numComments;
-	}
+    public void setNumComments(int numComments) {
+        this.numComments = numComments;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getTaskListName() {
-		return taskListName;
-	}
+    public String getTaskListName() {
+        return taskListName;
+    }
 
-	public void setTaskListName(String taskListName) {
-		this.taskListName = taskListName;
-	}
+    public void setTaskListName(String taskListName) {
+        this.taskListName = taskListName;
+    }
 
-	public String getAssignUserFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
-			return StringUtils.extractNameFromEmail(getAssignuser());
-		}
-		return assignUserFullName;
-	}
+    public String getAssignUserFullName() {
+        if (org.apache.commons.lang3.StringUtils.isBlank(assignUserFullName)) {
+            return StringUtils.extractNameFromEmail(getAssignuser());
+        }
+        return assignUserFullName;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public String getLogByFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(logByFullName)) {
-			return StringUtils.extractNameFromEmail(getLogby());
-		}
-		return logByFullName;
-	}
+    public String getLogByFullName() {
+        if (org.apache.commons.lang3.StringUtils.isBlank(logByFullName)) {
+            return StringUtils.extractNameFromEmail(getLogby());
+        }
+        return logByFullName;
+    }
 
-	public void setLogByFullName(String logByFullName) {
-		this.logByFullName = logByFullName;
-	}
+    public void setLogByFullName(String logByFullName) {
+        this.logByFullName = logByFullName;
+    }
 
-	public boolean isOverdue() {
-		if (this.getDeadline() != null) {
-			Calendar today = Calendar.getInstance();
-			today.set(Calendar.HOUR_OF_DAY, 0);
-			Date todayDate = today.getTime();
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
 
-			return todayDate.after(this.getDeadline());
-		} else {
-			return false;
-		}
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
 
-	}
+    public String getLogByAvatarId() {
+        return logByAvatarId;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public void setLogByAvatarId(String logByAvatarId) {
+        this.logByAvatarId = logByAvatarId;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public String getLogByAvatarId() {
-		return logByAvatarId;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setLogByAvatarId(String logByAvatarId) {
-		this.logByAvatarId = logByAvatarId;
-	}
+    public String getAssignUserTimeZone() {
+        return assignUserTimeZone;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setAssignUserTimeZone(String assignUserTimeZone) {
+        this.assignUserTimeZone = assignUserTimeZone;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public String getLogByUserTimeZone() {
+        return logByUserTimeZone;
+    }
 
-	public String getAssignUserTimeZone() {
-		return assignUserTimeZone;
-	}
+    public void setLogByUserTimeZone(String logByUserTimeZone) {
+        this.logByUserTimeZone = logByUserTimeZone;
+    }
 
-	public void setAssignUserTimeZone(String assignUserTimeZone) {
-		this.assignUserTimeZone = assignUserTimeZone;
-	}
+    public String getProjectShortname() {
+        return projectShortname;
+    }
 
-	public String getLogByUserTimeZone() {
-		return logByUserTimeZone;
-	}
+    public void setProjectShortname(String projectShortname) {
+        this.projectShortname = projectShortname;
+    }
 
-	public void setLogByUserTimeZone(String logByUserTimeZone) {
-		this.logByUserTimeZone = logByUserTimeZone;
-	}
+    public String getParentTaskName() {
+        return parentTaskName;
+    }
 
-	public String getProjectShortname() {
-		return projectShortname;
-	}
+    public void setParentTaskName(String parentTaskName) {
+        this.parentTaskName = parentTaskName;
+    }
 
-	public void setProjectShortname(String projectShortname) {
-		this.projectShortname = projectShortname;
-	}
+    public int getParentTaskKey() {
+        return parentTaskKey;
+    }
 
-	public String getParentTaskName() {
-		return parentTaskName;
-	}
+    public void setParentTaskKey(int parentTaskKey) {
+        this.parentTaskKey = parentTaskKey;
+    }
 
-	public void setParentTaskName(String parentTaskName) {
-		this.parentTaskName = parentTaskName;
-	}
+    public boolean isCompleted() {
+        return OptionI18nEnum.StatusI18nEnum.Open.equals(getStatus()) && (getPercentagecomplete() != null
+                && 100d == getPercentagecomplete());
+    }
 
-	public int getParentTaskKey() {
-		return parentTaskKey;
-	}
+    public boolean isPending() {
+        return OptionI18nEnum.StatusI18nEnum.Pending.name().equals(getStatus());
+    }
 
-	public void setParentTaskKey(int parentTaskKey) {
-		this.parentTaskKey = parentTaskKey;
-	}
+    public boolean isOverdue() {
+        if (!isCompleted()) {
+            Date now = new GregorianCalendar().getTime();
 
-	public static enum Field {
-		taskListName;
-		public boolean equalTo(Object value) {
-			return name().equals(value);
-		}
-	}
+            return (getEnddate() != null && getEnddate().before(now));
+        }
+
+        return false;
+    }
+
+    public static enum Field {
+        taskListName;
+
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

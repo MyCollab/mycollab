@@ -311,7 +311,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
 
-		bugFollowersList = new ProjectFollowersComp<SimpleBug>(
+		bugFollowersList = new ProjectFollowersComp<>(
 				ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
 		addToSideBar(bugFollowersList);
 
@@ -340,7 +340,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleBug> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleBug>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -355,7 +355,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<SimpleBug>(
+		bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(
 				previewForm);
 		final HorizontalLayout topPanel = bugPreviewFormControls
 				.createButtonControls(
@@ -608,7 +608,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 			} else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
 				if (beanItem.getMilestoneid() != null) {
-					final LinkViewField phaseLink = new LinkViewField(
+					return new LinkViewField(
 							beanItem.getMilestoneName(),
 							ProjectLinkBuilder
 									.generateMilestonePreviewFullLink(
@@ -616,7 +616,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 											beanItem.getMilestoneid()),
 							MyCollabResource
 									.newResourceLink("icons/16/project/milestone.png"));
-					return phaseLink;
 				} else {
 					return new DefaultViewField("");
 				}

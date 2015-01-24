@@ -1,0 +1,25 @@
+$border-color: #CFCFCF;
+$background-color: #F7F7F7;
+$font-stack: Arial, Helvetica, sans-serif;
+
+$font-normal: 13px;
+$font-large: 14px;
+$font-larger: 16px;
+$font-x-large: 18px;
+$font-xx-large: 24px;
+$font-largest: 36px;
+
+@mixin margin-container($left, $top, $right, $bottom) {
+  &.v-margin-top {
+    padding-top: $top;
+  }
+  &.v-margin-right{
+    padding-right: $right;
+  }
+  &.v-margin-bottom {
+    padding-bottom: $bottom;
+  }
+  &.v-margin-left {
+    padding-left: $left;
+  }
+}

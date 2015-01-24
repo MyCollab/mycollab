@@ -66,11 +66,6 @@ public abstract class AbstractCssPageView extends CssLayout implements
 		updateVerticalTabsheetFixStatus();
 	}
 
-	public void setVerticalTabsheetFixWidth(String width) {
-		this.vTabsheetFixWidth = width;
-		updateVerticalTabsheetFixStatus();
-	}
-
 	public void setVerticalTabsheetFixToLeft(boolean isLeft) {
 		this.vTabsheetIsLeft = isLeft;
 		updateVerticalTabsheetFixStatus();

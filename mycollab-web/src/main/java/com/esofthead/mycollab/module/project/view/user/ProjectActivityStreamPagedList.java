@@ -16,17 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.ActivityStreamConstants;
+import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -48,16 +39,17 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.util.Calendar;
+import java.util.*;
 
 /**
  * 
@@ -131,12 +123,11 @@ public class ProjectActivityStreamPagedList
 					currentDate = itemCreatedDate;
 				}
 				StringBuffer content = new StringBuffer();
-				String uid = UUID.randomUUID().toString();
 				String itemType = AppContext
 						.getMessage(ProjectLocalizationTypeMap
 								.getType(activityStream.getType()));
-				String assigneeParam = buildAssigneeValue(activityStream, uid);
-				String itemParam = buildItemValue(activityStream, uid);
+				String assigneeParam = buildAssigneeValue(activityStream);
+				String itemParam = buildItemValue(activityStream);
 
 				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
 						.getAction())) {
@@ -181,13 +172,13 @@ public class ProjectActivityStreamPagedList
 		}
 	}
 
-	private String buildAssigneeValue(SimpleActivityStream activityStream,
-			String uid) {
+	private String buildAssigneeValue(SimpleActivityStream activityStream) {
+		String uid = UUID.randomUUID().toString();
 		DivLessFormatter div = new DivLessFormatter();
 		Img userAvatar = new Img("", StorageManager.getAvatarLink(
 				activityStream.getCreatedUserAvatarId(), 16));
 		A userLink = new A();
-		userLink.setId("usertagA" + uid);
+		userLink.setId("tag" + uid);
 		userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
 				activityStream.getExtratypeid(),
 				activityStream.getCreateduser()));
@@ -206,36 +197,19 @@ public class ProjectActivityStreamPagedList
 		userLink.setAttribute("onmouseover", mouseOverFunc);
 		userLink.appendText(activityStream.getCreatedUserFullName());
 
-		Div div1 = new Div();
-		div1.setId("usermystickyTooltip" + uid);
-		div1.setAttribute("class", "stickytooltip");
-
-		Div div12 = new Div();
-		div12.setAttribute("style", "padding:5px");
-		div1.appendChild(div12);
-
-		Div div13 = new Div();
-		div13.setId("usertooltip" + uid);
-		div13.setAttribute("class", "atip");
-		div13.setAttribute("style", "width:400px");
-		div12.appendChild(div13);
-
-		Div div14 = new Div();
-		div14.setId("userserverdata" + uid);
-		div13.appendChild(div14);
-
-		div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), div1);
+		div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+				TooltipBuilder.buildDivTooltipEnable(uid));
 
 		return div.write();
 	}
 
-	private String buildItemValue(ProjectActivityStream activityStream,
-			String uid) {
+	private String buildItemValue(ProjectActivityStream activityStream) {
+		String uid = UUID.randomUUID().toString();
 		DivLessFormatter div = new DivLessFormatter();
 		Img image = new Img("", ProjectResources.getResourceLink(activityStream
 				.getType()));
 		A itemLink = new A();
-		itemLink.setId("tagA" + uid);
+		itemLink.setId("tag" + uid);
 		if (ProjectTypeConstants.TASK.equals(activityStream.getType())
 				|| ProjectTypeConstants.BUG.equals(activityStream.getType())) {
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -264,25 +238,8 @@ public class ProjectActivityStreamPagedList
 		itemLink.setAttribute("onmouseover", mouseOverFunc);
 		itemLink.appendText(activityStream.getNamefield());
 
-		Div div1 = new Div();
-		div1.setId("mystickyTooltip" + uid);
-		div1.setAttribute("class", "stickytooltip");
-
-		Div div12 = new Div();
-		div12.setAttribute("style", "padding:5px");
-		div1.appendChild(div12);
-
-		Div div13 = new Div();
-		div13.setId("tooltip" + uid);
-		div13.setAttribute("class", "atip");
-		div13.setAttribute("style", "width:500px");
-		div12.appendChild(div13);
-
-		Div div14 = new Div();
-		div14.setId("serverdata" + uid);
-		div13.appendChild(div14);
-
-		div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), div1);
+		div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+				TooltipBuilder.buildDivTooltipEnable(uid));
 		return div.write();
 	}
 

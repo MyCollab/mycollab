@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.List;
-
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
@@ -37,20 +35,15 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NumberField;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
+
+import java.util.List;
 
 /**
  * 
@@ -195,14 +188,12 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<SimpleBug>(
-				editForm)).createButtonControls();
-		return controlButtons;
+		return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleBug> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleBug>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override

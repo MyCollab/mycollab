@@ -17,20 +17,9 @@
 
 package com.esofthead.mycollab.module.crm.view;
 
-import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -51,17 +40,17 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.util.Calendar;
+import java.util.*;
 
 /**
  * 
@@ -84,7 +73,7 @@ public class ActivityStreamPanel extends CssLayout {
 
 	public void display() {
 		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
+		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
 				new String[] { ModuleNameConstants.CRM }));
 		searchCriteria.setSaccountid(new NumberSearchField(AppContext
 				.getAccountId()));
@@ -229,11 +218,10 @@ public class ActivityStreamPanel extends CssLayout {
 			}
 
 			// --------------Item hidden div tooltip----------------
-			String uid = UUID.randomUUID().toString();
 			String itemType = AppContext.getMessage(CrmLocalizationTypeMap
 					.getType(activityStream.getType()));
-			String assigneeValue = buildAssigneeValue(activityStream, uid);
-			String itemValue = buildItemValue(activityStream, uid);
+			String assigneeValue = buildAssigneeValue(activityStream);
+			String itemValue = buildItemValue(activityStream);
 
 			StringBuffer content = new StringBuffer();
 
@@ -321,13 +309,13 @@ public class ActivityStreamPanel extends CssLayout {
 			return (this.firstIndex > 0);
 		}
 
-		private String buildAssigneeValue(SimpleActivityStream activityStream,
-				String uid) {
+		private String buildAssigneeValue(SimpleActivityStream activityStream) {
+			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Img userAvatar = new Img("", StorageManager.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
-			userLink.setId("crmusertagA" + uid);
+			userLink.setId("tag" + uid);
 			userLink.setHref(AccountLinkGenerator.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), activityStream.getCreateduser()));
 
@@ -344,37 +332,19 @@ public class ActivityStreamPanel extends CssLayout {
 			userLink.setAttribute("onmouseover", onMouseOverFunc);
 			userLink.appendText(activityStream.getCreatedUserFullName());
 
-			Div div1 = new Div();
-			div1.setId("crmusermystickyTooltip" + uid);
-			div1.setAttribute("class", "stickytooltip");
-
-			Div div12 = new Div();
-			div12.setAttribute("style", "padding:5px");
-			div1.appendChild(div12);
-
-			Div div13 = new Div();
-			div13.setId("crmusertooltip" + uid);
-			div13.setAttribute("class", "atip");
-			div13.setAttribute("style", "width:400px");
-			div12.appendChild(div13);
-
-			Div div14 = new Div();
-			div14.setId("crmuserserverdata" + uid);
-			div13.appendChild(div14);
-
 			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-					div1);
+					TooltipBuilder.buildDivTooltipEnable(uid));
 
 			return div.write();
 		}
 
-		private String buildItemValue(SimpleActivityStream activityStream,
-				String uid) {
+		private String buildItemValue(SimpleActivityStream activityStream) {
+			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Img itemImg = new Img("",
 					CrmResources.getResourceLink(activityStream.getType()));
 			A itemLink = new A();
-			itemLink.setId("crmActivitytagA" + uid);
+			itemLink.setId("tag" + uid);
 			itemLink.setHref(CrmLinkGenerator.generateCrmItemLink(
 					activityStream.getType(),
 					Integer.parseInt(activityStream.getTypeid())));
@@ -393,25 +363,8 @@ public class ActivityStreamPanel extends CssLayout {
 			itemLink.setAttribute("onmouseover", onMouseOverFunc);
 			itemLink.appendText(activityStream.getNamefield());
 
-			Div div1 = new Div();
-			div1.setId("crmActivitymystickyTooltip" + uid);
-			div1.setAttribute("class", "stickytooltip");
-
-			Div div12 = new Div();
-			div12.setAttribute("style", "padding:5px");
-			div1.appendChild(div12);
-
-			Div div13 = new Div();
-			div13.setId("crmActivitytooltip" + uid);
-			div13.setAttribute("class", "atip");
-			div13.setAttribute("style", "width:550px");
-			div12.appendChild(div13);
-
-			Div div14 = new Div();
-			div14.setId("crmActivityserverdata" + uid);
-			div13.appendChild(div14);
-
-			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), div1);
+			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+					TooltipBuilder.buildDivTooltipEnable(uid));
 
 			return div.write();
 		}

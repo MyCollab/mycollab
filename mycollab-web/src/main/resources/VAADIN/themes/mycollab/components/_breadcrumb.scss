@@ -1,0 +1,37 @@
+@mixin mycollab-breadcrumb {
+  .xbreadcrumbs {
+    background-color: transparent !important;
+    > .v-slot:first-child > li {
+      padding-left: 0px;
+    }
+    li {
+      padding-bottom: 8px !important;
+      > div.xbreadcrumbbutton {
+        margin-top: 3px;
+        &.v-button-xbreadcrumbbutton-home {
+          margin: 0px;
+          margin: 0px;
+        }
+        margin-top: 3px;
+      }
+    }
+    .v-link a span {
+      font-size: 13px !important;
+    }
+  }
+
+  .xbreadcrumbbutton .v-button-caption {
+    font-size: 13px !important;
+    color: #333333;
+  }
+
+  .v-button-xbreadcrumbbutton-home span.v-button-caption {
+    padding-left: 18px;
+  }
+
+  div.v-button-link.xbreadcrumbbutton .v-button-wrap {
+    padding: 0px;
+  }
+
+  /* End xBreadCrumb */
+}

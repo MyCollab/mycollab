@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.common;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.html.DivLessFormatter;
+import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.H3;
@@ -26,10 +28,10 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.1.1
- * 
+ *
  */
 public class TooltipBuilder {
 
@@ -56,6 +58,24 @@ public class TooltipBuilder {
 	public TooltipBuilder appendRow(Tr tr) {
 		table.appendChild(tr);
 		return this;
+	}
+
+	public static Div buildDivTooltipEnable(String uid) {
+		Div div1 = new Div().setId("div1" + uid);
+		div1.setAttribute("class", "stickytooltip");
+
+		Div div12 = new Div();
+		div12.setAttribute("style", "padding:5px");
+		div1.appendChild(div12);
+
+		Div div13 = new Div().setId("div13" + uid);
+		div13.setAttribute("class", "atip");
+		div13.setAttribute("style", "width:500px");
+		div12.appendChild(div13);
+
+		Div div14 = new Div().setId("div14" + uid);
+		div13.appendChild(div14);
+		return div1;
 	}
 
 	public Div create() {
@@ -92,7 +112,7 @@ public class TooltipBuilder {
 		}
 
 		public static Td buildCellLink(String href, String imageLink,
-				String name) {
+									   String name) {
 			String cutNameVal = StringUtils.trimHtmlTags(name);
 			return new Td()
 					.setStyle(

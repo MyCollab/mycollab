@@ -62,7 +62,6 @@ import com.vaadin.ui.Window;
 class WontFixExplainWindow extends Window {
 
 	private final SimpleBug bug;
-	private final EditForm editForm;
 	private VersionMultiSelectField fixedVersionSelect;
 	private final IBugCallbackStatusComp callbackForm;
 
@@ -77,9 +76,9 @@ class WontFixExplainWindow extends Window {
 
 		VerticalLayout contentLayout = new VerticalLayout();
 		contentLayout.setMargin(new MarginInfo(false, false, true, false));
-		this.editForm = new EditForm();
-		contentLayout.addComponent(this.editForm);
-		this.editForm.setBean(bug);
+		EditForm editForm = new EditForm();
+		contentLayout.addComponent(editForm);
+		editForm.setBean(bug);
 		this.setContent(contentLayout);
 		this.center();
 	}

@@ -40,9 +40,9 @@ import com.vaadin.ui.ComboBox;
 public class ProjectMemberSelectionBox extends ComboBox {
 	private static final long serialVersionUID = 1L;
 
-	public ProjectMemberSelectionBox() {
+	public ProjectMemberSelectionBox(boolean isNullAllowable) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		this.setNullSelectionAllowed(false);
+		this.setNullSelectionAllowed(isNullAllowable);
 
 		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables

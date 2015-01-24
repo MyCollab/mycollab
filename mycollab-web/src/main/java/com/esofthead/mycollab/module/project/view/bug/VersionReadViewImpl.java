@@ -44,25 +44,12 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
-import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -140,7 +127,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	@Override
 	protected AdvancedPreviewBeanForm<Version> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<Version>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -167,7 +154,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<Version>(
+		ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(
 				previewForm);
 		final HorizontalLayout topPanel = versionPreviewForm
 				.createButtonControls(ProjectRolePermissionCollections.VERSIONS);
@@ -311,7 +298,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 			final BugSearchCriteria criteria = new BugSearchCriteria();
 			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 					.getProjectId()));
-			criteria.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
+			criteria.setVersionids(new SetSearchField<>(beanItem.getId()));
 
 			final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();
 			this.addComponent(displayWidget);
@@ -342,9 +329,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 			unresolvedByPrioritySearchCriteria
 					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByPrioritySearchCriteria
-					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
+					.setVersionids(new SetSearchField<>(beanItem.getId()));
 			unresolvedByPrioritySearchCriteria
-					.setStatuses(new SetSearchField<String>(SearchField.AND,
+					.setStatuses(new SetSearchField<>(SearchField.AND,
 							new String[] { BugStatus.InProgress.name(),
 									BugStatus.Open.name(),
 									BugStatus.ReOpened.name() }));
@@ -361,9 +348,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 			unresolvedByAssigneeSearchCriteria
 					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByAssigneeSearchCriteria
-					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
+					.setVersionids(new SetSearchField<>(beanItem.getId()));
 			unresolvedByAssigneeSearchCriteria
-					.setStatuses(new SetSearchField<String>(SearchField.AND,
+					.setStatuses(new SetSearchField<>(SearchField.AND,
 							new String[] { BugStatus.InProgress.name(),
 									BugStatus.Open.name(),
 									BugStatus.ReOpened.name() }));
@@ -377,11 +364,10 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 			final BugSearchCriteria chartSearchCriteria = new BugSearchCriteria();
 			chartSearchCriteria.setProjectId(new NumberSearchField(
 					CurrentProjectVariables.getProjectId()));
-			chartSearchCriteria.setVersionids(new SetSearchField<Integer>(
+			chartSearchCriteria.setVersionids(new SetSearchField<>(
 					beanItem.getId()));
 
-			BugChartComponent bugChartComponent = null;
-			bugChartComponent = new BugChartComponent(chartSearchCriteria, 400,
+			BugChartComponent bugChartComponent = new BugChartComponent(chartSearchCriteria, 400,
 					200);
 			rightColumn.addComponent(bugChartComponent);
 			rightColumn.setWidth("410px");

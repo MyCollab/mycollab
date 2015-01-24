@@ -148,7 +148,6 @@ public abstract class GenericServerRunner {
 				monitor.setPort(stopPort);
 				monitor.setKey(stopKey);
 				monitor.setExitVm(true);
-
 				break;
 			}
 
@@ -261,7 +260,6 @@ public abstract class GenericServerRunner {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private WebAppContext initWebAppContext() {
 		String webappDirLocation = detectWebApp();
 		LOG.debug("Detect web location: {}", webappDirLocation);

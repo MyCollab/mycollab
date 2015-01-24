@@ -19,36 +19,48 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -188,12 +200,73 @@ public class TaskGroupReadViewImpl extends
                     return new DefaultViewField(beanItem.getDescription(),
                             ContentMode.HTML);
                 } else if (TaskList.Field.groupindex.equalTo(propertyId)) {
-                    return new ContainerHorizontalViewField();
+                    return new SubTasksViewField();
                 }
 
                 return null;
             }
         };
+    }
+
+    class SubTasksViewField extends CustomField {
+
+        @Override
+        protected Component initContent() {
+            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            List<SimpleTask> subTasks = taskService.findSubTasksOfGroup(beanItem.getId(), AppContext.getAccountId());
+            if (CollectionUtils.isNotEmpty(subTasks)) {
+                Div div = new Div();
+                for (SimpleTask task : subTasks) {
+                    Div taskDiv = buildTaskDiv(task);
+                    div.appendChild(taskDiv);
+                }
+                return new Label(div.write(), ContentMode.HTML);
+            } else {
+                return new Label();
+            }
+        }
+
+        private Div buildTaskDiv(SimpleTask task) {
+            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getId(), task
+                    .getTaskname());
+            A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
+                    CurrentProjectVariables.getShortName())).appendText(linkName);
+            String uid = UUID.randomUUID().toString();
+            taskLink.setId("tagA"+uid);
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + ProjectTypeConstants.TASK + "'";
+            String arg19 = "'" + task.getTaskkey() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + AppContext.getAccountId() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+            String mouseOverFunc = String.format(
+                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                    arg20, arg21, arg22, arg23, arg24);
+            taskLink.setAttribute("onmouseover", mouseOverFunc);
+
+            String avatarLink = StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16);
+            Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
+            if (StringUtils.isNotBlank(task.getAssignuser())) {
+                A avatarDiv = new A().setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
+                        .getProjectId(), task.getAssignuser()))
+                        .appendChild(avatarImg);
+                return new Div().appendChild(avatarDiv, DivLessFormatter.EMPTY_SPACE(), taskLink).setStyle("display: list-item; " +
+                        "list-style-position: " +
+                        "inside;");
+            } else {
+                return new Div().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink).setStyle("display: list-item; " +
+                        "list-style-position: " +
+                        "inside;");
+            }
+        }
+
+        @Override
+        public Class getType() {
+            return String.class;
+        }
     }
 
     private class PeopleInfoComp extends VerticalLayout {

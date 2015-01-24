@@ -102,7 +102,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleAccount>(previewForm)
+		return new CrmPreviewFormControlsGenerator<>(previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
 
 	}
@@ -182,7 +182,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-		compFollowers = new CrmFollowersComp<SimpleAccount>(
+		compFollowers = new CrmFollowersComp<>(
 				CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
 		basicInfo.addComponent(compFollowers);
 

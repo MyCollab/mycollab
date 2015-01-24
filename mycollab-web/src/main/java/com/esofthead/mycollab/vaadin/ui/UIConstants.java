@@ -23,29 +23,15 @@ package com.esofthead.mycollab.vaadin.ui;
  * 
  */
 public class UIConstants {
-
-	public static final String CRM_MAINVIEW = "main-view";
 	public static final String BORDER_BOX_2 = "border-box2";
 	public static final String DEFAULT_CAPTION_FORM_WIDTH = "120px";
 	public static final String DEFAULT_CONTROL_WIDTH = "250px";
 	public static final String DEFAULT_CONTROL_WIDTH_1024_RESOLUTION = "200px";
-	public static final String DEFAULT_CONTROL_EXT_WIDTH = "350px";
-	public static final String DEFAULT_2XCONTROL_WIDTH = "600px";
-	public static final String DEFAULT_2XCONTROL_HEIGHT = "400px";
 	public static final String DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH = "189px";
 	public static final String DEFAULT_ATTACHMENT_THUMBNAIL_HEIGHT = "251px";
 	public static final String H2_STYLE2 = "h2-style2";
 	public static final String HEADER_VIEW = "hdr-view";
 	public static final String HEADER_TEXT = "hdr-text";
-	public static final int TABLE_CONTROL_WIDTH = 22;
-	public static final int TABLE_ACTION_CONTROL_WIDTH = 40;
-	public static final int TABLE_S_LABEL_WIDTH = 80;
-	public static final int TABLE_M_LABEL_WIDTH = 120;
-	public static final int TABLE_X_LABEL_WIDTH = 160;
-	public static final int TABLE_EX_LABEL_WIDTH = 200;
-	public static final int TABLE_EMAIL_WIDTH = 200;
-	public static final int TABLE_DATE_WIDTH = 100;
-	public static final int TABLE_DATE_TIME_WIDTH = 140;
 	public static final String COLORED_GRIDLAYOUT = "colored-gridlayout";
 	public static final String CUSTOM_FIELD_COMPONENT = "customFieldComponent";
 	public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
@@ -61,8 +47,6 @@ public class UIConstants {
 	public static final String THEME_TRANSPARENT_LINK = "transparentbtn";
 	public static final String THEME_SMALL_PADDING = "small-padding";
 	public static final String THEME_BROWN_LINK = "brownbtn";
-	public static final String THEME_COMP_BODY = "component-body";
-	public static final String THEME_COMP_HEADER = "component-header";
 	public static final String THEME_LINK = "link";
 	public static final String THEME_ROUND_BUTTON = "round-border";
 	public static final String THEME_NO_BORDER = "no-border";
@@ -72,16 +56,11 @@ public class UIConstants {
 	public static final String LINK_COMPLETED = "completed";
 	public static final String LINK_OVERDUE = "overdue";
 	public static final String LINK_PENDING = "pending";
-	public static final String SPLIT_BUTTON = "esofthead";
 	public static final String STANDUP_ROW_CONTENT = "standup-row-content";
-	public static final String MESSAGE_IMPORTANT = "important-message";
 	public static final String MILESTONE_BOX = "milestone-box";
-	public static final String PANEL_WITHOUT_BORDER = "noneBorder-panel";
 	public static final String PHOTO_CROPBOX = "photo-cropbox";
-	public static final String PREVIEW = "preview";
 	public static final String REPORT_ROW_BLOCK = "report-row-block";
 	public static final String REPORT_ROW_HEADER = "report-row-header";
-	public static final String WIDGET_TITLE = "widget-title";
 	public static final String WIDGET_ROW = "widget-row";
 	public static final String BUG_LIST = "bug-list";
 	public static final String WIDGET_ROW_METADATA = "metadata";
@@ -93,12 +72,10 @@ public class UIConstants {
 	public static final String PROJECT_SHORT_NAME = "project-shortname";
 	public static final String WORD_WRAP = "wordWrap";
 	public static final String TEXT_ELLIPSIS = "text-ellipsis";
-	public static final String WHITE_TABSHEET = "white-tabsheet";
 	public static final String TEXT_BLUE = "bluetxt";
 	public static final String LABEL_CHECKED = "has-checkmark";
 	public static final String H2_NO_PADDING = "h2-no-padding";
 	public static final String BTN_ACTIVE = "active";
-	public static final String BTN_BORDER = "hasborder";
 	public static final String TEXT_LOG_DATE = "text-log-date";
 	public static final String TEXT_LOG_DATE_FULL = "text-log-date-full";
 	public static final String TEXT_LOG_HOURS = "text-log-hours";
@@ -107,4 +84,13 @@ public class UIConstants {
 	public static final String LAYOUT_LOG = "layout-log";
 	public static final String CONTENT_WRAPPER = "content-wrapper";
 
+	public static final int TABLE_CONTROL_WIDTH = 22;
+	public static final int TABLE_ACTION_CONTROL_WIDTH = 40;
+	public static final int TABLE_S_LABEL_WIDTH = 80;
+	public static final int TABLE_M_LABEL_WIDTH = 120;
+	public static final int TABLE_X_LABEL_WIDTH = 160;
+	public static final int TABLE_EX_LABEL_WIDTH = 200;
+	public static final int TABLE_EMAIL_WIDTH = 200;
+	public static final int TABLE_DATE_WIDTH = 100;
+	public static final int TABLE_DATE_TIME_WIDTH = 140;
 }

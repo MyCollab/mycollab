@@ -97,7 +97,7 @@ public class NoteListItems extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
 	private String type;
-	private Integer typeid;
+	private Integer typeId;
 	private VerticalLayout noteListContainer;
 	private BeanList<NoteService, NoteSearchCriteria, SimpleNote> noteList;
 	private VerticalLayout noteWrapper;
@@ -111,7 +111,7 @@ public class NoteListItems extends VerticalLayout {
 	}
 
 	public NoteListItems(final String title, final String type,
-			final Integer typeid) {
+			final Integer typeId) {
 		super();
 
 		Label header = new Label(title);
@@ -119,7 +119,7 @@ public class NoteListItems extends VerticalLayout {
 		this.addComponent(header);
 		noteService = ApplicationContextUtil.getSpringBean(NoteService.class);
 		this.type = type;
-		this.typeid = typeid;
+		this.typeId = typeId;
 
 		initUI();
 	}
@@ -142,12 +142,12 @@ public class NoteListItems extends VerticalLayout {
 
 		final NoteSearchCriteria searchCriteria = new NoteSearchCriteria();
 		searchCriteria.setType(new StringSearchField(SearchField.AND, type));
-		searchCriteria.setTypeid(new NumberSearchField(typeid));
+		searchCriteria.setTypeid(new NumberSearchField(typeId));
 		noteList.setSearchCriteria(searchCriteria);
 	}
 
 	private void initUI() {
-		noteWrapper = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, true, false, true))
+		noteWrapper = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(true, true, false, true))
 				.withWidth("100%").withStyleName("note-view");
 
 		this.addComponent(noteWrapper);
@@ -184,7 +184,7 @@ public class NoteListItems extends VerticalLayout {
 
 	public void showNotes(final String type, final int typeid) {
 		this.type = type;
-		this.typeid = typeid;
+		this.typeId = typeid;
 		displayNotes();
 	}
 
@@ -495,7 +495,7 @@ public class NoteListItems extends VerticalLayout {
 							note.setSaccountid(AppContext.getAccountId());
 							note.setSubject("");
 							note.setType(type);
-							note.setTypeid(typeid);
+							note.setTypeid(typeId);
 							note.setCreatedtime(new GregorianCalendar()
 									.getTime());
 							note.setLastupdatedtime(new GregorianCalendar()
@@ -516,7 +516,7 @@ public class NoteListItems extends VerticalLayout {
 							relayNotification.setType(type);
 							relayNotification
 									.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
-							relayNotification.setTypeid("" + typeid);
+							relayNotification.setTypeid("" + typeId);
 
 							if (type.equals(CrmTypeConstants.ACCOUNT)) {
 								relayNotification

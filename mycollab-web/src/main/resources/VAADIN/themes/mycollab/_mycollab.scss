@@ -1,33 +1,589 @@
-@import "../chameleon/chameleon.scss";
+@import "../chameleon/chameleon";
+@import "variables";
+@import "global";
 
-@mixin margin-container($left, $top, $right, $bottom) {
-    &.v-margin-top {
-      padding-top: $top;
-    }
-    &.v-margin-right{
-      padding-right: $right;
-    }
-    &.v-margin-bottom {
-      padding-bottom: $bottom;
-    }
-    &.v-margin-left {
-      padding-left: $left;
+@import "components/breadcrumb";
+
+@mixin mycollab {
+
+  @include chameleon;
+  @include mycollab-global;
+  @include mycollab-breadcrumb;
+
+  /**
+   * "optional-" prefix means that the style is not necessarily used, it can be left blank
+   * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
+   *
+   **/
+  html {
+    overflow: hidden;
+  }
+
+  * {
+    :focus, :active {
+      outline: 0px none;
+      -moz-outline: 0px none;
     }
   }
 
-@mixin mycollab {
-  @include chameleon;
+  .v-app {
+    background: rgb(243, 243, 243);
+  }
 
-  $border-color: #CFCFCF;
-  $background-color: #F7F7F7;
-  $font-stack: Arial, Helvetica, sans-serif;
+  /* Application background */
 
-  $font-normal: 1em;
-  $font-large: 1.2em;
-  $font-larger: 1.3em;
-  $font-x-large: 1.5em;
-  $font-xx-large: 2em;
-  $font-largest: 3em;
+  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+    background-color: rgb(146, 189, 132);
+  }
+
+  .v-panel-content {
+    background-color: #F5F5F5;
+  }
+
+  .v-panel-bubble {
+    .v-panel-captionwrap, .v-panel-deco-bubble {
+      background-color: #F5F5F5;
+    }
+  }
+
+  .v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
+    background-color: #F5F5F5;
+  }
+
+  /* Base font size and color */
+
+  .v-app, .v-window, .v-popupview-popup {
+    font-size: $font-normal;
+    color: rgb(15, 13, 13);
+  }
+
+  .v-window {
+    input, button, textarea {
+      font-size: $font-normal;
+      color: rgb(15, 13, 13);
+    }
+  }
+
+  .v-popupview-popup {
+    input, button, textarea {
+      font-size: $font-normal;
+      color: rgb(15, 13, 13);
+    }
+  }
+
+  .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
+    font-size: $font-normal;
+    color: rgb(15, 13, 13);
+  }
+
+  .v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
+    font-size: $font-normal;
+  }
+
+  div.v-button-down:active {
+    background-color: #43533E;
+  }
+
+  .v-button {
+    &:focus {
+      background-color: rgb(82, 104, 75);
+    }
+    &:active .v-button-wrap {
+      border-color: #43533E;
+    }
+  }
+
+  /* Base border color */
+
+  .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
+    border-color: #43533E;
+  }
+
+  .v-tabsheet-scrollerNext-disabled {
+    border-color: #43533E;
+    &:active {
+      border-color: #43533E;
+    }
+  }
+
+  .v-table-header-wrap, .v-table-body, .v-table-resizer {
+    border-color: #43533E;
+  }
+
+  div {
+    &.v-table-focus-slot-left, &.v-table-focus-slot-right {
+      border-color: #43533E;
+    }
+  }
+
+  input.v-textfield, textarea.v-textarea, .v-filterselect {
+    border-color: #43533E;
+  }
+
+  input.v-textfield, textarea.v-textarea, .v-filterselect {
+    border-bottom-color: rgb(82, 104, 75);
+    border-left-color: rgb(82, 104, 75);
+    border-right-color: rgb(82, 104, 75);
+  }
+
+  .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
+    background-color: #64825A;
+    border-color: #43533E;
+  }
+
+  .v-accordion-opaque {
+    background-color: #64825A;
+    border-color: #43533E;
+    .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
+      background-color: #64825A;
+      border-color: #43533E;
+    }
+  }
+
+  .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+    background-color: #64825A;
+    border-color: #43533E;
+  }
+
+  .v-button .v-button-wrap {
+    background-position: left top;
+  }
+
+  .v-disabled.v-button {
+    &:focus .v-button-wrap, &:active .v-button-wrap {
+      background-position: left top;
+    }
+  }
+
+  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-window-wrap, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-panel-bubble .v-panel-caption-bubble, .v-slider-handle, .v-tabsheet-tabitem-selected .v-caption, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-progressindicator-indicator, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+    /*background-image: url(../chameleon/img/grad-light-top2.png);*/
+    background-position: left top;
+  }
+
+  .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
+    background-color: rgb(82, 104, 75);
+  }
+
+  .v-progressindicator-wrapper {
+    border-color: rgb(82, 104, 75);
+  }
+
+  .v-button {
+    text-shadow: 0 -1px 0 #43533E;
+  }
+
+  .v-disabled.v-button {
+    &:focus, &:active {
+      text-shadow: 0 -1px 0 #43533E;
+    }
+  }
+
+  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
+    text-shadow: 0 -1px 0 #43533E;
+  }
+
+  /* Background border color */
+
+  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
+    border-color: rgb(120, 151, 110);
+  }
+
+  .v-panel-bubble {
+    .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
+      border-color: rgb(120, 151, 110);
+    }
+  }
+
+  .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
+    border-color: rgb(120, 151, 110);
+  }
+
+  /* Alternate colors */
+
+  .v-label-color {
+    color: #6482B3;
+  }
+
+  .v-button-link {
+    color: #6482B3;
+    &:focus, &:active {
+      color: #6482B3;
+    }
+  }
+
+  .v-disabled.v-button-link {
+    color: #6482B3;
+    &:focus {
+      color: #6482B3;
+    }
+  }
+
+  .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
+    color: #6482B3;
+  }
+
+  .v-button-default {
+    border-color: #495972;
+  }
+
+  .v-disabled.v-button-default {
+    border-color: #495972;
+    &:focus {
+      border-color: #495972;
+    }
+  }
+
+  .v-button-default:active, .v-ie8 .v-button-default.v-pressed {
+    border-color: #495972;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      border-color: #495972;
+    }
+  }
+
+  .v-horizontallayout-segment-alternate .v-button-down {
+    border-color: #495972;
+  }
+
+  .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
+    background-color: rgb(86, 108, 143);
+  }
+
+  .v-button-default:active .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+    border-color: rgb(86, 108, 143);
+  }
+
+  .v-button-default {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+  }
+
+  .v-disabled.v-button-default {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+    &:focus {
+      background-color: #6482B3;
+      color: rgb(244, 244, 245);
+      text-shadow: 0 -1px 0 #495972;
+    }
+  }
+
+  .v-button-default:active, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+  }
+
+  .v-contextmenu .gwt-MenuItem-selected {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+    div {
+      background-color: #6482B3;
+      color: rgb(244, 244, 245);
+      text-shadow: 0 -1px 0 #495972;
+    }
+  }
+
+  .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      background-color: #6482B3;
+      color: rgb(244, 244, 245);
+      text-shadow: 0 -1px 0 #495972;
+    }
+  }
+
+  .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
+    background-color: #6482B3;
+    color: rgb(244, 244, 245);
+    text-shadow: 0 -1px 0 #495972;
+  }
+
+  .v-panel-caption, .v-table-striped .v-table-row-odd {
+    background: $background-color;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      text-shadow: 0 1px 0 #495972;
+    }
+  }
+
+  /**
+   * "optional-" prefix means that the style is not necessarily used, it can be left blank
+   * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
+   *
+   **/
+
+  /* Application background */
+
+  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+    background-color: white;
+    border-radius: 3px;
+  }
+
+  .v-panel-bubble {
+    .v-panel-captionwrap, .v-panel-deco-bubble {
+    }
+  }
+
+  /* Base font size and color */
+
+  .v-app, .v-window, .v-popupview-popup {
+    font-size: $font-normal;
+    color: #525252;
+  }
+
+  .v-app {
+    input, button, textarea {
+      font-size: $font-normal;
+      color: #525252;
+    }
+  }
+
+  .v-window {
+    input, button, textarea {
+      font-size: $font-normal;
+      color: #525252;
+    }
+  }
+
+  .v-popupview-popup {
+    input, button, textarea {
+      font-size: $font-normal;
+      color: #525252;
+    }
+  }
+
+  .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
+    font-size: $font-normal;
+    color: #525252;
+  }
+
+  .v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
+    font-size: $font-normal;
+  }
+
+  div.v-button-down:active {
+    background-color: rgb(129, 129, 129);
+  }
+
+  .v-button:focus {
+    background-color: #A1A1A1;
+  }
+
+  /* Base border color */
+
+  .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
+    border-color: $border-color;
+  }
+
+  .v-tabsheet-scrollerNext-disabled {
+    border-color: $border-color;
+    &:active {
+      border-color: $border-color;
+    }
+  }
+
+  .v-table-header-wrap, .v-table-body, .v-table-resizer {
+    border-color: $border-color;
+  }
+
+  div {
+    &.v-table-focus-slot-left, &.v-table-focus-slot-right {
+      border-color: $border-color;
+    }
+  }
+
+  input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, textarea.v-textarea, .v-filterselect {
+    border-color: $border-color;
+  }
+
+  .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
+    background-color: #C9C9C9;
+    border-color: $border-color;
+  }
+
+  .v-accordion-opaque {
+    background-color: #C9C9C9;
+    border-color: $border-color;
+    .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
+      background-color: #C9C9C9;
+      border-color: $border-color;
+    }
+  }
+
+  .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
+    background-color: #C9C9C9;
+    border-color: $border-color;
+  }
+
+  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-window-wrap, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-panel-bubble .v-panel-caption-bubble, .v-slider-handle, .v-tabsheet-tabitem-selected .v-caption, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-progressindicator-indicator, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar, .v-button:active .v-button-wrap, .v-ie8 .v-pressed.v-button .v-button-wrap, .v-button-down .v-button-wrap {}
+
+  .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
+    background-color: #A1A1A1;
+  }
+
+  .v-progressindicator-wrapper {
+    border-color: #A1A1A1;
+  }
+
+  .v-button {
+    text-shadow: 0 1px 0 #DFDFDF;
+  }
+
+  .v-disabled.v-button {
+    &:focus, &:active {
+      text-shadow: 0 1px 0 #DFDFDF;
+    }
+  }
+
+  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
+    text-shadow: 0 1px 0 #DFDFDF;
+  }
+
+  /* Background border color */
+
+  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
+    border-color: #A9A9A9;
+  }
+
+  .v-panel-bubble {
+    .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
+      border-color: #A9A9A9;
+    }
+  }
+
+  .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
+    border-color: #A9A9A9;
+  }
+
+  /* Alternate colors */
+
+  .v-label-color {
+    color: #006dac;
+  }
+
+  .v-button-link {
+    color: #006dac;
+    &:focus, &:active {
+      color: #006dac;
+    }
+  }
+
+  .v-disabled.v-button-link {
+    color: #006dac;
+    &:focus {
+      color: #006dac;
+    }
+  }
+
+  .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
+    color: #006dac;
+  }
+
+  .v-button-default {
+    border-color: #2E5A84;
+  }
+
+  .v-disabled.v-button-default {
+    border-color: #2E5A84;
+    &:focus {
+      border-color: #2E5A84;
+    }
+  }
+
+  .v-button-default:active, .v-ie8 .v-button-default.v-pressed {
+    border-color: #2E5A84;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      border-color: #2E5A84;
+    }
+  }
+
+  .v-horizontallayout-segment-alternate .v-button-down {
+    border-color: #2E5A84;
+  }
+
+  .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
+    background-color: rgb(45, 107, 165);
+  }
+
+  .v-button-default:active .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+    border-color: rgb(45, 107, 165);
+  }
+
+  .v-button-default {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+  }
+
+  .v-disabled.v-button-default {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+    &:focus {
+      background-color: #287ECE;
+      color: #F7F8F9;
+      text-shadow: 0 -1px 0 #2E5A84;
+    }
+  }
+
+  .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+  }
+
+  .v-contextmenu .gwt-MenuItem-selected {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+    div {
+      background-color: #287ECE;
+      color: #F7F8F9;
+      text-shadow: 0 -1px 0 #2E5A84;
+    }
+  }
+
+  .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      background-color: #287ECE;
+      color: #F7F8F9;
+      text-shadow: 0 -1px 0 #2E5A84;
+    }
+  }
+
+  .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
+    background-color: #287ECE;
+    color: #F7F8F9;
+    text-shadow: 0 -1px 0 #2E5A84;
+  }
+
+  .sidebar-menu {
+    .tab-selected, .selected {
+      text-shadow: 0 1px 0 #2E5A84;
+    }
+  }
 
   @media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
     .projectDashboardView {
@@ -53,599 +609,8 @@
     }
   }
 
-  html {
-    overflow: hidden;
-  }
-
   button::-moz-focus-inner {
     border: 0;
-  }
-
-  * {
-    :focus, :active {
-      outline: 0px none;
-      -moz-outline: 0px none;
-    }
-  }
-
-  /**
-  * "optional-" prefix means that the style is not necessarily used, it can be left blank
-  * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
-  *
-  **/
-
-  /* Application background */
-
-  .v-app {
-    background: rgb(146, 189, 132);
-  }
-
-  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
-    background-color: rgb(146, 189, 132);
-    background-color: rgba(146, 189, 132, 0.85);
-  }
-
-  body {
-    &.v-ie6 .v-window, &.v-ie7 .v-window, &.v-ie6 .v-popupview-popup, &.v-ie7 .v-popupview-popup, &.v-ie6 .v-filterselect-suggestpopup, &.v-ie7 .v-filterselect-suggestpopup, &.v-ie6 .v-datefield-popup, &.v-ie7 .v-datefield-popup, &.v-ie6 .v-contextmenu, &.v-ie7 .v-contextmenu, &.v-ie6 .v-menubar-submenu, &.v-ie7 .v-menubar-submenu {
-      background-color: rgb(245, 245, 245);
-    }
-  }
-
-  .v-panel-content {
-    background-color: rgb(245, 245, 245);
-  }
-
-  .v-panel-bubble {
-    .v-panel-captionwrap, .v-panel-deco-bubble {
-      background-color: rgb(245, 245, 245);
-    }
-  }
-
-  .v-tabsheet-content, .v-tabsheet-tabitem-selected, .v-slider-base, .v-window-modalitycurtain, .v-window-opaque, .v-progressindicator-wrapper, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-accordion-opaque div.v-accordion-item-open, .v-table-scrollposition, .v-table-body {
-    background-color: rgb(245, 245, 245);
-  }
-
-  /* Base font size and color */
-
-  .v-app, .v-window, .v-popupview-popup {
-    font-size: 13px;
-    color: rgb(15, 13, 13);
-  }
-
-  .v-app {
-    input, button, textarea {
-      font-size: 13px;
-      color: rgb(15, 13, 13);
-    }
-  }
-
-  .v-window {
-    input, button, textarea {
-      font-size: 13px;
-      color: rgb(15, 13, 13);
-    }
-  }
-
-  .v-popupview-popup {
-    input, button, textarea {
-      font-size: 13px;
-      color: rgb(15, 13, 13);
-    }
-  }
-
-  .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
-    font-size: 13px;
-    color: rgb(15, 13, 13);
-  }
-
-  .v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
-    font-size: 13px;
-  }
-
-  /* Base background color */
-
-  div.v-button-down:active {
-    background-color: rgb(67, 83, 62);
-  }
-
-  .v-button {
-    &:focus {
-      background-color: rgb(82, 104, 75);
-    }
-    &:active .v-button-wrap {
-      border-color: rgb(67, 83, 62);
-    }
-  }
-
-  /* Base border color */
-
-  .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
-    border-color: rgb(67, 83, 62);
-  }
-
-  .v-tabsheet-scrollerNext-disabled {
-    border-color: rgb(67, 83, 62);
-    &:active {
-      border-color: rgb(67, 83, 62);
-    }
-  }
-
-  .v-table-header-wrap, .v-table-body, .v-table-resizer {
-    border-color: rgb(67, 83, 62);
-  }
-
-  div {
-    &.v-table-focus-slot-left, &.v-table-focus-slot-right {
-      border-color: rgb(67, 83, 62);
-    }
-  }
-
-  input.v-textfield, textarea.v-textarea, .v-filterselect {
-    border-color: rgb(67, 83, 62);
-  }
-
-  input.v-textfield, textarea.v-textarea, .v-filterselect {
-    border-bottom-color: rgb(82, 104, 75);
-    border-left-color: rgb(82, 104, 75);
-    border-right-color: rgb(82, 104, 75);
-  }
-
-  .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
-    background-color: rgb(100, 130, 90);
-    border-color: rgb(67, 83, 62);
-  }
-
-  .v-accordion-opaque {
-    background-color: rgb(100, 130, 90);
-    border-color: rgb(67, 83, 62);
-    .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
-      background-color: rgb(100, 130, 90);
-      border-color: rgb(67, 83, 62);
-    }
-  }
-
-  .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
-    background-color: rgb(100, 130, 90);
-    border-color: rgb(67, 83, 62);
-  }
-
-  .v-button .v-button-wrap {
-    /*background-image: url(../chameleon/img/grad-light-top2.png);*/
-    background-position: left top;
-  }
-
-  .v-disabled.v-button {
-    &:focus .v-button-wrap, &:active .v-button-wrap {
-      /*background-image: url(../chameleon/img/grad-light-top2.png);*/
-      background-position: left top;
-    }
-  }
-
-  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-window-wrap, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-panel-bubble .v-panel-caption-bubble, .v-slider-handle, .v-tabsheet-tabitem-selected .v-caption, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-progressindicator-indicator, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active, .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
-    /*background-image: url(../chameleon/img/grad-light-top2.png);*/
-    background-position: left top;
-  }
-
-  .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
-    background-color: rgb(82, 104, 75);
-  }
-
-  .v-progressindicator-wrapper {
-    border-color: rgb(82, 104, 75);
-  }
-
-  .v-button {
-    text-shadow: 0 -1px 0 rgb(67, 83, 62);
-  }
-
-  .v-disabled.v-button {
-    &:focus, &:active {
-      text-shadow: 0 -1px 0 rgb(67, 83, 62);
-    }
-  }
-
-  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
-    text-shadow: 0 -1px 0 rgb(67, 83, 62);
-  }
-
-  /* Background border color */
-
-  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
-    border-color: rgb(120, 151, 110);
-  }
-
-  .v-panel-bubble {
-    .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
-      border-color: rgb(120, 151, 110);
-    }
-  }
-
-  .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
-    border-color: rgb(120, 151, 110);
-  }
-
-  /* Alternate colors */
-
-  .v-label-color {
-    color: rgb(100, 130, 179);
-  }
-
-  .v-button-link, .v-disabled.v-button-link {
-    color: rgb(100, 130, 179);
-    &:focus, &:active {
-      color: rgb(100, 130, 179);
-    }
-  }
-
-  .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
-    color: rgb(100, 130, 179);
-  }
-
-  .v-button-default {
-    border-color: rgb(73, 89, 114);
-  }
-
-  .v-disabled.v-button-default {
-    border-color: rgb(73, 89, 114);
-    &:focus {
-      border-color: rgb(73, 89, 114);
-    }
-  }
-
-  .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
-    border-color: rgb(73, 89, 114);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      border-color: rgb(73, 89, 114);
-    }
-  }
-
-  .v-horizontallayout-segment-alternate .v-button-down {
-    border-color: rgb(73, 89, 114);
-  }
-
-  .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
-    background-color: rgb(86, 108, 143);
-  }
-
-  .v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
-    border-color: rgb(86, 108, 143);
-  }
-
-  .v-button-default {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-  }
-
-  .v-disabled.v-button-default {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-    &:focus {
-      background-color: rgb(100, 130, 179);
-      color: rgb(244, 244, 245);
-      text-shadow: 0 -1px 0 rgb(73, 89, 114);
-    }
-  }
-
-  .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-  }
-
-  .v-contextmenu .gwt-MenuItem-selected {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-    div {
-      background-color: rgb(100, 130, 179);
-      color: rgb(244, 244, 245);
-      text-shadow: 0 -1px 0 rgb(73, 89, 114);
-    }
-  }
-
-  .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      background-color: rgb(100, 130, 179);
-      color: rgb(244, 244, 245);
-      text-shadow: 0 -1px 0 rgb(73, 89, 114);
-    }
-  }
-
-  .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
-    background-color: rgb(100, 130, 179);
-    color: rgb(244, 244, 245);
-    text-shadow: 0 -1px 0 rgb(73, 89, 114);
-  }
-
-  .v-ie6 .v-progressindicator-indicator {
-    background-color: rgb(100, 130, 179);
-  }
-
-  .v-panel-caption, .v-table-striped .v-table-row-odd {
-    background: rgb(247, 247, 247);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      text-shadow: 0 1px 0 rgb(73, 89, 114);
-    }
-  }
-
-  //@import "../chameleon/styles.css";
-
-  /**
-  * "optional-" prefix means that the style is not necessarily used, it can be left blank
-  * "generated-" prefix means that the style is calculated from some other color, and not directly selected by the editor user
-  *
-  **/
-
-  /* Application background */
-
-  .v-app {
-    background: rgb(249, 249, 249);
-  }
-
-  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
-    background-color: white;
-    border-radius: 3px;
-  }
-
-
-
-  /* Base font size and color */
-
-  .v-app, .v-window, .v-popupview-popup {
-    font-size: 13px;
-    color: #525252;
-  }
-
-  .v-app {
-    input, button, textarea {
-      font-size: 13px;
-      color: #525252;
-    }
-  }
-
-  .v-window {
-    input, button, textarea {
-      font-size: 13px;
-      color: #525252;
-    }
-  }
-
-  .v-popupview-popup {
-    input, button, textarea {
-      font-size: 13px;
-      color: #525252;
-    }
-  }
-
-  .v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
-    font-size: 13px;
-    color: #525252;
-  }
-
-  .v-app select, .v-window select, .v-popupview-popup select, .v-datefield-popup select {
-    font-size: 13px;
-  }
-
-  /* Base background color */
-
-  div.v-button-down:active {
-    background-color: rgb(129, 129, 129);
-  }
-
-  .v-button:focus {
-    background-color: rgb(161, 161, 161);
-  }
-
-  /* Base border color */
-
-  .v-button-down .v-button-wrap, .v-datefield-calendarpanel-header td, .v-slider-base, .v-tabsheet-scrollerNext {
-    border-color: #CFCFCF;
-  }
-
-  .v-tabsheet-scrollerNext-disabled {
-    border-color: #CFCFCF;
-    &:active {
-      border-color: #CFCFCF;
-    }
-  }
-
-  .v-table-header-wrap, .v-table-body, .v-table-resizer {
-    border-color: #CFCFCF;
-  }
-
-  div {
-    &.v-table-focus-slot-left, &.v-table-focus-slot-right {
-      border-color: #CFCFCF;
-    }
-  }
-
-  input.v-textfield, textarea.v-textarea, .v-filterselect, input.v-textfield, textarea.v-textarea, .v-filterselect {
-    border-color: #CFCFCF;
-  }
-
-  .v-button, .v-datefield-button, .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-datefield-calendarpanel-weekdays strong, .v-slider-handle, .v-table-header-wrap, .v-table-generated-row, .v-table-header-drag, .v-filterselect-prevpage-off, .v-filterselect-nextpage-off, .v-filterselect-prevpage, .v-filterselect-nextpage, .v-filterselect-select-button, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked {
-    background-color: rgb(201, 201, 201);
-    border-color: #CFCFCF;
-  }
-
-  .v-accordion-opaque {
-    background-color: rgb(201, 201, 201);
-    border-color: #CFCFCF;
-    .v-accordion-item-open, .v-accordion-item-caption, .v-accordion-item-open .v-accordion-item-caption:active {
-      background-color: rgb(201, 201, 201);
-      border-color: #CFCFCF;
-    }
-  }
-
-  .v-tabsheet-scroller, .v-csslayout-toolbar, .v-menubar {
-    background-color: rgb(201, 201, 201);
-    border-color: #CFCFCF;
-  }
-
-  .v-datefield-calendarpanel-weekdays strong, .v-splitpanel-hsplitter-small, .v-splitpanel-vsplitter-small, .v-splitpanel-hsplitter-small-locked, .v-splitpanel-vsplitter-small-locked {
-    background-color: rgb(161, 161, 161);
-  }
-
-  .v-progressindicator-wrapper {
-    border-color: rgb(161, 161, 161);
-  }
-
-  .v-button {
-    text-shadow: 0 1px 0 rgb(223, 223, 223);
-  }
-
-  .v-disabled.v-button {
-    &:focus, &:active {
-      text-shadow: 0 1px 0 rgb(223, 223, 223);
-    }
-  }
-
-  .v-datefield-calendarpanel-header button, td.v-datefield-calendarpanel-month, .v-tabsheet-tabitem-selected .v-caption, .v-window-header, .v-table-caption-container, .v-accordion-item-caption, .v-menubar .v-menubar-menuitem, .v-filterselect-select-button .v-filterselect-input {
-    text-shadow: 0 1px 0 rgb(223, 223, 223);
-  }
-
-  /* Background border color */
-
-  .v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
-    border-color: rgb(169, 169, 169);
-  }
-
-  .v-panel-bubble {
-    .v-panel-captionwrap, .v-panel-content-bubble, .v-panel-deco-bubble {
-      border-color: rgb(169, 169, 169);
-    }
-  }
-
-  .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-content, .v-tabsheet-deco, .v-slider, .v-splitpanel-hsplitter, .v-splitpanel-vsplitter, .v-splitpanel-hsplitter-locked, .v-splitpanel-vsplitter-locked, .v-table-scrollposition, .v-accordion, .v-accordion-item-caption, .v-accordion-item-open, .v-menubar-separator span {
-    border-color: rgb(169, 169, 169);
-  }
-
-  /* Alternate colors */
-
-  .v-label-color {
-    color: #006dac;
-  }
-
-  .v-button-link, .v-disabled.v-button-link {
-    color: #006dac;
-    &:focus, &:active {
-      color: #006dac;
-    }
-  }
-
-  .v-app a, .v-popupview-popup a, .v-popupview, .sidebar-menu .v-label {
-    color: #006dac;
-  }
-
-  .v-button-default {
-    border-color: rgb(46, 90, 132);
-  }
-
-  .v-disabled.v-button-default {
-    border-color: rgb(46, 90, 132);
-    &:focus {
-      border-color: rgb(46, 90, 132);
-    }
-  }
-
-  .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed {
-    border-color: rgb(46, 90, 132);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      border-color: rgb(46, 90, 132);
-    }
-  }
-
-  .v-horizontallayout-segment-alternate .v-button-down {
-    border-color: rgb(46, 90, 132);
-  }
-
-  .v-button-default:focus, .v-horizontallayout-segment-alternate .v-button-down:active {
-    background-color: rgb(45, 107, 165);
-  }
-
-  .v-button-default:active .v-button-wrap, .v-ie7 .v-button-default.v-pressed .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap, .v-progressindicator-indicator, .v-datefield-calendarpanel-day-focused, .v-datefield-calendarpanel-day:hover, .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
-    border-color: rgb(45, 107, 165);
-  }
-
-  .v-button-default {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-  }
-
-  .v-disabled.v-button-default {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-    &:focus {
-      background-color: rgb(40, 126, 206);
-      color: rgb(247, 248, 249);
-      text-shadow: 0 -1px 0 rgb(46, 90, 132);
-    }
-  }
-
-  .v-button-default:active, .v-ie7 .v-button-default.v-pressed, .v-ie8 .v-button-default.v-pressed, .v-panel-bubble .v-panel-caption, .v-datefield-calendarpanel-day-selected, .v-table tr.v-selected {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-  }
-
-  .v-contextmenu .gwt-MenuItem-selected {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-    div {
-      background-color: rgb(40, 126, 206);
-      color: rgb(247, 248, 249);
-      text-shadow: 0 -1px 0 rgb(46, 90, 132);
-    }
-  }
-
-  .v-filterselect-suggestpopup .gwt-MenuItem-selected, .v-progressindicator-indicator, .v-tree-node-selected span {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      background-color: rgb(40, 126, 206);
-      color: rgb(247, 248, 249);
-      text-shadow: 0 -1px 0 rgb(46, 90, 132);
-    }
-  }
-
-  .v-horizontallayout-segment-alternate .v-button-down, .v-menubar .v-menubar-menuitem-selected, .v-menubar-submenu .v-menubar-menuitem-selected {
-    background-color: rgb(40, 126, 206);
-    color: rgb(247, 248, 249);
-    text-shadow: 0 -1px 0 rgb(46, 90, 132);
-  }
-
-  .v-ie6 .v-progressindicator-indicator {
-    background-color: rgb(40, 126, 206);
-  }
-
-  .sidebar-menu {
-    .tab-selected, .selected {
-      text-shadow: 0 1px 0 rgb(46, 90, 132);
-    }
   }
 
   input {
@@ -653,14 +618,14 @@
       border-radius: 2px 0px 0px 2px;
     }
     &:focus {
-      background-color: white;
+      background-color: #FFF;
       border-color: #1185DE;
       box-shadow: 0 0 1px #0a58cd inset;
     }
   }
 
   textarea:focus {
-    background-color: white;
+    background-color: #FFF;
     border-color: #1185DE;
     box-shadow: 0 0 1px #0a58cd inset;
   }
@@ -679,7 +644,7 @@
     border: none;
   }
 
-  .mycollab .v-richtextarea {
+  .v-richtextarea {
     border: 1px solid $border-color;
   }
 
@@ -755,6 +720,11 @@
     margin: 0px;
   }
 
+  .v-button.v-button-link {
+    &:active .v-button-wrap, &:focus .v-button-wrap {
+    }
+  }
+
   .v-textarea {
     overflow: auto;
   }
@@ -783,7 +753,7 @@
       padding: 0px;
     }
     &.h2_community {
-      font-size: $font-large;
+      font-size: $font-larger;
       padding-top: 10px;
       text-align: center;
     }
@@ -794,23 +764,19 @@
   }
 
   input.v-textfield, textarea.v-textarea, .v-filterselect {
-    background: none no-repeat left top white;
+    background: none no-repeat left top #FFF;
     border-color: $border-color;
   }
 
   .v-ie {
     input.v-textfield, textarea.v-textarea, .v-filterselect {
-      background: none no-repeat left top white;
+      background: none no-repeat left top #FFF;
       border-color: $border-color;
     }
   }
 
   input.v-widget.v-textfield[type="text"], .v-filterselect {
     height: 25px;
-  }
-
-  .v-app {
-    background: rgb(243, 243, 243);
   }
 
   .v-button {
@@ -857,19 +823,19 @@
   }
 
   .v-window-modalitycurtain {
-    background-color: white;
+    background-color: #ffffff;
   }
 
   .popupContent {
     .v-window-contents {
-      background-color: white;
+      background-color: #FFF;
     }
     .v-window-outerheader {
       background-color: $background-color;
-      padding: 0px;
+      padding: 0;
       .v-window-header {
         padding: 12px 30px 12px 10px;
-        font-size: 14px;
+        font-size: $font-large;
         color: #525252;
       }
     }
@@ -922,7 +888,7 @@
   }
 
   select.v-select-select {
-    background: none no-repeat left top white;
+    background: none no-repeat left top #FFF;
     border: 1px solid $border-color;
   }
 
@@ -947,10 +913,13 @@
   }
 
   div.v-button-link {
-    &.v-button-no-margin:focus, &:focus {
+    &.v-button-no-margin:focus {
       margin: 0px;
     }
     margin: 0px;
+    &:focus {
+      margin: 0px;
+    }
   }
 
   .v-button-link:active {
@@ -976,6 +945,7 @@
   }
 
   .v-button-borderless:active {
+    /*padding: 0px;*/
     margin: 0px;
   }
 
@@ -987,6 +957,7 @@
   }
 
   body.v-ie .v-pressed.v-button-borderless {
+    /*padding: 0px;*/
     margin: 0px;
   }
 
@@ -1250,6 +1221,7 @@
           background-position: left top;
           background-image: none;
         }
+        /*  border-width: 1px 0px 1px 0px; */
         border-radius: 0px;
         width: 100%;
         .v-button-wrap {
@@ -1324,20 +1296,20 @@
   }
 
   .v-button-greenbtn-no-radius-left {
-    background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #2599C8;
+    background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #2599c8;
     border: 1px solid #093768;
-    color: white;
-    text-shadow: 1px 1px 0px #1570CD;
+    color: #FFF;
+    text-shadow: 1px 1px 0px #1570cd;
     border-radius: 3px;
     padding: 3px 13px;
     &:hover {
-      background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #1377B3;
+      background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #1377b3;
       border: 1px solid #093768;
     }
   }
 
   .v-button-link.medium-text .v-button-caption {
-    font-size: 14px;
+    font-size: $font-large;
   }
 
   .list-view {
@@ -1417,10 +1389,6 @@
     height: 100%;
   }
 
-  .v-ie7 .v-button-link.v-button-wordWrap .v-button-caption {
-    white-space: nowrap;
-  }
-
   .v-table-cell-wrapper .v-button-link.v-button-wordWrap {
     .v-button-wrap {
       display: table;
@@ -1460,10 +1428,10 @@
         padding: 0px;
         background: none no-repeat 0 0 transparent;
         &.isSelected {
-          background-color: white;
+          background-color: #FFF;
         }
         &:focus .v-button-caption, &:active .v-button-caption {
-          color: white;
+          color: #FFF;
         }
       }
       border-radius: 0px;
@@ -1487,11 +1455,11 @@
     }
   }
 
-  .v-ie .h-sidebar-menu .v-pressed.v-button-link, v-ie6 .h-sidebar-menu .v-pressed.v-button-link, .v-ie7 .h-sidebar-menu .v-pressed.v-button-link {
+  .v-ie .h-sidebar-menu .v-pressed.v-button-link {
     margin: 0px;
   }
 
-  .h-sidebar-menu .v-button-link .v-button-wrap, .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap, .v-ie7 .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
+  .h-sidebar-menu .v-button-link .v-button-wrap, .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
     display: inline-block;
     *display: inline;
     zoom: 1;
@@ -1537,7 +1505,7 @@
     }
   }
 
-  .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap, .v-ie7 .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
+  .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
     border: none;
   }
 
@@ -1553,11 +1521,11 @@
       }
       .v-button-caption {
         text-decoration: none;
-        color: white;
+        color: #FFF;
         text-shadow: none;
         font-weight: bold;
-        font-family: $font-stack;
-        font-size: 13px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: $font-normal;
       }
     }
     .v-button.v-button-link.isSelected .v-button-caption {
@@ -1575,6 +1543,10 @@
   input.v-textfield-pagedtable-pagefield {
     margin-top: 1px;
   }
+
+  /* input.v-textfield[type="text"],textarea.v-textarea,.v-filterselect { */
+  /*  padding: 3px 3px 4px; */
+  /* } */
 
   .v-textfield {
     &.v-readonly {
@@ -1652,28 +1624,34 @@
   .topNavigation {
     .service-menu .v-button-caption {
       font-weight: bold;
-      font-size: 13px;
+      font-size: $font-normal;
       padding: 0 6px 0 3px;
+      /* text-shadow: 1px 1px 0px #6b6b6b;
+      filter: progid:DXImageTransform.Microsoft.Shadow(color=#6B6B6B,
+          direction=45); */
     }
     .subdomain {
       font-weight: bold;
-      font-size: 13px;
+      font-size: $font-normal;
       color: white;
       padding: 0 6px 0 3px;
     }
     .v-button-wrap {
       border: none;
       background: none;
+      /* padding: 0px; */
     }
     .v-button {
       &:active .v-button-wrap, span.v-button-wrap, &:active span.v-button-wrap, &:hover span.v-button-wrap {
         border: none;
         background: none;
+        /* padding: 0px; */
       }
     }
     .v-buttongroup .v-button span.v-button-wrap {
       border: none;
       background: none;
+      /* padding: 0px; */
     }
     .service-menu div.v-button-link {
       &:focus, &:active {
@@ -1754,7 +1732,7 @@
     }
     .link .v-button-caption {
       text-decoration: none;
-      font-size: 14px;
+      font-size: $font-large;
       color: black;
       font-weight: normal;
       &:hover {
@@ -1773,7 +1751,7 @@
 
   .advSearch .advSearchHeader .h2 {
     padding-top: 0px;
-    font-size: 13px;
+    font-size: $font-normal;
   }
 
   .time-tracking-summary-search-panel {
@@ -1820,7 +1798,18 @@
       .v-horizontallayout-margin {
         padding: 10px 15px;
       }
-      @include margin-container(15px, 10px, 15px, 10px);
+      &.v-margin-top {
+        padding-top: 10px;
+      }
+      &.v-margin-right {
+        padding-right: 15px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 10px;
+      }
+      &.v-margin-left {
+        padding-left: 15px;
+      }
     }
     .v-horizontallayout-search-comp .v-horizontallayout-margin {
       padding: 0px;
@@ -1838,7 +1827,7 @@
 
   .v-button {
     &.search-icon-button {
-      background: none repeat-x scroll left bottom gainsboro;
+      background: none repeat-x scroll left bottom #DCDCDC;
       border-radius: 0px 3px 3px 0px;
       border-left: none;
       border-color: #B5B5B5;
@@ -1896,7 +1885,7 @@
   .crmContainer {
     width: 100%;
     .main-view {
-      background-color: white;
+      background-color: #FFF;
       min-height: 100%;
     }
     .crm-toolbar {
@@ -1920,9 +1909,9 @@
       height: 100% !important;
     }
     .navigator-wrap .basic-info {
-      color: white;
+      color: #FFF;
       .v-button-link .v-button-caption {
-        color: white;
+        color: #FFF;
       }
       &:after {
         content: "";
@@ -1933,7 +1922,7 @@
         display: block;
       }
       .info-hdr {
-        font-size: 16px;
+        font-size: $font-larger;
         font-weight: bold;
       }
     }
@@ -2023,7 +2012,7 @@
     padding: 40px 0px 20px;
     text-transform: uppercase;
     text-align: center;
-    font-family: $font-stack;
+    font-family: Georgia, "Times New Roman", sans-serif;
   }
 
   .forgotPwdForm #loginFormContainer {
@@ -2050,7 +2039,7 @@
   .forgotPwdForm #loginFormContainer #form-intro-text #intro-text {
     text-align: left;
     color: rgb(109, 118, 122);
-    font-size: 14px;
+    font-size: $font-large;
   }
 
   #loginFormContainer #form-intro-text #intro-image {
@@ -2109,7 +2098,7 @@
       margin-bottom: 5px;
       float: left;
       .v-captiontext {
-        font-size: 16px;
+        font-size: $font-larger;
         color: #777;
       }
     }
@@ -2128,7 +2117,7 @@
   #loginForm {
     input.v-textfield {
       width: 410px;
-      background: white;
+      background: #FFF;
       border-color: #BBB;
       border-radius: 0px;
       padding: 0em 0.2em;
@@ -2166,7 +2155,7 @@
       margin: 0 auto;
       color: rgb(119, 119, 119);
       label {
-        font-size: 14px;
+        font-size: $font-large;
       }
       input {
         margin-left: 0px;
@@ -2274,7 +2263,7 @@
     .external-link {
       display: inline-block;
       color: rgb(97, 99, 101);
-      font-size: 14px;
+      font-size: $font-large;
       a {
         padding: 0px 20px;
         color: rgb(97, 99, 101);
@@ -2294,13 +2283,13 @@
 
   .addViewLayout {
     .addViewBody {
-      background-color: white;
+      background-color: #FFF;
       border-color: $border-color;
       border-style: solid;
       border-width: 1px 1px 0px;
     }
     .report-addview-layout {
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid #cfcfcf;
     }
     .addViewTopControls {
       -moz-box-sizing: border-box;
@@ -2312,7 +2301,18 @@
       }
     }
     .addNewControl {
-      @include margin-container(0px, 5px, 0px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 0px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 0px;
+      }
     }
     .addViewTopControls {
       .edit-btn .v-horizontallayout-margin, .workflow-controls .v-horizontallayout-margin {
@@ -2324,12 +2324,12 @@
   .addViewTitle {
     padding: 10px 5px 10px 18px;
     background: none repeat-x left top #EEEEEE;
-    border-color: $border-color;
+    border-color: #cfcfcf;
     border-style: solid;
     border-width: 1px 1px 0px;
-    font-size: 15px;
+    font-size: $font-larger;
     .v-label {
-      font-size: 15px;
+      font-size: $font-larger;
       color: #303030;
     }
   }
@@ -2351,12 +2351,12 @@
 
   .addViewLayout {
     .addViewHeader .headerName {
-      font-size: 15px;
+      font-size: $font-larger;
       font-weight: bold;
       color: #525252;
     }
     .addViewTitle .titleName {
-      font-size: 13px;
+      font-size: $font-normal;
       font-weight: bold;
       /*  margin-top: 3px; */
       line-height: 20px !important;
@@ -2365,7 +2365,7 @@
     .v-label-h2 {
       text-shadow: #F0F0F0 0 1px 0;
       padding: 8px 0px 8px 18px;
-      font-size: 13px;
+      font-size: $font-normal;
       border-bottom: 1px solid $border-color;
       color: rgb(69, 69, 69);
     }
@@ -2392,6 +2392,14 @@
     }
   }
 
+  /* .addViewLayout .addViewBottomControls .depotComp {
+      margin: 0px;
+  } */
+
+  /* .addViewLayout .addViewBottomControls .depotComp .depotHeader {
+      border-radius: 0px;
+      border-width: 0px 0px 1px 0px;
+  } */
 
   /* End Add View Styles */
 
@@ -2414,7 +2422,7 @@
       padding-top: 20px;
     }
     .v-horizontallayout-menuContent > div > div:first-child + div {
-      background: url('icons/tabcontent-bg.png') repeat-y 0 0 white;
+      background: url('icons/tabcontent-bg.png') repeat-y 0 0 #FFF;
     }
     .v-splitpanel-hsplitter-locked {
       width: 0px;
@@ -2470,18 +2478,25 @@
     }
   }
 
+  /* .accountViewContainer .userInfoContainer .addview-layout-body .info-block-header>.v-csslayout-margin>.v-csslayout-container>div
+      {
+      display: inline-block;
+      *display: inline;
+      margin-right: 3px;
+  } */
+
   .accountViewContainer {
     .userInfoContainer .editInfoControl {
       margin-top: 10px;
     }
     .sidebar-menu {
       .v-nativebutton {
-        font-size: 14px;
+        font-size: $font-large;
         padding: 0px;
         margin: 3px 0px;
       }
       .tab-selected, .selected {
-        background: none no-repeat 0 0 rgb(40, 126, 206);
+        background: none no-repeat 0 0 #287ECE;
       }
     }
     .v-nativebutton .v-nativebutton-caption {
@@ -2490,12 +2505,12 @@
       display: block;
       text-align: left;
       padding-left: 10px;
-      font-size: 13px;
+      font-size: $font-normal;
     }
     .v-nativebutton-tab-selected .v-nativebutton-caption, .tab-selected .v-nativebutton-caption {
       background: #287ECE;
       font-weight: bold;
-      font-size: 15px;
+      font-size: $font-larger;
     }
     .addViewLayout {
       background: none;
@@ -2555,7 +2570,7 @@
   .projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr {
     .v-button-wrap {
       text-align: left;
-      font-size: 13px;
+      font-size: $font-normal;
       position: relative;
       padding-right: 20px;
       text-overflow: ellipsis;
@@ -2563,7 +2578,18 @@
         vertical-align: middle;
       }
     }
-    @include margin-container(13px, 8px, 13px, 8px);
+    &.v-margin-top {
+      padding-top: 8px;
+    }
+    &.v-margin-right {
+      padding-right: 13px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 8px;
+    }
+    &.v-margin-left {
+      padding-left: 13px;
+    }
     .v-popup-indicator {
       position: relative;
       float: right;
@@ -2594,10 +2620,15 @@
         .v-label {
           cursor: pointer;
         }
-        @include margin-container(0px, 9px, 0px, 9px);
+        &.v-margin-top {
+          padding-top: 9px;
+        }
+        &.v-margin-bottom {
+          padding-bottom: 9px;
+        }
       }
       .project-description {
-        color: white;
+        color: #FFF;
         padding: 10px 0px 20px;
         border-bottom: 1px solid $border-color;
       }
@@ -2618,20 +2649,30 @@
       padding-left: 20px;
     }
     .top-panel {
-      background-color: white;
+      background-color: #FFF;
       border-bottom: 1px solid $border-color;
     }
   }
 
   .accountViewContainer .container-wrap.main-content .top-panel {
-    background-color: white;
+    background-color: #FFF;
     border-bottom: 1px solid $border-color;
-
-    @include margin-container(30px, 10px, 30px, 10px)
   }
 
-  .projectDashboardView .container-wrap.main-content .top-panel {
-    @include margin-container(30px, 10px, 30px, 10px)
+  .projectDashboardView .container-wrap.main-content .top-panel.v-margin-top, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-top {
+    padding-top: 10px;
+  }
+
+  .projectDashboardView .container-wrap.main-content .top-panel.v-margin-right, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-right {
+    padding-right: 30px;
+  }
+
+  .projectDashboardView .container-wrap.main-content .top-panel.v-margin-bottom, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-bottom {
+    padding-bottom: 10px;
+  }
+
+  .projectDashboardView .container-wrap.main-content .top-panel.v-margin-left, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-left {
+    padding-left: 30px;
   }
 
   .projectDashboardView {
@@ -2659,11 +2700,11 @@
     .sidebar-menu {
       padding: 20px 0px 0px;
       .v-label.sectionHeader {
-        font-size: 14px;
+        font-size: $font-large;
         padding: 4px 15px;
       }
       .v-nativebutton {
-        font-size: 14px;
+        font-size: $font-large;
         padding: 0px;
         margin: 3px 0px;
       }
@@ -2674,12 +2715,12 @@
       display: block;
       text-align: left;
       padding-left: 10px;
-      font-size: 13px;
+      font-size: $font-normal;
     }
     .v-nativebutton-tab-selected .v-nativebutton-caption, .tab-selected .v-nativebutton-caption {
       background: #287ECE;
       font-weight: bold;
-      font-size: 15px;
+      font-size: $font-larger;
     }
     .v-label-h2 {
       font-size: 12px;
@@ -2705,8 +2746,8 @@
     .v-tabsheet-tabitem-selected {
       background-color: #F5F5F5;
     }
-    .v-tabsheet-content {
-      background-color: white;
+    .v-tabsheet-content, .Milestones .v-tabsheet-content {
+      background-color: #FFF;
     }
     .addViewLayout {
       padding: 0px 30px 10px;
@@ -2715,7 +2756,7 @@
       }
     }
     .v-horizontallayout-menuContent > div > div:first-child + div {
-      background: url('icons/tabcontent-bg.png') repeat-y 0 0 white;
+      background: url('icons/tabcontent-bg.png') repeat-y 0 0 #FFF;
     }
   }
 
@@ -2736,6 +2777,7 @@
     .h1 {
       padding: .67em 0 .33em 0;
       font-size: 20px;
+      /*  border-bottom: 1px solid #B7B7B7; */
       text-shadow: #F0F0F0 0 1px 0;
       margin-bottom: 10px;
     }
@@ -2755,7 +2797,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border: 1px solid $border-color;
-    background: none no-repeat left top white;
+    background: none no-repeat left top #FFF;
     border-radius: 0px;
   }
 
@@ -2769,7 +2811,7 @@
   }
 
   .projectinfo-header, .message-toppanel-header {
-    font-size: 13px;
+    font-size: $font-normal;
     border-bottom: 1px solid $border-color;
     padding-bottom: 0.2em;
     -moz-box-sizing: border-box;
@@ -2780,17 +2822,39 @@
   }
 
   .projectinfo-header {
-    @include margin-container(18px, 7px, 10px, 7px);
+    &.v-margin-top {
+      padding-top: 7px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 7px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
   }
 
   .message-toppanel-header {
-    @include margin-container(18px, 3px, 10px, 2px);
+    &.v-margin-top {
+      padding-top: 3px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 2px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
   }
 
   .projectinfo-header {
     .project-name {
       font-weight: bold;
-      font-size: 14px;
+      font-size: $font-large;
       color: #313131;
     }
     .project-shortname {
@@ -2799,17 +2863,28 @@
   }
 
   .projectinfo-footer {
-    @include margin-container(18px, 5px, 5px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
   }
 
   .projectfeed-hdr-wrapper {
     padding: 15px 30px;
     .h1 {
       padding: 0px;
-      color: white;
+      color: #FFF;
     }
     .h2, .v-button-link .v-button-caption {
-      color: white;
+      color: #FFF;
     }
   }
 
@@ -2833,7 +2908,7 @@
     .bar {
       height: 100%;
       background-color: #00b3ef;
-      background: -moz-linear-gradient(center top, #20d4ff, #009cd0) repeat-x scroll left top transparent;
+      background: -moz-linear-gradient(center top, #20D4FF, #009CD0) repeat-x scroll left top transparent;
       background: -webkit-gradient(linear, left top, left bottom, from(#20d4ff), to(#009cd0)) top left repeat-x;
       -moz-transition: width 0.5s ease-out 0s;
       -webkit-transition: width 0.5s ease-out 0s;
@@ -2922,7 +2997,7 @@
     border: 0px;
     color: #313131;
     text-shadow: none;
-    font-size: 14px;
+    font-size: $font-large;
     line-height: 16px;
     font-weight: 400;
     cursor: pointer;
@@ -2937,7 +3012,21 @@
       color: black;
     }
     .header-elements {
-      @include margin-container(8px, 3px, 8px, 3px);
+      &.colored-header {
+        /* background-color: rgb(113, 113, 113); */
+      }
+      &.v-margin-top {
+        padding-top: 3px;
+      }
+      &.v-margin-right {
+        padding-right: 8px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 3px;
+      }
+      &.v-margin-left {
+        padding-left: 8px;
+      }
     }
     &.collapsed .depotContent {
       padding: 0px;
@@ -2976,8 +3065,19 @@
     border-color: $border-color;
     border-style: solid;
     border-width: 0px 1px 1px 1px;
-    background-color: white;
-    @include margin-container(5px, 5px, 5px, 5px);
+    background-color: #FFF;
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
   }
 
   .addViewLayout .depotContent .v-button-link {
@@ -2985,11 +3085,22 @@
   }
 
   .bug-list .widget-footer {
-    background-color: white;
+    background-color: #FFF;
     border-color: $border-color;
     border-style: solid;
     border-width: 0px 1px 1px 1px;
-    @include margin-container(5px, 5px, 5px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
   }
 
   /* End Depot */
@@ -3029,12 +3140,12 @@
   /* Calendar */
 
   .actionPanel {
-    background: -moz-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e6e6e6), color-stop(100%, #dddddd));
-    background: -webkit-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-    background: -o-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-    background: -ms-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-    background: linear-gradient(to bottom, #e6e6e6 0, #dddddd 100%);
+    background: -moz-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E6E6E6), color-stop(100%, #DDD));
+    background: -webkit-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+    background: -o-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+    background: -ms-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+    background: linear-gradient(to bottom, #E6E6E6 0, #DDD 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6',endColorstr='#DDD',GradientType=0);
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -3156,12 +3267,12 @@
     max-width: 150px;
     min-width: 100px;
     padding: 5px 0px;
-    background: -moz-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #eeeeee));
-    background: -webkit-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-    background: -o-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-    background: -ms-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-    background: linear-gradient(to bottom, #f8f8f8 0, #eeeeee 100%);
+    background: -moz-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F8F8F8), color-stop(100%, #EEEEEE));
+    background: -webkit-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+    background: -o-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+    background: -ms-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+    background: linear-gradient(to bottom, #F8F8F8 0, #EEEEEE 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F8F8F8', endColorstr='#EEEEEE',GradientType=0);
     border-right: 1px solid #CCC;
     border-top: 1px solid #CCC;
@@ -3190,6 +3301,7 @@
     }
     .v-calendar-back {
       float: right;
+      /* width: 49px; */
     }
     .v-calendar-next {
       float: left;
@@ -3232,11 +3344,11 @@
   }
 
   .v-tabsheet-tabs {
-    background-color: rgb(247, 247, 247);
+    background-color: $background-color;
   }
 
   .v-tabsheet-content {
-    background-color: white;
+    background-color: #FFF;
     border: none;
   }
 
@@ -3260,9 +3372,9 @@
         border-radius: 0px;
         background-image: none;
       }
-      background-color: white;
+      background-color: #FFF;
       border-radius: 0px;
-      border-bottom-color: white;
+      border-bottom-color: #FFF;
     }
     background: none repeat-x left top transparent;
     border-radius: 0px;
@@ -3309,13 +3421,13 @@
   }
 
   .activity-stream {
-    background-color: white;
+    background-color: #FFF;
     border-color: $border-color;
     border-width: 0px 1px 1px;
     border-style: solid;
     padding: 5px;
     &.odd {
-      background-color: white;
+      background-color: #FFF;
     }
   }
 
@@ -3362,16 +3474,15 @@
     border: none;
   }
 
-  //Revise it
   .depotContent > .v-verticallayout > div > div > div > .v-lazyloadingwrapper > .v-verticallayout > div > div > div > .v-verticallayout .activity-stream {
     &.odd {
       background-color: rgb(212, 223, 239);
     }
-    background-color: rgb(247, 247, 247);
+    background-color: $background-color;
   }
 
   .stream-wrapper {
-    background-color: rgb(245, 245, 245);
+    background-color: #F5F5F5;
     padding: 5px;
     border-width: 0px 1px 1px;
     border-style: solid;
@@ -3414,7 +3525,7 @@
 
   .v-panel-content-noneBorder-panel {
     border-width: 0px 0px 0px 0px;
-    border-color: white;
+    border-color: #ffffff;
     border-style: none;
     background-color: transparent;
     border-width: 0px 0px 0px 0px;
@@ -3437,12 +3548,12 @@
     border: 1px solid rgb(143, 143, 143);
     display: inline-block;
     color: rgb(34, 34, 34);
-    font-family: $font-stack;
-    font-size: 13px;
+    font-family: arial;
+    font-size: $font-normal;
     font-weight: bold;
     padding: 3px 13px;
     text-decoration: none;
-    text-shadow: 0px 1px 0px white;
+    text-shadow: 0px 1px 0px #ffffff;
     .v-button-wrap, &:active .v-button-wrap {
       border: none;
       background: none;
@@ -3474,7 +3585,7 @@
   .v-splitbutton-esofthead {
     font-weight: bold;
     font-size: 13px !important;
-    font-family: $font-stack;
+    font-family: Arial, Helvetica, sans-serif;
     .v-button-esofthead {
       background: url("icons/grad-dark-bottom.png") repeat-x left bottom #fcfcfc;
       border-radius: 3px 0px 0px 3px;
@@ -3502,7 +3613,7 @@
         margin: 0px;
       }
       &:active {
-        background: none no-repeat 0 0 rgb(161, 161, 161);
+        background: none no-repeat 0 0 #A1A1A1;
         border-color: rgb(171, 171, 171);
       }
       &.graybtn:active {
@@ -3583,23 +3694,11 @@
     }
   }
 
-  .v-ie7 .v-splitbutton .v-popupbutton {
-    &.greenbtn {
-      padding: 3px 7px 3px 2px;
-    }
-    &.graybtn {
-      &:active {
-        padding: 3px 7px 3px 2px;
-      }
-      padding: 3px 7px 3px 2px;
-    }
-  }
-
   .v-popupbutton.greenbtn .v-popup-indicator {
     background: url("icons/sprites.png") no-repeat scroll -5px -10px transparent;
   }
 
-  .mycollab .v-popupbutton .v-button-wrap * {
+  .v-popupbutton .v-button-wrap * {
     float: none;
   }
 
@@ -3639,7 +3738,7 @@
   }
 
   .v-table-row {
-    background: none repeat scroll 0% 0% white;
+    background: none repeat scroll 0% 0% #FFF;
   }
 
   .v-table-row-odd, .v-table-striped .v-table-row-odd {
@@ -3652,7 +3751,7 @@
     border-style: solid;
     border-color: $border-color;
     border-radius: 0px 0px 3px 3px;
-    background: none no-repeat 0 0 white;
+    background: none no-repeat 0 0 #ffffff;
   }
 
   .project-member-readview .v-csslayout-listControl {
@@ -3660,7 +3759,7 @@
   }
 
   .v-table-row-spacer {
-    background: none no-repeat 0 0 white;
+    background: none no-repeat 0 0 #FFF;
   }
 
   /* End New Table */
@@ -3669,7 +3768,7 @@
 
   .tokenfield {
     border: 1px solid $border-color;
-    background: url("icons/input-bg.png") repeat-x scroll 0% 0% white;
+    background: url("icons/input-bg.png") repeat-x scroll 0% 0% #FFF;
     padding: 3px 2px 2px;
     border-radius: 3px;
     .v-filterselect {
@@ -3725,14 +3824,14 @@
       background-image: url('icons/grad-dark-bottom.png');
       background-repeat: repeat-x;
       background-position: left bottom;
-      background-color: rgb(28, 125, 206);
+      background-color: #1C7DCE;
       height: auto;
       &:focus, &:active {
         padding: 0px;
         background-image: url('icons/grad-dark-bottom.png');
         background-repeat: repeat-x;
         background-position: left bottom;
-        background-color: rgb(28, 125, 206);
+        background-color: #1C7DCE;
         height: auto;
       }
     }
@@ -3752,7 +3851,18 @@
   }
 
   .message-toppanel-body {
-    @include margin-container(18px, 7px, 5px, 7px);
+    &.v-margin-top {
+      padding-top: 7px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 7px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
   }
 
   .v-horizontallayout-message-search .v-horizontallayout-margin {
@@ -3766,7 +3876,7 @@
   .message-list {
     .beanlist-content {
       padding: 5px 15px;
-      background: none no-repeat left top white;
+      background: none no-repeat left top #FFF;
       border-width: 0px 1px 1px;
       border-style: solid;
       border-color: $border-color;
@@ -3808,10 +3918,6 @@
     border-radius: 5px;
     position: relative;
     overflow: visible;
-  }
-
-  .v-ie7 .message .message-container {
-    margin-left: 0px;
   }
 
   .message {
@@ -3860,8 +3966,15 @@
     .post-owner {
       color: #525252;
     }
-
-    @include margin-container(10px, 10px, 10px, 0px);
+    &.v-margin-top {
+      padding-top: 10px;
+    }
+    &.v-margin-left {
+      padding-left: 10px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
   }
 
   .message-body {
@@ -3876,7 +3989,7 @@
       margin: 0;
       .v-button-caption {
         text-decoration: none;
-        font-size: 14px;
+        font-size: $font-large;
         color: black;
       }
       .v-button-wrap {
@@ -3889,7 +4002,7 @@
     }
     .notification {
       color: black;
-      font-size: 13px;
+      font-size: $font-normal;
     }
     .comment-count {
       padding-right: 3px;
@@ -3950,9 +4063,9 @@
 
   .v-buttongroup .v-button.graybtn2 {
     &.v-button-left, &.v-button-middle, &.v-button-right {
-      background-color: #CFCFCF;
+      background-color: $border-color;
       border-color: rgb(56, 56, 56);
-      color: white;
+      color: #FFF;
       border-top: none;
       border-bottom: none;
       border-bottom-left-radius: 0px;
@@ -3989,43 +4102,6 @@
   }
 
   /* End Multifiles Upload */
-
-  /* xBreadCrumb */
-
-  .xbreadcrumbs {
-    background-color: transparent !important;
-    > .v-slot:first-child > li {
-      padding-left: 0px;
-    }
-    li {
-      padding-bottom: 8px !important;
-      > div.xbreadcrumbbutton {
-        margin-top: 3px;
-        &.v-button-xbreadcrumbbutton-home {
-          margin: 0px;
-          margin: 0px;
-        }
-        margin-top: 3px;
-      }
-    }
-    .v-link a span {
-      font-size: 13px !important;
-    }
-  }
-
-  .xbreadcrumbbutton .v-button-caption {
-    font-size: 13px !important;
-  }
-
-  .v-button-xbreadcrumbbutton-home span.v-button-caption {
-    padding-left: 18px;
-  }
-
-  div.v-button-link.xbreadcrumbbutton .v-button-wrap {
-    padding: 0px;
-  }
-
-  /* End xBreadCrumb */
 
   /* Error Message */
 
@@ -4072,7 +4148,7 @@
   /* Bug Widget */
 
   .widget-title {
-    border-bottom: 1px solid rgb(183, 183, 183);
+    border-bottom: 1px solid #B7B7B7;
     padding-bottom: 0.2em;
     margin-bottom: 5px;
     font-weight: bold;
@@ -4083,9 +4159,20 @@
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: $border-color;
-    @include margin-container(5px, 3px, 5px, 3px);
+    &.v-margin-top {
+      padding-top: 3px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 3px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
     &.odd {
-      background-color: white;
+      background-color: #FFF;
     }
   }
 
@@ -4155,7 +4242,7 @@
     border-top: 1px solid $border-color;
     .v-table-caption-container {
       color: black;
-      text-shadow: 0px 1px 0px rgb(223, 223, 223);
+      text-shadow: 0px 1px 0px #DFDFDF;
     }
   }
 
@@ -4190,12 +4277,12 @@
 
   .form-container div.v-button-link {
     height: 18px;
-    background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom rgb(57, 71, 84);
+    background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
     padding: 0px 7px 1px;
     margin-right: 2px;
     &:active, &:focus {
       height: 18px;
-      background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom rgb(57, 71, 84);
+      background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
       padding: 0px 7px 1px;
       margin-right: 2px;
     }
@@ -4205,7 +4292,8 @@
     background: none;
     padding: 0px 7px 1px;
     margin-right: 2px;
-    color: rgb(51, 51, 236);
+    color: #3333EC;
+    pointer: none;
   }
 
   .form-container .v-button-link .v-button-caption {
@@ -4241,7 +4329,7 @@
 
   .v-progressbar-wrapper {
     height: 18px;
-    background: none no-repeat 0 0 rgb(245, 245, 245);
+    background: none no-repeat 0 0 #F5F5F5;
     border: 1px solid #CDCDCD;
   }
 
@@ -4281,20 +4369,20 @@
     background: none no-repeat 0 0 transparent;
     border-radius: 0px;
     padding: 4px 13px;
-    .v-button-wrap {
+    > .v-button-wrap {
       background: none no-repeat 0 0 transparent;
       border-radius: 0px;
       text-align: left;
       border: none;
     }
     &.tab-selected > .v-button-wrap {
-      background: none no-repeat 0 0 rgb(40, 126, 206);
+      background: none no-repeat 0 0 #287ECE;
     }
-    .v-button-wrap {
-      .v-icon {
+    > .v-button-wrap {
+      > .v-icon {
         margin-right: 8px;
       }
-      .v-button-caption {
+      > .v-button-caption {
         line-height: 24px;
       }
     }
@@ -4317,10 +4405,10 @@
       }
       &.v-nativebutton-tab-selected {
         position: relative;
-        color: rgb(40, 126, 206);
+        color: #287ECE;
         &:hover {
           position: relative;
-          color: rgb(40, 126, 206);
+          color: #287ECE;
         }
       }
       .v-nativebutton-caption, &.tab-selected .v-nativebutton-caption {
@@ -4418,7 +4506,7 @@
       }
       > .v-button-wrap > .v-button-caption {
         font-weight: bold;
-        font-size: 14px;
+        font-size: $font-large;
       }
     }
   }
@@ -4431,14 +4519,19 @@
     .depotComp {
       margin: 0px;
       .depotHeader {
-        background-color: rgb(245, 245, 245);
+        background-color: #F5F5F5;
         border-width: 1px 0px 1px 0px;
       }
       &.first-report .depotHeader {
         border-width: 0px 0px 1px 0px;
       }
       .depotContent {
-        @include margin-container(10px, 10px, 0px, 0px);
+        &.v-margin-top {
+          padding-top: 10px;
+        }
+        &.v-margin-left {
+          padding-left: 10px;
+        }
       }
     }
   }
@@ -4448,11 +4541,22 @@
     border: 1px solid $border-color;
     .report-content {
       border-left: 1px solid $border-color;
-      background-color: white;
-      @include margin-container(20px, 20px, 20px, 20px);
+      background-color: #FFF;
+      &.v-margin-top {
+        padding-top: 20px;
+      }
+      &.v-margin-right {
+        padding-right: 20px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 20px;
+      }
+      &.v-margin-left {
+        padding-left: 20px;
+      }
       .v-label.h2 {
         color: #a56116;
-        font-size: 14px;
+        font-size: $font-large;
       }
     }
   }
@@ -4488,11 +4592,12 @@
   /* Border Box 2 */
 
   .border-box2 {
+    /*background-color: #F5F5F5;*/
     border: 1px solid $border-color;
   }
 
   .v-horizontallayout.border-box2-no-margin {
-    background-color: rgb(245, 245, 245);
+    background-color: #F5F5F5;
     border-radius: 5px;
     padding: 0px;
     border: 1px solid $border-color;
@@ -4533,7 +4638,7 @@
   /* H2 Popup Button */
 
   .v-popupbutton.h2 .v-button-wrap .v-button-caption {
-    font-size: 14px;
+    font-size: $font-large;
     font-weight: bold;
     color: rgb(34, 34, 34);
   }
@@ -4545,7 +4650,7 @@
   .main-body {
     overflow-y: auto;
     /*CSS fix for Vaadin 7 */
-    background-color: white;
+    background-color: #FFF;
     position: relative;
   }
 
@@ -4555,7 +4660,7 @@
     width: 100%;
     border-top: 1px solid $border-color;
     padding: 6px 0px;
-    background-color: white;
+    background-color: #FFF;
   }
 
   .footer-wrapper {
@@ -4632,11 +4737,11 @@
       margin: 0 auto;
     }
     .milestone-name {
-      font-size: 14px;
+      font-size: $font-large;
       border-bottom: 1px dashed #BEBEBE !important;
       padding-bottom: 8px;
       &:focus {
-        font-size: 14px;
+        font-size: $font-large;
         border-bottom: 1px dashed #BEBEBE !important;
         padding-bottom: 8px;
       }
@@ -4663,7 +4768,7 @@
 
   .v-label.standup-row-content {
     padding: 10px 0px 10px 0px;
-    font-size: 13px;
+    font-size: $font-normal;
     width: 100%;
     white-space: normal;
     ul {
@@ -4681,12 +4786,12 @@
       background-image: url("icons/grad-dark-top2.png");
       background-repeat: no-repeat;
       background-position: left bottom;
-      background-color: rgb(40, 126, 206);
+      background-color: #287ECE;
       &:active, &:focus {
         background-image: url("icons/grad-dark-top2.png");
         background-repeat: no-repeat;
         background-position: left bottom;
-        background-color: rgb(40, 126, 206);
+        background-color: #287ECE;
       }
     }
     &.v-button-left, &.v-button-middle, &.v-button-right {
@@ -4737,7 +4842,7 @@
     box-sizing: border-box;
     .legendBoxContent {
       padding: 0px;
-      background: rgb(245, 245, 245);
+      background: #F5F5F5;
       .v-csslayout > div {
         display: inline-block;
         zoom: 1;
@@ -4776,12 +4881,12 @@
 
   .member-block {
     .member-name {
-      font-size: 14px;
-      border-bottom: 1px solid $border-color !important;
+      font-size: $font-large;
+      border-bottom: 1px solid #CFCFCF !important;
       padding-bottom: 5px;
       &:focus {
-        font-size: 14px;
-        border-bottom: 1px solid $border-color !important;
+        font-size: $font-large;
+        border-bottom: 1px solid #CFCFCF !important;
         padding-bottom: 5px;
       }
     }
@@ -4867,7 +4972,7 @@
 
   .milestone-view-body {
     width: 33%;
-    background-color: white;
+    background-color: #FFF;
     padding: 0px;
     .milestone-col {
       padding: 0px 25px 25px;
@@ -4966,7 +5071,7 @@
   /* Start Time Addon */
 
   .v-label.numberTotal {
-    font-size: 15px;
+    font-size: $font-larger;
     color: #000000;
     font-weight: bold;
   }
@@ -4988,7 +5093,7 @@
   /* New ReadViewLayout */
 
   .readViewLayout {
-    background-color: white;
+    background-color: #FFF;
     border-radius: 0px;
     border: 1px solid $border-color;
     .readViewTopControls {
@@ -5001,7 +5106,18 @@
       }
     }
     .readNewControl {
-      @include margin-container(0px, 5px, 0px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 0px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 0px;
+      }
     }
     .readViewTopControls {
       .edit-btn .v-horizontallayout-margin, .workflow-controls .v-horizontallayout-margin {
@@ -5031,18 +5147,18 @@
   .readViewLayout {
     .readViewHeader {
       .headerName {
-        font-size: 15px;
+        font-size: $font-larger;
         color: #303030;
       }
       .headerNameOverdue {
-        font-size: 15px;
+        font-size: $font-larger;
         color: red;
       }
     }
     .h2 {
       text-shadow: #F0F0F0 0 1px 0;
       padding: 8px 0px 8px 18px;
-      font-size: 13px;
+      font-size: $font-normal;
       border-bottom: 1px solid $border-color;
       color: rgb(69, 69, 69);
     }
@@ -5052,7 +5168,7 @@
     .v-label-h2-no-padding {
       text-shadow: #F0F0F0 0 1px 0;
       padding: 0px 0px 0px 0px;
-      font-size: 13px;
+      font-size: $font-normal;
       color: rgb(69, 69, 69);
       font-weight: bold;
     }
@@ -5067,7 +5183,7 @@
   }
 
   .readview-layout {
-    background-color: white;
+    background-color: #FFF;
     padding: 0px;
     &.v-margin-left {
       padding-left: 30px;
@@ -5105,7 +5221,7 @@
     .v-label-h1 {
       padding: 0px;
       padding-left: 5px;
-      font-size: 15px;
+      font-size: $font-larger;
       text-overflow: ellipsis;
       -ms-text-overflow: ellipsis;
       overflow: hidden;
@@ -5132,7 +5248,7 @@
         }
       }
       .v-button-tab.tab-selected > .v-button-wrap {
-        background: url('icons/grad-light-top2.png') repeat-x 0 0 whitesmoke;
+        background: url('icons/grad-light-top2.png') repeat-x 0 0 #f5f5f5;
         border-bottom: 1px solid #f5f5f5;
       }
     }
@@ -5141,7 +5257,7 @@
   .readview-layout-body {
     .h2 {
       padding: 8px 0px 8px 18px;
-      font-size: 13px;
+      font-size: $font-normal;
       border-bottom: 1px solid $border-color;
       color: rgb(69, 69, 69);
     }
@@ -5161,7 +5277,18 @@
       }
     }
     .v-horizontallayout-gridform-caption {
-      @include margin-container(18px, 5px, 5px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 5px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 18px;
+      }
     }
     .v-horizontallayout-gridform-field .v-horizontallayout .v-horizontallayout-margin {
       padding: 0px;
@@ -5204,7 +5331,7 @@
           color: rgb(69, 69, 69);
           font-weight: bold;
           padding: 8px 0px 8px 18px;
-          font-size: 13px;
+          font-size: $font-normal;
           color: rgb(69, 69, 69);
         }
       }
@@ -5251,7 +5378,7 @@
     }
     .v-label-h1 {
       padding: 0px 0px 15px 5px;
-      font-size: 13px;
+      font-size: $font-normal;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
@@ -5263,7 +5390,18 @@
   }
 
   .control-buttons {
-    @include margin-container(5px, 5px, 0px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 0;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
   }
 
   .crm-edit-form .addview-layout-body {
@@ -5280,7 +5418,7 @@
     }
     .h2 {
       padding: 8px 0px 8px 18px;
-      font-size: 13px;
+      font-size: $font-normal;
       border-bottom: 1px solid $border-color;
       color: rgb(69, 69, 69);
       -moz-box-sizing: border-box;
@@ -5305,7 +5443,18 @@
 
   .addview-layout-body {
     .v-horizontallayout-gridform-caption {
-      @include margin-container(18px, 5px, 5px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 5px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 18px;
+      }
     }
     .gridform-caption {
       background-color: #E0E0E0;
@@ -5322,7 +5471,18 @@
       }
     }
     .v-horizontallayout-gridform-field {
-      @include margin-container(10px, 5px, 8px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 8px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 10px;
+      }
     }
     .depotComp {
       margin-top: 0px;
@@ -5366,7 +5526,7 @@
     }
     .gwt-ListBox {
       margin-right: 3px;
-      background: url('../../themes/base/common/img/sprites.png') no-repeat right -8px white;
+      background: url('../../themes/base/common/img/sprites.png') no-repeat right -8px #FFF;
       border: 1px solid $border-color;
       -moz-appearance: none;
       -webkit-appearance: none;
@@ -5401,19 +5561,52 @@
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: $border-color;
-    @include margin-container(5px, 5px, 5px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
   }
 
   .popup-footer {
-    @include margin-container(15px, 5px, 5px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 15px;
+    }
   }
 
   .colored-gridlayout {
-    .gridform-caption {
-      @include margin-container(18px, 8px, 18px, 8px);
+    .gridform-caption.v-margin-top, .gridform-field.v-margin-top {
+      padding-top: 8px;
+    }
+    .gridform-caption.v-margin-right, .gridform-field.v-margin-right {
+      padding-right: 18px;
+    }
+    .gridform-caption.v-margin-bottom, .gridform-field.v-margin-bottom {
+      padding-bottom: 8px;
+    }
+    .gridform-caption.v-margin-left {
+      padding-left: 18px;
     }
     .gridform-field {
-      @include margin-container(18px, 8px, 18px, 8px);
+      &.v-margin-left {
+        padding-left: 18px;
+      }
       .v-horizontallayout .v-horizontallayout-margin {
         padding: 0px;
       }
@@ -5442,8 +5635,9 @@
   /* Bug Dashboard */
 
   .bugdashboard-header {
+    /* border: 1px solid $border-color; */
     border-radius: 3px 3px 0px 0px;
-    background: url("icons/grad-light-top2.png") repeat-x left top rgb(245, 245, 245);
+    background: url("icons/grad-light-top2.png") repeat-x left top #F5F5F5;
     border-bottom: none;
   }
 
@@ -5467,7 +5661,18 @@
     border-style: solid;
     border-color: $border-color;
     .popup-header {
-      @include margin-container(18px, 8px, 0px, 8px);
+      &.v-margin-top {
+        padding-top: 8px;
+      }
+      &.v-margin-right {
+        padding-right: 0px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 8px;
+      }
+      &.v-margin-right {
+        padding-left: 18px;
+      }
       border-bottom: 1px solid $border-color;
     }
     .v-tabsheet {
@@ -5486,7 +5691,7 @@
   }
 
   .taskdisplay-component {
-    background-color: white;
+    background-color: #FFF;
   }
 
   .v-tabsheet-content {
@@ -5530,7 +5735,18 @@
   /* Related Bugs Component */
 
   .relatedbug-comp-header {
-    @include margin-container(5px, 5px, 5px, 5px);
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
   }
 
   .addViewLayout .addViewBottomControls .relatedbug-comp .depotComp .depotHeader, .readViewLayout .readViewBottomControls .relatedbug-comp .depotComp .depotHeader {
@@ -5589,7 +5805,7 @@
           padding: 0px 0px 10px;
         }
         a {
-          font-size: 13px;
+          font-size: $font-normal;
           font-weight: bold;
         }
       }
@@ -5598,21 +5814,32 @@
 
   .project-status {
     .v-verticallayout {
-      @include margin-container(15px, 8px, 15px, 5px);
+      &.v-margin-top {
+        padding-top: 8px;
+      }
+      &.v-margin-right {
+        padding-right: 15px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 15px;
+      }
     }
     .member-count-lbl .v-button-wrap {
       padding: 0px;
       border: none;
     }
     .createdtime-lbl {
-      color: rgb(128, 128, 128);
+      color: #808080;
       font-size: 11px;
     }
     .status-lbl {
       color: #888;
     }
     .v-slot-phase-status-lbl:after {
-      border-top: 3px double rgb(207, 207, 207);
+      border-top: 3px double $border-color;
       display: block;
       height: 1px;
       content: " ";
@@ -5625,7 +5852,7 @@
     .phase-status-lbl {
       position: relative;
       z-index: 1;
-      background-color: rgb(247, 247, 247);
+      background-color: $background-color;
       padding-right: 5px;
     }
     .phase-status-layout {
@@ -5688,8 +5915,8 @@
     padding: 7px;
     border-width: 0 1px 1px 1px;
     border-style: solid;
-    border-color: rgb(204, 203, 203);
-    background-color: rgb(245, 245, 245);
+    border-color: #CBCBCB;
+    background-color: #F5F5F5;
   }
 
   div.v-button-link {
@@ -5743,7 +5970,7 @@
   .project-member-readview .depotComp {
     margin-top: 0px;
     .depotHeader {
-      background: none no-repeat left top rgb(245, 245, 245);
+      background: none no-repeat left top #F5F5F5;
       border-width: 0px 0px 1px 0px;
       border-radius: 0px;
     }
@@ -5752,7 +5979,7 @@
   /* Generic Component */
 
   .v-csslayout-component-header {
-    font-size: 13px;
+    font-size: $font-normal;
     border-width: 1px 1px 0px;
     border-style: solid;
     border-color: $border-color;
@@ -5768,7 +5995,7 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: none no-repeat left top rgb(245, 245, 245);
+    background: none no-repeat left top #F5F5F5;
   }
 
   .limited-height-table {
@@ -5790,7 +6017,7 @@
   }
 
   .v-listbuilder .v-listbuilder-buttons {
-    .v-button > .v-button-wrap, .v-disabled.v-button > .v-button-wrap {
+    > .v-button > .v-button-wrap, .v-disabled.v-button > .v-button-wrap {
       padding: 0px 4px 0px 4px;
       border: none;
       background: none;
@@ -5803,12 +6030,12 @@
   /* H3 Label */
 
   .v-label-h3 {
-    font-size: 13px;
+    font-size: $font-normal;
     font-weight: bold;
   }
 
   .v-label.h3-dropbox {
-    font-size: 13px;
+    font-size: $font-normal;
     padding: 0px;
   }
 
@@ -5843,7 +6070,7 @@
       height: 97px;
       width: 412px;
       text-align: center;
-      font-size: 15px;
+      font-size: $font-larger;
       font-weight: bold;
       color: rgb(99, 99, 99);
     }
@@ -5864,7 +6091,7 @@
     border-style: solid;
     border-color: $border-color;
     border-radius: 3px;
-    background-color: rgb(245, 245, 245);
+    background-color: #F5F5F5;
     .faq-layout {
       &.v-margin-left {
         padding-left: 25px;
@@ -5962,10 +6189,10 @@
     }
     p {
       font-size: 12px;
-      color: #5f5c5c;
+      color: #5F5F5F;
       padding-bottom: 10px;
       text-align: justify;
-      font-family: $font-stack;
+      font-family: 'verdana';
     }
   }
 
@@ -5985,10 +6212,10 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    border-color: rgb(200, 200, 200);
+    border-color: #C8C8C8;
     border-style: solid;
     border-width: 1px 0px 0px 1px;
-    background-color: rgb(245, 245, 245);
+    background-color: #F5F5F5;
   }
 
   .billing-plan-list > div > div:first-child > .billing-plan {
@@ -6000,14 +6227,14 @@
       background-color: rgb(212, 224, 240);
     }
     .billing-type {
-      font-size: 16px;
+      font-size: $font-larger;
       padding: 5px;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       color: rgb(25, 115, 154);
       text-transform: uppercase;
-      border-bottom: 1px solid rgb(200, 200, 200);
+      border-bottom: 1px solid #C8C8C8;
       background-color: white;
       text-align: center;
     }
@@ -6082,7 +6309,7 @@
       width: 100%;
       background: url('icons/grad-light-top.png') repeat-x left top rgb(228, 228, 228);
       border-bottom: 1px solid $border-color;
-      font-size: 13px;
+      font-size: $font-normal;
       color: rgb(68, 68, 68);
       padding: 3px 10px;
       -moz-box-sizing: border-box;
@@ -6093,7 +6320,7 @@
       display: inline;
       background: none;
       border: none;
-      font-size: 14px;
+      font-size: $font-large;
       padding: 7px 10px;
       color: white;
     }
@@ -6249,7 +6476,7 @@
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       padding-left: 11px;
-      font-size: 13px;
+      font-size: $font-normal;
       font-weight: bold;
       text-align: left;
       padding-top: 8px;
@@ -6264,9 +6491,9 @@
   }
 
   .v-button-caption-bool {
-    font-size: 13px;
+    font-size: $font-normal;
     font-weight: bold;
-    font-size: 13px;
+    font-size: $font-normal;
     font-weight: bold;
   }
 
@@ -6293,7 +6520,7 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background-color: rgb(247, 247, 247);
+    background-color: $background-color;
     border: 1px solid rgb(157, 157, 157);
     .headerTitle {
       font-weight: bold;
@@ -6306,7 +6533,18 @@
       font-style: italic;
     }
     .headerTitle {
-      @include margin-container(15px, 4px, 10px, 4px);
+      &.v-margin-top {
+        padding-top: 4px;
+      }
+      &.v-margin-right {
+        padding-right: 10px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 4px;
+      }
+      &.v-margin-left {
+        padding-left: 15px;
+      }
       .control-buttons .v-horizontallayout-margin {
         padding: 0px;
       }
@@ -6316,7 +6554,7 @@
   /* Custom Field Settings Section */
 
   .customFieldSection {
-    background-color: rgb(247, 247, 247);
+    background-color: $background-color;
     border: 1px solid rgb(157, 157, 157);
     .header-wrapper {
       background-color: rgb(225, 225, 225);
@@ -6450,10 +6688,21 @@
   .eventdatepicker {
     border: 1px solid #093768;
     border-radius: 3px;
-    color: white;
+    color: #FFF;
     padding: 3px 13px;
     text-shadow: 1px 1px 0 #000000;
-    @include margin-container(10px, 3px, 10px, 3px);
+    &.v-margin-top {
+      padding-top: 3px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 3px;
+    }
+    &.v-margin-left {
+      padding-left: 10px;
+    }
   }
 
   /* Create Custome Field Window */
@@ -6462,47 +6711,34 @@
     font-weight: bold;
   }
 
-  .stickytooltip {
-    box-shadow: 5px 5px 8px #818181;
-    /*shadow for CSS3 capable browsers.*/
-    -webkit-box-shadow: 5px 5px 8px #818181;
-    -moz-box-shadow: 5px 5px 8px #818181;
-    display: none;
-    position: absolute;
-    display: none;
-    background-color: #FDFDEE;
-    z-index: 3000;
-    font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-    line-height: normal;
-    tr {
-      line-height: 1.5;
+  .addview-layout-header {
+    &.v-margin-top {
+      padding-top: 4px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 4px;
+    }
+    &.v-margin-left {
+      padding-left: 15px;
     }
   }
 
-  .v-tooltip-text tr {
-    line-height: 1.5;
-  }
-
-  .stickytooltip a, .v-tooltip-text a {
-    vertical-align: top;
-  }
-
-  .stickytooltip .stickystatus {
-    /*Style for footer bar within tooltip*/
-    background: black;
-    color: white;
-    padding-top: 5px;
-    text-align: center;
-    font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-    line-height: normal;
-  }
-
-  .addview-layout-header {
-    @include margin-container(15px, 4px, 5px, 4px);
-  }
-
   .readview-layout-header {
-    @include margin-container(8px, 2px, 5px, 0px);
+    &.v-margin-top {
+      padding-top: 2px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 0px;
+    }
+    &.v-margin-left {
+      padding-left: 8px;
+    }
   }
 
   .readview-header-left {
@@ -6510,12 +6746,12 @@
       padding: 0px 0px 0px 7px;
     }
     .v-label.h2 {
-      font-size: 13px;
+      font-size: $font-normal;
     }
   }
 
   .addview-layout-header .v-label.h2 {
-    font-size: 13px;
+    font-size: $font-normal;
   }
 
   .v-horizontallayout-readview-header-left .readview-header-left {
@@ -6543,32 +6779,7 @@
     }
   }
 
-  .v-ie7 .splitbutton .v-popupbutton {
-    &.greenbtn {
-      padding: 3px 7px 3px 2px;
-    }
-    &.graybtn {
-      &:active {
-        padding: 3px 7px 3px 2px;
-      }
-      padding: 3px 7px 3px 2px;
-    }
-  }
-
-  .v-button-graybtn.v-popupbutton .v-popup-indicator {
-    background: url("icons/sprites.png");
-  }
-
-  .splitbutton .v-popupbutton {
-    &.greenbtn .v-popup-indicator, &.graybtn .v-popup-indicator, &.bluebtn .v-popup-indicator .v-button-graybtn.v-popupbutton .v-popup-indicator, &.greenbtn .v-popup-indicator, &.graybtn .v-popup-indicator, &.bluebtn .v-popup-indicator {
-      background: url("icons/sprites.png");
-    }
-  }
-
   .v-popupbutton {
-    &.bluebtn .v-popup-indicator {
-      background: url("icons/sprites.png");
-    }
     .v-popup-indicator {
       background-position: -7px -10px !important;
     }
@@ -6626,27 +6837,27 @@
       border-radius: 0px;
       -webkit-box-shadow: none;
       /* padding: 4px 13px; */
-      .v-button-wrap, &:active > .v-button-wrap, &:focus > .v-button-wrap {
+      > .v-button-wrap, &:active > .v-button-wrap, &:focus > .v-button-wrap {
         background: none no-repeat 0 0 transparent;
         background-image: none;
         border-radius: 0px;
         text-align: left;
         border: none;
         padding: 9px 25px;
-        color: white;
+        color: #FFF;
       }
       &.tab-selected > .v-button-wrap {
-        background: none no-repeat 0 0 white;
+        background: none no-repeat 0 0 #FFF;
         color: #525252;
       }
-      .v-button-wrap {
-        .v-icon {
+      > .v-button-wrap {
+        > .v-icon {
           margin-right: 8px;
           vertical-align: middle;
         }
-        .v-button-caption {
+        > .v-button-caption {
           line-height: 24px;
-          font-size: 13px;
+          font-size: $font-normal;
           vertical-align: middle;
         }
       }
@@ -6670,8 +6881,20 @@
 
   /* Normal Gridlayout */
 
-  .gridform-caption, .gridform-field {
-    @include margin-container(0px, 0px, 0px, 0px);
+  .gridform-caption.v-margin-top, .gridform-field.v-margin-top {
+    padding-top: 0px;
+  }
+
+  .gridform-caption.v-margin-right, .gridform-field.v-margin-right {
+    padding-right: 0px;
+  }
+
+  .gridform-caption.v-margin-bottom, .gridform-field.v-margin-bottom {
+    padding-bottom: 0px;
+  }
+
+  .gridform-caption.v-margin-left, .gridform-field.v-margin-left {
+    padding-left: 0px;
   }
 
   /* Entity Import Window */
@@ -6690,7 +6913,7 @@
 
   .h2-style2 {
     padding: 8px 0px 8px 18px;
-    font-size: 13px;
+    font-size: $font-normal;
     border-bottom: 1px solid $border-color;
     color: rgb(69, 69, 69);
     font-weight: bold;
@@ -6698,11 +6921,14 @@
 
   /* Tabsheet style 3 */
 
-  .tab-style3  {
-    .v-tabsheet-tabcontainer > .v-tabsheet-tabs  {
-      tbody > tr  {
-        .v-tabsheet-tabitemcell {
-          .v-tabsheet-tabitem {
+  .tab-style3 {
+    > .v-tabsheet-tabcontainer > .v-tabsheet-tabs {
+      > tbody > tr {
+        > td > div {
+          /* border-bottom: 1px solid $border-color; */
+        }
+        > .v-tabsheet-tabitemcell {
+          > .v-tabsheet-tabitem {
             background: none repeat-x scroll left bottom $background-color;
             border-width: 0px 1px 0px 0px;
             border-style: solid;
@@ -6712,7 +6938,7 @@
               padding: 8px 17px 9px;
               border-bottom: 1px solid $border-color;
               .v-captiontext {
-                font-size: 13px;
+                font-size: $font-normal;
                 text-shadow: none;
                 color: #525252;
               }
@@ -6723,33 +6949,33 @@
           }
           &.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem {
             background: none repeat-x scroll left bottom #1c7dce;
-            .v-tabsheet-tabitem-selected .v-caption:after {
-              content: "";
-              position: absolute;
-              bottom: 0px;
-              left: 0px;
-              right: 0px;
-              height: 8px;
-              background: url(icons/tab-selected-indicator.png) no-repeat center bottom transparent;
-              cursor: pointer;
-            }
-            .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext {
-              color: #FFF;
-            }
+          }
+          > .v-tabsheet-tabitem-selected .v-caption:after {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            height: 8px;
+            background: url(icons/tab-selected-indicator.png) no-repeat center bottom transparent;
+            cursor: pointer;
+          }
+          > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext {
+            color: #FFF;
           }
         }
       }
-      tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected:hover .v-caption .v-captiontext {
+      > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected:hover .v-caption .v-captiontext {
         color: #FFF;
       }
-      tbody > tr > .v-tabsheet-spacertd {
-        background: url(icons/tab-space-bg.jpg) repeat-x left bottom white;
+      > tbody > tr > .v-tabsheet-spacertd {
+        background: url(icons/tab-space-bg.jpg) repeat-x left bottom #FFF;
         div {
           border-bottom: none;
         }
       }
     }
-    .v-tabsheet-content {
+    > .v-tabsheet-content {
       background: none;
       > .v-tabsheet-tabsheetpanel {
         padding-top: 12px;
@@ -6785,7 +7011,18 @@
       border-width: 1px 0px 0px;
     }
     .comp-header {
-      @include margin-container(5px, 5px, 5px, 5px);
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 5px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 5px;
+      }
     }
   }
 
@@ -6815,7 +7052,7 @@
   .lead-convert-window {
     padding-bottom: 5px;
     .colored-gridlayout > div > div.first-row {
-      border-top: 1px solid rgb(200, 200, 200);
+      border-top: 1px solid #C8C8C8;
     }
     .v-checkbox input[type="checkbox"] {
       margin-left: 0px;
@@ -6829,7 +7066,7 @@
     position: relative;
   }
 
-  .v-app .v-filterselect .v-icon + input.v-filterselect-input[type="text"] {
+  .v-filterselect .v-icon + input.v-filterselect-input[type="text"] {
     margin-left: -16px;
     padding-left: 18px;
   }
@@ -6865,7 +7102,12 @@
   }
 
   .contactrole-row {
-    @include margin-container(0px, 6px, 0px, 6px);
+    &.v-margin-top {
+      padding-top: 6px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 6px;
+    }
     &.odd {
       background-color: rgb(212, 223, 239);
     }
@@ -6922,11 +7164,11 @@
         border-top: 1px solid transparent;
         &:active, &:hover {
           background-color: #F0F0F0;
-          background-image: -webkit-linear-gradient(top, #f0f0f0, #e0e0e0);
-          background-image: -moz-linear-gradient(top, #f0f0f0, #e0e0e0);
-          background-image: -ms-linear-gradient(top, #f0f0f0, #e0e0e0);
-          background-image: -o-linear-gradient(top, #f0f0f0, #e0e0e0);
-          background-image: linear-gradient(top, #f0f0f0, #e0e0e0);
+          background-image: -webkit-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -moz-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -ms-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -o-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: linear-gradient(top, #F0F0F0, #E0E0E0);
         }
         &:active {
           border-top-color: #C7C7C7;
@@ -6944,28 +7186,43 @@
 
   /* New View's Styles */
 
-  .hdr-view, .v-horizontallayout.hdr-view, .advSearchHeader .hdr-view, .basicSearchHeader .hdr-view {
-    background-color: white;
-    @include margin-container(30px, 12px, 30px, 12px);
+  .hdr-view, .v-horizontallayout.hdr-view, .advSearchHeader .v-horizontallayout.hdr-view, .basicSearchHeader .hdr-view {
+    background-color: #FFF;
+  }
+
+  .hdr-view.v-margin-top, .advSearchHeader .hdr-view.v-margin-top, .basicSearchHeader .hdr-view.v-margin-top {
+    padding-top: 12px;
+  }
+
+  .hdr-view.v-margin-right, .advSearchHeader .hdr-view.v-margin-right, .basicSearchHeader .hdr-view.v-margin-right {
+    padding-right: 30px;
+  }
+
+  .hdr-view.v-margin-bottom, .advSearchHeader .hdr-view.v-margin-bottom, .basicSearchHeader .hdr-view.v-margin-bottom {
+    padding-bottom: 12px;
+  }
+
+  .hdr-view.v-margin-left, .advSearchHeader .hdr-view.v-margin-left, .basicSearchHeader .hdr-view.v-margin-left {
+    padding-left: 30px;
   }
 
   .hdr-view {
     .hdr-text {
-      font-size: 15px;
+      font-size: $font-larger;
       color: #525252;
       font-weight: bold;
       span {
-        font-size: 15px;
+        font-size: $font-larger;
         color: #525252;
         font-weight: bold;
       }
     }
     .hdr-text-overdue {
-      font-size: 15px;
+      font-size: $font-larger;
       color: red;
       font-weight: bold;
       span {
-        font-size: 15px;
+        font-size: $font-larger;
         color: red;
         font-weight: bold;
       }
@@ -7023,7 +7280,7 @@
     .date-lbl {
       padding: 12px 41px 3px 11px;
       background: url("icons/date-lbl.png") no-repeat left bottom transparent;
-      color: white;
+      color: #FFF;
       cursor: pointer;
     }
   }
@@ -7088,7 +7345,7 @@
         padding: 6px 5px;
       }
       .v-button-caption {
-        font-size: 13px;
+        font-size: $font-normal;
       }
     }
   }
@@ -7108,7 +7365,7 @@
   }
 
   .v-buttongroup.navigation-btns .v-button-caption {
-    font-size: 16px;
+    font-size: $font-larger;
     font-weight: bold;
   }
 
@@ -7161,7 +7418,7 @@
       background-color: $background-color;
       padding: 7px 10px;
       .v-label {
-        font-size: 14px;
+        font-size: $font-large;
         color: #313131;
       }
     }
@@ -7173,7 +7430,7 @@
   /* Popup select field */
 
   .v-popupbutton-popup.v-popupbutton-popup-select-bg {
-    background-color: white;
+    background-color: #FFF;
     border: 1px solid #A8A8A8;
     border-radius: 3px;
     padding: 0px;
@@ -7208,7 +7465,7 @@
 
   .index_lbl {
     padding-top: 2px;
-    font-size: 15px;
+    font-size: $font-larger;
   }
 
   /* Activity Calendar */
@@ -7242,7 +7499,7 @@
     .calendarHeader {
       background-color: transparent;
       .calendarDateLabel {
-        font-size: 14px;
+        font-size: $font-large;
         font-weight: bold;
         text-align: center;
       }
@@ -7256,11 +7513,11 @@
       .weekdays {
         border: none;
         TD {
-          color: white;
+          color: #FFF;
         }
       }
       .day {
-        color: white;
+        color: #FFF;
         &.othermonth {
           color: rgb(173, 173, 173);
         }
@@ -7288,11 +7545,19 @@
 
   .intro-text-wrap {
     .v-label {
-      color: white;
+      color: #FFF;
       border-bottom: 1px solid $border-color;
       padding-bottom: 13px;
     }
-    @include margin-container(10px, 13px, 10px, 0px);
+    &.v-margin-top {
+      padding-top: 13px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-left {
+      padding-left: 10px;
+    }
   }
 
   /* Opportunity Contact Role Edit */
@@ -7379,7 +7644,7 @@
 
   .v-context-menu {
     float: left;
-    font-family: $font-stack;
+    font-family: Arial;
     font-size: 12px;
     background-color: #f0f0f0;
     .v-context-menu-item-basic, .v-context-menu-item-basic-submenu {
@@ -7612,10 +7877,10 @@
       padding: 0px;
     }
     .v-button-wrap .v-button-caption {
-      font-size: 16px;
+      font-size: $font-larger;
       line-height: 20px;
       font-weight: bold;
-      color: white;
+      color: #FFF;
     }
   }
 
@@ -7629,11 +7894,11 @@
       background-color: #17D61B;
       border-radius: 10px;
       border: none;
-      color: white;
+      color: #FFF;
       margin-right: 5px;
       text-align: center;
       line-height: 22px;
-      font-size: 16px;
+      font-size: $font-larger;
       font-weight: bold;
       vertical-align: top;
     }
@@ -7675,7 +7940,7 @@
       border-top: 1px solid #C8C8C8;
       padding: 12px 0px;
       .h3 .v-button-caption {
-        font-size: 14px;
+        font-size: $font-large;
         font-weight: bold;
         line-height: 1.5em;
       }
@@ -7711,7 +7976,7 @@
   /* Page Read View */
 
   .page-read-layout {
-    border-bottom: 1px solid rgb(207, 207, 207);
+    border-bottom: 1px solid $border-color;
   }
 
   /* Sort button group */
@@ -7751,13 +8016,13 @@
     .block-header {
       padding: 7px 10px;
       background-color: rgb(241, 241, 241);
-      font-size: 14px;
+      font-size: $font-large;
       color: rgb(49, 49, 49);
-      border: 1px solid rgb(207, 207, 207);
+      border: 1px solid $border-color;
     }
     .block-body {
       border-width: 0px 1px 1px;
-      border-color: rgb(207, 207, 207);
+      border-color: $border-color;
       border-style: solid;
     }
   }
@@ -7820,13 +8085,13 @@
   }
 
   .text-log-date {
-    font-size: 15px;
+    font-size: $font-larger;
     font-weight: bold;
     color: gray;
   }
 
   .text-log-date-full {
-    font-size: 14px;
+    font-size: $font-large;
     font-weight: bold;
   }
 
@@ -7862,14 +8127,14 @@
     .attachment-name-wrap .v-label {
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: white;
+      color: #FFF;
       font-weight: bold;
     }
     .attachment-control {
       border-radius: 3px;
       background-color: rgb(0, 0, 0);
       opacity: 0;
-      color: white;
+      color: #FFF;
       -webkit-transition: opacity 218ms ease 0s;
       -moz-transition: opacity 218ms ease 0s;
       -o-transition: opacity 218ms ease 0s;
@@ -7927,6 +8192,564 @@
       flex: 1;
       /* NEW, Spec - Opera 12.1, Firefox 20+ */
       display: inline-block;
+    }
+  }
+
+  .gantt {
+    background: lightgray;
+    overflow: hidden;
+    .timeline {
+      overflow: hidden;
+      position: relative;
+    }
+    .year, .month, .day {
+      padding-left: 2px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-right: 1px solid #A9A9A9;
+      background-color: #d0d0d0;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+    }
+  }
+
+  .v-ie8 .gantt {
+    .month.even, .day.even {
+      background-color: #ddd;
+    }
+  }
+
+  .gantt {
+    .month:nth-of-type(even), .day:nth-of-type(even) {
+      background-color: #ddd;
+    }
+    .col {
+      &.even {
+        background-color: #ccc;
+      }
+      height: 100%;
+      float: left;
+      overflow: hidden;
+      border-right: 1px solid #A9A9A9;
+      background-color: #ddd;
+      font-size: 10px;
+      text-align: center;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      &.w {
+        text-align: left;
+      }
+      &.weekend {
+        background-color: #ccc;
+      }
+    }
+    .row {
+      width: 100%;
+      float: left;
+      overflow: hidden;
+      height: 15px;
+      display: -ms-inline-flexbox;
+      /* works with ie10 */
+      -ms-flex-pack: justify;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .resolution {}
+    .gantt-container {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background: #fff;
+    }
+    .gantt-content {
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .bar {
+      position: absolute;
+      height: 30px;
+      z-index: 1;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: pan-y;
+      -ms-touch-action: pan-y;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      -webkit-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+      -moz-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+      box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+    }
+    .bar-label {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 7px;
+    }
+    .bar {
+      &.moving {
+        background: orange;
+        cursor: move;
+        z-index: 3;
+      }
+      &.resizing {
+        background: orange;
+        cursor: e-resize;
+        z-index: 3;
+      }
+      &.invalid {
+        visibility: hidden;
+      }
+    }
+    .mv-el {
+      position: absolute;
+      top: 0;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      height: 100%;
+      z-index: 2;
+      background: transparent;
+      border-left: 1px dashed #ddd;
+      border-right: 1px dashed #ddd;
+    }
+  }
+
+  /* Gantt Chart */
+
+  .v-table-focus .v-table-cell-content {
+    border: none;
+  }
+
+  .v-table-row.v-selected .v-button-link .v-button-caption, .v-table-row-odd.v-selected .v-button-link .v-button-caption {
+    color: #FFF;
+  }
+
+  .gantt-chart {
+    border-width: 0px;
+    .v-table-body {
+      border: none;
+    }
+    .v-table-header-wrap {
+      background: url("icons/grad-light-top.png") repeat-x scroll 0% 0% #C9C9C9;
+      border-radius: 0px;
+      .v-table-caption-container {
+        color: rgb(34, 34, 34);
+      }
+    }
+    input.v-textfield[type="text"] {
+      padding: 0px;
+      border-radius: 0px;
+      height: 17px !important;
+    }
+  }
+
+  .gantt {
+    .bar a {}
+    .bar-label img {
+      vertical-align: bottom;
+    }
+  }
+
+  .gantt-chart div {
+    &[id^='ganttFilterApplyButton'], &[id^='ganttFilterResetButton'] {
+      border-top: 1px solid rgb(129, 129, 129);
+    }
+    &[id^='canvas'] {
+      overflow: hidden !important;
+    }
+  }
+
+  .bar.completed a {
+    color: black;
+    text-decoration: line-through;
+  }
+
+  /* End Gantt Chart */
+
+  /** Calendar */
+
+  .v-calendar-nresize DIV DIV {
+    cursor: n-resize !important;
+  }
+
+  .v-calendar-sresize DIV DIV {
+    cursor: s-resize !important;
+  }
+
+  .v-calendar {
+    background-color: #fff;
+  }
+
+  .v-calendar-header-month, .v-calendar-header-week {
+    border-bottom: 1px solid #c1c1c1;
+  }
+
+  .v-calendar-header-day {
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    line-height: normal;
+  }
+
+  .v-calendar-header-week .v-calendar-header-day:hover {
+    cursor: pointer;
+    color: #222;
+  }
+
+  .v-calendar-header-day-today {
+    font-weight: bold;
+    color: #444;
+  }
+
+  .v-calendar-header-month td:first-child {
+    padding-left: 20px;
+  }
+
+  .v-calendar-header-week {
+    .v-calendar-back, .v-calendar-next {
+      border: none;
+      padding: 0;
+      margin: 0;
+      height: 12px;
+      width: 12px;
+      overflow: hidden;
+      background: transparent url(icons/calendar_arrows.png) no-repeat 50% 0;
+      opacity: 0.3;
+      filter: alpha(opacity = 30);
+      cursor: default;
+    }
+    .v-calendar-back:hover, .v-calendar-next:hover {
+      opacity: 0.6;
+      filter: alpha(opacity = 60);
+    }
+    .v-calendar-back:active {
+      opacity: 1;
+      filter: alpha(opacity = 100);
+    }
+    .v-calendar-next {
+      &:active {
+        opacity: 1;
+        filter: alpha(opacity = 100);
+      }
+      background-position: 50% -12px;
+    }
+  }
+
+  .v-calendar-month {
+    outline: none;
+  }
+
+  .v-calendar-week-numbers {
+    width: 20px;
+    border-right: 1px solid #ccc;
+  }
+
+  .v-calendar-week-number {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.5;
+    width: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .v-calendar-month-day {
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    outline: none;
+  }
+
+  .v-calendar-month-day-today {
+    background-color: #e7f0f5;
+  }
+
+  .v-calendar-month-day-selected {
+    background-color: #fffee7;
+  }
+
+  .v-calendar-month-day-dragemphasis {
+    background-color: #a8a8a8;
+  }
+
+  .v-calendar-month-day-scrollable {
+    overflow-y: scroll;
+  }
+
+  .v-calendar-day-number {
+    height: 18px;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: right;
+    padding-right: 3px;
+    white-space: nowrap;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.6;
+      filter: alpha(opacity = 60);
+    }
+  }
+
+  .v-calendar-month {
+    .v-calendar-spacer, .v-calendar-bottom-spacer, .v-calendar-bottom-spacer-empty {
+      height: 15px;
+      font-size: 11px;
+    }
+    .v-calendar-bottom-spacer:hover {
+      cursor: pointer;
+      opacity: 0.6;
+      filter: alpha(opacity = 60);
+    }
+  }
+
+  .v-calendar-event {
+    line-height: 14px;
+    font-size: 11px;
+    padding: 0 0 0 4px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    outline: none;
+  }
+
+  .v-calendar-event-month {
+    margin-bottom: 1px;
+    white-space: nowrap;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .v-calendar-event-all-day {
+    background: #999;
+    display: block;
+    margin-left: -2px;
+  }
+
+  div.v-calendar-event-all-day {
+    color: #fff;
+    height: 14px;
+  }
+
+  .v-calendar-event-continued-from {
+    margin-left: 0;
+  }
+
+  .v-calendar-event-start {
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    margin-left: 0;
+  }
+
+  .v-calendar-event-end {
+    -webkit-border-top-right-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    -moz-border-radius-bottomright: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+
+  .v-calendar-week-wrapper {
+    position: relative;
+  }
+
+  .v-calendar-times {
+    width: 51px;
+  }
+
+  .v-calendar-time {
+    padding: 0 8px 7px 0;
+    margin-top: -7px;
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+    border-right: 1px solid #ccc;
+  }
+
+  .v-calendar-weekly-longevents {
+    border-left: 1px solid #ccc;
+    border-bottom: 2px solid #bbb;
+    margin-left: 50px;
+    .v-calendar-datecell {
+      border-right: 1px solid #ccc;
+      padding: 1px 0 0;
+    }
+    .v-calendar-event {
+      height: 14px;
+      margin-bottom: 1px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .v-calendar-day-times {
+    border-right: 1px solid #ccc;
+    outline: none;
+    .v-datecellslot {
+      border-bottom: 1px solid #ccc;
+    }
+    .v-datecellslot-even {
+      border-bottom: 1px solid #ccc;
+      border-bottom-color: #eee;
+    }
+    .v-daterange {
+      background-color: #a8a8a8;
+    }
+    .v-reserved {
+      background-color: #FF3333;
+    }
+    .dragemphasis {
+      background-color: #a8a8a8;
+    }
+  }
+
+  .v-calendar-week-wrapper .v-calendar-event {
+    padding: 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-top: -1px;
+  }
+
+  .v-calendar-event-caption {
+    position: absolute;
+    z-index: 1;
+    top: 2px;
+    left: 4px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+  }
+
+  .v-calendar-event-content {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #777;
+    background: #eee;
+    opacity: 0.8;
+    filter: alpha(opacity = 80);
+    height: 14px;
+  }
+
+  .v-calendar-current-time {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    overflow: hidden;
+    background: #5a6c86;
+    opacity: 0.6;
+    filter: alpha(opacity = 60);
+    z-index: 2;
+  }
+
+  .v-calendar-event-resizetop {
+    position: absolute;
+    cursor: n-resize;
+    height: 5%;
+    min-height: 3px;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .v-calendar-event-resizebottom {
+    position: absolute;
+    cursor: s-resize;
+    height: 5%;
+    min-height: 3px;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .v-calendar-month-sizedheight .v-calendar-month-day {
+    height: 100px;
+  }
+
+  .v-calendar-month-sizedwidth .v-calendar-month-day {
+    width: 100px;
+  }
+
+  .v-calendar-header-month-Hsized {
+    .v-calendar-header-day {
+      width: 101px;
+    }
+    td:first-child {
+      padding-left: 21px;
+    }
+  }
+
+  .v-calendar-header-day-Hsized {
+    width: 200px;
+  }
+
+  .v-calendar-week-numbers-Vsized .v-calendar-week-number {
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .v-calendar-week-wrapper-Vsized {
+    height: 400px;
+    overflow-x: hidden !important;
+  }
+
+  .v-calendar-times-Vsized .v-calendar-time {
+    height: 38px;
+  }
+
+  .v-calendar-times-Hsized .v-calendar-time {
+    width: 42px;
+  }
+
+  .v-calendar-day-times-Vsized {
+    .v-datecellslot, .v-datecellslot-even {
+      height: 18px;
+    }
+  }
+
+  .v-calendar-day-times-Hsized {
+    width: 200px;
+    .v-datecellslot, .v-datecellslot-even {
+      width: 200px;
     }
   }
 }

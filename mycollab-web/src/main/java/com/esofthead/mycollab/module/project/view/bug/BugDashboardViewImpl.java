@@ -16,14 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.GregorianCalendar;
-
-import com.esofthead.mycollab.core.arguments.DateSearchField;
-import com.esofthead.mycollab.core.arguments.DateTimeSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -42,13 +35,12 @@ import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -61,31 +53,24 @@ import com.vaadin.ui.VerticalLayout;
 public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		BugDashboardView {
 
-	private VerticalLayout leftColumn, rightColumn;
-	private HorizontalLayout header;
+	private MVerticalLayout leftColumn, rightColumn;
+	private MHorizontalLayout header;
 
 	private void initUI() {
 		this.setMargin(new MarginInfo(false, true, false, true));
-		header = new HorizontalLayout();
-		header.setWidth("100%");
+		header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true, false, true, false))
+				.withWidth("100%");
 		header.addStyleName("hdr-view");
-		header.setSpacing(true);
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		header.setMargin(new MarginInfo(true, false, true, false));
 		this.addComponent(header);
 
-		final HorizontalLayout body = new HorizontalLayout();
-		body.setWidth("100%");
-		body.setSpacing(true);
+		final MHorizontalLayout body = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
 
-		this.leftColumn = new VerticalLayout();
-		this.leftColumn.setSpacing(true);
-		this.leftColumn.setMargin(new MarginInfo(false, true, false, false));
+		this.leftColumn = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, true, false, false));
 		body.addComponent(this.leftColumn);
 		body.setExpandRatio(this.leftColumn, 1.0f);
 
-		this.rightColumn = new VerticalLayout();
-		this.rightColumn.setSpacing(true);
+		this.rightColumn = new MVerticalLayout().withSpacing(true).withMargin(false);
 
 		body.addComponent(this.rightColumn);
 		body.setComponentAlignment(this.rightColumn, Alignment.TOP_RIGHT);
@@ -101,7 +86,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		title.setStyleName("hdr-text");
 		title.setSizeUndefined();
 		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/bug.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_bug));
 		header.addComponent(icon);
 		header.addComponent(title);
 		header.setExpandRatio(title, 1.0f);
@@ -172,7 +157,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		final BugSearchCriteria myBugsSearchCriteria = new BugSearchCriteria();
 		myBugsSearchCriteria
 				.setProjectId(new NumberSearchField(project.getId()));
-		myBugsSearchCriteria.setStatuses(new SetSearchField<String>(
+		myBugsSearchCriteria.setStatuses(new SetSearchField<>(
 				SearchField.AND, new String[] { BugStatus.InProgress.name(),
 						BugStatus.Open.name(), BugStatus.ReOpened.name(),
 						BugStatus.Resolved.name() }));
@@ -188,7 +173,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
 				DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
 						.getTime()));
-		dueDefectsCriteria.setStatuses(new SetSearchField<String>(
+		dueDefectsCriteria.setStatuses(new SetSearchField<>(
 				SearchField.AND, new String[] { BugStatus.InProgress.name(),
 						BugStatus.Open.name(), BugStatus.ReOpened.name(),
 						BugStatus.Resolved.name() }));
@@ -203,7 +188,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		unresolvedByAssigneeSearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByAssigneeSearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
+				.setStatuses(new SetSearchField<>(SearchField.AND,
 						new String[] { BugStatus.InProgress.name(),
 								BugStatus.Open.name(),
 								BugStatus.ReOpened.name() }));
@@ -217,7 +202,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		unresolvedByPrioritySearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByPrioritySearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
+				.setStatuses(new SetSearchField<>(SearchField.AND,
 						new String[] { BugStatus.InProgress.name(),
 								BugStatus.Open.name(),
 								BugStatus.ReOpened.name() }));
@@ -234,8 +219,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		final BugSearchCriteria chartSearchCriteria = new BugSearchCriteria();
 		chartSearchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
-		BugChartComponent bugChartComponent = null;
-		bugChartComponent = new BugChartComponent(chartSearchCriteria, 400, 200);
+		BugChartComponent bugChartComponent = new BugChartComponent(chartSearchCriteria, 400, 200);
 		this.rightColumn.addComponent(bugChartComponent);
 	}
 }

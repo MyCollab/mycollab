@@ -61,8 +61,6 @@
 	display: inline-block;
 }
 
-/** Calendar */
-
 .mycollab {
 	@media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
 	.projectDashboardView {
@@ -5748,12 +5746,51 @@ body .mycollab.v-app .v-app-loading {
 	margin-right: 0;
 }
 
-.mycollab html {
-	overflow: hidden;
+.mycollab a:visited, .mycollab a:link {
+	color: #006DAC;
 }
 
-.mycollab button::-moz-focus-inner {
-	border: 0;
+.mycollab .xbreadcrumbs {
+	background-color: transparent !important;
+}
+
+.mycollab .xbreadcrumbs  > .v-slot:first-child > li {
+	padding-left: 0px;
+}
+
+.mycollab .xbreadcrumbs li {
+	padding-bottom: 8px !important;
+}
+
+.mycollab .xbreadcrumbs li  > div.xbreadcrumbbutton {
+	margin-top: 3px;
+	margin-top: 3px;
+}
+
+.mycollab .xbreadcrumbs li  > div.xbreadcrumbbutton.v-button-xbreadcrumbbutton-home {
+	margin: 0px;
+	margin: 0px;
+}
+
+.mycollab .xbreadcrumbs .v-link a span {
+	font-size: 13px !important;
+}
+
+.mycollab .xbreadcrumbbutton .v-button-caption {
+	font-size: 13px !important;
+	color: #333333;
+}
+
+.mycollab .v-button-xbreadcrumbbutton-home span.v-button-caption {
+	padding-left: 18px;
+}
+
+.mycollab div.v-button-link.xbreadcrumbbutton .v-button-wrap {
+	padding: 0px;
+}
+
+.mycollab html {
+	overflow: hidden;
 }
 
 .mycollab * :focus, .mycollab * :active {
@@ -5762,36 +5799,26 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-app {
-	background: #92bd84;
+	background: #f3f3f3;
 }
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-Notification, .mycollab .v-menubar-submenu {
 	background-color: #92bd84;
-	background-color: rgba(146, 189, 132, 0.85);
-}
-
-.mycollab body.v-ie6 .v-window, .mycollab body.v-ie7 .v-window, .mycollab body.v-ie6 .v-popupview-popup, .mycollab body.v-ie7 .v-popupview-popup, .mycollab body.v-ie6 .v-filterselect-suggestpopup, .mycollab body.v-ie7 .v-filterselect-suggestpopup, .mycollab body.v-ie6 .v-datefield-popup, .mycollab body.v-ie7 .v-datefield-popup, .mycollab body.v-ie6 .v-contextmenu, .mycollab body.v-ie7 .v-contextmenu, .mycollab body.v-ie6 .v-menubar-submenu, .mycollab body.v-ie7 .v-menubar-submenu {
-	background-color: #f5f5f5;
 }
 
 .mycollab .v-panel-content {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 .mycollab .v-panel-bubble .v-panel-captionwrap, .mycollab .v-panel-bubble .v-panel-deco-bubble {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 .mycollab .v-tabsheet-content, .mycollab .v-tabsheet-tabitem-selected, .mycollab .v-slider-base, .mycollab .v-window-modalitycurtain, .mycollab .v-window-opaque, .mycollab .v-progressindicator-wrapper, .mycollab .v-accordion-item-caption, .mycollab .v-accordion-item-open .v-accordion-item-caption:active, .mycollab .v-accordion-opaque div.v-accordion-item-open, .mycollab .v-table-scrollposition, .mycollab .v-table-body {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 .mycollab .v-app, .mycollab .v-window, .mycollab .v-popupview-popup {
-	font-size: 13px;
-	color: #0f0d0d;
-}
-
-.mycollab .v-app input, .mycollab .v-app button, .mycollab .v-app textarea {
 	font-size: 13px;
 	color: #0f0d0d;
 }
@@ -5816,7 +5843,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab div.v-button-down:active {
-	background-color: #43533e;
+	background-color: #43533E;
 }
 
 .mycollab .v-button:focus {
@@ -5824,31 +5851,31 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button:active .v-button-wrap {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab .v-button-down .v-button-wrap, .mycollab .v-datefield-calendarpanel-header td, .mycollab .v-slider-base, .mycollab .v-tabsheet-scrollerNext {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab .v-tabsheet-scrollerNext-disabled {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab .v-tabsheet-scrollerNext-disabled:active {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab .v-table-header-wrap, .mycollab .v-table-body, .mycollab .v-table-resizer {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab div.v-table-focus-slot-left, .mycollab div.v-table-focus-slot-right {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab input.v-textfield, .mycollab textarea.v-textarea, .mycollab .v-filterselect {
-	border-color: #43533e;
+	border-color: #43533E;
 }
 
 .mycollab input.v-textfield, .mycollab textarea.v-textarea, .mycollab .v-filterselect {
@@ -5858,23 +5885,23 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button, .mycollab .v-datefield-button, .mycollab .v-datefield-calendarpanel-header button, .mycollab td.v-datefield-calendarpanel-month, .mycollab .v-datefield-calendarpanel-weekdays strong, .mycollab .v-slider-handle, .mycollab .v-table-header-wrap, .mycollab .v-table-generated-row, .mycollab .v-table-header-drag, .mycollab .v-filterselect-prevpage-off, .mycollab .v-filterselect-nextpage-off, .mycollab .v-filterselect-prevpage, .mycollab .v-filterselect-nextpage, .mycollab .v-filterselect-select-button, .mycollab .v-splitpanel-hsplitter, .mycollab .v-splitpanel-vsplitter, .mycollab .v-splitpanel-hsplitter-locked, .mycollab .v-splitpanel-vsplitter-locked {
-	background-color: #64825a;
-	border-color: #43533e;
+	background-color: #64825A;
+	border-color: #43533E;
 }
 
 .mycollab .v-accordion-opaque {
-	background-color: #64825a;
-	border-color: #43533e;
+	background-color: #64825A;
+	border-color: #43533E;
 }
 
 .mycollab .v-accordion-opaque .v-accordion-item-open, .mycollab .v-accordion-opaque .v-accordion-item-caption, .mycollab .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
-	background-color: #64825a;
-	border-color: #43533e;
+	background-color: #64825A;
+	border-color: #43533E;
 }
 
 .mycollab .v-tabsheet-scroller, .mycollab .v-csslayout-toolbar, .mycollab .v-menubar {
-	background-color: #64825a;
-	border-color: #43533e;
+	background-color: #64825A;
+	border-color: #43533E;
 }
 
 .mycollab .v-button .v-button-wrap {
@@ -5898,15 +5925,15 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button {
-	text-shadow: 0 -1px 0 #43533e;
+	text-shadow: 0 -1px 0 #43533E;
 }
 
 .mycollab .v-disabled.v-button:focus, .mycollab .v-disabled.v-button:active {
-	text-shadow: 0 -1px 0 #43533e;
+	text-shadow: 0 -1px 0 #43533E;
 }
 
 .mycollab .v-datefield-calendarpanel-header button, .mycollab td.v-datefield-calendarpanel-month, .mycollab .v-tabsheet-tabitem-selected .v-caption, .mycollab .v-window-header, .mycollab .v-table-caption-container, .mycollab .v-accordion-item-caption, .mycollab .v-menubar .v-menubar-menuitem, .mycollab .v-filterselect-select-button .v-filterselect-input {
-	text-shadow: 0 -1px 0 #43533e;
+	text-shadow: 0 -1px 0 #43533E;
 }
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-Notification, .mycollab .v-menubar-submenu, .mycollab .v-panel-caption, .mycollab .v-panel-nocaption, .mycollab .v-panel-content, .mycollab .v-panel-deco, .mycollab .v-panel-light .v-panel-caption-light {
@@ -5922,19 +5949,27 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-label-color {
-	color: #6482b3;
+	color: #6482B3;
 }
 
-.mycollab .v-button-link, .mycollab .v-disabled.v-button-link {
-	color: #6482b3;
+.mycollab .v-button-link {
+	color: #6482B3;
 }
 
-.mycollab .v-button-link:focus, .mycollab .v-button-link:active, .mycollab .v-disabled.v-button-link:focus, .mycollab .v-disabled.v-button-link:active {
-	color: #6482b3;
+.mycollab .v-button-link:focus, .mycollab .v-button-link:active {
+	color: #6482B3;
+}
+
+.mycollab .v-disabled.v-button-link {
+	color: #6482B3;
+}
+
+.mycollab .v-disabled.v-button-link:focus {
+	color: #6482B3;
 }
 
 .mycollab .v-app a, .mycollab .v-popupview-popup a, .mycollab .v-popupview, .mycollab .sidebar-menu .v-label {
-	color: #6482b3;
+	color: #6482B3;
 }
 
 .mycollab .v-button-default {
@@ -5949,7 +5984,7 @@ body .mycollab.v-app .v-app-loading {
 	border-color: #495972;
 }
 
-.mycollab .v-button-default:active, .mycollab .v-ie7 .v-button-default.v-pressed, .mycollab .v-ie8 .v-button-default.v-pressed {
+.mycollab .v-button-default:active, .mycollab .v-ie8 .v-button-default.v-pressed {
 	border-color: #495972;
 }
 
@@ -5965,78 +6000,70 @@ body .mycollab.v-app .v-app-loading {
 	background-color: #566c8f;
 }
 
-.mycollab .v-button-default:active .v-button-wrap, .mycollab .v-ie7 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-ie8 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-progressindicator-indicator, .mycollab .v-datefield-calendarpanel-day-focused, .mycollab .v-datefield-calendarpanel-day:hover, .mycollab .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+.mycollab .v-button-default:active .v-button-wrap, .mycollab .v-ie8 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-progressindicator-indicator, .mycollab .v-datefield-calendarpanel-day-focused, .mycollab .v-datefield-calendarpanel-day:hover, .mycollab .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
 	border-color: #566c8f;
 }
 
 .mycollab .v-button-default {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-disabled.v-button-default {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-disabled.v-button-default:focus {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
-.mycollab .v-button-default:active, .mycollab .v-ie7 .v-button-default.v-pressed, .mycollab .v-ie8 .v-button-default.v-pressed, .mycollab .v-panel-bubble .v-panel-caption, .mycollab .v-datefield-calendarpanel-day-selected, .mycollab .v-table tr.v-selected {
-	background-color: #6482b3;
+.mycollab .v-button-default:active, .mycollab .v-ie8 .v-button-default.v-pressed, .mycollab .v-panel-bubble .v-panel-caption, .mycollab .v-datefield-calendarpanel-day-selected, .mycollab .v-table tr.v-selected {
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-contextmenu .gwt-MenuItem-selected {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-contextmenu .gwt-MenuItem-selected div {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-filterselect-suggestpopup .gwt-MenuItem-selected, .mycollab .v-progressindicator-indicator, .mycollab .v-tree-node-selected span {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .sidebar-menu .tab-selected, .mycollab .sidebar-menu .selected {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
 .mycollab .v-horizontallayout-segment-alternate .v-button-down, .mycollab .v-menubar .v-menubar-menuitem-selected, .mycollab .v-menubar-submenu .v-menubar-menuitem-selected {
-	background-color: #6482b3;
+	background-color: #6482B3;
 	color: #f4f4f5;
 	text-shadow: 0 -1px 0 #495972;
 }
 
-.mycollab .v-ie6 .v-progressindicator-indicator {
-	background-color: #6482b3;
-}
-
 .mycollab .v-panel-caption, .mycollab .v-table-striped .v-table-row-odd {
-	background: #f7f7f7;
+	background: #F7F7F7;
 }
 
 .mycollab .sidebar-menu .tab-selected, .mycollab .sidebar-menu .selected {
 	text-shadow: 0 1px 0 #495972;
-}
-
-.mycollab .v-app {
-	background: #f9f9f9;
 }
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-Notification, .mycollab .v-menubar-submenu {
@@ -6078,7 +6105,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button:focus {
-	background-color: #a1a1a1;
+	background-color: #A1A1A1;
 }
 
 .mycollab .v-button-down .v-button-wrap, .mycollab .v-datefield-calendarpanel-header td, .mycollab .v-slider-base, .mycollab .v-tabsheet-scrollerNext {
@@ -6106,66 +6133,74 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button, .mycollab .v-datefield-button, .mycollab .v-datefield-calendarpanel-header button, .mycollab td.v-datefield-calendarpanel-month, .mycollab .v-datefield-calendarpanel-weekdays strong, .mycollab .v-slider-handle, .mycollab .v-table-header-wrap, .mycollab .v-table-generated-row, .mycollab .v-table-header-drag, .mycollab .v-filterselect-prevpage-off, .mycollab .v-filterselect-nextpage-off, .mycollab .v-filterselect-prevpage, .mycollab .v-filterselect-nextpage, .mycollab .v-filterselect-select-button, .mycollab .v-splitpanel-hsplitter, .mycollab .v-splitpanel-vsplitter, .mycollab .v-splitpanel-hsplitter-locked, .mycollab .v-splitpanel-vsplitter-locked {
-	background-color: #c9c9c9;
+	background-color: #C9C9C9;
 	border-color: #CFCFCF;
 }
 
 .mycollab .v-accordion-opaque {
-	background-color: #c9c9c9;
+	background-color: #C9C9C9;
 	border-color: #CFCFCF;
 }
 
 .mycollab .v-accordion-opaque .v-accordion-item-open, .mycollab .v-accordion-opaque .v-accordion-item-caption, .mycollab .v-accordion-opaque .v-accordion-item-open .v-accordion-item-caption:active {
-	background-color: #c9c9c9;
+	background-color: #C9C9C9;
 	border-color: #CFCFCF;
 }
 
 .mycollab .v-tabsheet-scroller, .mycollab .v-csslayout-toolbar, .mycollab .v-menubar {
-	background-color: #c9c9c9;
+	background-color: #C9C9C9;
 	border-color: #CFCFCF;
 }
 
 .mycollab .v-datefield-calendarpanel-weekdays strong, .mycollab .v-splitpanel-hsplitter-small, .mycollab .v-splitpanel-vsplitter-small, .mycollab .v-splitpanel-hsplitter-small-locked, .mycollab .v-splitpanel-vsplitter-small-locked {
-	background-color: #a1a1a1;
+	background-color: #A1A1A1;
 }
 
 .mycollab .v-progressindicator-wrapper {
-	border-color: #a1a1a1;
+	border-color: #A1A1A1;
 }
 
 .mycollab .v-button {
-	text-shadow: 0 1px 0 #dfdfdf;
+	text-shadow: 0 1px 0 #DFDFDF;
 }
 
 .mycollab .v-disabled.v-button:focus, .mycollab .v-disabled.v-button:active {
-	text-shadow: 0 1px 0 #dfdfdf;
+	text-shadow: 0 1px 0 #DFDFDF;
 }
 
 .mycollab .v-datefield-calendarpanel-header button, .mycollab td.v-datefield-calendarpanel-month, .mycollab .v-tabsheet-tabitem-selected .v-caption, .mycollab .v-window-header, .mycollab .v-table-caption-container, .mycollab .v-accordion-item-caption, .mycollab .v-menubar .v-menubar-menuitem, .mycollab .v-filterselect-select-button .v-filterselect-input {
-	text-shadow: 0 1px 0 #dfdfdf;
+	text-shadow: 0 1px 0 #DFDFDF;
 }
 
 .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-filterselect-suggestpopup, .mycollab .v-datefield-popup, .mycollab .v-contextmenu, .mycollab .v-Notification, .mycollab .v-menubar-submenu, .mycollab .v-panel-caption, .mycollab .v-panel-nocaption, .mycollab .v-panel-content, .mycollab .v-panel-deco, .mycollab .v-panel-light .v-panel-caption-light {
-	border-color: #a9a9a9;
+	border-color: #A9A9A9;
 }
 
 .mycollab .v-panel-bubble .v-panel-captionwrap, .mycollab .v-panel-bubble .v-panel-content-bubble, .mycollab .v-panel-bubble .v-panel-deco-bubble {
-	border-color: #a9a9a9;
+	border-color: #A9A9A9;
 }
 
 .mycollab .v-tabsheet-tabitem-selected, .mycollab .v-tabsheet-tabitem, .mycollab .v-tabsheet-spacertd div, .mycollab .v-tabsheet-content, .mycollab .v-tabsheet-deco, .mycollab .v-slider, .mycollab .v-splitpanel-hsplitter, .mycollab .v-splitpanel-vsplitter, .mycollab .v-splitpanel-hsplitter-locked, .mycollab .v-splitpanel-vsplitter-locked, .mycollab .v-table-scrollposition, .mycollab .v-accordion, .mycollab .v-accordion-item-caption, .mycollab .v-accordion-item-open, .mycollab .v-menubar-separator span {
-	border-color: #a9a9a9;
+	border-color: #A9A9A9;
 }
 
 .mycollab .v-label-color {
 	color: #006dac;
 }
 
-.mycollab .v-button-link, .mycollab .v-disabled.v-button-link {
+.mycollab .v-button-link {
 	color: #006dac;
 }
 
-.mycollab .v-button-link:focus, .mycollab .v-button-link:active, .mycollab .v-disabled.v-button-link:focus, .mycollab .v-disabled.v-button-link:active {
+.mycollab .v-button-link:focus, .mycollab .v-button-link:active {
+	color: #006dac;
+}
+
+.mycollab .v-disabled.v-button-link {
+	color: #006dac;
+}
+
+.mycollab .v-disabled.v-button-link:focus {
 	color: #006dac;
 }
 
@@ -6174,97 +6209,97 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button-default {
-	border-color: #2e5a84;
+	border-color: #2E5A84;
 }
 
 .mycollab .v-disabled.v-button-default {
-	border-color: #2e5a84;
+	border-color: #2E5A84;
 }
 
 .mycollab .v-disabled.v-button-default:focus {
-	border-color: #2e5a84;
+	border-color: #2E5A84;
 }
 
-.mycollab .v-button-default:active, .mycollab .v-ie7 .v-button-default.v-pressed, .mycollab .v-ie8 .v-button-default.v-pressed {
-	border-color: #2e5a84;
+.mycollab .v-button-default:active, .mycollab .v-ie8 .v-button-default.v-pressed {
+	border-color: #2E5A84;
 }
 
 .mycollab .sidebar-menu .tab-selected, .mycollab .sidebar-menu .selected {
-	border-color: #2e5a84;
+	border-color: #2E5A84;
 }
 
 .mycollab .v-horizontallayout-segment-alternate .v-button-down {
-	border-color: #2e5a84;
+	border-color: #2E5A84;
 }
 
 .mycollab .v-button-default:focus, .mycollab .v-horizontallayout-segment-alternate .v-button-down:active {
 	background-color: #2d6ba5;
 }
 
-.mycollab .v-button-default:active .v-button-wrap, .mycollab .v-ie7 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-ie8 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-progressindicator-indicator, .mycollab .v-datefield-calendarpanel-day-focused, .mycollab .v-datefield-calendarpanel-day:hover, .mycollab .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
+.mycollab .v-button-default:active .v-button-wrap, .mycollab .v-ie8 .v-button-default.v-pressed .v-button-wrap, .mycollab .v-progressindicator-indicator, .mycollab .v-datefield-calendarpanel-day-focused, .mycollab .v-datefield-calendarpanel-day:hover, .mycollab .v-horizontallayout-segment-alternate .v-button-down .v-button-wrap {
 	border-color: #2d6ba5;
 }
 
 .mycollab .v-button-default {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-disabled.v-button-default {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-disabled.v-button-default:focus {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-button-default:active, .mycollab .v-ie7 .v-button-default.v-pressed, .mycollab .v-ie8 .v-button-default.v-pressed, .mycollab .v-panel-bubble .v-panel-caption, .mycollab .v-datefield-calendarpanel-day-selected, .mycollab .v-table tr.v-selected {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-contextmenu .gwt-MenuItem-selected {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-contextmenu .gwt-MenuItem-selected div {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-filterselect-suggestpopup .gwt-MenuItem-selected, .mycollab .v-progressindicator-indicator, .mycollab .v-tree-node-selected span {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .sidebar-menu .tab-selected, .mycollab .sidebar-menu .selected {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .v-horizontallayout-segment-alternate .v-button-down, .mycollab .v-menubar .v-menubar-menuitem-selected, .mycollab .v-menubar-submenu .v-menubar-menuitem-selected {
-	background-color: #287ece;
-	color: #f7f8f9;
-	text-shadow: 0 -1px 0 #2e5a84;
-}
-
-.mycollab .v-ie6 .v-progressindicator-indicator {
-	background-color: #287ece;
+	background-color: #287ECE;
+	color: #F7F8F9;
+	text-shadow: 0 -1px 0 #2E5A84;
 }
 
 .mycollab .sidebar-menu .tab-selected, .mycollab .sidebar-menu .selected {
-	text-shadow: 0 1px 0 #2e5a84;
+	text-shadow: 0 1px 0 #2E5A84;
+}
+
+.mycollab button::-moz-focus-inner {
+	border: 0;
 }
 
 .mycollab input.noBorderRight {
@@ -6272,13 +6307,13 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab input:focus {
-	background-color: white;
+	background-color: #FFF;
 	border-color: #1185DE;
 	box-shadow: 0 0 1px #0a58cd inset;
 }
 
 .mycollab textarea:focus {
-	background-color: white;
+	background-color: #FFF;
 	border-color: #1185DE;
 	box-shadow: 0 0 1px #0a58cd inset;
 }
@@ -6295,7 +6330,7 @@ body .mycollab.v-app .v-app-loading {
 	border: none;
 }
 
-.mycollab .mycollab .v-richtextarea {
+.mycollab .v-richtextarea {
 	border: 1px solid #CFCFCF;
 }
 
@@ -6398,12 +6433,12 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-label.h2 {
-	font-size: 1.2em;
+	font-size: 14px;
 	padding: 0px;
 }
 
 .mycollab .v-label.h2_community {
-	font-size: 1.2em;
+	font-size: 16px;
 	padding-top: 10px;
 	text-align: center;
 }
@@ -6414,21 +6449,17 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab input.v-textfield, .mycollab textarea.v-textarea, .mycollab .v-filterselect {
-	background: none no-repeat left top white;
+	background: none no-repeat left top #FFF;
 	border-color: #CFCFCF;
 }
 
 .mycollab .v-ie input.v-textfield, .mycollab .v-ie textarea.v-textarea, .mycollab .v-ie .v-filterselect {
-	background: none no-repeat left top white;
+	background: none no-repeat left top #FFF;
 	border-color: #CFCFCF;
 }
 
 .mycollab input.v-widget.v-textfield[type="text"], .mycollab .v-filterselect {
 	height: 25px;
-}
-
-.mycollab .v-app {
-	background: #f3f3f3;
 }
 
 .mycollab .v-button {
@@ -6469,16 +6500,16 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-window-modalitycurtain {
-	background-color: white;
+	background-color: #ffffff;
 }
 
 .mycollab .popupContent .v-window-contents {
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .popupContent .v-window-outerheader {
 	background-color: #F7F7F7;
-	padding: 0px;
+	padding: 0;
 }
 
 .mycollab .popupContent .v-window-outerheader .v-window-header {
@@ -6535,7 +6566,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab select.v-select-select {
-	background: none no-repeat left top white;
+	background: none no-repeat left top #FFF;
 	border: 1px solid #CFCFCF;
 }
 
@@ -6561,7 +6592,11 @@ body .mycollab.v-app .v-app-loading {
 	margin: 0px;
 }
 
-.mycollab div.v-button-link.v-button-no-margin:focus, .mycollab div.v-button-link:focus {
+.mycollab div.v-button-link.v-button-no-margin:focus {
+	margin: 0px;
+}
+
+.mycollab div.v-button-link:focus {
 	margin: 0px;
 }
 
@@ -6918,16 +6953,16 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button-greenbtn-no-radius-left {
-	background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #2599C8;
+	background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #2599c8;
 	border: 1px solid #093768;
-	color: white;
-	text-shadow: 1px 1px 0px #1570CD;
+	color: #FFF;
+	text-shadow: 1px 1px 0px #1570cd;
 	border-radius: 3px;
 	padding: 3px 13px;
 }
 
 .mycollab .v-button-greenbtn-no-radius-left:hover {
-	background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #1377B3;
+	background: url("icons/grad-dark-bottom2.png") repeat-x left bottom #1377b3;
 	border: 1px solid #093768;
 }
 
@@ -7012,10 +7047,6 @@ body .mycollab.v-app .v-app-loading {
 	height: 100%;
 }
 
-.mycollab .v-ie7 .v-button-link.v-button-wordWrap .v-button-caption {
-	white-space: nowrap;
-}
-
 .mycollab .v-table-cell-wrapper .v-button-link.v-button-wordWrap .v-button-wrap {
 	display: table;
 }
@@ -7070,11 +7101,11 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .h-sidebar-menu .v-button.v-button-link.isSelected {
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .mycollab .h-sidebar-menu .v-button.v-button-link:active .v-button-caption {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .h-sidebar-menu .v-button .v-button-wrap {
@@ -7088,11 +7119,11 @@ body .mycollab.v-app .v-app-loading {
 	position: relative;
 }
 
-.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link, .mycollab v-ie6 .h-sidebar-menu .v-pressed.v-button-link, .mycollab .v-ie7 .h-sidebar-menu .v-pressed.v-button-link {
+.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link {
 	margin: 0px;
 }
 
-.mycollab .h-sidebar-menu .v-button-link .v-button-wrap, .mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap, .mycollab .v-ie7 .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
+.mycollab .h-sidebar-menu .v-button-link .v-button-wrap, .mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
 	display: inline-block;
 	*display: inline;
 	zoom: 1;
@@ -7136,7 +7167,7 @@ body .mycollab.v-app .v-app-loading {
 	border: none;
 }
 
-.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap, .mycollab .v-ie7 .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
+.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
 	border: none;
 }
 
@@ -7150,7 +7181,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .h-sidebar-menu .v-button-link .v-button-caption {
 	text-decoration: none;
-	color: white;
+	color: #FFF;
 	text-shadow: none;
 	font-weight: bold;
 	font-family: Arial, Helvetica, sans-serif;
@@ -7452,7 +7483,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-button.search-icon-button {
-	background: none repeat-x scroll left bottom gainsboro;
+	background: none repeat-x scroll left bottom #DCDCDC;
 	border-radius: 0px 3px 3px 0px;
 	border-left: none;
 	border-color: #B5B5B5;
@@ -7512,7 +7543,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .crmContainer .main-view {
-	background-color: white;
+	background-color: #FFF;
 	min-height: 100%;
 }
 
@@ -7543,11 +7574,11 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .crmContainer .navigator-wrap .basic-info {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .crmContainer .navigator-wrap .basic-info .v-button-link .v-button-caption {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .crmContainer .navigator-wrap .basic-info:after {
@@ -7649,7 +7680,7 @@ body .mycollab.v-app .v-app-loading {
 	padding: 40px 0px 20px;
 	text-transform: uppercase;
 	text-align: center;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Georgia, "Times New Roman", sans-serif;
 }
 
 .mycollab .forgotPwdForm #loginFormContainer #form-header {
@@ -7752,7 +7783,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab #loginForm input.v-textfield {
 	width: 410px;
-	background: white;
+	background: #FFF;
 	border-color: #BBB;
 	border-radius: 0px;
 	padding: 0em 0.2em;
@@ -7927,14 +7958,14 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .addViewLayout .addViewBody {
-	background-color: white;
+	background-color: #FFF;
 	border-color: #CFCFCF;
 	border-style: solid;
 	border-width: 1px 1px 0px;
 }
 
 .mycollab .addViewLayout .report-addview-layout {
-	border-bottom: 1px solid #CFCFCF;
+	border-bottom: 1px solid #cfcfcf;
 }
 
 .mycollab .addViewLayout .addViewTopControls {
@@ -7971,14 +8002,14 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .addViewTitle {
 	padding: 10px 5px 10px 18px;
 	background: none repeat-x left top #EEEEEE;
-	border-color: #CFCFCF;
+	border-color: #cfcfcf;
 	border-style: solid;
 	border-width: 1px 1px 0px;
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .mycollab .addViewTitle .v-label {
-	font-size: 15px;
+	font-size: 16px;
 	color: #303030;
 }
 
@@ -8000,7 +8031,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .addViewLayout .addViewHeader .headerName {
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	color: #525252;
 }
@@ -8063,7 +8094,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .accountViewContainer .v-horizontallayout-menuContent > div > div:first-child + div {
-	background: url('icons/tabcontent-bg.png') repeat-y 0 0 white;
+	background: url('icons/tabcontent-bg.png') repeat-y 0 0 #FFF;
 }
 
 .mycollab .accountViewContainer .v-splitpanel-hsplitter-locked {
@@ -8131,7 +8162,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .accountViewContainer .sidebar-menu .tab-selected, .mycollab .accountViewContainer .sidebar-menu .selected {
-	background: none no-repeat 0 0 #287ece;
+	background: none no-repeat 0 0 #287ECE;
 }
 
 .mycollab .accountViewContainer .v-nativebutton .v-nativebutton-caption {
@@ -8146,7 +8177,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .accountViewContainer .v-nativebutton-tab-selected .v-nativebutton-caption, .mycollab .accountViewContainer .tab-selected .v-nativebutton-caption {
 	background: #287ECE;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .mycollab .accountViewContainer .addViewLayout {
@@ -8264,20 +8295,12 @@ body .mycollab.v-app .v-app-loading {
 	padding-top: 9px;
 }
 
-.mycollab .projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-right {
-	padding-right: 0px;
-}
-
 .mycollab .projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-bottom {
 	padding-bottom: 9px;
 }
 
-.mycollab .projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-left {
-	padding-left: 0px;
-}
-
 .mycollab .projectDashboardView .navigator-wrap .project-list-comp .project-description {
-	color: white;
+	color: #FFF;
 	padding: 10px 0px 20px;
 	border-bottom: 1px solid #CFCFCF;
 }
@@ -8297,44 +8320,28 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .projectDashboardView .container-wrap.main-content .top-panel {
-	background-color: white;
+	background-color: #FFF;
 	border-bottom: 1px solid #CFCFCF;
 }
 
 .mycollab .accountViewContainer .container-wrap.main-content .top-panel {
-	background-color: white;
+	background-color: #FFF;
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-top {
+.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-top, .mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-top {
 	padding-top: 10px;
 }
 
-.mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-right {
+.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-right, .mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-right {
 	padding-right: 30px;
 }
 
-.mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-bottom {
+.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-bottom, .mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-bottom {
 	padding-bottom: 10px;
 }
 
-.mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-left {
-	padding-left: 30px;
-}
-
-.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-top {
-	padding-top: 10px;
-}
-
-.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-right {
-	padding-right: 30px;
-}
-
-.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-bottom {
-	padding-bottom: 10px;
-}
-
-.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-left {
+.mycollab .projectDashboardView .container-wrap.main-content .top-panel.v-margin-left, .mycollab .accountViewContainer .container-wrap.main-content .top-panel.v-margin-left {
 	padding-left: 30px;
 }
 
@@ -8391,7 +8398,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .projectDashboardView .v-nativebutton-tab-selected .v-nativebutton-caption, .mycollab .projectDashboardView .tab-selected .v-nativebutton-caption {
 	background: #287ECE;
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .mycollab .projectDashboardView .v-label-h2 {
@@ -8417,8 +8424,8 @@ body .mycollab.v-app .v-app-loading {
 	background-color: #F5F5F5;
 }
 
-.mycollab .projectDashboardView .v-tabsheet-content {
-	background-color: white;
+.mycollab .projectDashboardView .v-tabsheet-content, .mycollab .projectDashboardView .Milestones .v-tabsheet-content {
+	background-color: #FFF;
 }
 
 .mycollab .projectDashboardView .addViewLayout {
@@ -8430,7 +8437,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .projectDashboardView .v-horizontallayout-menuContent > div > div:first-child + div {
-	background: url('icons/tabcontent-bg.png') repeat-y 0 0 white;
+	background: url('icons/tabcontent-bg.png') repeat-y 0 0 #FFF;
 }
 
 .mycollab .v-csslayout-projectTabContent {
@@ -8469,7 +8476,7 @@ body .mycollab.v-app .v-app-loading {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border: 1px solid #CFCFCF;
-	background: none no-repeat left top white;
+	background: none no-repeat left top #FFF;
 	border-radius: 0px;
 }
 
@@ -8557,11 +8564,11 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .projectfeed-hdr-wrapper .h1 {
 	padding: 0px;
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .projectfeed-hdr-wrapper .h2, .mycollab .projectfeed-hdr-wrapper .v-button-link .v-button-caption {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .v-wizardprogressbar .step {
@@ -8581,7 +8588,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-wizardprogressbar .bar {
 	height: 100%;
 	background-color: #00b3ef;
-	background: -moz-linear-gradient(center top, #20d4ff, #009cd0) repeat-x scroll left top transparent;
+	background: -moz-linear-gradient(center top, #20D4FF, #009CD0) repeat-x scroll left top transparent;
 	background: -webkit-gradient(linear, left top, left bottom, from(#20d4ff), to(#009cd0)) top left repeat-x;
 	-moz-transition: width 0.5s ease-out 0s;
 	-webkit-transition: width 0.5s ease-out 0s;
@@ -8740,7 +8747,7 @@ body .mycollab.v-app .v-app-loading {
 	border-color: #CFCFCF;
 	border-style: solid;
 	border-width: 0px 1px 1px 1px;
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .depotContent.bordered.v-margin-top {
@@ -8764,7 +8771,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .bug-list .widget-footer {
-	background-color: white;
+	background-color: #FFF;
 	border-color: #CFCFCF;
 	border-style: solid;
 	border-width: 0px 1px 1px 1px;
@@ -8818,12 +8825,12 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .actionPanel {
-	background: -moz-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e6e6e6), color-stop(100%, #dddddd));
-	background: -webkit-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-	background: -o-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-	background: -ms-linear-gradient(top, #e6e6e6 0, #dddddd 100%);
-	background: linear-gradient(to bottom, #e6e6e6 0, #dddddd 100%);
+	background: -moz-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E6E6E6), color-stop(100%, #DDD));
+	background: -webkit-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+	background: -o-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+	background: -ms-linear-gradient(top, #E6E6E6 0, #DDD 100%);
+	background: linear-gradient(to bottom, #E6E6E6 0, #DDD 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E6E6E6',endColorstr='#DDD',GradientType=0);
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -8945,12 +8952,12 @@ body .mycollab.v-app .v-app-loading {
 	max-width: 150px;
 	min-width: 100px;
 	padding: 5px 0px;
-	background: -moz-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #eeeeee));
-	background: -webkit-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-	background: -o-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-	background: -ms-linear-gradient(top, #f8f8f8 0, #eeeeee 100%);
-	background: linear-gradient(to bottom, #f8f8f8 0, #eeeeee 100%);
+	background: -moz-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F8F8F8), color-stop(100%, #EEEEEE));
+	background: -webkit-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+	background: -o-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+	background: -ms-linear-gradient(top, #F8F8F8 0, #EEEEEE 100%);
+	background: linear-gradient(to bottom, #F8F8F8 0, #EEEEEE 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F8F8F8', endColorstr='#EEEEEE',GradientType=0);
 	border-right: 1px solid #CCC;
 	border-top: 1px solid #CCC;
@@ -9019,11 +9026,11 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-tabsheet-tabs {
-	background-color: #f7f7f7;
+	background-color: #F7F7F7;
 }
 
 .mycollab .v-tabsheet-content {
-	background-color: white;
+	background-color: #FFF;
 	border: none;
 }
 
@@ -9051,9 +9058,9 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-tabsheet-tabitem.v-tabsheet-tabitem-selected {
-	background-color: white;
+	background-color: #FFF;
 	border-radius: 0px;
-	border-bottom-color: white;
+	border-bottom-color: #FFF;
 }
 
 .mycollab .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption {
@@ -9096,7 +9103,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .activity-stream {
-	background-color: white;
+	background-color: #FFF;
 	border-color: #CFCFCF;
 	border-width: 0px 1px 1px;
 	border-style: solid;
@@ -9104,7 +9111,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .activity-stream.odd {
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .v-tabsheet-tabsheetpanel .activity-panel .v-lazyloadingwrapper > .v-verticallayout > div > div:first-child .activity-stream {
@@ -9153,7 +9160,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .depotContent > .v-verticallayout > div > div > div > .v-lazyloadingwrapper > .v-verticallayout > div > div > div > .v-verticallayout .activity-stream {
-	background-color: #f7f7f7;
+	background-color: #F7F7F7;
 }
 
 .mycollab .depotContent > .v-verticallayout > div > div > div > .v-lazyloadingwrapper > .v-verticallayout > div > div > div > .v-verticallayout .activity-stream.odd {
@@ -9161,7 +9168,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .stream-wrapper {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 	padding: 5px;
 	border-width: 0px 1px 1px;
 	border-style: solid;
@@ -9201,7 +9208,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-panel-content-noneBorder-panel {
 	border-width: 0px 0px 0px 0px;
-	border-color: white;
+	border-color: #ffffff;
 	border-style: none;
 	background-color: transparent;
 	border-width: 0px 0px 0px 0px;
@@ -9220,12 +9227,12 @@ body .mycollab.v-app .v-app-loading {
 	border: 1px solid #8f8f8f;
 	display: inline-block;
 	color: #222222;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: arial;
 	font-size: 13px;
 	font-weight: bold;
 	padding: 3px 13px;
 	text-decoration: none;
-	text-shadow: 0px 1px 0px white;
+	text-shadow: 0px 1px 0px #ffffff;
 }
 
 .mycollab .v-button.v-button-round-border .v-button-wrap, .mycollab .v-button.v-button-round-border:active .v-button-wrap {
@@ -9290,7 +9297,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-splitbutton-esofthead .v-button-esofthead:active {
-	background: none no-repeat 0 0 #a1a1a1;
+	background: none no-repeat 0 0 #A1A1A1;
 	border-color: #ababab;
 }
 
@@ -9374,23 +9381,11 @@ body .mycollab.v-app .v-app-loading {
 	padding: 3px 7px 3px 2px;
 }
 
-.mycollab .v-ie7 .v-splitbutton .v-popupbutton.greenbtn {
-	padding: 3px 7px 3px 2px;
-}
-
-.mycollab .v-ie7 .v-splitbutton .v-popupbutton.graybtn {
-	padding: 3px 7px 3px 2px;
-}
-
-.mycollab .v-ie7 .v-splitbutton .v-popupbutton.graybtn:active {
-	padding: 3px 7px 3px 2px;
-}
-
 .mycollab .v-popupbutton.greenbtn .v-popup-indicator {
 	background: url("icons/sprites.png") no-repeat scroll -5px -10px transparent;
 }
 
-.mycollab .mycollab .v-popupbutton .v-button-wrap * {
+.mycollab .v-popupbutton .v-button-wrap * {
 	float: none;
 }
 
@@ -9426,7 +9421,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-table-row {
-	background: none repeat scroll 0% 0% white;
+	background: none repeat scroll 0% 0% #FFF;
 }
 
 .mycollab .v-table-row-odd, .mycollab .v-table-striped .v-table-row-odd {
@@ -9439,7 +9434,7 @@ body .mycollab.v-app .v-app-loading {
 	border-style: solid;
 	border-color: #CFCFCF;
 	border-radius: 0px 0px 3px 3px;
-	background: none no-repeat 0 0 white;
+	background: none no-repeat 0 0 #ffffff;
 }
 
 .mycollab .project-member-readview .v-csslayout-listControl {
@@ -9447,12 +9442,12 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-table-row-spacer {
-	background: none no-repeat 0 0 white;
+	background: none no-repeat 0 0 #FFF;
 }
 
 .mycollab .tokenfield {
 	border: 1px solid #CFCFCF;
-	background: url("icons/input-bg.png") repeat-x scroll 0% 0% white;
+	background: url("icons/input-bg.png") repeat-x scroll 0% 0% #FFF;
 	padding: 3px 2px 2px;
 	border-radius: 3px;
 }
@@ -9512,7 +9507,7 @@ body .mycollab.v-app .v-app-loading {
 	background-image: url('icons/grad-dark-bottom.png');
 	background-repeat: repeat-x;
 	background-position: left bottom;
-	background-color: #1c7dce;
+	background-color: #1C7DCE;
 	height: auto;
 }
 
@@ -9521,7 +9516,7 @@ body .mycollab.v-app .v-app-loading {
 	background-image: url('icons/grad-dark-bottom.png');
 	background-repeat: repeat-x;
 	background-position: left bottom;
-	background-color: #1c7dce;
+	background-color: #1C7DCE;
 	height: auto;
 }
 
@@ -9559,7 +9554,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .message-list .beanlist-content {
 	padding: 5px 15px;
-	background: none no-repeat left top white;
+	background: none no-repeat left top #FFF;
 	border-width: 0px 1px 1px;
 	border-style: solid;
 	border-color: #CFCFCF;
@@ -9602,10 +9597,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .message .message-container .v-verticallayout {
 	display: block;
-}
-
-.mycollab .v-ie7 .message .message-container {
-	margin-left: 0px;
 }
 
 .mycollab .message .message-container:before {
@@ -9655,16 +9646,12 @@ body .mycollab.v-app .v-app-loading {
 	padding-top: 10px;
 }
 
-.mycollab .message-header.v-margin-right {
-	padding-right: 10px;
-}
-
-.mycollab .message-header.v-margin-bottom {
-	padding-bottom: 0px;
-}
-
 .mycollab .message-header.v-margin-left {
 	padding-left: 10px;
+}
+
+.mycollab .message-header.v-margin-right {
+	padding-right: 10px;
 }
 
 .mycollab .message-body {
@@ -9757,7 +9744,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-buttongroup .v-button.graybtn2.v-button-left, .mycollab .v-buttongroup .v-button.graybtn2.v-button-middle, .mycollab .v-buttongroup .v-button.graybtn2.v-button-right {
 	background-color: #CFCFCF;
 	border-color: #383838;
-	color: white;
+	color: #FFF;
 	border-top: none;
 	border-bottom: none;
 	border-bottom-left-radius: 0px;
@@ -9786,44 +9773,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-multifileupload-uploads .v-upload-immediate input {
 	cursor: pointer;
-}
-
-.mycollab .xbreadcrumbs {
-	background-color: transparent !important;
-}
-
-.mycollab .xbreadcrumbs  > .v-slot:first-child > li {
-	padding-left: 0px;
-}
-
-.mycollab .xbreadcrumbs li {
-	padding-bottom: 8px !important;
-}
-
-.mycollab .xbreadcrumbs li  > div.xbreadcrumbbutton {
-	margin-top: 3px;
-	margin-top: 3px;
-}
-
-.mycollab .xbreadcrumbs li  > div.xbreadcrumbbutton.v-button-xbreadcrumbbutton-home {
-	margin: 0px;
-	margin: 0px;
-}
-
-.mycollab .xbreadcrumbs .v-link a span {
-	font-size: 13px !important;
-}
-
-.mycollab .xbreadcrumbbutton .v-button-caption {
-	font-size: 13px !important;
-}
-
-.mycollab .v-button-xbreadcrumbbutton-home span.v-button-caption {
-	padding-left: 18px;
-}
-
-.mycollab div.v-button-link.xbreadcrumbbutton .v-button-wrap {
-	padding: 0px;
 }
 
 .mycollab .v-form-errormessage .gwt-HTML {
@@ -9860,7 +9809,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .widget-title {
-	border-bottom: 1px solid #b7b7b7;
+	border-bottom: 1px solid #B7B7B7;
 	padding-bottom: 0.2em;
 	margin-bottom: 5px;
 	font-weight: bold;
@@ -9890,7 +9839,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .widget-row.odd {
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .v-button.select-bg {
@@ -9956,7 +9905,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-window .v-table-header-wrap .v-table-caption-container {
 	color: black;
-	text-shadow: 0px 1px 0px #dfdfdf;
+	text-shadow: 0px 1px 0px #DFDFDF;
 }
 
 .mycollab .v-table-row-odd .v-ratingstars-wrapper-tiny .v-ratingstars-star {
@@ -9977,14 +9926,14 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .form-container div.v-button-link {
 	height: 18px;
-	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394754;
+	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
 	padding: 0px 7px 1px;
 	margin-right: 2px;
 }
 
 .mycollab .form-container div.v-button-link:active, .mycollab .form-container div.v-button-link:focus {
 	height: 18px;
-	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394754;
+	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
 	padding: 0px 7px 1px;
 	margin-right: 2px;
 }
@@ -9993,7 +9942,8 @@ body .mycollab.v-app .v-app-loading {
 	background: none;
 	padding: 0px 7px 1px;
 	margin-right: 2px;
-	color: #3333ec;
+	color: #3333EC;
+	pointer: none;
 }
 
 .mycollab .form-container .v-button-link .v-button-caption {
@@ -10017,7 +9967,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-progressbar-wrapper {
 	height: 18px;
-	background: none no-repeat 0 0 #f5f5f5;
+	background: none no-repeat 0 0 #F5F5F5;
 	border: 1px solid #CDCDCD;
 }
 
@@ -10057,7 +10007,7 @@ body .mycollab.v-app .v-app-loading {
 	padding: 4px 13px;
 }
 
-.mycollab .detachedtabs .v-button-tab .v-button-wrap {
+.mycollab .detachedtabs .v-button-tab  > .v-button-wrap {
 	background: none no-repeat 0 0 transparent;
 	border-radius: 0px;
 	text-align: left;
@@ -10065,14 +10015,14 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .detachedtabs .v-button-tab.tab-selected > .v-button-wrap {
-	background: none no-repeat 0 0 #287ece;
+	background: none no-repeat 0 0 #287ECE;
 }
 
-.mycollab .detachedtabs .v-button-tab .v-button-wrap .v-icon {
+.mycollab .detachedtabs .v-button-tab  > .v-button-wrap  > .v-icon {
 	margin-right: 8px;
 }
 
-.mycollab .detachedtabs .v-button-tab .v-button-wrap .v-button-caption {
+.mycollab .detachedtabs .v-button-tab  > .v-button-wrap  > .v-button-caption {
 	line-height: 24px;
 }
 
@@ -10094,12 +10044,12 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .tab-style3 .detachedtabs .v-nativebutton.v-nativebutton-tab-selected {
 	position: relative;
-	color: #287ece;
+	color: #287ECE;
 }
 
 .mycollab .tab-style3 .detachedtabs .v-nativebutton.v-nativebutton-tab-selected:hover {
 	position: relative;
-	color: #287ece;
+	color: #287ECE;
 }
 
 .mycollab .tab-style3 .detachedtabs .v-nativebutton .v-nativebutton-caption, .mycollab .tab-style3 .detachedtabs .v-nativebutton.tab-selected .v-nativebutton-caption {
@@ -10215,7 +10165,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .standupreport-list-content .depotComp .depotHeader {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 	border-width: 1px 0px 1px 0px;
 }
 
@@ -10225,14 +10175,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .standupreport-list-content .depotComp .depotContent.v-margin-top {
 	padding-top: 10px;
-}
-
-.mycollab .standupreport-list-content .depotComp .depotContent.v-margin-right {
-	padding-right: 0px;
-}
-
-.mycollab .standupreport-list-content .depotComp .depotContent.v-margin-bottom {
-	padding-bottom: 0px;
 }
 
 .mycollab .standupreport-list-content .depotComp .depotContent.v-margin-left {
@@ -10246,7 +10188,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .standup-block .report-content {
 	border-left: 1px solid #CFCFCF;
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .standup-block .report-content.v-margin-top {
@@ -10294,7 +10236,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-horizontallayout.border-box2-no-margin {
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 	border-radius: 5px;
 	padding: 0px;
 	border: 1px solid #CFCFCF;
@@ -10336,7 +10278,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .main-body {
 	overflow-y: auto;
-	background-color: white;
+	background-color: #FFF;
 	position: relative;
 }
 
@@ -10344,7 +10286,7 @@ body .mycollab.v-app .v-app-loading {
 	width: 100%;
 	border-top: 1px solid #CFCFCF;
 	padding: 6px 0px;
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .footer-wrapper {
@@ -10464,14 +10406,14 @@ body .mycollab.v-app .v-app-loading {
 	background-image: url("icons/grad-dark-top2.png");
 	background-repeat: no-repeat;
 	background-position: left bottom;
-	background-color: #287ece;
+	background-color: #287ECE;
 }
 
 .mycollab .v-buttongroup.toggle-btn-group .v-button.selected:active, .mycollab .v-buttongroup.toggle-btn-group .v-button.selected:focus {
 	background-image: url("icons/grad-dark-top2.png");
 	background-repeat: no-repeat;
 	background-position: left bottom;
-	background-color: #287ece;
+	background-color: #287ECE;
 }
 
 .mycollab .v-buttongroup.toggle-btn-group .v-button.v-button-left, .mycollab .v-buttongroup.toggle-btn-group .v-button.v-button-middle, .mycollab .v-buttongroup.toggle-btn-group .v-button.v-button-right {
@@ -10520,7 +10462,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab table.legendBox .legendBoxContent {
 	padding: 0px;
-	background: #f5f5f5;
+	background: #F5F5F5;
 }
 
 .mycollab table.legendBox .legendBoxContent .v-csslayout > div {
@@ -10640,7 +10582,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .milestone-view-body {
 	width: 33%;
-	background-color: white;
+	background-color: #FFF;
 	padding: 0px;
 }
 
@@ -10734,7 +10676,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-label.numberTotal {
-	font-size: 15px;
+	font-size: 16px;
 	color: #000000;
 	font-weight: bold;
 }
@@ -10752,7 +10694,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .readViewLayout {
-	background-color: white;
+	background-color: #FFF;
 	border-radius: 0px;
 	border: 1px solid #CFCFCF;
 }
@@ -10809,12 +10751,12 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .readViewLayout .readViewHeader .headerName {
-	font-size: 15px;
+	font-size: 16px;
 	color: #303030;
 }
 
 .mycollab .readViewLayout .readViewHeader .headerNameOverdue {
-	font-size: 15px;
+	font-size: 16px;
 	color: red;
 }
 
@@ -10847,7 +10789,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .readview-layout {
-	background-color: white;
+	background-color: #FFF;
 	padding: 0px;
 }
 
@@ -10886,7 +10828,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .readview-layout-header .v-label-h1 {
 	padding: 0px;
 	padding-left: 5px;
-	font-size: 15px;
+	font-size: 16px;
 	text-overflow: ellipsis;
 	-ms-text-overflow: ellipsis;
 	overflow: hidden;
@@ -10914,7 +10856,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .readview-layout-header .detachedtabs .v-button-tab.tab-selected > .v-button-wrap {
-	background: url('icons/grad-light-top2.png') repeat-x 0 0 whitesmoke;
+	background: url('icons/grad-light-top2.png') repeat-x 0 0 #f5f5f5;
 	border-bottom: 1px solid #f5f5f5;
 }
 
@@ -11071,7 +11013,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .control-buttons.v-margin-right {
-	padding-right: 0px;
+	padding-right: 0;
 }
 
 .mycollab .control-buttons.v-margin-bottom {
@@ -11213,7 +11155,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-richtextarea .gwt-RichTextToolbar .gwt-ListBox {
 	margin-right: 3px;
-	background: url('../../themes/base/common/img/sprites.png') no-repeat right -8px white;
+	background: url('../../themes/base/common/img/sprites.png') no-repeat right -8px #FFF;
 	border: 1px solid #CFCFCF;
 	-moz-appearance: none;
 	-webkit-appearance: none;
@@ -11275,32 +11217,20 @@ body .mycollab.v-app .v-app-loading {
 	padding-left: 15px;
 }
 
-.mycollab .colored-gridlayout .gridform-caption.v-margin-top {
+.mycollab .colored-gridlayout .gridform-caption.v-margin-top, .mycollab .colored-gridlayout .gridform-field.v-margin-top {
 	padding-top: 8px;
 }
 
-.mycollab .colored-gridlayout .gridform-caption.v-margin-right {
+.mycollab .colored-gridlayout .gridform-caption.v-margin-right, .mycollab .colored-gridlayout .gridform-field.v-margin-right {
 	padding-right: 18px;
 }
 
-.mycollab .colored-gridlayout .gridform-caption.v-margin-bottom {
+.mycollab .colored-gridlayout .gridform-caption.v-margin-bottom, .mycollab .colored-gridlayout .gridform-field.v-margin-bottom {
 	padding-bottom: 8px;
 }
 
 .mycollab .colored-gridlayout .gridform-caption.v-margin-left {
 	padding-left: 18px;
-}
-
-.mycollab .colored-gridlayout .gridform-field.v-margin-top {
-	padding-top: 8px;
-}
-
-.mycollab .colored-gridlayout .gridform-field.v-margin-right {
-	padding-right: 18px;
-}
-
-.mycollab .colored-gridlayout .gridform-field.v-margin-bottom {
-	padding-bottom: 8px;
 }
 
 .mycollab .colored-gridlayout .gridform-field.v-margin-left {
@@ -11335,7 +11265,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .bugdashboard-header {
 	border-radius: 3px 3px 0px 0px;
-	background: url("icons/grad-light-top2.png") repeat-x left top #f5f5f5;
+	background: url("icons/grad-light-top2.png") repeat-x left top #F5F5F5;
 	border-bottom: none;
 }
 
@@ -11374,7 +11304,7 @@ body .mycollab.v-app .v-app-loading {
 	padding-bottom: 8px;
 }
 
-.mycollab .taskadd-popup .popup-header.v-margin-left {
+.mycollab .taskadd-popup .popup-header.v-margin-right {
 	padding-left: 18px;
 }
 
@@ -11394,7 +11324,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .taskdisplay-component {
-	background-color: white;
+	background-color: #FFF;
 }
 
 .mycollab .v-tabsheet-content .task-list .task-list-footer {
@@ -11528,7 +11458,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .project-status .createdtime-lbl {
-	color: gray;
+	color: #808080;
 	font-size: 11px;
 }
 
@@ -11537,7 +11467,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .project-status .v-slot-phase-status-lbl:after {
-	border-top: 3px double #cfcfcf;
+	border-top: 3px double #CFCFCF;
 	display: block;
 	height: 1px;
 	content: " ";
@@ -11551,7 +11481,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .project-status .phase-status-lbl {
 	position: relative;
 	z-index: 1;
-	background-color: #f7f7f7;
+	background-color: #F7F7F7;
 	padding-right: 5px;
 }
 
@@ -11613,8 +11543,8 @@ body .mycollab.v-app .v-app-loading {
 	padding: 7px;
 	border-width: 0 1px 1px 1px;
 	border-style: solid;
-	border-color: #cccbcb;
-	background-color: #f5f5f5;
+	border-color: #CBCBCB;
+	background-color: #F5F5F5;
 }
 
 .mycollab div.v-button-link.buttonPaging {
@@ -11671,7 +11601,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .project-member-readview .depotComp .depotHeader {
-	background: none no-repeat left top #f5f5f5;
+	background: none no-repeat left top #F5F5F5;
 	border-width: 0px 0px 1px 0px;
 	border-radius: 0px;
 }
@@ -11693,7 +11623,7 @@ body .mycollab.v-app .v-app-loading {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	background: none no-repeat left top #f5f5f5;
+	background: none no-repeat left top #F5F5F5;
 }
 
 .mycollab .limited-height-table .v-table-body, .mycollab .limited-height-table .v-table-body-noselection {
@@ -11711,7 +11641,7 @@ body .mycollab.v-app .v-app-loading {
 	border: none;
 }
 
-.mycollab .v-listbuilder .v-listbuilder-buttons .v-button > .v-button-wrap, .mycollab .v-listbuilder .v-listbuilder-buttons .v-disabled.v-button > .v-button-wrap {
+.mycollab .v-listbuilder .v-listbuilder-buttons  > .v-button > .v-button-wrap, .mycollab .v-listbuilder .v-listbuilder-buttons .v-disabled.v-button > .v-button-wrap {
 	padding: 0px 4px 0px 4px;
 	border: none;
 	background: none;
@@ -11764,7 +11694,7 @@ body .mycollab.v-app .v-app-loading {
 	height: 97px;
 	width: 412px;
 	text-align: center;
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	color: #636363;
 }
@@ -11784,7 +11714,7 @@ body .mycollab.v-app .v-app-loading {
 	border-style: solid;
 	border-color: #CFCFCF;
 	border-radius: 3px;
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 .mycollab .billing-setting .faq-layout {
@@ -11892,10 +11822,10 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .pri-bott-block p {
 	font-size: 12px;
-	color: #5f5c5c;
+	color: #5F5F5F;
 	padding-bottom: 10px;
 	text-align: justify;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "verdana";
 }
 
 .mycollab .pri-bott-coll {
@@ -11912,10 +11842,10 @@ body .mycollab.v-app .v-app-loading {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	border-color: #c8c8c8;
+	border-color: #C8C8C8;
 	border-style: solid;
 	border-width: 1px 0px 0px 1px;
-	background-color: #f5f5f5;
+	background-color: #F5F5F5;
 }
 
 .mycollab .billing-plan-list > div > div:first-child > .billing-plan {
@@ -11934,7 +11864,7 @@ body .mycollab.v-app .v-app-loading {
 	box-sizing: border-box;
 	color: #19739a;
 	text-transform: uppercase;
-	border-bottom: 1px solid #c8c8c8;
+	border-bottom: 1px solid #C8C8C8;
 	background-color: white;
 	text-align: center;
 }
@@ -12213,7 +12143,7 @@ body .mycollab.v-app .v-app-loading {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	background-color: #f7f7f7;
+	background-color: #F7F7F7;
 	border: 1px solid #9d9d9d;
 }
 
@@ -12250,7 +12180,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .customFieldSection {
-	background-color: #f7f7f7;
+	background-color: #F7F7F7;
 	border: 1px solid #9d9d9d;
 }
 
@@ -12381,7 +12311,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .eventdatepicker {
 	border: 1px solid #093768;
 	border-radius: 3px;
-	color: white;
+	color: #FFF;
 	padding: 3px 13px;
 	text-shadow: 1px 1px 0 #000000;
 }
@@ -12404,40 +12334,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .createCustomFieldWindow .panel-header {
 	font-weight: bold;
-}
-
-.mycollab .stickytooltip {
-	box-shadow: 5px 5px 8px #818181;
-	-webkit-box-shadow: 5px 5px 8px #818181;
-	-moz-box-shadow: 5px 5px 8px #818181;
-	display: none;
-	position: absolute;
-	display: none;
-	background-color: #FDFDEE;
-	z-index: 3000;
-	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-	line-height: normal;
-}
-
-.mycollab .stickytooltip tr {
-	line-height: 1.5;
-}
-
-.mycollab .v-tooltip-text tr {
-	line-height: 1.5;
-}
-
-.mycollab .stickytooltip a, .mycollab .v-tooltip-text a {
-	vertical-align: top;
-}
-
-.mycollab .stickytooltip .stickystatus {
-	background: black;
-	color: white;
-	padding-top: 5px;
-	text-align: center;
-	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-	line-height: normal;
 }
 
 .mycollab .addview-layout-header.v-margin-top {
@@ -12508,30 +12404,6 @@ body .mycollab.v-app .v-app-loading {
 	border-left: none;
 }
 
-.mycollab .v-ie7 .splitbutton .v-popupbutton.greenbtn {
-	padding: 3px 7px 3px 2px;
-}
-
-.mycollab .v-ie7 .splitbutton .v-popupbutton.graybtn {
-	padding: 3px 7px 3px 2px;
-}
-
-.mycollab .v-ie7 .splitbutton .v-popupbutton.graybtn:active {
-	padding: 3px 7px 3px 2px;
-}
-
-.mycollab .v-button-graybtn.v-popupbutton .v-popup-indicator {
-	background: url("icons/sprites.png");
-}
-
-.mycollab .splitbutton .v-popupbutton.greenbtn .v-popup-indicator, .mycollab .splitbutton .v-popupbutton.graybtn .v-popup-indicator, .mycollab .splitbutton .v-popupbutton.bluebtn .v-popup-indicator .v-button-graybtn.v-popupbutton .v-popup-indicator, .mycollab .splitbutton .v-popupbutton.bluebtn .v-popup-indicator {
-	background: url("icons/sprites.png");
-}
-
-.mycollab .v-popupbutton.bluebtn .v-popup-indicator {
-	background: url("icons/sprites.png");
-}
-
 .mycollab .v-popupbutton .v-popup-indicator {
 	background-position: -7px -10px !important;
 }
@@ -12577,27 +12449,27 @@ body .mycollab.v-app .v-app-loading {
 	-webkit-box-shadow: none;
 }
 
-.mycollab .vertical-tabsheet .v-button-tab .v-button-wrap, .mycollab .vertical-tabsheet .v-button-tab:active > .v-button-wrap, .mycollab .vertical-tabsheet .v-button-tab:focus > .v-button-wrap {
+.mycollab .vertical-tabsheet .v-button-tab  > .v-button-wrap, .mycollab .vertical-tabsheet .v-button-tab:active > .v-button-wrap, .mycollab .vertical-tabsheet .v-button-tab:focus > .v-button-wrap {
 	background: none no-repeat 0 0 transparent;
 	background-image: none;
 	border-radius: 0px;
 	text-align: left;
 	border: none;
 	padding: 9px 25px;
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .vertical-tabsheet .v-button-tab.tab-selected > .v-button-wrap {
-	background: none no-repeat 0 0 white;
+	background: none no-repeat 0 0 #FFF;
 	color: #525252;
 }
 
-.mycollab .vertical-tabsheet .v-button-tab .v-button-wrap .v-icon {
+.mycollab .vertical-tabsheet .v-button-tab  > .v-button-wrap  > .v-icon {
 	margin-right: 8px;
 	vertical-align: middle;
 }
 
-.mycollab .vertical-tabsheet .v-button-tab .v-button-wrap .v-button-caption {
+.mycollab .vertical-tabsheet .v-button-tab  > .v-button-wrap  > .v-button-caption {
 	line-height: 24px;
 	font-size: 13px;
 	vertical-align: middle;
@@ -12645,7 +12517,7 @@ body .mycollab.v-app .v-app-loading {
 	font-weight: bold;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell .v-tabsheet-tabitem {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem {
 	background: none repeat-x scroll left bottom #F7F7F7;
 	border-width: 0px 1px 0px 0px;
 	border-style: solid;
@@ -12653,26 +12525,26 @@ body .mycollab.v-app .v-app-loading {
 	position: relative;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell .v-tabsheet-tabitem .v-caption {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem .v-caption {
 	padding: 8px 17px 9px;
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell .v-tabsheet-tabitem .v-caption .v-captiontext {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem .v-caption .v-captiontext {
 	font-size: 13px;
 	text-shadow: none;
 	color: #525252;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell .v-tabsheet-tabitem:hover .v-caption .v-captiontext {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem:hover .v-caption .v-captiontext {
 	color: #5e5e5e;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem {
 	background: none repeat-x scroll left bottom #1c7dce;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem .v-tabsheet-tabitem-selected .v-caption:after {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem-selected .v-caption:after {
 	content: "";
 	position: absolute;
 	bottom: 0px;
@@ -12683,27 +12555,27 @@ body .mycollab.v-app .v-app-loading {
 	cursor: pointer;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr  > .v-tabsheet-tabitemcell  > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext {
 	color: #FFF;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected:hover .v-caption .v-captiontext {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected:hover .v-caption .v-captiontext {
 	color: #FFF;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr > .v-tabsheet-spacertd {
-	background: url(icons/tab-space-bg.jpg) repeat-x left bottom white;
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr > .v-tabsheet-spacertd {
+	background: url(icons/tab-space-bg.jpg) repeat-x left bottom #FFF;
 }
 
-.mycollab .tab-style3 .v-tabsheet-tabcontainer > .v-tabsheet-tabs tbody > tr > .v-tabsheet-spacertd div {
+.mycollab .tab-style3  > .v-tabsheet-tabcontainer > .v-tabsheet-tabs  > tbody > tr > .v-tabsheet-spacertd div {
 	border-bottom: none;
 }
 
-.mycollab .tab-style3 .v-tabsheet-content {
+.mycollab .tab-style3  > .v-tabsheet-content {
 	background: none;
 }
 
-.mycollab .tab-style3 .v-tabsheet-content  > .v-tabsheet-tabsheetpanel {
+.mycollab .tab-style3  > .v-tabsheet-content  > .v-tabsheet-tabsheetpanel {
 	padding-top: 12px;
 }
 
@@ -12766,7 +12638,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .lead-convert-window .colored-gridlayout > div > div.first-row {
-	border-top: 1px solid #c8c8c8;
+	border-top: 1px solid #C8C8C8;
 }
 
 .mycollab .lead-convert-window .v-checkbox input[type="checkbox"] {
@@ -12778,7 +12650,7 @@ body .mycollab.v-app .v-app-loading {
 	position: relative;
 }
 
-.mycollab .v-app .v-filterselect .v-icon + input.v-filterselect-input[type="text"] {
+.mycollab .v-filterselect .v-icon + input.v-filterselect-input[type="text"] {
 	margin-left: -16px;
 	padding-left: 18px;
 }
@@ -12818,16 +12690,8 @@ body .mycollab.v-app .v-app-loading {
 	padding-top: 6px;
 }
 
-.mycollab .contactrole-row.v-margin-right {
-	padding-right: 0px;
-}
-
 .mycollab .contactrole-row.v-margin-bottom {
 	padding-bottom: 6px;
-}
-
-.mycollab .contactrole-row.v-margin-left {
-	padding-left: 0px;
 }
 
 .mycollab .contactrole-row.odd {
@@ -12883,11 +12747,11 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .splitbutton .v-button.action-button .v-button-wrap:active, .mycollab .splitbutton .v-button.action-button .v-button-wrap:hover {
 	background-color: #F0F0F0;
-	background-image: -webkit-linear-gradient(top, #f0f0f0, #e0e0e0);
-	background-image: -moz-linear-gradient(top, #f0f0f0, #e0e0e0);
-	background-image: -ms-linear-gradient(top, #f0f0f0, #e0e0e0);
-	background-image: -o-linear-gradient(top, #f0f0f0, #e0e0e0);
-	background-image: linear-gradient(top, #f0f0f0, #e0e0e0);
+	background-image: -webkit-linear-gradient(top, #F0F0F0, #E0E0E0);
+	background-image: -moz-linear-gradient(top, #F0F0F0, #E0E0E0);
+	background-image: -ms-linear-gradient(top, #F0F0F0, #E0E0E0);
+	background-image: -o-linear-gradient(top, #F0F0F0, #E0E0E0);
+	background-image: linear-gradient(top, #F0F0F0, #E0E0E0);
 }
 
 .mycollab .splitbutton .v-button.action-button .v-button-wrap:active {
@@ -12903,46 +12767,46 @@ body .mycollab.v-app .v-app-loading {
 	margin-right: 0;
 }
 
-.mycollab .hdr-view, .mycollab .v-horizontallayout.hdr-view, .mycollab .advSearchHeader .hdr-view, .mycollab .basicSearchHeader .hdr-view {
-	background-color: white;
+.mycollab .hdr-view, .mycollab .v-horizontallayout.hdr-view, .mycollab .advSearchHeader .v-horizontallayout.hdr-view, .mycollab .basicSearchHeader .hdr-view {
+	background-color: #FFF;
 }
 
-.mycollab .hdr-view.v-margin-top, .mycollab .v-horizontallayout.hdr-view.v-margin-top, .mycollab .advSearchHeader .hdr-view.v-margin-top, .mycollab .basicSearchHeader .hdr-view.v-margin-top {
+.mycollab .hdr-view.v-margin-top, .mycollab .advSearchHeader .hdr-view.v-margin-top, .mycollab .basicSearchHeader .hdr-view.v-margin-top {
 	padding-top: 12px;
 }
 
-.mycollab .hdr-view.v-margin-right, .mycollab .v-horizontallayout.hdr-view.v-margin-right, .mycollab .advSearchHeader .hdr-view.v-margin-right, .mycollab .basicSearchHeader .hdr-view.v-margin-right {
+.mycollab .hdr-view.v-margin-right, .mycollab .advSearchHeader .hdr-view.v-margin-right, .mycollab .basicSearchHeader .hdr-view.v-margin-right {
 	padding-right: 30px;
 }
 
-.mycollab .hdr-view.v-margin-bottom, .mycollab .v-horizontallayout.hdr-view.v-margin-bottom, .mycollab .advSearchHeader .hdr-view.v-margin-bottom, .mycollab .basicSearchHeader .hdr-view.v-margin-bottom {
+.mycollab .hdr-view.v-margin-bottom, .mycollab .advSearchHeader .hdr-view.v-margin-bottom, .mycollab .basicSearchHeader .hdr-view.v-margin-bottom {
 	padding-bottom: 12px;
 }
 
-.mycollab .hdr-view.v-margin-left, .mycollab .v-horizontallayout.hdr-view.v-margin-left, .mycollab .advSearchHeader .hdr-view.v-margin-left, .mycollab .basicSearchHeader .hdr-view.v-margin-left {
+.mycollab .hdr-view.v-margin-left, .mycollab .advSearchHeader .hdr-view.v-margin-left, .mycollab .basicSearchHeader .hdr-view.v-margin-left {
 	padding-left: 30px;
 }
 
 .mycollab .hdr-view .hdr-text {
-	font-size: 15px;
+	font-size: 16px;
 	color: #525252;
 	font-weight: bold;
 }
 
 .mycollab .hdr-view .hdr-text span {
-	font-size: 15px;
+	font-size: 16px;
 	color: #525252;
 	font-weight: bold;
 }
 
 .mycollab .hdr-view .hdr-text-overdue {
-	font-size: 15px;
+	font-size: 16px;
 	color: red;
 	font-weight: bold;
 }
 
 .mycollab .hdr-view .hdr-text-overdue span {
-	font-size: 15px;
+	font-size: 16px;
 	color: red;
 	font-weight: bold;
 }
@@ -12995,7 +12859,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .feed-block-wrap .date-lbl {
 	padding: 12px 41px 3px 11px;
 	background: url("icons/date-lbl.png") no-repeat left bottom transparent;
-	color: white;
+	color: #FFF;
 	cursor: pointer;
 }
 
@@ -13140,7 +13004,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-popupbutton-popup.v-popupbutton-popup-select-bg {
-	background-color: white;
+	background-color: #FFF;
 	border: 1px solid #A8A8A8;
 	border-radius: 3px;
 	padding: 0px;
@@ -13171,7 +13035,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .index_lbl {
 	padding-top: 2px;
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .mycollab .activityCalendar .switcher-wrap {
@@ -13228,11 +13092,11 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .activityCalendar .stylecalendar .weekdays TD {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .activityCalendar .stylecalendar .day {
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .activityCalendar .stylecalendar .day.othermonth {
@@ -13259,7 +13123,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .intro-text-wrap .v-label {
-	color: white;
+	color: #FFF;
 	border-bottom: 1px solid #CFCFCF;
 	padding-bottom: 13px;
 }
@@ -13270,10 +13134,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .intro-text-wrap.v-margin-right {
 	padding-right: 10px;
-}
-
-.mycollab .intro-text-wrap.v-margin-bottom {
-	padding-bottom: 0px;
 }
 
 .mycollab .intro-text-wrap.v-margin-left {
@@ -13359,7 +13219,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-context-menu {
 	float: left;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial;
 	font-size: 12px;
 	background-color: #f0f0f0;
 }
@@ -13601,7 +13461,7 @@ body .mycollab.v-app .v-app-loading {
 	font-size: 16px;
 	line-height: 20px;
 	font-weight: bold;
-	color: white;
+	color: #FFF;
 }
 
 .mycollab .crm-toolbar .quickadd-btn .v-button-caption {
@@ -13617,7 +13477,7 @@ body .mycollab.v-app .v-app-loading {
 	background-color: #17D61B;
 	border-radius: 10px;
 	border: none;
-	color: white;
+	color: #FFF;
 	margin-right: 5px;
 	text-align: center;
 	line-height: 22px;
@@ -13697,7 +13557,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .page-read-layout {
-	border-bottom: 1px solid #cfcfcf;
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .mycollab .v-buttongroup.toggle-btn-group .v-button.sort-btn {
@@ -13733,12 +13593,12 @@ body .mycollab.v-app .v-app-loading {
 	background-color: #f1f1f1;
 	font-size: 14px;
 	color: #313131;
-	border: 1px solid #cfcfcf;
+	border: 1px solid #CFCFCF;
 }
 
 .mycollab .block-widget .block-body {
 	border-width: 0px 1px 1px;
-	border-color: #cfcfcf;
+	border-color: #CFCFCF;
 	border-style: solid;
 }
 
@@ -13796,7 +13656,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .text-log-date {
-	font-size: 15px;
+	font-size: 16px;
 	font-weight: bold;
 	color: gray;
 }
@@ -13840,7 +13700,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .attachment-block .attachment-name-wrap .v-label {
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	color: white;
+	color: #FFF;
 	font-weight: bold;
 }
 
@@ -13848,7 +13708,7 @@ body .mycollab.v-app .v-app-loading {
 	border-radius: 3px;
 	background-color: black;
 	opacity: 0;
-	color: white;
+	color: #FFF;
 	-webkit-transition: opacity 218ms ease 0s;
 	-moz-transition: opacity 218ms ease 0s;
 	-o-transition: opacity 218ms ease 0s;
@@ -13898,6 +13758,205 @@ body .mycollab.v-app .v-app-loading {
 	display: inline-block;
 }
 
+.mycollab .gantt {
+	background: lightgray;
+	overflow: hidden;
+}
+
+.mycollab .gantt .timeline {
+	overflow: hidden;
+	position: relative;
+}
+
+.mycollab .gantt .year, .mycollab .gantt .month, .mycollab .gantt .day {
+	padding-left: 2px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border-right: 1px solid #A9A9A9;
+	background-color: #d0d0d0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.mycollab .v-ie8 .gantt .month.even, .mycollab .v-ie8 .gantt .day.even {
+	background-color: #ddd;
+}
+
+.mycollab .gantt .month:nth-of-type(even), .mycollab .gantt .day:nth-of-type(even) {
+	background-color: #ddd;
+}
+
+.mycollab .gantt .col {
+	height: 100%;
+	float: left;
+	overflow: hidden;
+	border-right: 1px solid #A9A9A9;
+	background-color: #ddd;
+	font-size: 10px;
+	text-align: center;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.mycollab .gantt .col.even {
+	background-color: #ccc;
+}
+
+.mycollab .gantt .col.w {
+	text-align: left;
+}
+
+.mycollab .gantt .col.weekend {
+	background-color: #ccc;
+}
+
+.mycollab .gantt .row {
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	height: 15px;
+	display: -ms-inline-flexbox;
+	-ms-flex-pack: justify;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.mycollab .gantt .gantt-container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background: #fff;
+}
+
+.mycollab .gantt .gantt-content {
+	background: #fff;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.mycollab .gantt .bar {
+	position: absolute;
+	height: 30px;
+	z-index: 1;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	touch-action: pan-y;
+	-ms-touch-action: pan-y;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+	-moz-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+	box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+}
+
+.mycollab .gantt .bar-label {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	margin: 7px;
+}
+
+.mycollab .gantt .bar.moving {
+	background: orange;
+	cursor: move;
+	z-index: 3;
+}
+
+.mycollab .gantt .bar.resizing {
+	background: orange;
+	cursor: e-resize;
+	z-index: 3;
+}
+
+.mycollab .gantt .bar.invalid {
+	visibility: hidden;
+}
+
+.mycollab .gantt .mv-el {
+	position: absolute;
+	top: 0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height: 100%;
+	z-index: 2;
+	background: transparent;
+	border-left: 1px dashed #ddd;
+	border-right: 1px dashed #ddd;
+}
+
+.mycollab .v-table-focus .v-table-cell-content {
+	border: none;
+}
+
+.mycollab .v-table-row.v-selected .v-button-link .v-button-caption, .mycollab .v-table-row-odd.v-selected .v-button-link .v-button-caption {
+	color: #FFF;
+}
+
+.mycollab .gantt-chart {
+	border-width: 0px;
+}
+
+.mycollab .gantt-chart .v-table-body {
+	border: none;
+}
+
+.mycollab .gantt-chart .v-table-header-wrap {
+	background: url("icons/grad-light-top.png") repeat-x scroll 0% 0% #C9C9C9;
+	border-radius: 0px;
+}
+
+.mycollab .gantt-chart .v-table-header-wrap .v-table-caption-container {
+	color: #222222;
+}
+
+.mycollab .gantt-chart input.v-textfield[type="text"] {
+	padding: 0px;
+	border-radius: 0px;
+	height: 17px !important;
+}
+
+.mycollab .gantt .bar-label img {
+	vertical-align: bottom;
+}
+
+.mycollab .gantt-chart div[id^='ganttFilterApplyButton'], .mycollab .gantt-chart div[id^='ganttFilterResetButton'] {
+	border-top: 1px solid #818181;
+}
+
+.mycollab .gantt-chart div[id^='canvas'] {
+	overflow: hidden !important;
+}
+
+.mycollab .bar.completed a {
+	color: black;
+	text-decoration: line-through;
+}
+
 .mycollab .v-calendar-nresize DIV DIV {
 	cursor: n-resize !important;
 }
@@ -13907,7 +13966,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .v-calendar {
-	background-color: white;
+	background-color: #fff;
 }
 
 .mycollab .v-calendar-header-month, .mycollab .v-calendar-header-week {
@@ -14066,7 +14125,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab div.v-calendar-event-all-day {
-	color: white;
+	color: #fff;
 	height: 14px;
 }
 
@@ -14268,201 +14327,36 @@ body .mycollab.v-app .v-app-loading {
 	width: 200px;
 }
 
-.mycollab .gantt {
-	background: lightgray;
-	overflow: hidden;
-}
-
-.mycollab .gantt .timeline {
-	overflow: hidden;
-	position: relative;
-}
-
-.mycollab .gantt .year, .mycollab .gantt .month, .mycollab .gantt .day {
-	padding-left: 2px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	border-right: 1px solid #A9A9A9;
-	background-color: #d0d0d0;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-}
-
-.mycollab .v-ie8 .gantt .month.even, .mycollab .v-ie8 .gantt .day.even {
-	background-color: #ddd;
-}
-
-.mycollab .gantt .month:nth-of-type(even), .mycollab .gantt .day:nth-of-type(even) {
-	background-color: #ddd;
-}
-
-.mycollab .gantt .col {
-	height: 100%;
-	float: left;
-	overflow: hidden;
-	border-right: 1px solid #A9A9A9;
-	background-color: #ddd;
-	font-size: 10px;
-	text-align: center;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.mycollab .gantt .col.even {
-	background-color: #ccc;
-}
-
-.mycollab .gantt .col.w {
-	text-align: left;
-}
-
-.mycollab .gantt .col.weekend {
-	background-color: #ccc;
-}
-
-.mycollab .gantt .row {
-	width: 100%;
-	float: left;
-	overflow: hidden;
-	height: 15px;
-	display: -ms-inline-flexbox;
-	-ms-flex-pack: justify;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.mycollab .gantt .gantt-container {
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background: white;
-}
-
-.mycollab .gantt .gantt-content {
-	background: white;
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	height: 100%;
-}
-
-.mycollab .gantt .bar {
+.stickytooltip {
+	box-shadow: 5px 5px 8px #818181;
+	-webkit-box-shadow: 5px 5px 8px #818181;
+	-moz-box-shadow: 5px 5px 8px #818181;
+	display: none;
 	position: absolute;
-	height: 30px;
-	z-index: 1;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	touch-action: pan-y;
-	-ms-touch-action: pan-y;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
-	-moz-box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
-	box-shadow: 2px 0 3px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.07);
+	display: none;
+	background-color: #FDFDEE;
+	z-index: 3000;
+	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
+	line-height: normal;
 }
 
-.mycollab .gantt .bar-label {
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	margin: 7px;
+.stickytooltip tr {
+	line-height: 1.5;
 }
 
-.mycollab .gantt .bar.moving {
-	background: orange;
-	cursor: move;
-	z-index: 3;
+.v-tooltip-text tr {
+	line-height: 1.5;
 }
 
-.mycollab .gantt .bar.resizing {
-	background: orange;
-	cursor: e-resize;
-	z-index: 3;
+.stickytooltip a, .v-tooltip-text a {
+	vertical-align: top;
 }
 
-.mycollab .gantt .bar.invalid {
-	visibility: hidden;
-}
-
-.mycollab .gantt .mv-el {
-	position: absolute;
-	top: 0;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	height: 100%;
-	z-index: 2;
-	background: transparent;
-	border-left: 1px dashed #ddd;
-	border-right: 1px dashed #ddd;
-}
-
-.mycollab .v-table-focus .v-table-cell-content {
-	border: none;
-}
-
-.mycollab .v-table-row.v-selected .v-button-link .v-button-caption, .mycollab .v-table-row-odd.v-selected .v-button-link .v-button-caption {
+.stickytooltip .stickystatus {
+	background: black;
 	color: white;
-}
-
-.mycollab .gantt-chart {
-	border-width: 0px;
-}
-
-.mycollab .gantt-chart .v-table-body {
-	border: none;
-}
-
-.mycollab .gantt-chart .v-table-header-wrap {
-	background: url("icons/grad-light-top.png") repeat-x scroll 0% 0% #c9c9c9;
-	border-radius: 0px;
-}
-
-.mycollab .gantt-chart .v-table-header-wrap .v-table-caption-container {
-	color: #222222;
-}
-
-.mycollab .gantt-chart input.v-textfield[type="text"] {
-	padding: 0px;
-	border-radius: 0px;
-	height: 17px !important;
-}
-
-.mycollab .gantt .bar-label img {
-	vertical-align: bottom;
-}
-
-.mycollab .gantt-chart div[id^='ganttFilterApplyButton'], .mycollab .gantt-chart div[id^='ganttFilterResetButton'] {
-	border-top: 1px solid #818181;
-}
-
-.mycollab .gantt-chart div[id^='canvas'] {
-	overflow: hidden !important;
-}
-
-.mycollab .bar.completed a {
-	color: black;
-	text-decoration: line-through;
+	padding-top: 5px;
+	text-align: center;
+	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
+	line-height: normal;
 }

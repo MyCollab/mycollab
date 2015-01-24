@@ -55,298 +55,284 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
-		implements TaskReadView {
+        implements TaskReadView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TaskReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(TaskReadViewImpl.class);
 
-	private CommentDisplay commentList;
+    private CommentDisplay commentList;
 
-	private TaskHistoryList historyList;
+    private TaskHistoryList historyList;
 
-	private ProjectFollowersComp<SimpleTask> followerSheet;
+    private ProjectFollowersComp<SimpleTask> followerSheet;
 
-	private DateInfoComp dateInfoComp;
+    private DateInfoComp dateInfoComp;
 
-	private TaskTimeLogSheet timesheetComp;
+    private TaskTimeLogSheet timesheetComp;
 
-	private PeopleInfoComp peopleInfoComp;
+    private PeopleInfoComp peopleInfoComp;
 
-	private Button quickActionStatusBtn;
+    private Button quickActionStatusBtn;
 
-	public TaskReadViewImpl() {
-		super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
-				MyCollabResource.newResource(WebResourceIds._24_project_task));
-	}
+    public TaskReadViewImpl() {
+        super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
+                MyCollabResource.newResource(WebResourceIds._24_project_task));
+    }
 
-	@Override
-	public SimpleTask getItem() {
-		return beanItem;
-	}
+    @Override
+    public SimpleTask getItem() {
+        return beanItem;
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		commentList = new CommentDisplay(CommentType.PRJ_TASK,
-				CurrentProjectVariables.getProjectId(), true, true,
-				ProjectTaskRelayEmailNotificationAction.class);
-		commentList.setMargin(true);
+    @Override
+    protected void initRelatedComponents() {
+        commentList = new CommentDisplay(CommentType.PRJ_TASK,
+                CurrentProjectVariables.getProjectId(), true, true,
+                ProjectTaskRelayEmailNotificationAction.class);
+        commentList.setMargin(true);
 
-		historyList = new TaskHistoryList();
-		historyList.setMargin(true);
+        historyList = new TaskHistoryList();
+        historyList.setMargin(true);
 
-		dateInfoComp = new DateInfoComp();
-		addToSideBar(dateInfoComp);
+        dateInfoComp = new DateInfoComp();
+        addToSideBar(dateInfoComp);
 
-		peopleInfoComp = new PeopleInfoComp();
-		addToSideBar(peopleInfoComp);
+        peopleInfoComp = new PeopleInfoComp();
+        addToSideBar(peopleInfoComp);
 
-		followerSheet = new ProjectFollowersComp<>(
-				ProjectTypeConstants.TASK,
-				ProjectRolePermissionCollections.TASKS);
-		addToSideBar(followerSheet);
+        followerSheet = new ProjectFollowersComp<>(
+                ProjectTypeConstants.TASK,
+                ProjectRolePermissionCollections.TASKS);
+        addToSideBar(followerSheet);
 
-		timesheetComp = new TaskTimeLogSheet();
-		addToSideBar(timesheetComp);
-	}
+        timesheetComp = new TaskTimeLogSheet();
+        addToSideBar(timesheetComp);
+    }
 
-	@Override
-	protected void onPreviewItem() {
-		previewLayout.clearTitleStyleName();
-		if (beanItem.getPercentagecomplete() != null
-				&& 100d == beanItem.getPercentagecomplete()) {
-			addLayoutStyleName(UIConstants.LINK_COMPLETED);
-		} else {
-			Date now = new GregorianCalendar().getTime();
+    @Override
+    protected void onPreviewItem() {
+        previewLayout.clearTitleStyleName();
+        if (beanItem.isCompleted()) {
+            addLayoutStyleName(UIConstants.LINK_COMPLETED);
+        } else if (beanItem.isPending()) {
+            addLayoutStyleName(UIConstants.LINK_PENDING);
+        } else if (beanItem.isOverdue()) {
+            previewLayout.setTitleStyleName("headerNameOverdue");
+        }
 
-			if (StatusI18nEnum.Pending.name().equals(beanItem.getStatus())) {
-				addLayoutStyleName(UIConstants.LINK_PENDING);
-			} else if ((beanItem.getEnddate() != null && (beanItem.getEnddate()
-					.before(now)))
-					|| (beanItem.getActualenddate() != null && (beanItem
-							.getActualenddate().before(now)))
-					|| (beanItem.getDeadline() != null && (beanItem
-							.getDeadline().before(now)))) {
-				previewLayout.setTitleStyleName("headerNameOverdue");
-			}
-		}
+        if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
+            quickActionStatusBtn.setCaption(AppContext
+                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setIcon(MyCollabResource
+                    .newResource(WebResourceIds._16_project_closeTask));
+        } else {
+            quickActionStatusBtn.setCaption(AppContext
+                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setIcon(MyCollabResource
+                    .newResource(WebResourceIds._16_project_reopenTask));
 
-		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
-			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_CLOSE));
-			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_closeTask));
-		} else {
-			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_REOPEN));
-			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_reopenTask));
+        }
 
-		}
+        commentList.loadComments("" + beanItem.getId());
 
-		commentList.loadComments("" + beanItem.getId());
+        historyList.loadHistory(beanItem.getId());
 
-		historyList.loadHistory(beanItem.getId());
+        followerSheet.displayFollowers(beanItem);
 
-		followerSheet.displayFollowers(beanItem);
+        peopleInfoComp.displayEntryPeople(beanItem);
+        dateInfoComp.displayEntryDateTime(beanItem);
+        timesheetComp.displayTime(beanItem);
+    }
 
-		peopleInfoComp.displayEntryPeople(beanItem);
-		dateInfoComp.displayEntryDateTime(beanItem);
-		timesheetComp.displayTime(beanItem);
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getTaskname();
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getTaskname();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(ProjectTypeConstants.TASK,
+                TaskDefaultFormLayoutFactory.getForm(),
+                Task.Field.taskname.name());
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(ProjectTypeConstants.TASK,
-				TaskDefaultFormLayoutFactory.getForm(),
-				Task.Field.taskname.name());
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
+        return new ReadFormFieldFactory(previewForm);
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
-		return new ReadFormFieldFactory(previewForm);
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(
+                previewForm);
+        final HorizontalLayout topPanel = taskPreviewForm
+                .createButtonControls(
+                        ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                        ProjectRolePermissionCollections.TASKS);
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(
-				previewForm);
-		final HorizontalLayout topPanel = taskPreviewForm
-				.createButtonControls(
-						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-						ProjectRolePermissionCollections.TASKS);
+        quickActionStatusBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		quickActionStatusBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public void buttonClick(ClickEvent event) {
+                if (beanItem.getStatus() != null
+                        && beanItem.getStatus().equals(
+                        StatusI18nEnum.Closed.name())) {
+                    beanItem.setStatus(StatusI18nEnum.Open.name());
+                    beanItem.setPercentagecomplete(0d);
+                    TaskReadViewImpl.this
+                            .removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    quickActionStatusBtn.setCaption(AppContext
+                            .getMessage(GenericI18Enum.BUTTON_CLOSE));
+                    quickActionStatusBtn.setIcon(MyCollabResource
+                            .newResource(WebResourceIds._16_project_closeTask));
+                } else {
+                    beanItem.setStatus(StatusI18nEnum.Closed.name());
+                    beanItem.setPercentagecomplete(100d);
+                    TaskReadViewImpl.this
+                            .addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    quickActionStatusBtn.setCaption(AppContext
+                            .getMessage(GenericI18Enum.BUTTON_REOPEN));
+                    quickActionStatusBtn.setIcon(MyCollabResource
+                            .newResource(WebResourceIds._16_project_reopenTask));
+                }
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (beanItem.getStatus() != null
-						&& beanItem.getStatus().equals(
-								StatusI18nEnum.Closed.name())) {
-					beanItem.setStatus(StatusI18nEnum.Open.name());
-					beanItem.setPercentagecomplete(0d);
-					TaskReadViewImpl.this
-							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_CLOSE));
-					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_project_closeTask));
-				} else {
-					beanItem.setStatus(StatusI18nEnum.Closed.name());
-					beanItem.setPercentagecomplete(100d);
-					TaskReadViewImpl.this
-							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
-					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_REOPEN));
-					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_project_reopenTask));
-				}
+                ProjectTaskService service = ApplicationContextUtil
+                        .getSpringBean(ProjectTaskService.class);
+                service.updateWithSession(beanItem, AppContext.getUsername());
 
-				ProjectTaskService service = ApplicationContextUtil
-						.getSpringBean(ProjectTaskService.class);
-				service.updateWithSession(beanItem, AppContext.getUsername());
+            }
+        });
 
-			}
-		});
+        quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-		quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
+        if (!CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+            quickActionStatusBtn.setEnabled(false);
+        }
 
-		if (!CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS)) {
-			quickActionStatusBtn.setEnabled(false);
-		}
+        return topPanel;
+    }
 
-		return topPanel;
-	}
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
+        tabTaskDetail.addTab(commentList, AppContext
+                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0),
+                MyCollabResource
+                        .newResource(WebResourceIds._16_project_gray_comment));
 
-		tabTaskDetail.addTab(commentList, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0),
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_gray_comment));
+        tabTaskDetail.addTab(historyList, AppContext
+                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
+                MyCollabResource
+                        .newResource(WebResourceIds._16_project_gray_history));
 
-		tabTaskDetail.addTab(historyList, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_gray_history));
+        return tabTaskDetail;
+    }
 
-		return tabTaskDetail;
-	}
+    private class ReadFormFieldFactory extends
+            AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+        private static final long serialVersionUID = 1L;
 
-	private class ReadFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
-		private static final long serialVersionUID = 1L;
+        public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+            super(form);
+        }
 
-		public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
-			super(form);
-		}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
+            if (Task.Field.assignuser.equalTo(propertyId)) {
+                return new ProjectUserFormLinkField(beanItem.getAssignuser(),
+                        beanItem.getAssignUserAvatarId(),
+                        beanItem.getAssignUserFullName());
+            } else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
+                return new DefaultViewField(beanItem.getTaskListName());
+            } else if (Task.Field.startdate.equalTo(propertyId)) {
+                return new DefaultViewField(AppContext.formatDate(beanItem
+                        .getStartdate()));
+            } else if (Task.Field.enddate.equalTo(propertyId)) {
+                return new DefaultViewField(AppContext.formatDate(beanItem
+                        .getEnddate()));
+            } else if (Task.Field.actualstartdate.equalTo(propertyId)) {
+                return new DefaultViewField(AppContext.formatDate(beanItem
+                        .getActualstartdate()));
+            } else if (Task.Field.actualenddate.equalTo(propertyId)) {
+                return new DefaultViewField(AppContext.formatDate(beanItem
+                        .getActualenddate()));
+            } else if (Task.Field.deadline.equalTo(propertyId)) {
+                return new DefaultViewField(AppContext.formatDate(beanItem
+                        .getDeadline()));
+            } else if (Task.Field.tasklistid.equalTo(propertyId)) {
+                return new LinkViewField(beanItem.getTaskListName(),
+                        ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
+                                beanItem.getProjectid(),
+                                beanItem.getTasklistid()),
+                        MyCollabResource
+                                .newResourceLink("icons/16/crm/task_group.png"));
+            } else if (Task.Field.id.equalTo(propertyId)) {
+                return new ProjectFormAttachmentDisplayField(
+                        beanItem.getProjectid(),
+                        AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
+            } else if (Task.Field.priority.equalTo(propertyId)) {
+                if (StringUtils.isNotBlank(beanItem.getPriority())) {
+                    final Resource iconPriority = new ExternalResource(
+                            ProjectResources
+                                    .getIconResourceLink12ByTaskPriority(beanItem
+                                            .getPriority()));
+                    final Embedded iconEmbedded = new Embedded(null,
+                            iconPriority);
+                    final Label lbPriority = new Label(AppContext.getMessage(
+                            TaskPriority.class, beanItem.getPriority()));
 
-			if (Task.Field.assignuser.equalTo(propertyId)) {
-				return new ProjectUserFormLinkField(beanItem.getAssignuser(),
-						beanItem.getAssignUserAvatarId(),
-						beanItem.getAssignUserFullName());
-			} else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
-				return new DefaultViewField(beanItem.getTaskListName());
-			} else if (Task.Field.startdate.equalTo(propertyId)) {
-				return new DefaultViewField(AppContext.formatDate(beanItem
-						.getStartdate()));
-			} else if (Task.Field.enddate.equalTo(propertyId)) {
-				return new DefaultViewField(AppContext.formatDate(beanItem
-						.getEnddate()));
-			} else if (Task.Field.actualstartdate.equalTo(propertyId)) {
-				return new DefaultViewField(AppContext.formatDate(beanItem
-						.getActualstartdate()));
-			} else if (Task.Field.actualenddate.equalTo(propertyId)) {
-				return new DefaultViewField(AppContext.formatDate(beanItem
-						.getActualenddate()));
-			} else if (Task.Field.deadline.equalTo(propertyId)) {
-				return new DefaultViewField(AppContext.formatDate(beanItem
-						.getDeadline()));
-			} else if (Task.Field.tasklistid.equalTo(propertyId)) {
-				return new LinkViewField(beanItem.getTaskListName(),
-						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
-								beanItem.getProjectid(),
-								beanItem.getTasklistid()),
-						MyCollabResource
-								.newResourceLink("icons/16/crm/task_group.png"));
-			} else if (Task.Field.id.equalTo(propertyId)) {
-				return new ProjectFormAttachmentDisplayField(
-						beanItem.getProjectid(),
-						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
-			} else if (Task.Field.priority.equalTo(propertyId)) {
-				if (StringUtils.isNotBlank(beanItem.getPriority())) {
-					final Resource iconPriority = new ExternalResource(
-							ProjectResources
-									.getIconResourceLink12ByTaskPriority(beanItem
-											.getPriority()));
-					final Embedded iconEmbedded = new Embedded(null,
-							iconPriority);
-					final Label lbPriority = new Label(AppContext.getMessage(
-							TaskPriority.class, beanItem.getPriority()));
-
-					final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-					containerField.addComponentField(iconEmbedded);
-					containerField.getLayout().setComponentAlignment(
-							iconEmbedded, Alignment.MIDDLE_LEFT);
-					lbPriority.setWidth("220px");
-					containerField.addComponentField(lbPriority);
-					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-					return containerField;
-				}
-			} else if (Task.Field.notes.equalTo(propertyId)) {
-				return new RichTextViewField(beanItem.getNotes());
-			}
+                    final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
+                    containerField.addComponentField(iconEmbedded);
+                    containerField.getLayout().setComponentAlignment(
+                            iconEmbedded, Alignment.MIDDLE_LEFT);
+                    lbPriority.setWidth("220px");
+                    containerField.addComponentField(lbPriority);
+                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
+                    return containerField;
+                }
+            } else if (Task.Field.notes.equalTo(propertyId)) {
+                return new RichTextViewField(beanItem.getNotes());
+            }
 //			else if (Task.Field.parenttaskid.equalTo(propertyId)) {
 //				return new SubTasksComp();
 //			}
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
 //	class SubTasksComp extends CustomField {
 //		private static final long serialVersionUID = 1L;
 //
@@ -441,64 +427,64 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 //
 //	}
 
-	class PeopleInfoComp extends MVerticalLayout {
-		private static final long serialVersionUID = 1L;
+    class PeopleInfoComp extends MVerticalLayout {
+        private static final long serialVersionUID = 1L;
 
-		public void displayEntryPeople(ValuedBean bean) {
-			this.removeAllComponents();
-			this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
+        public void displayEntryPeople(ValuedBean bean) {
+            this.removeAllComponents();
+            this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
-			Label peopleInfoHeader = new Label(
-					AppContext
-							.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
-			peopleInfoHeader.setStyleName("info-hdr");
-			this.addComponent(peopleInfoHeader);
+            Label peopleInfoHeader = new Label(
+                    AppContext
+                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+            peopleInfoHeader.setStyleName("info-hdr");
+            this.addComponent(peopleInfoHeader);
 
-			GridLayout layout = new GridLayout(2, 2);
-			layout.setSpacing(true);
-			layout.setWidth("100%");
-			layout.setMargin(new MarginInfo(false, false, false, true));
-			try {
-				Label createdLbl = new Label(
-						AppContext
-								.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
-				createdLbl.setSizeUndefined();
-				layout.addComponent(createdLbl, 0, 0);
+            GridLayout layout = new GridLayout(2, 2);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            layout.setMargin(new MarginInfo(false, false, false, true));
+            try {
+                Label createdLbl = new Label(
+                        AppContext
+                                .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                createdLbl.setSizeUndefined();
+                layout.addComponent(createdLbl, 0, 0);
 
-				String createdUserName = (String) PropertyUtils.getProperty(
-						bean, "logby");
-				String createdUserAvatarId = (String) PropertyUtils
-						.getProperty(bean, "logByAvatarId");
-				String createdUserDisplayName = (String) PropertyUtils
-						.getProperty(bean, "logByFullName");
+                String createdUserName = (String) PropertyUtils.getProperty(
+                        bean, "logby");
+                String createdUserAvatarId = (String) PropertyUtils
+                        .getProperty(bean, "logByAvatarId");
+                String createdUserDisplayName = (String) PropertyUtils
+                        .getProperty(bean, "logByFullName");
 
-				UserLink createdUserLink = new UserLink(createdUserName,
-						createdUserAvatarId, createdUserDisplayName);
-				layout.addComponent(createdUserLink, 1, 0);
-				layout.setColumnExpandRatio(1, 1.0f);
+                UserLink createdUserLink = new UserLink(createdUserName,
+                        createdUserAvatarId, createdUserDisplayName);
+                layout.addComponent(createdUserLink, 1, 0);
+                layout.setColumnExpandRatio(1, 1.0f);
 
-				Label assigneeLbl = new Label(
-						AppContext
-								.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
-				assigneeLbl.setSizeUndefined();
-				layout.addComponent(assigneeLbl, 0, 1);
-				String assignUserName = (String) PropertyUtils.getProperty(
-						bean, "assignuser");
-				String assignUserAvatarId = (String) PropertyUtils.getProperty(
-						bean, "assignUserAvatarId");
-				String assignUserDisplayName = (String) PropertyUtils
-						.getProperty(bean, "assignUserFullName");
+                Label assigneeLbl = new Label(
+                        AppContext
+                                .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                assigneeLbl.setSizeUndefined();
+                layout.addComponent(assigneeLbl, 0, 1);
+                String assignUserName = (String) PropertyUtils.getProperty(
+                        bean, "assignuser");
+                String assignUserAvatarId = (String) PropertyUtils.getProperty(
+                        bean, "assignUserAvatarId");
+                String assignUserDisplayName = (String) PropertyUtils
+                        .getProperty(bean, "assignUserFullName");
 
-				UserLink assignUserLink = new UserLink(assignUserName,
-						assignUserAvatarId, assignUserDisplayName);
-				layout.addComponent(assignUserLink, 1, 1);
-			} catch (Exception e) {
-				LOG.error("Can not build user link {} ",
-						BeanUtility.printBeanObj(bean));
-			}
+                UserLink assignUserLink = new UserLink(assignUserName,
+                        assignUserAvatarId, assignUserDisplayName);
+                layout.addComponent(assignUserLink, 1, 1);
+            } catch (Exception e) {
+                LOG.error("Can not build user link {} ",
+                        BeanUtility.printBeanObj(bean));
+            }
 
-			this.addComponent(layout);
+            this.addComponent(layout);
 
-		}
-	}
+        }
+    }
 }

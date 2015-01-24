@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
+import com.esofthead.mycollab.core.cache.CacheKey;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -187,6 +188,15 @@ public class ProjectTaskServiceImpl extends
 		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
 		searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
 		searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
+		return taskMapperExt.findPagableListByCriteria(searchCriteria,
+				new RowBounds(0, Integer.MAX_VALUE));
+	}
+
+	@Override
+	public List<SimpleTask> findSubTasksOfGroup(int taskgroupId, @CacheKey int sAccountId) {
+		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
+		searchCriteria.setTaskListId(new NumberSearchField(taskgroupId));
 		return taskMapperExt.findPagableListByCriteria(searchCriteria,
 				new RowBounds(0, Integer.MAX_VALUE));
 	}

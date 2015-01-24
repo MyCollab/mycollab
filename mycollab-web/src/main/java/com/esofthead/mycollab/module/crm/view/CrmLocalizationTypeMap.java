@@ -43,6 +43,7 @@ class CrmLocalizationTypeMap {
 		typeMap.put(CrmTypeConstants.MEETING, CrmTypeI18nEnum.MEETING);
 		typeMap.put(CrmTypeConstants.OPPORTUNITY, CrmTypeI18nEnum.OPPORTUNITY);
 		typeMap.put(CrmTypeConstants.TASK, CrmTypeI18nEnum.TASK);
+		typeMap.put(CrmTypeConstants.NOTE, CrmTypeI18nEnum.NOTE);
 	}
 
 	public static CrmTypeI18nEnum getType(String key) {

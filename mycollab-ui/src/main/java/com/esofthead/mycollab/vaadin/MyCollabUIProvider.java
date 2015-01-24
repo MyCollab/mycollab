@@ -33,7 +33,7 @@ public class MyCollabUIProvider extends UIProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
-		String userAgent = "";
+		String userAgent;
 		try {
 			userAgent = event.getRequest().getHeader("user-agent")
 					.toLowerCase();
