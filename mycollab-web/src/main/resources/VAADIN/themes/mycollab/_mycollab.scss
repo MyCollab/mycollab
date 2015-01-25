@@ -3,12 +3,15 @@
 @import "global";
 
 @import "components/breadcrumb";
+@import "components/tooltip";
 
 @mixin mycollab {
 
   @include chameleon;
   @include mycollab-global;
   @include mycollab-breadcrumb;
+  @include mycollab-tooltip;
+  @include mycollab-shared;
 
   /**
    * "optional-" prefix means that the style is not necessarily used, it can be left blank
@@ -783,34 +786,34 @@
     vertical-align: top;
   }
 
-  .v-app, .v-window, .v-popupview-popup, .v-tooltip {
-    font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+  .v-app, .v-window, .v-popupview-popup {
+    font: $font-small $font-family !important;
     line-height: normal;
   }
 
   .v-app {
     input, select, button, textarea {
-      font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+      font: $font-small $font-family !important;
       line-height: normal;
     }
   }
 
   .v-window {
     input, select, button, textarea {
-      font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+      font: $font-small $font-family !important;
       line-height: normal;
     }
   }
 
   .v-popupview-popup {
     input, select, button, textarea {
-      font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+      font: $font-small $font-family !important;
       line-height: normal;
     }
   }
 
   .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-menubar-submenu, .v-drag-element {
-    font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+    font: $font-small $font-family !important;
     line-height: normal;
   }
 
@@ -1524,7 +1527,7 @@
         color: #FFF;
         text-shadow: none;
         font-weight: bold;
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: $font-family;
         font-size: $font-normal;
       }
     }
@@ -2012,7 +2015,7 @@
     padding: 40px 0px 20px;
     text-transform: uppercase;
     text-align: center;
-    font-family: Georgia, "Times New Roman", sans-serif;
+    font-family: $font-family;
   }
 
   .forgotPwdForm #loginFormContainer {
@@ -3585,7 +3588,7 @@
   .v-splitbutton-esofthead {
     font-weight: bold;
     font-size: 13px !important;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: $font-family;
     .v-button-esofthead {
       background: url("icons/grad-dark-bottom.png") repeat-x left bottom #fcfcfc;
       border-radius: 3px 0px 0px 3px;
@@ -5063,10 +5066,6 @@
 
   /* End Style calendar */
 
-  .v-tooltip-text {
-    height: 100%;
-    overflow: hidden;
-  }
 
   /* Start Time Addon */
 
@@ -6644,7 +6643,7 @@
       background-color: #EF8585;
     }
     .v-calendar-event .v-calendar-event-content {
-      background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+      background: none repeat scroll 0 0 rgba(#000, 0);
       border: 1px solid #777777;
       border-radius: 4px;
       height: 14px;
@@ -6690,7 +6689,7 @@
     border-radius: 3px;
     color: #FFF;
     padding: 3px 13px;
-    text-shadow: 1px 1px 0 #000000;
+    text-shadow: 1px 1px 0 #000;
     &.v-margin-top {
       padding-top: 3px;
     }
@@ -7644,7 +7643,7 @@
 
   .v-context-menu {
     float: left;
-    font-family: Arial;
+    font-family: $font-family;
     font-size: $font-normal;
     background-color: #f0f0f0;
     .v-context-menu-item-basic, .v-context-menu-item-basic-submenu {

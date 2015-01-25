@@ -1,0 +1,22 @@
+@import "variables";
+@import "shared";
+
+@include mycollab-shared;
+
+.stickytooltip {
+  border: 1px solid $border-color;
+  display: none;
+  position: absolute;
+  display: none;
+  background-color: #FDFDEE;
+  z-index: 3000;
+  font: $font-smaller $font-family !important;
+  line-height: normal;
+  tr {
+    line-height: 1.5;
+  }
+}
+
+.stickytooltip a, .v-tooltip-text a {
+  vertical-align: top;
+}

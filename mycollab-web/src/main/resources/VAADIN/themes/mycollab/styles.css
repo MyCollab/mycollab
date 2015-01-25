@@ -61,6 +61,33 @@
 	display: inline-block;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:visited, a:link {
+	color: #006DAC;
+}
+
+.stickytooltip {
+	border: 1px solid #CFCFCF;
+	display: none;
+	position: absolute;
+	display: none;
+	background-color: #FDFDEE;
+	z-index: 3000;
+	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
+	line-height: normal;
+}
+
+.stickytooltip tr {
+	line-height: 1.5;
+}
+
+.stickytooltip a, .v-tooltip-text a {
+	vertical-align: top;
+}
+
 .mycollab {
 	@media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
 	.projectDashboardView {
@@ -5751,10 +5778,6 @@ body .mycollab.v-app .v-app-loading {
 	margin-right: 0;
 }
 
-.mycollab a:visited, .mycollab a:link {
-	color: #006DAC;
-}
-
 .mycollab .xbreadcrumbs {
 	background-color: transparent !important;
 }
@@ -5792,6 +5815,34 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 	padding: 0px;
+}
+
+.mycollab .v-tooltip {
+	font: 12px Arial, Verdana, Helvetica, sans-serif !important;
+	line-height: normal;
+	border: 1px solid #CFCFCF;
+	outline-color: #CFCFCF;
+}
+
+.mycollab .v-tooltip-text tr {
+	line-height: 1.5;
+}
+
+.mycollab .v-tooltip-text a {
+	vertical-align: top;
+}
+
+.mycollab .v-tooltip-text {
+	height: 100%;
+	overflow: hidden;
+}
+
+.mycollab a {
+	text-decoration: none;
+}
+
+.mycollab a:visited, .mycollab a:link {
+	color: #006DAC;
 }
 
 .mycollab html {
@@ -6471,7 +6522,7 @@ body .mycollab.v-app .v-app-loading {
 	vertical-align: top;
 }
 
-.mycollab .v-app, .mycollab .v-window, .mycollab .v-popupview-popup, .mycollab .v-tooltip {
+.mycollab .v-app, .mycollab .v-window, .mycollab .v-popupview-popup {
 	font: 12px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
 }
@@ -7189,7 +7240,7 @@ body .mycollab.v-app .v-app-loading {
 	color: #FFF;
 	text-shadow: none;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 13px;
 }
 
@@ -7685,7 +7736,7 @@ body .mycollab.v-app .v-app-loading {
 	padding: 40px 0px 20px;
 	text-transform: uppercase;
 	text-align: center;
-	font-family: Georgia, "Times New Roman", sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 .mycollab .forgotPwdForm #loginFormContainer #form-header {
@@ -9266,7 +9317,7 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .v-splitbutton-esofthead {
 	font-weight: bold;
 	font-size: 13px !important;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 .mycollab .v-splitbutton-esofthead .v-button-esofthead {
@@ -10673,11 +10724,6 @@ body .mycollab.v-app .v-app-loading {
 	background-image: url('icons/grad-dark-top2.png');
 	background-repeat: repeat-x;
 	color: white;
-}
-
-.mycollab .v-tooltip-text {
-	height: 100%;
-	overflow: hidden;
 }
 
 .mycollab .v-label.numberTotal {
@@ -13224,7 +13270,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-context-menu {
 	float: left;
-	font-family: Arial;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 13px;
 	background-color: #f0f0f0;
 }
@@ -14330,38 +14376,4 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-calendar-day-times-Hsized .v-datecellslot, .mycollab .v-calendar-day-times-Hsized .v-datecellslot-even {
 	width: 200px;
-}
-
-.stickytooltip {
-	box-shadow: 5px 5px 8px #818181;
-	-webkit-box-shadow: 5px 5px 8px #818181;
-	-moz-box-shadow: 5px 5px 8px #818181;
-	display: none;
-	position: absolute;
-	display: none;
-	background-color: #FDFDEE;
-	z-index: 3000;
-	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-	line-height: normal;
-}
-
-.stickytooltip tr {
-	line-height: 1.5;
-}
-
-.v-tooltip-text tr {
-	line-height: 1.5;
-}
-
-.stickytooltip a, .v-tooltip-text a {
-	vertical-align: top;
-}
-
-.stickytooltip .stickystatus {
-	background: black;
-	color: white;
-	padding-top: 5px;
-	text-align: center;
-	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-	line-height: normal;
 }

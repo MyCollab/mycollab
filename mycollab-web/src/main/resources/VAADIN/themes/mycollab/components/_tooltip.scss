@@ -1,0 +1,21 @@
+@mixin mycollab-tooltip {
+  .v-tooltip {
+    font: $font-small $font-family !important;
+    line-height: normal;
+    border: 1px solid $border-color;
+    outline-color: $border-color;
+  }
+
+  .v-tooltip-text tr {
+    line-height: 1.5;
+  }
+
+  .v-tooltip-text a {
+    vertical-align: top;
+  }
+
+  .v-tooltip-text {
+    height: 100%;
+    overflow: hidden;
+  }
+}

@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
@@ -41,6 +40,7 @@ import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -255,12 +255,12 @@ public class TaskGroupReadViewImpl extends
                         .getProjectId(), task.getAssignuser()))
                         .appendChild(avatarImg);
                 return new Div().appendChild(avatarDiv, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipBuilder.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
+                        TooltipHelper.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
                         "list-style-position: " +
                         "inside;");
             } else {
                 return new Div().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipBuilder.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
+                        TooltipHelper.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
                         "list-style-position: " +
                         "inside;");
             }

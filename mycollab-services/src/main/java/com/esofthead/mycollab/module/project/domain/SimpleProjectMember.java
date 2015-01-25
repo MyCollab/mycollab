@@ -133,9 +133,13 @@ public class SimpleProjectMember extends ProjectMember {
 	}
 
 	public String getDisplayName() {
-		if (memberFullName == null || memberFullName.trim().equals("")) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(memberFullName)) {
 			return StringUtils.extractNameFromEmail(getUsername());
 		}
 		return memberFullName;
+	}
+
+	public boolean isAdmin() {
+		return (getIsadmin() != null) && (getIsadmin() == Boolean.TRUE);
 	}
 }

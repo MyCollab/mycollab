@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
-import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -35,6 +34,7 @@ import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -52,289 +52,276 @@ import java.util.Calendar;
 import java.util.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectActivityStreamPagedList
-		extends
-		AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
-	private static final long serialVersionUID = 1L;
+        extends
+        AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+    private static final long serialVersionUID = 1L;
 
-	protected final ProjectActivityStreamService projectActivityStreamService;
+    protected final ProjectActivityStreamService projectActivityStreamService;
 
-	public ProjectActivityStreamPagedList() {
-		super(null, 20);
-		this.projectActivityStreamService = ApplicationContextUtil
-				.getSpringBean(ProjectActivityStreamService.class);
+    public ProjectActivityStreamPagedList() {
+        super(null, 20);
+        this.projectActivityStreamService = ApplicationContextUtil
+                .getSpringBean(ProjectActivityStreamService.class);
 
-	}
+    }
 
-	@Override
-	public void doSearch() {
-		this.totalCount = this.projectActivityStreamService
-				.getTotalActivityStream(this.searchRequest.getSearchCriteria());
-		this.totalPage = (this.totalCount - 1)
-				/ this.searchRequest.getNumberOfItems() + 1;
-		if (this.searchRequest.getCurrentPage() > this.totalPage) {
-			this.searchRequest.setCurrentPage(this.totalPage);
-		}
+    @Override
+    public void doSearch() {
+        this.totalCount = this.projectActivityStreamService
+                .getTotalActivityStream(this.searchRequest.getSearchCriteria());
+        this.totalPage = (this.totalCount - 1)
+                / this.searchRequest.getNumberOfItems() + 1;
+        if (this.searchRequest.getCurrentPage() > this.totalPage) {
+            this.searchRequest.setCurrentPage(this.totalPage);
+        }
 
-		if (totalPage > 1) {
-			if (this.controlBarWrapper != null) {
-				this.removeComponent(this.controlBarWrapper);
-			}
-			this.addComponent(this.createPageControls());
-		} else {
-			if (getComponentCount() == 2) {
-				removeComponent(getComponent(1));
-			}
-		}
+        if (totalPage > 1) {
+            if (this.controlBarWrapper != null) {
+                this.removeComponent(this.controlBarWrapper);
+            }
+            this.addComponent(this.createPageControls());
+        } else {
+            if (getComponentCount() == 2) {
+                removeComponent(getComponent(1));
+            }
+        }
 
-		final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
-				.getProjectActivityStreams(this.searchRequest);
-		this.listContainer.removeAllComponents();
+        final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
+                .getProjectActivityStreams(this.searchRequest);
+        this.listContainer.removeAllComponents();
 
-		Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+        Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
-		CssLayout currentFeedBlock = new CssLayout();
+        CssLayout currentFeedBlock = new CssLayout();
 
-		try {
+        try {
 
-			for (final ProjectActivityStream activityStream : currentListData) {
-				if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
-					ProjectPageService pageService = ApplicationContextUtil
-							.getSpringBean(ProjectPageService.class);
-					Page page = pageService.getPage(activityStream.getTypeid(),
-							AppContext.getUsername());
-					if (page != null) {
-						activityStream.setNamefield(page.getSubject());
-					}
-				}
+            for (final ProjectActivityStream activityStream : currentListData) {
+                if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+                    ProjectPageService pageService = ApplicationContextUtil
+                            .getSpringBean(ProjectPageService.class);
+                    Page page = pageService.getPage(activityStream.getTypeid(),
+                            AppContext.getUsername());
+                    if (page != null) {
+                        activityStream.setNamefield(page.getSubject());
+                    }
+                }
 
-				final Date itemCreatedDate = activityStream.getCreatedtime();
+                final Date itemCreatedDate = activityStream.getCreatedtime();
 
-				if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
-					currentFeedBlock = new CssLayout();
-					currentFeedBlock.setStyleName("feed-block");
-					feedBlocksPut(currentDate, itemCreatedDate,
-							currentFeedBlock);
-					currentDate = itemCreatedDate;
-				}
-				StringBuffer content = new StringBuffer();
-				String itemType = AppContext
-						.getMessage(ProjectLocalizationTypeMap
-								.getType(activityStream.getType()));
-				String assigneeParam = buildAssigneeValue(activityStream);
-				String itemParam = buildItemValue(activityStream);
+                if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
+                    currentFeedBlock = new CssLayout();
+                    currentFeedBlock.setStyleName("feed-block");
+                    feedBlocksPut(currentDate, itemCreatedDate,
+                            currentFeedBlock);
+                    currentDate = itemCreatedDate;
+                }
+                StringBuffer content = new StringBuffer();
+                String itemType = AppContext
+                        .getMessage(ProjectLocalizationTypeMap
+                                .getType(activityStream.getType()));
+                String assigneeParam = buildAssigneeValue(activityStream);
+                String itemParam = buildItemValue(activityStream);
 
-				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
-						.getAction())) {
-					content.append(AppContext
-							.getMessage(
-									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-									assigneeParam, itemType, itemParam));
-				} else if (ActivityStreamConstants.ACTION_UPDATE
-						.equals(activityStream.getAction())) {
-					content.append(AppContext
-							.getMessage(
-									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-									assigneeParam, itemType, itemParam));
-					if (activityStream.getAssoAuditLog() != null) {
-						content.append(ProjectAuditLogStreamGenerator
-								.generatorDetailChangeOfActivity(activityStream));
-					}
-				} else if (ActivityStreamConstants.ACTION_COMMENT
-						.equals(activityStream.getAction())) {
-					content.append(AppContext
-							.getMessage(
-									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
-									assigneeParam, itemType, itemParam));
-					if (activityStream.getAssoAuditLog() != null) {
-						content.append("<p><ul><li>\"")
-								.append(activityStream.getAssoAuditLog()
-										.getChangeset())
-								.append("\"</li></ul></p>");
-					}
+                if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
+                        .getAction())) {
+                    content.append(AppContext
+                            .getMessage(
+                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                                    assigneeParam, itemType, itemParam));
+                } else if (ActivityStreamConstants.ACTION_UPDATE
+                        .equals(activityStream.getAction())) {
+                    content.append(AppContext
+                            .getMessage(
+                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                                    assigneeParam, itemType, itemParam));
+                    if (activityStream.getAssoAuditLog() != null) {
+                        content.append(ProjectAuditLogStreamGenerator
+                                .generatorDetailChangeOfActivity(activityStream));
+                    }
+                } else if (ActivityStreamConstants.ACTION_COMMENT
+                        .equals(activityStream.getAction())) {
+                    content.append(AppContext
+                            .getMessage(
+                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                                    assigneeParam, itemType, itemParam));
+                    if (activityStream.getAssoAuditLog() != null) {
+                        content.append("<p><ul><li>\"")
+                                .append(activityStream.getAssoAuditLog()
+                                        .getChangeset())
+                                .append("\"</li></ul></p>");
+                    }
 
-				}
-				final Label actionLbl = new Label(content.toString(),
-						ContentMode.HTML);
-				final CssLayout streamWrapper = new CssLayout();
-				streamWrapper.setWidth("100%");
-				streamWrapper.addStyleName("stream-wrapper");
-				streamWrapper.addComponent(actionLbl);
-				currentFeedBlock.addComponent(streamWrapper);
-			}
-		} catch (final Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+                }
+                final Label actionLbl = new Label(content.toString(),
+                        ContentMode.HTML);
+                final CssLayout streamWrapper = new CssLayout();
+                streamWrapper.setWidth("100%");
+                streamWrapper.addStyleName("stream-wrapper");
+                streamWrapper.addComponent(actionLbl);
+                currentFeedBlock.addComponent(streamWrapper);
+            }
+        } catch (final Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	private String buildAssigneeValue(SimpleActivityStream activityStream) {
-		String uid = UUID.randomUUID().toString();
-		DivLessFormatter div = new DivLessFormatter();
-		Img userAvatar = new Img("", StorageManager.getAvatarLink(
-				activityStream.getCreatedUserAvatarId(), 16));
-		A userLink = new A();
-		userLink.setId("tag" + uid);
-		userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-				activityStream.getExtratypeid(),
-				activityStream.getCreateduser()));
+    private String buildAssigneeValue(SimpleActivityStream activityStream) {
+        String uid = UUID.randomUUID().toString();
+        DivLessFormatter div = new DivLessFormatter();
+        Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                activityStream.getCreatedUserAvatarId(), 16));
+        A userLink = new A();
+        userLink.setId("tag" + uid);
+        userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                activityStream.getExtratypeid(),
+                activityStream.getCreateduser()));
 
-		String arg3 = "'" + uid + "'";
-		String arg4 = "'" + activityStream.getCreateduser() + "'";
-		String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-		String arg6 = "'" + AppContext.getSiteUrl() + "'";
-		String arg7 = AppContext.getSession().getTimezone();
-		String arg8 = "'" + activityStream.getSaccountid() + "'";
-		String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
+        userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, activityStream.getCreateduser()));
+        userLink.appendText(activityStream.getCreatedUserFullName());
 
-		String mouseOverFunc = String.format(
-				"return useroverIt(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
-				arg6, arg7, arg8, arg9);
-		userLink.setAttribute("onmouseover", mouseOverFunc);
-		userLink.appendText(activityStream.getCreatedUserFullName());
+        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+                TooltipHelper.buildDivTooltipEnable(uid));
 
-		div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-				TooltipBuilder.buildDivTooltipEnable(uid));
+        return div.write();
+    }
 
-		return div.write();
-	}
+    private String buildItemValue(ProjectActivityStream activityStream) {
+        String uid = UUID.randomUUID().toString();
+        DivLessFormatter div = new DivLessFormatter();
+        Img image = new Img("", ProjectResources.getResourceLink(activityStream
+                .getType()));
+        A itemLink = new A();
+        itemLink.setId("tag" + uid);
+        if (ProjectTypeConstants.TASK.equals(activityStream.getType())
+                || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
+            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(),
+                    activityStream.getItemKey() + ""));
+        } else {
+            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    activityStream.getProjectShortName(),
+                    activityStream.getExtratypeid(), activityStream.getType(),
+                    activityStream.getTypeid()));
+        }
 
-	private String buildItemValue(ProjectActivityStream activityStream) {
-		String uid = UUID.randomUUID().toString();
-		DivLessFormatter div = new DivLessFormatter();
-		Img image = new Img("", ProjectResources.getResourceLink(activityStream
-				.getType()));
-		A itemLink = new A();
-		itemLink.setId("tag" + uid);
-		if (ProjectTypeConstants.TASK.equals(activityStream.getType())
-				|| ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-					activityStream.getProjectShortName(),
-					activityStream.getExtratypeid(), activityStream.getType(),
-					activityStream.getItemKey() + ""));
-		} else {
-			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-					activityStream.getProjectShortName(),
-					activityStream.getExtratypeid(), activityStream.getType(),
-					activityStream.getTypeid()));
-		}
+        String arg17 = "'" + uid + "'";
+        String arg18 = "'" + activityStream.getType() + "'";
+        String arg19 = "'" + activityStream.getTypeid() + "'";
+        String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+        String arg21 = "'" + activityStream.getSaccountid() + "'";
+        String arg22 = "'" + AppContext.getSiteUrl() + "'";
+        String arg23 = AppContext.getSession().getTimezone();
+        String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
 
-		String arg17 = "'" + uid + "'";
-		String arg18 = "'" + activityStream.getType() + "'";
-		String arg19 = "'" + activityStream.getTypeid() + "'";
-		String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-		String arg21 = "'" + activityStream.getSaccountid() + "'";
-		String arg22 = "'" + AppContext.getSiteUrl() + "'";
-		String arg23 = AppContext.getSession().getTimezone();
-		String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+        String mouseOverFunc = String.format(
+                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                arg20, arg21, arg22, arg23, arg24);
+        itemLink.setAttribute("onmouseover", mouseOverFunc);
+        itemLink.appendText(activityStream.getNamefield());
 
-		String mouseOverFunc = String.format(
-				"return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-				arg20, arg21, arg22, arg23, arg24);
-		itemLink.setAttribute("onmouseover", mouseOverFunc);
-		itemLink.appendText(activityStream.getNamefield());
+        div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+                TooltipHelper.buildDivTooltipEnable(uid));
+        return div.write();
+    }
 
-		div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-				TooltipBuilder.buildDivTooltipEnable(uid));
-		return div.write();
-	}
+    protected void feedBlocksPut(Date currentDate, Date nextDate,
+                                 CssLayout currentBlock) {
+        HorizontalLayout blockWrapper = new HorizontalLayout();
+        blockWrapper.setStyleName("feed-block-wrap");
+        blockWrapper.setWidth("100%");
+        blockWrapper.setSpacing(true);
 
-	protected void feedBlocksPut(Date currentDate, Date nextDate,
-			CssLayout currentBlock) {
-		HorizontalLayout blockWrapper = new HorizontalLayout();
-		blockWrapper.setStyleName("feed-block-wrap");
-		blockWrapper.setWidth("100%");
-		blockWrapper.setSpacing(true);
+        blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(currentDate);
 
-		blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(currentDate);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(nextDate);
 
-		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime(nextDate);
+        if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
+            int currentYear = cal2.get(Calendar.YEAR);
+            Label yearLbl = new Label(String.valueOf(currentYear));
+            yearLbl.setStyleName("year-lbl");
+            yearLbl.setWidthUndefined();
+            yearLbl.setHeight("49px");
+            this.listContainer.addComponent(yearLbl);
+        } else {
+            blockWrapper.setMargin(new MarginInfo(true, false, false, false));
+        }
+        Label dateLbl = new Label(DateFormatUtils.format(nextDate,
+                AppContext.getUserDayMonthFormat()));
+        dateLbl.setSizeUndefined();
+        dateLbl.setStyleName("date-lbl");
+        blockWrapper.addComponent(dateLbl);
+        blockWrapper.addComponent(currentBlock);
+        blockWrapper.setExpandRatio(currentBlock, 1.0f);
 
-		if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
-			int currentYear = cal2.get(Calendar.YEAR);
-			Label yearLbl = new Label(String.valueOf(currentYear));
-			yearLbl.setStyleName("year-lbl");
-			yearLbl.setWidthUndefined();
-			yearLbl.setHeight("49px");
-			this.listContainer.addComponent(yearLbl);
-		} else {
-			blockWrapper.setMargin(new MarginInfo(true, false, false, false));
-		}
-		Label dateLbl = new Label(DateFormatUtils.format(nextDate,
-				AppContext.getUserDayMonthFormat()));
-		dateLbl.setSizeUndefined();
-		dateLbl.setStyleName("date-lbl");
-		blockWrapper.addComponent(dateLbl);
-		blockWrapper.addComponent(currentBlock);
-		blockWrapper.setExpandRatio(currentBlock, 1.0f);
+        this.listContainer.addComponent(blockWrapper);
+    }
 
-		this.listContainer.addComponent(blockWrapper);
-	}
+    @Override
+    protected CssLayout createPageControls() {
+        this.controlBarWrapper = new CssLayout();
+        this.controlBarWrapper.setWidth("100%");
+        this.controlBarWrapper.setStyleName("page-controls");
+        ButtonGroup controlBtns = new ButtonGroup();
+        controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
+        Button prevBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = -94021599166105307L;
 
-	@Override
-	protected CssLayout createPageControls() {
-		this.controlBarWrapper = new CssLayout();
-		this.controlBarWrapper.setWidth("100%");
-		this.controlBarWrapper.setStyleName("page-controls");
-		ButtonGroup controlBtns = new ButtonGroup();
-		controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
-		Button prevBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = -94021599166105307L;
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        ProjectActivityStreamPagedList.this
+                                .pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+                    }
+                });
+        if (currentPage == 1) {
+            prevBtn.setEnabled(false);
+        }
+        prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        prevBtn.setWidth("64px");
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						ProjectActivityStreamPagedList.this
-								.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
-					}
-				});
-		if (currentPage == 1) {
-			prevBtn.setEnabled(false);
-		}
-		prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		prevBtn.setWidth("64px");
+        Button nextBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 3095522916508256018L;
 
-		Button nextBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 3095522916508256018L;
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        ProjectActivityStreamPagedList.this
+                                .pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+                    }
+                });
+        if (currentPage == totalPage) {
+            nextBtn.setEnabled(false);
+        }
+        nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        nextBtn.setWidth("64px");
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						ProjectActivityStreamPagedList.this
-								.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
-					}
-				});
-		if (currentPage == totalPage) {
-			nextBtn.setEnabled(false);
-		}
-		nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		nextBtn.setWidth("64px");
+        controlBtns.addButton(prevBtn);
+        controlBtns.addButton(nextBtn);
 
-		controlBtns.addButton(prevBtn);
-		controlBtns.addButton(nextBtn);
+        this.controlBarWrapper.addComponent(controlBtns);
 
-		this.controlBarWrapper.addComponent(controlBtns);
+        return this.controlBarWrapper;
+    }
 
-		return this.controlBarWrapper;
-	}
+    @Override
+    protected int queryTotalCount() {
+        return 0;
+    }
 
-	@Override
-	protected int queryTotalCount() {
-		return 0;
-	}
-
-	@Override
-	protected List<ProjectActivityStream> queryCurrentData() {
-		return null;
-	}
+    @Override
+    protected List<ProjectActivityStream> queryCurrentData() {
+        return null;
+    }
 
 }

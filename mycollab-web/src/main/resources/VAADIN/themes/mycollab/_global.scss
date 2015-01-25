@@ -1,7 +1,5 @@
+@import "shared";
+
 @mixin mycollab-global {
-  a {
-    &:visited, &:link {
-        color: #006DAC;
-    }
-  }
+
 }

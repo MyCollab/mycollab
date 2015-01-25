@@ -62,7 +62,7 @@ public class ProjectMembersWidget extends Depot {
 				new VerticalLayout());
 		this.addStyleName("project-member-widget");
 
-		memberList = new BeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember>(
+		memberList = new BeanList<>(
 				ApplicationContextUtil
 						.getSpringBean(ProjectMemberService.class),
 				MemberRowDisplayHandler.class);
@@ -90,9 +90,9 @@ public class ProjectMembersWidget extends Depot {
 				int rowIndex) {
 			HorizontalLayout layout = new HorizontalLayout();
 			layout.setWidth("100%");
+			layout.setSpacing(true);
 			layout.setStyleName("activity-stream");
 			layout.addStyleName("odd");
-			layout.setSpacing(true);
 			layout.addComponent(new Image(null, UserAvatarControlFactory
 					.createAvatarResource(member.getMemberAvatarId(), 48)));
 
@@ -120,9 +120,8 @@ public class ProjectMembersWidget extends Depot {
 
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
-			String textRole = "";
-			if (member.getIsadmin() != null
-					&& member.getIsadmin() == Boolean.TRUE) {
+			String textRole;
+			if (member.isAdmin()) {
 				textRole = AppContext
 						.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
 			} else {

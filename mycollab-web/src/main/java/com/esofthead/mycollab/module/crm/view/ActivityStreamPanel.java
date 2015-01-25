@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -37,6 +36,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
@@ -319,21 +319,11 @@ public class ActivityStreamPanel extends CssLayout {
 			userLink.setHref(AccountLinkGenerator.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), activityStream.getCreateduser()));
 
-			String arg3 = "'" + uid + "'";
-			String arg4 = "'" + activityStream.getCreateduser() + "'";
-			String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-			String arg6 = "'" + AppContext.getSiteUrl() + "'";
-			String arg7 = AppContext.getSession().getTimezone();
-			String arg8 = "'" + activityStream.getSaccountid() + "'";
-			String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
-			String onMouseOverFunc = String.format(
-					"return crmuseroverIt(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4,
-					arg5, arg6, arg7, arg8, arg9);
-			userLink.setAttribute("onmouseover", onMouseOverFunc);
+			userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, activityStream.getCreateduser()));
 			userLink.appendText(activityStream.getCreatedUserFullName());
 
 			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
-					TooltipBuilder.buildDivTooltipEnable(uid));
+					TooltipHelper.buildDivTooltipEnable(uid));
 
 			return div.write();
 		}
@@ -364,7 +354,7 @@ public class ActivityStreamPanel extends CssLayout {
 			itemLink.appendText(activityStream.getNamefield());
 
 			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-					TooltipBuilder.buildDivTooltipEnable(uid));
+					TooltipHelper.buildDivTooltipEnable(uid));
 
 			return div.write();
 		}

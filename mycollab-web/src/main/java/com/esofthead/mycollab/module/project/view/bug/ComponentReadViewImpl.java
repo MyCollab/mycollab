@@ -229,20 +229,21 @@ public class ComponentReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-        tabContainer.setWidth("100%");
 
         tabContainer.addTab(commentDisplay, AppContext
                         .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
                 MyCollabResource
                         .newResource(WebResourceIds._16_project_gray_comment));
 
-        tabContainer.addTab(relatedBugComp, AppContext
-                .getMessage(BugI18nEnum.TAB_RELATED_BUGS), MyCollabResource
-                .newResource(WebResourceIds._16_project_gray_bug));
         tabContainer.addTab(historyLogList, AppContext
                         .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
                 MyCollabResource
                         .newResource(WebResourceIds._16_project_gray_history));
+
+        tabContainer.addTab(relatedBugComp, AppContext
+                .getMessage(BugI18nEnum.TAB_RELATED_BUGS), MyCollabResource
+                .newResource(WebResourceIds._16_project_gray_bug));
+
         return tabContainer;
     }
 

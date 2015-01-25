@@ -1,0 +1,8 @@
+@mixin mycollab-shared {
+  a {
+    text-decoration:none;
+    &:visited, &:link {
+        color: #006DAC;
+    }
+  }
+}
