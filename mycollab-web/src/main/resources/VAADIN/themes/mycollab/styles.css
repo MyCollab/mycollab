@@ -61,51 +61,6 @@
 	display: inline-block;
 }
 
-a {
-	text-decoration: none;
-}
-
-a:visited, a:link {
-	color: #006DAC;
-}
-
-a.completed {
-	color: black;
-	text-decoration: line-through;
-}
-
-a.overdue {
-	color: red;
-}
-
-a.pending {
-	color: #108e2a;
-}
-
-.stickytooltip {
-	border: 1px solid #CFCFCF;
-	display: none;
-	position: absolute;
-	display: none;
-	background-color: #FDFDEE;
-	z-index: 3000;
-	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
-	line-height: normal;
-}
-
-.stickytooltip tr {
-	line-height: 1.5;
-}
-
-.stickytooltip a, .v-tooltip-text a {
-	vertical-align: top;
-}
-
-table {
-	table-layout: auto;
-	word-break: break-all;
-}
-
 .mycollab {
 	@media only screen and (max-width: 1024px), only screen and (max-device-width: 1024px) {
 	.projectDashboardView {
@@ -6540,6 +6495,7 @@ body .mycollab.v-app .v-app-loading {
 	line-height: normal;
 	border: 1px solid #CFCFCF;
 	outline-color: #CFCFCF;
+	outline: none;
 }
 
 .mycollab .v-tooltip-text tr {
@@ -9381,8 +9337,16 @@ body .mycollab.v-app .v-app-loading {
 	padding: 5px;
 }
 
-.mycollab .activity-stream.odd {
+.mycollab .activity-stream:nth-child(odd) {
+	background-color: whitesmoke;
+}
+
+.mycollab .activity-stream:nth-child(even) {
 	background-color: #FFF;
+}
+
+.mycollab .activity-stream:hover {
+	background-color: ghostwhite;
 }
 
 .mycollab .v-tabsheet-tabsheetpanel .activity-panel .v-lazyloadingwrapper > .v-verticallayout > div > div:first-child .activity-stream {
@@ -13641,7 +13605,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .sidebar-wrap {
 	border-left: 1px solid #C8C8C8;
-	background-color: #FCFCFC;
+	background-color: floralwhite;
 }
 
 .mycollab .readview-body-wrap .readview-sidebar .info-hdr {
@@ -14470,4 +14434,54 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-calendar-day-times-Hsized .v-datecellslot, .mycollab .v-calendar-day-times-Hsized .v-datecellslot-even {
 	width: 200px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited, a:link {
+	color: #006DAC;
+}
+
+a.completed {
+	color: black;
+	text-decoration: line-through;
+}
+
+a.overdue {
+	color: red;
+}
+
+a.pending {
+	color: #108e2a;
+}
+
+.stickytooltip {
+	border: 1px solid #CFCFCF;
+	display: none;
+	position: absolute;
+	display: none;
+	background-color: #FDFDEE;
+	z-index: 3000;
+	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
+	line-height: normal;
+}
+
+.stickytooltip tr {
+	line-height: 1.5;
+}
+
+.stickytooltip a, .v-tooltip-text a {
+	vertical-align: top;
+}
+
+table {
+	table-layout: auto;
+	word-break: break-all;
+}
+
+.v-sa .mycollab .v-tooltip {
+	outline: none;
+	border-color: #CFCFCF;
 }

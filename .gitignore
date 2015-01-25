@@ -8,3 +8,9 @@ mycollab-app-community/repo2/workspaces/default2/workspace.xml
 mycollab-app-community/repo2/wiki-workspace/.lock
 mycollab-app-community/repo2/wiki-workspace/cluster_node.id
 mycollab-app-community/repo2/wiki_workspaces/wiki/workspace.xml
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/_global.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/_mycollab.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/_nottheme.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/_shared.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/_variables.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/styles.scss

@@ -22,10 +22,12 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -47,13 +49,17 @@ import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -325,107 +331,106 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
             } else if (Task.Field.notes.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getNotes());
             }
-//			else if (Task.Field.parenttaskid.equalTo(propertyId)) {
-//				return new SubTasksComp();
-//			}
+			else if (Task.Field.parenttaskid.equalTo(propertyId)) {
+				return new SubTasksComp();
+			}
             return null;
         }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-//	class SubTasksComp extends CustomField {
-//		private static final long serialVersionUID = 1L;
-//
-//		private VerticalLayout tasksLayout;
-//
-//		SubTasksComp() {
-//			tasksLayout = new VerticalLayout();
-//			tasksLayout.setWidth("100%");
-//		}
-//
-//		@Override
-//		protected Component initContent() {
-//			HorizontalLayout contentLayout = new HorizontalLayout();
-//			contentLayout.addComponent(tasksLayout);
-//			contentLayout.setExpandRatio(tasksLayout, 1.0f);
-//
-//			Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-//					new Button.ClickListener() {
-//						private static final long serialVersionUID = 1L;
-//
-//						@Override
-//						public void buttonClick(ClickEvent event) {
-//							SimpleTask task = new SimpleTask();
-//							task.setTasklistid(beanItem.getTasklistid());
-//							task.setParenttaskid(beanItem.getId());
-//							task.setPriority(TaskPriority.Medium.name());
-//							EventBusFactory.getInstance().post(
-//									new TaskEvent.GotoAdd(
-//											TaskReadViewImpl.this, task));
-//
-//						}
-//					});
-//			addNewTaskBtn.setStyleName("link");
-//			contentLayout.addComponent(addNewTaskBtn);
-//
-//			ProjectTaskService taskService = ApplicationContextUtil
-//					.getSpringBean(ProjectTaskService.class);
-//			List<SimpleTask> subTasks = taskService.findSubTasks(
-//					beanItem.getId(), AppContext.getAccountId());
-//			if (CollectionUtils.isNotEmpty(subTasks)) {
-//				for (SimpleTask subTask : subTasks) {
-//					tasksLayout.addComponent(generateSubTaskContent(subTask));
-//				}
-//			}
-//			return contentLayout;
-//		}
-//
-//		@Override
-//		public Class getType() {
-//			return Object.class;
-//		}
-//
-//		private HorizontalLayout generateSubTaskContent(SimpleTask subTask) {
-//			HorizontalLayout layout = new HorizontalLayout();
-//			layout.setSpacing(true);
-//
-//			CheckBox checkBox = new CheckBox();
-//			if (StatusI18nEnum.Closed.name().equals(subTask.getStatus())) {
-//				checkBox.setValue(true);
-//			}
-//
-//			checkBox.setEnabled(CurrentProjectVariables
-//					.canWrite(ProjectRolePermissionCollections.TASKS));
-//
-//			layout.addComponent(checkBox);
-//
-//			Image assigneeRes = UserAvatarControlFactory
-//					.createUserAvatarEmbeddedComponent(
-//							subTask.getAssignUserAvatarId(), 16,
-//							subTask.getAssignUserFullName());
-//			layout.addComponent(assigneeRes);
-//
-//			String taskHtmlLink = String.format(
-//					"<a href=\"%s\">[%s-%d] %s</a>", ProjectLinkGenerator
-//							.generateTaskPreviewFullLink(
-//									AppContext.getSiteUrl(),
-//									subTask.getTaskkey(),
-//									CurrentProjectVariables.getShortName()),
-//					CurrentProjectVariables.getShortName(), subTask
-//							.getTaskkey(), subTask.getTaskname());
-//
-//			Label taskLink = new Label(taskHtmlLink, ContentMode.HTML);
-//			layout.addComponent(taskLink);
-//			layout.setExpandRatio(taskLink, 1.0f);
-//
-//			if (subTask.getDeadline() != null) {
-//				layout.addComponent(new Label(AppContext.formatDate(subTask
-//						.getDeadline())));
-//			}
-//			return layout;
-//		}
-//
-//	}
+	class SubTasksComp extends CustomField {
+		private static final long serialVersionUID = 1L;
+
+		private VerticalLayout tasksLayout;
+
+		SubTasksComp() {
+			tasksLayout = new MVerticalLayout().withWidth("100%");
+		}
+
+		@Override
+		protected Component initContent() {
+			HorizontalLayout contentLayout = new HorizontalLayout();
+			contentLayout.addComponent(tasksLayout);
+			contentLayout.setExpandRatio(tasksLayout, 1.0f);
+
+			Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							SimpleTask task = new SimpleTask();
+							task.setTasklistid(beanItem.getTasklistid());
+							task.setParenttaskid(beanItem.getId());
+							task.setPriority(TaskPriority.Medium.name());
+							EventBusFactory.getInstance().post(
+									new TaskEvent.GotoAdd(
+											TaskReadViewImpl.this, task));
+
+						}
+					});
+			addNewTaskBtn.setStyleName("link");
+			contentLayout.addComponent(addNewTaskBtn);
+
+			ProjectTaskService taskService = ApplicationContextUtil
+					.getSpringBean(ProjectTaskService.class);
+			List<SimpleTask> subTasks = taskService.findSubTasks(
+					beanItem.getId(), AppContext.getAccountId());
+			if (CollectionUtils.isNotEmpty(subTasks)) {
+				for (SimpleTask subTask : subTasks) {
+					tasksLayout.addComponent(generateSubTaskContent(subTask));
+				}
+			}
+			return contentLayout;
+		}
+
+		@Override
+		public Class getType() {
+			return Object.class;
+		}
+
+		private HorizontalLayout generateSubTaskContent(SimpleTask subTask) {
+			HorizontalLayout layout = new HorizontalLayout();
+			layout.setSpacing(true);
+
+			CheckBox checkBox = new CheckBox();
+			if (StatusI18nEnum.Closed.name().equals(subTask.getStatus())) {
+				checkBox.setValue(true);
+			}
+
+			checkBox.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.TASKS));
+
+			layout.addComponent(checkBox);
+
+			Image assigneeRes = UserAvatarControlFactory
+					.createUserAvatarEmbeddedComponent(
+							subTask.getAssignUserAvatarId(), 16,
+							subTask.getAssignUserFullName());
+			layout.addComponent(assigneeRes);
+
+			String taskHtmlLink = String.format(
+					"<a href=\"%s\">[%s-%d] %s</a>", ProjectLinkGenerator
+							.generateTaskPreviewFullLink(
+									AppContext.getSiteUrl(),
+									subTask.getTaskkey(),
+									CurrentProjectVariables.getShortName()),
+					CurrentProjectVariables.getShortName(), subTask
+							.getTaskkey(), subTask.getTaskname());
+
+			Label taskLink = new Label(taskHtmlLink, ContentMode.HTML);
+			layout.addComponent(taskLink);
+			layout.setExpandRatio(taskLink, 1.0f);
+
+			if (subTask.getDeadline() != null) {
+				layout.addComponent(new Label(AppContext.formatDate(subTask
+						.getDeadline())));
+			}
+			return layout;
+		}
+
+	}
 
     class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;

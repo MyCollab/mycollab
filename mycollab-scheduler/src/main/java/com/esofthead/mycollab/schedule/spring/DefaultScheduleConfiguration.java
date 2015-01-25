@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.schedule.spring;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.schedule.AutowiringSpringBeanJobFactory;
+import com.esofthead.mycollab.schedule.QuartzScheduleProperties;
 import com.esofthead.mycollab.schedule.email.user.impl.SendUserInvitationEmailJob;
 import com.esofthead.mycollab.schedule.email.user.impl.UserSignUpEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
@@ -140,8 +143,12 @@ public class DefaultScheduleConfiguration {
 
     @Bean public SchedulerFactoryBean quartzScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-        bean.setDataSource(new DataSourceConfiguration().dataSource());
-        bean.setConfigLocation(new ClassPathResource("quartz.properties"));
+
+        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
+            bean.setDataSource(new DataSourceConfiguration().dataSource());
+        }
+
+        bean.setQuartzProperties(new QuartzScheduleProperties());
         bean.setOverwriteExistingJobs(true);
         AutowiringSpringBeanJobFactory factory = new AutowiringSpringBeanJobFactory();
         factory.setApplicationContext(applicationContext);

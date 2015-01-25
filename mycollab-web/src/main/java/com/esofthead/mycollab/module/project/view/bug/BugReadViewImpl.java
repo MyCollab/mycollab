@@ -97,8 +97,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	private PeopleInfoComp peopleInfoComp;
 
-	private ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls;
-
 	public BugReadViewImpl() {
 		super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
 				MyCollabResource.newResource(WebResourceIds._24_project_bug));
@@ -355,7 +353,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<>(
+		ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls = new
+				ProjectPreviewFormControlsGenerator<>(
 				previewForm);
 		final HorizontalLayout topPanel = bugPreviewFormControls
 				.createButtonControls(
@@ -398,7 +397,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		final TabsheetLazyLoadComp tabBugDetail = new TabsheetLazyLoadComp();
-		tabBugDetail.setWidth("100%");
 
 		tabBugDetail.addTab(commentList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
