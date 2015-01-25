@@ -44,7 +44,7 @@ public class CommentDisplay extends MVerticalLayout implements
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
 	private CommentType type;
-	private String typeid;
+	private String typeId;
 	private ProjectCommentInput commentBox;
 
 	public CommentDisplay(
@@ -76,13 +76,13 @@ public class CommentDisplay extends MVerticalLayout implements
 	}
 
 	private void displayCommentList() {
-		if (type == null || typeid == null) {
+		if (type == null || typeId == null) {
 			return;
 		}
 
 		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 		searchCriteria.setType(new StringSearchField(type.toString()));
-		searchCriteria.setTypeid(new StringSearchField(typeid));
+		searchCriteria.setTypeid(new StringSearchField(typeId));
 		int numComments = commentList.setSearchCriteria(searchCriteria);
 
 		Object parentComp = this.getParent();
@@ -92,10 +92,10 @@ public class CommentDisplay extends MVerticalLayout implements
 		}
 	}
 
-	public void loadComments(final String typeid) {
-		this.typeid = typeid;
+	public void loadComments(final String typeId) {
+		this.typeId = typeId;
 		if (commentBox != null) {
-			commentBox.setTypeAndId(typeid);
+			commentBox.setTypeAndId(typeId);
 		}
 		displayCommentList();
 	}

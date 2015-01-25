@@ -232,6 +232,14 @@ public class TaskGroupReadViewImpl extends
                     .getTaskname());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName);
+            if (task.isCompleted()) {
+                taskLink.setCSSClass("completed");
+            } else if (task.isOverdue()) {
+                taskLink.setCSSClass("overdue");
+            } else if (task.isPending()) {
+                taskLink.setCSSClass("pending");
+            }
+
             String uid = UUID.randomUUID().toString();
             taskLink.setId("tag" + uid);
             String arg17 = "'" + uid + "'";

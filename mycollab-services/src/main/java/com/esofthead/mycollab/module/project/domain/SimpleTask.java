@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
 import java.util.Date;
@@ -154,8 +155,8 @@ public class SimpleTask extends Task {
     }
 
     public boolean isCompleted() {
-        return OptionI18nEnum.StatusI18nEnum.Open.equals(getStatus()) && (getPercentagecomplete() != null
-                && 100d == getPercentagecomplete());
+        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() !=  null)
+                && (100d == getPercentagecomplete());
     }
 
     public boolean isPending() {
@@ -164,9 +165,8 @@ public class SimpleTask extends Task {
 
     public boolean isOverdue() {
         if (!isCompleted()) {
-            Date now = new GregorianCalendar().getTime();
-
-            return (getEnddate() != null && getEnddate().before(now));
+            Date now = DateTimeUtils.getCurrentDateWithoutMS();
+            return (getDeadline() != null && getDeadline().before(now));
         }
 
         return false;

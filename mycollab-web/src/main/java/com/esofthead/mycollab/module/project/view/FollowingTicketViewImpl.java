@@ -41,13 +41,10 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -68,15 +65,10 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	public FollowingTicketViewImpl() {
 		this.setWidth("100%");
 
-		final VerticalLayout headerWrapper = new VerticalLayout();
-		headerWrapper.setWidth("100%");
-		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
+		final MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
+				("100%").withStyleName("projectfeed-hdr-wrapper");
 
-		HorizontalLayout controlBtns = new HorizontalLayout();
-
-		final HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setSpacing(true);
+		final MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
 
 		final Image timeIcon = new Image(null,
 				MyCollabResource.newResource(WebResourceIds._24_follow));
@@ -88,13 +80,16 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(layoutHeader, 1.0f);
 
-		final VerticalLayout contentWrapper = new VerticalLayout();
-
-		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("content-wrapper");
-
 		headerWrapper.addComponent(header);
 		this.addComponent(headerWrapper);
+
+		MHorizontalLayout controlBtns = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true,
+				false, true, false)).withWidth("100%");
+
+		final MVerticalLayout contentWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
+				("100%");
+		contentWrapper.addStyleName("content-wrapper");
+
 		contentWrapper.addComponent(controlBtns);
 		this.addComponent(contentWrapper);
 
@@ -115,8 +110,6 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_back));
 
-		controlBtns.setMargin(new MarginInfo(true, false, true, false));
-		controlBtns.setWidth("100%");
 		controlBtns.addComponent(backBtn);
 		controlBtns.setExpandRatio(backBtn, 1.0f);
 

@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.common.ui.components;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
@@ -32,26 +27,18 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
  * 
@@ -64,14 +51,11 @@ public class CommentRowDisplayHandler extends
 
 	@Override
 	public Component generateRow(final SimpleComment comment, int rowIndex) {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setStyleName("message");
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		VerticalLayout userBlock = new VerticalLayout();
+		final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth
+				("100%").withStyleName("message");
+
+		MVerticalLayout userBlock = new MVerticalLayout().withSpacing(true).withMargin(false).withWidth("80px");
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		userBlock.setWidth("80px");
-		userBlock.setSpacing(true);
 		ClickListener gotoUser = new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -100,10 +84,9 @@ public class CommentRowDisplayHandler extends
 		rowLayout.setStyleName("message-container");
 		rowLayout.setWidth("100%");
 
-		HorizontalLayout messageHeader = new HorizontalLayout();
-		messageHeader.setStyleName("message-header");
+		MHorizontalLayout messageHeader = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true,
+				true, false, true)).withWidth("100%").withStyleName("message-header");
 		messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		messageHeader.setSpacing(true);
 
 		Label timePostLbl = new Label(AppContext.getMessage(
 				GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
@@ -116,8 +99,6 @@ public class CommentRowDisplayHandler extends
 		timePostLbl.setStyleName("time-post");
 		messageHeader.addComponent(timePostLbl);
 		messageHeader.setExpandRatio(timePostLbl, 1.0f);
-		messageHeader.setWidth("100%");
-		messageHeader.setMargin(new MarginInfo(true, true, false, true));
 
 		// Message delete button
 		Button msgDeleteBtn = new Button();
@@ -173,14 +154,12 @@ public class CommentRowDisplayHandler extends
 
 		List<Content> attachments = comment.getAttachments();
 		if (!CollectionUtils.isEmpty(attachments)) {
-			VerticalLayout messageFooter = new VerticalLayout();
-			messageFooter.setWidth("100%");
-			messageFooter.setStyleName("message-footer");
+			MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withMargin(true).withWidth
+					("100%").withStyleName("message-footer");
 			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
 					attachments);
 			attachmentDisplay.setWidth("100%");
 			messageFooter.addComponent(attachmentDisplay);
-			messageFooter.setMargin(true);
 			messageFooter.setComponentAlignment(attachmentDisplay,
 					Alignment.MIDDLE_RIGHT);
 			rowLayout.addComponent(messageFooter);
@@ -192,10 +171,6 @@ public class CommentRowDisplayHandler extends
 	}
 
 	private boolean hasDeletePermission(SimpleComment comment) {
-		if (AppContext.getUsername().equals(comment.getCreateduser())
-				|| AppContext.isAdmin()) {
-			return true;
-		}
-		return false;
+		return (AppContext.getUsername().equals(comment.getCreateduser()) || AppContext.isAdmin());
 	}
 }

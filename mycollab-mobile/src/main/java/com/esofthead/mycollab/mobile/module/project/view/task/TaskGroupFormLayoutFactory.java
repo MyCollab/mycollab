@@ -81,7 +81,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 					.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD), 0, 4);
 		} else if (propertyId.equals("numOpenTasks")) {
 			this.informationLayout.addComponent(field, AppContext
-					.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD), 0, 5);
+					.getMessage(TaskGroupI18nEnum.FORM_SUB_TASKS_FIELD), 0, 5);
 		}
 	}
 }

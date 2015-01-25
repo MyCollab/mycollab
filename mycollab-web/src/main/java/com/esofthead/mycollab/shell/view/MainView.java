@@ -200,7 +200,7 @@ public final class MainView extends AbstractPageView {
 
 		serviceMenu.addService(
 				AppContext.getMessage(GenericI18Enum.MODULE_CRM),
-				MyCollabResource.newResource("icons/16/customer.png"),
+				MyCollabResource.newResource(WebResourceIds._16_customer),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -213,7 +213,7 @@ public final class MainView extends AbstractPageView {
 
 		serviceMenu.addService(
 				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
-				MyCollabResource.newResource("icons/16/project.png"),
+				MyCollabResource.newResource(WebResourceIds._16_project),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -223,16 +223,13 @@ public final class MainView extends AbstractPageView {
 							EventBusFactory.getInstance()
 									.post(new ShellEvent.GotoProjectModule(
 											this, null));
-						} else {
-
 						}
-
 					}
 				});
 
 		serviceMenu.addService(
 				AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
-				MyCollabResource.newResource("icons/16/document.png"),
+				MyCollabResource.newResource(WebResourceIds._16_document),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

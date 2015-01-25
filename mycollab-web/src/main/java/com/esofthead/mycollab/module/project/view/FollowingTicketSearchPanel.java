@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -207,16 +208,16 @@ public class FollowingTicketSearchPanel extends
 
 			List<String> types = new ArrayList<>();
 			if (this.taskSelect.getValue()) {
-				types.add("Project-Task");
+				types.add(ProjectTypeConstants.TASK);
 			}
 			if (this.bugSelect.getValue()) {
-				types.add("Project-Bug");
+				types.add(ProjectTypeConstants.BUG);
 			}
 			if (this.problemSelect.getValue()) {
-				types.add("Project-Problem");
+				types.add(ProjectTypeConstants.PROBLEM);
 			}
 			if (this.riskSelect.getValue()) {
-				types.add("Project-Risk");
+				types.add(ProjectTypeConstants.RISK);
 			}
 
 			if (types.size() > 0) {

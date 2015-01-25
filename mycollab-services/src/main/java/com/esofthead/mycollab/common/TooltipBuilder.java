@@ -34,7 +34,7 @@ public class TooltipBuilder {
 		div = new Div();
 		div.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 		table = new Table();
-		table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		table.setStyle("padding-left:10px; width:550px; color: #5a5a5a; font-size:11px;");
 		div.appendChild(table);
 	}
 
@@ -59,7 +59,7 @@ public class TooltipBuilder {
 	public static class TdUtil {
 		public static Td buildCellName(String name) {
 			return new Td().setStyle(
-					"width: 100px; vertical-align: top; text-align: right;")
+					"width: 120px; vertical-align: top; text-align: right;")
 					.appendText(name + ": ");
 		}
 

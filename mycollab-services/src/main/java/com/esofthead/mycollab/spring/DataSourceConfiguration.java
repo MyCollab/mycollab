@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DataSourceConfiguration {
 
-	@Bean
+	@Bean(name = "dataSource")
 	public DataSource dataSource() {
 		JndiDataSourceLookup ds = new JndiDataSourceLookup();
 		ds.setResourceRef(true);

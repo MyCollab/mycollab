@@ -55,6 +55,7 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -90,10 +91,8 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		}
 		originalImage = ImageUtil.scaleImage(originalImage, 650, 650);
 
-		HorizontalLayout previewBox = new HorizontalLayout();
-		previewBox.setSpacing(true);
-		previewBox.setMargin(new MarginInfo(false, true, true, false));
-		previewBox.setWidth("100%");
+		MHorizontalLayout previewBox = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false,
+				true, true, false)).withWidth("100%");
 
 		Resource defaultPhoto = UserAvatarControlFactory.createAvatarResource(
 				AppContext.getUserAvatarId(), 100);

@@ -4,5 +4,15 @@
     &:visited, &:link {
         color: #006DAC;
     }
+    &.completed {
+      color: black;
+      text-decoration: line-through;
+    }
+    &.overdue {
+      color:red;
+    }
+    &.pending {
+      color: #108e2a;
+    }
   }
 }

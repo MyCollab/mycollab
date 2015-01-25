@@ -23,6 +23,7 @@ import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.SendingErrorReportEmailJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
+import com.esofthead.mycollab.spring.DataSourceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -139,6 +140,7 @@ public class DefaultScheduleConfiguration {
 
     @Bean public SchedulerFactoryBean quartzScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
+        bean.setDataSource(new DataSourceConfiguration().dataSource());
         bean.setConfigLocation(new ClassPathResource("quartz.properties"));
         bean.setOverwriteExistingJobs(true);
         AutowiringSpringBeanJobFactory factory = new AutowiringSpringBeanJobFactory();

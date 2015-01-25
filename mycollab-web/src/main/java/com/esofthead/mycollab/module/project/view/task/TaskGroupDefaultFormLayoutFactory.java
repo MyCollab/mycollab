@@ -74,7 +74,7 @@ public class TaskGroupDefaultFormLayoutFactory {
 						.fieldName(TaskList.Field.groupindex)
 						.displayName(
 								AppContext
-										.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD))
+										.getMessage(TaskGroupI18nEnum.FORM_SUB_TASKS_FIELD))
 						.fieldIndex(4).colSpan(true).build());
 
 		defaultForm.addSection(mainSection);

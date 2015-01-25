@@ -20,3 +20,8 @@
 .stickytooltip a, .v-tooltip-text a {
   vertical-align: top;
 }
+
+table {
+  table-layout:auto;
+  word-break: break-all;
+}

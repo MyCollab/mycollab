@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.GregorianCalendar;
-
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-import org.vaadin.easyuploads.MultiFileUploadExt;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -34,21 +28,17 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -60,7 +50,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 	private final RichTextArea commentArea;
 
 	private CommentType type;
-	private String typeid;
+	private String typeId;
 	private Integer extraTypeId;
 
 	ProjectCommentInput(
@@ -74,10 +64,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		this.withSpacing(true).withWidth("100%").withStyleName("message");
 
 		final SimpleUser currentUser = AppContext.getSession();
-		VerticalLayout userBlock = new VerticalLayout();
+		MVerticalLayout userBlock = new MVerticalLayout().withSpacing(true).withMargin(false).withWidth("80px");
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		userBlock.setWidth("80px");
-		userBlock.setSpacing(true);
 
 		ClickListener gotoUser = new ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -103,11 +91,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		userBlock.addComponent(userName);
 
 		this.addComponent(userBlock);
-		VerticalLayout textAreaWrap = new VerticalLayout();
-		textAreaWrap.setStyleName("message-container");
-		textAreaWrap.setWidth("100%");
-		textAreaWrap.setMargin(true);
-		textAreaWrap.setSpacing(true);
+		MVerticalLayout textAreaWrap = new MVerticalLayout().withSpacing(true).withMargin(true).withWidth("100%")
+				.withStyleName("message-container");
 		this.addComponent(textAreaWrap);
 		this.setExpandRatio(textAreaWrap, 1.0f);
 
@@ -120,9 +105,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 		final AttachmentPanel attachments = new AttachmentPanel();
 
-		final HorizontalLayout controlsLayout = new HorizontalLayout();
-		controlsLayout.setWidth("100%");
-		controlsLayout.setSpacing(true);
+		final MHorizontalLayout controlsLayout = new MHorizontalLayout().withSpacing(true).withMargin(false)
+				.withWidth("100%");
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
 		uploadExt.addComponent(attachments);
@@ -165,7 +149,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 						comment.setCreateduser(AppContext.getUsername());
 						comment.setSaccountid(AppContext.getAccountId());
 						comment.setType(type.toString());
-						comment.setTypeid("" + typeid);
+						comment.setTypeid("" + typeId);
 						comment.setExtratypeid(extraTypeId);
 
 						final CommentService commentService = ApplicationContextUtil
@@ -178,7 +162,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 								.getProjectEntityCommentAttachmentPath(typeVal,
 										AppContext.getAccountId(),
 										CurrentProjectVariables.getProjectId(),
-										typeid, commentId);
+										typeId, commentId);
 
 						if (!"".equals(attachmentPath)) {
 							attachments.saveContentsToRepo(attachmentPath);
@@ -200,7 +184,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		textAreaWrap.addComponent(controlsLayout);
 	}
 
-	void setTypeAndId(final String typeid) {
-		this.typeid = typeid;
+	void setTypeAndId(final String typeId) {
+		this.typeId = typeId;
 	}
 }

@@ -35,7 +35,7 @@ public class TooltipHelper {
 
         Div div13 = new Div().setId("div13" + uid);
         div13.setAttribute("class", "atip");
-        div13.setAttribute("style", "width:500px");
+        div13.setAttribute("style", "width:550px");
         div12.appendChild(div13);
 
         Div div14 = new Div().setId("div14" + uid);
