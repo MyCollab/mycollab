@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -275,14 +277,27 @@ public abstract class GenericServerRunner {
 
 		for (String classpath:classpaths) {
 			if(classpath.matches("\\S+/mycollab-\\S+/target/classes$")) {
+				LOG.info("Load classes in path " + classpath);
                 appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
             } else if (classpath.matches("\\S+/mycollab-\\S+.jar$")) {
 				try {
+					LOG.info("Load jar file in path " + classpath);
 					appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(new File(classpath).toURI().toURL()));
 				} catch(Exception e) {
 					LOG.error("Exception to resolve classpath: " + classpath, e);
 				}
             }
+		}
+
+		File libFolder = new File(System.getProperty("user.dir"), "lib");
+		if (libFolder.isDirectory()) {
+			File[] files = libFolder.listFiles();
+			for (File file:files) {
+				if (file.getName().matches("mycollab-\\S+.jar$")) {
+					LOG.info("Load jar file " + file.getName());
+					appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
+				}
+			}
 		}
 
 		// Register a mock DataSource scoped to the webapp
