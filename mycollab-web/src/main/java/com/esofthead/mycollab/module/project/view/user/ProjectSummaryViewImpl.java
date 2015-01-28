@@ -24,6 +24,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -38,8 +39,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 
 	@Override
 	protected void displayView() {
-		this.setMargin(new MarginInfo(true, false, false, false));
-		this.setSpacing(true);
+		withSpacing(true).withMargin(new MarginInfo(true, false, false, false));
 
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
@@ -60,16 +60,14 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		leftPanel.addComponent(activityPanel);
 		layout.addComponent(leftPanel);
 
-		final VerticalLayout rightPanel = new VerticalLayout();
-		rightPanel.setMargin(new MarginInfo(false, false, false, true));
-		rightPanel.setSpacing(true);
+		final MVerticalLayout rightPanel = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 		layout.addComponent(rightPanel);
 
 		ProjectMessageListComponent messageWidget = new ProjectMessageListComponent();
 		rightPanel.addComponent(messageWidget);
 
 		ProjectMembersWidget membersWidget = new ProjectMembersWidget();
-		ProjectTaskOverdueComponent taskOverdueWidget = new ProjectTaskOverdueComponent();
+		ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
 
 		rightPanel.addComponent(membersWidget);
 		rightPanel.addComponent(taskOverdueWidget);
@@ -77,7 +75,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		activityPanel.showProjectFeeds();
 		prjView.displayProjectInformation();
 		membersWidget.showInformation();
-		taskOverdueWidget.showOverdueTasks();
+		taskOverdueWidget.showOpenAssignments();
 		messageWidget.showLatestMessages();
 	}
 }

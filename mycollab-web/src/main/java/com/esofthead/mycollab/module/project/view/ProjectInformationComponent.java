@@ -19,15 +19,11 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
@@ -56,8 +52,6 @@ public class ProjectInformationComponent extends VerticalLayout {
 
 	private final HorizontalLayout projectInfoHeader;
 
-	private final HorizontalLayout projectInfoFooter;
-
 	public ProjectInformationComponent() {
 		this.setStyleName(UIConstants.PROJECT_INFO);
 		this.prjDisplay = new BasicProjectInformation();
@@ -70,9 +64,9 @@ public class ProjectInformationComponent extends VerticalLayout {
 		this.addComponent(this.projectInfoHeader);
 		this.addComponent(this.prjDisplay);
 
-		this.projectInfoFooter = new HorizontalLayout();
-		this.projectInfoFooter.setMargin(true);
-		this.projectInfoFooter.setStyleName(UIConstants.PROJECT_INFO_FOOTER);
+		HorizontalLayout projectInfoFooter = new HorizontalLayout();
+		projectInfoFooter.setMargin(true);
+		projectInfoFooter.setStyleName(UIConstants.PROJECT_INFO_FOOTER);
 		final Button toggleBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
 		toggleBtn.addClickListener(new Button.ClickListener() {
@@ -100,9 +94,9 @@ public class ProjectInformationComponent extends VerticalLayout {
 				ProjectInformationComponent.this.prjDisplay.show();
 			}
 		});
-		toggleBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
-		this.projectInfoFooter.addComponent(toggleBtn);
-		this.addComponent(this.projectInfoFooter);
+		toggleBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		projectInfoFooter.addComponent(toggleBtn);
+		this.addComponent(projectInfoFooter);
 	}
 
 	public void displayProjectInformation() {
@@ -111,7 +105,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 		this.projectInfoHeader.removeAllComponents();
 		this.projectInfoHeader.setSpacing(true);
 		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/dashboard.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_dashboard));
 		final Label projectName = new Label(this.project.getName());
 		projectName.setStyleName(UIConstants.PROJECT_NAME);
 		projectName.setSizeUndefined();
@@ -137,7 +131,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 		private final AdvancedPreviewBeanForm<SimpleProject> previewForm;
 
 		public BasicProjectInformation() {
-			this.previewForm = new AdvancedPreviewBeanForm<SimpleProject>();
+			this.previewForm = new AdvancedPreviewBeanForm<>();
 			this.addComponent(this.previewForm);
 		}
 
@@ -150,20 +144,26 @@ public class ProjectInformationComponent extends VerticalLayout {
 				@Override
 				public void attachField(final Object propertyId,
 						final Field<?> field) {
-					if (propertyId.equals("homepage")) {
+					if (Project.Field.homepage.equalTo(propertyId)) {
 						this.informationLayout.addComponent(field, AppContext
 								.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0,
 								0, Alignment.TOP_LEFT);
-					} else if (propertyId.equals("actualstartdate")) {
-						this.informationLayout.addComponent(
-								field,
-								AppContext
-										.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE),
-								1, 0, Alignment.TOP_LEFT);
-					} else if (propertyId.equals("description")) {
+					} else if (Project.Field.projectstatus.equalTo(propertyId)) {
+						this.informationLayout.addComponent(field, AppContext
+										.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
+								0, Alignment.TOP_LEFT);
+					} else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
+						this.informationLayout.addComponent(field, AppContext
+										.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS), 0,
+								1, Alignment.TOP_LEFT);
+					} else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
+						this.informationLayout.addComponent(field, AppContext
+										.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1,
+								1, Alignment.TOP_LEFT);
+					} else if (Project.Field.description.equalTo(propertyId)) {
 						this.informationLayout.addComponent(field, AppContext
 								.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-								0, 1, 2, "100%", Alignment.TOP_LEFT);
+								0, 2, 2, "100%", Alignment.TOP_LEFT);
 					}
 				}
 
@@ -185,12 +185,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 
 						@Override
 						protected Field<?> onCreateField(Object propertyId) {
-							if (propertyId.equals("actualstartdate")) {
-								return new DefaultViewField(
-										AppContext
-												.formatDate(ProjectInformationComponent.this.project
-														.getActualstartdate()));
-							} else if (propertyId.equals("homepage")) {
+							if (propertyId.equals("homepage")) {
 								return new UrlLinkViewField(
 										ProjectInformationComponent.this.project
 												.getHomepage());
@@ -212,7 +207,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 		private final AdvancedPreviewBeanForm<SimpleProject> previewForm;
 
 		public DetailProjectInformation() {
-			this.previewForm = new AdvancedPreviewBeanForm<SimpleProject>();
+			this.previewForm = new AdvancedPreviewBeanForm<>();
 			this.addComponent(this.previewForm);
 		}
 

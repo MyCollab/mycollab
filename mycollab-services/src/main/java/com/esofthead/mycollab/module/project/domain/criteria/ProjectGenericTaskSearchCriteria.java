@@ -17,11 +17,7 @@
 
 package com.esofthead.mycollab.module.project.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.DateSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 
 /**
  * 
@@ -31,11 +27,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static final String OPEN_STATUS = "Open";
-
-	public static final String CLOSE_STATUS = "Closed";
-
-	private NumberSearchField projectId;
+	private SetSearchField<Integer> projectIds;
 
 	private StringSearchField assignUser;
 
@@ -51,14 +43,6 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
 	public void setDueDate(DateSearchField dueDate) {
 		this.dueDate = dueDate;
-	}
-
-	public NumberSearchField getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
 	}
 
 	public StringSearchField getAssignUser() {
@@ -85,4 +69,11 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 		this.name = name;
 	}
 
+	public SetSearchField<Integer> getProjectIds() {
+		return projectIds;
+	}
+
+	public void setProjectIds(SetSearchField<Integer> projectIds) {
+		this.projectIds = projectIds;
+	}
 }

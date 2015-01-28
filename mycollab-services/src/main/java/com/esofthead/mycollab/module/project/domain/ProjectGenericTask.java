@@ -17,121 +17,137 @@
 
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectGenericTask implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String name;
+    private String name;
 
-	private String assignUser;
+    private String assignUser;
 
-	private String assignUserFullName;
+    private String assignUserFullName;
 
-	private String assignUserAvatarId;
+    private String assignUserAvatarId;
 
-	private Date dueDate;
+    private Date dueDate;
 
-	private int projectId;
+    private int projectId;
 
-	private String projectName;
+    private String projectName;
 
-	private String type;
+    private String projectShortName;
 
-	private int typeId;
+    private String type;
 
-	private Date lastUpdatedTime;
+    private int typeId;
 
-	public String getName() {
-		return name;
-	}
+    private Date lastUpdatedTime;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getAssignUser() {
-		return assignUser;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAssignUser(String assignUser) {
-		this.assignUser = assignUser;
-	}
+    public String getAssignUser() {
+        return assignUser;
+    }
 
-	public String getAssignUserFullName() {
-		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
-			String displayName = getAssignUser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
-		}
-		return assignUserFullName;
-	}
+    public void setAssignUser(String assignUser) {
+        this.assignUser = assignUser;
+    }
 
-	public void setAssignUserFullName(String assignUserFullName) {
-		this.assignUserFullName = assignUserFullName;
-	}
+    public String getAssignUserFullName() {
+        if (StringUtils.isBlank(assignUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getAssignUser());
+        }
+        return assignUserFullName;
+    }
 
-	public Date getDueDate() {
-		return dueDate;
-	}
+    public void setAssignUserFullName(String assignUserFullName) {
+        this.assignUserFullName = assignUserFullName;
+    }
 
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
-	}
+    public Date getDueDate() {
+        return dueDate;
+    }
 
-	public int getProjectId() {
-		return projectId;
-	}
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
 
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
+    public int getProjectId() {
+        return projectId;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public int getTypeId() {
-		return typeId;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
-	}
+    public int getTypeId() {
+        return typeId;
+    }
 
-	public Date getLastUpdatedTime() {
-		return lastUpdatedTime;
-	}
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
 
-	public void setLastUpdatedTime(Date lastUpdatedTime) {
-		this.lastUpdatedTime = lastUpdatedTime;
-	}
+    public Date getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
 
-	public String getAssignUserAvatarId() {
-		return assignUserAvatarId;
-	}
+    public void setLastUpdatedTime(Date lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
 
-	public void setAssignUserAvatarId(String assignUserAvatarId) {
-		this.assignUserAvatarId = assignUserAvatarId;
-	}
+    public String getAssignUserAvatarId() {
+        return assignUserAvatarId;
+    }
+
+    public void setAssignUserAvatarId(String assignUserAvatarId) {
+        this.assignUserAvatarId = assignUserAvatarId;
+    }
+
+    public boolean isOverdue() {
+        if (getDueDate() != null) {
+            Date currentDay = DateTimeUtils.getCurrentDateWithoutMS();
+            return currentDay.after(getDueDate());
+        }
+        return false;
+    }
+
+    public String getProjectShortName() {
+        return projectShortName;
+    }
+
+    public void setProjectShortName(String projectShortName) {
+        this.projectShortName = projectShortName;
+    }
 }

@@ -27,17 +27,14 @@ import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -65,12 +62,9 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 
 		@Override
 		public Component generateRow(final SimpleBug bug, final int rowIndex) {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
-			layout.setMargin(true);
+			final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(true).withWidth("100%");
 			layout.addComponent(new Image(null, MyCollabResource
-					.newResource("icons/16/project/bug.png")));
+					.newResource(WebResourceIds._16_project_bug)));
 
 			VerticalLayout rowContent = new VerticalLayout();
 			final LabelLink defectLink = new LabelLink("["

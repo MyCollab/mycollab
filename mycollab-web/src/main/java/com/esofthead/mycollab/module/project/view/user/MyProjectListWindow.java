@@ -95,10 +95,9 @@ public class MyProjectListWindow extends Window {
 				final int rowIndex) {
 			final CssLayout layout = new CssLayout();
 			layout.setWidth("100%");
-			layout.setStyleName("activity-stream");
+			layout.setStyleName("list-row");
 
 			final CssLayout header = new CssLayout();
-			header.setStyleName("stream-content");
 			header.setWidth("100%");
 
 			final HorizontalLayout projectLayout = new HorizontalLayout();

@@ -20,9 +20,11 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -37,6 +39,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDispla
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -46,6 +49,11 @@ import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.data.Property;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -57,9 +65,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -330,107 +340,149 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                 }
             } else if (Task.Field.notes.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getNotes());
+            } else if (Task.Field.parenttaskid.equalTo(propertyId)) {
+                return new SubTasksComp();
             }
-			else if (Task.Field.parenttaskid.equalTo(propertyId)) {
-				return new SubTasksComp();
-			}
             return null;
         }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-	class SubTasksComp extends CustomField {
-		private static final long serialVersionUID = 1L;
+    class SubTasksComp extends CustomField {
+        private static final long serialVersionUID = 1L;
 
-		private VerticalLayout tasksLayout;
+        private VerticalLayout tasksLayout;
 
-		SubTasksComp() {
-			tasksLayout = new MVerticalLayout().withWidth("100%");
-		}
+        @Override
+        protected Component initContent() {
+            MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
 
-		@Override
-		protected Component initContent() {
-			HorizontalLayout contentLayout = new HorizontalLayout();
-			contentLayout.addComponent(tasksLayout);
-			contentLayout.setExpandRatio(tasksLayout, 1.0f);
+            tasksLayout = new MVerticalLayout().withWidth("100%").withSpacing(true).withMargin(new MarginInfo(false,
+                    true, true, false));
+            contentLayout.addComponent(tasksLayout);
+            contentLayout.setExpandRatio(tasksLayout, 1.0f);
 
-			Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							SimpleTask task = new SimpleTask();
-							task.setTasklistid(beanItem.getTasklistid());
-							task.setParenttaskid(beanItem.getId());
-							task.setPriority(TaskPriority.Medium.name());
-							EventBusFactory.getInstance().post(
-									new TaskEvent.GotoAdd(
-											TaskReadViewImpl.this, task));
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            SimpleTask task = new SimpleTask();
+                            task.setTasklistid(beanItem.getTasklistid());
+                            task.setParenttaskid(beanItem.getId());
+                            task.setPriority(TaskPriority.Medium.name());
+                            EventBusFactory.getInstance().post(
+                                    new TaskEvent.GotoAdd(
+                                            TaskReadViewImpl.this, task));
 
-						}
-					});
-			addNewTaskBtn.setStyleName("link");
-			contentLayout.addComponent(addNewTaskBtn);
+                        }
+                    });
+            addNewTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            addNewTaskBtn.setIcon(MyCollabResource
+                    .newResource(WebResourceIds._16_addRecord));
+            addNewTaskBtn.setEnabled(CurrentProjectVariables
+                    .canWrite(ProjectRolePermissionCollections.TASKS));
 
-			ProjectTaskService taskService = ApplicationContextUtil
-					.getSpringBean(ProjectTaskService.class);
-			List<SimpleTask> subTasks = taskService.findSubTasks(
-					beanItem.getId(), AppContext.getAccountId());
-			if (CollectionUtils.isNotEmpty(subTasks)) {
-				for (SimpleTask subTask : subTasks) {
-					tasksLayout.addComponent(generateSubTaskContent(subTask));
-				}
-			}
-			return contentLayout;
-		}
+            contentLayout.addComponent(addNewTaskBtn);
 
-		@Override
-		public Class getType() {
-			return Object.class;
-		}
+            ProjectTaskService taskService = ApplicationContextUtil
+                    .getSpringBean(ProjectTaskService.class);
+            List<SimpleTask> subTasks = taskService.findSubTasks(
+                    beanItem.getId(), AppContext.getAccountId());
+            if (CollectionUtils.isNotEmpty(subTasks)) {
+                for (SimpleTask subTask : subTasks) {
+                    tasksLayout.addComponent(generateSubTaskContent(subTask));
+                }
+            }
+            return contentLayout;
+        }
 
-		private HorizontalLayout generateSubTaskContent(SimpleTask subTask) {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setSpacing(true);
+        @Override
+        public Class getType() {
+            return Object.class;
+        }
 
-			CheckBox checkBox = new CheckBox();
-			if (StatusI18nEnum.Closed.name().equals(subTask.getStatus())) {
-				checkBox.setValue(true);
-			}
+        private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
+            MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(false);
 
-			checkBox.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.TASKS));
+            final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
+            checkBox.setEnabled(CurrentProjectVariables
+                    .canWrite(ProjectRolePermissionCollections.TASKS));
+            layout.addComponent(checkBox);
 
-			layout.addComponent(checkBox);
+            final Label taskLink = new Label(buildTaskLink(subTask), ContentMode.HTML);
+            taskLink.addStyleName("wordWrap");
+            layout.addComponent(taskLink);
+            layout.setExpandRatio(taskLink, 1.0f);
 
-			Image assigneeRes = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(
-							subTask.getAssignUserAvatarId(), 16,
-							subTask.getAssignUserFullName());
-			layout.addComponent(assigneeRes);
+            checkBox.addValueChangeListener(new ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    Boolean selectedFlag = checkBox.getValue();
+                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    if (selectedFlag) {
+                        subTask.setStatus(StatusI18nEnum.Closed.name());
+                        subTask.setPercentagecomplete(100d);
+                    } else {
+                        subTask.setStatus(StatusI18nEnum.Open.name());
+                        subTask.setPercentagecomplete(0d);
+                    }
+                    taskService.updateSelectiveWithSession(subTask, AppContext.getUsername());
+                    taskLink.setValue(buildTaskLink(subTask));
+                }
+            });
+            return layout;
+        }
 
-			String taskHtmlLink = String.format(
-					"<a href=\"%s\">[%s-%d] %s</a>", ProjectLinkGenerator
-							.generateTaskPreviewFullLink(
-									AppContext.getSiteUrl(),
-									subTask.getTaskkey(),
-									CurrentProjectVariables.getShortName()),
-					CurrentProjectVariables.getShortName(), subTask
-							.getTaskkey(), subTask.getTaskname());
+        private String buildTaskLink(SimpleTask subTask) {
+            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), subTask.getTaskkey(), subTask
+                    .getTaskname());
+            A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
+                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+            if (subTask.isCompleted()) {
+                taskLink.setCSSClass("completed");
+            } else if (subTask.isOverdue()) {
+                taskLink.setCSSClass("overdue");
+            } else if (subTask.isPending()) {
+                taskLink.setCSSClass("pending");
+            }
 
-			Label taskLink = new Label(taskHtmlLink, ContentMode.HTML);
-			layout.addComponent(taskLink);
-			layout.setExpandRatio(taskLink, 1.0f);
+            String uid = UUID.randomUUID().toString();
+            taskLink.setId("tag" + uid);
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + ProjectTypeConstants.TASK + "'";
+            String arg19 = "'" + subTask.getId() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + AppContext.getAccountId() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
 
-			if (subTask.getDeadline() != null) {
-				layout.addComponent(new Label(AppContext.formatDate(subTask
-						.getDeadline())));
-			}
-			return layout;
-		}
+            String mouseOverFunc = String.format(
+                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                    arg20, arg21, arg22, arg23, arg24);
+            taskLink.setAttribute("onmouseover", mouseOverFunc);
 
-	}
+            String avatarLink = StorageManager.getAvatarLink(subTask.getAssignUserAvatarId(), 16);
+            Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
+
+            if (subTask.getDeadline() != null) {
+                Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
+                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatDate(subTask.getDeadline()))))
+                        .setStyle("color:gray; display:inline");
+
+                return new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, deadline,
+                        DivLessFormatter.EMPTY_SPACE(),
+                        TooltipHelper.buildDivTooltipEnable(uid)).write();
+            } else {
+                return new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter
+                                .EMPTY_SPACE(),
+                        TooltipHelper.buildDivTooltipEnable(uid)).write();
+            }
+        }
+
+    }
 
     class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;

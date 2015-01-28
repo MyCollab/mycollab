@@ -43,6 +43,7 @@ public class SimpleTask extends Task {
     private String comment;
     private String parentTaskName;
     private int parentTaskKey;
+    private int numSubTasks;
 
     public int getNumComments() {
         return numComments;
@@ -170,6 +171,14 @@ public class SimpleTask extends Task {
         }
 
         return false;
+    }
+
+    public int getNumSubTasks() {
+        return numSubTasks;
+    }
+
+    public void setNumSubTasks(int numSubTasks) {
+        this.numSubTasks = numSubTasks;
     }
 
     public static enum Field {

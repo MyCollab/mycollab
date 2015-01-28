@@ -55,7 +55,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 		this.module = module;
 		this.type = type;
 
-		logTable = new BeanList<AuditLogService, AuditLogSearchCriteria, SimpleAuditLog>(
+		logTable = new BeanList<>(
 				this,
 				ApplicationContextUtil.getSpringBean(AuditLogService.class),
 				HistoryLogRowDisplay.class);
@@ -95,7 +95,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 			if (CollectionUtils.isNotEmpty(changeItems)) {
 				CssLayout layout = new CssLayout();
 				layout.setWidth("100%");
-				layout.setStyleName("activity-stream");
+				layout.setStyleName("list-row");
 
 				GridLayout gridLayout = new GridLayout(3,
 						changeItems.size() + 2);

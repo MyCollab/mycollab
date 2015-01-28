@@ -31,16 +31,18 @@ import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -48,25 +50,27 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-public class ProjectMessageListComponent extends Depot {
+public class ProjectMessageListComponent extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
 
 	public ProjectMessageListComponent() {
-		super(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS),
-				new VerticalLayout());
+		withSpacing(false).withMargin(false);
+
+		Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS));
+		MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
+				false, true)).withHeight("40px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment
+				.MIDDLE_LEFT);
+		header.addStyleName("header");
 
 		messageList = new DefaultBeanPagedList<>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),
 				new MessageRowDisplayHandler(), 5);
-		addStyleName("activity-panel");
-		((VerticalLayout) bodyContent).setMargin(false);
+		this.with(header, messageList);
 	}
 
 	public void showLatestMessages() {
-		bodyContent.removeAllComponents();
-		bodyContent.addComponent(messageList);
 		final MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
 		searchCriteria.setProjectids(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
@@ -82,14 +86,13 @@ public class ProjectMessageListComponent extends Depot {
 				final int rowIndex) {
 			final CssLayout layout = new CssLayout();
 			layout.setWidth("100%");
-			layout.setStyleName("activity-stream");
+			layout.setStyleName("list-row");
 
 			if ((rowIndex + 1) % 2 != 0) {
 				layout.addStyleName("odd");
 			}
 
 			final CssLayout header = new CssLayout();
-			header.setStyleName("stream-content");
 
 			final String content = AppContext.getMessage(
 					ProjectCommonI18nEnum.FEED_PROJECT_MESSAGE_TITLE,

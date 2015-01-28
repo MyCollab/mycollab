@@ -54,6 +54,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -63,7 +64,6 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 class ReOpenWindow extends Window {
 	private final SimpleBug bug;
-	private final EditForm editForm;
 	private VersionMultiSelectField fixedVersionSelect;
 	private final IBugCallbackStatusComp callbackForm;
 
@@ -74,13 +74,12 @@ class ReOpenWindow extends Window {
 		this.bug = bug;
 		this.callbackForm = callbackForm;
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		this.setWidth("750px");
-		this.editForm = new EditForm();
-		this.editForm.setBean(bug);
+		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
+				false, true, false)).withWidth("750px");
 
-		contentLayout.addComponent(this.editForm);
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+		EditForm editForm = new EditForm();
+		editForm.setBean(bug);
+		contentLayout.addComponent(editForm);
 
 		this.setContent(contentLayout);
 
@@ -120,20 +119,6 @@ class ReOpenWindow extends Window {
 				controlsBtn.setSpacing(true);
 				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
-
-				final Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								ReOpenWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				final Button wonFixBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
@@ -199,6 +184,20 @@ class ReOpenWindow extends Window {
 				controlsBtn.addComponent(wonFixBtn);
 				controlsBtn.setComponentAlignment(wonFixBtn,
 						Alignment.MIDDLE_RIGHT);
+
+				final Button cancelBtn = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						new Button.ClickListener() {
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								ReOpenWindow.this.close();
+							}
+						});
+				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+				controlsBtn.addComponent(cancelBtn);
+				controlsBtn.setComponentAlignment(cancelBtn,
+						Alignment.MIDDLE_LEFT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

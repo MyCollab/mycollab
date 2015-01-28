@@ -76,6 +76,7 @@ class WontFixExplainWindow extends Window {
 
 		VerticalLayout contentLayout = new VerticalLayout();
 		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+
 		EditForm editForm = new EditForm();
 		contentLayout.addComponent(editForm);
 		editForm.setBean(bug);
@@ -116,19 +117,6 @@ class WontFixExplainWindow extends Window {
 				controlsBtn.setSpacing(true);
 				controlsBtn.setMargin(new MarginInfo(true, true, false, false));
 				layout.addComponent(controlsBtn);
-
-				final Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								WontFixExplainWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				final Button wonFixBtn = new Button(
 						AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX),
@@ -173,7 +161,7 @@ class WontFixExplainWindow extends Window {
 												.toString());
 										comment.setTypeid(""
 												+ WontFixExplainWindow.this.bug
-														.getId());
+												.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -200,6 +188,19 @@ class WontFixExplainWindow extends Window {
 				controlsBtn.addComponent(wonFixBtn);
 				controlsBtn.setComponentAlignment(wonFixBtn,
 						Alignment.MIDDLE_RIGHT);
+
+				final Button cancelBtn = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						new Button.ClickListener() {
+							@Override
+							public void buttonClick(final ClickEvent event) {
+								WontFixExplainWindow.this.close();
+							}
+						});
+				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+				controlsBtn.addComponent(cancelBtn);
+				controlsBtn.setComponentAlignment(cancelBtn,
+						Alignment.MIDDLE_LEFT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

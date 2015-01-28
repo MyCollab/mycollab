@@ -222,47 +222,47 @@ public class ProjectLinkBuilder {
 	}
 
 	public static String generateProjectItemLink(String prjShortName,
-			Integer projectId, String type, String typeid) {
+			Integer projectId, String type, String typeId) {
 		String result = "";
 
 		try {
 			if (ProjectTypeConstants.PROJECT.equals(type)) {
 			} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
 				result = ProjectLinkGenerator.generateMessagePreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
 				result = ProjectLinkGenerator.generateMilestonePreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
 				result = ProjectLinkGenerator.generateProblemPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.RISK.equals(type)) {
 				result = ProjectLinkGenerator.generateRiskPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.TASK.equals(type)) {
 				result = ProjectLinkGenerator.generateTaskPreviewLink(
-						Integer.parseInt(typeid), prjShortName);
+						Integer.parseInt(typeId), prjShortName);
 			} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
 				result = ProjectLinkGenerator.generateTaskGroupPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.BUG.equals(type)) {
 				result = ProjectLinkGenerator.generateBugPreviewLink(
-						Integer.parseInt(typeid), prjShortName);
+						Integer.parseInt(typeId), prjShortName);
 			} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
 				result = ProjectLinkGenerator.generateBugComponentPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
 				result = ProjectLinkGenerator.generateBugVersionPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
 				result = ProjectLinkGenerator.generateStandUpPreviewLink(
-						projectId, Integer.parseInt(typeid));
+						projectId, Integer.parseInt(typeId));
 			} else if (ProjectTypeConstants.PAGE.equals(type)) {
 				result = ProjectLinkGenerator.generatePageRead(projectId,
-						typeid);
+						typeId);
 			}
 		} catch (Exception e) {
-			LOG.error("Error while generate link {} {} {} {}", prjShortName, projectId, type, typeid);
+			LOG.error("Error while generate link {} {} {} {}", prjShortName, projectId, type, typeId);
 		}
 
 		return "#" + result;

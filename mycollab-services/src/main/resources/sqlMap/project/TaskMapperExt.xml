@@ -21,6 +21,8 @@
             jdbcType="VARCHAR" />
         <result column="logByFullName" property="logByFullName"
             jdbcType="VARCHAR" />
+        <result column="numSubTasks" property="numSubTasks"
+                jdbcType="INTEGER" />
     </resultMap>
 
     <sql id="querySearchCriteria">

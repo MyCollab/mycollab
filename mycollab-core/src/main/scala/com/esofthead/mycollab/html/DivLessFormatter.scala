@@ -37,5 +37,5 @@ class DivLessFormatter extends Div {
 }
 
 object DivLessFormatter {
-  val EMPTY_SPACE = new Text(" ")
+  val EMPTY_SPACE = new Text("&nbsp;")
 }

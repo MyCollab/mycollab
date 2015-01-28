@@ -85,7 +85,8 @@
                     m_prj_task.deadline AS subTask_deadline, m_prj_task.notes AS subTask_notes, m_prj_task.taskindex AS subTask_taskindex, 
                     m_prj_task.actualStartDate AS subTask_actualStartDate, m_prj_task.actualEndDate AS subTask_actualEndDate, m_prj_task.originalEstimate AS subTask_originalEstimate, 
                     m_prj_task.remainEstimate AS subTask_remainEstimate, m_prj_task.tasklistid AS subTask_tasklistid, 
-                    m_prj_task.createdTime AS subTask_createdTime, m_prj_task.lastUpdatedTime AS subTask_lastUpdatedTime, 
+                    m_prj_task.createdTime AS subTask_createdTime, m_prj_task.lastUpdatedTime AS subTask_lastUpdatedTime,
+                    (SELECT COUNT(*) FROM m_prj_task AS subtask_tbl WHERE subtask_tbl.parentTaskId = m_prj_task.id) AS subTask_numSubTasks,
                     m_prj_task.assignUser AS subTask_assignUser, m_prj_task.sAccountId AS subTask_sAccountId, m_prj_task.status AS subTask_status,
                     m_prj_task.taskkey AS subTask_taskkey, taskUser.avatarId AS subTask_assignUserAvatarId, m_prj_project.shortname AS subTask_projectShortname,
                     concat(taskUser.firstname, ' ', LTRIM(concat(IFNULL(taskUser.middlename, ''), ' ')), taskUser.lastname) AS subTask_assignUserFullName,
@@ -98,7 +99,7 @@
                         LEFT OUTER JOIN s_user AS createUserTbl ON (createUserTbl.username = m_prj_task_list.createduser)
                         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=m_prj_task_list.projectid)
                         LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task_list.milestoneId)
-                        LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND m_prj_task.status='Open')
+                        LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND m_prj_task.status='Open' AND m_prj_task.parentTaskId IS NULL)
                         LEFT OUTER JOIN s_user AS taskUser ON (taskUser.username = m_prj_task.assignUser)
         ]]>
     </sql>

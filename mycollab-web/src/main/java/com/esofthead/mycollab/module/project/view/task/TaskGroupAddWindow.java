@@ -17,9 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -34,25 +33,13 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -134,15 +121,13 @@ public class TaskGroupAddWindow extends Window {
 				final Layout bottomPanel = this.createBottomPanel();
 				taskListAddLayout.addComponent(bottomPanel);
 				taskListAddLayout.setComponentAlignment(bottomPanel,
-						Alignment.MIDDLE_CENTER);
+						Alignment.MIDDLE_RIGHT);
 				return taskListAddLayout;
 			}
 
 			private Layout createBottomPanel() {
-				final HorizontalLayout layout = new HorizontalLayout();
-				layout.setSpacing(true);
-				layout.setMargin(true);
-				layout.setStyleName("control-buttons");
+				final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(true);
+
 				final Button saveBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 						new Button.ClickListener() {
@@ -212,7 +197,7 @@ public class TaskGroupAddWindow extends Window {
 						.getUsername());
 				TaskGroupAddWindow.this.taskList
 						.setCreatedtime(new GregorianCalendar().getTime());
-				TaskGroupAddWindow.this.taskList.setStatus("Open");
+				TaskGroupAddWindow.this.taskList.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
 				TaskGroupAddWindow.this.taskList
 						.setProjectid(CurrentProjectVariables.getProjectId());
 

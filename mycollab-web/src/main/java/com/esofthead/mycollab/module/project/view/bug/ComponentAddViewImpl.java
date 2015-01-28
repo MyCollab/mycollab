@@ -27,18 +27,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 
 /**
@@ -72,14 +65,12 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<Component>(
-				editForm)).createButtonControls();
-		return controlButtons;
+		return (new EditFormControlsGenerator<>(editForm)).createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<Component> initPreviewForm() {
-		return new AdvancedEditBeanForm<Component>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -120,8 +111,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 			} else if (Component.Field.description.equalTo(propertyId)) {
 				return new RichTextEditField();
 			} else if (Component.Field.userlead.equalTo(propertyId)) {
-				final ProjectMemberSelectionField userBox = new ProjectMemberSelectionField();
-				return userBox;
+				return new ProjectMemberSelectionField();
 			}
 
 			return null;

@@ -117,7 +117,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private RowDisplayHandler<T> constructRowDisplayHandler() {
-		RowDisplayHandler<T> rowHandler = null;
+		RowDisplayHandler<T> rowHandler;
 		try {
 
 			if (rowDisplayHandler.getEnclosingClass() != null
@@ -139,7 +139,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	}
 
 	public int setSearchCriteria(S searchCriteria) {
-		SearchRequest<S> searchRequest = new SearchRequest<S>(searchCriteria,
+		SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria,
 				0, Integer.MAX_VALUE);
 		return setSearchRequest(searchRequest);
 	}

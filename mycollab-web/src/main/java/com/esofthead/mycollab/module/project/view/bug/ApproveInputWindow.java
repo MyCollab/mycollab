@@ -103,22 +103,6 @@ class ApproveInputWindow extends Window {
 				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
-				final Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								ApproveInputWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
-
 				final Button approveBtn = new Button("Approve & Close",
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -157,7 +141,7 @@ class ApproveInputWindow extends Window {
 												.toString());
 										comment.setTypeid(""
 												+ ApproveInputWindow.this.bug
-														.getId());
+												.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -177,6 +161,23 @@ class ApproveInputWindow extends Window {
 				controlsBtn.addComponent(approveBtn);
 				controlsBtn.setComponentAlignment(approveBtn,
 						Alignment.MIDDLE_RIGHT);
+
+				final Button cancelBtn = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								ApproveInputWindow.this.close();
+							}
+						});
+				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+				controlsBtn.addComponent(cancelBtn);
+				controlsBtn.setComponentAlignment(cancelBtn,
+						Alignment.MIDDLE_LEFT);
+
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);
 

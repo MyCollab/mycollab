@@ -69,8 +69,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 	protected void displayView() {
 		this.removeAllComponents();
 
-		this.setSpacing(true);
-		this.setWidth("100%");
+		this.withSpacing(true).withMargin(false).withWidth("100%");
 
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
@@ -180,7 +179,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		final MVerticalLayout leftPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
 				true, false, false)).withWidth("100%").with(activityStreamComponent);
 
-		final VerticalLayout rightPanel = new VerticalLayout();
+		final MVerticalLayout rightPanel = new MVerticalLayout().withSpacing(true).withMargin(false);
 		MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
 		TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
 		rightPanel.setWidth("565px");
@@ -207,7 +206,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			displayFollowingTicketsCount();
 		}
 
-		taskStatusComponent.showProjectTasksByStatus();
+		taskStatusComponent.showProjectTasksByStatus(prjKeys);
 
 	}
 

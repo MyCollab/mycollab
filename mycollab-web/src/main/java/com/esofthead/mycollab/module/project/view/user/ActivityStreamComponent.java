@@ -287,6 +287,21 @@ public class ActivityStreamComponent extends CssLayout {
             A prjLink = new A(
                     ProjectLinkBuilder.generateProjectFullLink(activityStream
                             .getProjectId()));
+            prjLink.setId("tag" + uid);
+
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + ProjectTypeConstants.PROJECT + "'";
+            String arg19 = "'" + activityStream.getProjectId() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + activityStream.getSaccountid() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+            String mouseOverFunc = String.format(
+                    "return projectOverViewOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
+                    arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
+            prjLink.setAttribute("onmouseover", mouseOverFunc);
             prjLink.appendText(activityStream.getProjectName());
 
             div.appendChild(prjImg, DivLessFormatter.EMPTY_SPACE(), prjLink, DivLessFormatter.EMPTY_SPACE(),

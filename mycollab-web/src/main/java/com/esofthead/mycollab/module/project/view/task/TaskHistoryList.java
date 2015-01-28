@@ -73,7 +73,6 @@ public class TaskHistoryList extends HistoryLogComponent {
 
 	public TaskHistoryList() {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
-		this.addStyleName("activity-panel");
 	}
 
 	@Override

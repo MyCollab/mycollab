@@ -93,13 +93,11 @@ public class ProjectActivityStreamPagedList
         final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
                 .getProjectActivityStreams(this.searchRequest);
         this.listContainer.removeAllComponents();
-
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
         CssLayout currentFeedBlock = new CssLayout();
 
         try {
-
             for (final ProjectActivityStream activityStream : currentListData) {
                 if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
                     ProjectPageService pageService = ApplicationContextUtil

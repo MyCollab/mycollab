@@ -14,3 +14,7 @@ mycollab-web/src/main/resources/VAADIN/themes/mycollab/_nottheme.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/_shared.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/_variables.scss
 mycollab-web/src/main/resources/VAADIN/themes/mycollab/styles.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_crm.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_document.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_project.scss
+mycollab-web/src/main/resources/VAADIN/themes/mycollab/components/_tooltip.scss

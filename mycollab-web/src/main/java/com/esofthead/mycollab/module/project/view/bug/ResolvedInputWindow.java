@@ -115,24 +115,8 @@ class ResolvedInputWindow extends Window {
 
 				final HorizontalLayout controlsBtn = new HorizontalLayout();
 				controlsBtn.setSpacing(true);
+				controlsBtn.setMargin(true);
 				layout.addComponent(controlsBtn);
-
-				final Button cancelBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								ResolvedInputWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				final Button wonFixBtn = new Button(
 						AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
@@ -180,7 +164,7 @@ class ResolvedInputWindow extends Window {
 												.toString());
 										comment.setTypeid(""
 												+ ResolvedInputWindow.this.bug
-														.getId());
+												.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -201,7 +185,23 @@ class ResolvedInputWindow extends Window {
 				controlsBtn.addComponent(wonFixBtn);
 				controlsBtn.setComponentAlignment(wonFixBtn,
 						Alignment.MIDDLE_RIGHT);
-				controlsBtn.setMargin(true);
+
+				final Button cancelBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								ResolvedInputWindow.this.close();
+							}
+						});
+				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+				controlsBtn.addComponent(cancelBtn);
+				controlsBtn.setComponentAlignment(cancelBtn,
+						Alignment.MIDDLE_LEFT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

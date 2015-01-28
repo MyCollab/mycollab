@@ -62,6 +62,7 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.GregorianCalendar;
 
@@ -76,7 +77,6 @@ import java.util.GregorianCalendar;
 public class ProjectViewImpl extends AbstractCssPageView implements ProjectView {
 
 	private ProjectVerticalTabsheet myProjectTab;
-	private HorizontalLayout topPanel;
 	private ProjectDashboardPresenter dashboardPresenter;
 	private MessagePresenter messagePresenter;
 	private MilestonePresenter milestonesPresenter;
@@ -102,10 +102,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
-		topPanel = new HorizontalLayout();
-		topPanel.setWidth("100%");
-		topPanel.setMargin(true);
-		topPanel.setStyleName("top-panel");
+		MHorizontalLayout topPanel = new MHorizontalLayout().withSpacing(false).withMargin(true).withWidth("100%")
+				.withStyleName("top-panel");
 
 		myProjectTab = new ProjectVerticalTabsheet();
 		myProjectTab.setSizeFull();

@@ -97,7 +97,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	private List<TableViewField> displayColumns;
 	private List<TableViewField> defaultSelectedColumns;
 
-	protected final Map<Object, ColumnGenerator> columnGenerators = new HashMap<Object, Table.ColumnGenerator>();
+	protected final Map<Object, ColumnGenerator> columnGenerators = new HashMap<>();
 
 	public AbstractPagedBeanTable(Class<B> type,
 			List<TableViewField> displayColumns) {
@@ -151,8 +151,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	}
 
 	private void displayTableColumns() {
-		List<String> visibleColumnsCol = new ArrayList<String>();
-		List<String> columnHeadersCol = new ArrayList<String>();
+		List<String> visibleColumnsCol = new ArrayList<>();
+		List<String> columnHeadersCol = new ArrayList<>();
 
 		if (requiredColumn != null) {
 			visibleColumnsCol.add(requiredColumn.getField());
@@ -175,8 +175,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			}
 		}
 
-		String[] visibleColumns = visibleColumnsCol.toArray(new String[0]);
-		String[] columnHeaders = columnHeadersCol.toArray(new String[0]);
+		String[] visibleColumns = visibleColumnsCol.toArray(new String[visibleColumnsCol.size()]);
+		String[] columnHeaders = columnHeadersCol.toArray(new String[columnHeadersCol.size()]);
 
 		this.tableItem.setVisibleColumns(visibleColumns);
 		this.tableItem.setColumnHeaders(columnHeaders);
@@ -185,7 +185,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	@Override
 	public void addSelectableItemHandler(final SelectableItemHandler<B> handler) {
 		if (this.selectableHandlers == null) {
-			this.selectableHandlers = new HashSet<SelectableItemHandler<B>>();
+			this.selectableHandlers = new HashSet<>();
 		}
 		this.selectableHandlers.add(handler);
 	}
@@ -203,7 +203,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	@Override
 	public void addPagableHandler(final PagableHandler handler) {
 		if (this.pagableHandlers == null) {
-			this.pagableHandlers = new HashSet<PagableHandler>();
+			this.pagableHandlers = new HashSet<>();
 		}
 		this.pagableHandlers.add(handler);
 
@@ -239,7 +239,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 
 	@Override
 	public void setSearchCriteria(final S searchCriteria) {
-		this.searchRequest = new SearchRequest<S>(searchCriteria,
+		this.searchRequest = new SearchRequest<>(searchCriteria,
 				this.currentPage, this.displayNumItems);
 		this.doSearch();
 	}
@@ -502,7 +502,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			}
 		});
 
-		final BeanItemContainer<B> container = new BeanItemContainer<B>(
+		final BeanItemContainer<B> container = new BeanItemContainer<>(
 				this.type, this.currentListData);
 		this.tableItem.setPageLength(0);
 		this.tableItem.setContainerDataSource(container);

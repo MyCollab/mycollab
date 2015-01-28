@@ -48,6 +48,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -67,8 +69,7 @@ public class ProjectAddWindow extends Window {
 		this.setResizable(false);
 		this.setModal(true);
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
 		this.setContent(contentLayout);
 
 		this.project = new Project();
@@ -141,10 +142,7 @@ public class ProjectAddWindow extends Window {
 
 			projectAddLayout.addComponent(this.informationLayout.getLayout());
 
-			final HorizontalLayout buttonControls = new HorizontalLayout();
-			buttonControls.setSpacing(true);
-			buttonControls.setMargin(true);
-			buttonControls.setStyleName("addNewControl");
+			final MHorizontalLayout buttonControls = new MHorizontalLayout().withSpacing(true).withMargin(true).withStyleName("addNewControl");
 
 			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
@@ -178,7 +176,7 @@ public class ProjectAddWindow extends Window {
 			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 			buttonControls.addComponent(saveBtn);
 			buttonControls.setComponentAlignment(saveBtn,
-					Alignment.MIDDLE_CENTER);
+					Alignment.MIDDLE_RIGHT);
 
 			final Button closeBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
@@ -191,14 +189,14 @@ public class ProjectAddWindow extends Window {
 						}
 
 					});
-			closeBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			buttonControls.addComponent(closeBtn);
 			buttonControls.setComponentAlignment(closeBtn,
-					Alignment.MIDDLE_CENTER);
+					Alignment.MIDDLE_RIGHT);
 
 			projectAddLayout.addComponent(buttonControls);
 			projectAddLayout.setComponentAlignment(buttonControls,
-					Alignment.MIDDLE_CENTER);
+					Alignment.MIDDLE_RIGHT);
 			return projectAddLayout;
 		}
 

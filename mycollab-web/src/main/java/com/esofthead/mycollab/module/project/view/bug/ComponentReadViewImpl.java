@@ -75,7 +75,6 @@ public class ComponentReadViewImpl extends
     private CommentDisplay commentDisplay;
     private ComponentHistoryLogList historyLogList;
     private Button quickActionStatusBtn;
-    private ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm;
 
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
@@ -180,7 +179,8 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected ComponentContainer createButtonControls() {
-        componentPreviewForm = new ProjectPreviewFormControlsGenerator<>(
+        ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new
+                ProjectPreviewFormControlsGenerator<>(
                 previewForm);
         final HorizontalLayout topPanel = componentPreviewForm
                 .createButtonControls(ProjectRolePermissionCollections.COMPONENTS);

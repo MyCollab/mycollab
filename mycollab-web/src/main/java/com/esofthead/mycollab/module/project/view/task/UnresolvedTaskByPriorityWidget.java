@@ -98,7 +98,6 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 						priorityLayout.setExpandRatio(indicator, 1.0f);
 
 						this.bodyContent.addComponent(priorityLayout);
-						continue;
 					}
 				}
 
@@ -135,7 +134,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 		@Override
 		public void buttonClick(final ClickEvent event) {
 			final String key = ((ButtonI18nComp) event.getButton()).getKey();
-			searchCriteria.setPriorities(new SetSearchField<String>(
+			searchCriteria.setPriorities(new SetSearchField<>(
 					new String[] { key }));
 			TaskFilterParameter filterParam = new TaskFilterParameter(
 					searchCriteria, "Task Filter by Priority: " + key);

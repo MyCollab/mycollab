@@ -20,123 +20,125 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.UUID;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMembersWidget extends Depot {
-	private static final long serialVersionUID = 1L;
+public class ProjectMembersWidget extends MVerticalLayout {
+    private static final long serialVersionUID = 1L;
 
-	private BeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
+    private Label titleLbl;
+    private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
 
-	public ProjectMembersWidget() {
-		super(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE),
-				new VerticalLayout());
-		this.addStyleName("project-member-widget");
+    public ProjectMembersWidget() {
+        withSpacing(false).withMargin(false);
 
-		memberList = new BeanList<>(
-				ApplicationContextUtil
-						.getSpringBean(ProjectMemberService.class),
-				MemberRowDisplayHandler.class);
-		this.addStyleName("activity-panel");
-		((VerticalLayout) this.bodyContent).setMargin(false);
-	}
+        titleLbl = new Label();
+        MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
+                false, true)).withHeight("40px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment.MIDDLE_CENTER);
+        header.addStyleName("header");
 
-	public void showInformation() {
-		this.bodyContent.removeAllComponents();
-		this.bodyContent.addComponent(memberList);
-		ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
-		searchCriteria.setProjectId(new NumberSearchField(
-				CurrentProjectVariables.getProjectId()));
-		searchCriteria.setStatus(new StringSearchField(
-				ProjectMemberStatusConstants.ACTIVE));
-		memberList.setSearchCriteria(searchCriteria);
-	}
+        memberList = new DefaultBeanPagedList<>(
+                ApplicationContextUtil
+                        .getSpringBean(ProjectMemberService.class),
+                new MemberRowDisplayHandler());
+        this.with(header, memberList);
+    }
 
-	public static class MemberRowDisplayHandler extends
-			BeanList.RowDisplayHandler<SimpleProjectMember> {
-		private static final long serialVersionUID = 1L;
+    public void showInformation() {
+        ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
+        searchCriteria.setProjectId(new NumberSearchField(
+                CurrentProjectVariables.getProjectId()));
+        searchCriteria.setStatus(new StringSearchField(
+                ProjectMemberStatusConstants.ACTIVE));
+        memberList.setSearchCriteria(searchCriteria);
+        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_MEMBERS_TITLE, memberList.getTotalCount()));
+    }
 
-		@Override
-		public Component generateRow(final SimpleProjectMember member,
-				int rowIndex) {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
-			layout.setStyleName("activity-stream");
-			layout.addStyleName("odd");
-			layout.addComponent(new Image(null, UserAvatarControlFactory
-					.createAvatarResource(member.getMemberAvatarId(), 48)));
+    public static class MemberRowDisplayHandler implements
+            AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
 
-			VerticalLayout content = new VerticalLayout();
-			content.setStyleName("stream-content");
-			Button userLink = new Button(member.getDisplayName(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        @Override
+        public Component generateRow(final SimpleProjectMember member,
+                                     int rowIndex) {
+            HorizontalLayout layout = new HorizontalLayout();
+            layout.setWidth("100%");
+            layout.setSpacing(true);
+            layout.setStyleName("list-row");
+            layout.addStyleName("odd");
+            layout.addComponent(new Image(null, UserAvatarControlFactory
+                    .createAvatarResource(member.getMemberAvatarId(), 48)));
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBusFactory.getInstance().post(
-									new ProjectMemberEvent.GotoRead(this,
-											member.getUsername()));
-						}
-					});
-			userLink.addStyleName("link");
-			userLink.addStyleName("username");
-			content.addComponent(userLink);
-			layout.addComponent(content);
-			layout.setExpandRatio(content, 1.0f);
+            VerticalLayout content = new VerticalLayout();
+            content.addComponent(new Label(buildAssigneeValue(member), ContentMode.HTML));
+            layout.addComponent(content);
+            layout.setExpandRatio(content, 1.0f);
 
-			CssLayout footer = new CssLayout();
-			footer.setStyleName("activity-date");
+            CssLayout footer = new CssLayout();
+            footer.setStyleName("activity-date");
 
-			Label memberRole = new Label();
-			memberRole.setContentMode(ContentMode.HTML);
-			String textRole;
-			if (member.isAdmin()) {
-				textRole = AppContext
-						.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
-			} else {
-				textRole = member.getRoleName();
-			}
-			textRole += AppContext.getMessage(
-					ProjectMemberI18nEnum.OPT_MEMBER_JOIN_DATE, DateTimeUtils
-							.getPrettyDateValue(member.getJoindate(),
-									AppContext.getUserLocale()));
-			memberRole.setValue(textRole);
+            Label memberRole = new Label();
+            memberRole.setContentMode(ContentMode.HTML);
+            String textRole;
+            if (member.isAdmin()) {
+                textRole = AppContext
+                        .getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
+            } else {
+                textRole = member.getRoleName();
+            }
+            textRole += AppContext.getMessage(
+                    ProjectMemberI18nEnum.OPT_MEMBER_JOIN_DATE, DateTimeUtils
+                            .getPrettyDateValue(member.getJoindate(),
+                                    AppContext.getUserLocale()));
+            memberRole.setValue(textRole);
 
-			footer.addComponent(memberRole);
-			content.addComponent(footer);
-			return layout;
-		}
+            footer.addComponent(memberRole);
+            content.addComponent(footer);
+            return layout;
+        }
 
-	}
+        private String buildAssigneeValue(SimpleProjectMember member) {
+            String uid = UUID.randomUUID().toString();
+            Div div = new DivLessFormatter();
+            A userLink = new A();
+            userLink.setId("tag" + uid);
+            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    member.getProjectid(),
+                    member.getUsername()));
+
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, member.getUsername()));
+            userLink.appendText(member.getMemberFullName());
+
+            return div.appendChild(userLink,
+                    DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid)).write();
+        }
+
+    }
 }

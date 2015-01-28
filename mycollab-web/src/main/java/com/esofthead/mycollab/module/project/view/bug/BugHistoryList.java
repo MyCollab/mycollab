@@ -80,7 +80,6 @@ public class BugHistoryList extends HistoryLogComponent {
 
 	public BugHistoryList() {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
-		this.addStyleName("activity-panel");
 		this.setMargin(true);
 	}
 

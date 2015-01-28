@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -39,7 +40,7 @@ public class SimpleTaskList extends TaskList {
 	private String ownerFullName;
 
 	@NotBindable
-	private List<SimpleTask> subTasks = new ArrayList<SimpleTask>();
+	private List<SimpleTask> subTasks = new ArrayList<>();
 
 	@NotBindable
 	private double percentageComplete;
@@ -204,6 +205,11 @@ public class SimpleTaskList extends TaskList {
 
 	public void setCreatedUserFullName(String createdUserFullName) {
 		this.createdUserFullName = createdUserFullName;
+	}
+
+	public boolean isArchieved() {
+		return OptionI18nEnum.StatusI18nEnum.Archived.name().equals(getStatus()) || OptionI18nEnum.StatusI18nEnum.Closed
+				.name().equals(getStatus());
 	}
 
 }

@@ -24,9 +24,9 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -35,7 +35,6 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -44,36 +43,28 @@ import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.1
  */
-public class TaskStatusComponent extends MVerticalLayout {
+public class ProjectAssignmentsWidget extends MVerticalLayout {
+
     private static final long serialVersionUID = 1L;
 
+    private  ProjectGenericTaskSearchCriteria searchCriteria;
+
     private Label titleLbl;
-    private TaskStatusPagedList taskComponents;
-    private ProjectGenericTaskSearchCriteria searchCriteria;
+    private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
-    public TaskStatusComponent() {
+    public ProjectAssignmentsWidget() {
         withSpacing(false).withMargin(false);
-        this.addStyleName("myprojectlist");
-
-        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("40px");
-        header.addStyleName("header");
-
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0));
 
         final CheckBox overdueSelection = new CheckBox("Overdue");
@@ -91,75 +82,69 @@ public class TaskStatusComponent extends MVerticalLayout {
             }
         });
 
-        final CheckBox myItemsOnly = new CheckBox("My Items");
-        myItemsOnly.addValueChangeListener(new Property.ValueChangeListener() {
+        final CheckBox myItemsSelection = new CheckBox("My Items");
+        myItemsSelection.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                boolean selectMyItemsOnly = myItemsOnly.getValue();
-                if (selectMyItemsOnly) {
+                boolean isMyItemsOption = myItemsSelection.getValue();
+                if (isMyItemsOption) {
                     searchCriteria.setAssignUser(new StringSearchField(AppContext.getUsername()));
                 } else {
                     searchCriteria.setAssignUser(null);
                 }
-                taskComponents.setSearchCriteria(searchCriteria);
+                updateSearchResult();
             }
         });
 
-        header.with(titleLbl, overdueSelection, myItemsOnly).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
-                (overdueSelection, Alignment.MIDDLE_RIGHT).withAlign(myItemsOnly, Alignment.MIDDLE_RIGHT).expand(titleLbl);
+        MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
+                false, true)).withHeight("40px").with
+                (titleLbl, overdueSelection, myItemsSelection).withAlign
+                (titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT).withAlign
+                (myItemsSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
+        header.addStyleName("header");
 
-        taskComponents = new TaskStatusPagedList();
-
-        this.with(header, taskComponents);
+        taskList = new DefaultBeanPagedList<>(
+                ApplicationContextUtil
+                        .getSpringBean(ProjectGenericTaskService.class),
+                new TaskRowDisplayHandler(), 10);
+        this.with(header, taskList);
     }
 
-    public void showProjectTasksByStatus(List<Integer> prjKeys) {
+    public void showOpenAssignments() {
         searchCriteria = new ProjectGenericTaskSearchCriteria();
-        searchCriteria.setProjectIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
         searchCriteria.setIsOpenned(new SearchField());
+        searchCriteria.setProjectIds(new SetSearchField<>(
+                CurrentProjectVariables.getProjectId()));
         updateSearchResult();
     }
 
     private void updateSearchResult() {
-        taskComponents.setSearchCriteria(searchCriteria);
-        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskComponents.getTotalCount()));
+        taskList.setSearchCriteria(searchCriteria);
+        titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
     }
 
-    private static class TaskStatusPagedList extends DefaultBeanPagedList<ProjectGenericTaskService,
-            ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
+    public static class TaskRowDisplayHandler implements
+            DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
-        public TaskStatusPagedList() {
-            super(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
-                    GenericTaskRowDisplayHandler(), 10);
-        }
-    }
-
-    private static class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
         @Override
-        public Component generateRow(ProjectGenericTask genericTask, int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(false).withWidth
-                    ("100%").withStyleName("prj-list-row");
+        public Component generateRow(final ProjectGenericTask genericTask,
+                                     final int rowIndex) {
+            final CssLayout layout = new CssLayout();
+            layout.setWidth("100%");
+            layout.setStyleName("list-row");
 
             if ((rowIndex + 1) % 2 != 0) {
                 layout.addStyleName("odd");
             }
 
-            MHorizontalLayout shortPrjLayout = new MHorizontalLayout().withHeight("100%").withStyleName
-                    ("widget-short-prj-name").withMargin(true);
-            Label sortPrjLbl = new Label(buildProjectValue(genericTask).write(), ContentMode.HTML);
-            shortPrjLayout.with(sortPrjLbl).withAlign(sortPrjLbl, Alignment.TOP_LEFT).setExpandRatio(sortPrjLbl, 1.0f);
-
-            layout.addComponent(shortPrjLayout);
-
-            MVerticalLayout content = new MVerticalLayout();
             Div itemDiv = buildItemValue(genericTask);
 
             Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
             if (genericTask.isOverdue()) {
-                taskLbl.addStyleName("overdue");
+              taskLbl.addStyleName("overdue");
             }
 
-            content.addComponent(taskLbl);
+            layout.addComponent(taskLbl);
 
             Div footerDiv = new Div().setCSSClass("activity-date");
 
@@ -176,13 +161,10 @@ public class TaskStatusComponent extends MVerticalLayout {
 
 
             if (genericTask.getAssignUser() != null) {
-                footerDiv.appendChild(buildAssigneeValue(genericTask));
+               footerDiv.appendChild(buildAssigneeValue(genericTask));
             }
 
-            content.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
-
-            layout.addComponent(content);
-            layout.setExpandRatio(content, 1.0f);
+            layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
             return layout;
         }
 
@@ -227,7 +209,7 @@ public class TaskStatusComponent extends MVerticalLayout {
                     task.getProjectId(),
                     task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid,  task.getAssignUser()));
             userLink.appendText(task.getAssignUserFullName());
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
@@ -241,34 +223,6 @@ public class TaskStatusComponent extends MVerticalLayout {
 
             return div;
         }
-
-        private Div buildProjectValue(ProjectGenericTask task) {
-            String uid = UUID.randomUUID().toString();
-            DivLessFormatter div = new DivLessFormatter();
-            A prjLink = new A(
-                    ProjectLinkBuilder.generateProjectFullLink(task
-                            .getProjectId()));
-            prjLink.setId("tag" + uid);
-
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + ProjectTypeConstants.PROJECT + "'";
-            String arg19 = "'" + task.getProjectId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return projectOverViewOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
-                    arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
-            prjLink.setAttribute("onmouseover", mouseOverFunc);
-            prjLink.appendText(task.getProjectShortName());
-
-            div.appendChild(prjLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-
-            return div;
-        }
     }
+
 }

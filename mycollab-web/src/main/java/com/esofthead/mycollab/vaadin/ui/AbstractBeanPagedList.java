@@ -72,7 +72,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 	@Override
 	public void addPagableHandler(final PagableHandler handler) {
 		if (pagableHandlers == null) {
-			pagableHandlers = new HashSet<PagableHandler>();
+			pagableHandlers = new HashSet<>();
 		}
 		pagableHandlers.add(handler);
 	}
@@ -213,6 +213,10 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 
 	abstract protected List<T> queryCurrentData();
 
+	public int getTotalCount() {
+		return totalCount;
+	}
+
 	protected void doSearch() {
 		totalCount = queryTotalCount();
 		totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
@@ -264,17 +268,9 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 	public void setSearchCriteria(final S searchCriteria) {
 		listContainer.removeAllComponents();
 
-		searchRequest = new SearchRequest<S>(searchCriteria, currentPage,
+		searchRequest = new SearchRequest<>(searchCriteria, currentPage,
 				defaultNumberSearchItems);
 		doSearch();
-	}
-
-	protected void setTotalPage(final int totalPage) {
-		this.totalPage = totalPage;
-	}
-
-	public RowDisplayHandler<T> getRowDisplayHandler() {
-		return rowDisplayHandler;
 	}
 
 	public static interface RowDisplayHandler<T> {

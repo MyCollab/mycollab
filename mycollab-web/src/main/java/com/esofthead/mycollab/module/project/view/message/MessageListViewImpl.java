@@ -125,7 +125,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 								.setSearchCriteria(criteria);
 					}
 				});
-		this.tableItem = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
+		this.tableItem = new DefaultBeanPagedList<>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),
 				new MessageRowDisplayHandler());
 		this.tableItem.setStyleName("message-list");
@@ -134,7 +134,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 	@Override
 	public void addFormHandler(final EditFormHandler<Message> handler) {
 		if (this.editFormHandlers == null) {
-			this.editFormHandlers = new HashSet<EditFormHandler<Message>>();
+			this.editFormHandlers = new HashSet<>();
 		}
 		this.editFormHandlers.add(handler);
 	}
@@ -160,7 +160,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 				.getSpringBean(MessageService.class);
 		int totalCount = messageService.getTotalCount(searchCriteria);
 
-		this.isEmpty = (totalCount > 0) ? false : true;
+		this.isEmpty = !(totalCount > 0);
 
 		this.topMessagePanel.createBasicLayout();
 		this.addComponent(topMessagePanel);
@@ -400,12 +400,11 @@ public class MessageListViewImpl extends AbstractPageView implements
 					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
 
 					MessageSearchPanel.this.messageSearchCriteria
-							.setProjectids(new SetSearchField<Integer>(
+							.setProjectids(new SetSearchField<>(
 									SearchField.AND,
 									MessageSearchPanel.this.project.getId()));
 
-					MessageSearchPanel.this.textSearch = event.getText()
-							.toString().trim();
+					MessageSearchPanel.this.textSearch = event.getText().trim();
 
 					MessageSearchPanel.this.messageSearchCriteria
 							.setMessage(new StringSearchField(
@@ -433,7 +432,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
 
 					MessageSearchPanel.this.messageSearchCriteria
-							.setProjectids(new SetSearchField<Integer>(
+							.setProjectids(new SetSearchField<>(
 									SearchField.AND,
 									MessageSearchPanel.this.project.getId()));
 
@@ -558,7 +557,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 									.getProjectId());
 							message.setPosteddate(new GregorianCalendar()
 									.getTime());
-							if (!titleField.getValue().toString().trim()
+							if (!titleField.getValue().trim()
 									.equals("")) {
 								message.setTitle(titleField.getValue());
 								message.setMessage(ckEditorTextField.getValue());
@@ -633,16 +632,13 @@ public class MessageListViewImpl extends AbstractPageView implements
 		private static final long serialVersionUID = 6711716775690122182L;
 
 		public MessageListNoItemView() {
-
-			VerticalLayout layout = new VerticalLayout();
+			MVerticalLayout layout = new MVerticalLayout();
 			layout.addStyleName("message-noitem");
-			layout.setSpacing(true);
 			layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-			layout.setMargin(true);
 
 			Image image = new Image(null,
 					MyCollabResource
-							.newResource("icons/48/project/message.png"));
+							.newResource(WebResourceIds._48_project_message));
 			layout.addComponent(image);
 
 			Label title = new Label(

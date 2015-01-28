@@ -50,8 +50,7 @@ public class TaskGroupListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<TaskListSearchCriteria, SimpleTaskList> createBeanTable() {
-		TaskGroupListDisplay taskGroupListDisplay = new TaskGroupListDisplay();
-		return taskGroupListDisplay;
+		return new TaskGroupListDisplay();
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.GregorianCalendar;
 
@@ -53,13 +54,15 @@ class AssignBugWindow extends Window {
 	AssignBugWindow(final IBugCallbackStatusComp callbackForm,
 			final SimpleBug bug) {
 		super("Assign bug '" + bug.getSummary() + "'");
+		this.setWidth("750px");
+		this.setResizable(false);
+		this.setModal(true);
+
 		this.bug = bug;
 		this.callbackForm = callbackForm;
 
 		VerticalLayout contentLayout = new VerticalLayout();
-		this.setWidth("750px");
-		this.setResizable(false);
-		this.setModal(true);
+
 		this.editForm = new EditForm();
 		contentLayout.addComponent(this.editForm);
 		this.editForm.setBean(bug);
@@ -98,26 +101,9 @@ class AssignBugWindow extends Window {
 
 				layout.addComponent(this.informationLayout.getLayout());
 
-				final HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
+				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true, true, true, false));
+
 				layout.addComponent(controlsBtn);
-
-				final Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								AssignBugWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				final Button approveBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
@@ -154,7 +140,7 @@ class AssignBugWindow extends Window {
 												.toString());
 										comment.setTypeid(""
 												+ AssignBugWindow.this.bug
-														.getId());
+												.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -174,6 +160,22 @@ class AssignBugWindow extends Window {
 				controlsBtn.addComponent(approveBtn);
 				controlsBtn.setComponentAlignment(approveBtn,
 						Alignment.MIDDLE_RIGHT);
+
+				final Button cancelBtn = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+						new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								AssignBugWindow.this.close();
+							}
+						});
+				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+				controlsBtn.addComponent(cancelBtn);
+				controlsBtn.setComponentAlignment(cancelBtn,
+						Alignment.MIDDLE_LEFT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);
