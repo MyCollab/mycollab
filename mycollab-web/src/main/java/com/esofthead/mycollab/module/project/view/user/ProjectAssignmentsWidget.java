@@ -97,11 +97,11 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
         });
 
         MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("40px").with
+                false, true)).withHeight("34px").with
                 (titleLbl, overdueSelection, myItemsSelection).withAlign
                 (titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT).withAlign
                 (myItemsSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
-        header.addStyleName("header");
+        header.addStyleName("panel-header");
 
         taskList = new DefaultBeanPagedList<>(
                 ApplicationContextUtil

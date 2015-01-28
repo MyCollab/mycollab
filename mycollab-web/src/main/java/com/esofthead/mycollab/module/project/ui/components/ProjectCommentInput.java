@@ -110,8 +110,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
 		uploadExt.addComponent(attachments);
-		controlsLayout.addComponent(uploadExt);
-		controlsLayout.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
+		controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.MIDDLE_LEFT);
 
 		final Label emptySpace = new Label();
 		controlsLayout.addComponent(emptySpace);
@@ -178,7 +177,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		newCommentBtn
 				.setIcon(MyCollabResource.newResource(WebResourceIds._16_post));
-		controlsLayout.addComponent(newCommentBtn);
+		controlsLayout.with(newCommentBtn).withAlign(newCommentBtn, Alignment.MIDDLE_RIGHT);
 
 		textAreaWrap.addComponent(commentArea);
 		textAreaWrap.addComponent(controlsLayout);

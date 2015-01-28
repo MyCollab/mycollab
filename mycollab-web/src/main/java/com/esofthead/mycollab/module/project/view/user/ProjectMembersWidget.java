@@ -61,8 +61,9 @@ public class ProjectMembersWidget extends MVerticalLayout {
 
         titleLbl = new Label();
         MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("40px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment.MIDDLE_CENTER);
-        header.addStyleName("header");
+                false, true)).withHeight("34px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment
+                .MIDDLE_CENTER);
+        header.addStyleName("panel-header");
 
         memberList = new DefaultBeanPagedList<>(
                 ApplicationContextUtil

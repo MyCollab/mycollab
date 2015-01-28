@@ -58,8 +58,8 @@ public class MyProjectListComponent extends MVerticalLayout {
         this.addStyleName("myprojectlist");
 
         MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("40px");
-        header.addStyleName("header");
+                false, true)).withHeight("34px");
+        header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(
                 ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 

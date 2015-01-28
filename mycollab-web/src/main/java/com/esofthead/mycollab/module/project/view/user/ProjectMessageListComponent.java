@@ -60,9 +60,9 @@ public class ProjectMessageListComponent extends MVerticalLayout {
 
 		Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS));
 		MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
-				false, true)).withHeight("40px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment
+				false, true)).withHeight("34px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment
 				.MIDDLE_LEFT);
-		header.addStyleName("header");
+		header.addStyleName("panel-header");
 
 		messageList = new DefaultBeanPagedList<>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),

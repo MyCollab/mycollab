@@ -6478,15 +6478,6 @@ body .mycollab.v-app .v-app-loading {
 	white-space: nowrap;
 }
 
-.mycollab .v-upload-immediate .v-button {
-	background-color: #17D61B;
-	margin: 10px 0px 0px 0px;
-}
-
-.mycollab .v-upload-immediate .v-button .v-button-caption {
-	color: white;
-}
-
 .mycollab .v-tooltip {
 	font: 12px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
@@ -6554,6 +6545,51 @@ body .mycollab.v-app .v-app-loading {
 	font-size: 12px;
 }
 
+.mycollab .panel-header {
+	border: 1px solid #CFCFCF;
+	background-color: bisque;
+	margin-top: 10px;
+}
+
+.mycollab .panel-header .v-label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.mycollab .panel-body {
+	border: 1px solid #CFCFCF;
+	border-top: 0;
+}
+
+.mycollab .v-multifileupload-ext .v-verticallayout {
+	display: block;
+}
+
+.mycollab .v-multifileupload-uploads .v-upload .v-button {
+	border: none;
+	background: url("icons/16/attachment.png") no-repeat center left transparent;
+	padding-left: 20px;
+	color: #454545;
+}
+
+.mycollab .v-multifileupload-uploads .v-upload .v-button  > .v-button-wrap {
+	background: none;
+	padding-left: 5px;
+}
+
+.mycollab .v-multifileupload-uploads .v-upload-immediate input {
+	cursor: pointer;
+}
+
+.mycollab .v-upload-immediate .v-button {
+	background-color: #17D61B;
+	margin: 10px 0px 0px 0px;
+}
+
+.mycollab .v-upload-immediate .v-button .v-button-caption {
+	color: black;
+}
+
 .mycollab .date-wrapper {
 	background: url(components/icons/timehdr-bg.png) no-repeat left top #d4dfef;
 	font-size: 12px;
@@ -6572,17 +6608,6 @@ body .mycollab.v-app .v-app-loading {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-}
-
-.mycollab .header {
-	border: 1px solid #CFCFCF;
-	background-color: bisque;
-	margin-top: 10px;
-}
-
-.mycollab .header .v-label {
-	font-size: 14px;
-	font-weight: bold;
 }
 
 .mycollab .myprojectlist .projectblock {
@@ -6735,6 +6760,14 @@ body .mycollab.v-app .v-app-loading {
 	background-color: lavenderblush;
 	font-weight: bold;
 	font-size: 14px;
+}
+
+.mycollab .instruction-box {
+	background-color: bisque;
+	padding: 10px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	margin-top: 15px;
 }
 
 .mycollab html {
@@ -9962,26 +9995,6 @@ body .mycollab.v-app .v-app-loading {
 	text-shadow: 1px 1px 0px #1570cd;
 }
 
-.mycollab .v-multifileupload-ext .v-verticallayout {
-	display: block;
-}
-
-.mycollab .v-multifileupload-uploads .v-upload .v-button {
-	border: none;
-	background: url("icons/16/attachment.png") no-repeat center left transparent;
-	padding-left: 20px;
-	color: #454545;
-}
-
-.mycollab .v-multifileupload-uploads .v-upload .v-button  > .v-button-wrap {
-	background: none;
-	padding-left: 5px;
-}
-
-.mycollab .v-multifileupload-uploads .v-upload-immediate input {
-	cursor: pointer;
-}
-
 .mycollab .v-form-errormessage .gwt-HTML {
 	text-align: center;
 	color: red;
@@ -10264,14 +10277,6 @@ body .mycollab.v-app .v-app-loading {
 	box-sizing: border-box;
 	padding-left: 15px;
 	color: white;
-}
-
-.mycollab .instructionStandupBox {
-	background-color: #E9E9E9;
-	padding: 10px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	margin-top: 15px;
 }
 
 .mycollab .report-row-content {
@@ -12968,25 +12973,6 @@ body .mycollab.v-app .v-app-loading {
 	border-width: 0px;
 }
 
-.mycollab .standup-missing-comp {
-	border: 1px solid #CFCFCF;
-}
-
-.mycollab .standup-missing-comp .header-wrap {
-	border-bottom: 1px solid #CFCFCF;
-	background-color: whitesmoke;
-	padding: 7px 10px;
-}
-
-.mycollab .standup-missing-comp .header-wrap .v-label {
-	font-size: 14px;
-	color: #313131;
-}
-
-.mycollab .standup-missing-comp .comp-body-wrap .v-label {
-	text-align: left;
-}
-
 .mycollab .v-popupbutton-popup.v-popupbutton-popup-select-bg {
 	background-color: #FFF;
 	border: 1px solid #A8A8A8;
@@ -14347,6 +14333,51 @@ a.pending {
 .activity-date {
 	color: gray;
 	font-size: 12px;
+}
+
+.panel-header {
+	border: 1px solid #CFCFCF;
+	background-color: bisque;
+	margin-top: 10px;
+}
+
+.panel-header .v-label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.panel-body {
+	border: 1px solid #CFCFCF;
+	border-top: 0;
+}
+
+.v-multifileupload-ext .v-verticallayout {
+	display: block;
+}
+
+.v-multifileupload-uploads .v-upload .v-button {
+	border: none;
+	background: url("icons/16/attachment.png") no-repeat center left transparent;
+	padding-left: 20px;
+	color: #454545;
+}
+
+.v-multifileupload-uploads .v-upload .v-button  > .v-button-wrap {
+	background: none;
+	padding-left: 5px;
+}
+
+.v-multifileupload-uploads .v-upload-immediate input {
+	cursor: pointer;
+}
+
+.v-upload-immediate .v-button {
+	background-color: #17D61B;
+	margin: 10px 0px 0px 0px;
+}
+
+.v-upload-immediate .v-button .v-button-caption {
+	color: black;
 }
 
 .stickytooltip {
