@@ -50,6 +50,8 @@ public class ProjectGenericTask implements Serializable {
 
     private int typeId;
 
+    private int extraTypeId;
+
     private Date lastUpdatedTime;
 
     public String getName() {
@@ -149,5 +151,13 @@ public class ProjectGenericTask implements Serializable {
 
     public void setProjectShortName(String projectShortName) {
         this.projectShortName = projectShortName;
+    }
+
+    public int getExtraTypeId() {
+        return extraTypeId;
+    }
+
+    public void setExtraTypeId(int extraTypeId) {
+        this.extraTypeId = extraTypeId;
     }
 }

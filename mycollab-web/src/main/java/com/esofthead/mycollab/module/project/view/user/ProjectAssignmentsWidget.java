@@ -27,6 +27,7 @@ import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -174,10 +175,19 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             Img image = new Img("", ProjectResources.getResourceLink(task.getType()));
             A itemLink = new A();
             itemLink.setId("tag" + uid);
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    task.getProjectShortName(),
-                    task.getProjectId(), task.getType(),
-                    task.getTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(task.getType())
+                    || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getExtraTypeId() + ""));
+            } else {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getTypeId() + ""));
+            }
+
 
             String arg17 = "'" + uid + "'";
             String arg18 = "'" + task.getType() + "'";

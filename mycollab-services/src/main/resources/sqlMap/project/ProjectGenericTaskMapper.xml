@@ -16,6 +16,7 @@
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
 		<result column="type" jdbcType="VARCHAR" property="type" />
 		<result column="typeId" jdbcType="INTEGER" property="typeId" />
+        <result column="extraTypeId" jdbcType="INTEGER" property="extraTypeId" />
 		<result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
 	</resultMap>
 
@@ -180,7 +181,7 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_risk.datedue AS dueDate, m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName,
-            m_prj_project.shortname AS projectShortName,
+            m_prj_project.shortname AS projectShortName, NULL AS extraTypeId,
             'Project-Risk' AS type, m_prj_risk.id AS typeid, m_prj_risk.lastUpdatedTime AS lastUpdatedTime
                  
           FROM m_prj_risk
@@ -196,7 +197,7 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_problem.datedue as dueDate, m_prj_problem.projectid as projectId, m_prj_project.name AS projectName,
-            m_prj_project.shortname AS projectShortName,
+            m_prj_project.shortname AS projectShortName, NULL AS extraTypeId,
             'Project-Problem' AS type, m_prj_problem.id AS typeId, m_prj_problem.lastUpdatedTime AS lastUpdatedTime
                  
           FROM m_prj_problem
@@ -212,8 +213,8 @@
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                 s_user.avatarId as assignUserAvatarId,
                 m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
-                m_prj_project.shortname AS projectShortName,
-                'Project-Bug' AS type, m_tracker_bug.bugkey AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
+                m_prj_project.shortname AS projectShortName, m_tracker_bug.bugkey AS extraTypeId,
+                'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
                  
           FROM m_tracker_bug
               LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
@@ -228,8 +229,8 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,
-            m_prj_project.shortname AS projectShortName,
-            'Project-Task' AS type, m_prj_task.taskkey AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
+            m_prj_project.shortname AS projectShortName, m_prj_task.taskkey AS extraTypeId,
+            'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
           
           FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)

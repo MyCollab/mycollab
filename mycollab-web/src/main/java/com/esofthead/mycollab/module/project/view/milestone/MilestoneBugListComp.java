@@ -54,7 +54,6 @@ public class MilestoneBugListComp extends VerticalLayout implements
 	private static final long serialVersionUID = 1L;
 
 	private Milestone milestone;
-	private ToggleButtonGroup viewGroup;
 
 	public MilestoneBugListComp() {
 		this.setMargin(true);
@@ -73,7 +72,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		header.setExpandRatio(taskGroupSelection, 1.0f);
 		header.setComponentAlignment(taskGroupSelection, Alignment.MIDDLE_LEFT);
 
-		this.viewGroup = new ToggleButtonGroup();
+		ToggleButtonGroup viewGroup = new ToggleButtonGroup();
 
 		final Button simpleDisplay = new Button(null,
 				new Button.ClickListener() {
@@ -87,7 +86,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		simpleDisplay.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_project_list_display));
 
-		this.viewGroup.addButton(simpleDisplay);
+		viewGroup.addButton(simpleDisplay);
 
 		final Button advanceDisplay = new Button(null,
 				new Button.ClickListener() {
@@ -100,9 +99,9 @@ public class MilestoneBugListComp extends VerticalLayout implements
 				});
 		advanceDisplay.setIcon(MyCollabResource
 				.newResource(WebResourceIds._16_project_bug_advanced_display));
-		this.viewGroup.addButton(advanceDisplay);
-		header.addComponent(this.viewGroup);
-		header.setComponentAlignment(this.viewGroup, Alignment.MIDDLE_RIGHT);
+		viewGroup.addButton(advanceDisplay);
+		header.addComponent(viewGroup);
+		header.setComponentAlignment(viewGroup, Alignment.MIDDLE_RIGHT);
 		this.addComponent(header);
 	}
 
@@ -131,10 +130,10 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		unresolvedByPrioritySearchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
 		unresolvedByPrioritySearchCriteria
-				.setMilestoneIds(new SetSearchField<Integer>(this.milestone
+				.setMilestoneIds(new SetSearchField<>(this.milestone
 						.getId()));
 		unresolvedByPrioritySearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
+				.setStatuses(new SetSearchField<>(SearchField.AND,
 						new String[] { BugStatus.InProgress.name(),
 								BugStatus.Open.name(),
 								BugStatus.ReOpened.name() }));
@@ -150,10 +149,10 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		unresolvedByAssigneeSearchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
 		unresolvedByAssigneeSearchCriteria
-				.setMilestoneIds(new SetSearchField<Integer>(this.milestone
+				.setMilestoneIds(new SetSearchField<>(this.milestone
 						.getId()));
 		unresolvedByAssigneeSearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
+				.setStatuses(new SetSearchField<>(SearchField.AND,
 						new String[] { BugStatus.InProgress.name(),
 								BugStatus.Open.name(),
 								BugStatus.ReOpened.name() }));
@@ -163,10 +162,9 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		final BugSearchCriteria chartSearchCriteria = new BugSearchCriteria();
 		chartSearchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
-		chartSearchCriteria.setMilestoneIds(new SetSearchField<Integer>(
+		chartSearchCriteria.setMilestoneIds(new SetSearchField<>(
 				this.milestone.getId()));
-		BugChartComponent bugChartComponent = null;
-		bugChartComponent = new BugChartComponent(chartSearchCriteria, 400, 200);
+		BugChartComponent bugChartComponent = new BugChartComponent(chartSearchCriteria, 400, 200);
 		rightColumn.addComponent(bugChartComponent);
 		rightColumn.setWidth("400px");
 
@@ -203,7 +201,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		final BugSearchCriteria criteria = new BugSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
-		criteria.setMilestoneIds(new SetSearchField<Integer>(this.milestone
+		criteria.setMilestoneIds(new SetSearchField<>(this.milestone
 				.getId()));
 
 		final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();

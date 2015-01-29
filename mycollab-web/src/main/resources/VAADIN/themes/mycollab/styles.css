@@ -6478,6 +6478,15 @@ body .mycollab.v-app .v-app-loading {
 	white-space: nowrap;
 }
 
+.mycollab .v-upload-immediate .v-button {
+	background-color: #17D61B;
+	margin: 10px 0px 0px 0px;
+}
+
+.mycollab .v-upload-immediate .v-button .v-button-caption {
+	color: white;
+}
+
 .mycollab .v-tooltip {
 	font: 12px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
@@ -6588,6 +6597,45 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-upload-immediate .v-button .v-button-caption {
 	color: black;
+}
+
+.mycollab .v-progressbar {
+	width: 100%;
+}
+
+.mycollab .v-progressbar-wrapper {
+	height: 18px;
+	background: none no-repeat 0 0 #F5F5F5;
+	border: 1px solid #CDCDCD;
+}
+
+.mycollab .v-progressbar-indicator {
+	height: 18px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	background: none no-repeat 0 0 paleturquoise;
+	margin: -1px;
+	border: 1px solid #CDCDCD;
+}
+
+.mycollab .v-progressbar.medium {
+	display: block;
+}
+
+.mycollab .v-progressbar.medium .v-progressbar-wrapper {
+	height: 7px;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+	border: none;
+	background: #f6f7f8;
+	background: -webkit-linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+	background: linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+}
+
+.mycollab .v-progressbar.medium .v-progressbar-indicator {
+	height: 7px;
+	border: none;
+	background-color: #0088cc;
 }
 
 .mycollab .date-wrapper {
@@ -6750,6 +6798,47 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .prj-list-row:hover {
 	background-color: ghostwhite;
+}
+
+.mycollab .milestone-box {
+	margin-top: 25px;
+	background-color: beige;
+	border-color: #BEBEBE;
+	border-style: solid;
+	border-width: 1px 1px 1px 6px;
+	padding: 12px 20px 10px;
+}
+
+.mycollab .milestone-box .v-button-link {
+	margin: 0 auto;
+}
+
+.mycollab .milestone-box .milestone-name {
+	font-size: 14px;
+	border-bottom: 1px dashed #BEBEBE !important;
+	padding-bottom: 8px;
+}
+
+.mycollab .milestone-box .milestone-name:focus {
+	font-size: 14px;
+	border-bottom: 1px dashed #BEBEBE !important;
+	padding-bottom: 8px;
+}
+
+.mycollab .milestone-box  > .v-horizontallayout {
+	display: block;
+}
+
+.mycollab .milestone-view-body > div > .v-verticallayout > div > div:first-child > div > .milestone-box {
+	border: none;
+}
+
+.mycollab .milestone-view-body > div > .v-verticallayout > div > div:first-child > div > .milestone-box  > .v-csslayout-margin {
+	padding-top: 5px;
+}
+
+.mycollab .milestone-view-header > .v-horizontallayout {
+	margin: 0 auto;
 }
 
 .mycollab .widget-short-prj-name {
@@ -10151,45 +10240,6 @@ body .mycollab.v-app .v-app-loading {
 	overflow-y: auto;
 }
 
-.mycollab .v-progressbar {
-	width: 100%;
-}
-
-.mycollab .v-progressbar-wrapper {
-	height: 18px;
-	background: none no-repeat 0 0 #F5F5F5;
-	border: 1px solid #CDCDCD;
-}
-
-.mycollab .v-progressbar-indicator {
-	height: 18px;
-	border-radius: 2px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	background: none no-repeat 0 0 #fecc53;
-	margin: -1px;
-	border: 1px solid #CDCDCD;
-}
-
-.mycollab .v-progressbar.medium {
-	display: block;
-}
-
-.mycollab .v-progressbar.medium .v-progressbar-wrapper {
-	height: 7px;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
-	border: none;
-	background: #f6f7f8;
-	background: -webkit-linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
-	background: linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
-}
-
-.mycollab .v-progressbar.medium .v-progressbar-indicator {
-	height: 7px;
-	border: none;
-	background-color: #0088cc;
-}
-
 .mycollab .detachedtabs .v-button-tab {
 	border: none;
 	background: none no-repeat 0 0 transparent;
@@ -10513,47 +10563,6 @@ body .mycollab.v-app .v-app-loading {
 .mycollab .photo-cropbox {
 	padding-top: 10px;
 	border-top: 1px solid #8f8f8f;
-}
-
-.mycollab .milestone-box {
-	margin-top: 25px;
-	background-color: #e9f2f7;
-	border-color: #BEBEBE;
-	border-style: solid;
-	border-width: 1px 1px 1px 6px;
-	padding: 12px 20px 10px;
-}
-
-.mycollab .milestone-box .v-button-link {
-	margin: 0 auto;
-}
-
-.mycollab .milestone-box .milestone-name {
-	font-size: 14px;
-	border-bottom: 1px dashed #BEBEBE !important;
-	padding-bottom: 8px;
-}
-
-.mycollab .milestone-box .milestone-name:focus {
-	font-size: 14px;
-	border-bottom: 1px dashed #BEBEBE !important;
-	padding-bottom: 8px;
-}
-
-.mycollab .milestone-box  > .v-horizontallayout {
-	display: block;
-}
-
-.mycollab .milestone-view-body > div > .v-verticallayout > div > div:first-child > div > .milestone-box {
-	border: none;
-}
-
-.mycollab .milestone-view-body > div > .v-verticallayout > div > div:first-child > div > .milestone-box  > .v-csslayout-margin {
-	padding-top: 5px;
-}
-
-.mycollab .milestone-view-header > .v-horizontallayout {
-	margin: 0 auto;
 }
 
 .mycollab .v-label.standup-row-content {
@@ -14378,6 +14387,45 @@ a.pending {
 
 .v-upload-immediate .v-button .v-button-caption {
 	color: black;
+}
+
+.v-progressbar {
+	width: 100%;
+}
+
+.v-progressbar-wrapper {
+	height: 18px;
+	background: none no-repeat 0 0 #F5F5F5;
+	border: 1px solid #CDCDCD;
+}
+
+.v-progressbar-indicator {
+	height: 18px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	background: none no-repeat 0 0 paleturquoise;
+	margin: -1px;
+	border: 1px solid #CDCDCD;
+}
+
+.v-progressbar.medium {
+	display: block;
+}
+
+.v-progressbar.medium .v-progressbar-wrapper {
+	height: 7px;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+	border: none;
+	background: #f6f7f8;
+	background: -webkit-linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+	background: linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+}
+
+.v-progressbar.medium .v-progressbar-indicator {
+	height: 7px;
+	border: none;
+	background-color: #0088cc;
 }
 
 .stickytooltip {

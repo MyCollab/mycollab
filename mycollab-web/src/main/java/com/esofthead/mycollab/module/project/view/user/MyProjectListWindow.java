@@ -64,7 +64,7 @@ public class MyProjectListWindow extends Window {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setStyleName("myprojectlist");
 		layout.setMargin(true);
-		this.setWidth("550px");
+		this.setWidth("600px");
 
 		projectList = new ProjectPagedList();
 		projectList.setWidth("100%");

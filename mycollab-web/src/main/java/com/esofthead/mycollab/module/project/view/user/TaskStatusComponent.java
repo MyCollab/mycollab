@@ -192,10 +192,18 @@ public class TaskStatusComponent extends MVerticalLayout {
             Img image = new Img("", ProjectResources.getResourceLink(task.getType()));
             A itemLink = new A();
             itemLink.setId("tag" + uid);
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    task.getProjectShortName(),
-                    task.getProjectId(), task.getType(),
-                    task.getTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(task.getType())
+                    || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getExtraTypeId() + ""));
+            } else {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getTypeId() + ""));
+            }
 
             String arg17 = "'" + uid + "'";
             String arg18 = "'" + task.getType() + "'";
