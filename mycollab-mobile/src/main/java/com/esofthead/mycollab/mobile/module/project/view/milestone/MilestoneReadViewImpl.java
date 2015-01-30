@@ -99,7 +99,7 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleMilestone> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleMilestone>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<SimpleMilestone>(
+		return new ProjectPreviewFormControlsGenerator<>(
 				this.previewForm)
 				.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
 	}

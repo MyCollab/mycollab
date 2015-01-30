@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
@@ -25,42 +26,41 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class MilestoneHistoryLogList extends HistoryLogComponent {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter milestoneFormatter;
+    public static final FieldGroupFomatter milestoneFormatter;
 
-	static {
-		milestoneFormatter = new FieldGroupFomatter();
+    static {
+        milestoneFormatter = new FieldGroupFomatter();
 
-		milestoneFormatter.generateFieldDisplayHandler("name",
-				MilestoneI18nEnum.FORM_NAME_FIELD);
-		milestoneFormatter.generateFieldDisplayHandler("status",
-				MilestoneI18nEnum.FORM_STATUS_FIELD,
-				new I18nHistoryFieldFormat(MilestoneStatus.class));
-		milestoneFormatter.generateFieldDisplayHandler("owner",
-				GenericI18Enum.FORM_ASSIGNEE,
-				new ProjectMemberHistoryFieldFormat());
-		milestoneFormatter.generateFieldDisplayHandler("startdate",
-				MilestoneI18nEnum.FORM_START_DATE_FIELD,
-				FieldGroupFomatter.DATE_FIELD);
-		milestoneFormatter.generateFieldDisplayHandler("enddate",
-				MilestoneI18nEnum.FORM_END_DATE_FIELD,
-				FieldGroupFomatter.DATE_FIELD);
-	}
+        milestoneFormatter.generateFieldDisplayHandler("name",
+                MilestoneI18nEnum.FORM_NAME_FIELD);
+        milestoneFormatter.generateFieldDisplayHandler("status",
+                MilestoneI18nEnum.FORM_STATUS_FIELD,
+                new I18nHistoryFieldFormat(MilestoneStatus.class));
+        milestoneFormatter.generateFieldDisplayHandler("owner",
+                GenericI18Enum.FORM_ASSIGNEE,
+                new ProjectMemberHistoryFieldFormat());
+        milestoneFormatter.generateFieldDisplayHandler("startdate",
+                MilestoneI18nEnum.FORM_START_DATE_FIELD,
+                FieldGroupFomatter.DATE_FIELD);
+        milestoneFormatter.generateFieldDisplayHandler("enddate",
+                MilestoneI18nEnum.FORM_END_DATE_FIELD,
+                FieldGroupFomatter.DATE_FIELD);
+        milestoneFormatter.generateFieldDisplayHandler(Milestone.Field.description.name(), GenericI18Enum.FORM_DESCRIPTION);
+    }
 
-	public MilestoneHistoryLogList(String module, String type) {
-		super(module, type);
-	}
+    public MilestoneHistoryLogList(String module, String type) {
+        super(module, type);
+    }
 
-	@Override
-	protected FieldGroupFomatter buildFormatter() {
-		return milestoneFormatter;
-	}
+    @Override
+    protected FieldGroupFomatter buildFormatter() {
+        return milestoneFormatter;
+    }
 
 }

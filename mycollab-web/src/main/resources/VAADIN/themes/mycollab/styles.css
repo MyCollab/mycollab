@@ -6556,7 +6556,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .panel-header {
 	border: 1px solid #CFCFCF;
-	background-color: bisque;
+	background-color: beige;
 	margin-top: 10px;
 }
 
@@ -6857,6 +6857,125 @@ body .mycollab.v-app .v-app-loading {
 	-moz-border-radius: 15px;
 	border-radius: 15px;
 	margin-top: 15px;
+}
+
+.mycollab .projectinfo {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #CFCFCF;
+	background: none no-repeat left top #FFF;
+	border-radius: 0px;
+}
+
+.mycollab .message-toppanel {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #CFCFCF;
+	background: none no-repeat left top whitesmoke;
+	border-radius: 0px;
+}
+
+.mycollab .projectinfo-header, .mycollab .message-toppanel-header {
+	font-size: 13px;
+	border-bottom: 1px solid #CFCFCF;
+	padding-bottom: 0.2em;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: none no-repeat left top beige;
+	border-radius: 0px;
+}
+
+.mycollab .projectinfo-header.v-margin-top {
+	padding-top: 7px;
+}
+
+.mycollab .projectinfo-header.v-margin-right {
+	padding-right: 10px;
+}
+
+.mycollab .projectinfo-header.v-margin-bottom {
+	padding-bottom: 7px;
+}
+
+.mycollab .projectinfo-header.v-margin-left {
+	padding-left: 18px;
+}
+
+.mycollab .message-toppanel-header.v-margin-top {
+	padding-top: 3px;
+}
+
+.mycollab .message-toppanel-header.v-margin-right {
+	padding-right: 10px;
+}
+
+.mycollab .message-toppanel-header.v-margin-bottom {
+	padding-bottom: 2px;
+}
+
+.mycollab .message-toppanel-header.v-margin-left {
+	padding-left: 18px;
+}
+
+.mycollab .projectinfo-header .project-name {
+	font-weight: bold;
+	font-size: 14px;
+	color: #313131;
+}
+
+.mycollab .projectinfo-header .project-shortname {
+	color: gray;
+}
+
+.mycollab .projectinfo-footer.v-margin-top {
+	padding-top: 5px;
+}
+
+.mycollab .projectinfo-footer.v-margin-right {
+	padding-right: 5px;
+}
+
+.mycollab .projectinfo-footer.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.mycollab .projectinfo-footer.v-margin-left {
+	padding-left: 18px;
+}
+
+.mycollab .projectfeed-hdr-wrapper {
+	background: none repeat-x left bottom brown;
+	padding: 15px 30px;
+}
+
+.mycollab .projectfeed-hdr-wrapper .h1 {
+	padding: 0px;
+	color: white;
+}
+
+.mycollab .projectfeed-hdr-wrapper .h2, .mycollab .projectfeed-hdr-wrapper .v-button-link .v-button-caption {
+	color: white;
+}
+
+.mycollab .member-preview-form {
+	border: 1px solid #CFCFCF;
+	padding: 30px;
+	background-color: #E9F2F7;
+}
+
+.mycollab .member-preview-form div.v-csslayout.member-block {
+	border-radius: 0px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	width: 350px;
+}
+
+.mycollab .member-preview-form .member-block .member-info.v-margin-left {
+	padding-left: 20px;
 }
 
 .mycollab html {
@@ -8982,107 +9101,6 @@ body .mycollab.v-app .v-app-loading {
 	padding: 0px 0px 0px 20px;
 }
 
-.mycollab .projectinfo {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border: 1px solid #CFCFCF;
-	background: none no-repeat left top #FFF;
-	border-radius: 0px;
-}
-
-.mycollab .message-toppanel {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border: 1px solid #CFCFCF;
-	background: none no-repeat left top whitesmoke;
-	border-radius: 0px;
-}
-
-.mycollab .projectinfo-header, .mycollab .message-toppanel-header {
-	font-size: 13px;
-	border-bottom: 1px solid #CFCFCF;
-	padding-bottom: 0.2em;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	background: none no-repeat left top bisque;
-	border-radius: 0px;
-}
-
-.mycollab .projectinfo-header.v-margin-top {
-	padding-top: 7px;
-}
-
-.mycollab .projectinfo-header.v-margin-right {
-	padding-right: 10px;
-}
-
-.mycollab .projectinfo-header.v-margin-bottom {
-	padding-bottom: 7px;
-}
-
-.mycollab .projectinfo-header.v-margin-left {
-	padding-left: 18px;
-}
-
-.mycollab .message-toppanel-header.v-margin-top {
-	padding-top: 3px;
-}
-
-.mycollab .message-toppanel-header.v-margin-right {
-	padding-right: 10px;
-}
-
-.mycollab .message-toppanel-header.v-margin-bottom {
-	padding-bottom: 2px;
-}
-
-.mycollab .message-toppanel-header.v-margin-left {
-	padding-left: 18px;
-}
-
-.mycollab .projectinfo-header .project-name {
-	font-weight: bold;
-	font-size: 14px;
-	color: #313131;
-}
-
-.mycollab .projectinfo-header .project-shortname {
-	color: gray;
-}
-
-.mycollab .projectinfo-footer.v-margin-top {
-	padding-top: 5px;
-}
-
-.mycollab .projectinfo-footer.v-margin-right {
-	padding-right: 5px;
-}
-
-.mycollab .projectinfo-footer.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.mycollab .projectinfo-footer.v-margin-left {
-	padding-left: 18px;
-}
-
-.mycollab .projectfeed-hdr-wrapper {
-	background: none repeat-x left bottom brown;
-	padding: 15px 30px;
-}
-
-.mycollab .projectfeed-hdr-wrapper .h1 {
-	padding: 0px;
-	color: white;
-}
-
-.mycollab .projectfeed-hdr-wrapper .h2, .mycollab .projectfeed-hdr-wrapper .v-button-link .v-button-caption {
-	color: white;
-}
-
 .mycollab .v-wizardprogressbar .step {
 	float: left;
 	overflow: hidden;
@@ -9167,7 +9185,7 @@ body .mycollab.v-app .v-app-loading {
 	border-style: solid;
 	border-color: #CFCFCF;
 	border-radius: 0px;
-	background: none no-repeat 0 0 bisque;
+	background: none no-repeat 0 0 beige;
 	height: 40px;
 }
 
@@ -10317,42 +10335,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .standup-calendar .selected-ext {
 	border: 1px solid #EE7C08;
-}
-
-.mycollab .report-row-header {
-	font-weight: bold;
-	background: url("icons/timehdr-bg.png") no-repeat left top transparent;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding-left: 15px;
-	color: white;
-}
-
-.mycollab .report-row-content {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border-width: 1px 0px 1px 0px;
-	border-style: solid;
-	border-color: #cccccc;
-	background-color: #e5eff0;
-}
-
-.mycollab .report-row-content  > div:first-child + div + div {
-	border-width: 0px 1px 0px 1px;
-	border-style: solid;
-	border-color: #cccccc;
-	background-color: #d4dfef;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	height: 100%;
-}
-
-.mycollab .report-row-block {
-	height: 100%;
-	padding: 5px 8px 0px;
 }
 
 .mycollab .addViewLayout .standup-edit-layout .h2 {
@@ -12950,38 +12932,6 @@ body .mycollab.v-app .v-app-loading {
 	padding-right: 30px;
 }
 
-.mycollab .member-preview-form {
-	border: 1px solid #CFCFCF;
-	padding: 30px;
-	background-color: #E9F2F7;
-}
-
-.mycollab .member-preview-form div.v-csslayout.member-block {
-	border-radius: 0px;
-	border: none;
-	padding: 0px;
-	margin: 0px;
-	width: 350px;
-}
-
-.mycollab .member-preview-form .member-block .member-info.v-margin-left {
-	padding-left: 20px;
-}
-
-.mycollab .member-preview-bottom {
-	border-color: #CFCFCF;
-	border-style: solid;
-	border-width: 0px 1px 1px;
-}
-
-.mycollab .member-preview-bottom .v-table-header-wrap {
-	border-width: 1px 0px;
-}
-
-.mycollab .member-preview-bottom .v-table-body-wrapper.v-table-body {
-	border-width: 0px;
-}
-
 .mycollab .v-popupbutton-popup.v-popupbutton-popup-select-bg {
 	background-color: #FFF;
 	border: 1px solid #A8A8A8;
@@ -14346,7 +14296,7 @@ a.pending {
 
 .panel-header {
 	border: 1px solid #CFCFCF;
-	background-color: bisque;
+	background-color: beige;
 	margin-top: 10px;
 }
 

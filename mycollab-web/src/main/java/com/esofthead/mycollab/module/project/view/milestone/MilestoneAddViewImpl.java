@@ -17,70 +17,67 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
-		implements MilestoneAddView {
+        implements MilestoneAddView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem.getName();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? null : beanItem.getName();
+    }
 
-	@Override
-	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(MilestoneI18nEnum.FORM_NEW_TITLE) : AppContext
-				.getMessage(MilestoneI18nEnum.FORM_EDIT_TITLE);
-	}
+    @Override
+    protected String initFormHeader() {
+        return (beanItem.getId() == null) ? AppContext
+                .getMessage(MilestoneI18nEnum.FORM_NEW_TITLE) : AppContext
+                .getMessage(MilestoneI18nEnum.FORM_EDIT_TITLE);
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._24_project_phase);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return MyCollabResource.newResource(WebResourceIds._24_project_phase);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<Milestone>(
-				editForm)).createButtonControls();
-		controlButtons.setSizeUndefined();
-		return controlButtons;
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        final Layout controlButtons = (new EditFormControlsGenerator<>(
+                editForm)).createButtonControls();
+        controlButtons.setSizeUndefined();
+        return controlButtons;
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<Milestone> initPreviewForm() {
-		return new AdvancedEditBeanForm<Milestone>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<Milestone> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new MilestoneFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(ProjectTypeConstants.RISK,
+                MilestoneDefaultFormLayoutFactory.getForm(), Milestone.Field.id.name());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Milestone> initBeanFormFieldFactory() {
-		return new MilestoneEditFormFieldFactory<Milestone>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<Milestone> initBeanFormFieldFactory() {
+        return new MilestoneEditFormFieldFactory<>(editForm);
+    }
 }

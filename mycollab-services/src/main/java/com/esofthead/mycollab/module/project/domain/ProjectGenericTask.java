@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,6 +52,8 @@ public class ProjectGenericTask implements Serializable {
     private int typeId;
 
     private int extraTypeId;
+
+    private String status;
 
     private Date lastUpdatedTime;
 
@@ -145,6 +148,10 @@ public class ProjectGenericTask implements Serializable {
         return false;
     }
 
+    public boolean isClosed() {
+        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus());
+    }
+
     public String getProjectShortName() {
         return projectShortName;
     }
@@ -159,5 +166,13 @@ public class ProjectGenericTask implements Serializable {
 
     public void setExtraTypeId(int extraTypeId) {
         this.extraTypeId = extraTypeId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

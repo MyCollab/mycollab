@@ -250,20 +250,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 			ToggleButtonGroup viewGroup = new ToggleButtonGroup();
 
-			final Button simpleDisplay = new Button(null,
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							displaySimpleView();
-						}
-					});
-			simpleDisplay.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_list_display));
-
-			viewGroup.addButton(simpleDisplay);
-
 			final Button advanceDisplay = new Button(null,
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -289,21 +275,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 			this.bottomLayout.setWidth("100%");
 
 			advanceDisplay.addStyleName("selected");
-		}
-
-		private void displaySimpleView() {
-			if (this.getComponentCount() > 1) {
-				this.removeComponent(this.getComponent(1));
-			}
-
-			final BugSearchCriteria criteria = new BugSearchCriteria();
-			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-					.getProjectId()));
-			criteria.setVersionids(new SetSearchField<>(beanItem.getId()));
-
-			final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();
-			this.addComponent(displayWidget);
-			displayWidget.setSearchCriteria(criteria);
 		}
 
 		private void displayAdvancedView() {

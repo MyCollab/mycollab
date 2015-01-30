@@ -59,8 +59,6 @@ public class UIConstants {
 	public static final String STANDUP_ROW_CONTENT = "standup-row-content";
 	public static final String MILESTONE_BOX = "milestone-box";
 	public static final String PHOTO_CROPBOX = "photo-cropbox";
-	public static final String REPORT_ROW_BLOCK = "report-row-block";
-	public static final String REPORT_ROW_HEADER = "report-row-header";
 	public static final String WIDGET_ROW = "widget-row";
 	public static final String BUG_LIST = "bug-list";
 	public static final String WIDGET_ROW_METADATA = "metadata";

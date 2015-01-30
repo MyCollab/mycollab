@@ -36,10 +36,10 @@ import com.vaadin.ui.Label;
 public class AbstractProjectPageView extends AbstractPageView {
 
 	private static final long serialVersionUID = 1L;
-	private Label headerText;
-	private CssLayout contentWrapper;
-	private MHorizontalLayout header;
-	private Image titleIcon;
+	protected Label headerText;
+	protected CssLayout contentWrapper;
+	protected MHorizontalLayout header;
+	protected Image titleIcon;
 
 	public AbstractProjectPageView(String headerText, String iconName) {
 		super();

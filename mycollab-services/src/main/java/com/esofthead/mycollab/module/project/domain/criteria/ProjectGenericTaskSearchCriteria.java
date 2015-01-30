@@ -37,6 +37,10 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 	
 	private DateSearchField dueDate;
 
+	private NumberSearchField milestoneId;
+
+	private SetSearchField<String> types;
+
 	public DateSearchField getDueDate() {
 		return dueDate;
 	}
@@ -75,5 +79,21 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
 	public void setProjectIds(SetSearchField<Integer> projectIds) {
 		this.projectIds = projectIds;
+	}
+
+	public NumberSearchField getMilestoneId() {
+		return milestoneId;
+	}
+
+	public void setMilestoneId(NumberSearchField milestoneId) {
+		this.milestoneId = milestoneId;
+	}
+
+	public SetSearchField<String> getTypes() {
+		return types;
+	}
+
+	public void setTypes(SetSearchField<String> types) {
+		this.types = types;
 	}
 }
