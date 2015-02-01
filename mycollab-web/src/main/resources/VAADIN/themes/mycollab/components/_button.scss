@@ -651,34 +651,6 @@
     }
   }
 
-  div.v-button-link {
-    &.buttonPaging {
-      color: #525252;
-      background-color: $background-color;
-      .v-button-wrap {
-        width: 17px;
-        padding: 4px 0px 3px;
-        text-align: center;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        border: 1px solid #C8C8C8;
-      }
-      &:active .v-button-wrap, &:focus .v-button-wrap {
-        padding: 4px 0px 3px;
-        border: 1px solid #777575;
-      }
-      .v-button-wrap .v-button-caption {
-        text-align: center;
-        padding: 0px;
-      }
-    }
-    &.buttonPagingcurrent, &.buttonPaging:hover {
-      background-color: #548BCE;
-      color: white;
-    }
-  }
-
   .v-button-caption-bool {
     font-size: $font-normal;
     font-weight: bold;

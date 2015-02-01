@@ -32,48 +32,59 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import java.util.Collection;
-
+import com.esofthead.mycollab.core.UserInvalidInputException;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.esofthead.mycollab.core.UserInvalidInputException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * 
+ * @param <T>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <T>
  */
 public class SetSearchField<T> extends SearchField {
-	private static final long serialVersionUID = 1L;
-	private T[] values;
+    private static final long serialVersionUID = 1L;
+    private Set<T> values = new HashSet<>();
 
-	public SetSearchField() {
-	}
+    public SetSearchField() {
+    }
 
-	@SuppressWarnings("unchecked")
-	public SetSearchField(String oper, Collection<T> values) {
-		this(oper, (T[]) values.toArray());
-	}
+    @SuppressWarnings("unchecked")
+    public SetSearchField(String oper, Collection<T> vals) {
+        this(oper, (T[]) vals.toArray());
+    }
 
-	public SetSearchField(T... values) {
-		this(SearchField.AND, values);
-	}
+    public SetSearchField(T... values) {
+        this(SearchField.AND, values);
+    }
 
-	public SetSearchField(String oper, T... values) {
-		if (ArrayUtils.isEmpty(values)) {
-			throw new UserInvalidInputException("Field can not be null");
-		}
-		this.values = values;
-		this.operation = oper;
-	}
+    public SetSearchField(String oper, T... vals) {
+        if (ArrayUtils.isEmpty(vals)) {
+            throw new UserInvalidInputException("Field can not be null");
+        }
+        CollectionUtils.addAll(values, vals);
+        this.operation = oper;
+    }
 
-	public Object[] getValues() {
-		return values;
-	}
+    public Set<T> getValues() {
+        if (values.size() == 0) {
+            throw new UserInvalidInputException("You must select one option");
+        }
+        return values;
+    }
 
-	public void setValues(T[] values) {
-		this.values = values;
-	}
+    public void setValues(Set<T> values) {
+        this.values = values;
+    }
+
+    public void addValue(T value) {
+        values.add(value);
+    }
+
+    public void removeValue(T value) {
+        values.remove(value);
+    }
 }

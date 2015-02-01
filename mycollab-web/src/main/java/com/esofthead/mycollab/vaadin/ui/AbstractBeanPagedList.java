@@ -59,12 +59,13 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 
 	protected SearchRequest<S> searchRequest;
 
+	private String listControlStyle = "listControl";
+
 	public AbstractBeanPagedList(final RowDisplayHandler<T> rowDisplayHandler,
 			final int defaultNumberSearchItems) {
 		this.defaultNumberSearchItems = defaultNumberSearchItems;
 		this.rowDisplayHandler = rowDisplayHandler;
 		listContainer = new CssLayout();
-		listContainer.setStyleName("beanlist-content");
 		listContainer.setWidth("100%");
 		this.addComponent(listContainer);
 	}
@@ -77,9 +78,13 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 		pagableHandlers.add(handler);
 	}
 
+	public void setControlStyle(String style) {
+		this.listControlStyle = style;
+	}
+
 	protected CssLayout createPageControls() {
 		this.controlBarWrapper = new CssLayout();
-		this.controlBarWrapper.setStyleName("listControl");
+		this.controlBarWrapper.setStyleName(listControlStyle);
 		this.controlBarWrapper.setWidth("100%");
 
 		final HorizontalLayout controlBar = new HorizontalLayout();

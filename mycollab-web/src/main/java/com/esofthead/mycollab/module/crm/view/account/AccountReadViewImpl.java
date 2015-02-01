@@ -51,6 +51,7 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -170,11 +171,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);

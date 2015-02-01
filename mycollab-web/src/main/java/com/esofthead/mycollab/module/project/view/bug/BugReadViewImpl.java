@@ -543,9 +543,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 								});
 						componentContainer.addComponentField(componentLink);
 						componentLink.setStyleName("link");
+						componentLink.addStyleName("block");
 					}
-					componentContainer
-							.setStyleName(UIConstants.FORM_CONTAINER_VIEW);
 					return componentContainer;
 				} else {
 					return new DefaultViewField("");
@@ -572,6 +571,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 								});
 						componentContainer.addComponentField(versionLink);
 						versionLink.setStyleName("link");
+						versionLink.addStyleName("block");
 					}
 					return componentContainer;
 				} else {
@@ -598,6 +598,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 								});
 						componentContainer.addComponentField(versionLink);
 						versionLink.setStyleName("link");
+						versionLink.addStyleName("block");
 					}
 					return componentContainer;
 				} else {
@@ -613,7 +614,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 											beanItem.getProjectid(),
 											beanItem.getMilestoneid()),
 							MyCollabResource
-									.newResourceLink("icons/16/project/milestone.png"));
+									.newResourceLink(WebResourceIds._16_project_milestone));
 				} else {
 					return new DefaultViewField("");
 				}

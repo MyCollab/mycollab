@@ -21,18 +21,16 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -40,23 +38,37 @@ import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.data.Property;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -71,7 +83,6 @@ public class ComponentReadViewImpl extends
     private static final Logger LOG = LoggerFactory
             .getLogger(ComponentReadViewImpl.class);
 
-    private RelatedBugComp relatedBugComp;
     private CommentDisplay commentDisplay;
     private ComponentHistoryLogList historyLogList;
     private Button quickActionStatusBtn;
@@ -109,8 +120,6 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected void initRelatedComponents() {
-        relatedBugComp = new RelatedBugComp();
-
         commentDisplay = new CommentDisplay(CommentType.PRJ_COMPONENT,
                 CurrentProjectVariables.getProjectId(), true, true,
                 ComponentRelayEmailNotificationAction.class);
@@ -129,8 +138,6 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected void onPreviewItem() {
-        relatedBugComp.displayBugReports();
-
         commentDisplay.loadComments("" + beanItem.getId());
         historyLogList.loadHistory(beanItem.getId());
 
@@ -171,6 +178,10 @@ public class ComponentReadViewImpl extends
                     return new ProjectUserFormLinkField(beanItem.getUserlead(),
                             beanItem.getUserLeadAvatarId(),
                             beanItem.getUserLeadFullName());
+                } else if (Component.Field.id.equalTo(propertyId)) {
+                    ContainerViewField containerField = new ContainerViewField();
+                    containerField.addComponentField(new BugsComp());
+                    return containerField;
                 }
                 return null;
             }
@@ -240,160 +251,170 @@ public class ComponentReadViewImpl extends
                 MyCollabResource
                         .newResource(WebResourceIds._16_project_gray_history));
 
-        tabContainer.addTab(relatedBugComp, AppContext
-                .getMessage(BugI18nEnum.TAB_RELATED_BUGS), MyCollabResource
-                .newResource(WebResourceIds._16_project_gray_bug));
-
         return tabContainer;
-    }
-
-    private class RelatedBugComp extends VerticalLayout implements
-            IBugReportDisplayContainer {
-        private static final long serialVersionUID = 1L;
-
-        private HorizontalLayout bottomLayout;
-
-        public RelatedBugComp() {
-            this.setMargin(false);
-
-            final HorizontalLayout header = new HorizontalLayout();
-            header.setMargin(new MarginInfo(true, true, true, false));
-            header.setSpacing(true);
-            header.setWidth("100%");
-            header.addStyleName("relatedbug-comp-header");
-            final Label taskGroupSelection = new Label("");
-            taskGroupSelection.addStyleName("h2");
-            taskGroupSelection.addStyleName(UIConstants.THEME_NO_BORDER);
-            header.addComponent(taskGroupSelection);
-            header.setExpandRatio(taskGroupSelection, 1.0f);
-            header.setComponentAlignment(taskGroupSelection,
-                    Alignment.MIDDLE_LEFT);
-
-            ToggleButtonGroup viewGroup = new ToggleButtonGroup();
-
-            final Button advanceDisplay = new Button(null,
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            displayAdvancedView();
-                        }
-                    });
-            advanceDisplay
-                    .setIcon(MyCollabResource
-                            .newResource(WebResourceIds._16_project_bug_advanced_display));
-            viewGroup.addButton(advanceDisplay);
-            header.addComponent(viewGroup);
-            header.setComponentAlignment(viewGroup, Alignment.MIDDLE_RIGHT);
-
-            this.addComponent(header);
-
-            this.bottomLayout = new HorizontalLayout();
-            this.bottomLayout.setSpacing(true);
-            this.bottomLayout.setWidth("100%");
-            this.bottomLayout
-                    .setMargin(new MarginInfo(false, true, false, true));
-
-            advanceDisplay.addStyleName("selected");
-
-        }
-
-        private void displayAdvancedView() {
-            if (this.getComponentCount() > 1) {
-                this.removeComponent(this.getComponent(1));
-            }
-
-            this.addComponent(this.bottomLayout);
-
-            this.bottomLayout.removeAllComponents();
-
-            final SimpleProject project = CurrentProjectVariables.getProject();
-
-            final VerticalLayout leftColumn = new VerticalLayout();
-            leftColumn.setSpacing(true);
-            leftColumn.setWidth("100%");
-
-            this.bottomLayout.addComponent(leftColumn);
-            this.bottomLayout.setExpandRatio(leftColumn, 1.0f);
-            final UnresolvedBugsByPriorityWidget unresolvedBugWidget = new UnresolvedBugsByPriorityWidget(
-                    this);
-            leftColumn.addComponent(unresolvedBugWidget);
-            leftColumn.setComponentAlignment(unresolvedBugWidget,
-                    Alignment.MIDDLE_CENTER);
-
-            final BugSearchCriteria unresolvedByPrioritySearchCriteria = new BugSearchCriteria();
-            unresolvedByPrioritySearchCriteria
-                    .setProjectId(new NumberSearchField(project.getId()));
-            unresolvedByPrioritySearchCriteria
-                    .setComponentids(new SetSearchField<>(beanItem
-                            .getId()));
-            unresolvedByPrioritySearchCriteria
-                    .setStatuses(new SetSearchField<>(SearchField.AND,
-                            new String[]{BugStatus.InProgress.name(),
-                                    BugStatus.Open.name(),
-                                    BugStatus.ReOpened.name()}));
-            unresolvedBugWidget
-                    .setSearchCriteria(unresolvedByPrioritySearchCriteria);
-
-            final UnresolvedBugsByAssigneeWidget unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget(
-                    this);
-            leftColumn.addComponent(unresolvedByAssigneeWidget);
-            leftColumn.setComponentAlignment(unresolvedByAssigneeWidget,
-                    Alignment.MIDDLE_CENTER);
-
-            final BugSearchCriteria unresolvedByAssigneeSearchCriteria = new BugSearchCriteria();
-            unresolvedByAssigneeSearchCriteria
-                    .setProjectId(new NumberSearchField(project.getId()));
-            unresolvedByAssigneeSearchCriteria
-                    .setComponentids(new SetSearchField<>(beanItem
-                            .getId()));
-            unresolvedByAssigneeSearchCriteria
-                    .setStatuses(new SetSearchField<>(SearchField.AND,
-                            new String[]{BugStatus.InProgress.name(),
-                                    BugStatus.Open.name(),
-                                    BugStatus.ReOpened.name()}));
-            unresolvedByAssigneeWidget
-                    .setSearchCriteria(unresolvedByAssigneeSearchCriteria);
-
-            final VerticalLayout rightColumn = new VerticalLayout();
-            rightColumn.setMargin(new MarginInfo(false, false, false, true));
-            this.bottomLayout.addComponent(rightColumn);
-
-            final BugSearchCriteria chartSearchCriteria = new BugSearchCriteria();
-            chartSearchCriteria.setProjectId(new NumberSearchField(
-                    CurrentProjectVariables.getProjectId()));
-            chartSearchCriteria.setComponentids(new SetSearchField<>(
-                    beanItem.getId()));
-
-            BugChartComponent bugChartComponent = new BugChartComponent(chartSearchCriteria, 400,
-                    200);
-            rightColumn.addComponent(bugChartComponent);
-            rightColumn.setWidth("410px");
-
-        }
-
-        @Override
-        public void displayBugReports() {
-            this.displayAdvancedView();
-        }
-
-        @Override
-        public void displayBugListWidget(final String title,
-                                         final BugSearchCriteria criteria) {
-            this.bottomLayout.removeAllComponents();
-            final BugListWidget bugListWidget = new BugListWidget(title
-                    + " Bug List", "Back to component dashboard", criteria,
-                    this);
-            bugListWidget.setWidth("100%");
-            this.bottomLayout.addComponent(bugListWidget);
-        }
-
     }
 
     @Override
     public ComponentContainer getWidget() {
         return this;
+    }
+
+    private class BugsComp extends MVerticalLayout {
+        private BugSearchCriteria searchCriteria;
+        private DefaultBeanPagedList<BugService, BugSearchCriteria, SimpleBug> bugList;
+
+        BugsComp() {
+            withMargin(false).withWidth("100%");
+            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+
+            final CheckBox openSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Open, true);
+            CheckBox inprogressSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.InProgress, true);
+            CheckBox reOpenSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.ReOpened, true);
+            CheckBox verifiedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Verified, true);
+            CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
+
+            Label spacingLbl1 = new Label("");
+
+            Button chartBtn = new Button("");
+
+            chartBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_project_bug_advanced_display));
+            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+
+            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1,
+                    chartBtn).withAlign
+                    (openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment
+                    .MIDDLE_LEFT).withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(chartBtn, Alignment
+                            .MIDDLE_RIGHT)
+                    .expand(spacingLbl1);
+
+            bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new
+                    AssignmentRowDisplay(), 10);
+            bugList.setControlStyle("borderlessControl");
+
+            searchCriteria = new BugSearchCriteria();
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setComponentids(new SetSearchField<>(beanItem.getId()));
+            searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
+                    OptionI18nEnum
+                            .BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(), OptionI18nEnum.BugStatus
+                    .Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
+            updateSearchStatus();
+
+            this.with(header, bugList);
+        }
+
+        private void updateTypeSearchStatus(boolean selection, String type) {
+            SetSearchField<String> types = searchCriteria.getStatuses();
+            if (types == null) {
+                types = new SetSearchField<>();
+            }
+            if (selection) {
+                types.addValue(type);
+            } else {
+                types.removeValue(type);
+            }
+            searchCriteria.setStatuses(types);
+            updateSearchStatus();
+        }
+
+        private void updateSearchStatus() {
+            bugList.setSearchCriteria(searchCriteria);
+        }
+
+        private class BugStatusCheckbox extends CheckBox {
+            BugStatusCheckbox(final Enum name, boolean defaultValue) {
+                super(AppContext.getMessage(name), defaultValue);
+                this.addValueChangeListener(new ValueChangeListener() {
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                        updateTypeSearchStatus(BugStatusCheckbox.this.getValue(), name.name());
+                    }
+                });
+            }
+        }
+    }
+
+    private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<SimpleBug> {
+        @Override
+        public com.vaadin.ui.Component generateRow(SimpleBug bug, int rowIndex) {
+            Label lbl = new Label(buildDivLine(bug).write(), ContentMode.HTML);
+            if (bug.isOverdue()) {
+                lbl.addStyleName("overdue");
+            } else if (bug.isCompleted()) {
+                lbl.addStyleName("completed");
+            }
+            return lbl;
+        }
+
+        private Div buildDivLine(SimpleBug bug) {
+            Div div = new Div().setCSSClass("project-tableless");
+            div.appendChild(buildItemValue(bug), buildAssigneeValue(bug), buildLastUpdateTime(bug));
+            return div;
+        }
+
+        private Div buildItemValue(SimpleBug bug) {
+            String uid = UUID.randomUUID().toString();
+            Div div = new Div();
+            Img image = new Img("", ProjectResources.getResourceLink(ProjectTypeConstants.BUG));
+
+            A itemLink = new A();
+            itemLink.setId("tag" + uid);
+            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    bug.getProjectShortName(),
+                    bug.getProjectid(), ProjectTypeConstants.BUG,
+                    bug.getBugkey() + ""));
+
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + ProjectTypeConstants.BUG + "'";
+            String arg19 = "'" + bug.getId() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + AppContext.getAccountId() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+            String mouseOverFunc = String.format(
+                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                    arg20, arg21, arg22, arg23, arg24);
+            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.appendText(String.format("[%s-%d] %s", bug.getProjectShortName(), bug.getBugkey(), bug
+                    .getSummary()));
+
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+            return div.setCSSClass("columnExpand");
+        }
+
+        private Div buildAssigneeValue(SimpleBug bug) {
+            if (bug.getAssignuser() == null) {
+                return new Div().setCSSClass("column200");
+            }
+            String uid = UUID.randomUUID().toString();
+            Div div = new Div();
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                    bug.getAssignUserAvatarId(), 16));
+            A userLink = new A();
+            userLink.setId("tag" + uid);
+            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    bug.getProjectid(),
+                    bug.getAssignuser()));
+
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
+            userLink.appendText(bug.getAssignuserFullName());
+
+            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+
+            return div.setCSSClass("column200");
+        }
+
+        private Div buildLastUpdateTime(SimpleBug bug) {
+            Div div = new Div();
+            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(bug.getLastupdatedtime(), AppContext.getUserLocale())));
+            return div.setCSSClass("column100");
+        }
     }
 
     private class PeopleInfoComp extends VerticalLayout {

@@ -57,6 +57,13 @@
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_problem.status='Open'
         #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Problem" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         
          #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
@@ -92,6 +99,13 @@
         
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_risk.status='Open'
+        #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Risk" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
         
         #ifnotnull($searchCriteria.dueDate)
@@ -129,6 +143,17 @@
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','InProgress', 'Reopenned', 'Test Pending')
         #end
+
+        #ifnotnull($searchCriteria.milestoneId)
+            ${searchCriteria.milestoneId.operation} m_tracker_bug.milestoneId = @{searchCriteria.milestoneId.value}
+        #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Bug" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
         
          #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
@@ -164,6 +189,17 @@
         
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_task.status='Open'
+        #end
+
+        #ifnotnull($searchCriteria.milestoneId)
+            ${searchCriteria.milestoneId.operation} (SELECT COUNT(*) FROM m_prj_task_list WHERE m_prj_task_list.id = m_prj_task.tasklistid AND m_prj_task_list.milestoneId = @{searchCriteria.milestoneId.value}) > 0
+        #end
+
+        #ifnotnull($searchCriteria.types)
+            ${searchCriteria.types.operation} "Project-Task" IN
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
         #end
         
         #ifnotnull($searchCriteria.dueDate)
@@ -289,7 +325,7 @@
         #ifnotnull($_parameter.searchCriteria.orderByField)
 		    ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
         #end
-        projectName ASC
+        lastUpdatedTime DESC
 	</sql>
 
 	<select id="findPagableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"

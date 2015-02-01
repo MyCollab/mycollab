@@ -20,14 +20,13 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -43,6 +42,7 @@ import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -52,14 +52,22 @@ import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.data.Property;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
@@ -103,7 +111,6 @@ public class MilestoneReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-        tabContainer.setWidth("100%");
 
         tabContainer.addTab(this.commentListComp, AppContext
                         .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
@@ -213,7 +220,6 @@ public class MilestoneReadViewImpl extends
                 return statusField;
             } else if (Milestone.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
-
                 containerField.addComponentField(new AssignmentsComp());
                 return containerField;
             }
@@ -226,16 +232,58 @@ public class MilestoneReadViewImpl extends
         private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> assignmentsList;
 
         AssignmentsComp() {
-           withMargin(false).withWidth("100%");
+            withMargin(false).withWidth("100%");
             MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-            CheckBox openSelection = new CheckBox("Open", true);
-            CheckBox overdueSelection = new CheckBox("Overdue", false);
+
+            final CheckBox openSelection = new CheckBox("Open", true);
+            openSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    if (openSelection.getValue()) {
+                        searchCriteria.setIsOpenned(new SearchField());
+                    } else {
+                        searchCriteria.setIsOpenned(null);
+                    }
+                    updateSearchStatus();
+                }
+            });
+
+            final CheckBox overdueSelection = new CheckBox("Overdue", false);
+            overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    if (overdueSelection.getValue()) {
+                        searchCriteria.setDueDate(new DateSearchField(SearchField.AND, DateSearchField.LESSTHAN,
+                                DateTimeUtils.getCurrentDateWithoutMS()));
+                    } else {
+                        searchCriteria.setDueDate(null);
+                    }
+                    updateSearchStatus();
+                }
+            });
+
             Label spacingLbl1 = new Label("");
             Label spacingLbl2 = new Label("");
-            CheckBox taskSelection = new CheckBox("Tasks", true);
-            CheckBox bugSelection = new CheckBox("Bugs", true);
+
+            final CheckBox taskSelection = new CheckBox("Tasks", true);
+            taskSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    updateTypeSearchStatus(taskSelection.getValue(), ProjectTypeConstants.TASK);
+                }
+            });
+
+            final CheckBox bugSelection = new CheckBox("Bugs", true);
+            bugSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG);
+                }
+            });
             Button chartBtn = new Button("");
+
             chartBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_project_bug_advanced_display));
+            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2, chartBtn)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
@@ -243,14 +291,33 @@ public class MilestoneReadViewImpl extends
                     .withAlign(chartBtn, Alignment.MIDDLE_RIGHT).expand(spacingLbl1, spacingLbl2);
 
             assignmentsList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
-                    AssignmentRowDisplay());
+                    AssignmentRowDisplay(), 10);
+            assignmentsList.setControlStyle("borderlessControl");
 
             this.with(header, assignmentsList);
-
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
             searchCriteria.setTypes(new SetSearchField<>(new String[]{ProjectTypeConstants.BUG, ProjectTypeConstants.TASK}));
+            searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
+            updateSearchStatus();
+        }
+
+        private void updateTypeSearchStatus(boolean selection, String type) {
+            SetSearchField<String> types = searchCriteria.getTypes();
+            if (types == null) {
+                types = new SetSearchField<>();
+            }
+            if (selection) {
+                types.addValue(type);
+            } else {
+                types.removeValue(type);
+            }
+            searchCriteria.setTypes(types);
+            updateSearchStatus();
+        }
+
+        private void updateSearchStatus() {
             assignmentsList.setSearchCriteria(searchCriteria);
         }
     }
@@ -258,7 +325,87 @@ public class MilestoneReadViewImpl extends
     private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
         @Override
         public Component generateRow(ProjectGenericTask task, int rowIndex) {
-            return new Label("Hello world");
+            Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
+            if (task.isOverdue()) {
+                lbl.addStyleName("overdue");
+            } else if (task.isClosed()) {
+                lbl.addStyleName("completed");
+            }
+            return lbl;
+        }
+
+        private Div buildDivLine(ProjectGenericTask task) {
+            Div div = new Div().setCSSClass("project-tableless");
+            div.appendChild(buildItemValue(task), buildAssigneeValue(task), buildLastUpdateTime(task));
+            return div;
+        }
+
+        private Div buildItemValue(ProjectGenericTask task) {
+            String uid = UUID.randomUUID().toString();
+            Div div = new Div();
+            Img image = new Img("", ProjectResources.getResourceLink(task
+                    .getType()));
+
+            A itemLink = new A();
+            itemLink.setId("tag" + uid);
+            if (ProjectTypeConstants.TASK.equals(task.getType())
+                    || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getExtraTypeId() + ""));
+            } else {
+                throw new MyCollabException("Only support bug and task only");
+            }
+
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + task.getType() + "'";
+            String arg19 = "'" + task.getTypeId() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + AppContext.getAccountId() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+            String mouseOverFunc = String.format(
+                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                    arg20, arg21, arg22, arg23, arg24);
+            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.appendText(String.format("[%s-%d] %s", task.getProjectShortName(), task.getExtraTypeId(), task
+                    .getName()));
+
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+            return div.setCSSClass("columnExpand");
+        }
+
+        private Div buildAssigneeValue(ProjectGenericTask task) {
+            if (task.getAssignUser() == null) {
+                return new Div().setCSSClass("column200");
+            }
+            String uid = UUID.randomUUID().toString();
+            Div div = new Div();
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                    task.getAssignUserAvatarId(), 16));
+            A userLink = new A();
+            userLink.setId("tag" + uid);
+            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectId(),
+                    task.getAssignUser()));
+
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.appendText(task.getAssignUserFullName());
+
+            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+
+            return div.setCSSClass("column200");
+        }
+
+        private Div buildLastUpdateTime(ProjectGenericTask task) {
+            Div div = new Div();
+            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(task.getLastUpdatedTime(), AppContext.getUserLocale())));
+            return div.setCSSClass("column100");
         }
     }
 

@@ -29,6 +29,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -121,13 +122,9 @@ public class GridFormLayoutHelper implements Serializable {
 			final Alignment alignment) {
 		if (StringUtils.isNotBlank(caption)) {
 			final Label l = new Label(caption + ":");
-			final HorizontalLayout captionWrapper = new HorizontalLayout();
-			captionWrapper.addComponent(l);
-			captionWrapper.setComponentAlignment(l, alignment);
-			captionWrapper.setStyleName("gridform-caption");
-			captionWrapper.setMargin(true);
-			captionWrapper.setWidth(this.defaultCaptionWidth);
-			captionWrapper.setHeight("100%");
+			final MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
+					.withWidth(this.defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(l)
+					.withAlign(l, alignment);
 			if (columns == 0) {
 				captionWrapper.addStyleName("first-col");
 			}

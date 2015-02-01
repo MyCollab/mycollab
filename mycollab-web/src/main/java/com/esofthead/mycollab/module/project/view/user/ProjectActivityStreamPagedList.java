@@ -221,6 +221,7 @@ public class ProjectActivityStreamPagedList
                 "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
                 arg20, arg21, arg22, arg23, arg24);
         itemLink.setAttribute("onmouseover", mouseOverFunc);
+//        itemLink.setAttribute("onmouseleave", String.format("return hideTooltip('%s')", uid));
         itemLink.appendText(activityStream.getNamefield());
 
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),

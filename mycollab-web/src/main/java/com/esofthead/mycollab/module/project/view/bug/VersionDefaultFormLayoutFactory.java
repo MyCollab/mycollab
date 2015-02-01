@@ -27,41 +27,43 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.4
- *
  */
 public class VersionDefaultFormLayoutFactory {
 
-	private static final DynaForm defaultForm;
+    private static final DynaForm defaultForm;
 
-	static {
-		defaultForm = new DynaForm();
-		DynaSection mainSection = new DynaSectionBuilder().layoutType(
-				LayoutType.ONE_COLUMN).build();
+    static {
+        defaultForm = new DynaForm();
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(
+                LayoutType.ONE_COLUMN).build();
 
-		mainSection.addField(new TextDynaFieldBuilder()
-				.fieldName(Version.Field.versionname)
-				.displayName(AppContext.getMessage(VersionI18nEnum.FORM_NAME))
-				.required(true).mandatory(true).fieldIndex(0).build());
+        mainSection.addField(new TextDynaFieldBuilder()
+                .fieldName(Version.Field.versionname)
+                .displayName(AppContext.getMessage(VersionI18nEnum.FORM_NAME))
+                .required(true).mandatory(true).fieldIndex(0).build());
 
-		mainSection.addField(new TextDynaFieldBuilder()
-				.fieldName(Version.Field.description)
-				.displayName(
-						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
-				.fieldIndex(1).build());
+        mainSection.addField(new TextDynaFieldBuilder()
+                .fieldName(Version.Field.description)
+                .displayName(
+                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+                .fieldIndex(1).build());
 
-		mainSection.addField(new TextDynaFieldBuilder()
-				.fieldName(Version.Field.duedate)
-				.displayName(
-						AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE))
-				.fieldIndex(2).build());
+        mainSection.addField(new TextDynaFieldBuilder()
+                .fieldName(Version.Field.duedate)
+                .displayName(
+                        AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE))
+                .fieldIndex(2).build());
 
-		defaultForm.addSection(mainSection);
-	}
+        mainSection.addField(new TextDynaFieldBuilder().fieldName(Version.Field.id).displayName(AppContext
+                .getMessage(VersionI18nEnum.FORM_BUGS)).fieldIndex(3)
+                .build());
 
-	public static DynaForm getForm() {
-		return defaultForm;
-	}
+        defaultForm.addSection(mainSection);
+    }
+
+    public static DynaForm getForm() {
+        return defaultForm;
+    }
 }

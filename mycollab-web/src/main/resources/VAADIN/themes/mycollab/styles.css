@@ -6424,36 +6424,6 @@ body .mycollab.v-app .v-app-loading {
 	font-weight: bold;
 }
 
-.mycollab div.v-button-link.buttonPaging {
-	color: #525252;
-	background-color: whitesmoke;
-}
-
-.mycollab div.v-button-link.buttonPaging .v-button-wrap {
-	width: 17px;
-	padding: 4px 0px 3px;
-	text-align: center;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border: 1px solid #C8C8C8;
-}
-
-.mycollab div.v-button-link.buttonPaging:active .v-button-wrap, .mycollab div.v-button-link.buttonPaging:focus .v-button-wrap {
-	padding: 4px 0px 3px;
-	border: 1px solid #777575;
-}
-
-.mycollab div.v-button-link.buttonPaging .v-button-wrap .v-button-caption {
-	text-align: center;
-	padding: 0px;
-}
-
-.mycollab div.v-button-link.buttonPagingcurrent, .mycollab div.v-button-link.buttonPaging:hover {
-	background-color: #548BCE;
-	color: white;
-}
-
 .mycollab .v-button-caption-bool {
 	font-size: 13px;
 	font-weight: bold;
@@ -6636,6 +6606,54 @@ body .mycollab.v-app .v-app-loading {
 	height: 7px;
 	border: none;
 	background-color: #0088cc;
+}
+
+.mycollab .listControl {
+	padding: 2px;
+	border-width: 0px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-radius: 0px 0px 3px 3px;
+	background: none no-repeat 0 0 #ffffff;
+}
+
+.mycollab .borderlessControl {
+	padding: 4px;
+	border-width: 1px 0px 0px 0px;
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-radius: 0px;
+	background: none no-repeat 0 0 #ffffff;
+}
+
+.mycollab div.v-button-link.buttonPaging {
+	color: #525252;
+	background-color: whitesmoke;
+}
+
+.mycollab div.v-button-link.buttonPaging .v-button-wrap {
+	width: 17px;
+	padding: 4px 0px 3px;
+	text-align: center;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #C8C8C8;
+}
+
+.mycollab div.v-button-link.buttonPaging:active .v-button-wrap, .mycollab div.v-button-link.buttonPaging:focus .v-button-wrap {
+	padding: 4px 0px 3px;
+	border: 1px solid #777575;
+}
+
+.mycollab div.v-button-link.buttonPaging .v-button-wrap .v-button-caption {
+	text-align: center;
+	padding: 0px;
+}
+
+.mycollab div.v-button-link.buttonPagingcurrent, .mycollab div.v-button-link.buttonPaging:hover {
+	background-color: #548BCE;
+	color: white;
 }
 
 .mycollab .date-wrapper {
@@ -6976,6 +6994,61 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .member-preview-form .member-block .member-info.v-margin-left {
 	padding-left: 20px;
+}
+
+.mycollab .project-tableless {
+	display: table;
+	width: 100%;
+}
+
+.mycollab .project-tableless:hover {
+	background-color: beige;
+}
+
+.mycollab .project-tableless .columnExpand {
+	display: table-cell;
+	line-height: 20px;
+	padding: 5px;
+	padding-left: 0px;
+}
+
+.mycollab .project-tableless .column100 {
+	display: table-cell;
+	width: 100px;
+	padding: 5px;
+	padding-left: 0px;
+}
+
+.mycollab .project-tableless .column200 {
+	display: table-cell;
+	width: 200px;
+	padding: 5px;
+	padding-left: 0px;
+}
+
+.mycollab .form-container div.v-button-link.v-button-block {
+	line-height: 22px;
+	background-color: blueviolet;
+	padding: 0px 7px 0px 7px;
+}
+
+.mycollab .form-container div.v-button-link.v-button-block:active, .mycollab .form-container div.v-button-link.v-button-block:focus {
+	line-height: 22px;
+	background-color: blueviolet;
+	padding: 0px 7px 0px 7px;
+	margin-right: 2px;
+}
+
+.mycollab .form-container .v-button-link.v-button-block .v-button-caption {
+	color: white;
+}
+
+.mycollab .task-attached {
+	background: none;
+	padding: 0px 7px 1px;
+	margin-right: 2px;
+	color: #3333EC;
+	pointer: none;
 }
 
 .mycollab html {
@@ -9774,19 +9847,6 @@ body .mycollab.v-app .v-app-loading {
 	background-color: ghostwhite;
 }
 
-.mycollab .v-csslayout-listControl {
-	padding: 2px;
-	border-width: 0px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-	border-radius: 0px 0px 3px 3px;
-	background: none no-repeat 0 0 #ffffff;
-}
-
-.mycollab .project-member-readview .v-csslayout-listControl {
-	border-width: 0px;
-}
-
 .mycollab .v-table-row-spacer {
 	background: none no-repeat 0 0 #FFF;
 }
@@ -10221,32 +10281,6 @@ body .mycollab.v-app .v-app-loading {
 	border: none;
 }
 
-.mycollab .form-container div.v-button-link {
-	height: 18px;
-	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
-	padding: 0px 7px 1px;
-	margin-right: 2px;
-}
-
-.mycollab .form-container div.v-button-link:active, .mycollab .form-container div.v-button-link:focus {
-	height: 18px;
-	background: url("icons/grad-dark-bottom.png") repeat-x scroll left bottom #394757;
-	padding: 0px 7px 1px;
-	margin-right: 2px;
-}
-
-.mycollab .task-attached {
-	background: none;
-	padding: 0px 7px 1px;
-	margin-right: 2px;
-	color: #3333EC;
-	pointer: none;
-}
-
-.mycollab .form-container .v-button-link .v-button-caption {
-	color: white;
-}
-
 .mycollab div.v-lazyloadingwrapper-loading {
 	background-color: transparent;
 	background-image: url('icons/loading-indicator2.gif');
@@ -10327,10 +10361,6 @@ body .mycollab.v-app .v-app-loading {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
-}
-
-.mycollab .projectDashboardView .addViewLayout .depotContent .beanlist-content > .v-csslayout-margin {
-	border-top: 1px solid #CFCFCF;
 }
 
 .mycollab .standup-calendar .selected-ext {
@@ -11500,27 +11530,6 @@ body .mycollab.v-app .v-app-loading {
 	padding: 5px;
 }
 
-.mycollab .relatedbug-comp-header.v-margin-top {
-	padding-top: 5px;
-}
-
-.mycollab .relatedbug-comp-header.v-margin-right {
-	padding-right: 5px;
-}
-
-.mycollab .relatedbug-comp-header.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.mycollab .relatedbug-comp-header.v-margin-left {
-	padding-left: 5px;
-}
-
-.mycollab .addViewLayout .addViewBottomControls .relatedbug-comp .depotComp .depotHeader, .mycollab .readViewLayout .readViewBottomControls .relatedbug-comp .depotComp .depotHeader {
-	border-width: 1px;
-	border-radius: 0px;
-}
-
 .mycollab div.v-ratingstars-wrapper {
 	border: 0px;
 	padding: 0px;
@@ -12576,34 +12585,6 @@ body .mycollab.v-app .v-app-loading {
 	border-width: 1px 0px;
 }
 
-.mycollab .projectmember-view .v-tabsheet-content {
-	padding-bottom: 0px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .listControl {
-	border-width: 0px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .v-table-header-wrap, .mycollab .projectmember-view .v-tabsheet-content .v-table-body-wrapper {
-	border-width: 1px 0px 0px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .comp-header.v-margin-top {
-	padding-top: 5px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .comp-header.v-margin-right {
-	padding-right: 5px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .comp-header.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.mycollab .projectmember-view .v-tabsheet-content .comp-header.v-margin-left {
-	padding-left: 5px;
-}
-
 .mycollab .comment-display .v-verticallayout, .mycollab .comment-display .v-customcomponent {
 	display: block;
 }
@@ -13352,14 +13333,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .gantt-container {
 	height: 100% !important;
-}
-
-.mycollab .phase-simple-view .v-slot:first-child + div .bean-list {
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.mycollab .phase-simple-view .bean-list {
-	padding: 8px 0px 8px 18px;
 }
 
 .mycollab .add-project-btn {
@@ -14376,6 +14349,54 @@ a.pending {
 	height: 7px;
 	border: none;
 	background-color: #0088cc;
+}
+
+.listControl {
+	padding: 2px;
+	border-width: 0px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-radius: 0px 0px 3px 3px;
+	background: none no-repeat 0 0 #ffffff;
+}
+
+.borderlessControl {
+	padding: 4px;
+	border-width: 1px 0px 0px 0px;
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-radius: 0px;
+	background: none no-repeat 0 0 #ffffff;
+}
+
+div.v-button-link.buttonPaging {
+	color: #525252;
+	background-color: whitesmoke;
+}
+
+div.v-button-link.buttonPaging .v-button-wrap {
+	width: 17px;
+	padding: 4px 0px 3px;
+	text-align: center;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #C8C8C8;
+}
+
+div.v-button-link.buttonPaging:active .v-button-wrap, div.v-button-link.buttonPaging:focus .v-button-wrap {
+	padding: 4px 0px 3px;
+	border: 1px solid #777575;
+}
+
+div.v-button-link.buttonPaging .v-button-wrap .v-button-caption {
+	text-align: center;
+	padding: 0px;
+}
+
+div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
+	background-color: #548BCE;
+	color: white;
 }
 
 .stickytooltip {

@@ -33,6 +33,7 @@ public enum ComponentI18nEnum {
 	FORM_NAME,
 	FORM_LEAD,
 	FORM_STATUS,
+	FORM_BUGS,
 
 	FORM_COMPONENT_ERROR,
 
