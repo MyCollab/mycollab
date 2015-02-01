@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.time;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +94,7 @@ public class TimeTrackingTableDisplay
 
 				try {
 					VerticalLayout summaryWrapper = new VerticalLayout();
-					LabelLink timeTrackingLink = null;
+					LabelLink timeTrackingLink;
 					String type = itemLogging.getType();
 
 					if (type == null) {
@@ -108,7 +109,7 @@ public class TimeTrackingTableDisplay
 										itemLogging.getType(),
 										itemLogging.getTypeid() + ""));
 						timeTrackingLink.setIconLink(MyCollabResource
-								.newResourceLink("icons/16/project/bug.png"));
+								.newResourceLink(WebResourceIds._16_project_bug));
 
 						if (BugStatus.Verified.name().equals(
 								itemLogging.getStatus())) {
@@ -138,7 +139,7 @@ public class TimeTrackingTableDisplay
 							timeTrackingLink
 									.addStyleName(UIConstants.LINK_COMPLETED);
 						} else {
-							if ("Pending".equals(itemLogging.getStatus())) {
+							if (OptionI18nEnum.StatusI18nEnum.Pending.name().equals(itemLogging.getStatus())) {
 								timeTrackingLink
 										.addStyleName(UIConstants.LINK_PENDING);
 							} else if (itemLogging.getDueDate() != null
@@ -167,7 +168,7 @@ public class TimeTrackingTableDisplay
 									.newResourceLink(WebResourceIds._16_project_risk));
 						}
 
-						if ("Closed".equals(itemLogging.getStatus())) {
+						if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(itemLogging.getStatus())) {
 							timeTrackingLink
 									.addStyleName(UIConstants.LINK_COMPLETED);
 						} else if (itemLogging.getDueDate() != null
@@ -213,7 +214,7 @@ public class TimeTrackingTableDisplay
 						ProjectLinkBuilder.generateProjectFullLink(itemLogging
 								.getProjectid()));
 				b.setIconLink(MyCollabResource
-						.newResourceLink("icons/16/project/project.png"));
+						.newResourceLink(WebResourceIds._16_project_project));
 				return b;
 			}
 		});
@@ -227,7 +228,7 @@ public class TimeTrackingTableDisplay
 				final SimpleItemTimeLogging timeLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 				Button icon = new Button();
-				if (timeLogging.getIsbillable().booleanValue()) {
+				if (timeLogging.getIsbillable()) {
 					icon.setIcon(MyCollabResource
 							.newResource(WebResourceIds._16_yes));
 				} else {

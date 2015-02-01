@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -29,23 +27,9 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -65,7 +49,6 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 	private MHorizontalLayout header;
 	private Image titleIcon;
 
-	private VerticalLayout permissionsPanel;
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadViewImpl() {
@@ -87,7 +70,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
 
-		previewLayout = new ReadViewLayout("");
+		previewLayout = new DefaultReadViewLayout("");
 
 		contentWrapper.addComponent(previewLayout);
 
@@ -112,13 +95,13 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 	}
 
 	protected ComponentContainer createButtonControls() {
-		return (new ProjectPreviewFormControlsGenerator<SimpleProjectRole>(
+		return (new ProjectPreviewFormControlsGenerator<>(
 				previewForm))
 				.createButtonControls(ProjectRolePermissionCollections.ROLES);
 	}
 
 	protected ComponentContainer createBottomPanel() {
-		permissionsPanel = new VerticalLayout();
+		VerticalLayout permissionsPanel = new VerticalLayout();
 		final Label organizationHeader = new Label(
 				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
 		organizationHeader.setStyleName("h2");
@@ -224,14 +207,6 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 
 	public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
 		return previewForm;
-	}
-
-	protected void addLayoutStyleName(String styleName) {
-		previewLayout.addTitleStyleName(styleName);
-	}
-
-	protected void removeLayoutStyleName(String styleName) {
-		previewLayout.removeTitleStyleName(styleName);
 	}
 
 	@Override

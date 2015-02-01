@@ -100,7 +100,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     public TaskReadViewImpl() {
         super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
-                MyCollabResource.newResource(WebResourceIds._24_project_task));
+                MyCollabResource.newResource(WebResourceIds._24_project_task), new TaskPreviewFormLayout());
     }
 
     @Override
@@ -145,7 +145,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     @Override
     protected void onPreviewItem() {
-        previewLayout.clearTitleStyleName();
+        ((TaskPreviewFormLayout) previewLayout).displayTaskHeader(beanItem);
         if (beanItem.isCompleted()) {
             addLayoutStyleName(UIConstants.LINK_COMPLETED);
         } else if (beanItem.isPending()) {
@@ -275,6 +275,73 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         return tabTaskDetail;
     }
 
+    private static class TaskPreviewFormLayout extends ReadViewLayout {
+        TaskPreviewFormLayout() {
+            super();
+        }
+
+        void displayTaskHeader(SimpleTask task) {
+            Label titleLbl;
+            if (task.getParenttaskid() == null) {
+                MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withSpacing(true);
+                titleLbl = new Label(task.getTaskname());
+                titleLbl.setStyleName("headerName");
+                header.with(titleLbl).expand(titleLbl);
+                this.addHeader(header);
+            } else {
+                MVerticalLayout header = new MVerticalLayout().withMargin(false);
+                Label parentLabel = new Label(buildParentTaskLink(task), ContentMode.HTML);
+
+                titleLbl = new Label(task.getTaskname());
+                titleLbl.setStyleName("headerName");
+                MHorizontalLayout wrapLayout = new MHorizontalLayout().withMargin(false).withSpacing(false).with(new
+                        Label("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ContentMode.HTML), titleLbl);
+                header.with(parentLabel, wrapLayout);
+                this.addHeader(header);
+            }
+
+            if (task.isCompleted()) {
+                titleLbl.addStyleName("completed");
+            } else if (task.isPending()) {
+                titleLbl.addStyleName("pending");
+            } else if (task.isOverdue()) {
+                titleLbl.setStyleName("headerNameOverdue");
+            }
+        }
+
+        private String buildParentTaskLink(SimpleTask task) {
+            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getParentTaskKey(),
+                    task.getParentTaskName());
+            A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getParentTaskKey(),
+                    CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
+            return taskLink.write();
+        }
+
+        @Override
+        public void clearTitleStyleName() {
+
+        }
+
+        @Override
+        public void addTitleStyleName(final String styleName) {
+
+        }
+
+        @Override
+        public void setTitleStyleName(final String styleName) {
+
+        }
+
+        @Override
+        public void removeTitleStyleName(final String styleName) {
+
+        }
+
+        @Override
+        public void setTitle(final String title) {
+        }
+    }
+
     private class ReadFormFieldFactory extends
             AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
         private static final long serialVersionUID = 1L;
@@ -348,7 +415,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    class SubTasksComp extends CustomField {
+    private class SubTasksComp extends CustomField {
         private static final long serialVersionUID = 1L;
 
         private VerticalLayout tasksLayout;
@@ -484,7 +551,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     }
 
-    class PeopleInfoComp extends MVerticalLayout {
+    private class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {

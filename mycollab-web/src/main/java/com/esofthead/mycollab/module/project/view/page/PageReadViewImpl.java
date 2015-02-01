@@ -64,346 +64,345 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
-		PageReadView {
-	private static final long serialVersionUID = 1L;
-	private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-			+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
-			+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
+        PageReadView {
+    private static final long serialVersionUID = 1L;
+    private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
+            + "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(PageReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(PageReadViewImpl.class);
 
-	private CommentDisplay commentListComp;
+    private CommentDisplay commentListComp;
 
-	private PageInfoComp pageInfoComp;
+    private PageInfoComp pageInfoComp;
 
-	private PageVersionSelectionBox pageVersionsSelection;
+    private PageVersionSelectionBox pageVersionsSelection;
 
-	private PageVersion selectedVersion;
+    private PageVersion selectedVersion;
 
-	private PageService pageService;
+    private PageService pageService;
 
-	private Button exportPdfBtn;
+    private Button exportPdfBtn;
 
-	public PageReadViewImpl() {
-		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE), null);
-		pageService = ApplicationContextUtil.getSpringBean(PageService.class);
-		this.previewLayout.setTitleIcon(MyCollabResource
-				.newResource("icons/22/project/page_selected.png"));
-	}
+    public PageReadViewImpl() {
+        super(new MHorizontalLayout());
+        pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+        constructHeader();
+    }
 
-	@Override
-	protected ComponentContainer constructHeader(String headerText) {
-		header = new MHorizontalLayout();
-		pageVersionsSelection = new PageVersionSelectionBox();
+    private void constructHeader() {
+        pageVersionsSelection = new PageVersionSelectionBox();
 
-		Label headerLbl = new Label(headerText);
-		headerLbl.setWidthUndefined();
-		headerLbl.setStyleName(UIConstants.HEADER_TEXT);
+        Image titleIcon = new Image(null, MyCollabResource.newResource(WebResourceIds._22_project_page_selected));
 
-		header.withWidth("100%").withStyleName("hdr-view").withSpacing(true)
-				.withMargin(true).with(headerLbl, pageVersionsSelection)
-				.alignAll(Alignment.MIDDLE_LEFT).expand(pageVersionsSelection);
+        Label headerLbl = new Label(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
+        headerLbl.setWidthUndefined();
+        headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 
-		return header;
-	}
+        ((MHorizontalLayout) header).addComponent(titleIcon, 0);
+        ((MHorizontalLayout) header).addComponent(headerLbl, 1);
+        ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 2);
 
-	@Override
-	public Page getItem() {
-		return beanItem;
-	}
+        ((MHorizontalLayout) header).withMargin(true).withWidth("100%").withStyleName("hdr-view")
+                .withAlign(titleIcon, Alignment.MIDDLE_LEFT)
+                .alignAll(Alignment.MIDDLE_LEFT).expand(pageVersionsSelection);
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		commentListComp = new CommentDisplay(CommentType.PRJ_PAGE,
-				CurrentProjectVariables.getProjectId(), true, true,
-				ProjectPageRelayEmailNotificationAction.class);
-		commentListComp.setWidth("100%");
-		commentListComp.setMargin(true);
+    @Override
+    public Page getItem() {
+        return beanItem;
+    }
 
-		pageInfoComp = new PageInfoComp();
-		addToSideBar(pageInfoComp);
+    @Override
+    protected void initRelatedComponents() {
+        commentListComp = new CommentDisplay(CommentType.PRJ_PAGE,
+                CurrentProjectVariables.getProjectId(), true, true,
+                ProjectPageRelayEmailNotificationAction.class);
+        commentListComp.setWidth("100%");
+        commentListComp.setMargin(true);
 
-	}
+        pageInfoComp = new PageInfoComp();
+        addToSideBar(pageInfoComp);
 
-	@Override
-	protected void onPreviewItem() {
-		commentListComp.loadComments(beanItem.getPath());
-		pageInfoComp.displayEntryInfo();
-		pageVersionsSelection.displayVersions(beanItem.getPath());
-	}
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getSubject();
-	}
+    @Override
+    protected void onPreviewItem() {
+        commentListComp.loadComments(beanItem.getPath());
+        pageInfoComp.displayEntryInfo();
+        pageVersionsSelection.displayVersions(beanItem.getPath());
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<Page> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getSubject();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new PageReadFormLayout();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<Page> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	public HasPreviewFormHandlers<Page> getPreviewFormHandlers() {
-		return previewForm;
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new PageReadFormLayout();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<Page> initBeanFormFieldFactory() {
-		return new PageReadFormFieldFactory(previewForm);
-	}
+    @Override
+    public HasPreviewFormHandlers<Page> getPreviewFormHandlers() {
+        return previewForm;
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(
-				previewForm);
-		final HorizontalLayout topPanel = pagesPreviewForm
-				.createButtonControls(
-						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
-						ProjectRolePermissionCollections.PAGES);
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<Page> initBeanFormFieldFactory() {
+        return new PageReadFormFieldFactory(previewForm);
+    }
 
-		exportPdfBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
-				MyCollabResource.newResource(WebResourceIds._16_export));
-		exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+    @Override
+    protected ComponentContainer createButtonControls() {
+        ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(
+                previewForm);
+        final HorizontalLayout topPanel = pagesPreviewForm
+                .createButtonControls(
+                        ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
+                        ProjectRolePermissionCollections.PAGES);
 
-		FileDownloader fileDownloader = new FileDownloader(getPDFStream());
-		fileDownloader.extend(exportPdfBtn);
+        exportPdfBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
+                MyCollabResource.newResource(WebResourceIds._16_export));
+        exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-		pagesPreviewForm.insertToControlBlock(exportPdfBtn);
+        FileDownloader fileDownloader = new FileDownloader(getPDFStream());
+        fileDownloader.extend(exportPdfBtn);
 
-		return topPanel;
-	}
+        pagesPreviewForm.insertToControlBlock(exportPdfBtn);
 
-	private StreamResource getPDFStream() {
-		return new StreamResource(new StreamSource() {
-			private static final long serialVersionUID = 1L;
+        return topPanel;
+    }
 
-			public InputStream getStream() {
-				try {
-					return new FileInputStream(writePdf());
-				} catch (Exception e) {
-					LOG.error("Error while export PDF", e);
-					return null;
-				}
-			}
-		}, "Document.pdf");
-	}
+    private StreamResource getPDFStream() {
+        return new StreamResource(new StreamSource() {
+            private static final long serialVersionUID = 1L;
 
-	private File writePdf() throws IOException,
-			DocumentException {
-		ITextRenderer renderer = new ITextRenderer();
-		renderer.setDocumentFromString(String.format(XHTML_PAGE,
-				beanItem.getSubject(), beanItem.getContent()));
-		renderer.layout();
+            public InputStream getStream() {
+                try {
+                    return new FileInputStream(writePdf());
+                } catch (Exception e) {
+                    LOG.error("Error while export PDF", e);
+                    return null;
+                }
+            }
+        }, "Document.pdf");
+    }
 
-		File file = File.createTempFile(beanItem.getSubject(), "pdf");
-		file.deleteOnExit();
-		OutputStream os = new FileOutputStream(file);
-		renderer.createPDF(os);
-		os.close();
-		return file;
-	}
+    private File writePdf() throws IOException,
+            DocumentException {
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(String.format(XHTML_PAGE,
+                beanItem.getSubject(), beanItem.getContent()));
+        renderer.layout();
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-		tabContainer.setWidth("100%");
+        File file = File.createTempFile(beanItem.getSubject(), "pdf");
+        file.deleteOnExit();
+        OutputStream os = new FileOutputStream(file);
+        renderer.createPDF(os);
+        os.close();
+        return file;
+    }
 
-		tabContainer.addTab(this.commentListComp, AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_gray_comment));
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
+        tabContainer.setWidth("100%");
 
-		return tabContainer;
-	}
+        tabContainer.addTab(this.commentListComp, AppContext
+                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+                MyCollabResource
+                        .newResource(WebResourceIds._16_project_gray_comment));
 
-	private static class PageReadFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<Page> {
-		private static final long serialVersionUID = 1L;
+        return tabContainer;
+    }
 
-		public PageReadFormFieldFactory(GenericBeanForm<Page> form) {
-			super(form);
-		}
+    private static class PageReadFormFieldFactory extends
+            AbstractBeanFieldGroupViewFieldFactory<Page> {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
+        public PageReadFormFieldFactory(GenericBeanForm<Page> form) {
+            super(form);
+        }
 
-			if (propertyId.equals("status")) {
-				return new I18nFormViewField(attachForm.getBean().getStatus(),
-						WikiI18nEnum.class);
-			} else if (propertyId.equals("content")) {
-				return new RichTextViewField(attachForm.getBean().getContent());
-			}
-			return null;
-		}
-	}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
 
-	private class PageReadFormLayout implements IFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+            if (propertyId.equals("status")) {
+                return new I18nFormViewField(attachForm.getBean().getStatus(),
+                        WikiI18nEnum.class);
+            } else if (propertyId.equals("content")) {
+                return new RichTextViewField(attachForm.getBean().getContent());
+            }
+            return null;
+        }
+    }
 
-		private VerticalLayout layout;
+    private class PageReadFormLayout implements IFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public ComponentContainer getLayout() {
-			layout = new VerticalLayout();
-			layout.setStyleName("page-read-layout");
-			layout.setMargin(true);
-			layout.setSpacing(true);
-			layout.setWidth("100%");
-			return layout;
-		}
+        private VerticalLayout layout;
 
-		@Override
-		public void attachField(Object propertyId, Field<?> field) {
-			if (propertyId.equals("content")) {
-				layout.addComponent(field);
-			}
-		}
+        @Override
+        public ComponentContainer getLayout() {
+            layout = new VerticalLayout();
+            layout.setStyleName("page-read-layout");
+            layout.setMargin(true);
+            layout.setSpacing(true);
+            layout.setWidth("100%");
+            return layout;
+        }
 
-	}
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            if (propertyId.equals("content")) {
+                layout.addComponent(field);
+            }
+        }
 
-	private class PageInfoComp extends VerticalLayout {
-		private static final long serialVersionUID = 1L;
+    }
 
-		public void displayEntryInfo() {
-			this.removeAllComponents();
-			this.setSpacing(true);
-			this.setMargin(new MarginInfo(false, false, false, true));
+    private class PageInfoComp extends VerticalLayout {
+        private static final long serialVersionUID = 1L;
 
-			Label pageInfoHeader = new Label("Page Information");
-			pageInfoHeader.setStyleName("info-hdr");
-			this.addComponent(pageInfoHeader);
+        public void displayEntryInfo() {
+            this.removeAllComponents();
+            this.setSpacing(true);
+            this.setMargin(new MarginInfo(false, false, false, true));
 
-			VerticalLayout layout = new VerticalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
-			layout.setMargin(new MarginInfo(false, false, false, true));
-			String createdDate = AppContext.formatDate(beanItem
-					.getCreatedTime().getTime());
-			layout.addComponent(new Label(AppContext.getMessage(
-					ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
+            Label pageInfoHeader = new Label("Page Information");
+            pageInfoHeader.setStyleName("info-hdr");
+            this.addComponent(pageInfoHeader);
 
-			String createdUser = beanItem.getCreatedUser();
+            VerticalLayout layout = new VerticalLayout();
+            layout.setWidth("100%");
+            layout.setSpacing(true);
+            layout.setMargin(new MarginInfo(false, false, false, true));
+            String createdDate = AppContext.formatDate(beanItem
+                    .getCreatedTime().getTime());
+            layout.addComponent(new Label(AppContext.getMessage(
+                    ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
 
-			Label createdLbl = new Label(AppContext.getMessage(
-					Page18InEnum.OPT_CREATED_USER, getMemberLink(createdUser)),
-					ContentMode.HTML);
-			createdLbl.setSizeUndefined();
-			layout.addComponent(createdLbl);
+            String createdUser = beanItem.getCreatedUser();
 
-			Label visibilityLbl = new Label(String.format(
-					"%s: %s",
-					AppContext.getMessage(Page18InEnum.FORM_VISIBILITY),
-					AppContext.getMessage(WikiI18nEnum.class,
-							beanItem.getStatus())));
-			layout.addComponent(visibilityLbl);
+            Label createdLbl = new Label(AppContext.getMessage(
+                    Page18InEnum.OPT_CREATED_USER, getMemberLink(createdUser)),
+                    ContentMode.HTML);
+            createdLbl.setSizeUndefined();
+            layout.addComponent(createdLbl);
 
-			this.addComponent(layout);
-		}
+            Label visibilityLbl = new Label(String.format(
+                    "%s: %s",
+                    AppContext.getMessage(Page18InEnum.FORM_VISIBILITY),
+                    AppContext.getMessage(WikiI18nEnum.class,
+                            beanItem.getStatus())));
+            layout.addComponent(visibilityLbl);
 
-		private String getMemberLink(String createdUser) {
-			if (StringUtils.isNotBlank(createdUser)) {
-				ProjectMemberService projectMemberService = ApplicationContextUtil
-						.getSpringBean(ProjectMemberService.class);
-				SimpleProjectMember member = projectMemberService
-						.findMemberByUsername(createdUser,
-								CurrentProjectVariables.getProjectId(),
-								AppContext.getAccountId());
-				if (member != null) {
-					DivLessFormatter div = new DivLessFormatter();
-					Img userAvatar = new Img("", StorageManager.getAvatarLink(
-							member.getMemberAvatarId(), 16));
-					A userLink = new A();
-					userLink.setHref(ProjectLinkBuilder
-							.generateProjectMemberFullLink(
-									CurrentProjectVariables.getProjectId(),
-									createdUser));
-					userLink.appendText(member.getMemberFullName());
-					div.appendChild(userAvatar, userLink);
-					return div.write();
-				}
-			}
+            this.addComponent(layout);
+        }
 
-			return createdUser;
-		}
-	}
+        private String getMemberLink(String createdUser) {
+            if (StringUtils.isNotBlank(createdUser)) {
+                ProjectMemberService projectMemberService = ApplicationContextUtil
+                        .getSpringBean(ProjectMemberService.class);
+                SimpleProjectMember member = projectMemberService
+                        .findMemberByUsername(createdUser,
+                                CurrentProjectVariables.getProjectId(),
+                                AppContext.getAccountId());
+                if (member != null) {
+                    DivLessFormatter div = new DivLessFormatter();
+                    Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                            member.getMemberAvatarId(), 16));
+                    A userLink = new A();
+                    userLink.setHref(ProjectLinkBuilder
+                            .generateProjectMemberFullLink(
+                                    CurrentProjectVariables.getProjectId(),
+                                    createdUser));
+                    userLink.appendText(member.getMemberFullName());
+                    div.appendChild(userAvatar, userLink);
+                    return div.write();
+                }
+            }
 
-	private class PageVersionSelectionBox extends CustomComponent {
-		private static final long serialVersionUID = 1L;
+            return createdUser;
+        }
+    }
 
-		private HorizontalLayout content;
+    private class PageVersionSelectionBox extends CustomComponent {
+        private static final long serialVersionUID = 1L;
 
-		public PageVersionSelectionBox() {
-			content = new HorizontalLayout();
-			this.setCompositionRoot(content);
-		}
+        private HorizontalLayout content;
 
-		void displayVersions(String path) {
-			List<PageVersion> pageVersions = pageService.getPageVersions(path);
-			if (pageVersions.size() > 0) {
-				final ComboBox pageSelection = new ComboBox();
-				content.addComponent(pageSelection);
-				pageSelection.setNullSelectionAllowed(false);
-				pageSelection.setStyleName("version-selection-box");
-				pageSelection.setTextInputAllowed(false);
+        public PageVersionSelectionBox() {
+            content = new HorizontalLayout();
+            this.setCompositionRoot(content);
+        }
 
-				pageSelection.addValueChangeListener(new ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+        void displayVersions(String path) {
+            List<PageVersion> pageVersions = pageService.getPageVersions(path);
+            if (pageVersions.size() > 0) {
+                final ComboBox pageSelection = new ComboBox();
+                content.addComponent(pageSelection);
+                pageSelection.setNullSelectionAllowed(false);
+                pageSelection.setStyleName("version-selection-box");
+                pageSelection.setTextInputAllowed(false);
 
-					@Override
-					public void valueChange(
-							com.vaadin.data.Property.ValueChangeEvent event) {
-						selectedVersion = (PageVersion) pageSelection
-								.getValue();
-						if (selectedVersion != null) {
-							Page page = pageService.getPageByVersion(
-									beanItem.getPath(),
-									selectedVersion.getName());
-							page.setPath(beanItem.getPath());
-							previewForm.setBean(page);
-							previewLayout.setTitle(page.getSubject());
-							pageInfoComp.displayEntryInfo();
-						}
-					}
-				});
+                pageSelection.addValueChangeListener(new ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-				pageSelection.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-				pageSelection.setNullSelectionAllowed(false);
+                    @Override
+                    public void valueChange(
+                            com.vaadin.data.Property.ValueChangeEvent event) {
+                        selectedVersion = (PageVersion) pageSelection
+                                .getValue();
+                        if (selectedVersion != null) {
+                            Page page = pageService.getPageByVersion(
+                                    beanItem.getPath(),
+                                    selectedVersion.getName());
+                            page.setPath(beanItem.getPath());
+                            previewForm.setBean(page);
+                            previewLayout.setTitle(page.getSubject());
+                            pageInfoComp.displayEntryInfo();
+                        }
+                    }
+                });
 
-				for (int i = 0; i < pageVersions.size(); i++) {
-					PageVersion version = pageVersions.get(i);
-					pageSelection.addItem(version);
-					pageSelection.setItemCaption(version,
-							getVersionDisplay(version, i));
-				}
+                pageSelection.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+                pageSelection.setNullSelectionAllowed(false);
 
-				if (pageVersions.size() > 0) {
-					pageSelection
-							.setValue(pageVersions.get(pageVersions.size() - 1));
-				}
-			}
-		}
+                for (int i = 0; i < pageVersions.size(); i++) {
+                    PageVersion version = pageVersions.get(i);
+                    pageSelection.addItem(version);
+                    pageSelection.setItemCaption(version,
+                            getVersionDisplay(version, i));
+                }
 
-		String getVersionDisplay(PageVersion version, int index) {
-			String vFormat = "%s (%s)";
-			Calendar createdTime = version.getCreatedTime();
-			String date = AppContext.formatDateTime(createdTime.getTime());
-			return String.format(vFormat, "V" + (index + 1), date);
-		}
-	}
+                if (pageVersions.size() > 0) {
+                    pageSelection
+                            .setValue(pageVersions.get(pageVersions.size() - 1));
+                }
+            }
+        }
+
+        String getVersionDisplay(PageVersion version, int index) {
+            String vFormat = "%s (%s)";
+            Calendar createdTime = version.getCreatedTime();
+            String date = AppContext.formatDateTime(createdTime.getTime());
+            return String.format(vFormat, "V" + (index + 1), date);
+        }
+    }
 }

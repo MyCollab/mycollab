@@ -72,7 +72,6 @@ public class UIConstants {
 	public static final String TEXT_ELLIPSIS = "text-ellipsis";
 	public static final String TEXT_BLUE = "bluetxt";
 	public static final String LABEL_CHECKED = "has-checkmark";
-	public static final String H2_NO_PADDING = "h2-no-padding";
 	public static final String BTN_ACTIVE = "active";
 	public static final String TEXT_LOG_DATE = "text-log-date";
 	public static final String TEXT_LOG_DATE_FULL = "text-log-date-full";

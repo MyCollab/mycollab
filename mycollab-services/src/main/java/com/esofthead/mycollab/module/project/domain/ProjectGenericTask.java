@@ -141,7 +141,7 @@ public class ProjectGenericTask implements Serializable {
     }
 
     public boolean isOverdue() {
-        if (getDueDate() != null) {
+        if (getDueDate() != null && !isClosed()) {
             Date currentDay = DateTimeUtils.getCurrentDateWithoutMS();
             return currentDay.after(getDueDate());
         }

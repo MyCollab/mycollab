@@ -16,15 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import org.apache.commons.lang3.StringUtils;
-
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.web.CustomLayoutExt;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -32,35 +26,15 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 2.0
  * 
  */
-public class ReadViewLayout extends CustomLayoutExt {
+public abstract class ReadViewLayout extends CustomLayoutExt {
 	private static final long serialVersionUID = 1L;
 
-	private Label titleLbl;
-	private Image icon;
-	private ComponentContainer headerPanel;
-
-	public ReadViewLayout(final String title) {
+	public ReadViewLayout() {
 		super("readView");
-		headerPanel = buildHeader(title);
-		this.addComponent(headerPanel, "readViewHeader");
 	}
 
-	private ComponentContainer buildHeader(String title) {
-		MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withSpacing(true);
-
-		this.icon = new Image();
-		this.titleLbl = new Label();
-		this.titleLbl.setStyleName("headerName");
-		this.titleLbl.setImmediate(true);
-
-		header.with(titleLbl).expand(titleLbl);
-
-		if (StringUtils.isBlank(title)) {
-			this.setTitle("Undefined");
-		} else {
-			this.setTitle(title);
-		}
-		return header;
+	public void addHeader(final ComponentContainer header) {
+		this.addComponent(header, "readViewHeader");
 	}
 
 	public void addBody(final ComponentContainer body) {
@@ -72,33 +46,22 @@ public class ReadViewLayout extends CustomLayoutExt {
 	}
 
 	public void clearTitleStyleName() {
-		this.titleLbl.setStyleName("headerName");
+		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
 	public void addTitleStyleName(final String styleName) {
-		this.titleLbl.addStyleName(styleName);
+		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
 	public void setTitleStyleName(final String styleName) {
-		this.titleLbl.setStyleName(styleName);
+		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
 	public void removeTitleStyleName(final String styleName) {
-		this.titleLbl.removeStyleName(styleName);
+		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
 	public void setTitle(final String title) {
-		this.titleLbl.setValue(title);
-	}
-
-	public void setTitleIcon(final Resource resource) {
-		if (resource != null) {
-			this.icon.setSource(resource);
-			if (!this.icon.isAttached()) {
-				((HorizontalLayout) this.headerPanel).addComponentAsFirst(icon);
-			}
-		} else if (this.icon.isAttached()) {
-			this.headerPanel.removeComponent(icon);
-		}
+		throw new MyCollabException("Must be implemented in the sub class");
 	}
 }

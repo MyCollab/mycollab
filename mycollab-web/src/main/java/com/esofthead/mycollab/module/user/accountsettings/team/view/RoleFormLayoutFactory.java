@@ -20,16 +20,8 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -47,7 +39,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
 	@Override
 	public ComponentContainer getLayout() {
-		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title);
+		final ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
 		this.userInformationLayout = new RoleInformationLayout();
 		this.userInformationLayout.getLayout().setWidth("100%");

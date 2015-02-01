@@ -19,12 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -58,9 +53,9 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 	public ComponentContainer getLayout() {
 		if (userAvatarIcon == null) {
 			userAvatarIcon = MyCollabResource
-					.newResource("icons/24/project/user.png");
+					.newResource(WebResourceIds._24_project_user);
 		}
-		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title);
+		final ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
 		this.userInformationLayout = new UserInformationLayout();
 		this.userInformationLayout.getLayout().setWidth("100%");
