@@ -1,0 +1,181 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-31 17:23+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Diana <diana@wpdiscounts.com>\n"
+"Language-Team: phpwelt.net <phpwelt@googlemail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: sr_RS\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:519 main.php:550
+msgid "writing"
+msgstr "pisanje"
+
+#: main.php:912
+msgid "Really Static Settings"
+msgstr "Really Static podesavanja"
+
+#: main.php:922
+msgid "Source"
+msgstr "Izvor"
+
+#: main.php:922
+msgid "internal filepath to wordpressinstalltion"
+msgstr "interna putanja fajlova do wordpress instalacije"
+
+#: main.php:923
+msgid "url to wordpressinstalltion"
+msgstr "url do wordpress instalacije"
+
+#: main.php:925
+msgid "path to the templatefolder"
+msgstr "putanja do foldera sablona"
+
+#: main.php:927
+msgid "Destination"
+msgstr "Destinacija"
+
+#: main.php:927
+msgid "internal filepath from FTP-Root to cachedfiles"
+msgstr "interna putanja fajlova od FTP-Root do kes polja"
+
+#: main.php:927
+msgid ""
+"the path inside your FTP account e.g. \"/path/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"putanja unutar vaseg FTP naloga npr. \"/putanja/\".Ukoliko treba da bude "
+"sacuvano u glavni direktorijum napisite \"/\" "
+
+#: main.php:928
+msgid "Domainprefix for your cached files"
+msgstr "Domainprefiks za vase kes fajlove"
+
+#: main.php:930
+msgid "FTP-Server IP"
+msgstr "FTP-Server IP"
+
+#: main.php:931
+msgid "FTP-login User"
+msgstr "FTP-login Korisnicko ime"
+
+#: main.php:932
+msgid "FTP-login Password"
+msgstr "FTP-login lozinka"
+
+#: main.php:935
+msgid "Path to the templatefolder"
+msgstr "Putanja do foldera sa sablonom"
+
+#: main.php:939
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr ""
+"Na stranici kategorije/tag npr. je brojac komentara (nije preporucljivo)"
+
+#: main.php:942
+msgid "I want that Really-Static try to handle with the ? in the url"
+msgstr "Zelim da Really-Static pokusa da obradi ? u url-u"
+
+#: main.php:944
+msgid "Save"
+msgstr "Sacuvaj"
+
+#: main.php:947
+msgid ""
+"If this Plugin is installed on a Blog with exsiting Posts or for example you "
+"changed your design so you shold press the \"write all files\" Button. If "
+"the prezess is terminatet (e.g. because of a timeout), just press this "
+"button again"
+msgstr ""
+"Ukoliko je ovaj plagin instaliran na blogu za postojece postove ili ste na "
+"primer promenili svoj dizajn trebate kliknuti  \"napisi sve fajlove\" dugme. "
+"Ukoliko je proces prekinut (na primer zbog isteka vremena), samo kliknite "
+"ovo dugme ponovo"
+
+#: main.php:949
+msgid "write all files"
+msgstr "napisi sve fajlove"
+
+#: main.php:951
+msgid ""
+"If you want to renew all files, first press the \"reset filedatabase\" "
+"button and then the \"write all files\" button"
+msgstr ""
+"Ukoliko zelite da obnovite sve fajlove, najpre kliknite \"resetuj bazu "
+"podataka fajlova\" dugme, a onda \"napisi sve fajlove\" dugme"
+
+#: main.php:952
+msgid "reset filedatabase"
+msgstr "resetuj bazu podataka fajlova"
+
+#: main.php:955
+msgid "Refresh a staticsite manualy"
+msgstr "Osvezi staticki sajt rucno"
+
+#: main.php:957
+msgid "(complete url of the static page)"
+msgstr "(kompletan url staticke stranice)"
+
+#: main.php:958
+msgid "refresh"
+msgstr "osvezi"
+
+#: main.php:961
+msgid "What should Really-Static do"
+msgstr "Sta bi Really-Static trebalo da uradi"
+
+#: main.php:962
+msgid ""
+"This option allows to give Really-Static accurate information about when a "
+"speified URL should make static. This is good thing, when you use example "
+"sitemaps or pages that must refreshed every 24 hours."
+msgstr ""
+"Ova opcija Vam omogucava da date Really-Static-u preciznu informaciju o tome "
+"kada navedeni URL treba da napravi statiku. Ovo je dobra stvar kada "
+"koristite sitemaps il stranice koje moraju biti osvezene svakih 24h."
+
+#: main.php:964
+msgid "URL"
+msgstr "URL"
+
+#: main.php:964
+msgid "when"
+msgstr "kada"
+
+#: main.php:967
+msgid "when a Post is created, edited or deleted"
+msgstr "kada je post kreiran, izmenjen ili izbrisan"
+
+#: main.php:970
+msgid "every 24 hours"
+msgstr "svakih 24h"
+
+#: main.php:971
+msgid "everytime Really-Static runs"
+msgstr "Svaki put Really-Static radi "
+
+#: main.php:972
+msgid "Submit"
+msgstr "Unesi"
+
+#: main.php:977
+msgid "Rewrite every 24 hours"
+msgstr "Preraditi svakih 24h"
+
+#: main.php:984
+msgid "Rewrite on every run of Really-Static"
+msgstr "Preraditi svaki put kada se Really-Static aktivira"
+
+#: main.php:991
+msgid "Rewrite on create, edit or delete a post"
+msgstr "Preraditi prilikom kreiranja, izmene ili brisanja posta"

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if IE 8]><html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#"><![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Release Notes - MyCollab</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<link href="http://netdna.bootstrapcdn.com/bootswatch/2.3.2/united/bootstrap.min.css" rel="stylesheet" />
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="http://community.mycollab.com/wp-content/uploads/2015/01/MCfavicons.png"><link rel="apple-touch-icon-precomposed" sizes="16x16" href="http://community.mycollab.com/wp-content/uploads/2015/01/MCfavicons.png">	<!--[if lt IE 9]><script src="http://community.mycollab.com/wp-content/themes/fruitful/js/html5.js" type="text/javascript"></script><![endif]-->
+	
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.7.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="robots" content="noindex,follow"/>
+<link rel="canonical" href="http://community.mycollab.com/release-notes/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Release Notes - MyCollab" />
+<meta property="og:description" content="Version 4.5.5 Library Upgrades Upgrade Vaadin to 7.3.5 Upgrade HirakiCP to 2.2.5 Upgrade Jackson to 2.4.4 Upgrade Infinispan to 7.0.2 Upgrade several Vaadin addons Improvements Add user comment to the activity stream Bug Fixes Display the activity stream in CRM dashboard may show the duplicated items Not thread safe when saving bugs, tasks Navigate user &hellip;" />
+<meta property="og:url" content="http://community.mycollab.com/release-notes/" />
+<meta property="og:site_name" content="MyCollab" />
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="MyCollab &raquo; Feed" href="http://community.mycollab.com/feed/" />
+
+<link rel="alternate" type="application/rss+xml" title="MyCollab &raquo; Release Notes Comments Feed" href="http://community.mycollab.com/release-notes/feed/" />
+<link rel='stylesheet' id='font-awesome-css'  href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css' type='text/css' media='screen' />
+<link rel='stylesheet' id='ie-style-css'  href='http://community.mycollab.com/wp-content/themes/fruitful/woocommerce/ie.css?ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='fn-box-style-css'  href='http://community.mycollab.com/wp-content/themes/fruitful/js/fnBox/jquery.fancybox.css?ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f598-css'  href='http://fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C700italic%2C800italic%2C400%2C800%2C700%2C600%2C300&#038;subset=latin%2Clatin-ext&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f5d9-css'  href='http://fonts.googleapis.com/css?family=Josefin+Slab%3A400%2C100%2C100italic%2C300%2C300italic%2C400italic%2C600%2C600italic%2C700%2C700italic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f615-css'  href='http://fonts.googleapis.com/css?family=Lobster&#038;subset=cyrillic-ext%2Clatin-ext%2Clatin%2Ccyrillic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f650-css'  href='http://fonts.googleapis.com/css?family=Arvo%3A400%2C400italic%2C700%2C700italic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f68c-css'  href='http://fonts.googleapis.com/css?family=Lato%3A400%2C100%2C100italic%2C300%2C300italic%2C400italic%2C700%2C700italic%2C900%2C900italic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f6c8-css'  href='http://fonts.googleapis.com/css?family=Vollkorn%3A400%2C400italic%2C700%2C700italic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f703-css'  href='http://fonts.googleapis.com/css?family=Abril+Fatface&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f73e-css'  href='http://fonts.googleapis.com/css?family=Ubuntu%3A400%2C300italic%2C400italic%2C500%2C500italic%2C700%2C700italic%2C300&#038;subset=latin%2Cgreek%2Clatin-ext%2Ccyrillic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f779-css'  href='http://fonts.googleapis.com/css?family=PT+Sans%3A400%2C400italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f7b4-css'  href='http://fonts.googleapis.com/css?family=Old+Standard+TT%3A400%2C400italic%2C700&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='custom_fonts_54d080eb8f7ef-css'  href='http://fonts.googleapis.com/css?family=Droid+Sans%3A400%2C700&#038;ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='main-style-css'  href='http://community.mycollab.com/wp-content/themes/fruitful/style.css?ver=4.1' type='text/css' media='all' />
+<style id='main-style-inline-css' type='text/css'>
+h1 {font-size : 34px; }h2 {font-size : 27px; }h3 {font-size : 20px; }h4 {font-size : 16px; }h5 {font-size : 14px; }h6 {font-size : 12px; }h1, h2, h3, h4, h5, h6 {font-family : Open Sans, sans-serif; } .main-navigation a {font-family : Open Sans, sans-serif; color : #ffffff; } .main-navigation ul:not(.sub-menu) > li > a, .main-navigation ul:not(.sub-menu) > li:hover > a { font-size : 13px;} .main-navigation {background-color : #d34414; }#header_language_select a {font-family : Open Sans, sans-serif;} body {font-size : 14px; font-family : Open Sans, sans-serif; }body { background-color : #ffffff; }.page-container .container {background-color : #ffffff; } .head-container, .head-container.fixed{background-color : #ffffff; }.head-container {min-height : 56px; }.head-container {position : fixed; }.main-navigation ul li.current_page_item a, .main-navigation ul li.current-menu-ancestor a, .main-navigation ul li.current-menu-item a, .main-navigation ul li.current-menu-parent a, .main-navigation ul li.current_page_parent a {background-color : #a5360f; }.main-navigation ul li.current_page_item a, .main-navigation ul li.current-menu-ancestor a, .main-navigation ul li.current-menu-item a, .main-navigation ul li.current-menu-parent a, .main-navigation ul li.current_page_parent a {color : #ffffff; } .main-navigation ul > li:hover>a {background-color : #a5360f; color : #ffffff; } #masthead .main-navigation ul > li > ul > li > a {background-color : #d34414; color : #ffffff; } #masthead .main-navigation ul > li > ul > li:hover > a {background-color : #a5360f; color : #ffffff; } #masthead .main-navigation ul > li ul > li.current-menu-item > a {background-color : #a5360f; color : #ffffff; } #masthead div .main-navigation ul > li > ul > li > ul a {background-color : #d34414; color : #ffffff; } #masthead div .main-navigation ul > li > ul > li > ul li:hover a {background-color : #a5360f; color : #ffffff; } #lang-select-block li ul li a{background-color : #d34414; color : #ffffff;}#lang-select-block li ul li a:hover{background-color : #a5360f; color : #ffffff;}#lang-select-block li ul li.active a{background-color : #a5360f; color : #ffffff;}.resp_full_width_menu .site-header .menu_wrapper{background-color : #d34414; }.resp_full_width_menu .site-header .menu_wrapper .menu li a{color : #ffffff;}.resp_full_width_menu .site-header .menu_wrapper .menu li.current-menu-item>a,.resp_full_width_menu .site-header .menu_wrapper .menu li.current_page_item>a,.resp_full_width_menu .site-header .menu_wrapper .menu a:hover{background-color : #a5360f; color : #ffffff;}#header_language_select ul li.current > a { color : #ffffff; } #header_language_select { background-color : #d34414; } #header_language_select ul li.current:hover > a { background-color : #a5360f;color : #ffffff;} body {color : #333333; } #page .container #secondary .widget h3.widget-title, #page .container #secondary .widget h1.widget-title, header.post-header .post-title{border-color : #F15A23; } body.single-product #page .related.products h2{border-bottom-color : #F15A23; } a {color : #333333; }#page .container #secondary>.widget_nav_menu>div>ul>li ul>li>a:before {color : #333333; }#page .container #secondary .widget ul li.cat-item a:before {color : #333333; }html[dir="rtl"] #page .container #secondary>.widget_nav_menu>div>ul>li ul>li>a:after {color : #333333; }html[dir="rtl"] #page .container #secondary .widget ul li.cat-item a:after {color : #333333; }a:hover {color : #FF5D2A; } #page .container #secondary>.widget_nav_menu li.current-menu-item>a {color : #FF5D2A; } #page .container #secondary>.widget_nav_menu>div>ul>li ul>li>a:hover:before,#page .container #secondary>.widget_nav_menu>div>ul>li ul>li.current-menu-item>a:before,#page .container #secondary>.widget_nav_menu>div>ul>li ul>li.current-menu-item>a:hover:before{color : #FF5D2A; }#page .container #secondary .widget ul li.current-cat>a,#page .container #secondary .widget ul li.cat-item ul li.current-cat a:before,#page .container #secondary .widget ul li.cat-item a:hover:before{color : #FF5D2A; }html[dir="rtl"] #page .container #secondary>.widget_nav_menu>div>ul>li ul>li>a:hover:after,html[dir="rtl"] #page .container #secondary>.widget_nav_menu>div>ul>li ul>li.current-menu-item>a:after,html[dir="rtl"] #page .container #secondary>.widget_nav_menu>div>ul>li ul>li.current-menu-item>a:hover:after{color : #FF5D2A; } html[dir="rtl"] #page .container #secondary .widget ul li.current-cat>a,html[dir="rtl"] #page .container #secondary .widget ul li.current-cat>a:after,html[dir="rtl"] #page .container #secondary .widget ul li.cat-item a:hover:after{color : #FF5D2A; } a:focus {color : #FF5D2A; } a:active{color : #FF5D2A; } .blog_post .date_of_post{background : none repeat scroll 0 0 #F15A23; } .blog_post .date_of_post{color : #ffffff; } button, input[type="button"], input[type="submit"], input[type="reset"]{background-color : #333333 !important; } body a.btn.btn-primary, body button.btn.btn-primary, body input[type="button"].btn.btn-primary , body input[type="submit"].btn.btn-primary {background-color : #333333 !important; }.nav-links.shop .pages-links .page-numbers, .nav-links.shop .nav-next a, .nav-links.shop .nav-previous a{background-color : #333333 !important; }button:hover, button:active, button:focus{background-color : #F15A23 !important; }input[type="button"]:hover, input[type="button"]:active, input[type="button"]:focus{background-color : #F15A23 !important; }input[type="submit"]:hover, input[type="submit"]:active, input[type="submit"]:focus{background-color : #F15A23 !important; }input[type="reset"]:hover, input[type="reset"]:active, input[type="reset"]:focus{background-color : #F15A23 !important; }body a.btn.btn-primary:hover, body button.btn.btn-primary:hover, body input[type="button"].btn.btn-primary:hover , body input[type="submit"].btn.btn-primary:hover {background-color : #F15A23 !important; }.nav-links.shop .pages-links .page-numbers:hover, .nav-links.shop .nav-next a:hover, .nav-links.shop .nav-previous a:hover, .nav-links.shop .pages-links .page-numbers.current{background-color : #F15A23 !important; }.social-icon>a>i{background:#333333}.social-icon>a>i{color:#ffffff}
+</style>
+<link rel='stylesheet' id='ffs-easyResponsiveTabs-css'  href='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/js/tabs/easy-responsive-tabs.css?ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='ffs-fontawesome-css'  href='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/css/font-awesome.min.css?ver=4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='ffs-styles-css'  href='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/css/ffs_styles.css?ver=4.1' type='text/css' media='all' />
+<script type='text/javascript' src='http://community.mycollab.com/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/themes/fruitful/js/fnBox/jquery.fancybox.pack.js?ver=20140525'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/themes/fruitful/js/mobile-dropdown.min.js?ver=20130930'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var ThGlobal = {"ajaxurl":"http:\/\/community.mycollab.com\/wp-admin\/admin-ajax.php","is_fixed_header":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/themes/fruitful/js/init.min.js?ver=20130930'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/themes/fruitful/js/small-menu-select.js?ver=20130930'></script>
+<meta name="generator" content="WordPress 4.1 - really-static 0.5" />
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-0000000-0']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<style>
+.scroll-back-to-top-wrapper {
+    position: fixed;
+	opacity: 0;
+	visibility: hidden;
+	overflow: hidden;
+	text-align: center;
+	z-index: 99999999;
+    background-color: #777777;
+	color: #eeeeee;
+	width: 40px;
+	height: 38px;
+	line-height: 38px;
+	right: 30px;
+	bottom: 30px;
+	padding-top: 2px;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.scroll-back-to-top-wrapper:hover {
+	background-color: #888888;
+  color: #eeeeee;
+}
+.scroll-back-to-top-wrapper.show {
+    visibility:visible;
+    cursor:pointer;
+	opacity: 0.8;
+}
+.scroll-back-to-top-wrapper i.fa {
+	line-height: inherit;
+}
+.scroll-back-to-top-wrapper .fa-lg {
+	vertical-align: 0;
+}
+</style>	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<script type="text/javascript">jQuery(document).ready(function($) { });</script> 
+</head>
+<body class="page page-id-221 page-template-default responsive">
+	<div id="page-header" class="hfeed site">
+				
+		<div class="head-container resp_full_width_menu">
+			<div class="container ">
+				<div class="sixteen columns">
+					<header id="masthead" class="site-header" role="banner">
+												<div data-originalstyle="left-pos" class="header-hgroup left-pos">  
+							<a href="http://community.mycollab.com/" title="" rel="home"><img class="logo" src="http://community.mycollab.com/wp-content/uploads/2015/01/logoMC.png" alt=""/></a>						</div>	
+						<div data-originalstyle="right-pos" class="menu-wrapper right-pos">
+																					
+							<nav role="navigation" class="site-navigation main-navigation">
+								<div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-33" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="http://community.mycollab.com/">Home</a></li>
+<li id="menu-item-213" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-213"><a href="http://community.mycollab.com/download/">Download</a></li>
+<li id="menu-item-276" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-276"><a>Documentation</a>
+<ul class="sub-menu">
+	<li id="menu-item-277" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-277"><a href="http://community.mycollab.com/installation-guideline/">Installation</a></li>
+	<li id="menu-item-289" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-289"><a href="http://community.mycollab.com/administrator-guideline/">Administrator Guideline</a></li>
+	<li id="menu-item-310" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-310"><a href="http://community.mycollab.com/development-guideline/">Development Guideline</a></li>
+</ul>
+</li>
+<li id="menu-item-426" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-426"><a href="http://www.mycollab.com">MyCollab.com</a></li>
+</ul></div>							</nav><!-- .site-navigation .main-navigation -->
+						</div>
+					</header><!-- #masthead .site-header -->
+				</div>
+			</div>
+			<div class="site-header">
+				<div class="logo_wrapper"><a href="http://community.mycollab.com/" title="" rel="home"><img class="logo" src="http://community.mycollab.com/wp-content/uploads/2015/01/logoMC.png" alt=""/></a></div>
+				<div class="menu_button collapsed">
+					<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="cart_wrapper"></div>
+				<div class="language_switcher"></div>
+				<div class="menu_wrapper collapse"><div class="menu-main-menu-container"><ul id="menu-main-menu-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-33"><a href="http://community.mycollab.com/">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-213"><a href="http://community.mycollab.com/download/">Download</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-276"><a>Documentation</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-277"><a href="http://community.mycollab.com/installation-guideline/">Installation</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-289"><a href="http://community.mycollab.com/administrator-guideline/">Administrator Guideline</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-310"><a href="http://community.mycollab.com/development-guideline/">Development Guideline</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-426"><a href="http://www.mycollab.com">MyCollab.com</a></li>
+</ul></div></div>
+			</div>
+		</div>
+		
+			</div><!-- .header-container -->
+	
+		
+	<div id="page" class="page-container">		
+		<div class="container">		
+					
+			<div class="sixteen columns">	
+								<div id="primary" class="content-area">
+				<div id="content" class="site-content" role="main">
+			
+<article id="post-221" class="post-221 page type-page status-publish hentry">
+			
+	<header class="entry-header">
+		<h1 class="entry-title">Release Notes</h1>
+	</header><!-- .entry-header -->
+		<div class="entry-content">
+		<h3>Version 4.5.5</h3>
+<h4>Library Upgrades</h4>
+<ul>
+<li>Upgrade Vaadin to 7.3.5</li>
+<li>Upgrade HirakiCP to 2.2.5</li>
+<li>Upgrade Jackson to 2.4.4</li>
+<li>Upgrade Infinispan to 7.0.2</li>
+<li>Upgrade several Vaadin addons</li>
+</ul>
+<h4>Improvements</h4>
+<ul>
+<li>Add user comment to the activity stream</li>
+</ul>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Display the activity stream in CRM dashboard may show the duplicated items</li>
+<li>Not thread safe when saving bugs, tasks</li>
+<li>Navigate user account throws exception</li>
+<li>Display full comment content are enclosed with crm note</li>
+</ul>
+<h3>Version 4.5.4</h3>
+<h4>Library Upgrades</h4>
+<ul>
+<li>Upgrade Spring framework to 4.1.2.RELEASE</li>
+<li>Upgrade HirakiCP to 2.2.4</li>
+<li>Upgrade Vaadin to 7.3.4</li>
+<li>Upgrade AspectJ library to 1.8.4</li>
+</ul>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Make the right widgets fly over when user scroll to the bottom in the task list view</li>
+<li>Revise Task, Bug, Risk, Problem, Milestone read views</li>
+<li>[Mobile] Make the back button associates to native back action to improve the navigation performance</li>
+<li>[Mobile] Support thumbnail for attachment</li>
+<li>[Mobile] User can preview attachment easily</li>
+<li>[Mobile] Support display hyperlinks for assignee, task, task group, milestone etc</li>
+<li>[Mobile] Revise time logging component</li>
+<li>[Mobile] Revise the mobile toolbar display</li>
+<li>[Mobile] Replace icons for better UI experience</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Fix timezone issue for datefield component</li>
+<li>Can not send email if user switch to the locale not in the supported list</li>
+<li>Can not get the log date for time logging in several rare browsers</li>
+<li>[Mobile] Back button does not work properly</li>
+<li>[Mobile] View title is not aligned center in iOS</li>
+<li>[Mobile] Can only upload one file in iOS</li>
+</ul>
+<h3>Version 4.5.3</h3>
+<h4><strong>Library Upgrades</strong></h4>
+<ul>
+<li>Upgrade AspectJ library to 1.8.3</li>
+</ul>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>The new MyCollab mobile is released! This is the alpha release, use it at your own risk.</li>
+<li>All description supports rich text</li>
+<li>Clean html in rich text to help html display html string correctly</li>
+<li>Display the crm activity stream properly when there is several items user can not access</li>
+<li>Display attachments in thumbnail mode</li>
+<li>Allow users can search in their following ticket list</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Custom layout throws NPE</li>
+<li>Fix NPE when user navigate the project time tracking list</li>
+<li>Throws error if user save the empty page content</li>
+<li>Minor fixes in set the overdue title colors in project and crm items</li>
+<li>Error when user upload the invalid file name</li>
+</ul>
+<h3>Version 4.5.2</h3>
+<h4><strong>Library Upgrades</strong></h4>
+<ul>
+<li>Upgrade Spring framework to 4.1.1.RELEASE</li>
+<li>Upgrade Vaadin to 7.3.3</li>
+<li>Upgrade Camel to 2.14.0</li>
+</ul>
+<h4><strong>New Features</strong></h4>
+<ul>
+<li>Make the new MyCollab installer for every platform: Windows, MacOS, Linux</li>
+<li>Install MyCollab as window service</li>
+<li>The new notification to remind user upload his avatar if he did not</li>
+</ul>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Remove unused libraries for the community edition such as Dropbox, Solr to reduce the size of installer</li>
+<li>Tweak the error handling while init view</li>
+<li>Refactor the file module management</li>
+<li>Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements</li>
+<li>Revise the localization and date format associate to locale. It helps external developers can translate MyCollab to other languages easily</li>
+<li>Refactor the test module, using assertJ and JUnit TestRule instead of the custom JUnitClassRunner to make unit tests more flexible in enhancements</li>
+<li>Remove remote resources in setup assets. User can install MyCollab in their LAN network, we do not need an internet connection requires</li>
+<li>Remove the warning message of Jackrabbit</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Project Notification can not be sent in several special cases</li>
+<li>Minor bug fixes and new features for mobile edition</li>
+<li>Can not save audit log in several special cases</li>
+<li>Search time logging throws exception in several special input cases</li>
+<li>Fix NPE exception when there is several options has null value</li>
+<li>Minor bug fixes for file module</li>
+<li>Fix issue of can not reload the web context when we upgrade Jetty to 9.2.3</li>
+<li>Fix migration scripts could be failed with several MySQL versions</li>
+</ul>
+<h3>Version 4.5.1</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade Spring framework to 4.1.0.RELEASE</li>
+<li>Upgrade Vaadin libraries</li>
+<li>Adding scheduler unit tests</li>
+<li>Project page could be exported into pdf format</li>
+<li>Project time logging is displayed in multiple layouts</li>
+<li>User can add comment to project component and project version</li>
+<li>Validate project shortname is unique in every account account</li>
+<li>Make links of bug and task are readable</li>
+<li>Add date tooltip to pretty time display</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Save task in task read view throws exception</li>
+<li>Inconsistent time logging permission</li>
+<li>Throws exception if user saves an empty search criteria</li>
+</ul>
+<h3>Version 4.5.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade libraries versions</li>
+<li>Revise project time tracking view</li>
+<li>Support version management in project page</li>
+<li>Support date format associate to user’s locale</li>
+<li>Break mobile app into 2 sub apps: CRM and Project Management</li>
+<li>Reload site after user change information to make this change is applied immediately</li>
+<li>Improve error handling in event bus implementation</li>
+<li>The project time tracking views support multiple views</li>
+<li>Create the default task group when user create the new project</li>
+<li>Support more search criteria for bug</li>
+<li>Support display inline more image file types different than jpg/png</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Page path is cached across projects</li>
+<li>Milestone simple view display wrongly</li>
+<li>Display date time field correctly with user custom timezone</li>
+<li>Can not display username in phase detail view if the display name is empty</li>
+<li>Log user is removed when user update task status</li>
+<li>Can not trace activity when user update several kinds of items</li>
+</ul>
+<h3>Version 4.4.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Add new page composer in project module</li>
+<li>Allow users can archive project</li>
+<li>Revise milestone list view to allow user can edit, delete milestone</li>
+<li>Revise invite project member that displays user avatar in suggested list</li>
+<li>Display total open bugs, due bugs in bug dashboard</li>
+<li>Clean user session resources properly</li>
+<li>Optimize image sizes</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Tooptip use the default system language instead of user defined language</li>
+<li>Component and Version do not show the marker of complete right</li>
+<li>Ambiguous email field search criteria in CRM account search page</li>
+<li>Project permissions are cached across projects</li>
+<li>Show project permissions wrongly in Japanese locale</li>
+</ul>
+<h3>Version 4.3.3</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Update Japanese localization</li>
+<li>Update mobile module</li>
+<li>Support chart localization</li>
+<li>Support gantt chart localization</li>
+<li>Improve page template</li>
+<li>Upgrade Vaadin version to 7.2.6</li>
+<li>Improve UIs of projet views includes Bug, Task, Version, Component, Milestone</li>
+<li>Allow users delete comments</li>
+<li>Having the new Time Tracking feature</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Remove border of Create Project button</li>
+<li>Fix assignment table header misses border</li>
+<li>Fix several broken unit tests</li>
+<li>Fix css issues of email template</li>
+<li>Edit project view is not consistent to other views</li>
+<li>Can not display Japanese in several servlets</li>
+<li>Can not display well on Safari browser due to Vaadin profiler</li>
+</ul>
+<h3>Version 4.3.2</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Update Japanese localization</li>
+<li>Upgrade Jasypt library up to 1.9.2</li>
+<li>Upgrade Vaadin to 7.2.5</li>
+<li>Upgrade Spring framework to 4.0.6.RELEASE</li>
+<li>Add the generic search module by using Solr</li>
+<li>Add permission review when user select role</li>
+<li>Simplify servlet error handler</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Add more tracked fields in version notification email.</li>
+<li>Fixed NPE when browser cookie is disabled.</li>
+<li>Fixed bug view render wrongly in some rare cases.</li>
+<li>Fixed overflow tooltip title if it is too long</li>
+<li>Minor bug fix of project activity stream</li>
+<li>Fixed confirm dialog body text size calculation wrongly</li>
+<li>Validate email fails in several email formats</li>
+<li>Fix bug view layout display wrongly in several cases</li>
+<li>Email misspelling issues</li>
+</ul>
+<h3>Version 4.3.1</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade Reflections to 0.9.9-RC2</li>
+<li>Upgrade Guava to 15.0</li>
+<li>Support Japanese in reporting</li>
+<li>Internalization reporting module</li>
+<li>Improve UIs</li>
+<li>Update mobile edition</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Can not save user in some special case</li>
+<li>Minor bug fixes in inviting project member</li>
+<li>Can not assign new role to project member</li>
+<li>Notification Dialog has useless header</li>
+<li>Minor UI bugs on IE</li>
+<li>Can not ‘remember password’ in IE</li>
+</ul>
+<h3>Version 4.3.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade Vaadin to 7.2.4</li>
+<li>Upgrade HirakiCP to 4.2.0</li>
+<li>Update mobile edition</li>
+<li>Improve Gantt chart display</li>
+<li>Add Simple view of phase</li>
+<li>Support Japanese localization</li>
+<li>Emails are localized per language</li>
+<li>Support lazy load view</li>
+<li>Allow user can select the default system language</li>
+<li>Focus in system stable by adding many unit tests and refactor the system</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Exception is thrown when user save customized view</li>
+<li>Exception is thrown when user save search result</li>
+<li>Can not save login credential in mobile edition</li>
+<li>Can not add new role or edit role name of existing item</li>
+<li>Save duplicate monitor items</li>
+</ul>
+<h3>Version 4.2.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade Vaadin to 7.2.2</li>
+<li>Upgrade Apache Camel to 2.13.1</li>
+<li>Refactor reporting engine and improve the output of report</li>
+<li>Adjust JVM parameters to avoid the PerGem error</li>
+<li>Update icons to make UI more intuitive</li>
+<li>Add welcome message for view that has empty retrieved items.</li>
+<li>Add push service in Vaadin to lazy load heavy task on UI</li>
+<li>Remove border of buttons</li>
+<li>Texts of emails</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Invite and accept invitation causes NPE in several exceptional cases.</li>
+<li>Can not assign role to new user</li>
+<li>Several wrong link in emails</li>
+<li>Calendar style issue</li>
+<li>Can not save edit role</li>
+<li>Link of following ticket is wrong</li>
+</ul>
+<h3>Version 4.1.1</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Refactor tooltip generator for Project and CRM module</li>
+<li>Allow user choose create new item in read view</li>
+<li>Improve localization service, and move texts in localization files</li>
+<li>Upgrade Spring framework to 4.0.5.RELEASE</li>
+<li>Upgrade Jackrabbit to 2.8.0</li>
+<li>Upgrade Flyway to 3.0</li>
+<li>Upgrade Resteasy to 3.0.7</li>
+<li>Upgrade Vaadin to 7.2.0</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Align button and text on the top in read view</li>
+<li>Customized view display wrongly</li>
+</ul>
+<h3>Version 4.1.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Boot time of application is much faster than previous version in some OSes</li>
+<li>Email template of task and bug are re-ordered fields more logically</li>
+<li>Cache spring service classes to init application context faster</li>
+<li>Support user localization.common</li>
+<li>Make install process easier for non-tech users</li>
+<li>Add gantt chart</li>
+<li>Upgrade Vaadin library to 7.1.15</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Application can not allow users upload big file size</li>
+<li>Fix NPE of email sending when user create then delete item before the email is sent out</li>
+<li>Fix date issue in email update of project milestone, and crm meeting</li>
+<li>Cut username display name if it is long too in bug dashboard</li>
+<li>Align user name center in standup report display</li>
+<li>Display empty string if user does not enter their last name</li>
+</ul>
+<h3>Version 4.0.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Redesign application user interface</li>
+<li>Redesign email template</li>
+<li>Dynamic query builder and let user can save query parameters for next search</li>
+<li>Upgrade MyCollab libraries to higher version</li>
+<li>Revise standup report and time logging feature</li>
+<li>Improve code structure and simplify email processing procedure</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Mass update in CRM module throws exception in several special cases</li>
+<li>Fix exception throw when user back to previous screen</li>
+<li>MyCollab cache views even when user sign out the site</li>
+<li>Upload file in Chrome display upload window two times</li>
+<li>Fix several wrong links in email</li>
+<li>Improve datasource configuration to avoid site open many connections if the site is under heavy load</li>
+<li>Fix database connection bottleneck in unit test cases if we run all batch tests</li>
+</ul>
+<h3>Version 3.0.0</h3>
+<h4><strong>Improvements</strong></h4>
+<ul>
+<li>Upgrade UI architect from Vaadin 6 to Vaadin 7</li>
+<li>Refactor to share common codes for both web desktop and web mobile.</li>
+<li>Update icons for CRM types and tabsheet</li>
+<li>Update icons for Project types and tabsheet</li>
+<li>Make icons more consistent of size and color</li>
+<li>Add Convert Lead feature</li>
+<li>Add decision role field to Contact Opportunity relationship and add new edit view for this relationship</li>
+<li>Remove print button in all pages</li>
+<li>Add mobile implementation (not ready for production yet)</li>
+<li>Upgrade MyCollab libraries to higher version</li>
+</ul>
+<h4><strong>Bug Fixes</strong></h4>
+<ul>
+<li>Mass update account, contact in CRM module throws exception</li>
+<li>Permission check in Case view is wrong</li>
+<li>Navigate previous and next project member throws exception</li>
+<li>Update user account throws exception</li>
+<li>Export risk, problem list throws exception</li>
+<li>Schedule runner can not send reports in some cases</li>
+<li>Display activities throws exception in some cases</li>
+<li>Invite member does not send when first name is null</li>
+<li>Do not display tooltip of lead and contact if firstname is null</li>
+<li>Can not save search result in CRM module</li>
+<li>Fix spelling mistakes</li>
+</ul>
+<h3>Well known issues</h3>
+<p>Calendar view display badly on IE9 at the first time</p>
+					</div><!-- .entry-content -->
+</article><!-- #post-221 -->
+				</div>
+			</div>
+					
+</div>
+</div>
+</div><!-- .page-container-->
+<footer class="well">
+	<div class="container">
+		<div class="row">
+			<div class="span2 bottom-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">Main</li>
+					<li>
+						<a class="extralink" href="http://community.mycollab.com/" title="Home">Home</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/editions/" title="Editions">Editions</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://www.mycollab.com/blog/" title="Blog" class="externalLink">Blog</a>
+					</li>
+					<li >
+						<a class="extralink" href="https://www.mycollab.com/support" title="Contact Us" class="externalLink">Contact Us</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/sitemaps/" title="Sitemap">Sitemap</a>
+					</li>
+				</ul>
+			</div>
+			<div class="span2 bottom-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">Download</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/download/" title="Download">Download</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/licenses/" title="License">License</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/third-parties-licenses/" title="Third Parties Licenses">Third Parties Licenses</a>
+					</li>
+				</ul>
+			</div>
+			<div class="span2 bottom-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">Documentation</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/installation-guideline/" title="Installation">Installation</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/administrator-guideline/" title="Administrator Guideline">Administrator Guideline</a>
+					</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/development-guideline/" title="Development Guideline">Development Guideline</a>
+					</li>
+				</ul>
+			</div>
+			<div class="span2 bottom-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">Contribute</li>
+					<li >
+						<a class="extralink" href="http://community.mycollab.com/contribute/" title="Contribute">Contribute</a>
+					</li>
+					<li >
+						<a class="extralink" href="https://github.com/esofthead/mycollab/issues" title="Issues" class="externalLink">Issues</a>
+					</li>
+					<li >
+						<a class="extralink" href="https://github.com/esofthead/mycollab" title="Fork on GitHub" class="externalLink">Fork on GitHub</a>
+					</li>
+				</ul>
+			</div>
+			<div class="span3 bottom-description">
+				<blockquote>MyCollab is the stable and high performance business platform which host useful extensions to daily operations of teams, companies such as Project, CRM, Document Management and more.</blockquote>
+			</div>
+		</div>
+	</footer><!-- #colophon .site-footer -->
+	<div class="container subfooter">
+		<div class="row">
+			<div class="span10">
+				<p class="copyright">Copyright &copy;2015. All Rights Reserved.</p>
+			</div>
+		</div>
+	</div>
+
+	<!--WordPress Development by Fruitful Code-->
+	<div class="scroll-back-to-top-wrapper">
+	<span class="scroll-back-to-top-inner">
+					<i class="fa fa-2x fa-arrow-up"></i>
+			</span>
+</div><script type='text/javascript'>
+/* <![CDATA[ */
+var scrollBackToTop = {"scrollDuration":"500","fadeDuration":"0.5"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/plugins/scroll-back-to-top/assets/js/scroll-back-to-top.js'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-includes/js/comment-reply.min.js?ver=4.1'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/js/tabs/easyResponsiveTabs.js?ver=20142803'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/js/fss_script.js?ver=20142803'></script>
+<script type='text/javascript' src='http://community.mycollab.com/wp-content/plugins/fruitful-shortcodes/includes/shortcodes/bootstrap/js/bootstrap.min.js?ver=20142803'></script>
+</body>
+</html>

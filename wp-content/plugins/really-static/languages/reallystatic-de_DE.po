@@ -1,0 +1,939 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-06 13:46+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Erik Sefkow <poedit at sefkow.net>\n"
+"Language-Team: Erik Sefkow\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: S:\\programmieren\\php\\Wordpressplugins\\Really-Static"
+"\\php-really-static-main\\\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: php\\.\n"
+
+#: main.php:243
+msgid ""
+"Attention! You changed the title of this page. You may need to refresh your "
+"static files."
+msgstr ""
+
+#: main.php:267
+msgid "Please wait! Another really-static instance is running!"
+msgstr "Bitte Warten! Eine andere Instanz von Really-Static läuft gerade!"
+
+#: main.php:292
+msgid "Deleteing File:"
+msgstr "lösche Datei:"
+
+#: main.php:314
+msgid "get"
+msgstr "lade"
+
+#: main.php:325
+msgid "writing"
+msgstr "schreibe"
+
+#: main.php:326
+msgid "Write:"
+msgstr "schreibe:"
+
+#: main.php:345
+msgid "Finish"
+msgstr "Fertig"
+
+#: main.php:386 main.php:387
+msgid "Cachehit"
+msgstr "Cache-Treffer"
+
+#: main.php:473
+#, php-format
+msgid "Getting a error (timeout, 403, 404 or 500 error ) while loading: %s"
+msgstr ""
+"Erhalte beim Lesen der folgenden Datei einen Fehler (timeout, 403, 404 oder "
+"500): %s"
+
+#: main.php:477
+msgid "Writing ImageFile:"
+msgstr "schreibe Datei:"
+
+#: main.php:484
+msgid "Writing File:"
+msgstr "schreibe:"
+
+#: main.php:1390
+msgid "Support"
+msgstr "Hilfe"
+
+#: main.php:1974 main.php:2009
+msgid "Skiping existing:"
+msgstr "Überspringe exsitierende"
+
+#: main.php:1986
+msgid "Scaning:"
+msgstr "Durchsuche:"
+
+#: main.php:3108
+msgid "Once a month"
+msgstr "einmal im Monat"
+
+#: php/123.php:13 php\./123.php:13
+msgid "Really-Static Quickstart"
+msgstr "Really Static Schnellstart"
+
+#: php/123.php:14 php\./123.php:14
+msgid ""
+"Thank you for choosing Really-Static! This configurationhelper will support "
+"you, choosing the right settings."
+msgstr ""
+"Danke das duch Really-Static verwendest! Das Setupprogramm wird dir Helfen "
+"die richtigen Einstellungen zu setzen."
+
+#: php/123.php:19 php\./123.php:19
+msgid "running  really-static in testmode"
+msgstr "Reall-Static läuft im Testmodus"
+
+#: php/123.php:24 php\./123.php:24
+msgid "running  really-static in livemode"
+msgstr "Reall-Static läuft im Normalmodus"
+
+#: php/123.php:32 php\./123.php:32
+msgid "STEP 2: set the storage location"
+msgstr "Schritt 2: Speicherziele setzen"
+
+#: php/123.php:76 php/123.php:118 php\./123.php:76 php\./123.php:118
+msgid "Next >>"
+msgstr "Weiter >>"
+
+#: php/123.php:106 php\./123.php:106
+msgid "STEP 3: Checking writingrights and try create, read and delete a file"
+msgstr ""
+"Schritt 3 Es wird versucht eine Datei zu erstellen, zu lesen und zu löschen"
+
+#: php/123.php:107 php\./123.php:107
+msgid "Logfile writeable"
+msgstr "Logdate schreibbar"
+
+#: php/123.php:109 php\./123.php:109
+msgid "Logfile readable"
+msgstr "Logfile lesbar"
+
+#: php/123.php:115 php\./123.php:115
+msgid "Trying Write/Read/Delete File"
+msgstr "Versuch eine Datei zu erstellen, zu lesen und zu löschen"
+
+#: php/123.php:119 php\./123.php:119
+msgid "Back <<"
+msgstr "Zurück <<"
+
+#: php/123.php:119 php/admin.php:113 php\./123.php:119 php\./admin.php:113
+msgid "Refresh"
+msgstr "Noch einmal versuchen"
+
+#: php/123.php:122 php\./123.php:122
+msgid "STEP 4: Generating your current Blog into the "
+msgstr ""
+"Schritt 4: Die statischen Dateien des aktuellen Blogs werden in ein "
+"temporäres Verzeichniss geschrieben"
+
+#: php/123.php:123 php\./123.php:123
+msgid "Really-static is now ready to use."
+msgstr "Reall-Static ist nun einsetzbar."
+
+#: php/123.php:127 php\./123.php:127
+msgid "start generating files... this will take some time"
+msgstr ""
+"Beginne mit dem erstellen der Dateien! Das kann einige Zei in anspruch nehmen"
+
+#: php/123.php:127 php\./123.php:127
+msgid "or goto the Settingspage"
+msgstr "oder zu den Einstellungen gehen"
+
+#: php/123.php:139 php\./123.php:139
+msgid "OK, Ready!"
+msgstr "Super, fertig!"
+
+#: php/123.php:141 php\./123.php:141
+#, php-format
+msgid "You static files are locatet here: <a target='_blank' href='%s'>%s</a>"
+msgstr ""
+"Deine statischen Dateien findest du hier: <a target='_blank' href='%s'>%s</a>"
+
+#: php/123.php:144 php\./123.php:144
+msgid "On your server the files are locatet: "
+msgstr "Auf deinem Server sind sie hier:"
+
+#: php/123.php:147 php\./123.php:147
+#, php-format
+msgid "An example: <a target='_blank' href='%s'>%s</a>"
+msgstr "Zum Beispiel: <a target='_blank' href='%s'>%s</a>"
+
+#: php/123.php:152 php/admin.php:738 php\./123.php:152 php\./admin.php:738
+msgid "done scanning for files"
+msgstr "Dateiscan fertig"
+
+#: php/admin.php:25 php\./admin.php:25
+msgid "Source"
+msgstr "Quellserver"
+
+#: php/admin.php:26 php\./admin.php:26
+msgid "url to wordpressinstalltion"
+msgstr "URL zur Wordpressinstallation"
+
+#: php/admin.php:27 php\./admin.php:27
+msgid "url path to the actuall used templatefolder"
+msgstr "URL zum Templateordner"
+
+#: php/admin.php:28 php\./admin.php:28
+msgid "If you need help please check this manualpage"
+msgstr "Wenn du hilfe brauchst, bitte sieh auf dieser Tutorialsseite nach"
+
+#: php/admin.php:30 php/admin.php:52 php/admin.php:72 php/admin.php:93
+#: php\./admin.php:30 php\./admin.php:52 php\./admin.php:72 php\./admin.php:93
+msgid "Save"
+msgstr "Speichern"
+
+#: php/admin.php:40 php/ftp.php:31 php/local.php:50 php/sftp.php:57
+#: php\./admin.php:40 php\./ftp.php:31 php\./local.php:50 php\./sftp.php:57
+msgid "Domainprefix for your cached files"
+msgstr "URL unter der die statischen Dateien dann zufinden sind"
+
+#: php/admin.php:42 php/ftp.php:32 php/local.php:51 php/sftp.php:58
+#: php\./admin.php:42 php\./ftp.php:32 php\./local.php:51 php\./sftp.php:58
+msgid "Url to the templatefolder"
+msgstr "URL zum Templateordner"
+
+#: php/admin.php:44 php\./admin.php:44
+msgid "Different prefix for every saving routine"
+msgstr "Unterschiedliche Zielurls für jede Speicherroutine"
+
+#: php/admin.php:53 php\./admin.php:53
+msgid "Test and Save"
+msgstr "Testen und Speichern"
+
+#: php/admin.php:54 php\./admin.php:54
+msgid "Destination"
+msgstr "Zielserver"
+
+#: php/admin.php:58 php\./admin.php:58
+msgid "remove"
+msgstr "entfernen"
+
+#: php/admin.php:59 php\./admin.php:59
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: php/admin.php:61 php\./admin.php:61
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr ""
+"Es befindet sich auf der Kategorie/Tag-Seite etc. eine Anzeige ueber die "
+"anzahl der hinterlassenen Kommentare (nicht empfohlen)"
+
+#: php/admin.php:63 php\./admin.php:63
+msgid ""
+"Don't copy any linked file to the static file folder, just the static "
+"Wordpressfiles"
+msgstr ""
+"Kopiere nur die statischen Wordpressseiten, jedoch keine verlinkten Bilder "
+"oder Anhänge"
+
+#: php/admin.php:64 php\./admin.php:64
+msgid "Rewrite every %blogurl% with %staticurl% (high security)"
+msgstr "Jede \"%blogurl%\" mit \"%staticurl%\" ersetzen (hohe Sicherheit)"
+
+#: php/admin.php:65 php\./admin.php:65
+msgid "Also make static:"
+msgstr "Neben dem Artikel soll auch folgendes berücksichtigt werden:"
+
+#: php/admin.php:66 php\./admin.php:66
+msgid "make tag-pages static"
+msgstr "Tag-Seiten berücksichtigen"
+
+#: php/admin.php:67 php\./admin.php:67
+msgid "make category-pages static"
+msgstr "Kategorieseiten berücksichtigen"
+
+#: php/admin.php:68 php\./admin.php:68
+msgid "make author-pages static"
+msgstr "Autorseiten berücksichtigen"
+
+#: php/admin.php:70 php\./admin.php:70
+msgid "make date-pages static"
+msgstr "Datumsseiten berücksichtigen"
+
+#: php/admin.php:70 php\./admin.php:70
+msgid "dayly-pages"
+msgstr "Tages-Seiten"
+
+#: php/admin.php:70 php\./admin.php:70
+msgid "monthly-pages"
+msgstr "Monats-Seiten"
+
+#: php/admin.php:70 php\./admin.php:70
+msgid "yearly-pages"
+msgstr "Jahres-Seiten"
+
+#: php/admin.php:71 php\./admin.php:71
+msgid "make index-pages static"
+msgstr "Hauptunterseiten berücksichtigen"
+
+#: php/admin.php:73 php\./admin.php:73
+msgid ""
+"Copy all attached files with following extensions to the destination server:"
+msgstr ""
+"Kopiere alle Dateien in den Ordner der statischen Dateien die folgende "
+"Endung besitzen:"
+
+#: php/admin.php:74 php\./admin.php:74
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: php/admin.php:81 php\./admin.php:81
+#, php-format
+msgid ""
+"Export your really-static settings into a settings.dat file inside the "
+"really-static pluginfolder (%s)"
+msgstr ""
+"Exportiere deine Really-Static Einstellungen in die datei settings.dat im "
+"really-static Pluginordner (%s)"
+
+#: php/admin.php:82 php\./admin.php:82
+msgid "Export"
+msgstr "Exportieren"
+
+#: php/admin.php:84 php\./admin.php:84
+#, php-format
+msgid ""
+"Import your really-static settings form a settings.dat file inside the "
+"really-static pluginfolder (%s)"
+msgstr ""
+"Importiere deine Really-Static Einstellungen aus der  Datei settings.dat im "
+"really-static Pluginordner (%s)"
+
+#: php/admin.php:85 php\./admin.php:85
+msgid "Import"
+msgstr "Importieren"
+
+#: php/admin.php:90 php\./admin.php:90
+msgid ""
+"If really-static got a feature update, let wordpress inform me about that."
+msgstr ""
+"Wenn Really-Static ein feature Update bekommt, dann informiere mich darüber."
+
+#: php/admin.php:94 php\./admin.php:94
+msgid "Look for a update right now"
+msgstr "Jetzt nach einem Update sehen"
+
+#: php/admin.php:97 php\./admin.php:97
+msgid "Reset"
+msgstr "Reset"
+
+#: php/admin.php:99 php\./admin.php:99
+msgid ""
+"If you want to renew all static files, first press the \"reset filedatabase"
+"\" button and then the \"write all files\" button at the \"Manual Refresh\" "
+"tab"
+msgstr ""
+"Wenn alle Dateien neugeschrieben werden soll, dann drücke zuerst den "
+"folgenden \"Liste über statische Dateien zurücksetzen\" Knopf (im Unterpunkt "
+"Reset) und dann denn \"Alle Dateien schreiben\" Knopf"
+
+#: php/admin.php:100 php\./admin.php:100
+msgid "reset filedatabase"
+msgstr "Liste über statische Dateien zurücksetzen"
+
+#: php/admin.php:108 php\./admin.php:108
+msgid "Manual Refresh"
+msgstr "Neuschreiben"
+
+#: php/admin.php:108 php\./admin.php:108
+msgid "Refresh a single site manualy"
+msgstr "Statitsche Seiten manuell neu schreiben"
+
+#: php/admin.php:112 php\./admin.php:112
+msgid "(complete url of the static page)"
+msgstr "(komplette URL der statischen Seite)"
+
+#: php/admin.php:112 php\./admin.php:112
+msgid "for example"
+msgstr "zum Beispiel"
+
+#: php/admin.php:116 php\./admin.php:116
+msgid "Refresh all sites manualy"
+msgstr "Den gesamten Blog statisch machen"
+
+#: php/admin.php:118 php\./admin.php:118
+msgid ""
+"If this Plugin is installed on a Blog with exsiting Posts or for example you "
+"changed your design so you shold press the \"write all files\" Button. If "
+"the process is terminatet (e.g. because of a timeout), just press this "
+"button again until this menu again appears."
+msgstr ""
+"Wenn das Plugin auf einen schon älteren Blog installiert wurde oder z.B. der "
+"Blog ein neues Design erhalten hat so sollte der \"Alle Dateien schreiben\" "
+"Knopf gedrueckt werden. Sollte der Prozess abgebrochen werden (z.b. durch "
+"einen Timeout) einfach noch einmal auf den Knopf drücken."
+
+#: php/admin.php:119 php\./admin.php:119
+msgid "Write all files"
+msgstr "Alle Dateien schreiben"
+
+#: php/admin.php:244 php/admin.php:323 php/admin.php:363
+#: php/configupdate.php:74 php/configupdate.php:107 php\./admin.php:244
+#: php\./admin.php:323 php\./admin.php:363 php\./configupdate.php:74
+#: php\./configupdate.php:107
+msgid "Saved"
+msgstr "Gespeichert"
+
+#: php/admin.php:267 php\./admin.php:267
+msgid "Everytime $bo is $ba and $go is refreshed<br>than$dn $to"
+msgstr "Jedes mal wenn $bo $ba wird und $go erneuert wird <br> dann $dn $to"
+
+#: php/admin.php:269 php\./admin.php:269
+msgid "something|a post|a page|a post or a page|a comment"
+msgstr ""
+"irgendetwas|ein Beitrag|eine Seite|ein Beitrag oder eine Seite|ein Kommentar"
+
+#: php/admin.php:275 php\./admin.php:275
+msgid "created or edited or deleted|created|edited|created or edited|deleted"
+msgstr ""
+"erstellt, editiert oder gelöscht|erstellt|editiert|erstellt oder editiert|"
+"gelöscht"
+
+#: php/admin.php:280 php\./admin.php:280
+msgid ""
+"anotherthing|indexpage|tagpage|authorpage|any datepage|day datepage|month "
+"datepage|year dateoage|catpage|current posts or staticpage page|commentpage"
+msgstr ""
+"etwas anedres|index seite|tag seite|Autoren Seite|irgendeine Datumsseite|Tag-"
+"Seite|Monats-Seite|Jahres Seite|Kategorien Seite|aktuelle Beitrag oder "
+"aktuelle Seite|Kommentarseite"
+
+#: php/admin.php:289 php\./admin.php:289
+msgid ""
+"also rewrite|also rewrite all static files that match with following preg "
+"match:|delete|delete all static files that match following regular "
+"expression pattern:"
+msgstr ""
+"erneuere auch|erneuere auch alle Dateien die dem folgenden regulärer "
+"Ausdruck entsprechen|lösche|lösche alle Dateien die dem folgenden regulärer "
+"Ausdruck entsprechen"
+
+#: php/admin.php:335 php\./admin.php:335
+msgid ""
+"If this $pm regular expression pattern match than rewrite the url to $rz"
+msgstr ""
+"Wenn folgender Reguläre Ausdruck $pm passt dann schreibe die Url zu $rz um"
+
+#: php/admin.php:375 php\./admin.php:375
+msgid "Every $ts $tw $tm"
+msgstr "Jede $ts $tw $tm"
+
+#: php/admin.php:377 php\./admin.php:377
+msgid "hour|day|month"
+msgstr "Stunde|Tag|Monat"
+
+#: php/admin.php:382 php\./admin.php:382
+msgid ""
+"refresh|refresh all static files that match following regular expression "
+"pattern:"
+msgstr ""
+"erneuere|erneuere alle statischen Dateien die folgenden Regulärer Ausdruck "
+"entsprechen:"
+
+#: php/admin.php:392 php\./admin.php:392
+msgid "Edit rules"
+msgstr "Vorschrift bearbeiten"
+
+#: php/admin.php:393 php/admin.php:395 php/admin.php:397 php\./admin.php:393
+#: php\./admin.php:395 php\./admin.php:397
+msgid "edit rule"
+msgstr "Vorschrift bearbeiten"
+
+#: php/admin.php:393 php/admin.php:395 php/admin.php:397 php\./admin.php:393
+#: php\./admin.php:395 php\./admin.php:397
+msgid "delete rule"
+msgstr "lösche Vorschrift"
+
+#: php/admin.php:394 php/admin.php:416 php\./admin.php:394 php\./admin.php:416
+msgid "Refresh page on Condition"
+msgstr "Seite aufgrund von Bedingung erneuern"
+
+#: php/admin.php:407 php\./admin.php:407
+msgid "Advanced"
+msgstr "Weiteres"
+
+#: php/admin.php:407 php\./admin.php:407
+msgid "Create rules"
+msgstr "Vorschrift erstellen"
+
+#: php/admin.php:409 php\./admin.php:409
+msgid ""
+"For more information howto use this function, please read <a href='http://"
+"really-static-support.php-welt.net/rewrite-rules-and-refresh-by-time-t78."
+"html' target='_blank'>this manual</a>"
+msgstr ""
+
+#: php/admin.php:411 php\./admin.php:411
+msgid "Rewrite Url"
+msgstr ""
+
+#: php/admin.php:412 php/admin.php:417 php/admin.php:421 php\./admin.php:412
+#: php\./admin.php:417 php\./admin.php:421
+msgid "Name of this rule:"
+msgstr "Name der Vorschrift:"
+
+#: php/admin.php:413 php/admin.php:418 php/admin.php:422 php/admin.php:701
+#: php\./admin.php:413 php\./admin.php:418 php\./admin.php:422
+#: php\./admin.php:701
+msgid "Submit"
+msgstr "Speichern"
+
+#: php/admin.php:420 php\./admin.php:420
+#, fuzzy
+msgid "Refresh page at specific time"
+msgstr "Seite aufgrund von Bedingung erneuern"
+
+#: php/admin.php:457 php\./admin.php:457
+msgid "Logfile is empty!"
+msgstr "Die Logdatei ist leer!"
+
+#: php/admin.php:458 php/admin.php:473 php\./admin.php:458 php\./admin.php:473
+msgid "Check writing-rights: log.html"
+msgstr "Schreibrechte der log.html bitte überpruefen!"
+
+#: php/admin.php:464 php\./admin.php:464
+#, php-format
+msgid "Last 40 Logfileentrys (<a href='%s'>full logfile</a>)"
+msgstr "Die letzten 40 Eintraege der (<a href='%s'>Logdatei</a>)"
+
+#: php/admin.php:473 php\./admin.php:473
+msgid "Unable to read logfile!"
+msgstr "Kann die Logdatei nicht lesen!"
+
+#: php/admin.php:474 php\./admin.php:474
+msgid "Logfile"
+msgstr "Logfile"
+
+#: php/admin.php:474 php\./admin.php:474
+msgid "Reset Logfile"
+msgstr "Logfile leeren"
+
+#: php/admin.php:510 php\./admin.php:510
+msgid "Debug"
+msgstr "Debug"
+
+#: php/admin.php:511 php\./admin.php:511
+msgid ""
+"If you think there is a bug or you got any questions feel free to use this "
+"form, or use the <a href='http://really-static-support.php-welt.net/' "
+"taget='_blank'>offical support forum</a>. <br>Debugdata:"
+msgstr ""
+"Wenn du denkst das du einen Bug gefunden hast oder einfach nur eine Frage "
+"hast nutze bitte das nachstehende Formular oder unser <a href='http://really-"
+"static-support.php-welt.net/' taget='_blank'>offizelles Forum</a>. "
+"<br>Debugdaten:"
+
+#: php/admin.php:542 php\./admin.php:542
+msgid ""
+"You can send me your Debug by <a target=\"_blank\" href=\"http://erik.sefkow."
+"net/impressum.html\">Email</a> or with this form."
+msgstr ""
+"Dein Problem kannst du mir via <a target=\"_blank\" href=\"http://erik."
+"sefkow.net/impressum.html\">Email</a> oder mittels dieses Formulars "
+"übermitteln."
+
+#: php/admin.php:544 php\./admin.php:544
+msgid "Describe your Problem (please only in German or English):"
+msgstr "Beschreibe das Problem:"
+
+#: php/admin.php:545 php\./admin.php:545
+msgid "Send this debug information to the developer"
+msgstr "Diese Information dem Entwickler zukommen lassen"
+
+#: php/admin.php:628 php/multiadmin.php:44 php\./admin.php:628
+#: php\./multiadmin.php:44
+msgid "Really Static Settings"
+msgstr "Really Static Einstellungen"
+
+#: php/admin.php:690 php/multiadmin.php:148 php\./admin.php:690
+#: php\./multiadmin.php:148
+msgid "About"
+msgstr "Über"
+
+#: php/admin.php:692 php/multiadmin.php:150 php\./admin.php:692
+#: php\./multiadmin.php:150
+msgid "<font color=\"red\">please</font> "
+msgstr "<font color=\"red\">bitte</font> "
+
+#: php/admin.php:693 php/multiadmin.php:151 php\./admin.php:693
+#: php\./multiadmin.php:151
+msgid "Donate"
+msgstr "Spenden"
+
+#: php/admin.php:714 php\./admin.php:714
+msgid ""
+"This languagepack is written by <a target='_blank' href='http://erik.sefkow."
+"net'>Erik Sefkow</a> please <a target='_blank' href='http://really-static-"
+"support.php-welt.net/why-donate--t8.html'>donate me</a>"
+msgstr ""
+"Die Übersetzung wurde durch <a href='http://erik.sefkow.net'>Erik Sefkow</a> "
+"vorgenommen, bitte unterstütz mich<a target='_blank' href='http://really-"
+"static-support.php-welt.net/why-donate--t8.html'>mit einer kleinen Spende</a>"
+
+#: php/aftp.php:199 php/sftp.php:170 php\./aftp.php:199 php\./sftp.php:170
+msgid ""
+"Im no able to create the directory %folder%! Please check writings rights!"
+msgstr ""
+"Ich kann den Ordner %folder% nicht erstellen! Bitte Schreibrechte "
+"kontrollieren!"
+
+#: php/configupdate.php:79 php\./configupdate.php:79
+msgid "Mail has been send"
+msgstr "Email wurde gesendet"
+
+#: php/configupdate.php:81 php\./configupdate.php:81
+msgid "Mail has NOT been send, please make it manually"
+msgstr "Email wurde nicht gesendet, bitte manuel machen!"
+
+#: php/configupdate.php:266 php\./configupdate.php:266
+msgid "cleaning Logfile"
+msgstr "Logfile wird geleert"
+
+#: php/configupdate.php:365 php\./configupdate.php:365
+msgid "done refreshing manually a single page"
+msgstr "Fertig mit manuellem erneuern"
+
+#: php/configupdate.php:372 php\./configupdate.php:372
+msgid "Successfull reset of really-static filedatabase"
+msgstr "Die Really-Static Dateidatenbank wurde geleert"
+
+#: php/configupdate.php:380 php\./configupdate.php:380
+msgid "done cleaning Logfile"
+msgstr "Logfile wurde geleert"
+
+#: php/errorid.php:3 php\./errorid.php:3
+msgid ""
+"Funktion allow_url_fopen is disabled and curl_init is also not aktivatet!"
+"<br> For more Informations check this <a href='http://sorben.org/really-"
+"static/fehler-allow_url_fopen.html'>manualpage</a><br> Really-static is "
+"automaticly deaktivated"
+msgstr ""
+"Die Funktionen allow_url_fopen und curl_inti sind nicht aktiviert!<br> Für "
+"weitere Informationen sieh bitte auf der <a href='http://sorben.org/really-"
+"static/de/fehler-allow_url_fopen.html'>Hilfeseite</a>nach!<br>Really-Static "
+"wurde automatisch deaktiviert!"
+
+#: php/errorid.php:4 php\./errorid.php:4
+msgid ""
+"Maybe you make a misstake please check <a href='http://sorben.org/really-"
+"static/fehler-quellserver.html'>manualpage</a>"
+msgstr ""
+"Du hast vieleicht einen Fehler gemacht! Bitte sieh auf der <a href='http://"
+"sorben.org/really-static/de/fehler-quellserver.html'>Hilfeseite nach</a>!"
+
+#: php/ftp.php:39 php\./ftp.php:39
+msgid "work with ftp"
+msgstr "per FTP Dateien kopieren"
+
+#: php/ftp.php:39 php\./ftp.php:39
+msgid "FTP-Server IP"
+msgstr "FTP-Server IP"
+
+#: php/ftp.php:39 php/sftp.php:64 php\./ftp.php:39 php\./sftp.php:64
+msgid "Port"
+msgstr "Port"
+
+#: php/ftp.php:40 php\./ftp.php:40
+msgid "FTP-login User"
+msgstr "FTP-login Benutzer"
+
+#: php/ftp.php:41 php\./ftp.php:41
+msgid "FTP-login Password"
+msgstr "FTP-login Passwort"
+
+#: php/ftp.php:42 php\./ftp.php:42
+msgid "path from FTP-Root to cachedfiles"
+msgstr "interner Dateipfad vom FTP-Hauptverzeichniss"
+
+#: php/ftp.php:43 php/sftp.php:67 php\./ftp.php:43 php\./sftp.php:67
+msgid ""
+"the path inside your FTP account e.g. \"/path/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"gib hier den Pfad in dem die Dateien gespeichert werden sollen z.B.: \"/pfad/"
+"\". Sollen sie direkt im Hauptverzeichniss laden schreibe \"/\""
+
+#: php/ftp.php:44 php\./ftp.php:44
+msgid "Use alternative FTP transport routine"
+msgstr "Benutze alternative FTP-Speicher Routine"
+
+#: php/ftp.php:64 php/local.php:70 php/sftp.php:51 php\./ftp.php:64
+#: php\./local.php:70 php\./sftp.php:51
+msgid "You may forgot a / at the end of the path!"
+msgstr "Du hast ein \"/\" am Ende des Pfads vergessen!"
+
+#: php/ftp.php:403 php\./ftp.php:403
+msgid ""
+"really static is not able to create the directory %folder%! Please check "
+"writings rights!"
+msgstr ""
+"Ich kann den Ordner %folder% nicht erstellen! Bitte Schreibrechte "
+"kontrollieren!"
+
+#: php/functions.php:15 php\./functions.php:15
+msgid "Cannot Login, please check your Logindata"
+msgstr "Kann mich nicht einloggen, bitte Logindaten kontrollieren!"
+
+#: php/functions.php:22 php\./functions.php:22
+msgid "TEST passed!"
+msgstr "Test erfolgreich!"
+
+#: php/functions.php:26 php\./functions.php:26
+msgid "TEST failed!"
+msgstr "Test nicht bestanden!"
+
+#: php/local.php:55 php\./local.php:55
+msgid "work with local filesystem"
+msgstr "mit Lokalem Dateisystem arbeiten"
+
+#: php/local.php:55 php\./local.php:55
+msgid "internal filepath from to cachedfiles"
+msgstr "interner Pfad zum Ordner der statischen Dateien"
+
+#: php/local.php:55 php\./local.php:55
+msgid ""
+"the path inside your system e.g. \"/www/html/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"gib hier den Pfad innerhalb des Rechners auf dem die Dateien gespeichert "
+"werden sollen an z.B.: \"/pfad/\". Sollen sie direkt im Hauptverzeichniss "
+"laden schreibe \"/\""
+
+#: php/multiadmin.php:130 php\./multiadmin.php:130
+msgid "Startseite"
+msgstr "Startseite"
+
+#: php/multiadmin.php:172 php\./multiadmin.php:172
+msgid ""
+"This Languagepack is written by <a href='http://erik.sefkow.net'>Erik "
+"Sefkow</a> please <a href='http://erik.sefkow.net/donate.html'>donate me</a>"
+msgstr ""
+"Die Übersetzung wurde durch <a href='http://erik.sefkow.net'>Erik Sefkow</a> "
+"vorgenommen."
+
+#: php/sftp.php:64 php\./sftp.php:64
+msgid "work with sftp"
+msgstr "per SFTP Dateien kopieren"
+
+#: php/sftp.php:64 php\./sftp.php:64
+msgid "SFTP-Server IP"
+msgstr "SFTP-Server IP"
+
+#: php/sftp.php:65 php\./sftp.php:65
+msgid "SFTP-login User"
+msgstr "SFTP-login Benutzer"
+
+#: php/sftp.php:66 php\./sftp.php:66
+msgid "SFTP-login Password"
+msgstr "SFTP-login Passwort"
+
+#: php/sftp.php:66 php\./sftp.php:66
+msgid "path from SFTP-Root to cachedfiles"
+msgstr "interner Dateipfad vom SFTP-Hauptverzeichniss"
+
+#: sonstiges/wppluginintegration.php:25
+#, php-format
+msgid ""
+"You need to configure your Really-Static plugin. Use our <a href='%s'>quick "
+"setup</a> or click <a href='%s'>here</a> to jump into the settingsmenu."
+msgstr ""
+"Du musst Really-Static konfigurieren. Benutze das <a "
+"href='%s&menu=123'>Einsteigersetup</a> oder ändere gleich alles im normalen "
+"<a href='%s'>Setupmenu</a>."
+
+#: sonstiges/wppluginintegration.php:54
+msgid ""
+"Funktion allow_url_fopen is disabled and curl_init is also not enabled on "
+"your server!<br> For more Informations check this <a href='http://really-"
+"static-support.php-welt.net/error-codes-t74.html'>manualpage</a><br> Really-"
+"static is automaticly deactivated"
+msgstr ""
+"Die Funktionen allow_url_fopen und curl_inti sind nicht aktiviert!<br> Für "
+"weitere Informationen sieh bitte auf der <a href='allow_url_fopen "
+"'>Hilfeseite</a>nach!<br>Really-Static wurde automatisch deaktiviert!"
+
+#~ msgid "Refresh now"
+#~ msgstr "Jetzt neuschreiben"
+
+#~ msgid "jump to end"
+#~ msgstr "zum Ende springen"
+
+#~ msgid ""
+#~ "Really-Staic is now generating, static files out of your Blog. Please "
+#~ "wait until really-static is ready."
+#~ msgstr "Really-Static erzeugt nun statische Dateien. Bitte Warten!"
+
+#~ msgid ""
+#~ "Thank you for choosing Really-Static! At the moment Really-Static is set "
+#~ "to save the generated files into a temporary folder. This ensures that "
+#~ "you can test the plugin, without destroying anything."
+#~ msgstr ""
+#~ "Danke das du Really-Static verwendest! Im moment ist Really-Static so "
+#~ "konfiguriert das alle erzeugten dateien in einem temporären Ordner "
+#~ "gespeichert werden. So sehen deine Besucher weiterhin deinen Blog und du "
+#~ "kannst Really-Static ausfürlich testen."
+
+#~ msgid "STEP 1: Testing Accessrights"
+#~ msgstr "Schritt 1: Zugriffsrechte testen"
+
+#~ msgid "Static-Folder"
+#~ msgstr "Ordner \"Static\""
+
+#~ msgid "Generate staticfiles out of my Blog into a tempoary folder"
+#~ msgstr ""
+#~ "Erstelle statische Daten von meinem Blog in ein temporäres Verzeichniss"
+
+#~ msgid "An example:"
+#~ msgstr "zum Beispiel:"
+
+#~ msgid "I want that Really-Static try to handle with the ? in the url"
+#~ msgstr "Ich moechte das Really-Static versucht mit ? in der URL umzugehen"
+
+#~ msgid "refresh"
+#~ msgstr "erneuern"
+
+#~ msgid "Rewrite every 24 hours"
+#~ msgstr "Alle 24 Stunden neu schreiben"
+
+#~ msgid "Rewrite on every run of Really-Static"
+#~ msgstr "Bei jedem aufruf von Really-Static neu schreiben"
+
+#~ msgid "Rewrite on create, edit or delete a post"
+#~ msgstr ""
+#~ "Beim erstellen/editieren oder loeschen eines Beitrages neu schreiben"
+
+#~ msgid "Rewrite when a index-page is createt"
+#~ msgstr "Neuschreiben wenn eine Übersichtsseite generiert wird"
+
+#~ msgid "Rewrite when a tag-page is createt"
+#~ msgstr "Neuschreiben wenn eine Tag-seite generiert wird"
+
+#~ msgid "Rewrite when a category-page is createt"
+#~ msgstr "Neuschreiben wenn eine Kategorie-Seite generiert wird"
+
+#~ msgid "Rewrite when a author-page is createt"
+#~ msgstr "Neuschreiben wenn eine Autoren-Seite generiert wird"
+
+#~ msgid "Rewrite when a date-page is createt"
+#~ msgstr "Neuschreiben wenn eine Datumsseite generiert wird"
+
+#~ msgid "What should Really-Static do"
+#~ msgstr "Was soll Really-Static machen"
+
+#~ msgid ""
+#~ "This option allows you to give really-static accurate information about "
+#~ "special URL's, that should made static while specified operations. By "
+#~ "using this Form for example really-static get the order to refresh "
+#~ "sitemaps or reload a page after 24 hours."
+#~ msgstr ""
+#~ "Diese Option erlaubt es Really-Static genauste Angaben zu machen, wann es "
+#~ "welche Url statisch speichern soll. Dies ist zum Beispiel gut für die "
+#~ "Sitemap oder Seiten die aller 24 neuen Inhalt aufweisen."
+
+#~ msgid "Get"
+#~ msgstr "lade"
+
+#~ msgid "source file e.g.: \"?feed=atom\""
+#~ msgstr "Quelldatei wie z.B.: \"?feed=atom\""
+
+#~ msgid ", rewrite the filename into"
+#~ msgstr ",schreibe den Dateinamen um in"
+
+#~ msgid ""
+#~ "destination filename. keep it clear if you want to use the filename from "
+#~ "source file"
+#~ msgstr ""
+#~ "Zieldateiname. Einfach frei lassen wenn der Quelldateiname verwendet "
+#~ "werden soll"
+
+#~ msgid "and make it static"
+#~ msgstr "und geneneriere die statische Seite"
+
+#~ msgid "when a Post is created, edited or deleted"
+#~ msgstr "wenn ein Artikel erstellt, editiert oder geloescht wird"
+
+#~ msgid "every 24 hours"
+#~ msgstr "aller 24 Stunden"
+
+#~ msgid "everytime Really-Static runs"
+#~ msgstr "jedesmal wenn Really-Static ausgefuehrt wird"
+
+#~ msgid "when a index-page is createt"
+#~ msgstr "wenn eine Indexseite erstellt wird"
+
+#~ msgid "when a tag-page is createt"
+#~ msgstr "wenn eine Tag-Seite erstellt wird"
+
+#~ msgid "when a category-page is createt"
+#~ msgstr "wenn eine Kategorieseite erstellt wird"
+
+#~ msgid "when a author-page is createt"
+#~ msgstr "wenn eine Autorenseite erstellt wird"
+
+#~ msgid "when a date-page is createt"
+#~ msgstr "wenn eine Datumsseite erstellt wird"
+
+#~ msgid ""
+#~ "If you got questions (please only in german or English), please also send "
+#~ "this data with your question (it not contains any passwort)"
+#~ msgstr ""
+#~ "Wenn du Fragen/Probleme hast, dann schicke bitte immer gleich diesen Text "
+#~ "mit (keine Angst, er enthält kein Passwort)"
+
+#~ msgid "writing file"
+#~ msgstr "schreibe"
+
+#~ msgid "internal filepath to wordpressinstalltion"
+#~ msgstr "interner Dateipfad zur Wordpresinstallation"
+
+#~ msgid "Path to the templatefolder"
+#~ msgstr "Pfad zum Designordner"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "when"
+#~ msgstr "wenn"
+
+#~ msgid "Zielserver"
+#~ msgstr "Destination"
+
+#~ msgid "when a comment is created, edited or deleted"
+#~ msgstr "wenn ein Kommentar erstellt, editiert oder geloescht wird"
+
+#~ msgid "Beim erstellen/editieren oder loeschen eines Beitrages neu schreiben"
+#~ msgstr "Make static when post is createt/edit/delte"
+
+#~ msgid "jedesmal wenn Really-Static ausgefuehrt wird "
+#~ msgstr "Make static everytime this plugin runs"
+
+#~ msgid "Bei jedem aufruf von Really-Static neu schreiben"
+#~ msgstr "Make static everytime this plugin runs"
+
+#~ msgid "Alle 24 Stunden neu schreiben"
+#~ msgstr "write every 24 hours new"
+
+#~ msgid "aller 24 Stunden"
+#~ msgstr "write every 24 hours new"
+
+#~ msgid "Absenden"
+#~ msgstr "Save"
+
+#~ msgid "Quellserver"
+#~ msgstr "Source"

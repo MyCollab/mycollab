@@ -1,0 +1,22 @@
+/* @override http://localhost/bxslider_v3_plugin/css/styles.css */
+
+/*
+ * To change the color scheme of slider change each 
+ * background property for each of the five styles below
+ */
+
+/*next button*/
+.bx-wrapper { float: left; padding: 15px 0 30px 0; }
+.bx-next 	  { position: absolute; bottom: -1%; right: 47%; z-index: 999; width: 20px; height: 17px; text-indent: -999999px; background: url(btn_manipulation.png) no-repeat 0 -18px; opacity:0.8}
+.bx-prev 	  { position: absolute; top: -3%; left: 45%; z-index: 999; width: 20px; height: 17px; 		  text-indent: -999999px; background: url(btn_manipulation.png) no-repeat 0 0; opacity:0.8 }
+/*next/prev button hover state*/
+.bx-next:hover, .bx-prev:hover { opacity:1 }
+
+.widget_news_archive {float:left; width:100%}
+.widget_news_archive .news_archive_wrapper 						{float: left; display: block; padding:0; position: relative; z-index: 1000; margin: 0; width:100% }
+.widget_news_archive .news_archive_message 					{float:left; color:#999; text-align:left; width:100%; margin: 0 0 30px 0;}
+.widget_news_archive .news_archiv_list 							 	{list-style:none; float:left; display:block; margin:0; padding:0; width:100%;}
+.widget_news_archive .news_archiv_list .news_archiv_item 	{float:left; width:100%; margin:0 0 14px 0; background:url(hr.png) repeat-x 0 bottom transparent; }
+
+
+

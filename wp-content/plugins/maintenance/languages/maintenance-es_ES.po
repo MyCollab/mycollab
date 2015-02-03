@@ -1,0 +1,312 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Maintenance v2.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-09-22 20:42+0100\n"
+"Last-Translator: Digital03.net <info@digital03.net>\n"
+"Language-Team: Digital03.net <info@digital03.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"Language: es_ES\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ maintenance
+#: includes/admin.php:87
+msgid "Save changes"
+msgstr "Guardar Cambios"
+
+# @ maintenance
+#: includes/functions.php:187
+msgid "General Settings"
+msgstr "Ajustes"
+
+# @ maintenance
+#: includes/functions.php:195
+msgid "Pro version"
+msgstr "Versión Pro"
+
+# @ maintenance
+#: includes/functions.php:208
+msgid "Support"
+msgstr "Soporte"
+
+# @ maintenance
+#: includes/functions.php:219
+msgid "Page title"
+msgstr "Título de página"
+
+# @ maintenance
+#: includes/functions.php:220
+msgid "Headline"
+msgstr "Cabecera"
+
+# @ maintenance
+#: includes/functions.php:221
+msgid "Description"
+msgstr "Descripción"
+
+# @ maintenance
+#: includes/functions.php:222
+msgid "Logo"
+msgstr "Logo"
+
+# @ maintenance
+#: includes/functions.php:222
+msgid "Upload Logo"
+msgstr "Subir Logo"
+
+# @ maintenance
+#: includes/functions.php:226
+msgid "Admin bar"
+msgstr "Barra de admin"
+
+# @ maintenance
+#: includes/functions.php:226
+msgid "Show admin bar"
+msgstr "Mostrar barra admin"
+
+# @ maintenance
+#: includes/functions.php:227
+msgid "503"
+msgstr "503"
+
+# @ maintenance
+#: includes/functions.php:227
+msgid "Service temporarily unavailable"
+msgstr "Servicio temporalmente no disponible"
+
+# @ maintenance
+#: includes/functions.php:234
+msgid "Google Analytics ID"
+msgstr "ID Google Analytics"
+
+# @ maintenance
+#: includes/functions.php:234
+msgid "UA-XXXXX-X"
+msgstr "UA-XXXXX-X"
+
+# @ maintenance
+#: includes/functions.php:235
+msgid "Blur intensity"
+msgstr "Intensidad del difuminado"
+
+# @ maintenance
+#: includes/functions.php:241
+msgid "Background blur"
+msgstr "Difuminar fondo"
+
+# @ maintenance
+#: includes/functions.php:241
+msgid "Apply a blur"
+msgstr "Aplicar difuminado"
+
+# @ maintenance
+#: includes/functions.php:242
+msgid "Login On / Off"
+msgstr "Iniciar Sesión On / Off"
+
+# @ maintenance
+#: includes/functions.php:324
+msgid "Background image"
+msgstr "Imagen de fondo"
+
+# @ maintenance
+#: includes/functions.php:324
+msgid "Upload Background"
+msgstr "Subir fondo"
+
+# @ maintenance
+#: includes/functions.php:330
+msgid "Background color"
+msgstr "Color de fondo"
+
+# @ maintenance
+#: includes/functions.php:331
+msgid "Font color"
+msgstr "Color de fuente"
+
+# @ maintenance
+#: includes/functions.php:346
+msgid "Have any questions?"
+msgstr "¿Tienes preguntas?"
+
+# @ maintenance
+#: includes/functions.php:347
+#, php-format
+msgid ""
+"You may find answers to your questions at <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">support forum</a><br>You may  <a "
+"target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?subject=Maintenance "
+"plugin\">contact us</a> with customization requests and suggestions.<br> "
+"Please visit our website to learn about us and our services <a href=\"%1$s\" "
+"title=\"%2$s\">%2$s</a>"
+msgstr ""
+"Puedes encontrar respuestas a tus dudas en nuestro <a target=\"_blank\" href="
+"\"http://wordpress.org/support/plugin/maintenance\">foro de soporte</a>."
+"<br>Puedes <a target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?"
+"subject=Maintenance plugin\">contactar con nosotros</a> para solicitar "
+"personalización y sugerencias.<br>Por favor visita nuestra web para saber "
+"más acerca de nosotros y nuestros servicios <a href=\"%1$s\" title=\"%2$s\">"
+"%2$s</a>."
+
+# @ maintenance
+#: includes/functions.php:381
+msgid "Extended functionality"
+msgstr "Funcionalidad extendida"
+
+# @ maintenance
+#: includes/functions.php:382
+#, php-format
+msgid ""
+"Purchase <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> version  with "
+"extended functionality. %1$s If you like our plugin please <a target=\"_blank"
+"\" href=\"http://wordpress.org/support/view/plugin-reviews/maintenance?"
+"filter=5\">rate it</a>, <a title=\"leave feedbacks\" href=\"%2$s\" target="
+"\"_blank\">leave feedbacks</a>."
+msgstr ""
+"Comprar versión <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> con "
+"funcionalidad extendida.  %1$s Si te gusta nuestro plugin, por favor <a "
+"target=\"_blank\" href=\"http://wordpress.org/support/view/plugin-reviews/"
+"maintenance?filter=5\">puntúalo</a>, <a title=\"deja tus comentarios\" href="
+"\"%2$s\" target=\"_blank\">deja tus comentarios</a>."
+
+# @ maintenance
+#: includes/functions.php:386
+msgid "Demo website"
+msgstr "Web demostración"
+
+# @ maintenance
+#: includes/functions.php:497
+msgid "Maintenance"
+msgstr "Mantenimiento"
+
+# @ maintenance
+#: includes/functions.php:562
+msgid "Website is under construction"
+msgstr "Página en construcción"
+
+# @ maintenance
+#: includes/functions.php:563
+msgid "Maintenance mode is on"
+msgstr "Modo mantenimiento activado"
+
+# @ maintenance
+#: includes/functions.php:564
+msgid "Website will be available soon"
+msgstr "La página estará disponible pronto"
+
+# @ maintenance
+#: load/functions.php:37
+msgid "Permission access denied!"
+msgstr "Permiso de acceso denegado!"
+
+# @ maintenance
+#: load/functions.php:45
+msgid "You entered your login are incorrect!"
+msgstr "El Usuario introducido es INCORRECTO."
+
+# @ maintenance
+#: load/functions.php:49
+msgid "You entered your password are incorrect!"
+msgstr "La Contraseña introducida es INCORRECTA."
+
+# @ maintenance
+#: load/functions.php:52
+msgid "You entered your login and password are incorrect!"
+msgstr "El Usuario y la Contraseña introducidos son INCORRECTOS."
+
+# @ maintenance
+#: load/functions.php:257
+msgid "Username"
+msgstr "Usuario"
+
+# @ maintenance
+#: load/functions.php:258
+msgid "Password"
+msgstr "Pass"
+
+# @ anaglyph-framework
+#: includes/functions.php:161
+msgid "Standard Fonts"
+msgstr "Fuentes estándar"
+
+# @ anaglyph-framework
+#: includes/functions.php:168
+msgid "Google Web Fonts"
+msgstr "Fuentes web Google"
+
+# @ maintenance
+#: includes/functions.php:188
+msgid "Custom CSS"
+msgstr "CSS personalizado"
+
+# @ maintenance
+#: includes/functions.php:189
+msgid "Exclude pages"
+msgstr "Excluir páginas"
+
+# @ maintenance
+#: includes/functions.php:202
+msgid "Fruitful Code projects"
+msgstr "Proyectos de Fruitful Code"
+
+# @ maintenance
+#: includes/functions.php:254
+msgid "CSS Code"
+msgstr "Código CSS"
+
+# @ maintenance
+#: includes/functions.php:269
+msgid "Select the page to be displayed:"
+msgstr "Selecciona la página a mostrar"
+
+# @ maintenance
+#: includes/functions.php:309
+msgid "Not available object."
+msgstr "Objeto no disponible."
+
+# @ maintenance
+#: includes/functions.php:338
+msgid "Font family"
+msgstr "Familia de fuente"
+
+# @ maintenance
+#: includes/functions.php:358
+msgid "Premium WordPress themes"
+msgstr "Plantillas Premium Wordpress"
+
+# @ maintenance
+#: includes/functions.php:364
+msgid "ANAGLYPH - One page / Multi Page WordPress Theme"
+msgstr "ANAGLYPH - Plantilla Wordpress de Una página / Multi página"
+
+# @ maintenance
+#: includes/functions.php:369
+msgid "Love.ly - Simple & Elegant WordPress theme"
+msgstr "Love.ly - Plantilla Wordpress Simple y Elegante"
+
+# @ maintenance
+#: load/functions.php:256
+msgid "User Login"
+msgstr "Iniciar sesión"
+
+# @ maintenance
+#: load/functions.php:259
+msgid "Lost Password"
+msgstr "Contraseña perdida"
+
+# @ maintenance
+#: load/functions.php:260
+msgid "Login"
+msgstr "Conectar"

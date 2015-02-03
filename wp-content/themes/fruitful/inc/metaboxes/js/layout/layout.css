@@ -1,0 +1,23 @@
+.list-layouts li {
+	display:inline-block;
+}
+.list-layouts li input[type="radio"] {
+	display:none;
+}
+
+.list-layouts li img {
+	border: 3px solid #DEDEDE;
+	margin: 0 5px 10px 0;
+	cursor: pointer;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.list-layouts li img:hover, 
+.list-layouts li img.selected {
+	border: 3px solid #AAA;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}	

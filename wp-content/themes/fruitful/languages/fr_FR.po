@@ -1,0 +1,1651 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Fruitful theme\n"
+"POT-Creation-Date: 2014-03-28 11:11+0200\n"
+"PO-Revision-Date: 2014-06-16 10:54+0200\n"
+"Last-Translator: \n"
+"Language-Team: Fruitful Team <fruitfulcode.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;__;_x;_n;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: 404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Oops! Cette page ne ​​peut pas être trouvé."
+
+#: 404.php:21
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"Il ressemble à rien n'a été trouvé à cet endroit. Peut-être essayer un des "
+"liens ci-dessous ou une recherche?"
+
+#: archive.php:22 category.php:11
+#, php-format
+msgid "Category Archives: %s"
+msgstr "Archives de la catégorie: %s"
+
+#: archive.php:25 tag.php:11
+#, php-format
+msgid "Tag Archives: %s"
+msgstr "Tag Archives: %s"
+
+#: archive.php:32
+#, php-format
+msgid "Author Archives: %s"
+msgstr "Archives de l'auteur: %s"
+
+#: archive.php:40
+#, php-format
+msgid "Daily Archives: %s"
+msgstr "Archives de la jour: %s"
+
+#: archive.php:43
+#, php-format
+msgid "Monthly Archives: %s"
+msgstr "Archives de la mois: %s"
+
+#: archive.php:46
+#, php-format
+msgid "Yearly Archives: %s"
+msgstr "Archives de la année: %s "
+
+#: archive.php:49 sidebar-blogright.php:19 sidebar-page.php:19
+#: sidebar-single-post.php:19 sidebar.php:19
+msgid "Archives"
+msgstr "Archives"
+
+#: author-bio.php:16
+#, php-format
+msgid "About %s"
+msgstr "Sur %s"
+
+#: author-bio.php:20
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Voir tous les messages de %s <span class=\"meta-nav\">&rarr;</span>"
+
+#: author.php:16
+#, php-format
+msgid "All posts by %s"
+msgstr "Tous les messages de %s"
+
+#: comments.php:33
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "Une pensée sur &ldquo;%2$s&rdquo;"
+
+#: comments.php:40 comments.php:60
+msgid "Comment navigation"
+msgstr "Commentaire navigation"
+
+#: comments.php:41 comments.php:61
+msgid "&larr; Older Comments"
+msgstr "&larr; Âgées Commentaires"
+
+#: comments.php:42 comments.php:62
+msgid "Newer Comments &rarr;"
+msgstr "Commentaires les plus récents &rarr;"
+
+#: comments.php:72
+msgid "Comments are closed."
+msgstr "Les commentaires sont fermés."
+
+#: content-aside.php:32 content-audio.php:33 content-gallery.php:32
+#: content-image.php:33 content-link.php:32 content-quote.php:32
+#: content-status.php:32 content-video.php:32
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Continuer la lecture <span class=\"meta-nav\">&rarr;</span>"
+
+#: content-aside.php:33 content-audio.php:34 content-chat.php:33
+#: content-gallery.php:33 content-image.php:34 content-link.php:33
+#: content-page.php:21 content-quote.php:33 content-single.php:33
+#: content-status.php:33 content-video.php:33 content.php:54 image.php:87
+msgid "Pages:"
+msgstr "Pages:"
+
+#: content-aside.php:39 content-aside.php:46 content-audio.php:43
+#: content-chat.php:38 content-gallery.php:49 content-image.php:49
+#: content-link.php:41 content-page.php:22 content-quote.php:43
+#: content-single.php:38 content-video.php:48 content.php:65 image.php:35
+#: image.php:101
+msgid "Edit"
+msgstr "Modifier"
+
+#: content-chat.php:22 content-quote.php:23 content.php:32 functions.php:838
+#, php-format
+msgid "Permalink to %s"
+msgstr "Permalink à %s"
+
+#: content-gallery.php:43 content-image.php:42 content-quote.php:40
+#: content-video.php:41 content.php:62
+msgid "Leave a comment"
+msgstr "Ajouter un commentaire"
+
+#: content-gallery.php:43 content.php:62
+msgid "1 Comment"
+msgstr "1 Commentaire"
+
+#: content-gallery.php:43 content.php:62
+msgid "% Comments"
+msgstr "% Commentaires"
+
+#: content-image.php:42 content-quote.php:40 content-video.php:41
+msgid "One comment so far"
+msgstr "Un commentaire à ce jour"
+
+#: content-image.php:42 content-quote.php:40 content-video.php:41
+#, php-format
+msgid "View all % comments"
+msgstr "Voir tous les commentaires %"
+
+#: content.php:53
+msgid "Read More <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Lire la suite <span class=\"meta-nav\">&rarr;</span>"
+
+#: functions.php:69 functions.php:75
+msgid "on"
+msgstr "sur"
+
+#: functions.php:122
+msgid "Primary Menu"
+msgstr "Menu Principal"
+
+#: functions.php:158
+#, php-format
+msgid "Page %s"
+msgstr "La page %s"
+
+#: functions.php:173
+msgid "Main Sidebar"
+msgstr "Sidebar Principale"
+
+#: functions.php:182
+msgid "Blog Right Sidebar"
+msgstr "Blog barre de droite"
+
+#: functions.php:191
+msgid "Single Post Sidebar"
+msgstr "Seul Poste Sidebar"
+
+#: functions.php:200
+msgid "Shop Page Sidebar"
+msgstr "Encadré de la page à magasiner"
+
+#: functions.php:809 functions.php:818
+msgid ", "
+msgstr ", "
+
+#: functions.php:812
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Publié dans %1$s"
+
+#: functions.php:832
+#, php-format
+msgid "%1$s on %2$s"
+msgstr "%1$s sur %2$s"
+
+#: functions.php:873 inc/theme-options/theme-options.php:132
+msgid "Fruitful theme Options"
+msgstr "Options du thème Fruitful"
+
+#: functions.php:1092
+msgid "Search for products"
+msgstr "Recherche de produits"
+
+#: functions.php:1134
+msgid "You may be interested in&hellip;"
+msgstr "Vous pouvez être intéressé par&hellip;"
+
+#: functions.php:1176
+#, php-format
+msgid "%d "
+msgstr "%d "
+
+#: functions.php:1200
+msgid "Page Attributes"
+msgstr "Attributs de page"
+
+#: functions.php:1214
+msgid "Template"
+msgstr "Modèle"
+
+#: functions.php:1216
+msgid "Left sidebar Template"
+msgstr "Modèle de la barre latérale gauche"
+
+#: functions.php:1217
+msgid "Full width Template"
+msgstr "Pleine largeur modèle"
+
+#: functions.php:1218
+msgid "Right sidebar Template"
+msgstr "Droit sidebar modèle"
+
+#: functions.php:1220
+msgid "Choose template for post"
+msgstr "Choisissez modèle de poste"
+
+#: image.php:25
+#, php-format
+msgid ""
+"Published <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Link to full-"
+"size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s"
+"\" rel=\"gallery\">%7$s</a>"
+msgstr ""
+"Publié <span class=\"entry-date\"><time class=\"entry-date\" datetime=\"%1$s"
+"\" pubdate>%2$s</time></span> à <a href=\"%3$s\" title=\"Lien de l'image "
+"pleine grandeur à\">%4$s &times; %5$s</a> dans <a href=\"%6$s\" title="
+"\"Réintégrer %7$s\" rel=\"gallery\">%7$s</a>"
+
+#: image.php:39
+msgid "&larr; Previous"
+msgstr "&larr; Précédent"
+
+#: image.php:40
+msgid "Next &rarr;"
+msgstr "Suivant &rarr;"
+
+#: image.php:93
+#, php-format
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Poster un commentaire"
+"\">Poster un commentaire</a> ou laisser un trackback: <a class=\"trackback-"
+"link\" href=\"%s\" title=\"Trackback URL pour votre poste\" rel=\"trackback"
+"\">Trackback URL</a>."
+
+#: image.php:95
+#, php-format
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+"Les commentaires sont fermés, mais vous pouvez faire un trackback: <a class="
+"\"trackback-link\" href=\"%s\" title=\"Trackback URL pour votre poste\" rel="
+"\"trackback\">Trackback URL</a>."
+
+#: image.php:97
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+"Les trackbacks sont fermés, mais vous pouvez <a class=\"comment-link\" href="
+"\"#respond\" title=\"Poster un commentaire\">poster un commentaire</a>."
+
+#: image.php:99
+msgid "Both comments and trackbacks are currently closed."
+msgstr "Les commentaires et les trackbacks sont fermés."
+
+#: no-results.php:15
+msgid "Nothing Found"
+msgstr "Rien trouvé"
+
+#: no-results.php:21
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Prêt à publier votre premier poste? <a href=\"%1$s\">Commencez ici</a>."
+
+#: no-results.php:25
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Désolé, mais rien ne correspond à vos critères de recherche. S'il vous plaît "
+"essayer de nouveau avec quelques mots clés différents."
+
+#: no-results.php:30
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Il semble que nous ne pouvons pas trouver ce que vous cherchez. Peut-être la "
+"recherche peut aider."
+
+#: search.php:15
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Résultats de la recherche pour: %s"
+
+#: searchform.php:11 searchform.php:13
+msgid "Search"
+msgstr "Recherche"
+
+#: searchform.php:12
+msgid "Type Here to Search"
+msgstr "Tapez ici pour rechercher"
+
+#: sidebar-blogright.php:26 sidebar-page.php:26 sidebar-single-post.php:26
+#: sidebar.php:26
+msgid "Meta"
+msgstr "Meta"
+
+#: taxonomy-post_format.php:18
+#, php-format
+msgid "%s Archives"
+msgstr "%s Archives"
+
+#: inc/template-tags.php:27
+msgid "Post navigation"
+msgstr "Poster navigation"
+
+#: inc/template-tags.php:31
+msgid "&larr;"
+msgstr "&larr;"
+
+#: inc/template-tags.php:32
+msgid "&rarr;"
+msgstr "&rarr;"
+
+#: inc/template-tags.php:37
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> Les seniors messages"
+
+#: inc/template-tags.php:41
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Les nouveaux messages <span class=\"meta-nav\">&rarr;</span>"
+
+#: inc/template-tags.php:66
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: inc/template-tags.php:66 inc/template-tags.php:92
+msgid "(Edit)"
+msgstr "(Modifier)"
+
+#: inc/template-tags.php:85
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: inc/template-tags.php:90
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s à %2$s"
+
+#: inc/template-tags.php:96
+msgid "Your comment is awaiting moderation."
+msgstr "Votre commentaire est en attente de modération."
+
+#: inc/template-tags.php:121
+#, php-format
+msgid ""
+"Posted on <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+msgstr ""
+"Posté le <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> par <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+
+#: inc/template-tags.php:127
+#, php-format
+msgid "View all posts by %s"
+msgstr "Voir tous les messages de %s"
+
+#: inc/widgets.php:17
+msgid "News Archive"
+msgstr "Archives Nouvelles"
+
+#: inc/widgets.php:18
+msgid "Use this widget to list your Link posts"
+msgstr "Utilisez ce widget à la liste de vos messages lien"
+
+#: inc/widgets.php:51 inc/widgets.php:62
+msgid "News-Archive"
+msgstr "Archive des nouvelles"
+
+#: inc/widgets.php:152
+msgid "Title:"
+msgstr "Titre:"
+
+#: inc/widgets.php:155
+msgid "Number of posts to show:"
+msgstr "Nombre de postes à montrer:"
+
+#: inc/widgets.php:159
+msgid "Text Message:"
+msgstr "Message texte:"
+
+#: inc/func/fruitful-function.php:6
+msgid "default"
+msgstr "Défaut"
+
+#: inc/func/fruitful-function.php:10
+msgid "dark"
+msgstr "sombre"
+
+#: inc/func/fruitful-function.php:14
+msgid "bar"
+msgstr "bar"
+
+#: inc/func/fruitful-function.php:18
+msgid "light"
+msgstr "lumière"
+
+#: inc/func/fruitful-function.php:29
+msgid "FlexSlider"
+msgstr "FlexSlider"
+
+#: inc/func/fruitful-function.php:33
+msgid "Nivo Slider"
+msgstr "Nivo Slider"
+
+#: inc/func/fruitful-function.php:45
+msgid "Left"
+msgstr "Gauche"
+
+#: inc/func/fruitful-function.php:49
+msgid "Center"
+msgstr "Centre"
+
+#: inc/func/fruitful-function.php:53
+msgid "Right"
+msgstr "Droit"
+
+#: inc/func/fruitful-function.php:65
+msgid "random"
+msgstr "aléatoire"
+
+#: inc/func/fruitful-function.php:69
+msgid "sliceDownRight"
+msgstr "sliceDownRight"
+
+#: inc/func/fruitful-function.php:73
+msgid "sliceDownLeft"
+msgstr "sliceDownLeft"
+
+#: inc/func/fruitful-function.php:77
+msgid "sliceUpRight"
+msgstr "sliceUpRight"
+
+#: inc/func/fruitful-function.php:81
+msgid "sliceUpDown"
+msgstr "sliceUpDown"
+
+#: inc/func/fruitful-function.php:85
+msgid "sliceUpDownLeft"
+msgstr "sliceUpDownLeft"
+
+#: inc/func/fruitful-function.php:89
+msgid "fold"
+msgstr "plier"
+
+#: inc/func/fruitful-function.php:93 inc/func/fruitful-function.php:125
+msgid "fade"
+msgstr "fondu"
+
+#: inc/func/fruitful-function.php:97
+msgid "boxRandom"
+msgstr "boxRandom"
+
+#: inc/func/fruitful-function.php:101
+msgid "boxRain"
+msgstr "boxRain"
+
+#: inc/func/fruitful-function.php:105
+msgid "boxRainReverse"
+msgstr "boxRainReverse"
+
+#: inc/func/fruitful-function.php:109
+msgid "boxRainGrow"
+msgstr "boxRainGrow"
+
+#: inc/func/fruitful-function.php:113
+msgid "boxRainGrowReverse"
+msgstr "boxRainGrowReverse"
+
+#: inc/func/fruitful-function.php:129
+msgid "slide"
+msgstr "diapositive"
+
+#: inc/func/fruitful-function.php:140
+msgid "horizontal"
+msgstr "horizontal"
+
+#: inc/func/fruitful-function.php:144
+msgid "vertical"
+msgstr "vertical"
+
+#: inc/func/fruitful-function.php:155
+msgid "true"
+msgstr "vrai"
+
+#: inc/func/fruitful-function.php:159
+msgid "false"
+msgstr "faux"
+
+#: inc/func/fruitful-function.php:171
+msgid "Arial, Helvetica, sans-serif"
+msgstr "Arial, Helvetica, sans-serif"
+
+#: inc/func/fruitful-function.php:175
+msgid "Arial Black, Gadget, sans-serif"
+msgstr "Arial Black, Gadget, sans-serif"
+
+#: inc/func/fruitful-function.php:179
+msgid "Comic Sans MS, Textile, cursive"
+msgstr "Comic Sans MS, Textile, cursive"
+
+#: inc/func/fruitful-function.php:183
+msgid "Courier New, Courier, monospace"
+msgstr "Courier New, Courier, monospace"
+
+#: inc/func/fruitful-function.php:187
+msgid "Georgia, Times New Roman, Times, serif"
+msgstr "Georgia, Times New Roman, Times, serif"
+
+#: inc/func/fruitful-function.php:191
+msgid "Impact, Charcoal, sans-serif"
+msgstr "Impact, Charcoal, sans-serif"
+
+#: inc/func/fruitful-function.php:195
+msgid "Lucida Console, Monaco, monospace"
+msgstr "Lucida Console, Monaco, monospace"
+
+#: inc/func/fruitful-function.php:199
+msgid "Lucida Sans Unicode, Lucida Grande, sans-serif"
+msgstr "Lucida Sans Unicode, Lucida Grande, sans-serif"
+
+#: inc/func/fruitful-function.php:203
+msgid "Palatino Linotype, Book Antiqua, Palatino, serif"
+msgstr "Palatino Linotype, Book Antiqua, Palatino, serif"
+
+#: inc/func/fruitful-function.php:207
+msgid "Tahoma, Geneva, sans-serif"
+msgstr "Tahoma, Geneva, sans-serif"
+
+#: inc/func/fruitful-function.php:211
+msgid "Times New Roman, Times, serif"
+msgstr "Times New Roman, Times, serif"
+
+#: inc/func/fruitful-function.php:215
+msgid "Trebuchet MS, Helvetica, sans-serif"
+msgstr "Trebuchet MS, Helvetica, sans-serif"
+
+#: inc/func/fruitful-function.php:219
+msgid "Verdana, Geneva, sans-serif"
+msgstr "Verdana, Geneva, sans-serif"
+
+#: inc/func/fruitful-function.php:223
+msgid "MS Sans Serif, Geneva, sans-serif"
+msgstr "MS Sans Serif, Geneva, sans-serif"
+
+#: inc/func/fruitful-function.php:227
+msgid "MS Serif, New York, serif"
+msgstr "MS Serif, New York, serif"
+
+#: inc/func/fruitful-function.php:233
+msgid "Open Sans, sans-serif"
+msgstr "Open Sans, sans-serif"
+
+#: inc/func/fruitful-function.php:237
+msgid "Lobster, cursive"
+msgstr "Lobster, cursive"
+
+#: inc/func/fruitful-function.php:241
+msgid "Josefin Slab, serif"
+msgstr "Josefin Slab, serif"
+
+#: inc/func/fruitful-function.php:245
+msgid "Arvo, serif"
+msgstr "Arvo, serif"
+
+#: inc/func/fruitful-function.php:249
+msgid "Lato, sans-serif"
+msgstr "Lato, sans-serif"
+
+#: inc/func/fruitful-function.php:253
+msgid "Vollkorn, serif"
+msgstr "Vollkorn, serif"
+
+#: inc/func/fruitful-function.php:257
+msgid "Abril Fatface, cursive"
+msgstr "Abril Fatface, cursive"
+
+#: inc/func/fruitful-function.php:261
+msgid "Ubuntu, sans-serif"
+msgstr "Ubuntu, sans-serif"
+
+#: inc/func/fruitful-function.php:265
+msgid "PT Sans, sans-serif"
+msgstr "PT Sans, sans-serif"
+
+#: inc/func/fruitful-function.php:269
+msgid "Old Standard TT, serif"
+msgstr "Old Standard TT, serif"
+
+#: inc/func/fruitful-function.php:273
+msgid "Droid Sans, sans-serif"
+msgstr "Droid Sans, sans-serif"
+
+#: inc/func/fruitful-function.php:284 inc/theme-options/theme-options.php:725
+msgid "Header"
+msgstr "Rubrique"
+
+#: inc/func/fruitful-function.php:288 inc/theme-options/theme-options.php:732
+msgid "Footer"
+msgstr "Footer"
+
+#: inc/func/fruitful-function.php:388
+msgid "Upload Image"
+msgstr "Envoyer une image"
+
+#: inc/func/fruitful-function.php:394
+msgid "Remove"
+msgstr "Supprimer"
+
+#: inc/func/fruitful-function.php:412
+msgid "Link URL"
+msgstr "Lien URL"
+
+#: inc/func/fruitful-function.php:418
+msgid "Target \"_blank\""
+msgstr "Target \"_blank\""
+
+#: inc/func/fruitful-function.php:561
+msgid "http://fruitfulcode.com"
+msgstr "http://fruitfulcode.com"
+
+#: inc/func/fruitful-function.php:561
+msgid "http://wordpress.org"
+msgstr "http://wordpress.org"
+
+#: inc/func/plugin-activation.php:155
+msgid "Install Required Plugins"
+msgstr "Install Required Plugins"
+
+#: inc/func/plugin-activation.php:156
+msgid "Install Plugins"
+msgstr "Installer des plugins"
+
+#: inc/func/plugin-activation.php:157 inc/func/plugins-included.php:49
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "Plugin Installation: %s"
+
+#: inc/func/plugin-activation.php:158
+msgid "Something went wrong."
+msgstr "Quelque chose s'est mal passé."
+
+#: inc/func/plugin-activation.php:159 inc/func/plugins-included.php:51
+#, php-format
+msgid "Fruitful theme requires the following plugin: %1$s."
+msgstr "Fruitful thème nécessite le plugin suivant: %1$s."
+
+#: inc/func/plugin-activation.php:160 inc/func/plugins-included.php:52
+#, php-format
+msgid "Fruitful theme recommends the following plugin: %1$s."
+msgstr "Fruitful thème recommande le plugin suivant: %1$s."
+
+#: inc/func/plugin-activation.php:161 inc/func/plugins-included.php:53
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"installed."
+msgstr ""
+"Désolé, mais vous ne disposez pas des autorisations nécessaires pour "
+"installer le plugin  %s. Contactez l'administrateur de ce site pour obtenir "
+"de l'aide sur le plugin installé."
+
+#: inc/func/plugin-activation.php:162 inc/func/plugins-included.php:54
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgstr "Le plugin requis à la suite est actuellement inactive: %1$s."
+
+#: inc/func/plugin-activation.php:163 inc/func/plugins-included.php:55
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgstr "Le plugin est recommandé suite est actuellement inactive: %1$s."
+
+#: inc/func/plugin-activation.php:164 inc/func/plugins-included.php:56
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgstr ""
+"Désolé, mais vous n'avez pas les autorisations nécessaires pour activer le "
+"plugin %s. Contactez l'administrateur de ce site pour obtenir de l'aide sur "
+"le plugin activé."
+
+#: inc/func/plugin-activation.php:165 inc/func/plugins-included.php:57
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with Fruitful theme: %1$s."
+msgstr ""
+"Le plugin suivante doit être mis à jour dans sa dernière version pour "
+"assurer une compatibilité maximale avec le Fruitful thème: %1$s."
+
+#: inc/func/plugin-activation.php:166 inc/func/plugins-included.php:58
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgstr ""
+"Désolé, mais vous n'avez pas les autorisations nécessaires pour mettre à "
+"jour le plugin %s. Contactez l'administrateur de ce site pour obtenir de "
+"l'aide sur le plugin à jour."
+
+#: inc/func/plugin-activation.php:167 inc/func/plugins-included.php:59
+msgid "Begin installing plugin"
+msgstr "Commencez à installer le plugin"
+
+#: inc/func/plugin-activation.php:168
+msgid "Begin activating plugin"
+msgstr "Commencez activer le plugin"
+
+#: inc/func/plugin-activation.php:169 inc/func/plugins-included.php:61
+msgid "Return to Required Plugins Installer"
+msgstr "Retour à Obligatoires Plugins Installer"
+
+#: inc/func/plugin-activation.php:170
+msgid "Return to the dashboard"
+msgstr "Retour au tableau de bord"
+
+#: inc/func/plugin-activation.php:171 inc/func/plugin-activation.php:1844
+#: inc/func/plugins-included.php:62
+msgid "Plugin activated successfully."
+msgstr "Plugin activé avec succès."
+
+#: inc/func/plugin-activation.php:172 inc/func/plugin-activation.php:1542
+msgid "The following plugin was activated successfully:"
+msgstr "Le plugin suivant a été activé avec succès:"
+
+#: inc/func/plugin-activation.php:173
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Tous les plugins installés et activés avec succès. %1$s"
+
+#: inc/func/plugin-activation.php:174
+msgid "Dismiss this notice"
+msgstr "Rejeter cet avis"
+
+#: inc/func/plugin-activation.php:1089
+msgid "External Link"
+msgstr "Lien externe"
+
+#: inc/func/plugin-activation.php:1094
+msgid "Private Repository"
+msgstr "Référentiel privé"
+
+#: inc/func/plugin-activation.php:1097
+msgid "Pre-Packaged"
+msgstr "Préemballés"
+
+#: inc/func/plugin-activation.php:1101
+msgid "WordPress Repository"
+msgstr "Référentiel WordPress"
+
+#: inc/func/plugin-activation.php:1104
+msgid "Required"
+msgstr "Requis"
+
+#: inc/func/plugin-activation.php:1104
+msgid "Recommended"
+msgstr "Recommandé"
+
+#: inc/func/plugin-activation.php:1107
+msgid "Not Installed"
+msgstr "Non installé"
+
+#: inc/func/plugin-activation.php:1109
+msgid "Installed But Not Activated"
+msgstr "Installé mais pas activé"
+
+#: inc/func/plugin-activation.php:1279
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+"Aucun plugin à installer ou activer. <a href=\"%1$s\" title=\"Retour au "
+"tableau de bord\">Retour au tableau de bord</a>"
+
+#: inc/func/plugin-activation.php:1295
+msgid "Plugin"
+msgstr "Plugin"
+
+#: inc/func/plugin-activation.php:1296
+msgid "Source"
+msgstr "Source"
+
+#: inc/func/plugin-activation.php:1297
+msgid "Type"
+msgstr "Type"
+
+#: inc/func/plugin-activation.php:1298
+msgid "Status"
+msgstr "Statut"
+
+#: inc/func/plugin-activation.php:1316
+msgid "Install"
+msgstr "Installer"
+
+#: inc/func/plugin-activation.php:1317
+msgid "Activate"
+msgstr "Activer"
+
+#: inc/func/plugin-activation.php:1827
+msgid "Install package not available."
+msgstr "Installer le paquet n'est pas disponible."
+
+#: inc/func/plugin-activation.php:1828
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+"Téléchargement package d'installation de <span class=\"code\">%s</"
+"span>&#8230;"
+
+#: inc/func/plugin-activation.php:1829
+msgid "Unpacking the package&#8230;"
+msgstr "Déballage du paquet&#8230;"
+
+#: inc/func/plugin-activation.php:1830
+msgid "Installing the plugin&#8230;"
+msgstr "Installation du plug-in&#8230;"
+
+#: inc/func/plugin-activation.php:1831
+msgid "Plugin install failed."
+msgstr "Plugin installation a échoué."
+
+#: inc/func/plugin-activation.php:1832
+msgid "Plugin installed successfully."
+msgstr "Plugin installé avec succès."
+
+#: inc/func/plugin-activation.php:1843
+msgid "Plugin activation failed."
+msgstr "Plugin activation a échoué."
+
+#: inc/func/plugin-activation.php:1953
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"Le processus d'installation et d'activation commence. Ce processus peut "
+"prendre un certain temps sur certains hôtes, donc s'il vous plaît soyez "
+"patient."
+
+#: inc/func/plugin-activation.php:1954
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s installé et activé avec succès."
+
+#: inc/func/plugin-activation.php:1954 inc/func/plugin-activation.php:1963
+msgid "Show Details"
+msgstr "Voir les détails"
+
+#: inc/func/plugin-activation.php:1954 inc/func/plugin-activation.php:1963
+msgid "Hide Details"
+msgstr "Cacher les détails"
+
+#: inc/func/plugin-activation.php:1955
+msgid "All installations and activations have been completed."
+msgstr "Toutes les installations et activations ont été achevés."
+
+#: inc/func/plugin-activation.php:1956
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Installation et activation Plugin %1$s (%2$d/%3$d)"
+
+#: inc/func/plugin-activation.php:1960
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"Le processus d'installation commence. Ce processus peut prendre un certain "
+"temps sur certains hôtes, donc s'il vous plaît soyez patient."
+
+#: inc/func/plugin-activation.php:1961
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+"Une erreur s'est produite lors de l'installation de %1$s: <strong>%2$s</"
+"strong>."
+
+#: inc/func/plugin-activation.php:1962
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "L'installation de %1$s a échoué."
+
+#: inc/func/plugin-activation.php:1963
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s installés avec succès."
+
+#: inc/func/plugin-activation.php:1964
+msgid "All installations have been completed."
+msgstr "Toutes les installations ont été achevées."
+
+#: inc/func/plugin-activation.php:1965
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Installation Plugin %1$s (%2$d/%3$d)"
+
+#: inc/func/plugin-activation.php:2056
+msgid "Return to the Dashboard"
+msgstr "Retour au tableau de bord"
+
+#: inc/func/plugins-included.php:47
+msgid "Fruitful Plugin Integration"
+msgstr "Fruitful intégration plugin"
+
+#: inc/func/plugins-included.php:48
+msgid "Plugin Integration"
+msgstr "Intégration plugin"
+
+#: inc/func/plugins-included.php:50
+msgid "Something went wrong with the plugin API."
+msgstr "Quelque chose n'allait pas avec l'API de plugin."
+
+#: inc/func/plugins-included.php:60
+msgid "Activate installed plugin"
+msgstr "Activez le plugin installé"
+
+#: inc/func/plugins-included.php:63
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr "Tous les plugins installés et activés avec succès. %s"
+
+#: inc/theme-options/theme-options.php:41
+msgid "Install Home Page"
+msgstr "Installez la page d'accueil"
+
+#: inc/theme-options/theme-options.php:41
+msgid "Setup home page with dummy data, like on demo. Option can be used once."
+msgstr ""
+"Page d'accueil du programme d'installation avec des données factices, comme "
+"sur la démo. Option peut être utilisée qu'une seule fois."
+
+#: inc/theme-options/theme-options.php:44
+msgid "Layout"
+msgstr "Disposition"
+
+#: inc/theme-options/theme-options.php:44
+msgid ""
+"Theme supported 2 types of html layout. Default responsive  setting which "
+"adapt for mobile devices and static page with fixed width. Uncheck arrow "
+"below if you need static website display. "
+msgstr ""
+"Thème en charge 2 types de mise en page html. Réglage par défaut sensibles "
+"qui s'adaptent pour les appareils mobiles et page statique avec une largeur "
+"fixe. Décochez la case ci-dessous, flèche si vous avez besoin d'affichage "
+"site Web statique."
+
+#: inc/theme-options/theme-options.php:45
+msgid "Comments"
+msgstr "Commentaires"
+
+#: inc/theme-options/theme-options.php:45
+msgid ""
+"If you want to display comments on your post page or page, select options "
+"below."
+msgstr ""
+"Si vous souhaitez afficher des commentaires sur votre page ou après, "
+"sélectionnez les options ci-dessous."
+
+#: inc/theme-options/theme-options.php:46
+msgid "Default theme styles"
+msgstr "Styles de thème par défaut"
+
+#: inc/theme-options/theme-options.php:46
+msgid ""
+"Default CSS. Theme option for styling is not working, if this option enable."
+msgstr ""
+"Par défaut CSS. Option Thème pour le style ne fonctionne pas, si cette "
+"option permettent."
+
+#: inc/theme-options/theme-options.php:48
+msgid "Show cart in header"
+msgstr "Voir le panier en tête"
+
+#: inc/theme-options/theme-options.php:48
+msgid "If you want to display cart link in header select options below."
+msgstr ""
+"Si vous souhaitez afficher panier lien en tête de sélectionner des options "
+"ci-dessous."
+
+#: inc/theme-options/theme-options.php:50
+msgid "Reset options"
+msgstr "Réinitialiser les options"
+
+#: inc/theme-options/theme-options.php:50
+msgid "All theme options will be reset to default. "
+msgstr "Toutes les options thématiques seront remis à zéro par défaut."
+
+#: inc/theme-options/theme-options.php:52
+msgid "Multilingual Switch in Header (WPML)"
+msgstr "Changer multilingue en tête (WPML)"
+
+#: inc/theme-options/theme-options.php:52
+msgid "If you wish to show Language Switch in header, select option below. "
+msgstr ""
+"Si vous souhaitez montrer Changement de langue en-tête, sélectionnez "
+"l'option ci-dessous."
+
+#: inc/theme-options/theme-options.php:54
+msgid "Sticky  header"
+msgstr "Tête collant"
+
+#: inc/theme-options/theme-options.php:54
+msgid "Options relating to the website header"
+msgstr "Les options relatives à l'en-tête de site Web"
+
+#: inc/theme-options/theme-options.php:55
+msgid "Background for header"
+msgstr "Fond de tête"
+
+#: inc/theme-options/theme-options.php:55
+msgid ""
+"Upload image with full width for background in header area. (Supported "
+"files .png, .jpg, .gif)  "
+msgstr ""
+"Uploader l'image en pleine largeur pour l'arrière-plan de la zone d'en-tête. "
+"(Fichiers pris en charge .png, .jpg, .gif)"
+
+#: inc/theme-options/theme-options.php:56
+msgid "Height for header area"
+msgstr "Hauteur de la zone d'en-tête"
+
+#: inc/theme-options/theme-options.php:56
+msgid "Minimum height in pixels"
+msgstr "Hauteur minimale en pixels"
+
+#: inc/theme-options/theme-options.php:57
+msgid "Menu Position"
+msgstr "Position du menu"
+
+#: inc/theme-options/theme-options.php:57
+msgid "Set menu position."
+msgstr "Régler la position du menu"
+
+#: inc/theme-options/theme-options.php:60
+msgid "Background Image"
+msgstr "image de fond"
+
+#: inc/theme-options/theme-options.php:60
+msgid ""
+"Upload your background image for site background. (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+"Uploadez votre image de fond pour l'arrière-plan du site (Fichiers pris en "
+"charge .png, .jpg, .gif)"
+
+#: inc/theme-options/theme-options.php:61
+msgid "Background Color "
+msgstr "Couleur de l'arrière-plan"
+
+#: inc/theme-options/theme-options.php:61
+msgid "Choose color for body background"
+msgstr "Choisissez la couleur d'arrière plan du body"
+
+#: inc/theme-options/theme-options.php:62
+msgid "Background color for content  "
+msgstr "Couleur de fond pour le contenu"
+
+#: inc/theme-options/theme-options.php:62
+msgid "Choose color for main content area"
+msgstr "Choisissez la couleur pour la zone de contenu principal"
+
+#: inc/theme-options/theme-options.php:64
+msgid "Logo image"
+msgstr "Image Logo"
+
+#: inc/theme-options/theme-options.php:64
+msgid ""
+"Upload logo image for your website. Size is original (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+"Uploader le logo pour votre site web. Le fichier ne sera pas redimensionné "
+"(les fichiers pris en charge .png, .jpg, .gif)"
+
+#: inc/theme-options/theme-options.php:66
+msgid "Favicon"
+msgstr "Favicon"
+
+#: inc/theme-options/theme-options.php:66
+msgid "Upload needed image for site favicon. (Supported files .ico (16x16))"
+msgstr ""
+"Uploader l'image nécessaire pour la favicon du site (Fichiers pris en "
+"charge .ico (16x16))"
+
+#: inc/theme-options/theme-options.php:67
+msgid "Logo Position"
+msgstr "Position du logo"
+
+#: inc/theme-options/theme-options.php:67
+msgid "Set Logo Position"
+msgstr "Réglez la position du logo"
+
+#: inc/theme-options/theme-options.php:70
+msgid "Main menu color"
+msgstr "Couleur principale du menu"
+
+#: inc/theme-options/theme-options.php:70
+msgid "Choose your colors for main menu in header"
+msgstr "Choisissez vos couleurs pour le menu principal de l'en-tête"
+
+#: inc/theme-options/theme-options.php:71
+msgid "Dropdown menu color"
+msgstr "Couleur du menu déroulant"
+
+#: inc/theme-options/theme-options.php:71
+msgid "Choose your colors for dropdown menu in header"
+msgstr "Choisissez vos couleurs pour le menu déroulant de l'en-tête"
+
+#: inc/theme-options/theme-options.php:72
+msgid "General font color"
+msgstr "Couleur principale de la police"
+
+#: inc/theme-options/theme-options.php:72
+msgid "Choose your colors for text and links"
+msgstr "Choisissez vos couleurs pour le texte et les liens"
+
+#: inc/theme-options/theme-options.php:73
+msgid "Color for lines"
+msgstr "Couleur des lignes"
+
+#: inc/theme-options/theme-options.php:73
+msgid "Choose your colors for lines and separators"
+msgstr "Choisissez les couleurs des lignes et des séparateurs"
+
+#: inc/theme-options/theme-options.php:74
+msgid "Color for buttons"
+msgstr "Couleur des boutons"
+
+#: inc/theme-options/theme-options.php:74
+msgid "Choose your colors for buttons"
+msgstr "Choisissez les couleurs pour les boutons"
+
+#: inc/theme-options/theme-options.php:77
+#: inc/theme-options/theme-options.php:729
+msgid "Fonts"
+msgstr "Polices"
+
+#: inc/theme-options/theme-options.php:77
+msgid "Popular web safe font collection, select and use for your needs."
+msgstr ""
+"Collection de police web populaire et sûr, choisissez et utilisez pour votre "
+"site."
+
+#: inc/theme-options/theme-options.php:79
+msgid "Headers"
+msgstr "En-têtes"
+
+#: inc/theme-options/theme-options.php:79
+msgid "Choose font-family for all headlines."
+msgstr "Choisissez la font-family pour tous les titres."
+
+#: inc/theme-options/theme-options.php:80
+#: inc/theme-options/theme-options.php:432
+msgid "Menu"
+msgstr "Menu"
+
+#: inc/theme-options/theme-options.php:80
+msgid "Choose font-family for primary menu."
+msgstr "Choisissez la font-family pour le menu principal"
+
+#: inc/theme-options/theme-options.php:81
+msgid "Body"
+msgstr "Body"
+
+#: inc/theme-options/theme-options.php:81
+msgid "Choose font-family for content."
+msgstr "Choisissez la font-family pour le contenu."
+
+#: inc/theme-options/theme-options.php:83
+msgid "Font size"
+msgstr "Taille de la police"
+
+#: inc/theme-options/theme-options.php:83
+msgid ""
+"Choose font size for specific html elements. Set size as number, without px."
+msgstr ""
+"Choisissez la taille de police pour des éléments HTML spécifiques. Régler la "
+"taille avec un nombre, sans la mention px"
+
+#: inc/theme-options/theme-options.php:84
+#: inc/theme-options/theme-options.php:730
+msgid "Slider"
+msgstr "Slider"
+
+#: inc/theme-options/theme-options.php:84
+msgid "Select a slider type that will be used by default."
+msgstr "Sélectionnez un type de slider qui sera utilisé par défaut"
+
+#: inc/theme-options/theme-options.php:85
+msgid "Slider Options"
+msgstr "Options du Slider"
+
+#: inc/theme-options/theme-options.php:85
+msgid ""
+"Choose needed options for slider: animation type, sliding direction, speed "
+"of animations, etc"
+msgstr ""
+"Choisissez les options nécessaires pour le slider: type d'animation, "
+"direction de glissement, vitesse d'animations, etc"
+
+#: inc/theme-options/theme-options.php:86
+msgid "Slides"
+msgstr "Diapositives"
+
+#: inc/theme-options/theme-options.php:86
+msgid ""
+"Add images to slider (Supported files .png, .jpg, .gif). If you want to "
+"change order, just drag and drop it. Image size for slides is original from "
+"media gallery, please upload images in same size, to get best display on "
+"page. To display slider in needed place use shortcode [fruitful_slider]. "
+"Current theme version support only one slider per website. "
+msgstr ""
+"Ajouter des images au slider (fichiers pris en charge .png, .jpg, .gif) Si "
+"vous souhaitez modifier l'ordre, il suffit de glisser et déposer. La taille "
+"de l'image pour les diapositives est la meme que dans la galerie de médias, "
+"uploadez des images de même taille, pour obtenir le meilleur affichage sur "
+"la page. Pour afficher le slider a l'endroit voulu, utilisez le code "
+"[fruitful_slider]. Le thème actuel ne supportte qu'un seul slider par site."
+
+#: inc/theme-options/theme-options.php:88
+msgid "Socials Links Position"
+msgstr "Position des liens vers les réseaux sociaux"
+
+#: inc/theme-options/theme-options.php:88
+msgid "Choose place where social links will be displayed."
+msgstr "Choisissez endroit où les liens sociaux seront affichés"
+
+#: inc/theme-options/theme-options.php:89
+msgid "Socials Links"
+msgstr "Sociales Liens"
+
+#: inc/theme-options/theme-options.php:89
+msgid ""
+"Add link to your social media profiles. Icons with link will be display in "
+"header or footer."
+msgstr ""
+"Ajouter un lien à vos profils de médias sociaux Icônes avec lien sera "
+"affiché dans l'entête ou le pied."
+
+#: inc/theme-options/theme-options.php:90
+msgid "Footer options"
+msgstr "Options de bas de page"
+
+#: inc/theme-options/theme-options.php:90
+msgid "Replace default theme copyright information and links"
+msgstr "Remplacer thème informations et des liens du droit d'auteur par défaut"
+
+#: inc/theme-options/theme-options.php:92
+#: inc/theme-options/theme-options.php:733
+msgid "Custom CSS"
+msgstr "CSS personnalisé"
+
+#: inc/theme-options/theme-options.php:92
+msgid ""
+"Theme has two css files style.css and fixed-style.css which use default "
+"styles for front-end responsive and static layout. Do not edit theme default "
+"css files, use textarea editor below for overwriting all css styles."
+msgstr ""
+"Thème dispose de deux fichiers CSS style.css et-style.css fixe dont "
+"l'utilisation des styles par défaut pour frontal disposition sensible et "
+"statique Ne pas modifier les fichiers CSS par défaut de thème, utiliser "
+"l'éditeur de zone de texte ci-dessous pour écraser tous les styles CSS."
+
+#: inc/theme-options/theme-options.php:133
+#: inc/theme-options/theme-options.php:148
+#: inc/theme-options/theme-options.php:717
+msgid "Theme Options"
+msgstr "Options du thème"
+
+#: inc/theme-options/theme-options.php:169
+msgid "Dummy data"
+msgstr "Données fictives"
+
+#: inc/theme-options/theme-options.php:178
+msgid "Responsive"
+msgstr "Sensible"
+
+#: inc/theme-options/theme-options.php:188
+msgid "Display comment on posts page"
+msgstr "Affichage commentaire sur la page de messages"
+
+#: inc/theme-options/theme-options.php:193
+msgid "Display comment on page"
+msgstr "Affichage commentaire sur la page"
+
+#: inc/theme-options/theme-options.php:204
+msgid "Enabled"
+msgstr "Activé"
+
+#: inc/theme-options/theme-options.php:209
+msgid "Header background-color"
+msgstr "Couleur de fond d'en-tête"
+
+#: inc/theme-options/theme-options.php:220
+#: inc/theme-options/theme-options.php:231
+#: inc/theme-options/theme-options.php:250
+msgid "Enable"
+msgstr "Permettre"
+
+#: inc/theme-options/theme-options.php:240
+msgid "Reset Defaults"
+msgstr "Réinitialiser les paramètres par défaut"
+
+#: inc/theme-options/theme-options.php:291
+msgid "Copyright section"
+msgstr "Section du droit d'auteur"
+
+#: inc/theme-options/theme-options.php:298
+msgid "Styles editor"
+msgstr "Styles éditeur"
+
+#: inc/theme-options/theme-options.php:312
+msgid "Background  repeat"
+msgstr "Répétition de fond"
+
+#: inc/theme-options/theme-options.php:378
+msgid "Width"
+msgstr "largeur"
+
+#: inc/theme-options/theme-options.php:380
+msgid "Height"
+msgstr "hauteur"
+
+#: inc/theme-options/theme-options.php:396
+#: inc/theme-options/theme-options.php:407
+#: inc/theme-options/theme-options.php:417
+msgid "Sample Font"
+msgstr "La police de l'échantillon"
+
+#: inc/theme-options/theme-options.php:426
+msgid "H1"
+msgstr "H1"
+
+#: inc/theme-options/theme-options.php:427
+msgid "H2"
+msgstr "H2"
+
+#: inc/theme-options/theme-options.php:428
+msgid "H3"
+msgstr "H3"
+
+#: inc/theme-options/theme-options.php:429
+msgid "H4"
+msgstr "H4"
+
+#: inc/theme-options/theme-options.php:430
+msgid "H5"
+msgstr "H5"
+
+#: inc/theme-options/theme-options.php:431
+msgid "H6"
+msgstr "H6"
+
+#: inc/theme-options/theme-options.php:433
+msgid "P"
+msgstr "P"
+
+#: inc/theme-options/theme-options.php:448
+msgid "View Options"
+msgstr "Options d'affichage"
+
+#: inc/theme-options/theme-options.php:451
+msgid "No Slider Select!"
+msgstr "Pas de curseur Sélectionnez!"
+
+#: inc/theme-options/theme-options.php:454
+msgid "Animation type"
+msgstr "Type d'animation"
+
+#: inc/theme-options/theme-options.php:455
+msgid "Sliding direction, \"horizontal\" or \"vertical\""
+msgstr "Direction de coulissement, \"horizontale\" ou \"verticale\""
+
+#: inc/theme-options/theme-options.php:456
+msgid "Reverse the animation direction"
+msgstr "Inverser le sens de l'animation"
+
+#: inc/theme-options/theme-options.php:457
+msgid "Animate slider automatically"
+msgstr "Animer curseur automatiquement"
+
+#: inc/theme-options/theme-options.php:458
+msgid "Set the speed of the slideshow cycling, in milliseconds"
+msgstr "Réglez la vitesse du diaporama vélo, en millisecondes"
+
+#: inc/theme-options/theme-options.php:459
+msgid "Set the speed of animations, in milliseconds"
+msgstr "Réglez la vitesse d'animations, en millisecondes"
+
+#: inc/theme-options/theme-options.php:460
+msgid "Set an initialization delay, in milliseconds"
+msgstr "Définissez un délai d'initialisation, en millisecondes"
+
+#: inc/theme-options/theme-options.php:461
+msgid "Randomize slide order"
+msgstr "Aléatoire ordre des diapositives"
+
+#: inc/theme-options/theme-options.php:462
+msgid "Manual control usage"
+msgstr "Manuel d'utilisation de contrôle"
+
+#: inc/theme-options/theme-options.php:465
+msgid "Slider Skins"
+msgstr "Skins curseur"
+
+#: inc/theme-options/theme-options.php:466
+msgid "Effect"
+msgstr "Effet"
+
+#: inc/theme-options/theme-options.php:467
+msgid "For slice animations"
+msgstr "Pour les animations de tranche"
+
+#: inc/theme-options/theme-options.php:468
+msgid "For box animations (Cols)"
+msgstr "Pour boîte animations (colonnes)"
+
+#: inc/theme-options/theme-options.php:469
+msgid "For box animations (Rows)"
+msgstr "Pour boîte animations (rangées)"
+
+#: inc/theme-options/theme-options.php:470
+msgid "Slide transition speed"
+msgstr "Vitesse de transition des diapositives"
+
+#: inc/theme-options/theme-options.php:471
+msgid "How long each slide will show"
+msgstr "Combien de temps chaque diapositive affiche"
+
+#: inc/theme-options/theme-options.php:472
+msgid "Set starting Slide (0 index)"
+msgstr "Réglez à partir Slide (0 index)"
+
+#: inc/theme-options/theme-options.php:473
+msgid "Next & Prev navigation"
+msgstr "Navigation Suivant et Précédent"
+
+#: inc/theme-options/theme-options.php:474
+msgid "1,2,3... navigation"
+msgstr "1,2,3 ... navigation"
+
+#: inc/theme-options/theme-options.php:475
+msgid "Use thumbnails for Control Nav"
+msgstr "Utiliser les vignettes pour le contrôle Nav"
+
+#: inc/theme-options/theme-options.php:476
+msgid "Stop animation while hovering"
+msgstr "Arrêter l'animation tout en planant"
+
+#: inc/theme-options/theme-options.php:477
+msgid "Force manual transitions"
+msgstr "Forcer les transitions manuelles"
+
+#: inc/theme-options/theme-options.php:478
+msgid "Prev directionNav text"
+msgstr "Précédent texte directionNav"
+
+#: inc/theme-options/theme-options.php:479
+msgid "Next directionNav text"
+msgstr "Suivant le texte de directionNav"
+
+#: inc/theme-options/theme-options.php:480
+msgid "Start on a random slide"
+msgstr "Commencez sur une lame aléatoire"
+
+#: inc/theme-options/theme-options.php:490
+#, php-format
+msgid "Slide # %1$d"
+msgstr "Diapositive # %1$d"
+
+#: inc/theme-options/theme-options.php:510
+msgid "Collapse all"
+msgstr "Réduire tout"
+
+#: inc/theme-options/theme-options.php:511
+msgid "Expand all"
+msgstr "Agrandir tout"
+
+#: inc/theme-options/theme-options.php:533
+msgid "Add New Slide"
+msgstr "Ajouter une nouvelle diapositive"
+
+#: inc/theme-options/theme-options.php:541
+#: inc/theme-options/theme-options.php:571
+msgid "Background color"
+msgstr "La couleur de fond"
+
+#: inc/theme-options/theme-options.php:547
+#: inc/theme-options/theme-options.php:577
+msgid "Menu button color"
+msgstr "Bouton Menu couleur"
+
+#: inc/theme-options/theme-options.php:553
+#: inc/theme-options/theme-options.php:583
+#: inc/theme-options/theme-options.php:602
+msgid "Font color"
+msgstr "Couleur de la police"
+
+#: inc/theme-options/theme-options.php:559
+#: inc/theme-options/theme-options.php:589
+msgid "Font color (active and hover)"
+msgstr "Couleur de la police (active et hover)"
+
+#: inc/theme-options/theme-options.php:611
+msgid "Link color"
+msgstr "Couleur des liens"
+
+#: inc/theme-options/theme-options.php:617
+msgid "Link color (hover)"
+msgstr "Couleur des liens (hover)"
+
+#: inc/theme-options/theme-options.php:623
+msgid "Link color (focus)"
+msgstr "Couleur des liens (en bref)"
+
+#: inc/theme-options/theme-options.php:629
+msgid "Link color (active)"
+msgstr "Couleur des liens (active )"
+
+#: inc/theme-options/theme-options.php:642
+msgid "Widget separator color"
+msgstr "Couleur de séparation pour le widget"
+
+#: inc/theme-options/theme-options.php:649
+msgid "Blog post date color"
+msgstr "Blog Le post date de couleur"
+
+#: inc/theme-options/theme-options.php:656
+msgid "Date font color"
+msgstr "Date de couleur de police"
+
+#: inc/theme-options/theme-options.php:669
+msgid "Button background color"
+msgstr "Couleur bouton de fond"
+
+#: inc/theme-options/theme-options.php:676
+msgid "Button background color (hover, active, focus, current page - pagenavi)"
+msgstr ""
+"Bouton couleur de fond (hover, active, mise au point, la page en cours - "
+"Pagenavi)"
+
+#: inc/theme-options/theme-options.php:718
+#: inc/theme-options/theme-options.php:743
+msgid "Save"
+msgstr "Sauver"
+
+#: inc/theme-options/theme-options.php:724
+msgid "General"
+msgstr "Principal"
+
+#: inc/theme-options/theme-options.php:726
+msgid "Background"
+msgstr "Fond"
+
+#: inc/theme-options/theme-options.php:727
+msgid "Logo"
+msgstr "Logo"
+
+#: inc/theme-options/theme-options.php:728
+msgid "Colors"
+msgstr "Couleurs"
+
+#: inc/theme-options/theme-options.php:731
+msgid "Social Links"
+msgstr "Liens sociaux"
+
+#: inc/theme-options/theme-options.php:750
+msgid "Support developers"
+msgstr "Développeurs de soutien"
+
+#: inc/theme-options/theme-options.php:752
+msgid "If you like our theme please rate it and "
+msgstr "Si vous aimez notre thème s'il vous plaît noter et"
+
+#: inc/theme-options/theme-options.php:753
+msgid "leave us review"
+msgstr "laissez-nous votre avis"
+
+#: inc/theme-options/theme-options.php:754
+msgid "On"
+msgstr "Sur"
+
+#: inc/theme-options/theme-options.php:754
+msgid "Support forum"
+msgstr "Forum de soutien"
+
+#: inc/theme-options/theme-options.php:755
+msgid ""
+"you may find answers on your questions. With customization requests and "
+"suggestion you always can "
+msgstr ""
+"vous pouvez trouver des réponses sur vos questions Avec des demandes de "
+"personnalisation et suggestion que vous pouvez toujours"
+
+#: inc/theme-options/theme-options.php:756
+msgid "contact us"
+msgstr "contactez-nous"
+
+#: inc/theme-options/theme-options.php:757
+msgid "by email. Please visit our website "
+msgstr "par e-mail S'il vous plaît visitez notre site Web"
+
+#: inc/theme-options/theme-options.php:757
+msgid "to know about us and our services."
+msgstr "savoir sur nous et nos services."

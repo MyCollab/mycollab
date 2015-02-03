@@ -1,0 +1,718 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-21 15:16+0900\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Tai <tekapo@gmail.com>\n"
+"Language-Team: Digitalcube <phpwelt@googlemail.com>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /Users/tai/Dropbox/www_hyperion/wp_stable_ja/wp-content/"
+"plugins\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: really-static\n"
+
+#: really-static/main.php:243
+msgid ""
+"Attention! You changed the title of this page. You may need to refresh your "
+"static files."
+msgstr ""
+"ご注意を ! このページのタイトルが変更されました。静的ファイルを再生成する必要"
+"があるかもしれません。"
+
+#: really-static/main.php:264
+msgid "Please wait! Another really-static instance is running!"
+msgstr "お待ちください ! 別の really-static インスタンスが作動中です !"
+
+#: really-static/main.php:289
+msgid "Deleteing File:"
+msgstr "削除されるファイル:"
+
+#: really-static/main.php:311
+msgid "get"
+msgstr "取得"
+
+#: really-static/main.php:323
+msgid "writing"
+msgstr "書き込み"
+
+#: really-static/main.php:324
+msgid "Write:"
+msgstr "書き込み:"
+
+#: really-static/main.php:343
+msgid "Finish"
+msgstr "完了"
+
+#: really-static/main.php:380 really-static/main.php:381
+msgid "Cachehit"
+msgstr "キャッシュヒット"
+
+#: really-static/main.php:459
+#, php-format
+msgid "Getting a error (timeout or 404 or 500 ) while loading: %s"
+msgstr ""
+"%s を読込中にエラー (タイムアウトもしくは404もしくは500) になりました。"
+
+#: really-static/main.php:463
+msgid "Writing ImageFile:"
+msgstr "画像ファイルの書き込み"
+
+#: really-static/main.php:470
+msgid "Writing File:"
+msgstr "書き込みファイル:"
+
+#: really-static/main.php:1345
+msgid "Support"
+msgstr "サポート"
+
+#: really-static/main.php:1582
+#, php-format
+msgid "Word count: %d"
+msgstr "単語数: %d"
+
+#: really-static/main.php:1858 really-static/main.php:1893
+msgid "Skiping existing:"
+msgstr "既存ファイルをスキップ"
+
+#: really-static/main.php:1870
+msgid "Scaning:"
+msgstr "スキャン中: "
+
+#: really-static/php/123.php:13
+msgid "Really-Static Quickstart"
+msgstr "Really Static クイックシート"
+
+#: really-static/php/123.php:14
+msgid ""
+"Thank you for choosing Really-Static! This configurationhelper will support "
+"you, choosing the right settings."
+msgstr ""
+"Really-Static を選んでいただき、ありがとうございます。この設定ヘルパーがあな"
+"たをサポートし、正しい設定を選択します。"
+
+#: really-static/php/123.php:19
+msgid "running  really-static in testmode"
+msgstr "really-static がテストモードで作動中"
+
+#: really-static/php/123.php:24
+msgid "running  really-static in livemode"
+msgstr "really-static がライブモードで作動中"
+
+#: really-static/php/123.php:32
+msgid "STEP 2: set destinations"
+msgstr "ステップ2: 設置先を設定"
+
+#: really-static/php/123.php:76 really-static/php/123.php:114
+msgid "Next >>"
+msgstr "次へ >>"
+
+#: really-static/php/123.php:102
+msgid "STEP 3: Checking writingrights and try create, read and delete a file"
+msgstr ""
+"ステップ3: 書き込み権限があるか、ファイルの生成、読み込み、削除ができるか確認"
+
+#: really-static/php/123.php:103
+msgid "Logfile writeable"
+msgstr "ログファイルに書き込めます"
+
+#: really-static/php/123.php:105
+msgid "Logfile readable"
+msgstr "ログファイルを読み込めます"
+
+#: really-static/php/123.php:111
+msgid "Trying Write/Read/Delete File"
+msgstr "ファイルの書き込み/読み込み/削除を試しています"
+
+#: really-static/php/123.php:115
+msgid "Back <<"
+msgstr "戻る <<"
+
+#: really-static/php/123.php:115 really-static/php/admin.php:79
+msgid "Refresh"
+msgstr "リフレッシュ"
+
+#: really-static/php/123.php:118
+msgid "STEP 4: Generating your current Blog into the "
+msgstr "ステップ4: カレントブログを生成"
+
+#: really-static/php/123.php:119
+msgid "Really-static is now ready to use."
+msgstr "Really-static を使う準備ができました。"
+
+#: really-static/php/123.php:123
+msgid "start generating files... this will take some time"
+msgstr "ファイルの生成を開始…しばらくかかります"
+
+#: really-static/php/123.php:123
+msgid "or goto the Settingspage"
+msgstr "もしくは設定ページを開いてください"
+
+#: really-static/php/123.php:135
+msgid "OK, Ready!"
+msgstr "OK、準備完了 !"
+
+#: really-static/php/123.php:137
+#, php-format
+msgid "You static files are locatet here: <a target='_blank' href='%s'>%s</a>"
+msgstr "静的ファイルは次の場所にあります: <a target='_blank' href='%s'>%s</a>"
+
+#: really-static/php/123.php:140
+msgid "On your server the files are locatet: "
+msgstr "サーバ上のファイルの場所:"
+
+#: really-static/php/123.php:143
+#, php-format
+msgid "An example: <a target='_blank' href='%s'>%s</a>"
+msgstr "例: <a target='_blank' href='%s'>%s</a>"
+
+#: really-static/php/123.php:148 really-static/php/admin.php:444
+msgid "done scanning for files"
+msgstr "ファイルのスキャンを完了"
+
+#: really-static/php/admin.php:20
+msgid "Source"
+msgstr "ソース"
+
+#: really-static/php/admin.php:21
+msgid "url to wordpressinstalltion"
+msgstr "WordPress 本体への URL"
+
+#: really-static/php/admin.php:22
+msgid "url path to the actuall used templatefolder"
+msgstr "実際に使用しているテンプレートフォルダへの URL パス"
+
+#: really-static/php/admin.php:23
+msgid "If you need help please check this manualpage"
+msgstr "ヘルプが必要な場合はマニュアルページを参照してください"
+
+#: really-static/php/admin.php:25 really-static/php/admin.php:39
+#: really-static/php/admin.php:59
+msgid "Save"
+msgstr "保存"
+
+#: really-static/php/admin.php:35
+msgid "Domainprefix for your cached files"
+msgstr "キャッシュされたファイルのドメインプリフィックス"
+
+#: really-static/php/admin.php:37
+msgid "Url to the templatefolder"
+msgstr "テンプレートフォルダへのパス"
+
+#: really-static/php/admin.php:40
+msgid "Test and Save"
+msgstr "テストして保存"
+
+#: really-static/php/admin.php:41
+msgid "Destination"
+msgstr "設置場所"
+
+#: really-static/php/admin.php:45
+msgid "remove"
+msgstr "削除"
+
+#: really-static/php/admin.php:46
+msgid "Settings"
+msgstr "設定"
+
+#: really-static/php/admin.php:48
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr "カテゴリー/タグページなどにコメントカウンター (非推奨)"
+
+#: really-static/php/admin.php:50
+msgid ""
+"Don't copy any linked file to the static file folder, just the static "
+"Wordpressfiles"
+msgstr ""
+"静的ファイルファルダーにリンクしているファイルをコピーせずに、静的な "
+"WordPress ファイルだけコピーする"
+
+#: really-static/php/admin.php:51
+msgid "Rewrite every %blogurl% with %staticurl% (high security)"
+msgstr "各 %blogurl% を %staticurl% にリライトする (ハイセキュリティ)"
+
+#: really-static/php/admin.php:52
+msgid "Also make static:"
+msgstr "ページを静的にします:"
+
+#: really-static/php/admin.php:53
+msgid "make tag-pages static"
+msgstr "タグのページを静的にします"
+
+#: really-static/php/admin.php:54
+msgid "make category-pages static"
+msgstr "カテゴリーのページを静的にします"
+
+#: really-static/php/admin.php:55
+msgid "make author-pages static"
+msgstr "作成者のページを静的にします"
+
+#: really-static/php/admin.php:57
+msgid "make date-pages static"
+msgstr "日アーカイブページを静的にします"
+
+#: really-static/php/admin.php:57
+msgid "dayly-pages"
+msgstr "日アーカイブページ"
+
+#: really-static/php/admin.php:57
+msgid "monthly-pages"
+msgstr "月アーカイブページ"
+
+#: really-static/php/admin.php:57
+msgid "yearly-pages"
+msgstr "年アーカイブページ"
+
+#: really-static/php/admin.php:58
+msgid "make index-pages static"
+msgstr "index ページを静的にします"
+
+#: really-static/php/admin.php:60
+msgid ""
+"Copy all attached files with following extensions to the destination server:"
+msgstr "次の拡張子を持つすべての添付ファイルを配置先サーバにコピーする:"
+
+#: really-static/php/admin.php:61
+msgid "Add"
+msgstr "追加"
+
+#: really-static/php/admin.php:63
+msgid "Reset"
+msgstr "リセット"
+
+#: really-static/php/admin.php:65
+msgid ""
+"If you want to renew all static files, first press the \"reset filedatabase"
+"\" button and then the \"write all files\" button at the \"Manual Refresh\" "
+"tab"
+msgstr ""
+"すべての静的ファイルを更新するには、まず \"ファイルデータベース\" ボタンを押"
+"し、\"手動リフレッシュ\" タブの \"すべてのファイルを書き込む\" ボタンを押しま"
+"す。"
+
+#: really-static/php/admin.php:66
+msgid "reset filedatabase"
+msgstr "ファイルデータベースのリセット"
+
+#: really-static/php/admin.php:74
+msgid "Manual Refresh"
+msgstr "手動リフレッシュ"
+
+#: really-static/php/admin.php:74
+msgid "Refresh a single site manualy"
+msgstr "一つのサイトを手動でリフレッシュ"
+
+#: really-static/php/admin.php:78
+msgid "(complete url of the static page)"
+msgstr "(静的ページの完全な URL)"
+
+#: really-static/php/admin.php:78
+msgid "for example"
+msgstr "例"
+
+#: really-static/php/admin.php:82
+msgid "Refresh all sites manualy"
+msgstr "すべてのサイトを手動でリフレッシュ"
+
+#: really-static/php/admin.php:84
+msgid ""
+"If this Plugin is installed on a Blog with exsiting Posts or for example you "
+"changed your design so you shold press the \"write all files\" Button. If "
+"the process is terminatet (e.g. because of a timeout), just press this "
+"button again until this menu again appears."
+msgstr ""
+"既存の投稿のあるブログにこのプラグインをインストールした場合やデザインを変更"
+"した場合、\"すべてのファイルを書き込む\" ボタンを押してください。もしプロセス"
+"が終了 (例えばタイムアウトなど) した場合、このメニューが表示されるまで再度こ"
+"のボタンを押してください。"
+
+#: really-static/php/admin.php:85
+msgid "Write all files"
+msgstr "すべてのファイルを書き込む"
+
+#: really-static/php/admin.php:91
+msgid "Rewrite every 24 hours"
+msgstr "24時間ごとに再書き込み"
+
+#: really-static/php/admin.php:100
+msgid "Rewrite on every run of Really-Static"
+msgstr "Really-Static の起動ごとに再書き込み"
+
+#: really-static/php/admin.php:109
+msgid "Rewrite on create, edit or delete a post"
+msgstr "投稿の生成時、編集時、削除時にリライトする"
+
+#: really-static/php/admin.php:118
+msgid "Rewrite on create, edit or delete a comment"
+msgstr "コメントの生成時、編集時、削除時にリライトする"
+
+#: really-static/php/admin.php:128
+msgid "Rewrite when a index-page is createt"
+msgstr "インデックスページの生成時に再書き込み"
+
+#: really-static/php/admin.php:137
+msgid "Rewrite when a tag-page is createt"
+msgstr "タグページ生成時にリライト"
+
+#: really-static/php/admin.php:146
+msgid "Rewrite when a category-page is createt"
+msgstr "カテゴリーページ生成時にリライト"
+
+#: really-static/php/admin.php:155
+msgid "Rewrite when a author-page is createt"
+msgstr "作成者ページ生成時にリライト"
+
+#: really-static/php/admin.php:164
+msgid "Rewrite when a date-page is createt"
+msgstr "日付ページ生成時にリライト"
+
+#: really-static/php/admin.php:173
+msgid "Rewrite when a comment-page is createt"
+msgstr "コメントページ生成時にリライト"
+
+#: really-static/php/admin.php:180
+msgid "Advanced"
+msgstr "詳細"
+
+#: really-static/php/admin.php:180
+msgid "What should Really-Static do"
+msgstr "Really-Static がすること"
+
+#: really-static/php/admin.php:181
+msgid ""
+"This option allows you to give really-static accurate information about "
+"special URL's, that should made static while specified operations. By using "
+"this Form for example really-static get the order to refresh sitemaps or "
+"reload a page after 24 hours."
+msgstr ""
+"このオプションにより、特定のオペレーション中に静的ファイルを作成すべき特別な "
+"URL についての的確な情報を really-static は得られます。例えばこのフォームを利"
+"用することによって、24時間後にサイトマップをリフレッシュしたり、ページをリ"
+"ロードしたりするための順番を really-static が取得します。"
+
+#: really-static/php/admin.php:183
+msgid "Get"
+msgstr "取得"
+
+#: really-static/php/admin.php:183
+msgid "source file e.g.: \"?feed=atom\""
+msgstr "ソールファイル 例: \"?feed=atom\""
+
+#: really-static/php/admin.php:183
+msgid ", rewrite the filename into"
+msgstr "、ファイル名情報を書き換える"
+
+#: really-static/php/admin.php:183
+msgid ""
+"destination filename. keep it clear if you want to use the filename from "
+"source file"
+msgstr ""
+"配置先ファイル名。ソースファイルからのファイル名を利用したい場合は空白にしま"
+"す"
+
+#: really-static/php/admin.php:183
+msgid "and make it static"
+msgstr "次も静的にします"
+
+#: really-static/php/admin.php:185
+msgid "when a Post is created, edited or deleted"
+msgstr "投稿生成時、編集時、削除時"
+
+#: really-static/php/admin.php:186
+msgid "when a Comment is created, edited or deleted"
+msgstr "コメントの生成時、編集時、削除時"
+
+#: really-static/php/admin.php:187
+msgid "every 24 hours"
+msgstr "24時間ごと"
+
+#: really-static/php/admin.php:188
+msgid "everytime Really-Static runs"
+msgstr "Really-Static の起動ごと"
+
+#: really-static/php/admin.php:189
+msgid "when a index-page is createt"
+msgstr "インデックスページ生成時"
+
+#: really-static/php/admin.php:190
+msgid "when a tag-page is createt"
+msgstr "タグのページ生成時"
+
+#: really-static/php/admin.php:191
+msgid "when a category-page is createt"
+msgstr "カテゴリーページ生成時"
+
+#: really-static/php/admin.php:192
+msgid "when a author-page is createt"
+msgstr "作成者ページ生成時"
+
+#: really-static/php/admin.php:193
+msgid "when a date-page is createt"
+msgstr "日アーカイブページ生成時"
+
+#: really-static/php/admin.php:194
+msgid "when a comment-page is createt"
+msgstr "コメントページ生成時"
+
+#: really-static/php/admin.php:196
+msgid "Submit"
+msgstr "送信"
+
+#: really-static/php/admin.php:207
+msgid "Logfile is empty!"
+msgstr "ログファイルが空です !"
+
+#: really-static/php/admin.php:208 really-static/php/admin.php:223
+msgid "Check writing-rights: log.html"
+msgstr "書き込み権限をチェック: log.html"
+
+#: really-static/php/admin.php:214
+#, php-format
+msgid "Last 40 Logfileentrys (<a href='%s'>full logfile</a>)"
+msgstr "Last 40 Logfileentrys (<a href='%s'>full logfile</a>)"
+
+#: really-static/php/admin.php:223
+msgid "Unable to read logfile!"
+msgstr "ログファイルを読み込めません !"
+
+#: really-static/php/admin.php:224
+msgid "Logfile"
+msgstr "ログファイル"
+
+#: really-static/php/admin.php:232
+msgid "Debug"
+msgstr "デバッグ"
+
+#: really-static/php/admin.php:233
+msgid ""
+"If you think there is a bug or you got any questions feel free to use this "
+"form, or use the <a href='http://really-static-support.php-welt.net/' "
+"taget='_blank'>offical support forum</a>. <br>Debugdata:"
+msgstr ""
+"バグを見つけたり質問があるときはお気軽にこのフォームか<aを使用href='http://"
+"really-static-support.php-welt.net/' taget='_blank'>公式のサポートフォーラム"
+"</ a>をお使いください。<br> デバッグデータ: "
+
+#: really-static/php/admin.php:252
+msgid ""
+"You can send me your Debug by <a target=\"_blank\" href=\"http://erik.sefkow."
+"net/impressum.html\">Email</a> or with this form."
+msgstr ""
+"デバッグ情報を<a target=\"_blank\" href=\"http://erik.sefkow.net/impressum."
+"html\">メール</a>もしくはこのフォームから送ることができます。"
+
+#: really-static/php/admin.php:254
+msgid "Describe your Problem (please only in German or English):"
+msgstr "事象を書いてください (英語かドイツ語でお願いします):"
+
+#: really-static/php/admin.php:338 really-static/php/multiadmin.php:44
+msgid "Really Static Settings"
+msgstr "Really Static 設定"
+
+#: really-static/php/admin.php:396 really-static/php/multiadmin.php:148
+msgid "About"
+msgstr "紹介"
+
+#: really-static/php/admin.php:398 really-static/php/multiadmin.php:150
+msgid "<font color=\"red\">please</font> "
+msgstr "<font color=\"red\">プリーズ</font> "
+
+#: really-static/php/admin.php:399 really-static/php/multiadmin.php:151
+msgid "Donate"
+msgstr "寄付"
+
+#: really-static/php/admin.php:420
+msgid ""
+"This languagepack is written by <a target='_blank' href='http://erik.sefkow."
+"net'>Erik Sefkow</a> please <a target='_blank' href='http://really-static-"
+"support.php-welt.net/why-donate--t8.html'>donate me</a>"
+msgstr ""
+"この言語バックは<a target='_blank' href='http://www.digitalcube."
+"jp/'>DigitalCube Co. Ltd.</a>によって作成されました。"
+
+#: really-static/php/aftp.php:199 really-static/php/ftp.php:293
+#: really-static/php/sftp.php:139
+msgid ""
+"Im no able to create the directory %folder%! Please check writings rights!"
+msgstr ""
+"ディレクトリ %folder% を作成できませんでした。書き込み権限を確認してくださ"
+"い！"
+
+#: really-static/php/configupdate.php:22 really-static/php/configupdate.php:25
+#: really-static/php/errorid.php:4
+msgid ""
+"Maybe you make a misstake please check <a href='http://sorben.org/really-"
+"static/fehler-quellserver.html'>manualpage</a>"
+msgstr ""
+"何か間違っているのかもしれません。<a href='http://sorben.org/really-static/"
+"fehler-quellserver.html'>マニュアルページ</a>を確認してみてください。"
+
+#: really-static/php/configupdate.php:31
+msgid "Mail has been send"
+msgstr "メールが送信されました"
+
+#: really-static/php/configupdate.php:33
+msgid "Mail has NOT been send, please make it manually"
+msgstr "メールを送信できませんでした。手動で送信してください。"
+
+#: really-static/php/configupdate.php:210
+msgid "cleaning Logfile"
+msgstr "ログファイルをクリア"
+
+#: really-static/php/configupdate.php:309
+msgid "done refreshing manually a single page"
+msgstr "シングルページの手動リフレッシュを完了"
+
+#: really-static/php/configupdate.php:316
+msgid "Successfull reset of really-static filedatabase"
+msgstr "really-static ファイルデータベースのリセットに成功"
+
+#: really-static/php/configupdate.php:324
+msgid "done cleaning Logfile"
+msgstr "ログファイルのクリアを完了しました"
+
+#: really-static/php/errorid.php:3
+msgid ""
+"Funktion allow_url_fopen is disabled and curl_init is also not aktivatet!"
+"<br> For more Informations check this <a href='http://sorben.org/really-"
+"static/fehler-allow_url_fopen.html'>manualpage</a><br> Really-static is "
+"automaticly deaktivated"
+msgstr ""
+"allow_url_fopen が無効になっていて、curl_init も有効になっていません！<br>詳"
+"細は<a href='http://sorben.org/really-static/fehler-allow_url_fopen.html'>マ"
+"ニュアルページ</a>をご覧ください。<br> Really-static は自動的に無効化されませ"
+"した。"
+
+#: really-static/php/ftp.php:20
+msgid "work with ftp"
+msgstr "FTP で作動させる"
+
+#: really-static/php/ftp.php:20
+msgid "FTP-Server IP"
+msgstr "FTP サーバ IP"
+
+#: really-static/php/ftp.php:20 really-static/php/sftp.php:33
+msgid "Port"
+msgstr "ポート"
+
+#: really-static/php/ftp.php:21
+msgid "FTP-login User"
+msgstr "FTP ログインユーザー"
+
+#: really-static/php/ftp.php:22
+msgid "FTP-login Password"
+msgstr "FTP ログインパスワード"
+
+#: really-static/php/ftp.php:23
+msgid "path from FTP-Root to cachedfiles"
+msgstr "FTP ルートからキャッシュされたファイルへのパス"
+
+#: really-static/php/ftp.php:24 really-static/php/sftp.php:36
+msgid ""
+"the path inside your FTP account e.g. \"/path/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"FTP アカウント内のパス。例:  \"/path/\".If it should saved to maindirectory "
+"write \"/\" "
+
+#: really-static/php/ftp.php:25
+msgid "Use alternative FTP transport routine"
+msgstr "別の FTP トランスポートルーチンを使用"
+
+#: really-static/php/ftp.php:42 really-static/php/local.php:32
+#: really-static/php/sftp.php:28
+msgid "You may forgot a / at the end of the path!"
+msgstr "パスの最後の / が抜けているようです !"
+
+#: really-static/php/ftp.php:43 really-static/php/local.php:33
+#: really-static/php/sftp.php:29
+msgid "Saved"
+msgstr "保存しました"
+
+#: really-static/php/functions.php:15
+msgid "Cannot Login, please check your Logindata"
+msgstr "ログインできません。ログイン情報を確認してください。"
+
+#: really-static/php/functions.php:21
+msgid "TEST passed!"
+msgstr "テスト合格 !"
+
+#: really-static/php/functions.php:24
+msgid "TEST failed!"
+msgstr "テスト失敗 !"
+
+#: really-static/php/local.php:21
+msgid "work with local filesystem"
+msgstr "ローカルのファイルシステムで作動させる"
+
+#: really-static/php/local.php:21
+msgid "internal filepath from to cachedfiles"
+msgstr "キャッシュされたファイルへの内部ファイルパス"
+
+#: really-static/php/local.php:21
+msgid ""
+"the path inside your system e.g. \"/www/html/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"システム内のパス。例: \"/www/html/\".If it should saved to maindirectory "
+"write \"/\" "
+
+#: really-static/php/multiadmin.php:130
+msgid "Startseite"
+msgstr "スタートサイト"
+
+#: really-static/php/multiadmin.php:172
+msgid ""
+"This Languagepack is written by <a href='http://erik.sefkow.net'>Erik "
+"Sefkow</a> please <a href='http://erik.sefkow.net/donate.html'>donate me</a>"
+msgstr ""
+"この言語パックは <a href='http://www.digitalcube.jp/'>DigitalCube Co. Ltd.</"
+"a> によって作成されました。"
+
+#: really-static/php/sftp.php:33
+msgid "work with sftp"
+msgstr "SFTP で作動させる"
+
+#: really-static/php/sftp.php:33
+msgid "SFTP-Server IP"
+msgstr "SFTP サーバ IP"
+
+#: really-static/php/sftp.php:34
+msgid "SFTP-login User"
+msgstr "SFTP ログインユーザー"
+
+#: really-static/php/sftp.php:35
+msgid "SFTP-login Password"
+msgstr "SFTP ログインパスワード"
+
+#: really-static/php/sftp.php:35
+msgid "path from SFTP-Root to cachedfiles"
+msgstr "SFTP ルートからキャッシュされたファイルへのパス"
+
+#: really-static/sonstiges/wppluginintegration.php:19
+#, php-format
+msgid ""
+"You need to configure your Really-Static plugin. Use our <a href='%s'>quick "
+"setup</a> or click <a href='%s'>here</a> to jump into the settingsmenu."
+msgstr ""
+"Really-Static プラグインの設定が必要です。<a href='%s'>クイックセットアップ</"
+"a>もしくは<a href='%s'>設定メニュー</a>を開いてください。"
+
+#: really-static/sonstiges/wppluginintegration.php:48
+msgid ""
+"Funktion allow_url_fopen is disabled and curl_init is also not enabled on "
+"your server!<br> For more Informations check this <a href='http://sorben.org/"
+"really-static/fehler-allow_url_fopen.html'>manualpage</a><br> Really-static "
+"is automaticly deactivated"
+msgstr ""
+"allow_url_fopen 関数が無効になっていて、curl_init も無効になっています ! <br>"
+"詳細は<a href='http://sorben.org/really-static/fehler-allow_url_fopen.html'>"
+"マニュアルページをご覧ください</a><br> Really-static は自動的に停止されまし"
+"た。"
+
+#~ msgid "internal filepath to wordpressinstalltion"
+#~ msgstr "WordPress インストールへの内部ファイルパス"

@@ -1,0 +1,27 @@
+=== XML Sitemap & Google News Sitemap Feeds ===
+
+== Translation ==
+
+1. Install PoEdit on your computer.
+
+2. Go to this plugins /languages/ directory.
+
+3. If there is no .po file that corresponds with your language yet, rename the template translation database xml-sitemap-feed-xx_XX.po by replacing the xx with your language code and XX with your country code.
+
+4. Open the .po file of your language with PoEdit. 
+
+5. Go to Edit > Preferences and on the tab Editor check the option to compile a .mo database on save automatically. Close with OK.
+
+6. Go to Catalog > Settings and set your name, e-mail address, language and country. Close with OK.
+
+7. Go to Catalog > Update from POT-file and select the main xml-sitemap-feed.pot file. Then accept all new and removed translation strings with OK.
+
+8. Now go ahead and start translating all the texts listed in PoEdit.
+
+9. When done, go to File > Save to Save.
+
+10. Upload the automatically created xml-sitemap-feed-xx_XX.mo database file (where xx_XX should now be your language and country code) to the plugins /languages/ directory on your WordPress site.
+
+11. After verifying the translations work on your site, send the .mo file and, if you're willing to share it, your original .po file to ravanhagen@gmail.com and don't forget to tell me how and with what link you would like to be mentioned in the credits!
+
+Thanks for sharing your translation :)

@@ -1,0 +1,238 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: maintenance\n"
+"POT-Creation-Date: 2014-02-18 12:25+0200\n"
+"PO-Revision-Date: 2014-02-18 12:27+0200\n"
+"Last-Translator: \n"
+"Language-Team: fruitfulcode\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;_e;__;_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: /includes/admin.php:84
+msgid "Save changes"
+msgstr "Salvar alterações"
+
+#: /includes/functions.php:104
+msgid "General Settings"
+msgstr "Configurações gerais"
+
+#: /includes/functions.php:110
+#, fuzzy
+msgid "Pro version"
+msgstr "Премиум версия"
+
+#: /includes/functions.php:116
+msgid "Support"
+msgstr ""
+
+#: /includes/functions.php:124
+msgid "Page title"
+msgstr "Título da página"
+
+#: /includes/functions.php:125
+msgid "Headline"
+msgstr "Cabeçalho"
+
+#: /includes/functions.php:126
+msgid "Description"
+msgstr "Descrição"
+
+#: /includes/functions.php:127
+msgid "Logo"
+msgstr "Logo"
+
+#: /includes/functions.php:127
+msgid "Upload Logo"
+msgstr "Enviar logo"
+
+#: /includes/functions.php:130
+msgid "Admin bar"
+msgstr "Barra administrativa"
+
+#: /includes/functions.php:130
+msgid "Show admin bar"
+msgstr "Mostrar barra administrativa"
+
+#: /includes/functions.php:131
+msgid "503"
+msgstr ""
+
+#: /includes/functions.php:131
+msgid "Service temporarily unavailable"
+msgstr "Serviço temporariamente indisponível"
+
+#: /includes/functions.php:132
+msgid "Google Analytics ID"
+msgstr ""
+
+#: /includes/functions.php:132
+msgid "UA-XXXXX-X"
+msgstr ""
+
+#: /includes/functions.php:133
+msgid "Blur intensity"
+msgstr "Intensidade do efeito Blur"
+
+#: /includes/functions.php:134
+msgid "Background blur"
+msgstr "Efeito blur no fundo"
+
+#: /includes/functions.php:134
+msgid "Apply a blur"
+msgstr "Aplicar blur"
+
+#: /includes/functions.php:135
+msgid "Login On / Off"
+msgstr ""
+
+#: /includes/functions.php:142
+msgid "Background image"
+msgstr "Imagem de fundo"
+
+#: /includes/functions.php:142
+msgid "Upload Background"
+msgstr "Enviar imagem de fundo"
+
+#: /includes/functions.php:148
+msgid "Background color"
+msgstr "Cor do plano de fundo"
+
+#: /includes/functions.php:149
+msgid "Font color"
+msgstr "Cor da fonte"
+
+#: /includes/functions.php:157
+msgid "Have any questions?"
+msgstr ""
+
+#: /includes/functions.php:158
+#, php-format
+msgid ""
+"You may find answers to your questions at <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">support forum</a><br>You may  <a "
+"target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?subject=Maintenance "
+"plugin\">contact us</a> with customization requests and suggestions.<br> "
+"Please visit our website to learn about us and our services <a href=\"%1$s\" "
+"title=\"%2$s\">%2$s</a>"
+msgstr ""
+
+#: /includes/functions.php:169
+#, fuzzy
+msgid "Extended functionality"
+msgstr "Versão extendida"
+
+#: /includes/functions.php:170
+#, php-format
+msgid ""
+"Purchase <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> version  with "
+"extended functionality. %1$s If you like our plugin please <a target=\"_blank"
+"\" href=\"http://wordpress.org/support/view/plugin-reviews/maintenance?"
+"filter=5\">rate it</a>, <a title=\"leave feedbacks\" href=\"%2$s\" target="
+"\"_blank\">leave feedbacks</a>."
+msgstr ""
+
+#: /includes/functions.php:174
+msgid "Demo website"
+msgstr ""
+
+#: /includes/functions.php:232
+#, fuzzy
+msgid "Maintenance"
+msgstr "Manutenção"
+
+#: /includes/functions.php:255
+msgid "Website is under construction"
+msgstr "Site em construção"
+
+#: /includes/functions.php:256
+msgid "Maintenance mode is on"
+msgstr "Modo de manutenção ativado"
+
+#: /includes/functions.php:257
+msgid "Website will be available soon"
+msgstr "O site estará disponível em breve"
+
+#: /load/functions.php:37
+msgid "Permission access denied!"
+msgstr "Permissão de acesso negada!"
+
+#: /load/functions.php:45
+msgid "You entered your login are incorrect!"
+msgstr "Você digitou seu usuário incorretamente!"
+
+#: /load/functions.php:49
+msgid "You entered your password are incorrect!"
+msgstr "Você digitou sua senha incorretamente!"
+
+#: /load/functions.php:52
+msgid "You entered your login and password are incorrect!"
+msgstr "Você digitou seu usuário e senha incorretamente!"
+
+#: /load/functions.php:223
+msgid "Username"
+msgstr "Usuário"
+
+#: /load/functions.php:224
+msgid "Password"
+msgstr "Senha"
+
+#: /load/functions.php:225
+msgid "Sign In"
+msgstr "Entrar"
+
+#, fuzzy
+#~ msgid "maintenance"
+#~ msgstr "Manutenção"
+
+#~ msgid "Contact support"
+#~ msgstr "Contatar suporte"
+
+#~ msgid ""
+#~ "If you faced with any problems, have a question or suggestion you always "
+#~ "can contact us with any request on our website <a href=\"%1$s\" title="
+#~ "\"%2$s\">%2$s</a>"
+#~ msgstr ""
+#~ "Se você viu algum problem, tem alguma dúvida ou sugestão, você pode nos "
+#~ "contatar em nosso site <a href=\"%1$s\" title=\"%2$s\">%2$s</a>"
+
+#~ msgid ""
+#~ "If you like our plugin please rate it, %1$s <a title=\"leave feedback\" "
+#~ "href=\"%2$s\" target=\"_blank\">leave feedback</a> or purchase extended "
+#~ "version %1$s with more other features."
+#~ msgstr ""
+#~ "Se você gostou de nosso plugin, por-favor avalie-o, %1$s <a title=\"deixe "
+#~ "um comentário\" href=\"%2$s\" target=\"_blank\">deixe um comentário</a> "
+#~ "ou adquira a versão extendida %1$s com mais funcionalidades."
+
+#~ msgid "Purchase"
+#~ msgstr "Comprar"
+
+#~ msgid "We have time until launch"
+#~ msgstr "Осталось времени до запуска"
+
+#~ msgid "Be first of your friends who will know when the website goes live."
+#~ msgstr "Будь первым из твоих друзей, кто узнает о запуске сайта."
+
+#~ msgid "Check out our extended version of plugin with new features"
+#~ msgstr "Проверьте возможности расширенной версии плагина"
+
+#~ msgid "Your session has expired."
+#~ msgstr "Ваша сессия истекла."
+
+#~ msgid "Customer login"
+#~ msgstr "Вход для клиентов"
+
+#~ msgid "Please login to see website"
+#~ msgstr "Пожалуйста авторезируйтесь"
+
+#~ msgid "User roles"
+#~ msgstr "Роли пользователей"
+
+#~ msgid "Choose users access permissions in maintenance mode."
+#~ msgstr "Выберите права доступа пользователей в режиме обслуживания."

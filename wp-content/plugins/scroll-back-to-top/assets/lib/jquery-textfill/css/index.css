@@ -1,0 +1,57 @@
+body {
+  background-color: #ddf;
+}
+
+#dyntext {
+  width: 400px;
+}
+
+.monkeythink {
+  position: relative;
+  float: left;
+  width: 200px;
+  height: 286px;
+  background-image: url("../img/ChimpThinking.png");
+}
+
+.monkeythink .jtextfill {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: 150px;
+  height: 70px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.monkeythink .jtextfill span {
+  font-family: "Happy Monkey";
+}
+
+.computer {
+  position: relative;
+  float: right;
+  width: 450px;
+  height: 424px;
+  background-image: url("../img/Computer2.png");
+}
+
+.computer .jtextfill {
+  position: absolute;
+  top: 70px;
+  left: 85px;
+  width: 285px;
+  height: 210px;
+  color: #8f8;
+}
+
+.computer .jtextfill span {
+  font-family: "VT323";
+}
+
+.computerglare {
+  position: absolute;
+  width: 450px;
+  height: 424px;
+  background-image: url("../img/ComputerGlare.png");
+}

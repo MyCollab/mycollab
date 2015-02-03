@@ -1,0 +1,159 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-31 17:23+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Fat Cow <zhr@tut.by>\n"
+"Language-Team: ilyuha <iliamrv@ya.ru>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Belarusian\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:519
+#: main.php:550
+msgid "writing"
+msgstr "Напісанне"
+
+#: main.php:912
+msgid "Really Static Settings"
+msgstr "Налады Really Static "
+
+#: main.php:922
+msgid "Source"
+msgstr "Зыходнік"
+
+#: main.php:922
+msgid "internal filepath to wordpressinstalltion"
+msgstr "унутраны шлях да ўсталёўкі WP"
+
+#: main.php:923
+msgid "url to wordpressinstalltion"
+msgstr "УРЛ да ўсталёўкі WP"
+
+#: main.php:925
+msgid "path to the templatefolder"
+msgstr "шлях да тэчкі з часавымі файламі"
+
+#: main.php:927
+msgid "Destination"
+msgstr "Шлях прызначэння"
+
+#: main.php:927
+msgid "internal filepath from FTP-Root to cachedfiles"
+msgstr "унутраны шлях з кораня FTP да дырэкторыі для кэшавання"
+
+#: main.php:927
+msgid "the path inside your FTP account e.g. \"/path/\".If it should saved to maindirectory write \"/\" "
+msgstr "шлях усярэдзіне FTP акаўнта накшталт \"/path/\". Калі гэта будзе захоўвацца ў дырэкторыі, упішыце \"/\"."
+
+#: main.php:928
+msgid "Domainprefix for your cached files"
+msgstr "Прэфікс да дамена, дзе будуць кэшавацца файлы"
+
+#: main.php:930
+msgid "FTP-Server IP"
+msgstr "IP FTP-сервера"
+
+#: main.php:931
+msgid "FTP-login User"
+msgstr "FTP-лагін карыстача"
+
+#: main.php:932
+msgid "FTP-login Password"
+msgstr "FTP-пароль карыстача"
+
+#: main.php:935
+msgid "Path to the templatefolder"
+msgstr "Шлях да тэчкі з часавымі файламі"
+
+#: main.php:939
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr "На старонцы катэгорыі/тэга лічыльнік каментароў (не рэкамендуецца)"
+
+#: main.php:942
+msgid "I want that Really-Static try to handle with the ? in the url"
+msgstr "Я думаю, што Really-Static спрабуе апераваць з ? ва Урле"
+
+#: main.php:944
+msgid "Save"
+msgstr "Захаваць"
+
+#: main.php:947
+msgid "If this Plugin is installed on a Blog with exsiting Posts or for example you changed your design so you shold press the \"write all files\" Button. If the prezess is terminatet (e.g. because of a timeout), just press this button again"
+msgstr "Калі гэта ўбудова ўсталяваны ў блогу з існымі пастамі ці вы змянілі дызайн, тады вы павінны націснуць кнопку \"записатьвсе файлы\" ."
+
+#: main.php:949
+msgid "write all files"
+msgstr "запісаць усе файлы"
+
+#: main.php:951
+msgid "If you want to renew all files, first press the \"reset filedatabase\" button and then the \"write all files\" button"
+msgstr "Калі вы жадаеце прагледзець усе файлы, спачатку націсніце кнопку \"скінуць базу дадзеных палёў\""
+
+#: main.php:952
+msgid "reset filedatabase"
+msgstr "скінуць базу дадзеных палёў"
+
+#: main.php:955
+msgid "Refresh a staticsite manualy"
+msgstr "абнавіць статыстыку сайта самастойна"
+
+#: main.php:957
+msgid "(complete url of the static page)"
+msgstr "(поўны УРЛ на старонку статыстыкі)"
+
+#: main.php:958
+msgid "refresh"
+msgstr "абнавіць"
+
+#: main.php:961
+msgid "What should Really-Static do"
+msgstr "Што павінен рабіць Really-Static"
+
+#: main.php:962
+msgid "This option allows to give Really-Static accurate information about when a speified URL should make static. This is good thing, when you use example sitemaps or pages that must refreshed every 24 hours."
+msgstr "Гэта опцыя дазваляе ўбудове атрымліваць дакладную інфармацыю пра тое, калі УРЛ становіцца статычным. Гэта добрая рэч, калі вы выкарыстоўваеце карты сайта ці старонкі, якія абнаўляюцца кожныя 24 гадзіны."
+
+#: main.php:964
+msgid "URL"
+msgstr "УРЛ"
+
+#: main.php:964
+msgid "when"
+msgstr "калі"
+
+#: main.php:967
+msgid "when a Post is created, edited or deleted"
+msgstr "калі пост створаны, адрэдагаваны ці выдалены"
+
+#: main.php:970
+msgid "every 24 hours"
+msgstr "кожныя 24 гадзіны"
+
+#: main.php:971
+msgid "everytime Really-Static runs"
+msgstr "кожны раз, калі Really-Static запушчаны"
+
+#: main.php:972
+msgid "Submit"
+msgstr "Адправіць"
+
+#: main.php:977
+msgid "Rewrite every 24 hours"
+msgstr "Перазапісваць кожныя 24 гадзіны"
+
+#: main.php:984
+msgid "Rewrite on every run of Really-Static"
+msgstr "Перазапісваць пры кожным запуску Really-Static"
+
+#: main.php:991
+msgid "Rewrite on create, edit or delete a post"
+msgstr "Перазапісваць пры стварэнні, рэдагаванні ці выдаленні паста"
+

@@ -1,0 +1,179 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static 0.22\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-31 17:23+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Stefano Speziale <steto@live.it>\n"
+"Language-Team: phpwelt.net <phpwelt@googlemail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Language: de_DE\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:519 main.php:550
+msgid "writing"
+msgstr "Scrittura"
+
+#: main.php:912
+msgid "Really Static Settings"
+msgstr "Impostazioni Really Static"
+
+#: main.php:922
+msgid "Source"
+msgstr "Sorgente"
+
+#: main.php:922
+msgid "internal filepath to wordpressinstalltion"
+msgstr "percorso interno dell'installazione di wordpress"
+
+#: main.php:923
+msgid "url to wordpressinstalltion"
+msgstr "url dell'installazione wordpress"
+
+#: main.php:925
+msgid "path to the templatefolder"
+msgstr "percorso della cartella del tema"
+
+#: main.php:927
+msgid "Destination"
+msgstr "destinazione"
+
+#: main.php:927
+msgid "internal filepath from FTP-Root to cachedfiles"
+msgstr "percorso interno da FTP-root a file in cache"
+
+#: main.php:927
+msgid ""
+"the path inside your FTP account e.g. \"/path/\".If it should saved to "
+"maindirectory write \"/\" "
+msgstr ""
+"Il percorso all'interno del vostro account FTP ad es. \" /path/ \" .Se "
+"salvate in directory principale scrivere \" / \""
+
+#: main.php:928
+msgid "Domainprefix for your cached files"
+msgstr "Prefisso per i file nella cache"
+
+#: main.php:930
+msgid "FTP-Server IP"
+msgstr "FTP-Server IP"
+
+#: main.php:931
+msgid "FTP-login User"
+msgstr "FTP-login User"
+
+#: main.php:932
+msgid "FTP-login Password"
+msgstr "FTP-login Password"
+
+#: main.php:935
+msgid "Path to the templatefolder"
+msgstr "percorso della cartella del template"
+
+#: main.php:939
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr ""
+"La categoria/tag pagina ad esempio è un commento contatore (non raccomandato)"
+
+#: main.php:942
+msgid "I want that Really-Static try to handle with the ? in the url"
+msgstr "vuoi che Really-Static cerca di gestire con la ? NELL'url"
+
+#: main.php:944
+msgid "Save"
+msgstr "salva"
+
+#: main.php:947
+msgid ""
+"If this Plugin is installed on a Blog with exsiting Posts or for example you "
+"changed your design so you shold press the \"write all files\" Button. If "
+"the prezess is terminatet (e.g. because of a timeout), just press this "
+"button again"
+msgstr ""
+"Se questo plugin è installato su un Blog con pulendo i posti o per esempio è "
+"stato modificato il design così potete perdervi premere il \"scrivere tutti"
+"\". Se il prezess è terminatet (ad esempio a causa di un timeout), è "
+"sufficiente premere nuovamente il tasto"
+
+#: main.php:949
+msgid "write all files"
+msgstr "scrivi tutti i file"
+
+#: main.php:951
+msgid ""
+"If you want to renew all files, first press the \"reset filedatabase\" "
+"button and then the \"write all files\" button"
+msgstr ""
+"Se si desidera rinnovare tutti i file, premere prima il \"resetta file "
+"database\" e poi il pulsante \"scrivere tutti i file\""
+
+#: main.php:952
+msgid "reset filedatabase"
+msgstr "resetta i file del database"
+
+#: main.php:955
+msgid "Refresh a staticsite manualy"
+msgstr "aggiorna un sito statico manualmente"
+
+#: main.php:957
+msgid "(complete url of the static page)"
+msgstr "(url completo di una pagina statica)"
+
+#: main.php:958
+msgid "refresh"
+msgstr "aggiorna"
+
+#: main.php:961
+msgid "What should Really-Static do"
+msgstr "Cosa dovrebbe fare Really-Static"
+
+#: main.php:962
+msgid ""
+"This option allows to give Really-Static accurate information about when a "
+"speified URL should make static. This is good thing, when you use example "
+"sitemaps or pages that must refreshed every 24 hours."
+msgstr ""
+"Questa opzione permette di dare Really-Static informazioni precise su quando "
+"un specifico URL deve essere statico. Questa è una buona cosa, quando si "
+"utilizza esempio sitemaps o pagine che devono essere aggiornate ogni 24 ore."
+
+#: main.php:964
+msgid "URL"
+msgstr "URL"
+
+#: main.php:964
+msgid "when"
+msgstr "quando"
+
+#: main.php:967
+msgid "when a Post is created, edited or deleted"
+msgstr "quando un messaggio è creato, modificato o cancellato"
+
+#: main.php:970
+msgid "every 24 hours"
+msgstr "Ogni 24 ore"
+
+#: main.php:971
+msgid "everytime Really-Static runs"
+msgstr "Ogni volta che Really-Static parte"
+
+#: main.php:972
+msgid "Submit"
+msgstr "Invia"
+
+#: main.php:977
+msgid "Rewrite every 24 hours"
+msgstr "riscrivi ogni 24 ore"
+
+#: main.php:984
+msgid "Rewrite on every run of Really-Static"
+msgstr "riscrivi ogni avvio di Really-Static"
+
+#: main.php:991
+msgid "Rewrite on create, edit or delete a post"
+msgstr "riscrivi su crea, modifica o cancella un messaggio"

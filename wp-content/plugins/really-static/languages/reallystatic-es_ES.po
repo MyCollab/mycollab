@@ -1,0 +1,158 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Really-static 0.22\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-05-31 17:23+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Erik Sefkow <ee@phpwelt.net>\n"
+"Language-Team: phpwelt.net <phpwelt@googlemail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:519
+#: main.php:550
+msgid "writing"
+msgstr "escribiendo"
+
+#: main.php:912
+msgid "Really Static Settings"
+msgstr "Configuración de Really-Static"
+
+#: main.php:922
+msgid "Source"
+msgstr "Fuente"
+
+#: main.php:922
+msgid "internal filepath to wordpressinstalltion"
+msgstr "ruta de ficheros interna hacía la instalación de WordPress"
+
+#: main.php:923
+msgid "url to wordpressinstalltion"
+msgstr "URL de la instalación de WordPress"
+
+#: main.php:925
+msgid "path to the templatefolder"
+msgstr "ruta al directorio de la plantilla"
+
+#: main.php:927
+msgid "Destination"
+msgstr "Destino"
+
+#: main.php:927
+msgid "internal filepath from FTP-Root to cachedfiles"
+msgstr "ruta de ficheros interna de la raíz FTP a los ficheros cacheados"
+
+#: main.php:927
+msgid "the path inside your FTP account e.g. \"/path/\".If it should saved to maindirectory write \"/\" "
+msgstr "la ruta dentro de la cuenta FTP (ej: \"/path/\"). Si debe ser salvado en el directorio principal pon \"/\""
+
+#: main.php:928
+msgid "Domainprefix for your cached files"
+msgstr "Prefijo del dominio para tus ficheros cacheados"
+
+#: main.php:930
+msgid "FTP-Server IP"
+msgstr "IP del servidor FTP"
+
+#: main.php:931
+msgid "FTP-login User"
+msgstr "Usuario de acceso al servidor FTP"
+
+#: main.php:932
+msgid "FTP-login Password"
+msgstr "Contraseña de acceso al servidor FTP"
+
+#: main.php:935
+msgid "Path to the templatefolder"
+msgstr "Ruta al directorio de la plantilla"
+
+#: main.php:939
+msgid "On the category/tag page e.g. is a commentcounter (not recomended)"
+msgstr "En la página de categoría/etiquetas por ejemplo si es un contador de comentarios (no recomendado)"
+
+#: main.php:942
+msgid "I want that Really-Static try to handle with the ? in the url"
+msgstr "Quiero que Really-Static intente gestionar el símbolo \"?\" en la URL"
+
+#: main.php:944
+msgid "Save"
+msgstr "Guardar"
+
+#: main.php:947
+msgid "If this Plugin is installed on a Blog with exsiting Posts or for example you changed your design so you shold press the \"write all files\" Button. If the prezess is terminatet (e.g. because of a timeout), just press this button again"
+msgstr "Si el plugin es instalado en un blog con entradas existentes o, por ejemplo, cambias el diseño entonces debes presionar el botón \"escribir todos los ficheros\". Si el proceso termina bruscamente (ej: por tiempo de espera agotado) entonces pulsalo de nuevo."
+
+#: main.php:949
+msgid "write all files"
+msgstr "escribir todos los ficheros"
+
+#: main.php:951
+msgid "If you want to renew all files, first press the \"reset filedatabase\" button and then the \"write all files\" button"
+msgstr "Si quieres renovar todos los ficheros, primero pulsa en el botón \"reiniciar fichero de base de datos\" y luego en el botón \"escribir todos los ficheros\"."
+
+#: main.php:952
+msgid "reset filedatabase"
+msgstr "reiniciar fichero de base de datos"
+
+#: main.php:955
+msgid "Refresh a staticsite manualy"
+msgstr "Actualizar un sitio estático manualmente"
+
+#: main.php:957
+msgid "(complete url of the static page)"
+msgstr "(url completa del sitio estático)"
+
+#: main.php:958
+msgid "refresh"
+msgstr "actualizar"
+
+#: main.php:961
+msgid "What should Really-Static do"
+msgstr "Qué debería hacer Really-Static"
+
+#: main.php:962
+msgid "This option allows to give Really-Static accurate information about when a speified URL should make static. This is good thing, when you use example sitemaps or pages that must refreshed every 24 hours."
+msgstr "Esta opción permite darle a Really-Static información precisa acerca de cuando una URL espécifica se hace estática. Esto es bueno cuando, por ejemplo, usas sitemaps o páginas que deben ser actualizadas cada 24 horas."
+
+#: main.php:964
+msgid "URL"
+msgstr "URL"
+
+#: main.php:964
+msgid "when"
+msgstr "cuándo"
+
+#: main.php:967
+msgid "when a Post is created, edited or deleted"
+msgstr "cuándo un post es creado, editado o borrado"
+
+#: main.php:970
+msgid "every 24 hours"
+msgstr "cada 24 horas"
+
+#: main.php:971
+msgid "everytime Really-Static runs"
+msgstr "cada vez que Really-Static sea ejecutado"
+
+#: main.php:972
+msgid "Submit"
+msgstr "Enviar"
+
+#: main.php:977
+msgid "Rewrite every 24 hours"
+msgstr "Reescribir cada 24 horas"
+
+#: main.php:984
+msgid "Rewrite on every run of Really-Static"
+msgstr "Reescribir cada vez que se ejecute Really-Static"
+
+#: main.php:991
+msgid "Rewrite on create, edit or delete a post"
+msgstr "Reescribir al crear, editar o borrar una entrada"
+
