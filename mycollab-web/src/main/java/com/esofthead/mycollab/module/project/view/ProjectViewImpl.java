@@ -470,8 +470,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			controlsBtn.setContent(popupButtonsControl);
 			controlsBtn.setWidthUndefined();
 
-			topPanel.addComponent(controlsBtn);
-			topPanel.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+			topPanel.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
 		}
 
 		prjList.showProjects();

@@ -44,7 +44,7 @@ public class CompositionSearchField extends SearchField {
 
 	public void addField(SearchField field) {
 		if (fields == null) {
-			fields = new ArrayList<SearchField>();
+			fields = new ArrayList<>();
 		}
 
 		fields.add(field);

@@ -22,65 +22,66 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1.2
- * 
  */
 public abstract class AbstractLazyPageView extends AbstractPageView implements
-		LazyPageView {
-	private static final long serialVersionUID = 1L;
+        LazyPageView {
+    private static final long serialVersionUID = 1L;
 
-	private boolean isRunning = false;
-	private ProgressIndicator progressIndicator = null;
+    private boolean isRunning = false;
+    private ProgressIndicator progressIndicator = null;
 
-	@Override
-	public void lazyLoadView() {
-		if (!isRunning) {
-			this.removeAllComponents();
-			isRunning = true;
-			progressIndicator = new ProgressIndicator();
-			UI.getCurrent().addWindow(progressIndicator);
-			UI.getCurrent().setPollInterval(1000);
-			new InitializerThread().start();
-		}
-	}
+    @Override
+    public void lazyLoadView() {
+        if (!isRunning) {
+            this.removeAllComponents();
+            isRunning = true;
+            progressIndicator = new ProgressIndicator();
+            UI.getCurrent().addWindow(progressIndicator);
+            UI.getCurrent().setPollInterval(1000);
+            new InitializerThread().start();
+        }
+    }
 
-	abstract protected void displayView();
+    abstract protected void displayView();
 
-	private class InitializerThread extends Thread {
-		@Override
-		public void run() {
-			UI.getCurrent().access(new Runnable() {
+    private class InitializerThread extends Thread {
+        @Override
+        public void run() {
+            UI.getCurrent().access(new Runnable() {
 
-				@Override
-				public void run() {
-					displayView();
-					UI.getCurrent().setPollInterval(-1);
-					progressIndicator.close();
-					progressIndicator = null;
-					isRunning = false;
-				}
+                @Override
+                public void run() {
+                    try {
+                        displayView();
+                    } finally {
+                        UI.getCurrent().setPollInterval(-1);
+                        progressIndicator.close();
+                        progressIndicator = null;
+                        isRunning = false;
+                    }
+                }
 
-			});
-		}
-	}
+            });
+        }
+    }
 
-	private static class ProgressIndicator extends Window {
-		private static final long serialVersionUID = -6157950150738214354L;
+    private static class ProgressIndicator extends Window {
+        private static final long serialVersionUID = -6157950150738214354L;
 
-		public ProgressIndicator() {
-			super();
-			this.setDraggable(false);
-			this.setClosable(false);
-			this.setResizable(false);
-			this.setStyleName("lazyload-progress");
-			this.center();
-			this.setModal(true);
+        public ProgressIndicator() {
+            super();
+            this.setDraggable(false);
+            this.setClosable(false);
+            this.setResizable(false);
+            this.setStyleName("lazyload-progress");
+            this.center();
+            this.setModal(true);
 
-			Image loadingIcon = new Image(null,
-					MyCollabResource.newResource("icons/lazy-load-icon.gif"));
-			this.setContent(loadingIcon);
-		}
-	}
+            Image loadingIcon = new Image(null,
+                    MyCollabResource.newResource("icons/lazy-load-icon.gif"));
+            this.setContent(loadingIcon);
+        }
+    }
 }

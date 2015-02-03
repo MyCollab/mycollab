@@ -20,6 +20,8 @@ package com.esofthead.mycollab.module.project.view.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esofthead.mycollab.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.tokenfield.TokenField;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -47,12 +49,6 @@ import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -79,11 +75,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 	private List<String> inviteEmails;
 	private Integer roleId = 0;
-
-	private InviteUserTokenField inviteUserTokenField;
 	private ProjectRoleComboBox roleComboBox;
 	private TextArea messageArea;
-	private VerticalLayout permissionsPanel;
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectMemberInviteViewImpl() {
@@ -92,7 +85,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 	@Override
 	public void display() {
-		inviteEmails = new ArrayList<String>();
+		inviteEmails = new ArrayList<>();
 		roleId = 0;
 
 		initContent();
@@ -115,7 +108,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		final AddViewLayout userAddLayout = new AddViewLayout(
 				AppContext
 						.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
-				MyCollabResource.newResource("icons/24/project/user.png"));
+				MyCollabResource.newResource(WebResourceIds._24_project_user));
 
 		userAddLayout.addHeaderRight(createButtonControls());
 
@@ -127,7 +120,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		final HorizontalLayout lo = new HorizontalLayout();
 		lo.setSpacing(true);
-		inviteUserTokenField = new InviteUserTokenField(lo);
+		InviteUserTokenField inviteUserTokenField = new InviteUserTokenField(lo);
 		informationLayout.addComponent(inviteUserTokenField, AppContext
 				.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
 		informationLayout.addComponent(roleComboBox,
@@ -147,8 +140,25 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 	}
 
 	private Layout createButtonControls() {
-		final HorizontalLayout controlButtons = new HorizontalLayout();
-		controlButtons.setSpacing(true);
+		final MHorizontalLayout controlButtons = new MHorizontalLayout();
+
+		Button inviteBtn = new Button(
+				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						roleId = (Integer) roleComboBox.getValue();
+						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
+								ProjectMemberInviteViewImpl.this,
+								new InviteProjectMembers(inviteEmails, roleId,
+										messageArea.getValue())));
+
+					}
+				});
+		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		controlButtons.addComponent(inviteBtn);
 
 		Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -169,30 +179,12 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlButtons.addComponent(cancelBtn);
 
-		Button inviteBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-						roleId = (Integer) roleComboBox.getValue();
-						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteProjectMembers>(
-								ProjectMemberInviteViewImpl.this,
-								new InviteProjectMembers(inviteEmails, roleId,
-										messageArea.getValue())));
-
-					}
-				});
-		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlButtons.addComponent(inviteBtn);
-
 		controlButtons.setSizeUndefined();
 		return controlButtons;
 	}
 
 	private Layout createBottomPanel() {
-		permissionsPanel = new VerticalLayout();
+		VerticalLayout permissionsPanel = new VerticalLayout();
 		final Label organizationHeader = new Label(
 				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
 		organizationHeader.setStyleName("h2");

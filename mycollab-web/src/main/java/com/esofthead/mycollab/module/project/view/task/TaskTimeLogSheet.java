@@ -46,7 +46,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
+		criteria.setProjectIds(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
@@ -57,7 +57,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalNonBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
+		criteria.setProjectIds(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
@@ -131,7 +131,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 		@Override
 		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
 			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<Integer>(
+			searchCriteria.setProjectIds(new SetSearchField<>(
 					CurrentProjectVariables.getProjectId()));
 			searchCriteria.setType(new StringSearchField(
 					ProjectTypeConstants.TASK));
@@ -141,10 +141,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 
 		@Override
 		protected double getEstimateRemainTime() {
-			if (bean.getRemainestimate() != null) {
-				return bean.getRemainestimate();
-			}
-			return 0;
+			return (bean.getRemainestimate() != null) ? bean.getRemainestimate() : 0;
 		}
 
 		@Override

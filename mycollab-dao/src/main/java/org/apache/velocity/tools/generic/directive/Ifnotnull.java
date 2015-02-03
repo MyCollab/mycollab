@@ -32,15 +32,15 @@ package org.apache.velocity.tools.generic.directive;
  * limitations under the License.
  */
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.apache.velocity.context.InternalContextAdapter;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.directive.Directive;
 import org.apache.velocity.runtime.parser.node.Node;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * @author <a href="mailto:shinobu@ieee.org">Shinobu Kawai</a>

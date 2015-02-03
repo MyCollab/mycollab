@@ -32,7 +32,7 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.IgnoreException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -62,16 +62,16 @@ public class SetSearchField<T> extends SearchField {
     }
 
     public SetSearchField(String oper, T... vals) {
-        if (ArrayUtils.isEmpty(vals)) {
-            throw new UserInvalidInputException("Field can not be null");
+        if (!ArrayUtils.isEmpty(vals)) {
+            CollectionUtils.addAll(values, vals);
         }
-        CollectionUtils.addAll(values, vals);
+
         this.operation = oper;
     }
 
     public Set<T> getValues() {
         if (values.size() == 0) {
-            throw new UserInvalidInputException("You must select one option");
+            throw new IgnoreException("You must select one option");
         }
         return values;
     }

@@ -82,7 +82,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 
 	@Override
 	public void setBean(B bean) {
-		fieldGroup.setItemDataSource(new BeanItem<B>(bean));
+		fieldGroup.setItemDataSource(new BeanItem<>(bean));
 
 		Class<?> beanClass = bean.getClass();
 		java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);

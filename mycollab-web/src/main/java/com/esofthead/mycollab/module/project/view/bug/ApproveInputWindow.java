@@ -37,6 +37,8 @@ import com.vaadin.ui.ComponentContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.GregorianCalendar;
 
@@ -59,12 +61,11 @@ class ApproveInputWindow extends Window {
 		this.bug = bug;
 		this.callbackForm = callbackForm;
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		this.setWidth("750px");
+		MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false))
+				.withWidth("750px");
 		this.editForm = new EditForm();
-		contentLayout.addComponent(this.editForm);
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
 		this.editForm.setBean(bug);
+		contentLayout.addComponent(this.editForm);
 		this.setContent(contentLayout);
 		this.center();
 	}
@@ -98,9 +99,7 @@ class ApproveInputWindow extends Window {
 
 				layout.addComponent(this.informationLayout.getLayout());
 
-				final HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
+				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
 				final Button approveBtn = new Button("Approve & Close",

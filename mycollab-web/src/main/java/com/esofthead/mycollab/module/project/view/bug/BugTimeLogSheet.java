@@ -52,7 +52,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 	@Override
 	protected Double getTotalBillableHours(SimpleBug bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
+		criteria.setProjectIds(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
@@ -63,7 +63,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 	@Override
 	protected Double getTotalNonBillableHours(SimpleBug bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
+		criteria.setProjectIds(new SetSearchField<>(
 				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
@@ -131,7 +131,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 		@Override
 		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
 			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<Integer>(
+			searchCriteria.setProjectIds(new SetSearchField<>(
 					CurrentProjectVariables.getProjectId()));
 			searchCriteria.setType(new StringSearchField(
 					ProjectTypeConstants.BUG));

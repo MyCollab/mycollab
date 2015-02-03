@@ -31,15 +31,12 @@ public class BugRelationComboBox extends ComboBox {
 
 	public BugRelationComboBox() {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		this.addItem(BugRelationConstants.PARENT);
-		this.addItem(BugRelationConstants.CHILD);
 		this.addItem(BugRelationConstants.RELATED);
 		this.addItem(BugRelationConstants.DUPLICATED);
-		this.addItem(BugRelationConstants.BEFORE);
-		this.addItem(BugRelationConstants.AFTER);
+		this.addItem(BugRelationConstants.BLOCK);
 
 		this.setNullSelectionAllowed(false);
-		this.select(BugRelationConstants.PARENT);
+		this.select(BugRelationConstants.RELATED);
 	}
 
 }

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+
 import java.util.Date;
 
 public class SimpleItemTimeLogging extends ItemTimeLogging {
@@ -36,6 +38,8 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 	private String status;
 
 	private Date dueDate;
+
+	private int extraTypeId;
 
 	public String getLogUserFullName() {
 		return logUserFullName;
@@ -99,5 +103,21 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 
 	public void setLogUserAvatarId(String logUserAvatarId) {
 		this.logUserAvatarId = logUserAvatarId;
+	}
+
+	public boolean isOverdue() {
+		if (getDueDate() != null) {
+			return getDueDate().before(DateTimeUtils.getCurrentDateWithoutMS());
+		}
+
+		return false;
+	}
+
+	public int getExtraTypeId() {
+		return extraTypeId;
+	}
+
+	public void setExtraTypeId(int extraTypeId) {
+		this.extraTypeId = extraTypeId;
 	}
 }

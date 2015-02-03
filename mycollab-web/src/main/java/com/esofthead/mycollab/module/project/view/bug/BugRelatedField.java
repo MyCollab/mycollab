@@ -219,37 +219,37 @@ public class BugRelatedField extends CustomComponent {
 					oppositeRelation.setComment(txtComment.getValue()
 							.toString());
 
-					if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.PARENT)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.CHILD);
-					} else if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.CHILD)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.PARENT);
-					} else if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.RELATED)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.RELATED);
-					} else if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.BEFORE)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.AFTER);
-					} else if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.AFTER)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.BEFORE);
-					} else if (comboRelation.getValue().toString()
-							.equals(BugRelationConstants.DUPLICATED)) {
-						oppositeRelation
-								.setRelatetype(BugRelationConstants.DUPLICATED);
-						BugService bugService = ApplicationContextUtil
-								.getSpringBean(BugService.class);
-						bug.setStatus(BugStatus.Resolved.name());
-						bug.setResolution(BugResolution.Duplicate.name());
-						bugService.updateWithSession(bug,
-								AppContext.getUsername());
-					}
+//					if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.PARENT)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.CHILD);
+//					} else if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.CHILD)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.PARENT);
+//					} else if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.RELATED)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.RELATED);
+//					} else if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.BEFORE)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.AFTER);
+//					} else if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.AFTER)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.BEFORE);
+//					} else if (comboRelation.getValue().toString()
+//							.equals(BugRelationConstants.DUPLICATED)) {
+//						oppositeRelation
+//								.setRelatetype(BugRelationConstants.DUPLICATED);
+//						BugService bugService = ApplicationContextUtil
+//								.getSpringBean(BugService.class);
+//						bug.setStatus(BugStatus.Resolved.name());
+//						bug.setResolution(BugResolution.Duplicate.name());
+//						bugService.updateWithSession(bug,
+//								AppContext.getUsername());
+//					}
 					relatedBugService.saveWithSession(oppositeRelation,
 							AppContext.getUsername());
 

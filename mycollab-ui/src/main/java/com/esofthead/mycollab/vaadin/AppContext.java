@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.esofthead.mycollab.core.SessionExpireException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,7 +113,7 @@ public class AppContext implements Serializable {
 
 	private Locale userLocale = Locale.US;
 
-	public AppContext(UI uiOwner) {
+	public AppContext() {
 		MyCollabSession.putVariable("context", this);
 	}
 
@@ -125,7 +126,7 @@ public class AppContext implements Serializable {
 		try {
 			return (AppContext) MyCollabSession.getVariable("context");
 		} catch (Exception e) {
-			return null;
+			throw new SessionExpireException("Session is expired");
 		}
 	}
 

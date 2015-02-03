@@ -120,7 +120,6 @@ public final class WebResourceIds {
   public static final String _16_ecm_folder_blue = "icons/16/ecm/folder_blue.png";
   public static final String _16_ecm_folder_close = "icons/16/ecm/folder_close.png";
   public static final String _16_ecm_folder_open = "icons/16/ecm/folder_open.png";
-  public static final String _16_ecm_link = "icons/16/ecm/link.png";
   public static final String _16_ecm_move_up = "icons/16/ecm/move_up.png";
   public static final String _16_ecm_new_file = "icons/16/ecm/new_file.png";
   public static final String _16_ecm_settings = "icons/16/ecm/settings.png";
@@ -156,6 +155,7 @@ public final class WebResourceIds {
   public static final String _16_import = "icons/16/import.png";
   public static final String _16_item_settings = "icons/16/item_settings.png";
   public static final String _16_item_settings_big = "icons/16/item_settings_big.png";
+  public static final String _16_link = "icons/16/link.png";
   public static final String _16_lock = "icons/16/lock.png";
   public static final String _16_minus = "icons/16/minus.png";
   public static final String _16_new1 = "icons/16/new1.png";

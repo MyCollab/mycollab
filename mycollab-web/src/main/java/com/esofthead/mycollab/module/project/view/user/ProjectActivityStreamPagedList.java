@@ -46,6 +46,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.util.Calendar;
@@ -221,7 +222,6 @@ public class ProjectActivityStreamPagedList
                 "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
                 arg20, arg21, arg22, arg23, arg24);
         itemLink.setAttribute("onmouseover", mouseOverFunc);
-//        itemLink.setAttribute("onmouseleave", String.format("return hideTooltip('%s')", uid));
         itemLink.appendText(activityStream.getNamefield());
 
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
@@ -231,10 +231,7 @@ public class ProjectActivityStreamPagedList
 
     protected void feedBlocksPut(Date currentDate, Date nextDate,
                                  CssLayout currentBlock) {
-        HorizontalLayout blockWrapper = new HorizontalLayout();
-        blockWrapper.setStyleName("feed-block-wrap");
-        blockWrapper.setWidth("100%");
-        blockWrapper.setSpacing(true);
+        MHorizontalLayout blockWrapper = new MHorizontalLayout().withWidth("100%").withStyleName("feed-block-wrap");
 
         blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Calendar cal1 = Calendar.getInstance();

@@ -34,6 +34,8 @@ import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Table.ColumnGenerator;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -54,27 +56,25 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
 	private DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> tableItem;
 
-	private VerticalLayout content;
+	private MVerticalLayout content;
 	private HorizontalLayout headerPanel;
 
 	private Button btnAdd;
 	private Label totalSpentTimeLbl;
-	private NumbericTextField newTimeInputField;
+	private NumericTextField newTimeInputField;
 	private CheckBox isBillableField;
 	private DateFieldExt forDateField;
 
-	private NumbericTextField remainTimeInputField;
+	private NumericTextField remainTimeInputField;
 	private Label remainTimeLbl;
 
 	protected TimeLogEditWindow(final V bean) {
 		this.bean = bean;
 		this.center();
-		content = new VerticalLayout();
 		this.setResizable(false);
 		this.setModal(true);
+		content = new MVerticalLayout();
 		this.setContent(content);
-		content.setMargin(true);
-		content.setSpacing(true);
 
 		this.itemTimeLoggingService = ApplicationContextUtil
 				.getSpringBean(ItemTimeLoggingService.class);
@@ -86,9 +86,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	private void initUI() {
 		this.setWidth("900px");
 
-		headerPanel = new HorizontalLayout();
-		headerPanel.setSpacing(true);
-		headerPanel.setWidth("100%");
+		headerPanel = new MHorizontalLayout().withWidth("100%");
 		content.addComponent(headerPanel);
 		constructSpentTimeEntryPanel();
 		constructRemainTimeEntryPanel();
@@ -232,7 +230,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setSizeUndefined();
 		spentTimePanel.addComponent(addLayout);
 
-		this.newTimeInputField = new NumbericTextField();
+		this.newTimeInputField = new NumericTextField();
 		this.newTimeInputField.setWidth("80px");
 		addLayout.addComponent(this.newTimeInputField);
 		addLayout.setComponentAlignment(this.newTimeInputField,
@@ -305,7 +303,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setSizeUndefined();
 		remainTimePanel.addComponent(addLayout);
 
-		this.remainTimeInputField = new NumbericTextField();
+		this.remainTimeInputField = new NumericTextField();
 		this.remainTimeInputField.setWidth("80px");
 		addLayout.addComponent(this.remainTimeInputField);
 		addLayout.setComponentAlignment(this.remainTimeInputField,
@@ -406,7 +404,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		return Double.parseDouble(remainTimeInputField.getValue());
 	}
 
-	private class NumbericTextField extends TextField {
+	private class NumericTextField extends TextField {
 		private static final long serialVersionUID = 1L;
 
 		@Override

@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import org.vaadin.easyuploads.MultiFileUploadExt;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -33,27 +31,11 @@ import com.esofthead.mycollab.module.project.ui.components.TaskPercentageComplet
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -62,7 +44,6 @@ import com.vaadin.ui.VerticalLayout;
  */
 class TaskAddPopup extends CustomComponent {
 	private static final long serialVersionUID = 1L;
-	private final TabSheet taskContainer;
 	private final SimpleTask task;
 	private final TaskNoteLayout taskNoteComponent;
 
@@ -84,20 +65,20 @@ class TaskAddPopup extends CustomComponent {
 		taskLayout.addComponent(popupHeader);
 
 		this.task = new SimpleTask();
-		this.taskContainer = new TabSheet();
+        TabSheet taskContainer = new TabSheet();
 		final TaskInputForm taskInputForm = new TaskInputForm();
 		taskInputForm.setWidth("100%");
-		this.taskContainer.addTab(taskInputForm,
+		taskContainer.addTab(taskInputForm,
 				AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
-		this.taskContainer.addTab(this.taskNoteComponent,
+		taskContainer.addTab(this.taskNoteComponent,
 				AppContext.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT));
 
-		taskLayout.addComponent(this.taskContainer);
+		taskLayout.addComponent(taskContainer);
 
-		final HorizontalLayout controlsLayout = new HorizontalLayout();
-		controlsLayout.setSpacing(true);
+		final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true);
+        controlsLayout.addStyleName("popup-footer");
 
 		final Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -111,9 +92,6 @@ class TaskAddPopup extends CustomComponent {
 				});
 
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		controlsLayout.addComponent(cancelBtn);
-		controlsLayout
-				.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
 		final Button saveBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
@@ -142,10 +120,8 @@ class TaskAddPopup extends CustomComponent {
 				});
 		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsLayout.addComponent(saveBtn);
-		controlsLayout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
-		controlsLayout.addStyleName("popup-footer");
-		controlsLayout.setMargin(true);
+
+        controlsLayout.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
 
 		taskLayout.addComponent(controlsLayout);
 		taskLayout
