@@ -90,22 +90,17 @@ We use MyCollab in our daily jobs to manage our customers information, projects.
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
 Please take a look at MyCollab requirements:
-    [http://community.mycollab.com/installation.html#System_Requirements](http://community.mycollab.com/installation.html#System_Requirements)
+    [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
 
 ## Installation
-1. Download MyCollab binary - http://community.mycollab.com/download.html
-2. Follow installation guideline at http://community.mycollab.com/installation.html
+1. Download MyCollab binary - http://community.mycollab.com/download/
+2. Follow installation guideline at http://community.mycollab.com/installation-guideline/
 
-If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/admin/configuration.html. You will finish reading and understanding in a matter of minutes.
-
-## Document
-MyCollab is documented at http://community.mycollab.com. There are must read articles if it is the first time you use MyCollab
-* Installation http://community.mycollab.com/installation.html
-* Configuration http://community.mycollab.com/admin/configuration.html
+If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/configuration/. You will finish reading and understanding in a matter of minutes.
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab in Eclipse http://community.mycollab.com/dev/eclipse.html
-* How to customize MyCollab http://community.mycollab.com/dev/customize.html
+* Setup MyCollab in Eclipse http://community.mycollab.com/set-up-eclipse-workspace/
+* How to customize MyCollab http://community.mycollab.com/how-to-customize-mycollab/
 
 ## Contact
 Contact the MyCollab team at:
@@ -114,6 +109,6 @@ Contact the MyCollab team at:
 
 ## License & Author
 
-* MyCollab community is licensed with Affero GPL v3. For license terms, see http://community.mycollab.com/license.html
+* MyCollab community is licensed with Affero GPL v3. For license terms, see http://community.mycollab.com/licenses/
 
 * MyCollab is powered by eSoftHead http://esofthead.com, which is a software outsourcing and offshoring service company based in Vietnam.
