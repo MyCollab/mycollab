@@ -45,7 +45,7 @@ Version 4.6.0
 -----------------------------
 **Library Upgrades**
 
-* Upgrade Vaadin to 7.3.8
+* Upgrade Vaadin to 7.3.9
 * Upgrade Spring frameworks to 4.1.4.RELEASE
 * Upgrade several Vaadin addons
 
@@ -55,9 +55,14 @@ Version 4.6.0
 * Support sub tasks for project task
 * Simplify application configuration (for developers)
 * Using Scala for several back-end components such as scheduler
-* Use SASS to maintain the CSS files more effectively
 * Allow deselect assignee in bug or task
 * Revise project views
+* Revise the related bug relationship
+
+**Bug Fixes**
+
+* Internal issue causes the lazy views load infinitely
+
 
 Version 4.5.5
 -----------------------------

@@ -6669,6 +6669,141 @@ body .mycollab.v-app .v-app-loading {
 	color: white;
 }
 
+.mycollab .h-sidebar-menu {
+	height: 50px;
+	position: relative;
+	background-color: cadetblue;
+}
+
+.mycollab .h-sidebar-menu  > div {
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+	position: relative;
+}
+
+.mycollab .h-sidebar-menu .v-button {
+	border-radius: 0px;
+	box-shadow: initial;
+	-webkit-box-shadow: initial;
+	-moz-box-shadow: initial;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link {
+	height: 50px;
+	margin: 0px;
+	padding: 0px;
+	background: none no-repeat 0 0 transparent;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link:focus, .mycollab .h-sidebar-menu .v-button.v-button-link:active {
+	height: 50px;
+	margin: 0px;
+	padding: 0px;
+	background: none no-repeat 0 0 transparent;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected {
+	background-color: #FFF;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .mycollab .h-sidebar-menu .v-button.v-button-link:active .v-button-caption {
+	color: #FFF;
+}
+
+.mycollab .h-sidebar-menu .v-button .v-button-wrap {
+	border-radius: 0px;
+	box-shadow: initial;
+	-webkit-box-shadow: initial;
+	-moz-box-shadow: initial;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+}
+
+.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link {
+	margin: 0px;
+}
+
+.mycollab .h-sidebar-menu .v-button-link .v-button-wrap, .mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	padding: 17px 18px;
+	color: #FFF;
+}
+
+.mycollab .h-sidebar-menu div.v-button-link:active .v-button-wrap, .mycollab .h-sidebar-menu div.v-button-link:focus .v-button-wrap {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	padding: 17px 18px;
+}
+
+.mycollab .h-sidebar-menu .v-button-link .v-button-wrap:active {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	padding: 17px 18px;
+}
+
+.mycollab .h-sidebar-menu .v-popupbutton .v-button-wrap, .mycollab .h-sidebar-menu .v-popupbutton:active .v-button-wrap {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	padding: 17px 18px;
+}
+
+.mycollab .h-sidebar-menu div.v-disabled.v-button-link .v-button-wrap {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	position: relative;
+	padding: 17px 18px;
+}
+
+.mycollab .h-sidebar-menu .v-button-link:first-child .v-button-wrap {
+	border: none;
+}
+
+.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
+	border: none;
+}
+
+.mycollab .h-sidebar-menu div.v-button-link:active:first-child .v-button-wrap, .mycollab .h-sidebar-menu div.v-button-link:focus:first-child .v-button-wrap {
+	border: none;
+}
+
+.mycollab .h-sidebar-menu .v-button-link:first-child .v-button-wrap:active {
+	border: none;
+}
+
+.mycollab .h-sidebar-menu .v-button-link .v-button-caption {
+	text-decoration: none;
+	color: #FFF;
+	text-shadow: none;
+	font-weight: bold;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption {
+	color: #535353;
+}
+
+.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover {
+	color: #535353;
+}
+
 .mycollab .date-wrapper {
 	background: url(components/icons/timehdr-bg.png) no-repeat left top #d4dfef;
 	font-size: 12px;
@@ -6978,7 +7113,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .projectfeed-hdr-wrapper {
-	background: none repeat-x left bottom brown;
+	background: none repeat-x left bottom cadetblue;
 	padding: 15px 30px;
 }
 
@@ -7835,141 +7970,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-button .v-button-caption {
 	line-height: 16px;
-}
-
-.mycollab .h-sidebar-menu {
-	height: 50px;
-	position: relative;
-	background-color: brown;
-}
-
-.mycollab .h-sidebar-menu  > div {
-	display: inline-block;
-	zoom: 1;
-	*display: inline;
-	position: relative;
-}
-
-.mycollab .h-sidebar-menu .v-button {
-	border-radius: 0px;
-	box-shadow: initial;
-	-webkit-box-shadow: initial;
-	-moz-box-shadow: initial;
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link {
-	height: 50px;
-	margin: 0px;
-	padding: 0px;
-	background: none no-repeat 0 0 transparent;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link:focus, .mycollab .h-sidebar-menu .v-button.v-button-link:active {
-	height: 50px;
-	margin: 0px;
-	padding: 0px;
-	background: none no-repeat 0 0 transparent;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected {
-	background-color: #FFF;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .mycollab .h-sidebar-menu .v-button.v-button-link:active .v-button-caption {
-	color: #FFF;
-}
-
-.mycollab .h-sidebar-menu .v-button .v-button-wrap {
-	border-radius: 0px;
-	box-shadow: initial;
-	-webkit-box-shadow: initial;
-	-moz-box-shadow: initial;
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-}
-
-.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link {
-	margin: 0px;
-}
-
-.mycollab .h-sidebar-menu .v-button-link .v-button-wrap, .mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-	padding: 17px 18px;
-	color: #FFF;
-}
-
-.mycollab .h-sidebar-menu div.v-button-link:active .v-button-wrap, .mycollab .h-sidebar-menu div.v-button-link:focus .v-button-wrap {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-	padding: 17px 18px;
-}
-
-.mycollab .h-sidebar-menu .v-button-link .v-button-wrap:active {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-	padding: 17px 18px;
-}
-
-.mycollab .h-sidebar-menu .v-popupbutton .v-button-wrap, .mycollab .h-sidebar-menu .v-popupbutton:active .v-button-wrap {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-	padding: 17px 18px;
-}
-
-.mycollab .h-sidebar-menu div.v-disabled.v-button-link .v-button-wrap {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	position: relative;
-	padding: 17px 18px;
-}
-
-.mycollab .h-sidebar-menu .v-button-link:first-child .v-button-wrap {
-	border: none;
-}
-
-.mycollab .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
-	border: none;
-}
-
-.mycollab .h-sidebar-menu div.v-button-link:active:first-child .v-button-wrap, .mycollab .h-sidebar-menu div.v-button-link:focus:first-child .v-button-wrap {
-	border: none;
-}
-
-.mycollab .h-sidebar-menu .v-button-link:first-child .v-button-wrap:active {
-	border: none;
-}
-
-.mycollab .h-sidebar-menu .v-button-link .v-button-caption {
-	text-decoration: none;
-	color: #FFF;
-	text-shadow: none;
-	font-weight: bold;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 13px;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption {
-	color: #535353;
-}
-
-.mycollab .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover {
-	color: #535353;
 }
 
 .mycollab .pagedtable .v-table-header td:last-child .v-table-resizer {

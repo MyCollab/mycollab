@@ -77,20 +77,20 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<TaskList>(
+		final Layout controlButtons = (new EditFormControlsGenerator<>(
 				editForm)).createButtonControls();
 		return controlButtons;
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<TaskList> initPreviewForm() {
-		return new AdvancedEditBeanForm<TaskList>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(ProjectTypeConstants.TASK_LIST,
-				TaskGroupDefaultFormLayoutFactory.getForm());
+				TaskGroupDefaultFormLayoutFactory.getForm(), TaskList.Field.groupindex.name());
 	}
 
 	@Override

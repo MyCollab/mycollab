@@ -49,7 +49,6 @@ public abstract class BugDisplayWidget extends Depot {
 
 	protected BugSearchCriteria searchCriteria;
 	private BeanList<BugService, BugSearchCriteria, SimpleBug> dataList;
-	private Button moreBtn;
 
 	private String title;
 	private boolean isDisplayTotalCount;
@@ -61,7 +60,7 @@ public abstract class BugDisplayWidget extends Depot {
 		super(title, new VerticalLayout());
 		this.title = title;
 		this.isDisplayTotalCount = isDisplayTotalCount;
-		dataList = new BeanList<BugService, BugSearchCriteria, SimpleBug>(
+		dataList = new BeanList<>(
 				ApplicationContextUtil.getSpringBean(BugService.class),
 				rowDisplayHandler);
 		bodyContent.addComponent(dataList);
@@ -78,11 +77,11 @@ public abstract class BugDisplayWidget extends Depot {
 			String depotTitle = String.format("%s (%d)", title, totalCount);
 			this.setTitle(depotTitle);
 		}
-		final SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<BugSearchCriteria>(
+		final SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		final int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
-			moreBtn = new Button(
+			Button moreBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -97,7 +96,7 @@ public abstract class BugDisplayWidget extends Depot {
 													constructMoreDisplayFilter())));
 						}
 					});
-			moreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			final VerticalLayout widgetFooter = new VerticalLayout();
 			widgetFooter.addStyleName("widget-footer");
 			widgetFooter.setWidth("100%");

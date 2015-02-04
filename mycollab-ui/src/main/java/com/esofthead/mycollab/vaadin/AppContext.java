@@ -124,7 +124,11 @@ public class AppContext implements Serializable {
 	 */
 	public static AppContext getInstance() {
 		try {
-			return (AppContext) MyCollabSession.getVariable("context");
+			AppContext context = (AppContext) MyCollabSession.getVariable("context");
+            if (context == null) {
+                throw new SessionExpireException("Session is expired");
+            }
+            return context;
 		} catch (Exception e) {
 			throw new SessionExpireException("Session is expired");
 		}
@@ -389,11 +393,7 @@ public class AppContext implements Serializable {
 		}
 
 		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		if (permissionMap == null) {
-			return false;
-		} else {
-			return permissionMap.canBeYes(permissionItem);
-		}
+		return (permissionMap == null) ? false: permissionMap.canBeYes(permissionItem);
 	}
 
 	/**
@@ -407,11 +407,7 @@ public class AppContext implements Serializable {
 		}
 
 		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		if (permissionMap == null) {
-			return false;
-		} else {
-			return permissionMap.canBeFalse(permissionItem);
-		}
+		return (permissionMap == null) ? false : permissionMap.canBeFalse(permissionItem);
 	}
 
 	/**
@@ -425,11 +421,7 @@ public class AppContext implements Serializable {
 		}
 
 		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		if (permissionMap == null) {
-			return false;
-		} else {
-			return permissionMap.canRead(permissionItem);
-		}
+		return (permissionMap == null) ? false : permissionMap.canRead(permissionItem);
 	}
 
 	/**
@@ -459,11 +451,7 @@ public class AppContext implements Serializable {
 			return true;
 		}
 		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		if (permissionMap == null) {
-			return false;
-		} else {
-			return permissionMap.canAccess(permissionItem);
-		}
+		return (permissionMap == null) ? false: permissionMap.canAccess(permissionItem);
 	}
 
 	/**
@@ -478,11 +466,7 @@ public class AppContext implements Serializable {
 	public static String getPermissionCaptionValue(
 			final PermissionMap permissionMap, final String permissionItem) {
 		final Integer perVal = permissionMap.get(permissionItem);
-		if (perVal == null) {
-			return getMessage(SecurityI18nEnum.NO_ACCESS);
-		} else {
-			return AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
-		}
+		return (perVal == null) ? getMessage(SecurityI18nEnum.NO_ACCESS):AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
 	}
 
 	public static TimeZone getTimezone() {

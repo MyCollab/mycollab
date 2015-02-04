@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
@@ -28,19 +29,13 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.PropertyFormatter;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
-import org.vaadin.suggestfield.BeanSuggestionConverter;
-import org.vaadin.suggestfield.SuggestField;
-import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
+import org.vaadin.viritin.fields.CaptionGenerator;
+import org.vaadin.viritin.fields.LazyComboBox;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,10 +43,15 @@ import java.util.List;
  * @since 4.6.0
  */
 public class LinkIssueWindow extends Window {
+    private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+    private BugSearchCriteria searchCriteria = new BugSearchCriteria();
+
     public LinkIssueWindow(SimpleBug bug) {
         super("Link");
         this.setResizable(false);
         this.setModal(true);
+
+        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
         MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false)
                 .withWidth("100%");
@@ -68,7 +68,6 @@ public class LinkIssueWindow extends Window {
     }
 
     private class RelatedBugEditForm extends AdvancedEditBeanForm<RelatedBug> {
-        private List<SimpleBug> items = new ArrayList<>();
 
         @Override
         public void setBean(final RelatedBug newDataSource) {
@@ -127,8 +126,10 @@ public class LinkIssueWindow extends Window {
         private class EditFormFieldFactory extends
                 AbstractBeanFieldGroupEditFieldFactory<RelatedBug> {
 
+
             EditFormFieldFactory(GenericBeanForm<RelatedBug> form) {
                 super(form);
+
             }
 
             @Override
@@ -136,7 +137,7 @@ public class LinkIssueWindow extends Window {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
                     return new BugRelationComboBox();
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
-                    return new RelatedBugSuggestField();
+                    return new BugSuggestionField();
                 } else if (RelatedBug.Field.comment.equalTo(propertyId)) {
                     return new RichTextArea();
                 }
@@ -144,66 +145,29 @@ public class LinkIssueWindow extends Window {
             }
         }
 
-        private class RelatedBugSuggestField extends SuggestField {
-            private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-            private BugSearchCriteria searchCriteria;
-
-            RelatedBugSuggestField() {
-                this.setInputPrompt("Type bug summary or key");
-                this.setPopupWidth(600);
-                this.setSuggestionHandler(new SuggestField.SuggestionHandler() {
+        private class BugSuggestionField extends LazyComboBox<SimpleBug> {
+            public BugSuggestionField() {
+                super(SimpleBug.class, new LazyComboBox.FilterablePagingProvider<SimpleBug>() {
                     @Override
-                    public List<Object> searchItems(String query) {
-                        return handleSearchQuery(query);
+                    public List<SimpleBug> findEntities(int firstRow, String filter) {
+                        searchCriteria.setDescription(new StringSearchField(filter));
+                        return bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, firstRow, 10));
+                    }
+                }, new LazyComboBox.FilterableCountProvider() {
+                    @Override
+                    public int size(String filter) {
+                        searchCriteria.setDescription(new StringSearchField(filter));
+                        return bugService.getTotalCount(searchCriteria);
                     }
                 });
 
-                this.addValueChangeListener(new Property.ValueChangeListener() {
+                this.setCaptionGenerator(new CaptionGenerator<SimpleBug>() {
                     @Override
-                    public void valueChange(Property.ValueChangeEvent event) {
-                        System.out.println("SuugestField value changed");
-                        Notification.show("Selected " + RelatedBugSuggestField.this.getValue());
+                    public String getCaption(SimpleBug bug) {
+                        return bug.getSummary();
                     }
                 });
-
-                this.setSuggestionConverter(new RelatedBuggestionConverter());
-                searchCriteria = new BugSearchCriteria();
-                searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             }
-
-            @Override
-            public void setPropertyDataSource(Property newDataSource) {
-                super.setPropertyDataSource(newDataSource);
-            }
-
-            private List<Object> handleSearchQuery(String query) {
-                if ("".equals(query) || query == null) {
-                    return Collections.emptyList();
-                }
-
-                items = bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria));
-                return new ArrayList<Object>(items);
-            }
-        }
-
-        private class RelatedBuggestionConverter extends BeanSuggestionConverter {
-
-            public RelatedBuggestionConverter() {
-                super(SimpleBug.class, "id", "summary", "summary");
-            }
-
-            @Override
-            public Object toItem(SuggestFieldSuggestion suggestion) {
-                SimpleBug result = null;
-                for (SimpleBug bean : items) {
-                    if (bean.getId().toString().equals(suggestion.getId())) {
-                        result = bean;
-                        break;
-                    }
-                }
-                return result.getId();
-            }
-
         }
     }
 }
