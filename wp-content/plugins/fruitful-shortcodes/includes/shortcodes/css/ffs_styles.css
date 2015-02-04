@@ -31,11 +31,17 @@
 .ffs-six-four   {width:65.33%;}
 .ffs-six-five   {width:82.67%;}
 
-.ffs-two-one, .ffs-three-one, .ffs-three-two, .ffs-four-one, .ffs-four-two, .ffs-four-three, .ffs-five-one, .ffs-five-two, .ffs-five-three, .ffs-five-four, .ffs-six-one, .ffs-six-two, .ffs-six-three, .ffs-six-four, .ffs-six-five{
+.ffs-two-one, .ffs-four-one, .ffs-four-two, .ffs-four-three, .ffs-five-one, .ffs-five-two, .ffs-five-three, .ffs-five-four, .ffs-six-one, .ffs-six-two, .ffs-six-three, .ffs-six-four, .ffs-six-five{
   float:left;
   margin-right:4%;
   margin-bottom:4%;
   position:relative;
+}
+
+.ffs-three-two, .ffs-three-one {
+  float:left;
+  margin-right:4%;
+  position:relative; 
 }
 
 .last{

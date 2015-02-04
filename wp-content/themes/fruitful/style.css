@@ -43,7 +43,7 @@ body {
 }
 .page-container{
 	padding-top:10px;
-	margin-bottom:10px;
+	margin-bottom:0px;
 }
 
 /*Fix fancybox 2*/
@@ -798,7 +798,7 @@ ul#lang-select-popup{
 .main-navigation ul ul a {
     min-width:155px;
     background:none ;
-    padding:12px 15px !important;
+    padding:5px !important;
     color:#333333;
     text-transform:none;
     font-size:13px;
@@ -860,8 +860,7 @@ ul#lang-select-popup{
 #masthead, #colophon, #content {
     float:left;
     width:100%;
-    margin:10px 0;
-    min-height:60px;
+    margin:0px 0;
 }
 .archive #content {
 	margin:0 0 10px 0;
@@ -1006,7 +1005,7 @@ ul#lang-select-popup{
 
     .sticky {}
     .hentry {
-        margin:0 0 1.5em;
+        margin:0 0 0em;
     }
     .entry-meta {
         clear:both;
@@ -1049,15 +1048,15 @@ ul#lang-select-popup{
     }
 
     .entry-thumbnail {
-     display: block;
-     float: left;
-     padding:0 4.4%;
-     width: 91.2%;
-     margin:20px 0 0;
-     height:auto;
- }
+       display: block;
+       float: left;
+       padding:0 4.4%;
+       width: 91.2%;
+       margin:20px 0 0;
+       height:auto;
+   }
 
- .entry-thumbnail .wp-post-image {
+   .entry-thumbnail .wp-post-image {
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.5);
     height: auto;
     width: 100%;
@@ -1179,7 +1178,7 @@ section {
 }
 #page-header .container header .header-hgroup.left-pos {
     float:left;
-    margin: 0 15px 0 0;
+    margin: 5px 15px 0 0;
 }
 
 #page-header .container header .header-hgroup.center-pos {
@@ -2277,7 +2276,7 @@ aside #lang_sel {
 }
 
 @media only screen and (max-width:767px) {
-	.page-container{margin-bottom:40px;}
+	.page-container{margin-bottom:0px;}
     /* nav menu ul & select */
     .menu { display:none; }
     #header_language_select{display:none;}
@@ -2315,13 +2314,15 @@ aside #lang_sel {
     .resp_full_width_menu #header_language_select ul li:hover > ul{visibility:hidden;}
     .resp_full_width_menu #lang-select-block a{padding:7px}
 
-    .resp_full_width_menu .site-header{ width:100%; float:left; min-height:56px; }
-    .resp_full_width_menu .site-header .logo_wrapper{ display:block; float:left; width:48%; margin:0 0 0 2%; }
+    .head-container { height: 35px; }
+
+    .resp_full_width_menu .site-header{ width:100%; float:left; min-height:35px; }
+    .resp_full_width_menu .site-header .logo_wrapper{ display:block; float:left; width:48%; margin:5px 0 0 2%; }
     .resp_full_width_menu .site-header .cart_wrapper, .resp_full_width_menu .site-header .menu_button{ display:block; float:right; margin-left:12px; margin-right:12px; }
     .resp_full_width_menu .site-header .language_switcher{ display:block; float:right;}
     .resp_full_width_menu .site-header .select-menu{ display:none; }
-    .resp_full_width_menu .site-header .menu_button button{ background:none !important; float:left; margin: 15px 10px 9px; padding: 0; z-index: 9; background: none; border: 0; height: 30px; width: 35px; outline:none; }
-    .resp_full_width_menu .site-header .menu_button button span{ display: block; margin: 0 auto; margin-bottom: 5px; background: #ffffff; height: 5px; width: 35px; border-radius: 3px; }
+    .resp_full_width_menu .site-header .menu_button button{ background:none !important; float:left; margin:2px; padding: 0; z-index: 9; background: none; border: 0; height: 30px; width: 35px; outline:none; }
+    .resp_full_width_menu .site-header .menu_button button span{ display: block; margin: 0 auto; margin-bottom: 3px; background: #ffffff; height: 3px; width: 25px; border-radius: 1px; }
 
     .resp_full_width_menu .menu_wrapper{ float:left; width:100%; overflow-y:auto; }
     .resp_full_width_menu .menu_wrapper.collapse{ display:none; }
@@ -2329,8 +2330,8 @@ aside #lang_sel {
     .resp_full_width_menu ul{ list-style:none; }
     .resp_full_width_menu .menu{ display:block; width:100%; float:left; margin:0; padding:0; }
     .resp_full_width_menu .menu ul{ margin:0; }
-    .resp_full_width_menu .menu li a{ width:97%; padding:17px 1% 17px 2%; float:left; text-decoration:none; height:21px; }
-    .resp_full_width_menu .menu li a:hover{ padding-top:17px;padding-bottom:17px; float:left; text-decoration:none; height:21px; }
+    .resp_full_width_menu .menu li a{ width:97%; padding:3px; float:left; text-decoration:none; height:21px; }
+    .resp_full_width_menu .menu li a:hover{float:left; text-decoration:none; height:21px; }
     .resp_full_width_menu .menu>li>ul>li>a{ width:93%; padding-left:6%; }
     .resp_full_width_menu .menu>li>ul>li>ul>li>a{ width:87%; padding-left:12%; }
     .resp_full_width_menu .menu ul ul ul{ display:none; }
@@ -2510,6 +2511,10 @@ div#fbSEOComments{
 /* end styles for plugin "SEO Facebook Comments" */
 
 /*CSS MyCollab*/
+html{
+ -webkit-text-size-adjust: 100% !important; 
+}
+
 h1 {
     font-weight: bold !important;
 }
@@ -2554,7 +2559,6 @@ a:hover {
 }
 
 .head-container {
-    height: 56px !important;
     background-color: #D34414 !important;
 }
 
@@ -2582,6 +2586,11 @@ footer.well {
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
 }
+
+.copyright {
+    margin-left: 23px;
+}
+
 .span2 {
     width:140px !important;
 }
