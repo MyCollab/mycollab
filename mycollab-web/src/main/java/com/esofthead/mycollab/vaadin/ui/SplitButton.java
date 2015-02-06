@@ -39,8 +39,6 @@ import com.vaadin.ui.HorizontalLayout;
 public class SplitButton extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout contentLayout;
-
 	private Button parentButton;
 
 	private PopupButton popupButton;
@@ -54,7 +52,7 @@ public class SplitButton extends CustomComponent {
 
 	public SplitButton(Button parentButton) {
 		this.setImmediate(true);
-		contentLayout = new HorizontalLayout();
+        HorizontalLayout contentLayout = new HorizontalLayout();
 		contentLayout.setStyleName("splitbutton");
 		this.parentButton = parentButton;
 		this.parentButton.addStyleName("parent-button");

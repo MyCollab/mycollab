@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.Serializable;
-
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -29,7 +25,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -52,41 +52,28 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private Button editBtn;
 	private Button deleteBtn;
 	private Button cloneBtn;
-	private Button previousItem;
-	private Button nextItemBtn;
 
 	private Button assignBtn;
 
 	private SplitButton optionBtn;
-	private Button optionParentBtn;
-	private VerticalLayout popupButtonsControl;
-
-	private HorizontalLayout editButtons;
-	private HorizontalLayout layout;
+	private MVerticalLayout popupButtonsControl;
+	private MHorizontalLayout editButtons;
+	private MHorizontalLayout layout;
 
 	public ProjectPreviewFormControlsGenerator(
 			final AdvancedPreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
-
-		layout = new HorizontalLayout();
-		layout.setStyleName("control-buttons");
-		layout.setSpacing(true);
+		layout = new MHorizontalLayout().withStyleName("control-buttons");
 		layout.setSizeUndefined();
-
-		popupButtonsControl = new VerticalLayout();
-		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
-		popupButtonsControl.setSpacing(true);
-
-		editButtons = new HorizontalLayout();
-		editButtons.setSpacing(true);
+		popupButtonsControl = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true));
+		editButtons = new MHorizontalLayout();
 		editButtons.addStyleName("edit-btn");
-
 	}
 
 	public HorizontalLayout createButtonControls(int buttonEnableFlags,
 			final String permissionItem) {
 
-		optionParentBtn = new Button(
+		Button optionParentBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -215,7 +202,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
 			ButtonGroup navigationBtns = new ButtonGroup();
 			navigationBtns.setStyleName("navigation-btns");
-			previousItem = new Button("<", new Button.ClickListener() {
+			Button previousItem = new Button("<", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -230,7 +217,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 					.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
 			navigationBtns.addButton(previousItem);
 
-			nextItemBtn = new Button(">", new Button.ClickListener() {
+			Button nextItemBtn = new Button(">", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override

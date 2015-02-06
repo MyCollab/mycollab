@@ -334,28 +334,6 @@
     border: 0;
   }
 
-  .small-padding {
-    .v-button-wrap, &:active .v-button-wrap {
-      padding: 4px 6px;
-    }
-  }
-
-  .v-ie {
-    .small-padding {
-      .v-button-wrap, &:active .v-button-wrap, .v-button:active .v-button-wrap {
-        padding: 4px 6px;
-      }
-    }
-    .v-pressed.v-button.small-padding .v-button-wrap {
-      padding: 4px 6px;
-    }
-    .small-padding {
-      .v-pressed.v-button .v-button-wrap {
-        padding: 4px 6px;
-      }
-    }
-  }
-
   .v-button {
     background-color: #F9F9F9;
     border-width: 0px;
@@ -679,6 +657,162 @@
     margin: 10px 0px 0px 0px;
     .v-button-caption {
       color:white;
+    }
+  }
+
+  .splitbutton .parent-button {
+    border-right-width: 0px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    &.blankbtn .v-button-wrap {
+      border-right-color: #B3B3B3;
+    }
+    .v-button-wrap {
+      border-right: 1px solid #F9F9F9;
+      padding-right: 6px;
+      padding-left: 8px;
+    }
+  }
+
+  .v-ie .splitbutton .parent-button .v-button-wrap {
+    border-right: 1px solid #F9F9F9;
+    padding-right: 6px;
+    padding-left: 8px;
+  }
+
+  .popuplistindicator {
+    &.v-popupbutton {
+      background-color:transparent;
+      .v-popup-indicator:before {
+        font-size: 1em;
+        font-family: FontAwesome;
+        content:'\f150';
+      }
+      .v-button-wrap {
+        background-color:transparent;
+      }
+    }
+  }
+
+  .noDefaultIcon.v-popupbutton .v-popup-indicator:before {
+    content: '';
+  }
+
+  .splitbutton .v-popupbutton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    &:active {
+      padding: 0;
+    }
+    .v-button-wrap {
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+  }
+
+  .v-ie .splitbutton .v-popupbutton .v-button-wrap {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  div.v-button-nonPopupIndicator div.v-popup-indicator {
+    display: none;
+  }
+
+  .v-splitbutton {
+    .v-popupbutton.greenbtn .v-button-wrap, div.v-disabled.v-popupbutton.greenbtn .v-button-wrap, .v-popupbutton.graybtn .v-button-wrap, div.v-disabled.v-popupbutton.graybtn .v-button-wrap {
+      padding: 0px;
+    }
+    .greenbtn, .graybtn {
+      margin: 0px;
+      border-radius: 3px 0px 0px 3px;
+      padding: 3px 3px 3px 8px;
+    }
+  }
+
+  .v-ie .v-splitbutton {
+    .greenbtn, .graybtn {
+      padding: 3px 3px 3px 8px;
+      box-sizing: border-box;
+    }
+  }
+
+  .v-splitbutton .v-popupbutton {
+    &.greenbtn, &.graybtn {
+      padding: 3px 7px 3px 2px;
+      &:active, &:focus {
+        padding: 3px 7px 3px 2px;
+      }
+    }
+  }
+
+  .v-popupbutton.greenbtn .v-popup-indicator {
+    background: url("icons/sprites.png") no-repeat scroll -5px -10px transparent;
+  }
+
+  .v-popupbutton .v-button-wrap * {
+    float: none;
+  }
+
+  .splitbutton .v-popupbutton {
+    border-left: none;
+    &:active, &.greenbtn, &.graybtn, &.bluebtn, &.brownbtn {
+      border-left: none;
+    }
+  }
+
+  .v-popupbutton {
+    .v-popup-indicator {
+      background-position: -7px -10px !important;
+    }
+  }
+
+  .splitbutton {
+    .v-popupbutton.action-button {
+      padding: 0px 0px 0px 0px !important;
+      border: 0 !important;
+    }
+    .parent-button.action-button {
+      border-color: $border-color;
+      border-radius: 2px;
+      background-color: #F9F9F9;
+      &:focus {
+        border-color: $border-color;
+        border-radius: 2px;
+        background-color: #F9F9F9;
+      }
+    }
+    .v-button.action-button {
+      border-radius: 2px;
+      border-width: 1px 1px 1px 1px !important;
+      height: 100%;
+      border-width: 0;
+      &:active {
+        border-color: $border-color;
+      }
+      .v-button-wrap {
+        padding: 6px 12px 6px 12px !important;
+        border: none;
+        border-top: 1px solid transparent;
+        &:active, &:hover {
+          background-color: #F0F0F0;
+          background-image: -webkit-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -moz-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -ms-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: -o-linear-gradient(top, #F0F0F0, #E0E0E0);
+          background-image: linear-gradient(top, #F0F0F0, #E0E0E0);
+        }
+        &:active {
+          border-top-color: #C7C7C7;
+        }
+      }
+    }
+    .parent-button.action-button .v-button-wrap {
+      padding-left: 11px;
+      padding-right: 11px;
+    }
+    .v-button.action-button .v-icon {
+      margin-right: 0;
     }
   }
 }

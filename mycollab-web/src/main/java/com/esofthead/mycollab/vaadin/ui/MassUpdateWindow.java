@@ -20,12 +20,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * Mass update
@@ -56,7 +53,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 		this.setIcon(iconResource);
 
 		this.contentLayout = new MassUpdateLayout();
-		this.updateForm = new AdvancedEditBeanForm<B>();
+		this.updateForm = new AdvancedEditBeanForm<>();
 
 		this.contentLayout.addBody(this.updateForm);
 
@@ -74,11 +71,8 @@ public abstract class MassUpdateWindow<B> extends Window {
 	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
 
 	protected ComponentContainer buildButtonControls() {
-
-		HorizontalLayout controlsLayout = new HorizontalLayout();
-		controlsLayout.setMargin(true);
-		controlsLayout.setSpacing(true);
-		controlsLayout.setStyleName("addNewControl");
+		MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl")
+                .withWidth("100%");
 
 		updateBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
@@ -94,10 +88,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 				});
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		updateBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_action_massupdate));
-		controlsLayout.addComponent(updateBtn);
-		controlsLayout
-				.setComponentAlignment(updateBtn, Alignment.MIDDLE_CENTER);
+                .newResource(WebResourceIds._16_action_massupdate));
 
 		closeBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
@@ -110,8 +101,9 @@ public abstract class MassUpdateWindow<B> extends Window {
 					}
 				});
 		closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		controlsLayout.addComponent(closeBtn);
-		controlsLayout.setComponentAlignment(closeBtn, Alignment.MIDDLE_CENTER);
+
+        Label spacing = new Label();
+        controlsLayout.with(spacing, updateBtn, closeBtn).alignAll(Alignment.MIDDLE_RIGHT).expand(spacing);
 		return controlsLayout;
 	}
 

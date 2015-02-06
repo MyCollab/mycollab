@@ -149,9 +149,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 		// Construct controllGroupBtn
 		controllGroupBtn = new MHorizontalLayout()
-				.withMargin(new MarginInfo(false, false, false, true))
-				.withSpacing(true)
-				.withStyleName(UIConstants.THEME_SMALL_PADDING);
+				.withMargin(new MarginInfo(false, false, false, true));
 
 		final Button selectAllBtn = new Button();
 		selectAllBtn.addStyleName(UIConstants.THEME_BROWN_LINK);

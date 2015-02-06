@@ -17,21 +17,17 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.rits.cloning.Cloner;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
 
 /**
  * 
@@ -100,9 +96,7 @@ public class BugChartComponent extends Depot {
 	private void initUI() {
 
 		final PopupButton bugChartPopup = new PopupButton("");
-		bugChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
-		bugChartPopup.setIcon(MyCollabResource
-				.newResource(WebResourceIds._12_project_task_filter));
+		bugChartPopup.addStyleName("popuplistindicator");
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);

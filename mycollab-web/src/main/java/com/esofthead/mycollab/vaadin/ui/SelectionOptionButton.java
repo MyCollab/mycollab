@@ -52,7 +52,6 @@ public class SelectionOptionButton extends SplitButton implements
 
 	private final Button selectAllBtn;
 	private final Button selectThisPageBtn;
-	private final Button deSelectBtn;
 
 	@SuppressWarnings("serial")
 	public SelectionOptionButton(
@@ -60,7 +59,6 @@ public class SelectionOptionButton extends SplitButton implements
 		super();
 		this.selectableItemHandlers = selectableItemHandlers;
 		addStyleName(UIConstants.THEME_BLUE_LINK);
-		addStyleName(UIConstants.THEME_SMALL_PADDING);
 		setIcon(SelectionOptionButton.unSelectIcon);
 
 		addClickListener(new SplitButtonClickListener() {
@@ -113,7 +111,7 @@ public class SelectionOptionButton extends SplitButton implements
 		});
 		selectContent.addComponent(selectThisPageBtn);
 
-		deSelectBtn = new ButtonLink("Deselect All",
+		Button deSelectBtn = new ButtonLink("Deselect All",
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {
@@ -131,7 +129,7 @@ public class SelectionOptionButton extends SplitButton implements
 	@Override
 	public void addSelectionOptionHandler(final SelectionOptionHandler handler) {
 		if (handlers == null) {
-			handlers = new HashSet<SelectionOptionHandler>();
+			handlers = new HashSet<>();
 		}
 		handlers.add(handler);
 	}

@@ -53,8 +53,6 @@ RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 						ContactTableFieldDef.account,
 						ContactTableFieldDef.phoneOffice));
 
-		this.tableItem.addStyleName(UIConstants.LIMITED_HEIGHT_TABLE);
-
 		final Button selectBtn = new Button("Select",
 				new Button.ClickListener() {
 

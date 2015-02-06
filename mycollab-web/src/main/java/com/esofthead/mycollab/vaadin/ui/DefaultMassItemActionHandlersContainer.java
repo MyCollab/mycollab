@@ -82,7 +82,6 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 			optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 		}
 
-		optionBtn.addStyleName("small-padding");
 		optionBtn.setDescription(description);
 
 		group.addButton(optionBtn);
@@ -105,7 +104,6 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 		fileDownler.extend(optionBtn);
 		optionBtn.setIcon(resource);
 		optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
-		optionBtn.addStyleName("small-padding");
 		optionBtn.setDescription(description);
 		group.addButton(optionBtn);
 	}

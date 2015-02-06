@@ -54,7 +54,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<Account> buildBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<Account>(updateForm, false);
+		return new AccountEditFormFieldFactory<>(updateForm, false);
 	}
 
 	private class MassUpdateAccountFormLayoutFactory implements
