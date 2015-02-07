@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.common.TableViewField;
@@ -177,8 +178,7 @@ public class BugRelatedField extends CustomComponent {
 
 		btnRelate = new Button("Relate");
 		btnRelate.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnRelate.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		btnRelate.setIcon(FontAwesome.PLUS_SQUARE);
 
 		ProjectMemberService memberService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);
@@ -374,9 +374,8 @@ public class BugRelatedField extends CustomComponent {
 						BugRelatedField.this.setCriteria();
 					}
 				});
-				deleteBtn.setStyleName("link");
-				deleteBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_delete));
+				deleteBtn.setIcon(FontAwesome.TRASH_O);
+                deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 				relatedItem.setExtraData(deleteBtn);
 
 				ProjectMemberService memberService = ApplicationContextUtil

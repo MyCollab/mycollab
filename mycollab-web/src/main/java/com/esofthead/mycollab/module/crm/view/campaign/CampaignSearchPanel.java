@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -104,8 +105,7 @@ public class CampaignSearchPanel extends
 
 					}
 				});
-		createAccountBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
@@ -161,8 +161,7 @@ public class CampaignSearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 

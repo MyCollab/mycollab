@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -99,8 +100,7 @@ public class ContactSearchPanel extends
 								new ContactEvent.GotoAdd(this, null));
 					}
 				});
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
@@ -157,8 +157,7 @@ public class ContactSearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override

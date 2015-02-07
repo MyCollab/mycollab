@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -103,8 +104,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				});
 		createBugBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createBugBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBugBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		final SplitButton controlsBtn = new SplitButton(createBugBtn);
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setWidthUndefined();

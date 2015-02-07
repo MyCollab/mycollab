@@ -26,8 +26,8 @@ import com.rits.cloning.Cloner;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -94,14 +94,10 @@ public class BugChartComponent extends Depot {
 	}
 
 	private void initUI() {
-
 		final PopupButton bugChartPopup = new PopupButton("");
 		bugChartPopup.addStyleName("popuplistindicator");
 
-		final VerticalLayout filterBtnLayout = new VerticalLayout();
-		filterBtnLayout.setMargin(true);
-		filterBtnLayout.setSpacing(true);
-		filterBtnLayout.setWidth("200px");
+		final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
 
 		final Button btnBugByPriority = new Button("Bugs By Priority",
 				new Button.ClickListener() {

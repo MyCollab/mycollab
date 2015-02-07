@@ -29,6 +29,7 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -110,7 +111,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
 		uploadExt.addComponent(attachments);
-		controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.MIDDLE_LEFT);
+		controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
 		final Label emptySpace = new Label();
 		controlsLayout.addComponent(emptySpace);
@@ -130,7 +131,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			controlsLayout.addComponent(cancelBtn);
 			controlsLayout.setComponentAlignment(cancelBtn,
-					Alignment.MIDDLE_RIGHT);
+					Alignment.TOP_RIGHT);
 		}
 
 		final Button newCommentBtn = new Button(
@@ -175,9 +176,8 @@ public class ProjectCommentInput extends MHorizontalLayout {
 					}
 				});
 		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		newCommentBtn
-				.setIcon(MyCollabResource.newResource(WebResourceIds._16_post));
-		controlsLayout.with(newCommentBtn).withAlign(newCommentBtn, Alignment.MIDDLE_RIGHT);
+		newCommentBtn.setIcon(FontAwesome.SEND);
+		controlsLayout.with(newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
 
 		textAreaWrap.addComponent(commentArea);
 		textAreaWrap.addComponent(controlsLayout);

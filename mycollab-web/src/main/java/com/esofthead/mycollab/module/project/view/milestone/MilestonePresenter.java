@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -48,9 +49,9 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("milestone");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.MILESTONE);
 
-		AbstractPresenter presenter = null;
+		AbstractPresenter presenter;
 		if (data instanceof MilestoneScreenData.Search) {
 			presenter = PresenterResolver
 					.getPresenter(MilestoneListPresenter.class);

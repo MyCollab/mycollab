@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -145,8 +145,7 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				saveBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_save));
+				saveBtn.setIcon(FontAwesome.SAVE);
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
@@ -167,8 +166,7 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				saveAndNewBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_save_new));
+				saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(

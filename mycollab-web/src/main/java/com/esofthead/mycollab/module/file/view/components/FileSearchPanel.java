@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.EventListener;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -119,8 +120,7 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 

@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -271,9 +272,8 @@ public class TimeTrackingTableDisplay
 
                                     }
                                 });
-                                deleteBtn.setStyleName("link");
-                                deleteBtn.setIcon(MyCollabResource
-                                        .newResource(WebResourceIds._16_delete));
+                                deleteBtn.setIcon(FontAwesome.TRASH_O);
+                                deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                                 layout.addComponent(deleteBtn);
                                 return layout;
                             }

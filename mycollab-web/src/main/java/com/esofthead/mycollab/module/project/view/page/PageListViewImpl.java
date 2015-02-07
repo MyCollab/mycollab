@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -240,8 +241,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 					}
 				});
 		newGroupBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		newGroupBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		newGroupBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		newGroupBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
 		headerLayout.with(newGroupBtn).withAlign(newGroupBtn,
@@ -259,8 +259,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 					}
 				});
 		newPageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		newPageBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		newPageBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		newPageBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
 

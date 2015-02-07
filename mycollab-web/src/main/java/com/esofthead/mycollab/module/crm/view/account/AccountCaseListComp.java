@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -38,235 +33,222 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.event.MouseEvents;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.button.MButton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class AccountCaseListComp extends
-		RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
-	private static final long serialVersionUID = -8763667647686473453L;
-	private Account account;
+        RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
+    private static final long serialVersionUID = -8763667647686473453L;
+    private Account account;
 
-	public static Map<String, String> colorsMap = new HashMap<>();
+    public static Map<String, String> colorsMap = new HashMap<>();
 
-	static {
-		for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
-			String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i];
-			if (!colorsMap.containsKey(roleKeyName)) {
-				colorsMap.put(roleKeyName,
-						AbstractBeanBlockList.getColorStyleNameList()[i]);
-			}
-		}
-	}
+    static {
+        for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
+            String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i];
+            if (!colorsMap.containsKey(roleKeyName)) {
+                colorsMap.put(roleKeyName,
+                        AbstractBeanBlockList.getColorStyleNameList()[i]);
+            }
+        }
+    }
 
-	public AccountCaseListComp() {
-		super(ApplicationContextUtil.getSpringBean(CaseService.class), 20);
-		this.setBlockDisplayHandler(new AccountCaseBlockDisplay());
-	}
+    public AccountCaseListComp() {
+        super(ApplicationContextUtil.getSpringBean(CaseService.class), 20);
+        this.setBlockDisplayHandler(new AccountCaseBlockDisplay());
+    }
 
-	@Override
-	protected Component generateTopControls() {
-		HorizontalLayout controlsBtnWrap = new HorizontalLayout();
-		controlsBtnWrap.setWidth("100%");
+    @Override
+    protected Component generateTopControls() {
+        HorizontalLayout controlsBtnWrap = new HorizontalLayout();
+        controlsBtnWrap.setWidth("100%");
 
-		HorizontalLayout notesWrap = new HorizontalLayout();
-		notesWrap.setWidth("100%");
-		notesWrap.setSpacing(true);
-		Label noteLbl = new Label("Note: ");
-		noteLbl.setSizeUndefined();
-		noteLbl.setStyleName("list-note-lbl");
-		notesWrap.addComponent(noteLbl);
+        HorizontalLayout notesWrap = new HorizontalLayout();
+        notesWrap.setWidth("100%");
+        notesWrap.setSpacing(true);
+        Label noteLbl = new Label("Note: ");
+        noteLbl.setSizeUndefined();
+        noteLbl.setStyleName("list-note-lbl");
+        notesWrap.addComponent(noteLbl);
 
-		CssLayout noteBlock = new CssLayout();
-		noteBlock.setWidth("100%");
-		noteBlock.setStyleName("list-note-block");
-		for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
-			Label note = new Label(CrmDataTypeFactory.getCasesStatusList()[i]);
-			note.setStyleName("note-label");
-			note.addStyleName(colorsMap.get(CrmDataTypeFactory
-					.getCasesStatusList()[i]));
-			note.setSizeUndefined();
+        CssLayout noteBlock = new CssLayout();
+        noteBlock.setWidth("100%");
+        noteBlock.setStyleName("list-note-block");
+        for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
+            Label note = new Label(CrmDataTypeFactory.getCasesStatusList()[i]);
+            note.setStyleName("note-label");
+            note.addStyleName(colorsMap.get(CrmDataTypeFactory
+                    .getCasesStatusList()[i]));
+            note.setSizeUndefined();
 
-			noteBlock.addComponent(note);
-		}
-		notesWrap.addComponent(noteBlock);
-		notesWrap.setExpandRatio(noteBlock, 1.0f);
+            noteBlock.addComponent(note);
+        }
+        notesWrap.addComponent(noteBlock);
+        notesWrap.setExpandRatio(noteBlock, 1.0f);
 
-		controlsBtnWrap.addComponent(notesWrap);
+        controlsBtnWrap.addComponent(notesWrap);
 
-		controlsBtnWrap.setWidth("100%");
-		final Button createBtn = new Button();
-		createBtn.setSizeUndefined();
-		createBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CASE));
-		createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setCaption(AppContext
-				.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
-		createBtn.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -8725970955325733072L;
+        controlsBtnWrap.setWidth("100%");
+        final Button createBtn = new Button();
+        createBtn.setSizeUndefined();
+        createBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_CASE));
+        createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setCaption(AppContext
+                .getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
+        createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = -8725970955325733072L;
 
-			@Override
-			public void buttonClick(final Button.ClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                fireNewRelatedItem("");
+            }
+        });
 
-		controlsBtnWrap.addComponent(createBtn);
-		controlsBtnWrap
-				.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
-		return controlsBtnWrap;
-	}
+        controlsBtnWrap.addComponent(createBtn);
+        controlsBtnWrap
+                .setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        return controlsBtnWrap;
+    }
 
-	public void displayCases(final Account account) {
-		this.account = account;
-		loadCases();
-	}
+    public void displayCases(final Account account) {
+        this.account = account;
+        loadCases();
+    }
 
-	private void loadCases() {
-		final CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadCases() {
+        final CaseSearchCriteria criteria = new CaseSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
+                .getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadCases();
-	}
+    @Override
+    public void refresh() {
+        loadCases();
+    }
 
-	public class AccountCaseBlockDisplay implements
-			BlockDisplayHandler<SimpleCase> {
+    public class AccountCaseBlockDisplay implements
+            BlockDisplayHandler<SimpleCase> {
 
-		@Override
-		public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
-			CssLayout beanBlock = new CssLayout();
-			beanBlock.addStyleName("bean-block");
-			beanBlock.setWidth("350px");
+        @Override
+        public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
+            CssLayout beanBlock = new CssLayout();
+            beanBlock.addStyleName("bean-block");
+            beanBlock.setWidth("350px");
 
-			VerticalLayout blockContent = new VerticalLayout();
-			HorizontalLayout blockTop = new HorizontalLayout();
-			blockTop.setSpacing(true);
-			CssLayout iconWrap = new CssLayout();
-			iconWrap.setStyleName("icon-wrap");
-			Image caseIcon = new Image(null,
-					MyCollabResource.newResource(WebResourceIds._48_crm_case));
-			iconWrap.addComponent(caseIcon);
-			blockTop.addComponent(iconWrap);
+            VerticalLayout blockContent = new VerticalLayout();
+            HorizontalLayout blockTop = new HorizontalLayout();
+            blockTop.setSpacing(true);
+            CssLayout iconWrap = new CssLayout();
+            iconWrap.setStyleName("icon-wrap");
+            Image caseIcon = new Image(null,
+                    MyCollabResource.newResource(WebResourceIds._48_crm_case));
+            iconWrap.addComponent(caseIcon);
+            blockTop.addComponent(iconWrap);
 
-			VerticalLayout caseInfo = new VerticalLayout();
-			caseInfo.setSpacing(true);
+            VerticalLayout caseInfo = new VerticalLayout();
+            caseInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null,
-					MyCollabResource.newResource(WebResourceIds._12_project_icon_x));
-			btnDelete.addClickListener(new MouseEvents.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            MButton deleteBtn = new MButton(FontAwesome.TRASH_O);
+            deleteBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    ConfirmDialogExt.show(
+                            UI.getCurrent(),
+                            AppContext.getMessage(
+                                    GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    SiteConfiguration.getSiteName()),
+                            AppContext
+                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void click(MouseEvents.ClickEvent event) {
-					ConfirmDialogExt.show(
-							UI.getCurrent(),
-							AppContext.getMessage(
-									GenericI18Enum.DIALOG_DELETE_TITLE,
-									SiteConfiguration.getSiteName()),
-							AppContext
-									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        final CaseService caseService = ApplicationContextUtil
+                                                .getSpringBean(CaseService.class);
+                                        caseService.removeWithSession(
+                                                oneCase.getId(),
+                                                AppContext.getUsername(),
+                                                AppContext.getAccountId());
+                                        AccountCaseListComp.this.refresh();
+                                    }
+                                }
+                            });
+                }
+            });
+            deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-								@Override
-								public void onClose(ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										final CaseService caseService = ApplicationContextUtil
-												.getSpringBean(CaseService.class);
-										caseService.removeWithSession(
-												oneCase.getId(),
-												AppContext.getUsername(),
-												AppContext.getAccountId());
-										AccountCaseListComp.this.refresh();
-									}
-								}
-							});
-				}
-			});
-			btnDelete.addStyleName("icon-btn");
+            blockContent.addComponent(deleteBtn);
+            blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
-			blockContent.addComponent(btnDelete);
-			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
+            Label caseSubject = new Label("Subject: <a href='"
+                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    .getSubdomain())
+                    + CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CASE, oneCase.getId()) + "'>"
+                    + oneCase.getSubject() + "</a>", ContentMode.HTML);
 
-			Label caseSubject = new Label("Subject: <a href='"
-					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
-							.getSubdomain())
-					+ CrmLinkGenerator.generateCrmItemLink(
-							CrmTypeConstants.CASE, oneCase.getId()) + "'>"
-					+ oneCase.getSubject() + "</a>", ContentMode.HTML);
+            caseInfo.addComponent(caseSubject);
 
-			caseInfo.addComponent(caseSubject);
+            Label casePriority = new Label("Priority: "
+                    + (oneCase.getPriority() != null ? oneCase.getPriority()
+                    : ""));
+            caseInfo.addComponent(casePriority);
 
-			Label casePriority = new Label("Priority: "
-					+ (oneCase.getPriority() != null ? oneCase.getPriority()
-							: ""));
-			caseInfo.addComponent(casePriority);
+            Label caseStatus = new Label("Status: "
+                    + (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
+            caseInfo.addComponent(caseStatus);
 
-			Label caseStatus = new Label("Status: "
-					+ (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
-			caseInfo.addComponent(caseStatus);
+            if (oneCase.getStatus() != null) {
+                beanBlock.addStyleName(colorsMap.get(oneCase.getStatus()));
+            }
 
-			if (oneCase.getStatus() != null) {
-				beanBlock.addStyleName(colorsMap.get(oneCase.getStatus()));
-			}
+            Label caseAssignUser = new Label("Assigned User: "
+                    + (oneCase.getAssignuser() != null ? "<a href='"
+                    + AccountLinkGenerator.generatePreviewFullUserLink(
+                    SiteConfiguration.getSiteUrl(AppContext
+                            .getSession().getSubdomain()),
+                    oneCase.getAssignuser()) + "'>"
+                    + oneCase.getAssignUserFullName() + "</a>" : ""),
+                    ContentMode.HTML);
+            caseInfo.addComponent(caseAssignUser);
 
-			Label caseAssignUser = new Label("Assigned User: "
-					+ (oneCase.getAssignuser() != null ? "<a href='"
-							+ AccountLinkGenerator.generatePreviewFullUserLink(
-									SiteConfiguration.getSiteUrl(AppContext
-											.getSession().getSubdomain()),
-									oneCase.getAssignuser()) + "'>"
-							+ oneCase.getAssignUserFullName() + "</a>" : ""),
-					ContentMode.HTML);
-			caseInfo.addComponent(caseAssignUser);
+            Label caseCreatedTime = new Label("Created Time: "
+                    + AppContext.formatDate(oneCase.getCreatedtime()));
+            caseInfo.addComponent(caseCreatedTime);
 
-			Label caseCreatedTime = new Label("Created Time: "
-					+ AppContext.formatDate(oneCase.getCreatedtime()));
-			caseInfo.addComponent(caseCreatedTime);
+            blockTop.addComponent(caseInfo);
+            blockTop.setExpandRatio(caseInfo, 1.0f);
+            blockTop.setWidth("100%");
+            blockContent.addComponent(blockTop);
 
-			blockTop.addComponent(caseInfo);
-			blockTop.setExpandRatio(caseInfo, 1.0f);
-			blockTop.setWidth("100%");
-			blockContent.addComponent(blockTop);
+            blockContent.setWidth("100%");
 
-			blockContent.setWidth("100%");
+            beanBlock.addComponent(blockContent);
+            return beanBlock;
+        }
 
-			beanBlock.addComponent(blockContent);
-			return beanBlock;
-		}
-
-	}
+    }
 
 }

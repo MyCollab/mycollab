@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.PageScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -46,9 +47,9 @@ public class PagePresenter extends AbstractPresenter<PageContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("page");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.PAGE);
 
-		AbstractPresenter presenter = null;
+		AbstractPresenter presenter;
 		if (data instanceof PageScreenData.Search) {
 			presenter = PresenterResolver.getPresenter(PageListPresenter.class);
 		} else if (data instanceof PageScreenData.Add

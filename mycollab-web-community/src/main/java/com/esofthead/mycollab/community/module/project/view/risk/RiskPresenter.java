@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.community.module.project.view.risk;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.risk.IRiskContainer;
 import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter;
@@ -40,7 +41,7 @@ public class RiskPresenter extends AbstractPresenter<IRiskContainer> implements
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("risk");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.RISK);
 
 	}
 

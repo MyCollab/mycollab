@@ -79,6 +79,9 @@ public class UIConstants {
 	public static final String LAYOUT_LOG = "layout-log";
 	public static final String CONTENT_WRAPPER = "content-wrapper";
 
+    public static final String BUTTON_SMALL_PADDING = "small-padding";
+    public static final String BUTTON_ICON_ONLY = "button-icon-only";
+
 	public static final int TABLE_CONTROL_WIDTH = 22;
 	public static final int TABLE_ACTION_CONTROL_WIDTH = 40;
 	public static final int TABLE_S_LABEL_WIDTH = 80;

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
-import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
-
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
@@ -29,22 +27,14 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+
+import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 
 /**
  * 
@@ -150,7 +140,7 @@ class BasicInfoChangeWindow extends Window {
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+		saveBtn.setIcon(FontAwesome.SAVE);
 		hlayoutControls.addComponent(saveBtn);
 		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

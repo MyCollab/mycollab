@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
@@ -50,7 +51,7 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("member");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.MEMBER);
 
 		AbstractPresenter<?> presenter;
 		if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class,

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -88,7 +89,7 @@ public class CampaignSimpleSearchPanel extends
 		Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
+		searchBtn.setIcon(FontAwesome.SEARCH);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

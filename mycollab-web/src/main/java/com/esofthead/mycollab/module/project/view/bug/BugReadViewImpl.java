@@ -384,8 +384,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
                 });
         assignBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.BUGS));
-        assignBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_assign));
+        assignBtn.setIcon(FontAwesome.SHARE);
 
         assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -403,17 +402,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabBugDetail = new TabsheetLazyLoadComp();
-
-        tabBugDetail.addTab(commentList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_comment));
-
-        tabBugDetail.addTab(historyList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_history));
-
+        tabBugDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabBugDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabBugDetail;
     }
 

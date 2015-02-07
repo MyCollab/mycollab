@@ -16,14 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui.table;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import org.vaadin.tepi.listbuilder.ListBuilder;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -31,18 +23,16 @@ import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.vaadin.tepi.listbuilder.ListBuilder;
+
+import java.util.*;
 
 /**
  * 
@@ -87,7 +77,7 @@ public abstract class CustomizedTableWindow extends Window {
 		this.listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
 
 		this.listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		final BeanItemContainer<TableViewField> container = new BeanItemContainer<TableViewField>(
+		final BeanItemContainer<TableViewField> container = new BeanItemContainer<>(
 				TableViewField.class, this.getAvailableColumns());
 		this.listBuilder.setContainerDataSource(container);
 		Iterator<TableViewField> iterator = getAvailableColumns().iterator();
@@ -111,7 +101,7 @@ public abstract class CustomizedTableWindow extends Window {
 						List<TableViewField> defaultSelectedColumns = tableItem
 								.getDefaultSelectedColumns();
 						if (defaultSelectedColumns != null) {
-							final List<TableViewField> selectedColumns = new ArrayList<TableViewField>();
+							final List<TableViewField> selectedColumns = new ArrayList<>();
 							final BeanItemContainer<TableViewField> container = (BeanItemContainer<TableViewField>) CustomizedTableWindow.this.listBuilder
 									.getContainerDataSource();
 							final Collection<TableViewField> itemIds = container
@@ -158,14 +148,14 @@ public abstract class CustomizedTableWindow extends Window {
 						viewDef.setCreateduser(AppContext.getUsername());
 						viewDef.setViewid(viewId);
 						viewDef.setViewinfo(XStreamJsonDeSerializer
-								.toJson(new ArrayList<TableViewField>(
+								.toJson(new ArrayList<>(
 										selectedColumns)));
 						customViewStoreService
 								.saveOrUpdateViewLayoutDef(viewDef);
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+		saveBtn.setIcon(FontAwesome.SAVE);
 		buttonControls.addComponent(saveBtn);
 
 		final Button cancelBtn = new Button(
@@ -193,7 +183,7 @@ public abstract class CustomizedTableWindow extends Window {
 		final BeanItemContainer<TableViewField> container = (BeanItemContainer<TableViewField>) this.listBuilder
 				.getContainerDataSource();
 		final Collection<TableViewField> itemIds = container.getItemIds();
-		final List<TableViewField> selectedColumns = new ArrayList<TableViewField>();
+		final List<TableViewField> selectedColumns = new ArrayList<>();
 
 		for (String viewColumnId : viewColumnIds) {
 			for (final TableViewField viewField : itemIds) {

@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -209,31 +210,30 @@ public class ComponentListViewImpl extends AbstractPageView implements
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.COMPONENTS)) {
 			tableActionControls.addActionItem(
-					MassItemActionHandler.DELETE_ACTION, MyCollabResource
-							.newResource(WebResourceIds._16_action_delete),
+					MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
 					"delete", AppContext
 							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_mail),
+                FontAwesome.ENVELOPE_O,
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_pdf),
+                FontAwesome.FILE_PDF_O,
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_excel),
+                FontAwesome.FILE_EXCEL_O,
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_csv),
+				FontAwesome.FILE_TEXT_O,
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

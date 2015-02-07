@@ -55,6 +55,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -157,13 +158,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_CLOSE));
-            quickActionStatusBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_project_closeTask));
+            quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_REOPEN));
-            quickActionStatusBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_project_reopenTask));
+            quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
 
         }
 
@@ -227,8 +226,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                             .removeLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
                             .getMessage(GenericI18Enum.BUTTON_CLOSE));
-                    quickActionStatusBtn.setIcon(MyCollabResource
-                            .newResource(WebResourceIds._16_project_closeTask));
+                    quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
                     beanItem.setPercentagecomplete(100d);
@@ -236,8 +234,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                             .addLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
                             .getMessage(GenericI18Enum.BUTTON_REOPEN));
-                    quickActionStatusBtn.setIcon(MyCollabResource
-                            .newResource(WebResourceIds._16_project_reopenTask));
+                    quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
                 }
 
                 ProjectTaskService service = ApplicationContextUtil
@@ -261,17 +258,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
     @Override
     protected ComponentContainer createBottomPanel() {
         TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
-
-        tabTaskDetail.addTab(commentList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_comment));
-
-        tabTaskDetail.addTab(historyList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_history));
-
+        tabTaskDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+        tabTaskDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabTaskDetail;
     }
 
@@ -446,8 +434,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                         }
                     });
             addNewTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            addNewTaskBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_addRecord));
+            addNewTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
             addNewTaskBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
 

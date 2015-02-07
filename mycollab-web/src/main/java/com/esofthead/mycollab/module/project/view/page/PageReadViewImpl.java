@@ -47,6 +47,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.lowagie.text.DocumentException;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -221,13 +222,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-        tabContainer.setWidth("100%");
-
-        tabContainer.addTab(this.commentListComp, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_comment));
-
+        tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         return tabContainer;
     }
 

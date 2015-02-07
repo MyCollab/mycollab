@@ -16,15 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.SimpleMonitorItem;
@@ -46,19 +37,22 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -301,8 +295,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 						});
 
 				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
-				btnSave.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_addRecord));
+				btnSave.setIcon(FontAwesome.PLUS_SQUARE);
 
 				headerPanel.addComponent(btnSave);
 
@@ -316,7 +309,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 				});
 			}
 
-			tableItem = new DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem>(
+			tableItem = new DefaultPagedBeanTable<>(
 					ApplicationContextUtil
 							.getSpringBean(MonitorItemService.class),
 					SimpleMonitorItem.class,
@@ -386,9 +379,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 												.loadMonitorItems();
 									}
 								});
-						deleteBtn.setStyleName("link");
-						deleteBtn.setIcon(MyCollabResource
-								.newResource(WebResourceIds._16_delete));
+						deleteBtn.setIcon(FontAwesome.TRASH_O);
+                        deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 						return deleteBtn;
 					}
 				});

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -50,7 +51,7 @@ public class ProjectDashboardPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("dashboard");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.DASHBOARD);
 
 		view.removeAllComponents();
 

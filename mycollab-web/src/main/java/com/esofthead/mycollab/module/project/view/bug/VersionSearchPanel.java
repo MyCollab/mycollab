@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -106,8 +107,7 @@ public class VersionSearchPanel extends
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.VERSIONS));
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 
 		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_LEFT);
 
@@ -155,8 +155,7 @@ public class VersionSearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 
@@ -194,7 +193,7 @@ public class VersionSearchPanel extends
 							VersionSearchPanel.this.project.getId()));
 			VersionSearchPanel.this.searchCriteria
 					.setVersionname(new StringSearchField(this.nameField
-							.getValue().toString().trim()));
+							.getValue().trim()));
 			return VersionSearchPanel.this.searchCriteria;
 		}
 	}

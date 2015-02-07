@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -34,22 +32,12 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.event.MouseEvents;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.button.MButton;
 
 /**
  * 
@@ -97,8 +85,7 @@ public class CaseContactListComp extends
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setCaption(AppContext
 				.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
-		controlsBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -164,49 +151,46 @@ public class CaseContactListComp extends
 			VerticalLayout contactInfo = new VerticalLayout();
 			contactInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null,
-					MyCollabResource.newResource(WebResourceIds._12_project_icon_x));
-			btnDelete.addClickListener(new MouseEvents.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			MButton btnDelete = new MButton(FontAwesome.TRASH_O);
+            btnDelete.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    ConfirmDialogExt.show(
+                            UI.getCurrent(),
+                            AppContext.getMessage(
+                                    GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    SiteConfiguration.getSiteName()),
+                            AppContext
+                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void click(MouseEvents.ClickEvent event) {
-					ConfirmDialogExt.show(
-							UI.getCurrent(),
-							AppContext.getMessage(
-									GenericI18Enum.DIALOG_DELETE_TITLE,
-									SiteConfiguration.getSiteName()),
-							AppContext
-									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void onClose(ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										final ContactService contactService = ApplicationContextUtil
-												.getSpringBean(ContactService.class);
-										ContactCase associateContact = new ContactCase();
-										associateContact.setCaseid(cases
-												.getId());
-										associateContact.setContactid(contact
-												.getId());
-										contactService
-												.removeContactCaseRelationship(
-														associateContact,
-														AppContext
-																.getAccountId());
-										CaseContactListComp.this.refresh();
-									}
-								}
-							});
-				}
-			});
-			btnDelete.addStyleName("icon-btn");
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        final ContactService contactService = ApplicationContextUtil
+                                                .getSpringBean(ContactService.class);
+                                        ContactCase associateContact = new ContactCase();
+                                        associateContact.setCaseid(cases
+                                                .getId());
+                                        associateContact.setContactid(contact
+                                                .getId());
+                                        contactService
+                                                .removeContactCaseRelationship(
+                                                        associateContact,
+                                                        AppContext
+                                                                .getAccountId());
+                                        CaseContactListComp.this.refresh();
+                                    }
+                                }
+                            });
+                }
+            });
+			btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

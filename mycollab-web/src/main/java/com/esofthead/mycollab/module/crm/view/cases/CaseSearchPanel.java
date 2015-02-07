@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -116,8 +117,7 @@ public class CaseSearchPanel extends
 								new CaseEvent.GotoAdd(this, null));
 					}
 				});
-		createAccountBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
@@ -200,8 +200,7 @@ public class CaseSearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -250,8 +249,7 @@ public class CaseSearchPanel extends
 					.setSaccountid(new NumberSearchField(SearchField.AND,
 							AppContext.getAccountId()));
 
-			if (StringUtils.isNotBlank(this.subjectField.getValue().toString()
-					.trim())) {
+			if (StringUtils.isNotBlank(this.subjectField.getValue().trim())) {
 				CaseSearchPanel.this.searchCriteria
 						.setSubject(new StringSearchField(SearchField.AND,
 								this.subjectField.getValue().trim()));
@@ -259,7 +257,7 @@ public class CaseSearchPanel extends
 
 			if (this.myItemCheckbox.getValue()) {
 				CaseSearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
+						.setAssignUsers(new SetSearchField<>(
 								SearchField.AND, new String[] { AppContext
 										.getUsername() }));
 			} else {

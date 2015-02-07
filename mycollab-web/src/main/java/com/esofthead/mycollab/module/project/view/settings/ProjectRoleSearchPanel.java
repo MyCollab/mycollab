@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -33,19 +31,12 @@ import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -113,8 +104,7 @@ public class ProjectRoleSearchPanel extends
 						}
 					});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button(
@@ -144,10 +134,10 @@ public class ProjectRoleSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			Image titleIcon = new Image(null,
-					MyCollabResource.newResource("icons/24/project/user.png"));
-			Label headerText = new Label(
-					AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
+			Label headerText = new Label();
+            headerText.setIcon(FontAwesome.USERS);
+            headerText.setCaption(AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
+            headerText.setStyleName("header-text");
 
 			final Button createBtn = new Button(
 					AppContext
@@ -162,22 +152,18 @@ public class ProjectRoleSearchPanel extends
 						}
 					});
 			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			createBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			createBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.ROLES));
 
-			MHorizontalLayout header = new MHorizontalLayout()
+			return new MHorizontalLayout()
 					.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
 					.withSpacing(true)
 					.withMargin(new MarginInfo(true, false, true, false))
-					.with(titleIcon, headerText, createBtn)
-					.withAlign(titleIcon, Alignment.MIDDLE_LEFT)
+					.with(headerText, createBtn)
 					.withAlign(headerText, Alignment.MIDDLE_LEFT)
 					.withAlign(createBtn, Alignment.MIDDLE_RIGHT)
 					.expand(headerText);
-
-			return header;
 		}
 	}
 

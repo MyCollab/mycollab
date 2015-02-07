@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -80,10 +81,9 @@ public class AccountListDashlet extends Depot {
 
 			}
 		});
-		customizeViewBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_customize_black));
+		customizeViewBtn.setIcon(FontAwesome.ADJUST);
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
 		this.addHeaderElement(customizeViewBtn);
 	}

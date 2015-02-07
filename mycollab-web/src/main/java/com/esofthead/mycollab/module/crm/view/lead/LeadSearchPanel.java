@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -85,8 +86,7 @@ public class LeadSearchPanel extends
                                 new LeadEvent.GotoAdd(this, null));
                     }
                 });
-        createAccountBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_addRecord));
+        createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
         createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createAccountBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_LEAD));
@@ -144,8 +144,7 @@ public class LeadSearchPanel extends
             final Button searchBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            searchBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_search));
+            searchBtn.setIcon(FontAwesome.SEARCH);
 
             searchBtn.addClickListener(new Button.ClickListener() {
                 @Override

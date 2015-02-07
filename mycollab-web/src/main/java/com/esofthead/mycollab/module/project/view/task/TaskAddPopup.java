@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.easyuploads.MultiFileUploadExt;
@@ -118,7 +119,7 @@ class TaskAddPopup extends CustomComponent {
 						}
 					}
 				});
-		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+		saveBtn.setIcon(FontAwesome.SAVE);
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
         controlsLayout.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);

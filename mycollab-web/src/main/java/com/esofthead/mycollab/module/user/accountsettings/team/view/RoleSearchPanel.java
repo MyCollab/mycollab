@@ -17,9 +17,6 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -33,15 +30,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -84,8 +77,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 					}
 				});
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
 
@@ -122,11 +114,8 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 

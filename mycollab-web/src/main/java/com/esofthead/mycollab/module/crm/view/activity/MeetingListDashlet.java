@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -28,12 +26,13 @@ import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -65,10 +64,9 @@ public class MeetingListDashlet extends Depot {
 
 			}
 		});
-		customizeViewBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_customize_black));
+		customizeViewBtn.setIcon(FontAwesome.ADJUST);
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
 		this.addHeaderElement(customizeViewBtn);
 	}
@@ -76,7 +74,7 @@ public class MeetingListDashlet extends Depot {
 	public void display() {
 		final MeetingSearchCriteria criteria = new MeetingSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setAssignUsers(new SetSearchField<String>(
+		criteria.setAssignUsers(new SetSearchField<>(
 				new String[] { AppContext.getUsername() }));
 		tableItem.setSearchCriteria(criteria);
 	}

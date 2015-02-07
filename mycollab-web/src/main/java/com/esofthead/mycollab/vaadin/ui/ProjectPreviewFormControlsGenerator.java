@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -102,8 +103,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 							previewForm.fireAddForm(item);
 						}
 					});
-			addBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			addBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editButtons.addComponent(addBtn);
 			editButtons.setComponentAlignment(addBtn, Alignment.MIDDLE_CENTER);
@@ -123,8 +123,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 							previewForm.fireEditForm(item);
 						}
 					});
-			editBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_edit_white));
+			editBtn.setIcon(FontAwesome.EDIT);
 			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editButtons.addComponent(editBtn);
 			editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
@@ -143,8 +142,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 							previewForm.fireDeleteForm(item);
 						}
 					});
-			deleteBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_delete2));
+			deleteBtn.setIcon(FontAwesome.RECYCLE);
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 			editButtons.addComponent(deleteBtn);
 			editButtons.setComponentAlignment(deleteBtn,
@@ -163,8 +161,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 							previewForm.fireAssignForm(item);
 						}
 					});
-			assignBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_assign));
+			assignBtn.setIcon(FontAwesome.SHARE_SQUARE_O);
 			assignBtn.setStyleName(UIConstants.THEME_LINK);
 			popupButtonsControl.addComponent(assignBtn);
 
@@ -183,7 +180,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 							previewForm.fireCloneForm(item);
 						}
 					});
-			cloneBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clone));
+			cloneBtn.setIcon(FontAwesome.ROAD);
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}

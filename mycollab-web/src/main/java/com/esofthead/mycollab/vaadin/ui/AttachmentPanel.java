@@ -16,38 +16,27 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-
+import com.esofthead.mycollab.core.utils.ImageUtil;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
-import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -69,7 +58,6 @@ public class AttachmentPanel extends VerticalLayout implements
 		resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
 		this.setSpacing(true);
-		this.setStyleName("attachment-panel");
 	}
 
 	@Override
@@ -96,8 +84,8 @@ public class AttachmentPanel extends VerticalLayout implements
 				}
 			}
 		});
-		removeBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_trash));
-		removeBtn.setStyleName("link");
+		removeBtn.setIcon(FontAwesome.TRASH_O);
+		removeBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
 		Embedded fileIcon = new Embedded(null,
 				UiUtils.getFileIconResource(fileName));
@@ -148,8 +136,6 @@ public class AttachmentPanel extends VerticalLayout implements
 							int imgHeight = bufferedImage.getHeight();
 							int imgWidth = bufferedImage.getWidth();
 
-							BufferedImage scaledImage = null;
-
 							float scale;
 							float destWidth = 974;
 							float destHeight = 718;
@@ -157,7 +143,7 @@ public class AttachmentPanel extends VerticalLayout implements
 							float scaleX = Math.min(destHeight / imgHeight, 1);
 							float scaleY = Math.min(destWidth / imgWidth, 1);
 							scale = Math.min(scaleX, scaleY);
-							scaledImage = ImageUtil.scaleImage(bufferedImage,
+                            BufferedImage scaledImage = ImageUtil.scaleImage(bufferedImage,
 									scale);
 
 							ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -203,7 +189,7 @@ public class AttachmentPanel extends VerticalLayout implements
 	public List<File> getListFile() {
 		List<File> listFile = null;
 		if (MapUtils.isNotEmpty(fileStores)) {
-			listFile = new ArrayList<File>();
+			listFile = new ArrayList<>();
 			for (String fileName : fileStores.keySet()) {
 				File oldFile = fileStores.get(fileName);
 				File parentFile = oldFile.getParentFile();
@@ -226,7 +212,7 @@ public class AttachmentPanel extends VerticalLayout implements
 	public void receiveFile(File file, String fileName, String mimeType,
 			long length) {
 		if (fileStores == null) {
-			fileStores = new HashMap<String, File>();
+			fileStores = new HashMap<>();
 		}
 		if (fileStores.containsKey(fileName)) {
 			NotificationUtil.showWarningNotification("File " + fileName

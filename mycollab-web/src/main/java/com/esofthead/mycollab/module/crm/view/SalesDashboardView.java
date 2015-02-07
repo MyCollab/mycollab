@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view;
 
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunityLeadSourceDashboard;
@@ -26,13 +24,11 @@ import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunitySalesStage
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
 
 /**
  * 
@@ -84,11 +80,8 @@ public class SalesDashboardView extends Depot {
 	}
 
 	private void initUI() {
-
 		final PopupButton saleChartPopup = new PopupButton("");
-		saleChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
-		saleChartPopup.setIcon(MyCollabResource
-				.newResource(WebResourceIds._12_filter));
+		saleChartPopup.addStyleName("popuplistindicator");
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);

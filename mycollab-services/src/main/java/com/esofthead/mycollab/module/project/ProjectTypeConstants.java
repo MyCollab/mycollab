@@ -48,4 +48,12 @@ public class ProjectTypeConstants {
 	public static final String STANDUP = "Project-StandUp";
 	
 	public static final String PAGE = "Project-Page";
+
+    public static final String DASHBOARD = "Project-Dashboard";
+
+    public static final String FILE = "Project-File";
+
+    public static final String TIME = "Project-Time";
+
+    public static final String MEMBER = "Project-Member";
 }

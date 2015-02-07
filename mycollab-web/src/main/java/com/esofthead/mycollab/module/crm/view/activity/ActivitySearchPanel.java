@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
@@ -92,8 +93,7 @@ public class ActivitySearchPanel extends
 				.canWrite(RolePermissionCollections.CRM_CALL)
 				|| AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		controlsBtn.setCaption("New Task");
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
@@ -204,8 +204,7 @@ public class ActivitySearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override

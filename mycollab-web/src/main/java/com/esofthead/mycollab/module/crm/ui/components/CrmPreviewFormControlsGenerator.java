@@ -16,20 +16,16 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 /**
  * 
@@ -125,8 +121,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireAddForm(item);
 						}
 					});
-			addBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			addBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			addBtn.setEnabled(canWrite);
 			layout.addComponent(addBtn);
@@ -145,8 +140,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireEditForm(item);
 						}
 					});
-			editBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_edit_white));
+			editBtn.setIcon(FontAwesome.EDIT);
 			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editBtn.setEnabled(canWrite);
 			layout.addComponent(editBtn);
@@ -164,8 +158,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireDeleteForm(item);
 						}
 					});
-			deleteBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_delete2));
+			deleteBtn.setIcon(FontAwesome.RECYCLE);
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 			layout.addComponent(deleteBtn);
 			deleteBtn.setEnabled(canAccess);
@@ -184,7 +177,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireCloneForm(item);
 						}
 					});
-			cloneBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clone));
+			cloneBtn.setIcon(FontAwesome.ROAD);
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}
@@ -201,8 +194,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.showHistory();
 						}
 					});
-			historyBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_history));
+			historyBtn.setIcon(FontAwesome.HISTORY);
 			historyBtn.setStyleName("link");
 			popupButtonsControl.addComponent(historyBtn);
 		}

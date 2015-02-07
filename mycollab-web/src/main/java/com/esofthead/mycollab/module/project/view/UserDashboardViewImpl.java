@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -119,8 +120,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 							UI.getCurrent().addWindow(projectNewWindow);
 						}
 					});
-			createProjectBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			createProjectBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			headerContentTop.addComponent(createProjectBtn);
 			headerContentTop.setComponentAlignment(createProjectBtn,

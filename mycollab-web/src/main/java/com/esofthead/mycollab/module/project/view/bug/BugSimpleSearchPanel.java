@@ -26,15 +26,10 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.TextField;
 
 /**
  * 
@@ -70,7 +65,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 		Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
+		searchBtn.setIcon(FontAwesome.SEARCH);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -79,10 +74,10 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 						SearchField.AND, CurrentProjectVariables.getProject()
 								.getId()));
 				searchCriteria.setSummary(new StringSearchField(textValueField
-						.getValue().toString().trim()));
+						.getValue().trim()));
 
 				if (chkIsOpenBug.getValue()) {
-					searchCriteria.setStatuses(new SetSearchField<String>(
+					searchCriteria.setStatuses(new SetSearchField<>(
 							SearchField.AND, new String[] {
 									BugStatus.InProgress.name(),
 									BugStatus.Open.name(),

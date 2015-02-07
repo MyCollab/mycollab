@@ -16,41 +16,13 @@
  */
 package com.esofthead.mycollab.module.file.view.components;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EventListener;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.easyuploads.MultiFileUploadExt;
-import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.StorageNames;
-import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.module.ecm.domain.ExternalContent;
-import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
-import com.esofthead.mycollab.module.ecm.domain.ExternalFolder;
-import com.esofthead.mycollab.module.ecm.domain.Folder;
-import com.esofthead.mycollab.module.ecm.domain.Resource;
+import com.esofthead.mycollab.module.ecm.domain.*;
 import com.esofthead.mycollab.module.ecm.service.ExternalDriveService;
 import com.esofthead.mycollab.module.ecm.service.ExternalResourceService;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
@@ -62,38 +34,42 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.resources.OnDemandFileDownloader;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.Hr;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.Separator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.util.ReflectTools;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EventListener;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -902,8 +878,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						}
 					});
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_save));
+			saveBtn.setIcon(FontAwesome.SAVE);
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(

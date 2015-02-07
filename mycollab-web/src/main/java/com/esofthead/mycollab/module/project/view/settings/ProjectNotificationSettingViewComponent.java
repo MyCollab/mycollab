@@ -25,27 +25,19 @@ import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingS
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BlockWidget;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
- * @param <B>
- * @param <S>
+ *
  */
 public class ProjectNotificationSettingViewComponent extends BlockWidget {
 	private static final long serialVersionUID = 1L;
@@ -140,8 +132,7 @@ public class ProjectNotificationSettingViewComponent extends BlockWidget {
 					}
 				});
 		updateBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		updateBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_crm_refresh));
+		updateBtn.setIcon(FontAwesome.REFRESH);
 		body.addComponent(updateBtn);
 		body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 

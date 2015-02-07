@@ -19,24 +19,19 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -50,23 +45,19 @@ public class ProjectInformationComponent extends VerticalLayout {
 
 	private ProjectDisplayInformation prjDisplay;
 
-	private final HorizontalLayout projectInfoHeader;
+	private final MHorizontalLayout projectInfoHeader;
 
 	public ProjectInformationComponent() {
 		this.setStyleName(UIConstants.PROJECT_INFO);
 		this.prjDisplay = new BasicProjectInformation();
-		this.projectInfoHeader = new HorizontalLayout();
-		this.projectInfoHeader.setWidth("100%");
-		this.projectInfoHeader.setMargin(true);
+		this.projectInfoHeader = new MHorizontalLayout().withMargin(true).withWidth("100%");
 		this.projectInfoHeader
 				.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		this.projectInfoHeader.setStyleName(UIConstants.PROJECT_INFO_HEADER);
 		this.addComponent(this.projectInfoHeader);
 		this.addComponent(this.prjDisplay);
 
-		HorizontalLayout projectInfoFooter = new HorizontalLayout();
-		projectInfoFooter.setMargin(true);
-		projectInfoFooter.setStyleName(UIConstants.PROJECT_INFO_FOOTER);
+		MHorizontalLayout projectInfoFooter = new MHorizontalLayout().withMargin(true).withStyleName(UIConstants.PROJECT_INFO_FOOTER);
 		final Button toggleBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
 		toggleBtn.addClickListener(new Button.ClickListener() {
@@ -101,25 +92,19 @@ public class ProjectInformationComponent extends VerticalLayout {
 
 	public void displayProjectInformation() {
 		this.project = CurrentProjectVariables.getProject();
-
 		this.projectInfoHeader.removeAllComponents();
-		this.projectInfoHeader.setSpacing(true);
-		final Image icon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._24_project_dashboard));
+		final Button icon = new Button(null, AssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
+        icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+        icon.addStyleName("icon-18px");
+
 		final Label projectName = new Label(this.project.getName());
 		projectName.setStyleName(UIConstants.PROJECT_NAME);
 		projectName.setSizeUndefined();
 		final Label projectShortname = new Label("("
 				+ this.project.getShortname() + ")");
 		projectShortname.setStyleName(UIConstants.PROJECT_SHORT_NAME);
-		this.projectInfoHeader.addComponent(icon);
-		this.projectInfoHeader.addComponent(projectName);
-		this.projectInfoHeader.setComponentAlignment(projectName,
-				Alignment.MIDDLE_LEFT);
-		this.projectInfoHeader.addComponent(projectShortname);
-		this.projectInfoHeader.setExpandRatio(projectShortname, 1.0f);
-		this.projectInfoHeader.setComponentAlignment(projectShortname,
-				Alignment.MIDDLE_LEFT);
+
+		this.projectInfoHeader.with(icon, projectName, projectShortname).expand(projectShortname);
 
 		this.prjDisplay.show();
 	}

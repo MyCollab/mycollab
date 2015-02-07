@@ -36,11 +36,12 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.event.MouseEvents;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.button.MButton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -112,8 +113,7 @@ public class OpportunityContactListComp
                 .canWrite(RolePermissionCollections.CRM_CONTACT));
         controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         controlsBtn.setCaption("Add/Edit Contacts' Role");
-        controlsBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_addRecord));
+        controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
         controlsBtn
                 .addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -196,13 +196,10 @@ public class OpportunityContactListComp
             VerticalLayout contactInfo = new VerticalLayout();
             contactInfo.setSpacing(true);
 
-            Image btnDelete = new Image(null,
-                    MyCollabResource.newResource(WebResourceIds._12_project_icon_x));
-            btnDelete.addClickListener(new MouseEvents.ClickListener() {
-                private static final long serialVersionUID = 1L;
-
+            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
+            btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
-                public void click(MouseEvents.ClickEvent event) {
+                public void buttonClick(ClickEvent clickEvent) {
                     ConfirmDialogExt.show(
                             UI.getCurrent(),
                             AppContext.getMessage(
@@ -240,7 +237,7 @@ public class OpportunityContactListComp
                             });
                 }
             });
-            btnDelete.addStyleName("icon-btn");
+            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);

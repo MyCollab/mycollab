@@ -145,7 +145,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 					Collection<MultiUpload.FileDetail> pendingFiles) {
 				UI.getCurrent().setPollInterval(1000);
 				if (indicators == null) {
-					indicators = new LinkedList<ProgressBar>();
+					indicators = new LinkedList<>();
 				}
 
 				for (MultiUpload.FileDetail f : pendingFiles) {

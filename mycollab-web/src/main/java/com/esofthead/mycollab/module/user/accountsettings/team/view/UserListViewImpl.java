@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -40,23 +35,18 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 
@@ -79,8 +69,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);
 		List<SimpleUser> userAccountList = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
-						searchCriteria, 0, Integer.MAX_VALUE));
+				.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
 		this.removeAllComponents();
 		this.setSpacing(true);
@@ -101,8 +90,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 
 		header.addComponent(createBtn);
 		header.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
@@ -138,46 +126,45 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		layoutButtonDelete.addComponent(emptylb);
 		layoutButtonDelete.setExpandRatio(emptylb, 1.0f);
 
-		Button btnDelete = new Button();
-		btnDelete.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		Button deleteBtn = new Button();
+		deleteBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ConfirmDialogExt.show(
-						UI.getCurrent(),
-						AppContext.getMessage(
-								GenericI18Enum.DIALOG_DELETE_TITLE,
-								SiteConfiguration.getSiteName()),
-						AppContext
-								.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-						AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-						AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-						new ConfirmDialog.Listener() {
-							private static final long serialVersionUID = 1L;
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ConfirmDialogExt.show(
+                        UI.getCurrent(),
+                        AppContext.getMessage(
+                                GenericI18Enum.DIALOG_DELETE_TITLE,
+                                SiteConfiguration.getSiteName()),
+                        AppContext
+                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-							@Override
-							public void onClose(ConfirmDialog dialog) {
-								if (dialog.isConfirmed()) {
-									UserService userService = ApplicationContextUtil
-											.getSpringBean(UserService.class);
-									userService.pendingUserAccounts(Arrays
-											.asList(member
-													.getUsername()),
-											AppContext.getAccountId());
-									EventBusFactory
-											.getInstance()
-											.post(new UserEvent.GotoList(
-													UserListViewImpl.this, null));
-								}
-							}
-						});
-			}
-		});
-		btnDelete.setIcon(MyCollabResource
-				.newResource(WebResourceIds._12_project_icon_x));
-		btnDelete.setStyleName("link");
-		layoutButtonDelete.addComponent(btnDelete);
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    UserService userService = ApplicationContextUtil
+                                            .getSpringBean(UserService.class);
+                                    userService.pendingUserAccounts(Arrays
+                                                    .asList(member
+                                                            .getUsername()),
+                                            AppContext.getAccountId());
+                                    EventBusFactory
+                                            .getInstance()
+                                            .post(new UserEvent.GotoList(
+                                                    UserListViewImpl.this, null));
+                                }
+                            }
+                        });
+            }
+        });
+		deleteBtn.setIcon(FontAwesome.TRASH_O);
+		deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+		layoutButtonDelete.addComponent(deleteBtn);
 
 		memberInfo.addComponent(layoutButtonDelete);
 

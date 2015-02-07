@@ -58,6 +58,7 @@ import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -111,16 +112,8 @@ public class MilestoneReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-
-        tabContainer.addTab(this.commentListComp, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_comment));
-        tabContainer.addTab(historyListComp, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_history));
-
+        tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 

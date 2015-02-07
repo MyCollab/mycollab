@@ -17,15 +17,8 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
@@ -33,16 +26,12 @@ import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -77,8 +66,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 					}
 				});
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
@@ -117,8 +105,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -155,7 +142,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 					.setSaccountid(new NumberSearchField(AppContext
 							.getAccountId()));
 			UserSearchPanel.this.searchCriteria
-					.setRegisterStatuses(new SetSearchField<String>(
+					.setRegisterStatuses(new SetSearchField<>(
 							SearchField.AND,
 							new String[] {
 									RegisterStatusConstants.ACTIVE,

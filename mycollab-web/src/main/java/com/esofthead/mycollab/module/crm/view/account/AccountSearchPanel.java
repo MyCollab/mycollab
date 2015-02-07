@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -98,8 +99,7 @@ public class AccountSearchPanel extends
 					}
 				});
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 
@@ -183,8 +183,7 @@ public class AccountSearchPanel extends
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {

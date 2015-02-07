@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -87,8 +88,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 					}
 				});
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_search));
+		searchBtn.setIcon(FontAwesome.SEARCH);
 
 		buttonControls.with(searchBtn).withAlign(searchBtn,
 				Alignment.MIDDLE_CENTER);

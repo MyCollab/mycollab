@@ -42,6 +42,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
@@ -203,8 +204,7 @@ class TaskDisplayComponent extends CssLayout {
                 });
         this.createTaskBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS));
-        this.createTaskBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_addRecord));
+        this.createTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
         this.createTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         final VerticalLayout taskGroupFooter = new VerticalLayout();
         taskGroupFooter.setMargin(true);

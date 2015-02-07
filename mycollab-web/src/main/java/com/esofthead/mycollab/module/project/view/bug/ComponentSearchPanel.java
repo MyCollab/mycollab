@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
@@ -98,8 +99,7 @@ public class ComponentSearchPanel extends
         createBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.COMPONENTS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_addRecord));
+        createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 
         layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
 
@@ -145,8 +145,7 @@ public class ComponentSearchPanel extends
 
             final Button searchBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-            searchBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_search));
+            searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             searchBtn.addClickListener(new Button.ClickListener() {

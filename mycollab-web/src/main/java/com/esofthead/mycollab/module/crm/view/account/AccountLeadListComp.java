@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -35,213 +33,197 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.event.MouseEvents;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.button.MButton;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class AccountLeadListComp extends
-		RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
-	private static final long serialVersionUID = -8793172002298632506L;
+        RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
+    private static final long serialVersionUID = -8793172002298632506L;
 
-	private Account account;
+    private Account account;
 
-	public AccountLeadListComp() {
-		super(ApplicationContextUtil.getSpringBean(LeadService.class), 20);
-		this.setBlockDisplayHandler(new AccountLeadBlockDisplay());
-	}
+    public AccountLeadListComp() {
+        super(ApplicationContextUtil.getSpringBean(LeadService.class), 20);
+        this.setBlockDisplayHandler(new AccountLeadBlockDisplay());
+    }
 
-	@Override
-	protected Component generateTopControls() {
-		VerticalLayout controlsBtnWrap = new VerticalLayout();
-		controlsBtnWrap.setWidth("100%");
-		final SplitButton controlsBtn = new SplitButton();
-		controlsBtn.setSizeUndefined();
-		controlsBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_LEAD));
-		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption(AppContext
-				.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
-		controlsBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
-		controlsBtn
-				.addClickListener(new SplitButton.SplitButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected Component generateTopControls() {
+        VerticalLayout controlsBtnWrap = new VerticalLayout();
+        controlsBtnWrap.setWidth("100%");
+        final SplitButton controlsBtn = new SplitButton();
+        controlsBtn.setSizeUndefined();
+        controlsBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_LEAD));
+        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.setCaption(AppContext
+                .getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
+        controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        controlsBtn
+                .addClickListener(new SplitButton.SplitButtonClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void splitButtonClick(
-							final SplitButton.SplitButtonClickEvent event) {
-						fireNewRelatedItem("");
-					}
-				});
-		final Button selectBtn = new Button("Select from existing leads",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void splitButtonClick(
+                            final SplitButton.SplitButtonClickEvent event) {
+                        fireNewRelatedItem("");
+                    }
+                });
+        final Button selectBtn = new Button("Select from existing leads",
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						final AccountLeadSelectionWindow leadsWindow = new AccountLeadSelectionWindow(
-								AccountLeadListComp.this);
-						final LeadSearchCriteria criteria = new LeadSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						UI.getCurrent().addWindow(leadsWindow);
-						leadsWindow.setSearchCriteria(criteria);
-						controlsBtn.setPopupVisible(false);
-					}
-				});
-		selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-		selectBtn.setStyleName("link");
-		VerticalLayout buttonControlLayout = new VerticalLayout();
-		buttonControlLayout.addComponent(selectBtn);
-		controlsBtn.setContent(buttonControlLayout);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        final AccountLeadSelectionWindow leadsWindow = new AccountLeadSelectionWindow(
+                                AccountLeadListComp.this);
+                        final LeadSearchCriteria criteria = new LeadSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext
+                                .getAccountId()));
+                        UI.getCurrent().addWindow(leadsWindow);
+                        leadsWindow.setSearchCriteria(criteria);
+                        controlsBtn.setPopupVisible(false);
+                    }
+                });
+        selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
+        selectBtn.setStyleName("link");
+        VerticalLayout buttonControlLayout = new VerticalLayout();
+        buttonControlLayout.addComponent(selectBtn);
+        controlsBtn.setContent(buttonControlLayout);
 
-		controlsBtnWrap.addComponent(controlsBtn);
-		controlsBtnWrap.setComponentAlignment(controlsBtn,
-				Alignment.MIDDLE_RIGHT);
-		return controlsBtnWrap;
-	}
+        controlsBtnWrap.addComponent(controlsBtn);
+        controlsBtnWrap.setComponentAlignment(controlsBtn,
+                Alignment.MIDDLE_RIGHT);
+        return controlsBtnWrap;
+    }
 
-	public void displayLeads(final Account account) {
-		this.account = account;
-		loadLeads();
-	}
+    public void displayLeads(final Account account) {
+        this.account = account;
+        loadLeads();
+    }
 
-	private void loadLeads() {
-		final LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadLeads() {
+        final LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
+                .getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadLeads();
-	}
+    @Override
+    public void refresh() {
+        loadLeads();
+    }
 
-	public class AccountLeadBlockDisplay implements
-			BlockDisplayHandler<SimpleLead> {
+    public class AccountLeadBlockDisplay implements
+            BlockDisplayHandler<SimpleLead> {
 
-		@Override
-		public Component generateBlock(final SimpleLead lead, int blockIndex) {
-			CssLayout beanBlock = new CssLayout();
-			beanBlock.addStyleName("bean-block");
-			beanBlock.setWidth("350px");
+        @Override
+        public Component generateBlock(final SimpleLead lead, int blockIndex) {
+            CssLayout beanBlock = new CssLayout();
+            beanBlock.addStyleName("bean-block");
+            beanBlock.setWidth("350px");
 
-			VerticalLayout blockContent = new VerticalLayout();
-			HorizontalLayout blockTop = new HorizontalLayout();
-			blockTop.setSpacing(true);
-			CssLayout iconWrap = new CssLayout();
-			iconWrap.setStyleName("icon-wrap");
-			Image leadAvatar = new Image(null,
-					MyCollabResource.newResource("icons/48/crm/lead.png"));
-			iconWrap.addComponent(leadAvatar);
-			blockTop.addComponent(iconWrap);
+            VerticalLayout blockContent = new VerticalLayout();
+            HorizontalLayout blockTop = new HorizontalLayout();
+            blockTop.setSpacing(true);
+            CssLayout iconWrap = new CssLayout();
+            iconWrap.setStyleName("icon-wrap");
+            Image leadAvatar = new Image(null,
+                    MyCollabResource.newResource("icons/48/crm/lead.png"));
+            iconWrap.addComponent(leadAvatar);
+            blockTop.addComponent(iconWrap);
 
-			VerticalLayout leadInfo = new VerticalLayout();
-			leadInfo.setSpacing(true);
+            VerticalLayout leadInfo = new VerticalLayout();
+            leadInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null,
-					MyCollabResource.newResource(WebResourceIds._12_project_icon_x));
-			btnDelete.addClickListener(new MouseEvents.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
+            btnDelete.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    ConfirmDialogExt.show(
+                            UI.getCurrent(),
+                            AppContext.getMessage(
+                                    GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    SiteConfiguration.getSiteName()),
+                            AppContext
+                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext
+                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void click(MouseEvents.ClickEvent event) {
-					ConfirmDialogExt.show(
-							UI.getCurrent(),
-							AppContext.getMessage(
-									GenericI18Enum.DIALOG_DELETE_TITLE,
-									SiteConfiguration.getSiteName()),
-							AppContext
-									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        final AccountService accountService = ApplicationContextUtil
+                                                .getSpringBean(AccountService.class);
+                                        final AccountLead associateLead = new AccountLead();
+                                        associateLead.setAccountid(account
+                                                .getId());
+                                        associateLead.setLeadid(lead.getId());
+                                        accountService
+                                                .removeAccountLeadRelationship(
+                                                        associateLead,
+                                                        AppContext
+                                                                .getAccountId());
+                                        AccountLeadListComp.this.refresh();
+                                    }
+                                }
+                            });
+                }
+            });
+            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-								@Override
-								public void onClose(ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										final AccountService accountService = ApplicationContextUtil
-												.getSpringBean(AccountService.class);
-										final AccountLead associateLead = new AccountLead();
-										associateLead.setAccountid(account
-												.getId());
-										associateLead.setLeadid(lead.getId());
-										accountService
-												.removeAccountLeadRelationship(
-														associateLead,
-														AppContext
-																.getAccountId());
-										AccountLeadListComp.this.refresh();
-									}
-								}
-							});
-				}
-			});
-			btnDelete.addStyleName("icon-btn");
+            blockContent.addComponent(btnDelete);
+            blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			blockContent.addComponent(btnDelete);
-			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
+            Label leadName = new Label("Name: <a href='"
+                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    .getSubdomain())
+                    + CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.LEAD, lead.getId()) + "'>"
+                    + lead.getLeadName() + "</a>", ContentMode.HTML);
 
-			Label leadName = new Label("Name: <a href='"
-					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
-							.getSubdomain())
-					+ CrmLinkGenerator.generateCrmItemLink(
-							CrmTypeConstants.LEAD, lead.getId()) + "'>"
-					+ lead.getLeadName() + "</a>", ContentMode.HTML);
+            leadInfo.addComponent(leadName);
 
-			leadInfo.addComponent(leadName);
+            Label leadStatus = new Label("Status: "
+                    + (lead.getStatus() != null ? lead.getStatus() : ""));
+            leadInfo.addComponent(leadStatus);
 
-			Label leadStatus = new Label("Status: "
-					+ (lead.getStatus() != null ? lead.getStatus() : ""));
-			leadInfo.addComponent(leadStatus);
+            Label leadEmail = new Label("Email: "
+                    + (lead.getEmail() != null ? "<a href='mailto:"
+                    + lead.getEmail() + "'>" + lead.getEmail() + "</a>"
+                    : ""), ContentMode.HTML);
+            leadInfo.addComponent(leadEmail);
 
-			Label leadEmail = new Label("Email: "
-					+ (lead.getEmail() != null ? "<a href='mailto:"
-							+ lead.getEmail() + "'>" + lead.getEmail() + "</a>"
-							: ""), ContentMode.HTML);
-			leadInfo.addComponent(leadEmail);
+            Label leadOfficePhone = new Label("Office Phone: "
+                    + (lead.getOfficephone() != null ? lead.getOfficephone()
+                    : ""));
+            leadInfo.addComponent(leadOfficePhone);
 
-			Label leadOfficePhone = new Label("Office Phone: "
-					+ (lead.getOfficephone() != null ? lead.getOfficephone()
-							: ""));
-			leadInfo.addComponent(leadOfficePhone);
+            blockTop.addComponent(leadInfo);
+            blockTop.setExpandRatio(leadInfo, 1.0f);
+            blockTop.setWidth("100%");
+            blockContent.addComponent(blockTop);
 
-			blockTop.addComponent(leadInfo);
-			blockTop.setExpandRatio(leadInfo, 1.0f);
-			blockTop.setWidth("100%");
-			blockContent.addComponent(blockTop);
+            blockContent.setWidth("100%");
 
-			blockContent.setWidth("100%");
+            beanBlock.addComponent(blockContent);
+            return beanBlock;
+        }
 
-			beanBlock.addComponent(blockContent);
-			return beanBlock;
-		}
-
-	}
+    }
 }

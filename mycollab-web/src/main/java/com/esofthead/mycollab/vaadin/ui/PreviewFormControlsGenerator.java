@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -102,7 +103,7 @@ public class PreviewFormControlsGenerator<B> {
 						previewForm.fireDeleteForm(item);
 					}
 				});
-		deleteBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_delete2));
+		deleteBtn.setIcon(FontAwesome.TRASH_O);
 		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);

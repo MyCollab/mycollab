@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.message;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.MessageScreenData;
@@ -47,7 +48,7 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
 			ProjectView projectViewContainer = (ProjectView) container;
-			projectViewContainer.gotoSubView("message");
+			projectViewContainer.gotoSubView(ProjectTypeConstants.MESSAGE);
 
 			view.removeAllComponents();
 
@@ -61,13 +62,11 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
 				presenter.go(view, data);
 			} else if (data == null) {
 				MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-				searchCriteria.setProjectids(new SetSearchField<Integer>(
+				searchCriteria.setProjectids(new SetSearchField<>(
 						CurrentProjectVariables.getProjectId()));
 				MessageListPresenter presenter = PresenterResolver
 						.getPresenter(MessageListPresenter.class);
-				presenter.go(view,
-						new ScreenData.Preview<MessageSearchCriteria>(
-								searchCriteria));
+				presenter.go(view, new ScreenData.Preview<>(searchCriteria));
 			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

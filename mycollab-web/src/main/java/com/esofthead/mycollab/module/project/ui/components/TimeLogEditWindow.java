@@ -31,6 +31,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -191,9 +192,8 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 								TimeLogEditWindow.this.loadTimeValue();
 							}
 						});
-				deleteBtn.setStyleName("link");
-				deleteBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_delete));
+				deleteBtn.setIcon(FontAwesome.TRASH_O);
+                deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 				itemTimeLogging.setExtraData(deleteBtn);
 
 				deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()
@@ -273,8 +273,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
 		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
 		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnAdd.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		btnAdd.setIcon(FontAwesome.PLUS_SQUARE);
 		addLayout.addComponent(btnAdd);
 		addLayout.setComponentAlignment(btnAdd, Alignment.MIDDLE_LEFT);
 	}

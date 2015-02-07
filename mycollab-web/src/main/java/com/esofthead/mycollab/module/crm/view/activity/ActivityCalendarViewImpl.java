@@ -16,14 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.text.DateFormatSymbols;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
@@ -41,52 +33,29 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.StyleCalendarExp;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Calendar;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventResize;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.MoveEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.RangeSelectEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.WeekClick;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.WeekClickHandler;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.*;
 import com.vaadin.ui.components.calendar.handler.BasicBackwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
+import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.text.DateFormatSymbols;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * 
@@ -871,8 +840,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 
 								}
 							});
-					saveBtn.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_save));
+					saveBtn.setIcon(FontAwesome.SAVE);
 					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 					layout.addComponent(saveBtn);
 					layout.setComponentAlignment(saveBtn,

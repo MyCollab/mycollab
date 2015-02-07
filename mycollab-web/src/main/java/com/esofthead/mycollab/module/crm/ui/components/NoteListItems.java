@@ -16,15 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.easyuploads.MultiFileUploadExt;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
@@ -50,42 +41,27 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -169,8 +145,7 @@ public class NoteListItems extends VerticalLayout {
 				});
 
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		noteWrapper.addComponent(createBtn);
 		noteWrapper.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
 
@@ -201,8 +176,7 @@ public class NoteListItems extends VerticalLayout {
 		@Override
 		public void cancel() {
 			if (commentInput != null) {
-				final int compIndex = noteContentLayout
-						.getComponentIndex(commentInput);
+				final int compIndex = noteContentLayout.getComponentIndex(commentInput);
 				if (compIndex >= 0) {
 					noteContentLayout.removeComponent(commentInput);
 					commentInput = null;
@@ -248,7 +222,8 @@ public class NoteListItems extends VerticalLayout {
 			rowLayout.setStyleName("message-container");
 			rowLayout.setWidth("100%");
 
-			HorizontalLayout messageHeader = new HorizontalLayout();
+			MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false,
+                    true)).withWidth("100%");
 			messageHeader.setStyleName("message-header");
 
 			Label timePostLbl = new Label(AppContext.getMessage(
@@ -262,12 +237,8 @@ public class NoteListItems extends VerticalLayout {
 			messageHeader.addComponent(timePostLbl);
 			messageHeader.setExpandRatio(timePostLbl, 1.0f);
 			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-			messageHeader.setSpacing(true);
-			messageHeader.setWidth("100%");
-			messageHeader.setMargin(new MarginInfo(true, true, false, true));
 
-			replyBtn = new Button(
-					AppContext.getMessage(CrmCommonI18nEnum.BUTTON_REPLY),
+			replyBtn = new Button("",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -292,9 +263,8 @@ public class NoteListItems extends VerticalLayout {
 						}
 					});
 
-			replyBtn.setStyleName("link");
-			replyBtn.setIcon(MyCollabResource
-					.newResource("icons/16/crm/reply.png"));
+			replyBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+			replyBtn.setIcon(FontAwesome.REPLY);
 			messageHeader.addComponent(replyBtn);
 
 			if (AppContext.getUsername().equals(note.getCreateduser())
@@ -334,9 +304,8 @@ public class NoteListItems extends VerticalLayout {
 								});
 					}
 				});
-				msgDeleteBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._12_project_icon_x));
-				msgDeleteBtn.setStyleName("delete-btn");
+				msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
+				msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 				messageHeader.addComponent(msgDeleteBtn);
 			}
 
@@ -414,14 +383,10 @@ public class NoteListItems extends VerticalLayout {
 			setSpacing(true);
 			this.setWidth("600px");
 
-			VerticalLayout editBox = new VerticalLayout();
-			editBox.setMargin(true);
-			editBox.setSpacing(true);
+			MVerticalLayout editBox = new MVerticalLayout();
 
-			HorizontalLayout commentWrap = new HorizontalLayout();
-			commentWrap.setSpacing(true);
+			MHorizontalLayout commentWrap = new MHorizontalLayout().withWidth("100%");
 			commentWrap.addStyleName("message");
-			commentWrap.setWidth("100%");
 
 			SimpleUser currentUser = AppContext.getSession();
 			VerticalLayout userBlock = new VerticalLayout();
@@ -452,34 +417,12 @@ public class NoteListItems extends VerticalLayout {
 
 			editBox.addComponent(noteArea);
 
-			final HorizontalLayout controls = new HorizontalLayout();
-			controls.setSpacing(true);
-			controls.setWidth("100%");
+			final MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
 
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					attachments);
 			uploadExt.addComponent(attachments);
-			controls.addComponent(uploadExt);
-			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
-
-			final Label emptySpace = new Label();
-			controls.addComponent(emptySpace);
-			controls.setExpandRatio(emptySpace, 1.0f);
-
-			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							addCreateBtn();
-						}
-					});
-			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
-
-			controls.addComponent(cancelBtn);
-			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
+			controls.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
 			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_POST),
@@ -572,9 +515,21 @@ public class NoteListItems extends VerticalLayout {
 						}
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_post));
-			controls.addComponent(saveBtn);
-			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);
+			saveBtn.setIcon(FontAwesome.SEND);
+			controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
+
+            final Button cancelBtn = new Button(
+                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
+
+                        @Override
+                        public void buttonClick(final ClickEvent event) {
+                            addCreateBtn();
+                        }
+                    });
+            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
 			editBox.addComponent(controls);
 			this.addComponent(commentWrap);

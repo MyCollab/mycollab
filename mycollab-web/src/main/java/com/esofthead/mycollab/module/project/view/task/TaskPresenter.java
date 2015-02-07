@@ -17,7 +17,9 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
@@ -47,11 +49,11 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("task");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.TASK);
 
 		view.removeAllComponents();
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter;
 
 		if (data instanceof TaskScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
@@ -81,7 +83,9 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 		} else if (data instanceof TaskScreenData.Search) {
 			presenter = PresenterResolver
 					.getPresenter(TaskSearchPresenter.class);
-		}
+		} else {
+            throw new MyCollabException("No support data: " + data);
+        }
 
 		presenter.go(view, data);
 	}

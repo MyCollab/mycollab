@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -68,7 +69,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 							}
 						}
 					});
-			saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+			saveBtn.setIcon(FontAwesome.SAVE);
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveBtn);
 			layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
@@ -89,8 +90,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 							}
 						}
 					});
-			saveAndNewBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_save_new));
+			saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
 			saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveAndNewBtn);
 			layout.setComponentAlignment(saveAndNewBtn, Alignment.MIDDLE_CENTER);
@@ -108,8 +108,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 									.fireCancelForm();
 						}
 					});
-			cancelBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_cancel));
+			cancelBtn.setIcon(FontAwesome.MINUS);
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			layout.addComponent(cancelBtn);
 			layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);

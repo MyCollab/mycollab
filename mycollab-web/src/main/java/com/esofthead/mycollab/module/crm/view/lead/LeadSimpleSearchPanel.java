@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -89,7 +90,7 @@ public class LeadSimpleSearchPanel extends
         Button searchBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        searchBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_search));
+        searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 

@@ -22,10 +22,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
-import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.*;
 import com.esofthead.mycollab.module.project.events.*;
@@ -100,11 +97,6 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		this.addStyleName("projectDashboardView");
 		this.setVerticalTabsheetFix(true);
 
-		ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-
-		MHorizontalLayout topPanel = new MHorizontalLayout().withSpacing(false).withMargin(true).withWidth("100%")
-				.withStyleName("top-panel");
-
 		myProjectTab = new ProjectVerticalTabsheet();
 		myProjectTab.setSizeFull();
 		myProjectTab.setNavigatorWidth("100%");
@@ -120,65 +112,65 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 						Tab tab = ((ProjectVerticalTabsheet) event.getSource())
 								.getSelectedTab();
 						String caption = ((TabImpl) tab).getTabId();
-						if ("message".equals(caption)) {
+						if (ProjectTypeConstants.MESSAGE.equals(caption)) {
 							messagePresenter.go(ProjectViewImpl.this, null);
-						} else if ("milestone".equals(caption)) {
+						} else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
 							MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
-									SearchField.AND, CurrentProjectVariables
-											.getProjectId()));
+                                    SearchField.AND, CurrentProjectVariables
+                                    .getProjectId()));
 							gotoMilestoneView(new MilestoneScreenData.Search(
-									searchCriteria));
-						} else if ("task".equals(caption)) {
+                                    searchCriteria));
+						} else if (ProjectTypeConstants.TASK.equals(caption)) {
 							taskPresenter.go(ProjectViewImpl.this, null);
-						} else if ("bug".equals(caption)) {
+						} else if (ProjectTypeConstants.BUG.equals(caption)) {
 							gotoBugView(null);
-						} else if ("risk".equals(caption)) {
+						} else if (ProjectTypeConstants.RISK.equals(caption)) {
 							RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
-									SearchField.AND, CurrentProjectVariables
-											.getProjectId()));
+                                    SearchField.AND, CurrentProjectVariables
+                                    .getProjectId()));
 							gotoRiskView(new RiskScreenData.Search(
-									searchCriteria));
-						} else if ("file".equals(caption)) {
+                                    searchCriteria));
+						} else if (ProjectTypeConstants.FILE.equals(caption)) {
 							filePresenter.go(ProjectViewImpl.this,
-									new FileScreenData.GotoDashboard());
-						} else if ("page".equals(caption)) {
+                                    new FileScreenData.GotoDashboard());
+						} else if (ProjectTypeConstants.PAGE.equals(caption)) {
 							pagePresenter.go(
-									ProjectViewImpl.this,
-									new PageScreenData.Search(
-											CurrentProjectVariables
-													.getBasePagePath()));
-						} else if ("problem".equals(caption)) {
+                                    ProjectViewImpl.this,
+                                    new PageScreenData.Search(
+                                            CurrentProjectVariables
+                                                    .getBasePagePath()));
+						} else if (ProjectTypeConstants.PROBLEM.equals(caption)) {
 							ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
-									SearchField.AND, CurrentProjectVariables
-											.getProjectId()));
+                                    SearchField.AND, CurrentProjectVariables
+                                    .getProjectId()));
 							problemPresenter
 									.go(ProjectViewImpl.this,
-											new ProblemScreenData.Search(
-													searchCriteria));
-						} else if ("dashboard".equals(caption)) {
+                                            new ProblemScreenData.Search(
+                                                    searchCriteria));
+						} else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
 							dashboardPresenter.go(ProjectViewImpl.this, null);
-						} else if ("member".equals(caption)) {
+						} else if (ProjectTypeConstants.MEMBER.equals(caption)) {
 							ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(
-									CurrentProjectVariables.getProjectId()));
+                                    CurrentProjectVariables.getProjectId()));
 							criteria.setStatus(new StringSearchField(
-									ProjectMemberStatusConstants.ACTIVE));
+                                    ProjectMemberStatusConstants.ACTIVE));
 							gotoUsersAndGroup(new ProjectMemberScreenData.Search(
-									criteria));
-						} else if ("time".equals(caption)) {
+                                    criteria));
+						} else if (ProjectTypeConstants.TIME.equals(caption)) {
 							ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
 							searchCriteria
 									.setProjectIds(new SetSearchField<>(
-											CurrentProjectVariables
-													.getProjectId()));
+                                            CurrentProjectVariables
+                                                    .getProjectId()));
 							searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
-									.getCurrentRangeDateOfWeekSearchField());
+                                    .getCurrentRangeDateOfWeekSearchField());
 							gotoTimeTrackingView(new TimeTrackingScreenData.Search(
-									searchCriteria));
-						} else if ("standup".equals(caption)) {
+                                    searchCriteria));
+						} else if (ProjectTypeConstants.STANDUP.equals(caption)) {
 							StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(
 									CurrentProjectVariables.getProjectId()));
@@ -194,6 +186,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
 		contentWrapper.addStyleName("main-content");
+        MHorizontalLayout topPanel = new MHorizontalLayout().withSpacing(false).withMargin(true).withWidth("100%")
+                .withStyleName("top-panel");
 		contentWrapper.addComponentAsFirst(topPanel);
 
 		ProjectListComponent prjList = new ProjectListComponent();
@@ -204,11 +198,10 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		buildComponents();
 		this.addComponent(myProjectTab);
 
-		topPanel.addComponent(breadCrumb);
-		topPanel.setComponentAlignment(breadCrumb, Alignment.MIDDLE_LEFT);
-		topPanel.setExpandRatio(breadCrumb, 1.0f);
+        ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+        breadCrumb.setProject(project);
 
-		breadCrumb.setProject(project);
+		topPanel.with(breadCrumb).withAlign(breadCrumb, Alignment.MIDDLE_LEFT).expand(breadCrumb);
 
 		if (project.isProjectArchived()) {
 			Button activeProjectBtn = new Button(
@@ -235,10 +228,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 						}
 					});
 			activeProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			topPanel.addComponent(activeProjectBtn);
-			topPanel.setComponentAlignment(activeProjectBtn,
-					Alignment.MIDDLE_RIGHT);
-
+			topPanel.with(activeProjectBtn).withAlign(activeProjectBtn, Alignment.MIDDLE_RIGHT);
 		} else {
 			final PopupButton controlsBtn = new PopupButton();
 			controlsBtn
@@ -486,7 +476,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		myProjectTab.addTab(
 				constructProjectDashboardComponent(),
-				"dashboard",
+				ProjectTypeConstants.DASHBOARD,
 				1,
 				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
 				GenericLinkUtils.URL_PREFIX_PARAM
@@ -495,19 +485,19 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		if (CurrentProjectVariables.hasMessageFeature()) {
 			myProjectTab.addTab(
 					constructProjectMessageComponent(),
-					"message",
+                    ProjectTypeConstants.MESSAGE,
 					2,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator.generateMessagesLink(prjId));
 		} else {
-			myProjectTab.removeTab("message");
+			myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
 		}
 
 		if (CurrentProjectVariables.hasPhaseFeature()) {
 			myProjectTab
 					.addTab(constructProjectMilestoneComponent(),
-							"milestone",
+							ProjectTypeConstants.MILESTONE,
 							3,
 							AppContext
 									.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
@@ -515,112 +505,112 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 									+ ProjectLinkGenerator
 											.generateMilestonesLink(prjId));
 		} else {
-			myProjectTab.removeTab("milestone");
+			myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
 		}
 
 		if (CurrentProjectVariables.hasTaskFeature()) {
 			myProjectTab.addTab(
 					constructTaskDashboardComponent(),
-					"task",
+					ProjectTypeConstants.TASK,
 					4,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator
 									.generateTaskDashboardLink(prjId));
 		} else {
-			myProjectTab.removeTab("task");
+			myProjectTab.removeTab(ProjectTypeConstants.TASK);
 		}
 
 		if (CurrentProjectVariables.hasBugFeature()) {
 			myProjectTab.addTab(
 					constructProjectBugComponent(),
-					"bug",
+					ProjectTypeConstants.BUG,
 					5,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator.generateProjectLink(prjId));
 		} else {
-			myProjectTab.removeTab("bug");
+			myProjectTab.removeTab(ProjectTypeConstants.BUG);
 		}
 
 		if (CurrentProjectVariables.hasPageFeature()) {
 			myProjectTab.addTab(
 					constructProjectPageComponent(),
-					"page",
+					ProjectTypeConstants.PAGE,
 					6,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator.generateProjectLink(prjId));
 		} else {
-			myProjectTab.removeTab("page");
+			myProjectTab.removeTab(ProjectTypeConstants.PAGE);
 		}
 
 		if (CurrentProjectVariables.hasFileFeature()) {
 			myProjectTab.addTab(
 					constructProjectFileComponent(),
-					"file",
+					ProjectTypeConstants.FILE,
 					7,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator
 									.generateFileDashboardLink(prjId));
 		} else {
-			myProjectTab.removeTab("file");
+			myProjectTab.removeTab(ProjectTypeConstants.FILE);
 		}
 
 		if (CurrentProjectVariables.hasRiskFeature()) {
 			myProjectTab.addTab(
 					constructProjectRiskComponent(),
-					"risk",
+					ProjectTypeConstants.RISK,
 					8,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator.generateRisksLink(prjId));
 		} else {
-			myProjectTab.removeTab("risk");
+			myProjectTab.removeTab(ProjectTypeConstants.RISK);
 		}
 
 		if (CurrentProjectVariables.hasProblemFeature()) {
 			myProjectTab.addTab(
 					constructProjectProblemComponent(),
-					"problem",
+					ProjectTypeConstants.PROBLEM,
 					9,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator.generateProblemsLink(prjId));
 		} else {
-			myProjectTab.removeTab("problem");
+			myProjectTab.removeTab(ProjectTypeConstants.PROBLEM);
 		}
 
 		if (CurrentProjectVariables.hasTimeFeature()) {
 			myProjectTab.addTab(
 					constructTimeTrackingComponent(),
-					"time",
+					ProjectTypeConstants.TIME,
 					10,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator
 									.generateTimeReportLink(prjId));
 		} else {
-			myProjectTab.removeTab("time");
+			myProjectTab.removeTab(ProjectTypeConstants.TIME);
 		}
 
 		if (CurrentProjectVariables.hasStandupFeature()) {
 			myProjectTab.addTab(
 					constructProjectStandupMeeting(),
-					"standup",
+					ProjectTypeConstants.STANDUP,
 					11,
 					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
 					GenericLinkUtils.URL_PREFIX_PARAM
 							+ ProjectLinkGenerator
 									.generateStandupDashboardLink(prjId));
 		} else {
-			myProjectTab.removeTab("standup");
+			myProjectTab.removeTab(ProjectTypeConstants.STANDUP);
 		}
 
 		myProjectTab.addTab(
 				constructProjectUsers(),
-				"member",
+				ProjectTypeConstants.MEMBER,
 				12,
 				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
 				GenericLinkUtils.URL_PREFIX_PARAM
@@ -738,6 +728,5 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	@Override
 	public void updateProjectFeatures() {
 		buildComponents();
-
 	}
 }

@@ -17,10 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -35,34 +31,23 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.*;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
-import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
+import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -216,31 +201,30 @@ public class VersionListViewImpl extends AbstractPageView implements
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
 			tableActionControls.addActionItem(
-					MassItemActionHandler.DELETE_ACTION, MyCollabResource
-							.newResource(WebResourceIds._16_action_delete),
+					MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
 					"delete", AppContext
 							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_mail),
+                FontAwesome.ENVELOPE_O,
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_pdf),
+                FontAwesome.FILE_PDF_O,
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_excel),
+                FontAwesome.FILE_EXCEL_O,
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_csv),
+				FontAwesome.FILE_TEXT_O,
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

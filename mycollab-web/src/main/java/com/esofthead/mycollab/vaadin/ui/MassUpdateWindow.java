@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -87,8 +88,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 					}
 				});
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		updateBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_action_massupdate));
+		updateBtn.setIcon(FontAwesome.DATABASE);
 
 		closeBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),

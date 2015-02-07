@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -131,8 +132,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				});
 		addCriteriaBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
-		addCriteriaBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_add));
+		addCriteriaBtn.setIcon(FontAwesome.PLUS);
 
 		controlsBtn.with(addCriteriaBtn);
 
@@ -157,8 +157,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				});
 		saveSearchBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		saveSearchBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_addRecord));
+		saveSearchBtn.setIcon(FontAwesome.PLUS_SQUARE);
 		filterBox.addComponent(saveSearchBtn);
 	}
 
@@ -181,7 +180,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		saveBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_save));
+		saveBtn.setIcon(FontAwesome.SAVE);
 		filterBox.addComponent(saveBtn);
 
 		Button cancelBtn = new Button(
@@ -222,7 +221,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 	@SuppressWarnings("unchecked")
 	private List<SearchFieldInfo> buildSearchFieldInfos() {
 		Iterator<Component> iterator = searchContainer.iterator();
-		List<SearchFieldInfo> fieldInfos = new ArrayList<SearchFieldInfo>();
+		List<SearchFieldInfo> fieldInfos = new ArrayList<>();
 		while (iterator.hasNext()) {
 			CriteriaSelectionLayout bar = (CriteriaSelectionLayout) iterator
 					.next();
@@ -567,7 +566,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					.getValue() : "AND";
 			Param param = (Param) fieldSelectionBox.getValue();
 			String compareOper = (String) compareSelectionBox.getValue();
-			Object value = null;
+			Object value;
 			int componentCount = valueBox.getComponentCount();
 			if (componentCount == 1) {
 				Field<?> component = (Field<?>) valueBox.getComponent(0);
@@ -800,8 +799,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						if (filterBox.getComponentCount() <= 3) {
 							Button updateBtn = new Button("Update");
 							updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-							updateBtn.setIcon(MyCollabResource
-									.newResource(WebResourceIds._16_crm_refresh));
+							updateBtn.setIcon(FontAwesome.REFRESH);
 							updateBtn
 									.addClickListener(new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
@@ -851,8 +849,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 										}
 									});
 							deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
-							deleteBtn.setIcon(MyCollabResource
-									.newResource(WebResourceIds._16_delete2));
+							deleteBtn.setIcon(FontAwesome.TRASH_O);
 
 							filterBox.addComponent(deleteBtn, 1);
 							filterBox.addComponent(updateBtn, 1);
@@ -882,9 +879,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			SaveSearchResultService saveSearchResultService = ApplicationContextUtil
 					.getSpringBean(SaveSearchResultService.class);
 			List<SaveSearchResultWithBLOBs> result = saveSearchResultService
-					.findPagableListByCriteria(new SearchRequest<SaveSearchResultCriteria>(
+					.findPagableListByCriteria(new SearchRequest<>(
 							searchCriteria, 0, Integer.MAX_VALUE));
-			beanItem = new BeanContainer<String, SaveSearchResultWithBLOBs>(
+			beanItem = new BeanContainer<>(
 					SaveSearchResultWithBLOBs.class);
 			beanItem.setBeanIdProperty("id");
 

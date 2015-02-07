@@ -73,15 +73,13 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 				changeOption(id);
 			}
 		});
-
 		optionBtn.setIcon(resource);
 		if ("delete".equals(groupId)) {
-
 			optionBtn.addStyleName(UIConstants.THEME_RED_LINK);
 		} else {
 			optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 		}
-
+        optionBtn.addStyleName("small-padding");
 		optionBtn.setDescription(description);
 
 		group.addButton(optionBtn);
@@ -98,12 +96,12 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 		}
 
 		Button optionBtn = new Button("");
-
 		FileDownloader fileDownler = new FileDownloader(new StreamResource(
 				new LazyStreamSource(id), downloadFileName));
 		fileDownler.extend(optionBtn);
 		optionBtn.setIcon(resource);
 		optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+        optionBtn.addStyleName("small-padding");
 		optionBtn.setDescription(description);
 		group.addButton(optionBtn);
 	}

@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -68,8 +69,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("task");
 						}
 					});
-			newTaskBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			newTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			newTaskBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_TASK));
 			newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -84,8 +84,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("call");
 						}
 					});
-			newCallBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			newCallBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			newCallBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_CALL));
 			newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -100,8 +99,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("call");
 						}
 					});
-			newMeetingBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_addRecord));
+			newMeetingBtn.setIcon(FontAwesome.PLUS_SQUARE);
 			newMeetingBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_MEETING));
 			newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);

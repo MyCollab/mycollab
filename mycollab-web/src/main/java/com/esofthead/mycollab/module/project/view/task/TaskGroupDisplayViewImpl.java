@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -256,8 +257,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 });
         newTaskListBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS));
-        newTaskListBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_addRecord));
+        newTaskListBtn.setIcon(FontAwesome.PLUS_SQUARE);
         newTaskListBtn.setDescription(AppContext
                 .getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
         newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -459,8 +459,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
         final Button searchBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-        searchBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_search));
+        searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         searchBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;

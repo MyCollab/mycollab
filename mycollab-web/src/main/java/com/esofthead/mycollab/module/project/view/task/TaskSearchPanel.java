@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -30,18 +28,11 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -123,8 +114,7 @@ public class TaskSearchPanel extends
 
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
@@ -175,8 +165,7 @@ public class TaskSearchPanel extends
 			searchCriteria = new TaskSearchCriteria();
 			searchCriteria.setProjectid(new NumberSearchField(
 					CurrentProjectVariables.getProjectId()));
-			searchCriteria.setTaskName(new StringSearchField(this.nameField
-					.getValue().toString().trim()));
+			searchCriteria.setTaskName(new StringSearchField(this.nameField.getValue().trim()));
 			if (this.myItemCheckbox.getValue()) {
 				searchCriteria.setAssignUser(new StringSearchField(
 						SearchField.AND, AppContext.getUsername()));

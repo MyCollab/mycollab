@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -299,8 +300,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 						});
 
 				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
-				btnSave.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_addRecord));
+				btnSave.setIcon(FontAwesome.PLUS_SQUARE);
 
 				headerPanel.addComponent(btnSave);
 
@@ -314,7 +314,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 				});
 			}
 
-			tableItem = new DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem>(
+			tableItem = new DefaultPagedBeanTable<>(
 					ApplicationContextUtil
 							.getSpringBean(MonitorItemService.class),
 					SimpleMonitorItem.class,
@@ -384,9 +384,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 												.loadMonitorItems();
 									}
 								});
-						deleteBtn.setStyleName("link");
-						deleteBtn.setIcon(MyCollabResource
-								.newResource(WebResourceIds._16_delete));
+						deleteBtn.setIcon(FontAwesome.TRASH_O);
+                        deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 						return deleteBtn;
 					}
 				});

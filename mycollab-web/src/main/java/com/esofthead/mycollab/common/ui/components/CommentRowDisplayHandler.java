@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -102,9 +103,8 @@ public class CommentRowDisplayHandler extends
 
 		// Message delete button
 		Button msgDeleteBtn = new Button();
-		msgDeleteBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._12_project_icon_x));
-		msgDeleteBtn.setStyleName("delete-btn");
+		msgDeleteBtn.setIcon(FontAwesome.TRASH_O);
+		msgDeleteBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 		messageHeader.addComponent(msgDeleteBtn);
 
 		if (hasDeletePermission(comment)) {

@@ -65,9 +65,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
 
         final PopupButton projectsPopup = new PopupButton("");
-        projectsPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
-        projectsPopup.setIcon(MyCollabResource
-                .newResource(WebResourceIds._12_project_task_filter));
+        projectsPopup.addStyleName("popuplistindicator");
 
         final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
 

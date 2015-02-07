@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
@@ -29,12 +27,11 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.vaadin.server.FontAwesome;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -87,31 +84,30 @@ public class ActivityListViewImpl extends
 				|| AppContext.canAccess(RolePermissionCollections.CRM_TASK)) {
 
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
-					MyCollabResource
-							.newResource(WebResourceIds._16_action_delete),
+                    FontAwesome.TRASH_O,
 					"delete", AppContext
 							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_mail),
+                FontAwesome.ENVELOPE_O,
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_pdf),
+                FontAwesome.FILE_PDF_O,
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_excel),
+                FontAwesome.FILE_EXCEL_O,
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource(WebResourceIds._16_action_csv),
+                FontAwesome.FILE_TEXT_O,
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

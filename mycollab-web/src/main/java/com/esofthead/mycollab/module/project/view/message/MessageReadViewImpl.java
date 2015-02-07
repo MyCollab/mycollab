@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.message;
 
 import java.util.List;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -100,7 +101,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 				.withWidth("100%").withSpacing(true).withMargin(true);
 
 		this.addComponent(header);
-		previewForm = new AdvancedPreviewBeanForm<SimpleMessage>();
+		previewForm = new AdvancedPreviewBeanForm<>();
 
 		contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
@@ -191,8 +192,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 									});
 						}
 					});
-			deleteBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_delete2));
+			deleteBtn.setIcon(FontAwesome.TRASH_O);
 			deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
@@ -317,8 +317,8 @@ public class MessageReadViewImpl extends AbstractPageView implements
 									message.getId()));
 			if (CollectionUtils.isNotEmpty(attachments)) {
 				HorizontalLayout attachmentField = new HorizontalLayout();
-				Image attachmentIcon = new Image(null,
-						MyCollabResource.newResource("icons/16/attachment.png"));
+				Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
+                attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 				attachmentField.addComponent(attachmentIcon);
 
 				Label lbAttachment = new Label(

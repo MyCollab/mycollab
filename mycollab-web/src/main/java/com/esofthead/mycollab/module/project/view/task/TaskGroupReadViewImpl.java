@@ -51,6 +51,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -157,17 +158,8 @@ public class TaskGroupReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
-
-        tabContainer.addTab(commentList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_comment));
-
-        tabContainer.addTab(historyList, AppContext
-                        .getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
-                MyCollabResource
-                        .newResource(WebResourceIds._16_project_gray_history));
-
+        tabContainer.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 

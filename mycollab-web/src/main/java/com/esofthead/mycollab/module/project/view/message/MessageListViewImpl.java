@@ -16,17 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.message;
 
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.easyuploads.MultiFileUploadExt;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -59,34 +48,26 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList.RowDisplayHandler;
-import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -244,57 +225,11 @@ public class MessageListViewImpl extends AbstractPageView implements
 			title.addStyleName("message-title");
 			leftHeader.addComponent(title);
 
-			final HorizontalLayout rightHeader = new HorizontalLayout();
-			rightHeader.setSpacing(true);
-
 			final Label timePostLbl = new Label(
 					DateTimeUtils.getPrettyDateValue(message.getPosteddate(),
 							AppContext.getUserLocale()));
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
-
-			final HorizontalLayout notification = new HorizontalLayout();
-			notification.setStyleName("notification");
-			notification.setSizeUndefined();
-			notification.setSpacing(true);
-			if (message.getCommentsCount() > 0) {
-				final HorizontalLayout commentNotification = new HorizontalLayout();
-				final Label commentCountLbl = new Label(
-						Integer.toString(message.getCommentsCount()));
-				commentCountLbl.setStyleName("comment-count");
-				commentCountLbl.setSizeUndefined();
-				commentNotification.addComponent(commentCountLbl);
-				final Image commentIcon = new Image(null,
-						MyCollabResource
-								.newResource("icons/16/project/message.png"));
-				commentNotification.addComponent(commentIcon);
-
-				notification.addComponent(commentNotification);
-
-			}
-			ResourceService attachmentService = ApplicationContextUtil
-					.getSpringBean(ResourceService.class);
-			List<Content> attachments = attachmentService
-					.getContents(AttachmentUtils
-							.getProjectEntityAttachmentPath(
-									AppContext.getAccountId(),
-									message.getProjectid(),
-									AttachmentType.PROJECT_MESSAGE,
-									message.getId()));
-			if (CollectionUtils.isNotEmpty(attachments)) {
-				final HorizontalLayout attachmentNotification = new HorizontalLayout();
-				final Label attachmentCountLbl = new Label(
-						Integer.toString(attachments.size()));
-				attachmentCountLbl.setStyleName("attachment-count");
-				attachmentCountLbl.setSizeUndefined();
-				attachmentNotification.addComponent(attachmentCountLbl);
-				final Image attachmentIcon = new Image(null,
-						MyCollabResource.newResource("icons/16/attachment.png"));
-				attachmentNotification.addComponent(attachmentIcon);
-
-				notification.addComponent(attachmentNotification);
-
-			}
 
 			Button deleteBtn = new Button("", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
@@ -329,15 +264,14 @@ public class MessageListViewImpl extends AbstractPageView implements
 							});
 				}
 			});
-			deleteBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._12_project_icon_x));
-			deleteBtn.addStyleName("link");
+			deleteBtn.setIcon(FontAwesome.TRASH_O);
+			deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-			rightHeader.addComponent(timePostLbl);
-			rightHeader.addComponent(deleteBtn);
-			rightHeader.setExpandRatio(timePostLbl, 1.0f);
+            final MHorizontalLayout rightHeader = new MHorizontalLayout();
+            rightHeader.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+			rightHeader.with(timePostLbl, deleteBtn);
 
 			messageHeader.addComponent(leftHeader);
 			messageHeader.setExpandRatio(leftHeader, 1.0f);
@@ -351,6 +285,45 @@ public class MessageListViewImpl extends AbstractPageView implements
 					ContentMode.HTML);
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
+
+            final HorizontalLayout notification = new HorizontalLayout();
+            notification.setStyleName("notification");
+            notification.setSizeUndefined();
+            notification.setSpacing(true);
+            if (message.getCommentsCount() > 0) {
+                final MHorizontalLayout commentNotification = new MHorizontalLayout();
+                final Label commentCountLbl = new Label(
+                        Integer.toString(message.getCommentsCount()));
+                commentCountLbl.setStyleName("comment-count");
+                commentCountLbl.setSizeUndefined();
+                commentNotification.addComponent(commentCountLbl);
+                final Button commentIcon = new Button(FontAwesome.COMMENTS);
+                commentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+                commentNotification.addComponent(commentIcon);
+
+                notification.addComponent(commentNotification);
+            }
+            ResourceService attachmentService = ApplicationContextUtil
+                    .getSpringBean(ResourceService.class);
+            List<Content> attachments = attachmentService
+                    .getContents(AttachmentUtils
+                            .getProjectEntityAttachmentPath(
+                                    AppContext.getAccountId(),
+                                    message.getProjectid(),
+                                    AttachmentType.PROJECT_MESSAGE,
+                                    message.getId()));
+            if (CollectionUtils.isNotEmpty(attachments)) {
+                final HorizontalLayout attachmentNotification = new HorizontalLayout();
+                final Label attachmentCountLbl = new Label(
+                        Integer.toString(attachments.size()));
+                attachmentCountLbl.setStyleName("attachment-count");
+                attachmentCountLbl.setSizeUndefined();
+                attachmentNotification.addComponent(attachmentCountLbl);
+                final Button attachmentIcon = new Button(FontAwesome.PAPERCLIP);
+                attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+                attachmentNotification.addComponent(attachmentIcon);
+                notification.addComponent(attachmentNotification);
+            }
 
 			if (notification.getComponentCount() > 0) {
 				VerticalLayout messageFooter = new VerticalLayout();
@@ -445,8 +418,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 				}
 			});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_search));
+			searchBtn.setIcon(FontAwesome.SEARCH);
 			basicSearchBody.addComponent(searchBtn);
 
 			this.setCompositionRoot(basicSearchBody);
@@ -480,7 +452,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			this.messagePanelBody.removeAllComponents();
 
 			final MVerticalLayout addMessageWrapper = new MVerticalLayout()
-					.withSpacing(true).withWidth("500px");
+					.withSpacing(true).withWidth("700px");
 
 			final RichTextArea ckEditorTextField = new RichTextArea();
 			final AttachmentPanel attachments = new AttachmentPanel();
@@ -514,21 +486,18 @@ public class MessageListViewImpl extends AbstractPageView implements
 			addMessageWrapper.setComponentAlignment(ckEditorTextField,
 					Alignment.MIDDLE_CENTER);
 
-			final HorizontalLayout controls = new HorizontalLayout();
-			controls.setWidth("100%");
-			controls.setSpacing(true);
+			final MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
 
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					attachments);
 			uploadExt.addComponent(attachments);
 			controls.addComponent(uploadExt);
 			controls.setExpandRatio(uploadExt, 1.0f);
-			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
+			controls.setComponentAlignment(uploadExt, Alignment.TOP_LEFT);
 
 			final CheckBox chkIsStick = new CheckBox(
 					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
-			controls.addComponent(chkIsStick);
-			controls.setComponentAlignment(chkIsStick, Alignment.MIDDLE_CENTER);
+			controls.with(chkIsStick).withAlign(chkIsStick, Alignment.TOP_RIGHT);
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -542,8 +511,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 						}
 					});
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			controls.addComponent(cancelBtn);
-			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
+			controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
 			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_POST),
@@ -581,10 +549,9 @@ public class MessageListViewImpl extends AbstractPageView implements
 						}
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			saveBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_save));
-			controls.addComponent(saveBtn);
-			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
+			saveBtn.setIcon(FontAwesome.SAVE);
+
+			controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
 			addMessageWrapper.addComponent(controls);
 			addMessageWrapper.setComponentAlignment(controls,
@@ -611,8 +578,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 				createMessageBtn.setEnabled(CurrentProjectVariables
 						.canWrite(ProjectRolePermissionCollections.MESSAGES));
 				createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				createMessageBtn.setIcon(MyCollabResource
-						.newResource(WebResourceIds._16_addRecord));
+				createMessageBtn.setIcon(FontAwesome.PLUS_SQUARE);
 				createMessageBtn.setEnabled(CurrentProjectVariables
 						.canWrite(ProjectRolePermissionCollections.MESSAGES));
 

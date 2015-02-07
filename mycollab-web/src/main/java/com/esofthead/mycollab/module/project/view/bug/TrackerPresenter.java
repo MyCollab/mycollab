@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ComponentScreenData;
@@ -53,9 +54,9 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("bug");
+		projectViewContainer.gotoSubView(ProjectTypeConstants.BUG);
 
-		IPresenter<?> presenter = null;
+		IPresenter<?> presenter;
 
 		if (AppContext.isBugComponentEnable()) {
 			if (ClassUtils.instanceOf(data, BugScreenData.Search.class,

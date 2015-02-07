@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -47,15 +48,15 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 	private ReadViewLayout previewLayout;
 	private Label headerText;
 	private MHorizontalLayout header;
-	private Image titleIcon;
 
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadViewImpl() {
-		this.titleIcon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._22_user_group));
-		this.headerText = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
+		this.headerText = new Label();
+        headerText.setCaption(AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
+        headerText.setIcon(FontAwesome.USERS);
+        headerText.addStyleName("header-text");
+
 		this.headerText.setSizeUndefined();
 		this.addComponent(constructHeader());
 
@@ -177,9 +178,9 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 		header = new MHorizontalLayout().withStyleName("hdr-view")
 				.withWidth("100%").withSpacing(true).withMargin(true);
 
-		this.headerText.setStyleName("hdr-text");
+		this.headerText.setStyleName("header-text");
 
-		header.with(titleIcon, headerText).alignAll(Alignment.MIDDLE_LEFT)
+		header.with(headerText).alignAll(Alignment.MIDDLE_LEFT)
 				.expand(headerText);
 
 		return header;
