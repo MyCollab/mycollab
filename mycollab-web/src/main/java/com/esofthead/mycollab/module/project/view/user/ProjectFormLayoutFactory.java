@@ -18,18 +18,14 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -50,7 +46,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public ComponentContainer getLayout() {
 		final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
-				MyCollabResource.newResource("icons/24/project/project.png"));
+                AssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 
 		this.projectInformationLayout = new ProjectInformationLayout();
 

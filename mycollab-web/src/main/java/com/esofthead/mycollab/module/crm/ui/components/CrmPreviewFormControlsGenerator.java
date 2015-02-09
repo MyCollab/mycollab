@@ -121,7 +121,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireAddForm(item);
 						}
 					});
-			addBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			addBtn.setIcon(FontAwesome.PLUS);
 			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			addBtn.setEnabled(canWrite);
 			layout.addComponent(addBtn);
@@ -158,7 +158,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireDeleteForm(item);
 						}
 					});
-			deleteBtn.setIcon(FontAwesome.RECYCLE);
+			deleteBtn.setIcon(FontAwesome.TRASH_O);
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 			layout.addComponent(deleteBtn);
 			deleteBtn.setEnabled(canAccess);

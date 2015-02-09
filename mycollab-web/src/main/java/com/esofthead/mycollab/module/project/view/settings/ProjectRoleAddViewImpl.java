@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -56,7 +57,7 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 		implements ProjectRoleAddView {
 
 	private static final long serialVersionUID = 1L;
-	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<String, AccessPermissionComboBox>();
+	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<>();
 
 	@Override
 	protected String initFormHeader() {
@@ -72,19 +73,17 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/24/project/user.png");
+		return FontAwesome.GROUP;
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = new EditFormControlsGenerator<ProjectRole>(
-				editForm).createButtonControls();
-		return controlButtons;
+		return new EditFormControlsGenerator<>(editForm).createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<ProjectRole> initPreviewForm() {
-		return new AdvancedEditBeanForm<ProjectRole>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override

@@ -27,12 +27,14 @@ import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -58,6 +60,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
@@ -100,19 +103,14 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        Image titleIcon = new Image(null, MyCollabResource.newResource(WebResourceIds._22_project_page_selected));
-
-        Label headerLbl = new Label(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
+        Label headerLbl = new HeaderView(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum
+                .VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
         headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 
-        ((MHorizontalLayout) header).addComponent(titleIcon, 0);
-        ((MHorizontalLayout) header).addComponent(headerLbl, 1);
-        ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 2);
-
-        ((MHorizontalLayout) header).withMargin(true).withWidth("100%").withStyleName("hdr-view")
-                .withAlign(titleIcon, Alignment.MIDDLE_LEFT)
-                .alignAll(Alignment.MIDDLE_LEFT).expand(pageVersionsSelection);
+        ((MHorizontalLayout) header).addComponent(headerLbl, 0);
+        ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 1);
+        ((MHorizontalLayout) header).withMargin(true).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override
@@ -178,7 +176,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
         exportPdfBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
-                MyCollabResource.newResource(WebResourceIds._16_export));
+                FontAwesome.EXTERNAL_LINK);
         exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
         FileDownloader fileDownloader = new FileDownloader(getPDFStream());
@@ -250,15 +248,11 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
     private class PageReadFormLayout implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
-        private VerticalLayout layout;
+        private MVerticalLayout layout;
 
         @Override
         public ComponentContainer getLayout() {
-            layout = new VerticalLayout();
-            layout.setStyleName("page-read-layout");
-            layout.setMargin(true);
-            layout.setSpacing(true);
-            layout.setWidth("100%");
+            layout = new MVerticalLayout().withStyleName("page-read-layout").withWidth("100%");
             return layout;
         }
 

@@ -25,16 +25,16 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -72,12 +72,7 @@ public class ComponentSearchPanel extends
                 .withStyleName(UIConstants.HEADER_VIEW)
                 .withMargin(new MarginInfo(true, false, true, false));
 
-        final Image titleIcon = new Image(null,
-                MyCollabResource
-                        .newResource(WebResourceIds._22_project_component));
-        layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
-
-        final Label componenttitle = new Label(
+        final Label componenttitle = new HeaderView(ProjectTypeConstants.BUG_COMPONENT,
                 AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
         componenttitle.setStyleName(UIConstants.HEADER_TEXT);
 
@@ -99,7 +94,7 @@ public class ComponentSearchPanel extends
         createBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.COMPONENTS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createBtn.setIcon(FontAwesome.PLUS);
 
         layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
 

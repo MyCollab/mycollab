@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
@@ -25,32 +26,19 @@ import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -82,19 +70,17 @@ public class ProjectMemberEditViewImpl extends
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/24/project/user.png");
+		return AssetsManager.getAsset(ProjectTypeConstants.MEMBER);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final HorizontalLayout controlButtons = (new EditFormControlsGenerator<ProjectMember>(
-				editForm)).createButtonControls(true, false, true);
-		return controlButtons;
+		return (new EditFormControlsGenerator<>(editForm)).createButtonControls(true, false, true);
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<ProjectMember> initPreviewForm() {
-		return new AdvancedEditBeanForm<ProjectMember>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -123,8 +109,7 @@ public class ProjectMemberEditViewImpl extends
 						((SimpleProjectMember) beanItem).getMemberFullName());
 
 			} else if (propertyId.equals("projectroleid")) {
-				AdminRoleSelectionField roleBox = new AdminRoleSelectionField();
-				return roleBox;
+				return new AdminRoleSelectionField();
 			} else if (propertyId.equals("isadmin")) {
 				return new DummyCustomField<Boolean>();
 			}

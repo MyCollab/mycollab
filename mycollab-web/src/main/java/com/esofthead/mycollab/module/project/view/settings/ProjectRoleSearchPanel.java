@@ -135,7 +135,7 @@ public class ProjectRoleSearchPanel extends
 		@Override
 		public ComponentContainer constructHeader() {
 			Label headerText = new Label();
-            headerText.setIcon(FontAwesome.USERS);
+            headerText.setIcon(FontAwesome.GROUP);
             headerText.setCaption(AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
             headerText.setStyleName("header-text");
 
@@ -152,7 +152,7 @@ public class ProjectRoleSearchPanel extends
 						}
 					});
 			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			createBtn.setIcon(FontAwesome.PLUS);
 			createBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.ROLES));
 

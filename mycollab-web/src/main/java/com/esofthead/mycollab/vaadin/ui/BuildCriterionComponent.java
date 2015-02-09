@@ -157,7 +157,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				});
 		saveSearchBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		saveSearchBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		saveSearchBtn.setIcon(FontAwesome.PLUS);
 		filterBox.addComponent(saveSearchBtn);
 	}
 
@@ -327,8 +327,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				}
 			});
 			deleteBtn.addStyleName(UIConstants.THEME_TRANSPARENT_LINK);
-			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/16/crm/basket.png"));
+			deleteBtn.setIcon(FontAwesome.TRASH_O);
 
 			this.addComponent(fieldSelectionBox, 2, 0);
 			this.addComponent(compareSelectionBox, 3, 0);

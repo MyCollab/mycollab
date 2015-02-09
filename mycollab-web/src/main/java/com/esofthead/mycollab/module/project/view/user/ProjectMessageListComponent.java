@@ -23,18 +23,19 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -130,9 +131,7 @@ public class ProjectMessageListComponent extends MVerticalLayout {
 
 		private String buildMessage(SimpleMessage message) {
 			DivLessFormatter div = new DivLessFormatter();
-			Img messageIcon = new Img("",
-					MyCollabResource
-							.newResourceLink(WebResourceIds._16_project_message));
+			Text messageIcon = new Text(AssetsManager.getAsset(ProjectTypeConstants.MESSAGE).getHtml());
 			A msgLink = new A();
 			msgLink.setHref(ProjectLinkBuilder.generateMessagePreviewFullLink(
 					message.getProjectid(), message.getId(),

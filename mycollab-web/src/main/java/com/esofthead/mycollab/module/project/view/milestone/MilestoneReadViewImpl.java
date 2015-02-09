@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -93,7 +94,7 @@ public class MilestoneReadViewImpl extends
 
     public MilestoneReadViewImpl() {
         super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE),
-                MyCollabResource.newResource(WebResourceIds._24_project_phase));
+                AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
     }
 
     @Override
@@ -275,7 +276,7 @@ public class MilestoneReadViewImpl extends
             });
             Button chartBtn = new Button("");
 
-            chartBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_project_bug_advanced_display));
+            chartBtn.setIcon(FontAwesome.TH_LARGE);
             chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2, chartBtn)

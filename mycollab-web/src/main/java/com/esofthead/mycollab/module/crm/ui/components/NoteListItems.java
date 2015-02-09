@@ -145,7 +145,7 @@ public class NoteListItems extends VerticalLayout {
 				});
 
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBtn.setIcon(FontAwesome.PLUS);
 		noteWrapper.addComponent(createBtn);
 		noteWrapper.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
 

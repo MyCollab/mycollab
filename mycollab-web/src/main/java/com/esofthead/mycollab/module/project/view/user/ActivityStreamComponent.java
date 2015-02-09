@@ -28,20 +28,19 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -238,8 +237,7 @@ public class ActivityStreamComponent extends CssLayout {
         private String buildItemValue(ProjectActivityStream activityStream) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            Img itemImg = new Img("",
-                    ProjectResources.getResourceLink(activityStream.getType()));
+            Text itemImg = new Text(AssetsManager.getAsset(activityStream.getType()).getHtml());
             A itemLink = new A();
             itemLink.setId("tag" + uid);
 
@@ -281,9 +279,7 @@ public class ActivityStreamComponent extends CssLayout {
         private String buildProjectValue(ProjectActivityStream activityStream) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            Img prjImg = new Img("",
-                    MyCollabResource
-                            .newResourceLink(WebResourceIds._16_project_project));
+            Text prjImg = new Text(AssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
             A prjLink = new A(
                     ProjectLinkBuilder.generateProjectFullLink(activityStream
                             .getProjectId()));

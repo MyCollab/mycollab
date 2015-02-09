@@ -16,16 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -41,12 +36,10 @@ public class AbstractProjectPageView extends AbstractPageView {
 	protected MHorizontalLayout header;
 	protected Image titleIcon;
 
-	public AbstractProjectPageView(String headerText, String iconName) {
+	public AbstractProjectPageView(String headerText, FontAwesome icon) {
 		super();
 
-		this.titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/" + iconName));
-		this.headerText = new Label(headerText);
+		this.headerText = new Label(icon.getHtml() + " " + headerText, ContentMode.HTML);
 		super.addComponent(constructHeader());
 
 		contentWrapper = new CssLayout();
@@ -59,9 +52,7 @@ public class AbstractProjectPageView extends AbstractPageView {
 		header = new MHorizontalLayout();
 		this.headerText.setStyleName("hdr-text");
 
-		header.with(titleIcon, headerText)
-				.withAlign(titleIcon, Alignment.MIDDLE_LEFT)
-				.withAlign(titleIcon, Alignment.MIDDLE_LEFT).expand(headerText)
+		header.with(headerText).expand(headerText)
 				.withStyleName("hdr-view").withWidth("100%").withSpacing(true)
 				.withMargin(true);
 

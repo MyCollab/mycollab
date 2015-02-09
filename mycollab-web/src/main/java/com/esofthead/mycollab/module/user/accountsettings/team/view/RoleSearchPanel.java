@@ -77,7 +77,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 					}
 				});
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBtn.setIcon(FontAwesome.PLUS);
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
 

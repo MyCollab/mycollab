@@ -67,7 +67,7 @@ public class AccountLeadListComp extends
         controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         controlsBtn.setCaption(AppContext
                 .getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
-        controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn
                 .addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = 1L;

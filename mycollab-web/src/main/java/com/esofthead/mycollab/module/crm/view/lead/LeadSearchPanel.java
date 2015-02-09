@@ -86,7 +86,7 @@ public class LeadSearchPanel extends
                                 new LeadEvent.GotoAdd(this, null));
                     }
                 });
-        createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createAccountBtn.setIcon(FontAwesome.PLUS);
         createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createAccountBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_LEAD));

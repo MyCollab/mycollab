@@ -51,6 +51,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -78,7 +79,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 
     public ProjectMemberReadViewImpl() {
         super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE),
-                "user.png");
+                FontAwesome.USER);
 
         contentWrapper.addStyleName("member-preview");
 

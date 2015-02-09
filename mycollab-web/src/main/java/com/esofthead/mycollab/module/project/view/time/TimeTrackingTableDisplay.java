@@ -207,7 +207,6 @@ public class TimeTrackingTableDisplay
                                     icon.setIcon(MyCollabResource
                                             .newResource(WebResourceIds._16_no));
                                 }
-                                icon.setStyleName("link");
                                 return icon;
                             }
                         }

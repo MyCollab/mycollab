@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -52,7 +54,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
     }
 
     public AbstractPreviewItemComp2(String headerText, Resource iconResource, ReadViewLayout layout) {
-        Label headerLbl = new Label(headerText);
+        Label headerLbl = new Label("", ContentMode.HTML);
         headerLbl.setSizeUndefined();
         headerLbl.setStyleName("hdr-text");
 
@@ -61,8 +63,17 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
         header = new MHorizontalLayout();
 
         if (iconResource != null) {
-            Image titleIcon = new Image(null, iconResource);
-            ((MHorizontalLayout) header).with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
+            if (iconResource instanceof FontAwesome) {
+                String title = ((FontAwesome)iconResource).getHtml() + " " + headerText;
+                headerLbl.setValue(title);
+            }
+            else {
+                Image titleIcon = new Image(null, iconResource);
+                ((MHorizontalLayout) header).with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
+                headerLbl.setValue(headerText);
+            }
+        } else {
+            headerLbl.setValue(headerText);
         }
 
         ((MHorizontalLayout) header).with(headerLbl).withAlign

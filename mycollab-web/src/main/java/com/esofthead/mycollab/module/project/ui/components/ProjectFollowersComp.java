@@ -295,7 +295,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 						});
 
 				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
-				btnSave.setIcon(FontAwesome.PLUS_SQUARE);
+				btnSave.setIcon(FontAwesome.PLUS);
 
 				headerPanel.addComponent(btnSave);
 

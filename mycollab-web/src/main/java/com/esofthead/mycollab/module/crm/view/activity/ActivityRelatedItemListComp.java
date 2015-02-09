@@ -69,7 +69,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("task");
 						}
 					});
-			newTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			newTaskBtn.setIcon(FontAwesome.PLUS);
 			newTaskBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_TASK));
 			newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -84,7 +84,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("call");
 						}
 					});
-			newCallBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			newCallBtn.setIcon(FontAwesome.PLUS);
 			newCallBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_CALL));
 			newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -99,7 +99,7 @@ public class ActivityRelatedItemListComp extends
 							fireNewRelatedItem("call");
 						}
 					});
-			newMeetingBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			newMeetingBtn.setIcon(FontAwesome.PLUS);
 			newMeetingBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_MEETING));
 			newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);

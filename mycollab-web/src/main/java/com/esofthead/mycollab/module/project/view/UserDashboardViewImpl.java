@@ -23,11 +23,13 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
 import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.view.user.ActivityStreamComponent;
 import com.esofthead.mycollab.module.project.view.user.MyProjectListComponent;
 import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
@@ -120,7 +122,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 							UI.getCurrent().addWindow(projectNewWindow);
 						}
 					});
-			createProjectBtn.setIcon(FontAwesome.PLUS_SQUARE);
+			createProjectBtn.setIcon(FontAwesome.PLUS);
 			createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			headerContentTop.addComponent(createProjectBtn);
 			headerContentTop.setComponentAlignment(createProjectBtn,
@@ -131,8 +133,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		followingTicketsLink = new ButtonLink(AppContext.getMessage(
 				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0), false);
 
-		followingTicketsLink.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_follow));
+		followingTicketsLink.setIcon(FontAwesome.EYE);
 		followingTicketsLink.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -158,8 +159,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 								UserDashboardViewImpl.this, prjKeys));
 			}
 		});
-		timeTrackingLink.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_project_time_white));
+		timeTrackingLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TIME));
 
 		final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withSpacing(true).withMargin(false)
 				.with(followingTicketsLink, timeTrackingLink);

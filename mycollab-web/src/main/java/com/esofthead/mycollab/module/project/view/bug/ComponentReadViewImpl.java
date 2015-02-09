@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -93,8 +94,7 @@ public class ComponentReadViewImpl extends
 
     public ComponentReadViewImpl() {
         super(AppContext.getMessage(ComponentI18nEnum.VIEW_READ_TITLE),
-                MyCollabResource
-                        .newResource(WebResourceIds._22_project_component));
+                AssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT));
     }
 
     @Override
@@ -149,14 +149,12 @@ public class ComponentReadViewImpl extends
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_CLOSE));
-            quickActionStatusBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_project_closeTask));
+            quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
             addLayoutStyleName(UIConstants.LINK_COMPLETED);
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_REOPEN));
-            quickActionStatusBtn.setIcon(MyCollabResource
-                    .newResource(WebResourceIds._16_project_reopenTask));
+            quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
 
         }
 
@@ -207,8 +205,7 @@ public class ComponentReadViewImpl extends
                             .removeLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
                             .getMessage(GenericI18Enum.BUTTON_CLOSE));
-                    quickActionStatusBtn.setIcon(MyCollabResource
-                            .newResource(WebResourceIds._16_project_closeTask));
+                    quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
 
@@ -216,8 +213,7 @@ public class ComponentReadViewImpl extends
                             .addLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
                             .getMessage(GenericI18Enum.BUTTON_REOPEN));
-                    quickActionStatusBtn.setIcon(MyCollabResource
-                            .newResource(WebResourceIds._16_project_reopenTask));
+                    quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
                 ComponentService service = ApplicationContextUtil
@@ -269,7 +265,7 @@ public class ComponentReadViewImpl extends
 
             Button chartBtn = new Button("");
 
-            chartBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_project_bug_advanced_display));
+            chartBtn.setIcon(FontAwesome.TH_LARGE);
             chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1,

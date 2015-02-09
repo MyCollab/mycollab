@@ -20,12 +20,14 @@ import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
@@ -59,22 +61,20 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 
 	private void initUI() {
 		this.setMargin(new MarginInfo(false, true, false, true));
-		header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true, false, true, false))
+		header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
 				.withWidth("100%");
 		header.addStyleName("hdr-view");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		this.addComponent(header);
 
-		final MHorizontalLayout body = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
+		final MHorizontalLayout body = new MHorizontalLayout().withMargin(false).withWidth("100%");
 
-		this.leftColumn = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, true, false, false));
-		body.addComponent(this.leftColumn);
-		body.setExpandRatio(this.leftColumn, 1.0f);
+		this.leftColumn = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
+		body.with(this.leftColumn).expand(leftColumn);
 
-		this.rightColumn = new MVerticalLayout().withSpacing(true).withMargin(false);
+		this.rightColumn = new MVerticalLayout().withMargin(false);
 
-		body.addComponent(this.rightColumn);
-		body.setComponentAlignment(this.rightColumn, Alignment.TOP_RIGHT);
+		body.with(this.rightColumn).withAlign(rightColumn, Alignment.TOP_RIGHT);
 
 		this.addComponent(body);
 
@@ -82,16 +82,9 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void initHeader() {
-		final Label title = new Label(
+		final Label title = new HeaderView(ProjectTypeConstants.BUG,
 				AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
-		title.setStyleName("hdr-text");
-		title.setSizeUndefined();
-		final Image icon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._24_project_bug));
-		header.addComponent(icon);
-		header.addComponent(title);
-		header.setExpandRatio(title, 1.0f);
-		header.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
+		header.with(title).withAlign(title, Alignment.MIDDLE_LEFT).expand(title);
 
 		final Button createBugBtn = new Button(
 				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
@@ -104,7 +97,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				});
 		createBugBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createBugBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBugBtn.setIcon(FontAwesome.PLUS);
 		final SplitButton controlsBtn = new SplitButton(createBugBtn);
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setWidthUndefined();

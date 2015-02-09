@@ -17,107 +17,94 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.web.CustomLayoutExt;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class AddViewLayout extends CustomLayoutExt {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final Label titleLbl;
-	private final Image icon;
-	private final HorizontalLayout header;
+    private Resource viewIcon;
 
-	public AddViewLayout(final String title, final Resource resource) {
-		super("addView");
+    private Label titleLbl;
+    private final MHorizontalLayout header;
 
-		this.header = new HorizontalLayout();
-		this.header.setWidth("100%");
-		this.header.setSpacing(true);
-		this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+    public AddViewLayout(String viewTitle, Resource viewIcon) {
+        super("addView");
 
-		this.icon = new Image(null);
-		this.setTitleIcon(resource);
-		this.header.addComponent(this.icon);
-		this.titleLbl = new Label();
-		this.titleLbl.setStyleName("headerName");
-		this.titleLbl.setImmediate(true);
-		this.titleLbl.setWidthUndefined();
+        this.viewIcon = viewIcon;
 
-		this.header.addComponent(this.titleLbl);
-		this.header.setExpandRatio(titleLbl, 1.0f);
+        this.header = new MHorizontalLayout().withWidth("100%");
+        this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		if (title == null) {
-			if (resource != null) {
-				this.setHeader("Undefined");
-			}
-		} else {
-			this.setHeader(title);
-		}
+        this.titleLbl = new Label("", ContentMode.HTML);
+        this.titleLbl.setStyleName("headerName");
 
-		this.addComponent(this.header, "addViewHeader");
-	}
+        if (!(viewIcon instanceof FontAwesome)) {
+            Image icon = new Image(null);
+            icon.setIcon(viewIcon);
+            icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            this.header.with(icon);
+        }
+        this.header.with(titleLbl).expand(titleLbl);
+        setHeader(viewTitle);
+        this.addComponent(this.header, "addViewHeader");
+    }
 
-	public void addBody(final ComponentContainer body) {
-		this.addComponent(body, "addViewBody");
-	}
+    public void addBody(final ComponentContainer body) {
+        this.addComponent(body, "addViewBody");
+    }
 
-	public void addBottomControls(final ComponentContainer bottomControls) {
-		this.addComponent(bottomControls, "addViewBottomControls");
-	}
+    public void addBottomControls(final ComponentContainer bottomControls) {
+        this.addComponent(bottomControls, "addViewBottomControls");
+    }
 
-	public void addHeaderRight(final ComponentContainer headerRight) {
-		this.header.addComponent(headerRight);
-	}
+    public void addHeaderRight(final ComponentContainer headerRight) {
+        this.header.addComponent(headerRight);
+    }
 
-	public void addTitleStyleName(final String styleName) {
-		this.titleLbl.addStyleName(styleName);
-	}
+    public void addTitleStyleName(final String styleName) {
+        this.titleLbl.addStyleName(styleName);
+    }
 
-	public void setTitleStyleName(final String styleName) {
-		this.titleLbl.setStyleName(styleName);
-	}
+    public void setTitleStyleName(final String styleName) {
+        this.titleLbl.setStyleName(styleName);
+    }
 
-	public void removeTitleStyleName(final String styleName) {
-		this.titleLbl.removeStyleName(styleName);
-	}
+    public void removeTitleStyleName(final String styleName) {
+        this.titleLbl.removeStyleName(styleName);
+    }
 
 	/*
-	 * public void addTopControls(final ComponentContainer topControls) {
+     * public void addTopControls(final ComponentContainer topControls) {
 	 * this.addComponent(topControls, "addViewTopControls"); }
 	 */
 
-	public void setHeader(final String title) {
-		this.titleLbl.setValue(title);
-	}
+    public void setHeader(final String viewTitle) {
+        if (viewIcon instanceof FontAwesome) {
+            String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
+            this.titleLbl.setValue(title);
+        } else {
+            this.titleLbl.setValue(viewTitle);
+        }
+    }
 
-	public void setTitle(final String title) {
-		if (title != null) {
-			CssLayout titleWrap = new CssLayout();
-			titleWrap.setStyleName("addViewTitle");
-			titleWrap.setWidth("100%");
-			titleWrap.addComponent(new Label(title));
-			this.addComponent(titleWrap, "addViewTitle");
-		} else {
-			this.removeComponent("addViewTitle");
-		}
-	}
-
-	public void setTitleIcon(final Resource resource) {
-		if (resource != null) {
-			this.icon.setSource(resource);
-		}
-	}
-
+    public void setTitle(final String title) {
+        if (title != null) {
+            CssLayout titleWrap = new CssLayout();
+            titleWrap.setStyleName("addViewTitle");
+            titleWrap.setWidth("100%");
+            titleWrap.addComponent(new Label(title));
+            this.addComponent(titleWrap, "addViewTitle");
+        } else {
+            this.removeComponent("addViewTitle");
+        }
+    }
 }

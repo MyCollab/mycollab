@@ -99,7 +99,7 @@ public class AccountSearchPanel extends
 					}
 				});
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createAccountBtn.setIcon(FontAwesome.PLUS);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 

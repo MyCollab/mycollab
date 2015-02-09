@@ -273,7 +273,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
 		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
 		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnAdd.setIcon(FontAwesome.PLUS_SQUARE);
+		btnAdd.setIcon(FontAwesome.PLUS);
 		addLayout.addComponent(btnAdd);
 		addLayout.setComponentAlignment(btnAdd, Alignment.MIDDLE_LEFT);
 	}

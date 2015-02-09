@@ -26,13 +26,13 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -172,7 +172,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
         private Div buildItemValue(ProjectGenericTask task) {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
-            Img image = new Img("", ProjectResources.getResourceLink(task.getType()));
+            Text image = new Text(AssetsManager.getAsset(task.getType()).getHtml());
             A itemLink = new A();
             itemLink.setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())

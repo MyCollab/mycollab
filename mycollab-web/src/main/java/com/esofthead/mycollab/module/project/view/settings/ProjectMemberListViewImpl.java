@@ -31,12 +31,12 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -65,10 +65,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
                 .withWidth("100%").withStyleName("hdr-view");
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        viewHeader.addComponent(new Image(null, MyCollabResource
-                .newResource("icons/24/project/user.png")));
-
-        Label headerText = new Label(
+        Label headerText = new HeaderView(ProjectTypeConstants.MEMBER,
                 AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
         headerText.setStyleName("hdr-text");
 
@@ -91,7 +88,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         createBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.USERS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createBtn.setIcon(FontAwesome.PLUS);
 
         viewHeader.addComponent(createBtn);
 

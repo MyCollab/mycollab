@@ -578,7 +578,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 				createMessageBtn.setEnabled(CurrentProjectVariables
 						.canWrite(ProjectRolePermissionCollections.MESSAGES));
 				createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				createMessageBtn.setIcon(FontAwesome.PLUS_SQUARE);
+				createMessageBtn.setIcon(FontAwesome.PLUS);
 				createMessageBtn.setEnabled(CurrentProjectVariables
 						.canWrite(ProjectRolePermissionCollections.MESSAGES));
 

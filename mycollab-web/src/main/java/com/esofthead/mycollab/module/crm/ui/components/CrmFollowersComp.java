@@ -300,7 +300,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 						});
 
 				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
-				btnSave.setIcon(FontAwesome.PLUS_SQUARE);
+				btnSave.setIcon(FontAwesome.PLUS);
 
 				headerPanel.addComponent(btnSave);
 

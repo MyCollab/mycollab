@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -87,7 +88,7 @@ public class TaskGroupReadViewImpl extends
     public TaskGroupReadViewImpl() {
         super(AppContext
                         .getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
-                MyCollabResource.newResource(WebResourceIds._22_project_task_group));
+                AssetsManager.getAsset(ProjectTypeConstants.TASK_LIST));
     }
 
     @Override
@@ -183,8 +184,7 @@ public class TaskGroupReadViewImpl extends
                                     .generateMilestonePreviewFullLink(
                                             beanItem.getProjectid(),
                                             beanItem.getMilestoneid()),
-                            MyCollabResource
-                                    .newResourceLink(WebResourceIds._16_project_milestone));
+                            AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
                 } else if (TaskList.Field.owner.equalTo(propertyId)) {
                     return new ProjectUserFormLinkField(beanItem.getOwner(),
                             beanItem.getOwnerAvatarId(),

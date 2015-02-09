@@ -31,6 +31,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -90,7 +91,7 @@ public class CallTableDisplay extends
 								CallTableDisplay.this, call, "isClosed"));
 					}
 				});
-				b.setIcon(MyCollabResource.newResource(WebResourceIds._16_close));
+				b.setIcon(FontAwesome.TRASH_O);
 				b.setStyleName("link");
 				b.setDescription("Close this call");
 				return b;

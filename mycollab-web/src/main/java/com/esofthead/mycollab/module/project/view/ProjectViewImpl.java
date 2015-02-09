@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.*;
 import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
@@ -51,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -232,8 +234,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		} else {
 			final PopupButton controlsBtn = new PopupButton();
 			controlsBtn
-					.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_project_quick_action_edited));
+					.setIcon(FontAwesome.ELLIPSIS_H);
 			controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 
 			VerticalLayout popupButtonsControl = new VerticalLayout();
@@ -253,8 +254,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createPhaseBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.MILESTONES));
-			createPhaseBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_milestone));
+			createPhaseBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
 			createPhaseBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createPhaseBtn);
 
@@ -271,8 +271,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createTaskBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.TASKS));
-			createTaskBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_task));
+			createTaskBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
 			createTaskBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createTaskBtn);
 
@@ -288,8 +287,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createBugBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.BUGS));
-			createBugBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_bug));
+			createBugBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
 			createBugBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createBugBtn);
 
@@ -305,8 +303,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createRiskBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.RISKS));
-			createRiskBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_risk));
+			createRiskBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
 			createRiskBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createRiskBtn);
 
@@ -322,8 +319,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createProblemBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.PROBLEMS));
-			createProblemBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_problem));
+			createProblemBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 			createProblemBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createProblemBtn);
 
@@ -340,8 +336,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			editProjectBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.PROJECT));
-			editProjectBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_edit));
+			editProjectBtn.setIcon(FontAwesome.EDIT);
 			editProjectBtn.setStyleName("link");
 			popupButtonsControl.addComponent(editProjectBtn);
 
@@ -396,8 +391,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			archieveProjectBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.PROJECT));
-			archieveProjectBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_archive));
+			archieveProjectBtn.setIcon(FontAwesome.ARCHIVE);
 			archieveProjectBtn.setStyleName("link");
 			popupButtonsControl.addComponent(archieveProjectBtn);
 
@@ -450,9 +444,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 						});
 				deleteProjectBtn.setEnabled(CurrentProjectVariables
 						.canAccess(ProjectRolePermissionCollections.PROJECT));
-				deleteProjectBtn
-						.setIcon(MyCollabResource
-								.newResource(WebResourceIds._16_project_delete_project));
+				deleteProjectBtn.setIcon(FontAwesome.TRASH_O);
 				deleteProjectBtn.setStyleName("link");
 				popupButtonsControl.addComponent(deleteProjectBtn);
 			}

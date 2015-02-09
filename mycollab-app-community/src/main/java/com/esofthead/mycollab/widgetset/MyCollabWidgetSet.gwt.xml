@@ -39,7 +39,5 @@
 
     <inherits name="com.esofthead.vaadin.popupbutton.WidgetSet" />
 
-    <inherits name="org.vaadin.jouni.animator.AnimatorWidgetset" />
-
     <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet" />
 </module>

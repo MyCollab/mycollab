@@ -124,7 +124,7 @@ public class AccountOpportunityListComp
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
 		createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBtn.setIcon(FontAwesome.PLUS);
 
 		controlsBtnWrap.addComponent(createBtn);
 		controlsBtnWrap

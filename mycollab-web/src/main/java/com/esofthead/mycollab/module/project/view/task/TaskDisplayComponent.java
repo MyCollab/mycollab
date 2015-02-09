@@ -204,7 +204,7 @@ class TaskDisplayComponent extends CssLayout {
                 });
         this.createTaskBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS));
-        this.createTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        this.createTaskBtn.setIcon(FontAwesome.PLUS);
         this.createTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         final VerticalLayout taskGroupFooter = new VerticalLayout();
         taskGroupFooter.setMargin(true);

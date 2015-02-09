@@ -39,7 +39,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 
 	@Override
 	protected void displayView() {
-		withSpacing(true).withMargin(new MarginInfo(true, false, false, false));
+		withMargin(new MarginInfo(true, false, false, false));
 
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");

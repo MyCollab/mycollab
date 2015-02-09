@@ -93,7 +93,7 @@ public class ActivitySearchPanel extends
 				.canWrite(RolePermissionCollections.CRM_CALL)
 				|| AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		controlsBtn.setIcon(FontAwesome.PLUS);
 		controlsBtn.setCaption("New Task");
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {

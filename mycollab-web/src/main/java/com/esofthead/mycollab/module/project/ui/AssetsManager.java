@@ -18,7 +18,8 @@ package com.esofthead.mycollab.module.project.ui;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.Map;
  * @since 5.0.0
  */
 public class AssetsManager {
-    private static final Map<String, Resource> resources;
+    private static final Map<String, FontAwesome> resources;
 
     static {
         resources = new HashMap<>();
@@ -36,17 +37,28 @@ public class AssetsManager {
         resources.put(ProjectTypeConstants.MESSAGE, FontAwesome.COMMENT);
         resources.put(ProjectTypeConstants.MILESTONE, FontAwesome.FLAG_CHECKERED);
         resources.put(ProjectTypeConstants.TASK, FontAwesome.TASKS);
+        resources.put(ProjectTypeConstants.TASK_LIST, FontAwesome.BUILDING_O);
         resources.put(ProjectTypeConstants.PAGE, FontAwesome.FILE);
         resources.put(ProjectTypeConstants.BUG, FontAwesome.BUG);
+        resources.put(ProjectTypeConstants.BUG_COMPONENT, FontAwesome.CUBE);
+        resources.put(ProjectTypeConstants.BUG_VERSION, FontAwesome.LEAF);
         resources.put(ProjectTypeConstants.FILE, FontAwesome.BRIEFCASE);
         resources.put(ProjectTypeConstants.RISK, FontAwesome.SHIELD);
         resources.put(ProjectTypeConstants.PROBLEM, FontAwesome.EXCLAMATION_TRIANGLE);
         resources.put(ProjectTypeConstants.TIME, FontAwesome.CLOCK_O);
         resources.put(ProjectTypeConstants.STANDUP, FontAwesome.CUBES);
         resources.put(ProjectTypeConstants.MEMBER, FontAwesome.USERS);
+        resources.put(ProjectTypeConstants.PROJECT, FontAwesome.CALENDAR_O);
     }
 
-    public static Resource getAsset(String resId) {
+    public static FontAwesome getAsset(String resId) {
         return resources.get(resId);
+    }
+
+    public static Label buildViewHeaderComp(String type, String title) {
+        Label headerText = new Label(AssetsManager.getAsset(type).getHtml() + " " + title,
+                ContentMode.HTML);
+        headerText.setStyleName("hdr-text");
+        return headerText;
     }
 }

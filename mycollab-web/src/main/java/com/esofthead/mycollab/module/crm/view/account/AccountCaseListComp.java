@@ -107,7 +107,7 @@ public class AccountCaseListComp extends
         createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setCaption(AppContext
                 .getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
-        createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createBtn.setIcon(FontAwesome.PLUS);
         createBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = -8725970955325733072L;
 

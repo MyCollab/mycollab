@@ -16,9 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
@@ -26,16 +24,12 @@ import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSear
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProblemScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.RiskScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -45,6 +39,13 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0
+ */
 public class FollowingTicketTableDisplay
 		extends
 		DefaultPagedBeanTable<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
@@ -72,14 +73,13 @@ public class FollowingTicketTableDisplay
 						.getSummary());
 
 				if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
-					ticketLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/bug.png"));
+					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
 
 					if (BugStatus.Verified.name().equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
 					} else if (ticket.getDueDate() != null
 							&& ticket.getDueDate().before(
-									new GregorianCalendar().getTime())) {
+                            DateTimeUtils.getCurrentDateWithoutMS())) {
 						ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
 					}
 
@@ -99,8 +99,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
-					ticketLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/task.png"));
+					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -130,8 +129,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.PROBLEM.equals(ticket.getType())) {
-					ticketLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/problem.png"));
+					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -161,8 +159,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
-					ticketLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/risk.png"));
+					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -219,8 +216,7 @@ public class FollowingTicketTableDisplay
 								new ProjectEvent.GotoMyProject(this, chain));
 					}
 				});
-				projectLink.setIcon(MyCollabResource
-						.newResource("icons/16/project/project.png"));
+				projectLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 				return projectLink;
 			}
 		});

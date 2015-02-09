@@ -94,7 +94,7 @@ public class OpportunitySearchPanel extends
                                         OpportunitySearchPanel.this, null));
                     }
                 });
-        createAccountBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        createAccountBtn.setIcon(FontAwesome.PLUS);
         createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createAccountBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));

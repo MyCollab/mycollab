@@ -23,12 +23,14 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -43,6 +45,7 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -67,7 +70,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 
 	private CssLayout closeContainer;
 
-	private Image titleIcon;
 	private Button createBtn;
 	private CustomLayout bodyContent;
 
@@ -104,16 +106,13 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void initUI() {
-		this.titleIcon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._24_project_phase));
-		Label headerText = new Label(
+		Label headerText = new HeaderView(ProjectTypeConstants.MILESTONE,
 				AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
 
 		MHorizontalLayout header = new MHorizontalLayout()
 				.withStyleName("hdr-view").withWidth("100%").withSpacing(true)
 				.withMargin(true)
-				.with(titleIcon, headerText, createHeaderRight())
-				.withAlign(titleIcon, Alignment.MIDDLE_LEFT)
+				.with(headerText, createHeaderRight())
 				.withAlign(headerText, Alignment.MIDDLE_LEFT)
 				.expand(headerText);
 		this.addComponent(header);
@@ -135,7 +134,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 					}
 				});
 
-		this.createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		this.createBtn.setIcon(FontAwesome.PLUS);
 		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		this.createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.MILESTONES));
@@ -151,18 +150,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 
-		final HorizontalLayout closedHeaderLayout = new HorizontalLayout();
-		closedHeaderLayout.setSpacing(true);
-		final Image embeddClosed = new Image(null,
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_phase_closed));
-		closedHeaderLayout.addComponent(embeddClosed);
-		closedHeaderLayout.setComponentAlignment(embeddClosed,
-				Alignment.MIDDLE_CENTER);
+		final MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
 
-		final Label closedHeader = new Label(
+		final Label closedHeader = new Label(FontAwesome.MINUS.getHtml() + " " +
 				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE));
+						.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), ContentMode.HTML);
 		closedHeader.setSizeUndefined();
 		closedHeaderLayout.addComponent(closedHeader);
 		closedHeaderLayout.setComponentAlignment(closedHeader,
@@ -174,17 +166,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		closeContainer.setWidth("100%");
 		bodyContent.addComponent(this.closeContainer, "closed-milestones");
 
-		final HorizontalLayout inProgressHeaderLayout = new HorizontalLayout();
-		inProgressHeaderLayout.setSpacing(true);
-		final Image embeddInProgress = new Image(null,
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_phase_progress));
-		inProgressHeaderLayout.addComponent(embeddInProgress);
-		inProgressHeaderLayout.setComponentAlignment(embeddInProgress,
-				Alignment.MIDDLE_CENTER);
-		final Label inProgressHeader = new Label(
+		final MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
+		final Label inProgressHeader = new Label(FontAwesome.SPINNER.getHtml() + " " +
 				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE));
+						.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), ContentMode.HTML);
 		inProgressHeader.setSizeUndefined();
 		inProgressHeaderLayout.addComponent(inProgressHeader);
 		inProgressHeaderLayout.setComponentAlignment(inProgressHeader,
@@ -197,17 +182,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		bodyContent.addComponent(this.inProgressContainer,
 				"in-progress-milestones");
 
-		final HorizontalLayout futureHeaderLayout = new HorizontalLayout();
-		futureHeaderLayout.setSpacing(true);
-		final Image embeddFuture = new Image(null,
-				MyCollabResource
-						.newResource(WebResourceIds._16_project_phase_future));
-		futureHeaderLayout.addComponent(embeddFuture);
-		futureHeaderLayout.setComponentAlignment(embeddFuture,
-				Alignment.MIDDLE_CENTER);
-		final Label futureHeader = new Label(
+		final MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
+		final Label futureHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
 				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE));
+						.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), ContentMode.HTML);
 		futureHeader.setSizeUndefined();
 		futureHeaderLayout.addComponent(futureHeader);
 		futureHeaderLayout.setComponentAlignment(futureHeader,
@@ -305,9 +283,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 				.canAccess(ProjectRolePermissionCollections.MILESTONES));
 		filterBtnLayout.addComponent(deleteBtn);
 
-		taskSettingPopupBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_item_settings));
-		taskSettingPopupBtn.setStyleName("link");
+		taskSettingPopupBtn.setIcon(FontAwesome.COG);
+		taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 		taskSettingPopupBtn.setContent(filterBtnLayout);
 
 		milestoneHeader.addComponent(taskSettingPopupBtn);

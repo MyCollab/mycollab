@@ -100,7 +100,7 @@ public class ContactSearchPanel extends
 								new ContactEvent.GotoAdd(this, null));
 					}
 				});
-		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBtn.setIcon(FontAwesome.PLUS);
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));

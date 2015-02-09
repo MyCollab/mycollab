@@ -45,12 +45,14 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
 
@@ -112,9 +114,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	}
 
 	private ComponentContainer constructTableActionControls() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
+		final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 		final Label lbEmpty = new Label("");
 		layout.addComponent(lbEmpty);
@@ -135,16 +135,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 			}
 		});
-		customizeViewBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_option_white));
+		customizeViewBtn.setIcon(FontAwesome.COG);
 		customizeViewBtn.setDescription("Layout Options");
 		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonControls.addComponent(customizeViewBtn);
 
 		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-		exportButtonControl.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_export));
+		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 		exportButtonControl.setDescription(AppContext
 				.getMessage(FileI18nEnum.EXPORT_FILE));
 
@@ -182,8 +180,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 				});
 		fileDownloader.extend(exportPdfBtn);
-		exportPdfBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_filetypes_pdf));
+		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
 		exportPdfBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportPdfBtn);
 
@@ -216,8 +213,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 					}
 				});
 		excelDownloader.extend(exportExcelBtn);
-		exportExcelBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_filetypes_excel));
+		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
 		exportExcelBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportExcelBtn);
 
@@ -252,8 +248,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 				});
 		csvFileDownloader.extend(exportCsvBtn);
 
-		exportCsvBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_filetypes_csv));
+		exportCsvBtn.setIcon(FontAwesome.FILE_TEXT_O);
 		exportCsvBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportCsvBtn);
 
@@ -265,12 +260,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	public HasSelectableItemHandlers<SimpleBug> getSelectableItemHandlers() {
 		return this.tableItem;
 	}
-
-	// @Override
-	// public IPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable()
-	// {
-	// return this.tableItem;
-	// }
 
 	@Override
 	public void setTitle(final String title) {

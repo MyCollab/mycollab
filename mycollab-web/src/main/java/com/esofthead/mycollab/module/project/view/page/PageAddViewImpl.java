@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,8 +51,7 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
 
     @Override
     protected Resource initFormIconResource() {
-        return MyCollabResource
-                .newResource("icons/22/project/page_selected.png");
+        return AssetsManager.getAsset(ProjectTypeConstants.PAGE);
     }
 
     @Override

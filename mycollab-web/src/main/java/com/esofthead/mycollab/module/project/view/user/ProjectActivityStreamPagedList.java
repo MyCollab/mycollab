@@ -25,12 +25,12 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -40,16 +40,19 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
-import java.util.Calendar;
 import java.util.*;
 
 /**
@@ -192,8 +195,8 @@ public class ProjectActivityStreamPagedList
     private String buildItemValue(ProjectActivityStream activityStream) {
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Img image = new Img("", ProjectResources.getResourceLink(activityStream
-                .getType()));
+        Text image = new Text(AssetsManager.getAsset(activityStream
+                .getType()).getHtml());
         A itemLink = new A();
         itemLink.setId("tag" + uid);
         if (ProjectTypeConstants.TASK.equals(activityStream.getType())

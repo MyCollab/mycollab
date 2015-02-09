@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -138,26 +139,22 @@ public class FollowingTicketSearchPanel extends
 			selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
 			this.taskSelect = new CheckBox("Task");
-			this.taskSelect.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_task));
+			this.taskSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
 			this.taskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.taskSelect);
 
 			this.bugSelect = new CheckBox("Bug");
-			this.bugSelect.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_bug));
+			this.bugSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
 			this.bugSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.bugSelect);
 
 			this.problemSelect = new CheckBox("Problem");
-			this.problemSelect.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_problem));
+			this.problemSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 			this.problemSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.problemSelect);
 
 			this.riskSelect = new CheckBox("Risk");
-			this.riskSelect.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_project_risk));
+			this.riskSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
 			this.riskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.riskSelect);
 

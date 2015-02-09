@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ui.components.HeaderView;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -81,12 +83,7 @@ public class VersionSearchPanel extends
 				.withSpacing(true)
 				.withMargin(new MarginInfo(true, false, true, false));
 
-		final Image titleIcon = new Image(null,
-				MyCollabResource
-						.newResource(WebResourceIds._22_project_version));
-		layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
-
-		final Label versionTitle = new Label(
+		final Label versionTitle = new HeaderView(ProjectTypeConstants.BUG_VERSION,
 				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
 		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.with(versionTitle)
@@ -107,7 +104,7 @@ public class VersionSearchPanel extends
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.VERSIONS));
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS_SQUARE);
+		createBtn.setIcon(FontAwesome.PLUS);
 
 		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_LEFT);
 

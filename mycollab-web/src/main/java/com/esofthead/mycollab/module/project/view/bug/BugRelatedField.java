@@ -178,7 +178,7 @@ public class BugRelatedField extends CustomComponent {
 
 		btnRelate = new Button("Relate");
 		btnRelate.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnRelate.setIcon(FontAwesome.PLUS_SQUARE);
+		btnRelate.setIcon(FontAwesome.PLUS);
 
 		ProjectMemberService memberService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);

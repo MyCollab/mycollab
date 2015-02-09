@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -35,6 +36,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.reporting.ExportTaskListStreamResource;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -177,9 +179,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 .canRead(ProjectRolePermissionCollections.TASKS));
         this.taskGroupSelection.addStyleName("link");
         this.taskGroupSelection.addStyleName("hdr-text");
-        final Image icon = new Image(null,
-                MyCollabResource.newResource(WebResourceIds._24_project_task));
-        header.with(icon, taskGroupSelection)
+        taskGroupSelection.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK_LIST));
+        header.with(taskGroupSelection)
                 .withAlign(taskGroupSelection, Alignment.MIDDLE_LEFT)
                 .expand(taskGroupSelection);
 
@@ -257,7 +258,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 });
         newTaskListBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS));
-        newTaskListBtn.setIcon(FontAwesome.PLUS_SQUARE);
+        newTaskListBtn.setIcon(FontAwesome.PLUS);
         newTaskListBtn.setDescription(AppContext
                 .getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
         newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -275,8 +276,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
         });
         reOrderBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS));
-        reOrderBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_project_reorder));
+        reOrderBtn.setIcon(FontAwesome.SORT);
         reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
         reOrderBtn.setDescription(AppContext
                 .getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
@@ -285,8 +285,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
         PopupButton exportButtonControl = new PopupButton();
         exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
-        exportButtonControl.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_export));
+        exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
         exportButtonControl.setDescription("Export to file");
 
         VerticalLayout popupButtonsControl = new VerticalLayout();
@@ -298,8 +297,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
         FileDownloader pdfDownloader = new FileDownloader(
                 constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
-        exportPdfBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_filetypes_pdf));
+        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
         exportPdfBtn.setStyleName("link");
         popupButtonsControl.addComponent(exportPdfBtn);
 
@@ -308,8 +306,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
         FileDownloader excelDownloader = new FileDownloader(
                 constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
-        exportExcelBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_filetypes_excel));
+        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
         exportExcelBtn.setStyleName("link");
         popupButtonsControl.addComponent(exportExcelBtn);
 
@@ -325,8 +322,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 displayAdvancedView();
             }
         });
-        advanceDisplayBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_project_advanced_display));
+        advanceDisplayBtn.setIcon(FontAwesome.SITEMAP);
         advanceDisplayBtn.setDescription(AppContext
                 .getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
@@ -338,8 +334,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 displaySimpleView();
             }
         });
-        simpleDisplayBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_project_list_display));
+        simpleDisplayBtn.setIcon(FontAwesome.LIST_UL);
         simpleDisplayBtn.setDescription(AppContext
                 .getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
 
@@ -351,8 +346,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
                 displayGanttChartView();
             }
         });
-        chartDisplayBtn.setIcon(MyCollabResource
-                .newResource(WebResourceIds._16_project_chart_view));
+        chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
 
         viewButtons = new ToggleButtonGroup();
         viewButtons.addButton(simpleDisplayBtn);

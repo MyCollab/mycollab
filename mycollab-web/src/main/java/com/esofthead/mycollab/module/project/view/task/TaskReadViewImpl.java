@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.ui.AssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -101,7 +102,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     public TaskReadViewImpl() {
         super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
-                MyCollabResource.newResource(WebResourceIds._24_project_task), new TaskPreviewFormLayout());
+                AssetsManager.getAsset(ProjectTypeConstants.TASK), new TaskPreviewFormLayout());
     }
 
     @Override
@@ -367,8 +368,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                         ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
                                 beanItem.getProjectid(),
                                 beanItem.getTasklistid()),
-                        MyCollabResource
-                                .newResourceLink("icons/16/crm/task_group.png"));
+                        AssetsManager.getAsset(ProjectTypeConstants.TASK_LIST));
             } else if (Task.Field.id.equalTo(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(
                         beanItem.getProjectid(),
@@ -434,7 +434,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
                         }
                     });
             addNewTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            addNewTaskBtn.setIcon(FontAwesome.PLUS_SQUARE);
+            addNewTaskBtn.setIcon(FontAwesome.PLUS);
             addNewTaskBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
 

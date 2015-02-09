@@ -15,7 +15,7 @@
         <slf4jVersion>1.7.10</slf4jVersion>
         <log4jVersion>1.2.17</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.3.9</vaadinVersion>
+        <vaadinVersion>7.3.10</vaadinVersion>
         <jettyVersion>9.2.6.v20141205</jettyVersion>
         <mysqlVersion>5.1.32</mysqlVersion>
         <camelVersion>2.14.0</camelVersion>
@@ -197,18 +197,18 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.5.0</version>
+            <version>2.5.1</version>
         </dependency>
 
         <dependency>
