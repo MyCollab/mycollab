@@ -430,29 +430,12 @@ button.close {
   margin-top:8px;
 }
 
+/*
 @media only screen and (max-width: 480px) {
   .fruitful_description .text{font-size:20px !important;}
-}
+}*/
 
-/*CSS MyCollab*/
-.mycollab-news-title:before {
-  content: '\2022';
-  margin-left: 10px;
-  padding-right: 5px;
-}
 
-.mycollab-news-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-}
-
-.mycollab-news-content {
-  font-size: 14px;
-  margin-left: 20px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 
 
 

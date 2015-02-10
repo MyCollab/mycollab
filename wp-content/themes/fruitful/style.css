@@ -26,20 +26,20 @@ html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockqu
     vertical-align:baseline;
 }
 html {
-    font-size:62.5%;
-    ms-text-size-adjust:100%;
+    font-size:100%;
     overflow:auto;
-    webkit-text-size-adjust:100%;
+    -webkit-text-size-adjust: none
 }
 body {
 	min-width:300px;
     background:none no-repeat scroll 0 0 #fff;
-    font-size:14px;
-    line-height:14px;
+    font-size:100%;
+    line-height:1em;
     text-rendering:optimizelegibility;
     color:#333333;
     overflow:hidden;
     font-family: Open Sans, Helvetica, Arial, sans-serif;
+    word-wrap: break-word;
 }
 .page-container{
 	padding-top:10px;
@@ -176,6 +176,8 @@ body.fancybox-lock {
 .container .offset-by-fifteen {
     padding-left:900px;
 }
+
+
 /* #Tablet (Portrait)================================================== */
 /* Note:Design for a width of 768px */
 @media only screen and (min-width:768px) and (max-width:959px) {
@@ -315,6 +317,9 @@ body.fancybox-lock {
     .container .offset-by-one,.container .offset-by-two,.container .offset-by-three,.container .offset-by-four,.container .offset-by-five,.container .offset-by-six,.container .offset-by-seven,.container .offset-by-eight,.container .offset-by-nine,.container .offset-by-ten,.container .offset-by-eleven,.container .offset-by-twelve,.container .offset-by-thirteen,.container .offset-by-fourteen,.container .offset-by-fifteen {
         padding-left:0;
     }
+    .footer-container {
+        width: 100%;
+    }
 }
 /* #Mobile (Landscape)================================================== */
 /* Note:Design for a width of 480px */
@@ -329,6 +334,9 @@ body.fancybox-lock {
       width:100%;
       max-width:420px;
   }
+  .footer-container {
+    width: 100%;
+}
 }
 /* #Clearing================================================== */
 /* Self Clearing Goodness */
@@ -402,7 +410,7 @@ a img, img {
     border:0;
 }
 body,button,input,select,textarea {
-    font-size:14px;
+    font-size:100%;
     line-height:1.5;
     font-weight:normal;
 }
@@ -413,13 +421,6 @@ h1,h2,h3,h4,h5,h6 {
     clear:both;
     line-height:1.2em;
 }
-h1 {	font-size: 34px;}
-h2 {	font-size: 27px;}
-h3 {	font-size: 20px;}
-h4 {	font-size: 16px;}
-h5 {	font-size: 14px;}
-h6 {	font-size: 12px;}
-
 .entry-content h1,
 .entry-content h2,
 .entry-content h3,
@@ -1048,15 +1049,15 @@ ul#lang-select-popup{
     }
 
     .entry-thumbnail {
-       display: block;
-       float: left;
-       padding:0 4.4%;
-       width: 91.2%;
-       margin:20px 0 0;
-       height:auto;
-   }
+     display: block;
+     float: left;
+     padding:0 4.4%;
+     width: 91.2%;
+     margin:20px 0 0;
+     height:auto;
+ }
 
-   .entry-thumbnail .wp-post-image {
+ .entry-thumbnail .wp-post-image {
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.5);
     height: auto;
     width: 100%;
@@ -2314,15 +2315,15 @@ aside #lang_sel {
     .resp_full_width_menu #header_language_select ul li:hover > ul{visibility:hidden;}
     .resp_full_width_menu #lang-select-block a{padding:7px}
 
-    .head-container { height: 35px; }
+    .head-container { height: 48px; }
 
-    .resp_full_width_menu .site-header{ width:100%; float:left; min-height:35px; }
-    .resp_full_width_menu .site-header .logo_wrapper{ display:block; float:left; width:48%; margin:5px 0 0 2%; }
-    .resp_full_width_menu .site-header .cart_wrapper, .resp_full_width_menu .site-header .menu_button{ display:block; float:right; margin-left:12px; margin-right:12px; }
+    .resp_full_width_menu .site-header{ width:100%; float:left; min-height:48px; }
+    .resp_full_width_menu .site-header .logo_wrapper{ display:block; float:left; width:48%; margin:8px 0 0 2%; }
+    .resp_full_width_menu .site-header .cart_wrapper, .resp_full_width_menu .site-header .menu_button{ display:block; float:right; margin-left:12px; margin-right:12px;margin-top:3px;}
     .resp_full_width_menu .site-header .language_switcher{ display:block; float:right;}
     .resp_full_width_menu .site-header .select-menu{ display:none; }
-    .resp_full_width_menu .site-header .menu_button button{ background:none !important; float:left; margin:2px; padding: 0; z-index: 9; background: none; border: 0; height: 30px; width: 35px; outline:none; }
-    .resp_full_width_menu .site-header .menu_button button span{ display: block; margin: 0 auto; margin-bottom: 3px; background: #ffffff; height: 3px; width: 25px; border-radius: 1px; }
+    .resp_full_width_menu .site-header .menu_button button{ background:none !important; float:left; margin:5px; padding: 0; z-index: 9; background: none; border: 0; height: 30px; width: 35px; outline:none; }
+    .resp_full_width_menu .site-header .menu_button button span{ display: block; margin: 0 auto; margin-bottom: 4px; background: #ffffff; height: 4px; width: 35px; border-radius: 1px; }
 
     .resp_full_width_menu .menu_wrapper{ float:left; width:100%; overflow-y:auto; }
     .resp_full_width_menu .menu_wrapper.collapse{ display:none; }
@@ -2330,13 +2331,14 @@ aside #lang_sel {
     .resp_full_width_menu ul{ list-style:none; }
     .resp_full_width_menu .menu{ display:block; width:100%; float:left; margin:0; padding:0; }
     .resp_full_width_menu .menu ul{ margin:0; }
-    .resp_full_width_menu .menu li a{ width:97%; padding:3px; float:left; text-decoration:none; height:21px; }
+    .resp_full_width_menu .menu li a{ width:97%; padding:10px; float:left; text-decoration:none; height:21px; }
     .resp_full_width_menu .menu li a:hover{float:left; text-decoration:none; height:21px; }
     .resp_full_width_menu .menu>li>ul>li>a{ width:93%; padding-left:6%; }
     .resp_full_width_menu .menu>li>ul>li>ul>li>a{ width:87%; padding-left:12%; }
     .resp_full_width_menu .menu ul ul ul{ display:none; }
     .resp_full_width_menu .site-header .menu_wrapper .menu li a{ -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -khtml-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; -ms-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; }
     .resp_full_width_menu .cart-button{ clear:none; margin: 21px 10px 14px; }
+
 }
 
 @media only screen and (min-width:480px) and (max-width:767px) {
@@ -2511,9 +2513,47 @@ div#fbSEOComments{
 /* end styles for plugin "SEO Facebook Comments" */
 
 /*CSS MyCollab*/
-html{
- -webkit-text-size-adjust: 100% !important; 
+
+/* Set Font size 'em' */
+h1 {
+    font-size: 2em !important;
 }
+h2 {
+    font-size: 1.7em !important;
+}
+h3 {
+    font-size: 1.5em !important;
+}
+h4 {
+    font-size: 1.3em !important;
+}
+
+p {
+    font-size: 1em !important;
+}
+.box p {
+    font-size: 1em !important;
+}
+
+ul {
+    font-size: 1em !important;
+}
+ul li ul {
+    font-size: 1em !important;
+}
+
+blockquote {
+    font-size: 1em !important;
+}
+
+.infobox-text {
+    font-size: 1em !important;
+}
+
+.infobox-title {
+    font-size: 1em !important;
+}
+/*End set font size */
 
 h1 {
     font-weight: bold !important;
@@ -2534,9 +2574,6 @@ li {
     line-height: 25px;
 }
 
-blockquote p{
-    font-size:13px !important;
-}
 blockquote {
     padding-left: 8px;
     margin: 10px 0px 0px 10px;
@@ -2576,6 +2613,12 @@ footer.well {
     border-left: 0;
     font-size: 90%;
 }
+.footer-container {
+    position: relative;
+    width: 960px;
+    margin: 0 auto;
+    padding: 0;   
+}
 
 .box {
   min-height: 20px;
@@ -2587,19 +2630,76 @@ footer.well {
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
 }
 
-.copyright {
-    margin-left: 23px;
+.bottom-description {
+    text-align: justify;
 }
 
-.span2 {
-    width:140px !important;
+.span3-container {
+    position: relative;
+    width: 960px;
+    margin: 0 auto;
+    padding: 0;
 }
-.span3 {
-    width:280px !important;
+
+.copyright {
+    margin-left: 23px;
+    font-size: 1em;
 }
 
 .nav-header {
     color:#333333 !important;
+}
+
+/*CSS ShortCode MyCollab*/
+.mycollab-news-title:before {
+  content: '\2022';
+  margin-left: 10px;
+  padding-right: 5px;
+}
+
+.mycollab-news-title {
+  font-size: 1em;
+  font-weight: bold;
+  color: #333;
+}
+
+.mycollab-news-content {
+  font-size: 1em;
+  margin-left: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/*view on mobile*/
+@media only screen and (max-width:480px) {
+    .footer-container {
+        width: 100%;
+    }
+}
+@media screen and (min-width: 567px) and (max-width: 768px) {
+
+    .footer-container {
+        width: 100% !important;
+        margin-left: 15% !important;
+        margin-right: auto !important;
+    }
+    .span2 { 
+        float: left !important;
+        width: 40% !important; 
+    }
+    .span3 {
+        width: 80% !important;
+    } 
+
+}
+@media only screen and (min-width:959px) {
+    .span2 {
+        width:130px !important;
+    }
+    .span3 {
+        width:280px !important;
+    }
+
 }
 
 
