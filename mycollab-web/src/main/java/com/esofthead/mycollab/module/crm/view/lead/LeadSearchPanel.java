@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -65,11 +66,7 @@ public class LeadSearchPanel extends
                 .withMargin(new MarginInfo(true, false, true, false))
                 .withStyleName(UIConstants.HEADER_VIEW);
 
-        final Image titleIcon = new Image(null,
-                MyCollabResource.newResource(WebResourceIds._22_crm_lead));
-        layout.with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
-
-        final Label searchtitle = new Label(
+        final Label searchtitle = new CrmViewHeader(CrmTypeConstants.LEAD,
                 AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
         searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 

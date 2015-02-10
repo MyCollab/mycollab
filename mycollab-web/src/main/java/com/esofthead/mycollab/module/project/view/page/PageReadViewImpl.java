@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -103,7 +103,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        Label headerLbl = new HeaderView(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum
+        Label headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum
                 .VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
         headerLbl.setStyleName(UIConstants.HEADER_TEXT);

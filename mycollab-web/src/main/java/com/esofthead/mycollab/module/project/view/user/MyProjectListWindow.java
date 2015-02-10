@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -168,7 +168,7 @@ public class MyProjectListWindow extends Window {
 													new TaskGroupScreenData.GotoDashboard())));
 						}
 					}, false);
-            taskLbl.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
+            taskLbl.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 			taskLbl.setWidth("60px");
 			taskStatus.addComponent(taskLbl);
 			final ProgressBarIndicator progressTask = new ProgressBarIndicator(
@@ -198,7 +198,7 @@ public class MyProjectListWindow extends Window {
 													new BugScreenData.GotoDashboard())));
 						}
 					}, false);
-            bugLbl.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
+            bugLbl.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 			bugLbl.setWidth("60px");
 			bugStatus.addComponent(bugLbl);
 			final ProgressBarIndicator progressBug = new ProgressBarIndicator(
@@ -230,7 +230,7 @@ public class MyProjectListWindow extends Window {
 															null))));
 						}
 					}, false);
-            phaseLbl.setIcon(AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+            phaseLbl.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             phaseLbl.setWidth("60px");
 			phaseStatus.addComponent(phaseLbl);
 			Label phaseProgress = new Label(project.getNumClosedPhase()

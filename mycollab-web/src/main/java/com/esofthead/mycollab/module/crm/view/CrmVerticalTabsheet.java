@@ -16,8 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 
 /**
@@ -35,73 +36,11 @@ public class CrmVerticalTabsheet extends VerticalTabsheet {
 
 	@Override
 	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
-		String tabId = ((ButtonTabImpl) btn).getTabId();
-		String suffix;
-		if (selected != true)
-			suffix = "_white";
-		else
-			suffix = "";
+        ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
+        String tabId = btnTabImpl.getTabId();
 
-		switch (tabId) {
-		case "about":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/detail"
-					+ suffix + ".png"));
-			break;
-
-		case "campaign":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/campaign"
-					+ suffix + ".png"));
-			break;
-		case "contact":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/contact"
-					+ suffix + ".png"));
-			break;
-
-		case "lead":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/lead"
-					+ suffix + ".png"));
-			break;
-
-		case "opportunity":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/opportunity"
-					+ suffix + ".png"));
-			break;
-
-		case "case":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/case"
-					+ suffix + ".png"));
-			break;
-		case "activity":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/activitylist" + suffix + ".png"));
-			break;
-
-		case "event":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/event"
-					+ suffix + ".png"));
-			break;
-		case "meeting":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/meeting"
-					+ suffix + ".png"));
-			break;
-		case "notification":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/notification" + suffix + ".png"));
-			break;
-		case "customlayout":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/layout"
-					+ suffix + ".png"));
-			break;
-		case "account":
-			btn.setIcon(MyCollabResource.newResource("icons/22/crm/account"
-					+ suffix + ".png"));
-			break;
-
-		default:
-			break;
-
-		}
+        Resource resource = CrmAssetsManager.getAsset(tabId);
+        btn.setIcon(resource);
 
 	}
-
 }

@@ -16,45 +16,22 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import java.util.Iterator;
-
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.events.CrmEvent;
-import com.esofthead.mycollab.module.crm.events.CrmSettingEvent;
-import com.esofthead.mycollab.module.crm.events.DocumentEvent;
-import com.esofthead.mycollab.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.events.*;
+import com.esofthead.mycollab.module.crm.i18n.*;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
+
+import java.util.Iterator;
 
 /**
  * 
@@ -175,8 +152,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				listener, false);
 		newAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-		newAccountBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._18_crm_account));
+		newAccountBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 		addBtnLayout.addComponent(newAccountBtn);
 
 		final ButtonLink newContactBtn = new ButtonLink(
@@ -184,8 +160,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				listener, false);
 		newContactBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		newContactBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._18_crm_contact));
+		newContactBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 		addBtnLayout.addComponent(newContactBtn);
 
 		final ButtonLink newCampaignBtn = new ButtonLink(
@@ -193,8 +168,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				listener, false);
 		newCampaignBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-		newCampaignBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/campaign.png"));
+		newCampaignBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
 		addBtnLayout.addComponent(newCampaignBtn);
 
 		final ButtonLink newOpportunityBtn = new ButtonLink(
@@ -203,8 +177,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				listener, false);
 		newOpportunityBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-		newOpportunityBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/opportunity.png"));
+		newOpportunityBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
 		addBtnLayout.addComponent(newOpportunityBtn);
 
 		final ButtonLink newLeadBtn = new ButtonLink(
@@ -212,8 +185,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				false);
 		newLeadBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
-		newLeadBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/lead.png"));
+		newLeadBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
 		addBtnLayout.addComponent(newLeadBtn);
 
 		final ButtonLink newCaseBtn = new ButtonLink(
@@ -221,8 +193,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				false);
 		newCaseBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
-		newCaseBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/case.png"));
+		newCaseBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
 		addBtnLayout.addComponent(newCaseBtn);
 
 		final ButtonLink newTaskBtn = new ButtonLink(
@@ -230,8 +201,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				false);
 		newTaskBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
-		newTaskBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._18_crm_task));
+		newTaskBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 		addBtnLayout.addComponent(newTaskBtn);
 
 		final ButtonLink newCallBtn = new ButtonLink(
@@ -239,8 +209,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				false);
 		newCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
-		newCallBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/call.png"));
+		newCallBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
 		addBtnLayout.addComponent(newCallBtn);
 
 		final ButtonLink newMeetingBtn = new ButtonLink(
@@ -248,8 +217,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				listener, false);
 		newMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
-		newMeetingBtn.setIcon(MyCollabResource
-				.newResource("icons/18/crm/meeting.png"));
+		newMeetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 		addBtnLayout.addComponent(newMeetingBtn);
 
 		addBtn.setContent(addBtnLayout);

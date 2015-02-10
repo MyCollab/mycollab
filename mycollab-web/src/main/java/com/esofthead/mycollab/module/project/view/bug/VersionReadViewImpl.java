@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -83,7 +83,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
     public VersionReadViewImpl() {
         super(AppContext.getMessage(VersionI18nEnum.VIEW_READ_TITLE),
-                AssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION));
     }
 
     @Override

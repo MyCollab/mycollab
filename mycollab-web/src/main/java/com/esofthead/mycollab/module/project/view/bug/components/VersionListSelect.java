@@ -54,7 +54,7 @@ public class VersionListSelect extends ListSelect {
 		VersionService versionService = ApplicationContextUtil
 				.getSpringBean(VersionService.class);
 		List<Version> versions = versionService
-				.findPagableListByCriteria(new SearchRequest<VersionSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		for (Version version : versions) {
 			this.addItem(version.getId());

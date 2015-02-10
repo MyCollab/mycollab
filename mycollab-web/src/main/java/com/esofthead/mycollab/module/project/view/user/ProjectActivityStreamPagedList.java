@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -195,7 +195,7 @@ public class ProjectActivityStreamPagedList
     private String buildItemValue(ProjectActivityStream activityStream) {
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Text image = new Text(AssetsManager.getAsset(activityStream
+        Text image = new Text(ProjectAssetsManager.getAsset(activityStream
                 .getType()).getHtml());
         A itemLink = new A();
         itemLink.setId("tag" + uid);

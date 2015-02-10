@@ -17,20 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -43,8 +36,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 
 	public MassUpdateOpportunityWindow(final String title,
 			final OpportunityListPresenter presenter) {
-		super(title, MyCollabResource
-				.newResource("icons/18/crm/opportunity.png"),
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY),
 				new Opportunity(), presenter);
 	}
 
@@ -55,7 +47,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<Opportunity> buildBeanFormFieldFactory() {
-		return new OpportunityEditFormFieldFactory<Opportunity>(updateForm,
+		return new OpportunityEditFormFieldFactory<>(updateForm,
 				false);
 	}
 

@@ -18,6 +18,9 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
@@ -39,9 +42,9 @@ public class NotPresentedView extends AbstractPageView {
 		layoutWapper.setWidth("100%");
 
 		VerticalLayout layout = new VerticalLayout();
-		final Embedded titleIcon = new Embedded();
-		titleIcon.setSource(MyCollabResource
-				.newResource(WebResourceIds._not_present));
+		final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
+        titleIcon.setStyleName("warning-icon");
+        titleIcon.setSizeUndefined();
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
 

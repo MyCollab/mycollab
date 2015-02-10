@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -76,9 +77,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 		final Label layoutHeader = new Label("My Following Tickets");
 		layoutHeader.addStyleName("h2");
-		header.addComponent(layoutHeader);
-		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(layoutHeader, 1.0f);
+		header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
 
 		headerWrapper.addComponent(header);
 		this.addComponent(headerWrapper);
@@ -108,7 +107,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		});
 
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		backBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_back));
+		backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
 		controlBtns.addComponent(backBtn);
 		controlBtns.setExpandRatio(backBtn, 1.0f);
@@ -124,8 +123,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		exportButtonControl = new SplitButton(exportBtn);
 		exportButtonControl.setWidthUndefined();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-		exportButtonControl.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_export));
+		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);
@@ -134,8 +132,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		FileDownloader pdfDownloader = new FileDownloader(
 				constructStreamResource(ReportExportType.PDF));
 		pdfDownloader.extend(exportPdfBtn);
-		exportPdfBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_filetypes_pdf));
+		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
 		exportPdfBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportPdfBtn);
 
@@ -143,8 +140,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		FileDownloader excelDownloader = new FileDownloader(
 				constructStreamResource(ReportExportType.EXCEL));
 		excelDownloader.extend(exportExcelBtn);
-		exportExcelBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_filetypes_excel));
+		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
 		exportExcelBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportExcelBtn);
 

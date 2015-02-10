@@ -26,6 +26,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -61,9 +63,6 @@ class TaskDisplayComponent extends CssLayout {
     private TaskSearchCriteria criteria;
     private TaskTableDisplay taskDisplay;
     private Button createTaskBtn;
-
-    private ProgressPercentageIndicator taskListProgress;
-    private Label taskNumberLbl;
 
     private SimpleTaskList taskList;
     private boolean isDisplayTaskListInfo;
@@ -132,15 +131,13 @@ class TaskDisplayComponent extends CssLayout {
                                         .getOwnerAvatarId(), taskList
                                         .getOwnerFullName());
                             } else if ("milestoneid".equals(propertyId)) {
-
                                 return new LinkViewField(
                                         taskList.getMilestoneName(),
                                         ProjectLinkBuilder
                                                 .generateMilestonePreviewFullLink(
                                                         taskList.getProjectid(),
                                                         taskList.getMilestoneid()),
-                                        MyCollabResource
-                                                .newResourceLink("icons/16/project/milestone.png"));
+                                        ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
                             }
 
                             return null;
@@ -240,20 +237,6 @@ class TaskDisplayComponent extends CssLayout {
         }
 
         this.taskDisplay.setSearchCriteria(this.criteria);
-
-        // Update tasklist progress and number of open task/all task
-        if (this.taskNumberLbl != null) {
-            this.taskNumberLbl.setValue("("
-                    + (this.taskList.getNumOpenTasks() + 1) + "/"
-                    + (this.taskList.getNumAllTasks() + 1) + ")");
-        }
-
-        final int newAllTasks = this.taskList.getNumAllTasks() + 1;
-        final double newProgressTask = (this.taskList.getPercentageComplete() * this.taskList
-                .getNumAllTasks()) / newAllTasks;
-        if (this.taskListProgress != null) {
-            this.taskListProgress.setValue(newProgressTask + "");
-        }
     }
 
     public void saveTaskSuccess(final SimpleTask task) {

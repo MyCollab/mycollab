@@ -20,12 +20,8 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -33,12 +29,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -57,7 +52,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	private CrmFollowersComp<SimpleMeeting> followersComp;
 
 	public MeetingReadViewImpl() {
-		super(MyCollabResource.newResource(WebResourceIds._22_crm_meeting));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 	}
 
 	@Override
@@ -77,7 +72,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleMeeting>(previewForm)
+		return new CrmPreviewFormControlsGenerator<>(previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_MEETING);
 	}
 
@@ -103,26 +98,22 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 		noteListItems = new NoteListItems(
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
 
-		followersComp = new CrmFollowersComp<SimpleMeeting>(
+		followersComp = new CrmFollowersComp<>(
 				CrmTypeConstants.MEETING, RolePermissionCollections.CRM_MEETING);
 		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override

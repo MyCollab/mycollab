@@ -16,26 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 
 /**
  * 
@@ -45,54 +39,43 @@ import com.vaadin.ui.Label;
  */
 
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class MilestoneListNoItemView extends AbstractPageView {
+public class MilestoneListNoItemView extends ProjectListNoItemView {
 	private static final long serialVersionUID = 740826537581761743L;
 
-	public MilestoneListNoItemView() {
-		MVerticalLayout layout = new MVerticalLayout().withSpacing(true)
-				.withMargin(true);
-		layout.addStyleName("milestone-noitem");
-		layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+    @Override
+    protected FontAwesome viewIcon() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
+    }
 
-		Image image = new Image(null,
-				MyCollabResource
-						.newResource(WebResourceIds._48_project_milestone));
-		layout.addComponent(image);
+    @Override
+    protected String viewTitle() {
+        return AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_TITLE);
+    }
 
-		Label title = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_TITLE));
-		title.addStyleName("h2");
-		title.setWidthUndefined();
-		layout.addComponent(title);
+    @Override
+    protected String viewHint() {
+        return AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_HINT);
+    }
 
-		Label body = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_HINT));
-		body.setWidthUndefined();
-		layout.addComponent(body);
+    @Override
+    protected String actionMessage() {
+        return AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE);
+    }
 
-		Button createMilestoneBtn = new Button(
-				AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected Button.ClickListener actionListener() {
+        return new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(
+                        new MilestoneEvent.GotoAdd(this, null));
+            }
+        };
+    }
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoAdd(this, null));
-					}
-				});
-		createMilestoneBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.MILESTONES));
-
-		HorizontalLayout links = new HorizontalLayout();
-
-		links.addComponent(createMilestoneBtn);
-		createMilestoneBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		links.setSpacing(true);
-
-		layout.addComponent(links);
-		this.addComponent(layout);
-		this.setComponentAlignment(layout, Alignment.TOP_CENTER);
-	}
+    @Override
+    protected boolean hasPermission() {
+        return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES);
+    }
 
 }

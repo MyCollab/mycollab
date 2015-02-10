@@ -18,8 +18,6 @@ package com.esofthead.mycollab.module.project.ui;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +26,7 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public class AssetsManager {
+public class ProjectAssetsManager {
     private static final Map<String, FontAwesome> resources;
 
     static {
@@ -53,12 +51,5 @@ public class AssetsManager {
 
     public static FontAwesome getAsset(String resId) {
         return resources.get(resId);
-    }
-
-    public static Label buildViewHeaderComp(String type, String title) {
-        Label headerText = new Label(AssetsManager.getAsset(type).getHtml() + " " + title,
-                ContentMode.HTML);
-        headerText.setStyleName("hdr-text");
-        return headerText;
     }
 }

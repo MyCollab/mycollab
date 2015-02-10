@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -38,9 +38,7 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -139,22 +137,22 @@ public class FollowingTicketSearchPanel extends
 			selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
 			this.taskSelect = new CheckBox("Task");
-			this.taskSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
+			this.taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 			this.taskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.taskSelect);
 
 			this.bugSelect = new CheckBox("Bug");
-			this.bugSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
+			this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 			this.bugSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.bugSelect);
 
 			this.problemSelect = new CheckBox("Problem");
-			this.problemSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
+			this.problemSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 			this.problemSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.problemSelect);
 
 			this.riskSelect = new CheckBox("Risk");
-			this.riskSelect.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
+			this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 			this.riskSelect.setValue(true);
 			typeSelectWrapper.addComponent(this.riskSelect);
 

@@ -17,20 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -44,7 +37,7 @@ public class MassUpdateCampaignWindow extends
 
 	public MassUpdateCampaignWindow(final String title,
 			final CampaignListPresenter presenter) {
-		super(title, MyCollabResource.newResource("icons/18/crm/campaign.png"),
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN),
 				new CampaignWithBLOBs(), presenter);
 	}
 
@@ -55,7 +48,7 @@ public class MassUpdateCampaignWindow extends
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> buildBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<CampaignWithBLOBs>(updateForm,
+		return new CampaignEditFormFieldFactory<>(updateForm,
 				false);
 	}
 

@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -46,7 +46,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public ComponentContainer getLayout() {
 		final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
-                AssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 
 		this.projectInformationLayout = new ProjectInformationLayout();
 

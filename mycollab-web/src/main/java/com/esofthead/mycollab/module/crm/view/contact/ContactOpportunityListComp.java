@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -143,9 +144,7 @@ public class ContactOpportunityListComp
             blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            Image opportunityIcon = new Image(null,
-                    MyCollabResource
-                            .newResource("icons/48/crm/opportunity.png"));
+            FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
             iconWrap.addComponent(opportunityIcon);
             blockTop.addComponent(iconWrap);
 

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -47,7 +48,7 @@ public class OpportunityAddViewImpl extends
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._22_crm_opportunity);
+		return CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
 	}
 
 	@Override

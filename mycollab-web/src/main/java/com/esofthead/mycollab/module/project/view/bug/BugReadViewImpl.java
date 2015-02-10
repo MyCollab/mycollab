@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -100,7 +100,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
     public BugReadViewImpl() {
         super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
-                AssetsManager.getAsset(ProjectTypeConstants.BUG));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
     }
 
     private void displayWorkflowControl() {
@@ -606,7 +606,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
                                     .generateMilestonePreviewFullLink(
                                             beanItem.getProjectid(),
                                             beanItem.getMilestoneid()),
-                            AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+                            ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
                 } else {
                     return new DefaultViewField("");
                 }

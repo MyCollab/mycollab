@@ -35,6 +35,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 /**
  * @author MyCollab Ltd.
@@ -52,7 +53,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
     protected SelectionOptionButton selectOptionButton;
     protected DefaultMassItemActionHandlersContainer tableActionControls;
-    protected HorizontalLayout extraControlsLayout;
+    protected ButtonGroup extraControlsLayout;
 
     public AbstractListItemComp() {
         super();
@@ -93,7 +94,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
         contentLayout.with(layoutWrapper, tableItem);
 
-        extraControlsLayout = new MHorizontalLayout();
+        extraControlsLayout = new ButtonGroup();
         buildExtraControls();
 
         layout.with(extraControlsLayout).withAlign(extraControlsLayout, Alignment.MIDDLE_RIGHT);
@@ -114,8 +115,8 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
                         numOfSelectedItems));
     }
 
-    public void addExtraComponent(Component component) {
-        extraControlsLayout.addComponent(component);
+    public void addExtraButton(Button component) {
+        extraControlsLayout.addButton(component);
     }
 
     @Override

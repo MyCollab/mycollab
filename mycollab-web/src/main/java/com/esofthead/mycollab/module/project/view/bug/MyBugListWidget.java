@@ -21,7 +21,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -30,7 +32,6 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -56,8 +57,6 @@ public class MyBugListWidget extends BugDisplayWidget {
 		@Override
 		public Component generateRow(final SimpleBug bug, int rowIndex) {
 			MHorizontalLayout layout = new MHorizontalLayout().withMargin(true).withWidth("100%");
-			layout.addComponent(new Image(null, MyCollabResource
-					.newResource(WebResourceIds._16_project_bug)));
 
 			VerticalLayout rowContent = new VerticalLayout();
 
@@ -66,6 +65,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
 					ProjectLinkBuilder.generateBugPreviewFullLink(
 							bug.getBugkey(), bug.getProjectShortName()));
+            defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(ProjectTooltipGenerator
 					.generateToolTipBug(AppContext.getUserLocale(), bug,

@@ -58,7 +58,7 @@ public class ContactListPresenter
 	private ContactService contactService;
 
 	public ContactListPresenter() {
-		super(ContactListView.class, ContactListNoItemView.class);
+		super(ContactListView.class, ContactCrmListNoItemView.class);
 	}
 
 	@Override

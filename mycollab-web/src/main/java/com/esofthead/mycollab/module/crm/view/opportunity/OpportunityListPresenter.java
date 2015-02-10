@@ -57,7 +57,7 @@ public class OpportunityListPresenter
 	private OpportunityService opportunityService;
 
 	public OpportunityListPresenter() {
-		super(OpportunityListView.class, OpportunityListNoItemView.class);
+		super(OpportunityListView.class, OpportunityCrmListNoItemView.class);
 	}
 
 	@Override

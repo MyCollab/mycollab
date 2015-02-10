@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -140,8 +141,7 @@ public class LeadCampaignListComp
             blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            Image campaignIcon = new Image(null,
-                    MyCollabResource.newResource("icons/48/crm/campaign.png"));
+            FontIconLabel campaignIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
             iconWrap.addComponent(campaignIcon);
             blockTop.addComponent(iconWrap);
 

@@ -30,9 +30,9 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -41,6 +41,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -331,8 +332,7 @@ public class ActivityStreamPanel extends CssLayout {
 		private String buildItemValue(SimpleActivityStream activityStream) {
 			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
-			Img itemImg = new Img("",
-					CrmResources.getResourceLink(activityStream.getType()));
+			Text itemImg = new Text(CrmAssetsManager.getAsset(activityStream.getType()).getHtml());
 			A itemLink = new A();
 			itemLink.setId("tag" + uid);
 			itemLink.setHref(CrmLinkGenerator.generateCrmItemLink(

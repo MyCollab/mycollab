@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.project.view.bug.components.ComponentListSelect;
 import com.esofthead.mycollab.module.project.view.bug.components.VersionListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
@@ -81,7 +81,7 @@ public class BugSearchPanel extends
     }
 
     private ComponentContainer constructHeader() {
-        Label headerText = new HeaderView(ProjectTypeConstants.BUG,
+        Label headerText = new ProjectViewHeader(ProjectTypeConstants.BUG,
                 AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
 
         final Button createBtn = new Button(

@@ -16,27 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.BACK_BTN_PRESENTED;
-import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.HISTORY_BTN_PRESENTED;
-import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.NEXT_BTN_PRESENTED;
-import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.PREVIOUS_BTN_PRESENTED;
-
-import com.esofthead.mycollab.vaadin.ui.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
@@ -46,25 +32,21 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
-import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.*;
 
 /**
  * 
@@ -90,7 +72,7 @@ public class LeadConvertReadViewImpl extends
 	private DateInfoComp dateInfoComp;
 
 	public LeadConvertReadViewImpl() {
-		super(MyCollabResource.newResource(WebResourceIds._22_crm_lead));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
 	}
 
 	@Override
@@ -293,8 +275,7 @@ public class LeadConvertReadViewImpl extends
 
 						}
 					});
-			contactLink.setIcon(MyCollabResource
-					.newResource("icons/16/crm/contact.png"));
+			contactLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 			contactLink.setStyleName("link");
 			layoutHelper.addComponent(contactLink, "Contact", 0, 1);
 		} else {
@@ -321,8 +302,7 @@ public class LeadConvertReadViewImpl extends
 
 						}
 					});
-			opportunityLink.setIcon(MyCollabResource
-					.newResource("icons/16/crm/opportunity.png"));
+			opportunityLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
 			opportunityLink.setStyleName("link");
 			layoutHelper.addComponent(opportunityLink, "Opportunity", 0, 2);
 		} else {

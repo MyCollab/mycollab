@@ -26,7 +26,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.security.PermissionMap;
@@ -70,7 +70,7 @@ public class ProjectMemberEditViewImpl extends
 
 	@Override
 	protected Resource initFormIconResource() {
-		return AssetsManager.getAsset(ProjectTypeConstants.MEMBER);
+		return ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER);
 	}
 
 	@Override

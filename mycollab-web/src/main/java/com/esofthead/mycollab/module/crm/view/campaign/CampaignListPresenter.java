@@ -57,7 +57,7 @@ public class CampaignListPresenter
 	private CampaignService campaignService;
 
 	public CampaignListPresenter() {
-		super(CampaignListView.class, CampaignListNoItemView.class);
+		super(CampaignListView.class, CampaignCrmListNoItemView.class);
 	}
 
 	@Override

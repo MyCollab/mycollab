@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -143,8 +144,7 @@ public class CaseContactListComp extends
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image contactAvatar = new Image(null,
-					MyCollabResource.newResource("icons/48/crm/contact.png"));
+			FontIconLabel contactAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 			iconWrap.addComponent(contactAvatar);
 			blockTop.addComponent(iconWrap);
 

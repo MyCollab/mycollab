@@ -58,7 +58,7 @@ public class LeadListPresenter extends
 	private LeadService leadService;
 
 	public LeadListPresenter() {
-		super(LeadListView.class, LeadListNoItemView.class);
+		super(LeadListView.class, LeadCrmListNoItemView.class);
 	}
 
 	@Override

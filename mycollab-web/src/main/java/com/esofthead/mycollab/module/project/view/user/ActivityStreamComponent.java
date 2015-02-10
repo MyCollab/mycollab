@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -237,7 +237,7 @@ public class ActivityStreamComponent extends CssLayout {
         private String buildItemValue(ProjectActivityStream activityStream) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            Text itemImg = new Text(AssetsManager.getAsset(activityStream.getType()).getHtml());
+            Text itemImg = new Text(ProjectAssetsManager.getAsset(activityStream.getType()).getHtml());
             A itemLink = new A();
             itemLink.setId("tag" + uid);
 
@@ -279,7 +279,7 @@ public class ActivityStreamComponent extends CssLayout {
         private String buildProjectValue(ProjectActivityStream activityStream) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            Text prjImg = new Text(AssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
+            Text prjImg = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
             A prjLink = new A(
                     ProjectLinkBuilder.generateProjectFullLink(activityStream
                             .getProjectId()));

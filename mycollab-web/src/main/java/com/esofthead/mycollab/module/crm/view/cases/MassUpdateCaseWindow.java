@@ -17,20 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -43,7 +36,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 
 	public MassUpdateCaseWindow(final String title,
 			final CaseListPresenter presenter) {
-		super(title, MyCollabResource.newResource("icons/18/crm/case.png"),
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CASE),
 				new CaseWithBLOBs(), presenter);
 	}
 
@@ -54,7 +47,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<CaseWithBLOBs> buildBeanFormFieldFactory() {
-		return new CaseEditFormFieldFactory<CaseWithBLOBs>(updateForm, false);
+		return new CaseEditFormFieldFactory<>(updateForm, false);
 	}
 
 	private class MassUpdateContactFormLayoutFactory implements

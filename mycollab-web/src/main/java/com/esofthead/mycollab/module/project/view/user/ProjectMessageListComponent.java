@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
@@ -131,7 +131,7 @@ public class ProjectMessageListComponent extends MVerticalLayout {
 
 		private String buildMessage(SimpleMessage message) {
 			DivLessFormatter div = new DivLessFormatter();
-			Text messageIcon = new Text(AssetsManager.getAsset(ProjectTypeConstants.MESSAGE).getHtml());
+			Text messageIcon = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE).getHtml());
 			A msgLink = new A();
 			msgLink.setHref(ProjectLinkBuilder.generateMessagePreviewFullLink(
 					message.getProjectid(), message.getId(),

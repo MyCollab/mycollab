@@ -31,7 +31,7 @@ public class CrmResources {
 	private static final Map<String, String> resourceLinks;
 
 	static {
-		resourceLinks = new HashMap<String, String>();
+		resourceLinks = new HashMap<>();
 		resourceLinks.put(CrmTypeConstants.ACCOUNT,
 				MyCollabAssets.newResourceLink("icons/16/crm/account.png"));
 		resourceLinks.put(CrmTypeConstants.CALL,

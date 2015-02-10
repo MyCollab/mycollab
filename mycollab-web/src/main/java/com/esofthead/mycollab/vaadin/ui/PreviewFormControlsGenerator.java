@@ -88,7 +88,7 @@ public class PreviewFormControlsGenerator<B> {
 						previewForm.fireEditForm(item);
 					}
 				});
-		editBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_edit));
+		editBtn.setIcon(FontAwesome.EDIT);
 		editBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editBtn);
 

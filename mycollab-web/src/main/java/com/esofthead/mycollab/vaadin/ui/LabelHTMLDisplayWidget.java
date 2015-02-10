@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.vaadin.ui.utils.LabelStringGenerator;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -35,13 +36,6 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 	private final Label lbDes;
 	private boolean hasShowLess;
 	private final String description;
-
-	private static String pathIconPlus = String.format(
-			"<img class='plus-btn' src=\"%s\">",
-			MyCollabResource.newResourceLink(WebResourceIds._16_plus));
-	private String pathIconMinus = String.format(
-			"<img class='plus-btn' src=\"%s\">",
-			MyCollabResource.newResourceLink(WebResourceIds._16_minus));
 	private static int NUM_CUT = 100;
 
 	public LabelHTMLDisplayWidget(String content) {
@@ -52,7 +46,7 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 		if (contentLabel != null && contentLabel.length() > NUM_CUT) {
 			hasShowLess = true;
 
-			contentLabel += " " + pathIconPlus;
+			contentLabel += " " + FontAwesome.PLUS_SQUARE.getHtml();
 			lbDes.setValue(contentLabel);
 			lbDes.addStyleName(UIConstants.LABEL_CLICKABLE);
 		}
@@ -66,12 +60,12 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 				if (event.getClickedComponent() instanceof Label) {
 					if (description != null && description.length() > NUM_CUT) {
 						if (hasShowLess) {
-							lbDes.setValue(description + " " + pathIconMinus);
+							lbDes.setValue(description + " " + FontAwesome.MINUS_SQUARE.getHtml());
 						} else {
 							lbDes.setValue(menuLinkGenerator
 									.handleText(description)
 									+ " "
-									+ pathIconPlus);
+									+ FontAwesome.PLUS_SQUARE.getHtml());
 						}
 						lbDes.setContentMode(ContentMode.HTML);
 						hasShowLess = !hasShowLess;

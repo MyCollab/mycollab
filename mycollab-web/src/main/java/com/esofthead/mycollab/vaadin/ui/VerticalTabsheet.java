@@ -304,10 +304,6 @@ public class VerticalTabsheet extends CustomComponent {
 
 	}
 
-	public void replaceContainer(ComponentContainer newContainer) {
-		replaceContainer(newContainer, null);
-	}
-
 	public void replaceContainer(ComponentContainer newContainer,
 			ComponentContainer newPosition) {
 		ComponentContainer containerParent = (ComponentContainer) tabContainer

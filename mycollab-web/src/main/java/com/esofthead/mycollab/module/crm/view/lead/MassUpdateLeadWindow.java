@@ -17,20 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -43,7 +36,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 
 	public MassUpdateLeadWindow(final String title,
 			final LeadListPresenter presenter) {
-		super(title, MyCollabResource.newResource("icons/18/crm/lead.png"),
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
 				new Lead(), presenter);
 	}
 
@@ -54,7 +47,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<Lead> buildBeanFormFieldFactory() {
-		return new LeadEditFormFieldFactory<Lead>(updateForm, false);
+		return new LeadEditFormFieldFactory<>(updateForm, false);
 	}
 
 	private class MassUpdateLeadFormLayoutFactory implements IFormLayoutFactory {

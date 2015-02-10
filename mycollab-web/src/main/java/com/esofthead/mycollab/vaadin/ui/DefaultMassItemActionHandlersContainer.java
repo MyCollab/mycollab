@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
@@ -40,7 +41,7 @@ import com.vaadin.ui.HorizontalLayout;
  * @since 3.0
  * 
  */
-public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
+public class DefaultMassItemActionHandlersContainer extends MHorizontalLayout
 		implements HasMassItemActionHandlers {
 
 	private static final long serialVersionUID = 1L;
@@ -48,11 +49,6 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 	private Set<MassItemActionHandler> handlers;
 
 	private Map<String, ButtonGroup> groupMap = new HashMap<>();
-
-	public DefaultMassItemActionHandlersContainer() {
-		super();
-		this.setSpacing(true);
-	}
 
 	public void addActionItem(final String id, Resource resource,
 			String groupId, String description) {

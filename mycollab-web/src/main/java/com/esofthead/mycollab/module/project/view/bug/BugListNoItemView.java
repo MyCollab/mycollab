@@ -19,22 +19,17 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.Sizeable;
-import com.vaadin.ui.Alignment;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -43,54 +38,42 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent(scope=ViewScope.PROTOTYPE)
-public class BugListNoItemView extends AbstractPageView {
+public class BugListNoItemView extends ProjectListNoItemView {
 	private static final long serialVersionUID = 7964672404043432755L;
 
-	public BugListNoItemView() {
+    @Override
+    protected FontAwesome viewIcon() {
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG);
+    }
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.addStyleName("bug-noitem");
-		layout.setSpacing(true);
-		layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		layout.setMargin(true);
+    @Override
+    protected String viewTitle() {
+        return AppContext.getMessage(BugI18nEnum.VIEW_NO_ITEM_TITLE);
+    }
 
-		Image image = new Image(null,
-				MyCollabResource.newResource("icons/48/project/bug.png"));
-		layout.addComponent(image);
+    @Override
+    protected String viewHint() {
+        return AppContext.getMessage(BugI18nEnum.VIEW_NO_ITEM_HINT);
+    }
 
-		Label title = new Label(
-				AppContext.getMessage(BugI18nEnum.VIEW_NO_ITEM_TITLE));
-		title.addStyleName("h2");
-		title.setWidthUndefined();
-		layout.addComponent(title);
+    @Override
+    protected String actionMessage() {
+        return AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG);
+    }
 
-		Label body = new Label(
-				AppContext.getMessage(BugI18nEnum.VIEW_NO_ITEM_HINT));
-		body.setWidthUndefined();
-		layout.addComponent(body);
+    @Override
+    protected Button.ClickListener actionListener() {
+        return new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                EventBusFactory.getInstance().post(
+                        new BugEvent.GotoAdd(this, null));
+            }
+        };
+    }
 
-		Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new BugEvent.GotoAdd(this, null));
-					}
-				});
-		createBugBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS));
-
-		HorizontalLayout links = new HorizontalLayout();
-
-		links.addComponent(createBugBtn);
-		createBugBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		links.setSpacing(true);
-
-		layout.addComponent(links);
-		this.addComponent(layout);
-		this.setComponentAlignment(layout, Alignment.TOP_CENTER);
-	}
+    @Override
+    protected boolean hasPermission() {
+        return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS);
+    }
 }

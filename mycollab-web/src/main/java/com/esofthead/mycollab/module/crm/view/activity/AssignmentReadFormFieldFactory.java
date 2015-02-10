@@ -16,12 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
@@ -57,8 +58,7 @@ class AssignmentReadFormFieldFactory extends
 			return new LinkViewField(task.getContactName(),
 					CrmLinkBuilder.generateContactPreviewLinkFull(task
 							.getContactid()),
-					MyCollabResource
-							.newResourceLink("icons/16/crm/contact.png"));
+                    CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 		} else if (propertyId.equals("type")) {
 			return new RelatedReadItemField(task);
 

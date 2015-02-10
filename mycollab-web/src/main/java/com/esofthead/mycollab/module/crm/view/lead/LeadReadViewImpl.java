@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -34,8 +35,13 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.UI;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -57,7 +63,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	private CrmFollowersComp<SimpleLead> compFollowers;
 
 	public LeadReadViewImpl() {
-		super(MyCollabResource.newResource(WebResourceIds._22_crm_lead));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
 	}
 
 	@Override
@@ -91,8 +97,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 					}
 				});
 		convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
-		convertButton.setIcon(MyCollabResource
-				.newResource("icons/16/convert.png"));
+		convertButton.setIcon(FontAwesome.FLASK);
 		controlsButton.insertToControlBlock(convertButton);
 
 		return controlsButton
@@ -114,7 +119,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		peopleInfoComp.displayEntryPeople(beanItem);
 		compFollowers.displayFollowers(beanItem);
 
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override
@@ -130,11 +135,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		associateActivityList = new ActivityRelatedItemListComp(true);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
@@ -148,11 +149,11 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.addTab(associateCampaignList, "campaign",
+		previewItemContainer.addTab(associateCampaignList, CrmTypeConstants.CAMPAIGN,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_CAMPAIGN));
-		previewItemContainer.addTab(associateActivityList, "activity",
+		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 

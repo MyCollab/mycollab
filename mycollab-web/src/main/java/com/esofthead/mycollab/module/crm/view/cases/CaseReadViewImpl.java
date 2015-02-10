@@ -26,13 +26,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
-import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -42,11 +37,10 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -68,7 +62,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	private CrmFollowersComp<SimpleCase> followersComp;
 
 	public CaseReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/case.png"));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
 	}
 
 	@Override
@@ -88,7 +82,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleCase>(previewForm)
+		return new CrmPreviewFormControlsGenerator<>(previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_CASE);
 	}
 
@@ -107,7 +101,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		dateInfoComp.displayEntryDateTime(beanItem);
 		followersComp.displayFollowers(beanItem);
 
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override
@@ -123,11 +117,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
@@ -135,17 +125,17 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-		followersComp = new CrmFollowersComp<SimpleCase>(CrmTypeConstants.CASE,
+		followersComp = new CrmFollowersComp<>(CrmTypeConstants.CASE,
 				RolePermissionCollections.CRM_CASE);
 		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.addTab(associateContactList, "contact",
+		previewItemContainer.addTab(associateContactList, CrmTypeConstants.CONTACT,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
-		previewItemContainer.addTab(associateActivityList, "activity",
+		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 

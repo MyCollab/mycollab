@@ -60,7 +60,7 @@ public class ProjectResources {
 	public static final String B_SEVERITY_TRIVIAL_IMG_12 = "icons/12/severity_trivial.png";
 
 	static {
-		resourceLinks = new HashMap<String, String>();
+		resourceLinks = new HashMap<>();
 		resourceLinks.put(ProjectTypeConstants.PROJECT,
 				MyCollabAssets.newResourceLink("icons/16/project/project.png"));
 		resourceLinks.put(ProjectTypeConstants.MESSAGE,

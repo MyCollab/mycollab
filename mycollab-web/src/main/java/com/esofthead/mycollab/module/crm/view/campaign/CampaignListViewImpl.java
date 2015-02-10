@@ -22,11 +22,13 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -34,6 +36,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
+import org.vaadin.maddon.button.MButton;
 
 import java.util.Arrays;
 
@@ -51,37 +54,25 @@ public class CampaignListViewImpl extends
 
 	@Override
 	protected void buildExtraControls() {
-		Button customizeViewBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(
+                        new CampaignListCustomizeWindow(
+                                CampaignListView.VIEW_DEF_ID, tableItem));
+            }
+        });
+		this.addExtraButton(customizeViewBtn);
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().addWindow(
-						new CampaignListCustomizeWindow(
-								CampaignListView.VIEW_DEF_ID, tableItem));
-
-			}
-		});
-
-		customizeViewBtn.setIcon(FontAwesome.ADJUST);
-		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		this.addExtraComponent(customizeViewBtn);
-
-		Button importBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().addWindow(new CampaignImportWindow());
-			}
-		});
-		importBtn.setDescription("Import");
-		importBtn.setIcon(FontAwesome.CLOUD_UPLOAD);
-		importBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		Button importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new CampaignImportWindow());
+            }
+        });
 		importBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-		this.addExtraComponent(importBtn);
+		this.addExtraButton(importBtn);
 
 	}
 

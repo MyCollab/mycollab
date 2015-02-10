@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskS
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -172,7 +172,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
         private Div buildItemValue(ProjectGenericTask task) {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
-            Text image = new Text(AssetsManager.getAsset(task.getType()).getHtml());
+            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
             A itemLink = new A();
             itemLink.setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())

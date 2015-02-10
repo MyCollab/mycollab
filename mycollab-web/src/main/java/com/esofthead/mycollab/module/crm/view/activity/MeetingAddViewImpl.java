@@ -18,20 +18,13 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -58,12 +51,12 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._22_crm_meeting);
+		return CrmAssetsManager.getAsset(CrmTypeConstants.MEETING);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<MeetingWithBLOBs>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 

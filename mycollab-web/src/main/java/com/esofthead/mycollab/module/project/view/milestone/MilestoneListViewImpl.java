@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -106,7 +106,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void initUI() {
-		Label headerText = new HeaderView(ProjectTypeConstants.MILESTONE,
+		Label headerText = new ProjectViewHeader(ProjectTypeConstants.MILESTONE,
 				AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
 
 		MHorizontalLayout header = new MHorizontalLayout()

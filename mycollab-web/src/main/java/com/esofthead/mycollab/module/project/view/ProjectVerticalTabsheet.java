@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
@@ -33,7 +33,7 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
         ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
         String tabId = btnTabImpl.getTabId();
 
-        Resource resource = AssetsManager.getAsset(tabId);
+        Resource resource = ProjectAssetsManager.getAsset(tabId);
         btn.setIcon(resource);
     }
 }

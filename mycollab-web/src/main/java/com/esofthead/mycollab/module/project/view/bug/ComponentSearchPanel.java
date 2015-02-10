@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -72,7 +72,7 @@ public class ComponentSearchPanel extends
                 .withStyleName(UIConstants.HEADER_VIEW)
                 .withMargin(new MarginInfo(true, false, true, false));
 
-        final Label componenttitle = new HeaderView(ProjectTypeConstants.BUG_COMPONENT,
+        final Label componenttitle = new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
                 AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
         componenttitle.setStyleName(UIConstants.HEADER_TEXT);
 

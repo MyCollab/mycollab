@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -197,7 +197,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
                 }
             });
 
-            Label headerText = new HeaderView(ProjectTypeConstants.MESSAGE, message.getTitle());
+            Label headerText = new ProjectViewHeader(ProjectTypeConstants.MESSAGE, message.getTitle());
 
             header.with(headerText, stickyCheck, deleteBtn)
                     .withAlign(headerText, Alignment.MIDDLE_LEFT)

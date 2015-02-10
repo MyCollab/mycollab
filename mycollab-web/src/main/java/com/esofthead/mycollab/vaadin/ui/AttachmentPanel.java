@@ -29,6 +29,7 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -66,8 +67,7 @@ public class AttachmentPanel extends VerticalLayout implements
 	}
 
 	private void displayFileName(final String fileName) {
-		final HorizontalLayout fileAttachmentLayout = new HorizontalLayout();
-		fileAttachmentLayout.setSpacing(true);
+		final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout();
 		Button removeBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -89,13 +89,8 @@ public class AttachmentPanel extends VerticalLayout implements
 
 		Embedded fileIcon = new Embedded(null,
 				UiUtils.getFileIconResource(fileName));
-		fileAttachmentLayout.addComponent(fileIcon);
-
 		Label fileLbl = new Label(fileName);
-		fileAttachmentLayout.addComponent(fileLbl);
-		fileAttachmentLayout.setComponentAlignment(fileLbl,
-				Alignment.MIDDLE_CENTER);
-		fileAttachmentLayout.addComponent(removeBtn);
+        fileAttachmentLayout.with(fileIcon, fileLbl, removeBtn).withAlign(fileLbl, Alignment.MIDDLE_CENTER);
 		this.addComponent(fileAttachmentLayout);
 	}
 

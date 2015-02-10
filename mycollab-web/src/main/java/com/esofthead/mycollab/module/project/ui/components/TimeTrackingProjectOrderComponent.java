@@ -16,16 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.google.common.collect.Ordering;
+
+import java.util.List;
 
 /**
  * 
@@ -67,8 +67,7 @@ public class TimeTrackingProjectOrderComponent
 			LabelLink link = new LabelLink(firstItem.getProjectName(),
 					ProjectLinkBuilder.generateProjectFullLink(firstItem
 							.getProjectid()));
-			link.setIconLink(MyCollabResource
-					.newResourceLink(WebResourceIds._16_project_project));
+			link.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 
 			addComponent(link);
 			addComponent(new TimeLoggingBockLayout(visibleFields,

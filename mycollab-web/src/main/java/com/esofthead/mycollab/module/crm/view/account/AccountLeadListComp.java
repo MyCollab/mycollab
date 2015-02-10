@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -139,8 +140,7 @@ public class AccountLeadListComp extends
             blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            Image leadAvatar = new Image(null,
-                    MyCollabResource.newResource("icons/48/crm/lead.png"));
+            FontIconLabel leadAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
             iconWrap.addComponent(leadAvatar);
             blockTop.addComponent(iconWrap);
 

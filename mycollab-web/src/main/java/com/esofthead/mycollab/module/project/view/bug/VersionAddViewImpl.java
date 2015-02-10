@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -64,7 +64,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return AssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
+		return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_VERSION);
 	}
 
 	@Override

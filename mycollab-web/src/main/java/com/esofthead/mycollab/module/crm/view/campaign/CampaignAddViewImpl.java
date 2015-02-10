@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -27,7 +28,6 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -51,12 +51,12 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/crm/campaign.png");
+		return CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<SimpleCampaign>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
@@ -73,6 +73,6 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleCampaign> initBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<SimpleCampaign>(editForm);
+		return new CampaignEditFormFieldFactory<>(editForm);
 	}
 }

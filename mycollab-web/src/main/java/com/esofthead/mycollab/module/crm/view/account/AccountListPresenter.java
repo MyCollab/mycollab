@@ -60,7 +60,7 @@ public class AccountListPresenter
 	private AccountService accountService;
 
 	public AccountListPresenter() {
-		super(AccountListView.class, AccountListNoItemView.class);
+		super(AccountListView.class, AccountCrmListNoItemView.class);
 	}
 
 	@Override

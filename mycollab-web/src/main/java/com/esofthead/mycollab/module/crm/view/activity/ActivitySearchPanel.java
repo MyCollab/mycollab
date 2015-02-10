@@ -16,36 +16,27 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.vaadin.server.FontAwesome;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 /**
  * 
@@ -77,11 +68,7 @@ public class ActivitySearchPanel extends
 		layout.setSizeUndefined();
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		final Image iconComp = new Image();
-		iconComp.setSource(MyCollabResource
-				.newResource(WebResourceIds._22_crm_event));
-		layout.addComponent(iconComp);
-		final Label searchtitle = new Label("Events");
+		final Label searchtitle = new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Events");
 		searchtitle.setStyleName(Reindeer.LABEL_H2);
 
 		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)

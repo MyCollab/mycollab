@@ -6826,6 +6826,20 @@ body .mycollab.v-app .v-app-loading {
 	padding: 0px;
 }
 
+.mycollab .v-vertical.case-noitem {
+	border-radius: 0 0px 4px 4px;
+	box-sizing: content-box;
+}
+
+.mycollab .v-vertical.case-noitem .v-icon {
+	font-size: 48px;
+}
+
+.mycollab .warning-icon .v-icon {
+	font-size: 48px;
+	color: red;
+}
+
 .mycollab .h-sidebar-menu {
 	height: 50px;
 	position: relative;
@@ -12095,15 +12109,6 @@ body .mycollab.v-app .v-app-loading {
 	display: block;
 }
 
-.mycollab .v-vertical.case-noitem {
-	border-radius: 0 0px 4px 4px;
-	box-sizing: content-box;
-}
-
-.mycollab .v-vertical.v-margin-top.case-noitem {
-	padding-top: 50px;
-}
-
 .mycollab .hdr-view .table-actionctls {
 	padding: 0;
 	border: 0;
@@ -12307,6 +12312,10 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .bean-block .icon-wrap {
 	padding: 0px 10px 0px 0px;
+}
+
+.mycollab .bean-block .icon-wrap .v-icon {
+	font-size: 48px;
 }
 
 .mycollab .notification-label {
@@ -13751,6 +13760,20 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	font-size: 13px;
 	font-weight: bold;
 	padding: 0px;
+}
+
+.v-vertical.case-noitem {
+	border-radius: 0 0px 4px 4px;
+	box-sizing: content-box;
+}
+
+.v-vertical.case-noitem .v-icon {
+	font-size: 48px;
+}
+
+.warning-icon .v-icon {
+	font-size: 48px;
+	color: red;
 }
 
 .stickytooltip {

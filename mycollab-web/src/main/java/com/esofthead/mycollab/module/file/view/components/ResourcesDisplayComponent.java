@@ -157,15 +157,14 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				Alignment.MIDDLE_LEFT);
 
 		Button goUpBtn = new Button("Up");
-		goUpBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_ecm_up_to_root));
+		goUpBtn.setIcon(FontAwesome.ARROW_UP);
 
 		goUpBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Folder parentFolder = null;
+				Folder parentFolder;
 				if (baseFolder instanceof ExternalFolder) {
 					if (baseFolder.getPath().equals("/")) {
 						parentFolder = baseFolder;
@@ -208,7 +207,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						UI.getCurrent().addWindow(addnewFolderWindow);
 					}
 				});
-		createBtn.setIcon(MyCollabResource.newResource("icons/16/ecm/add.png"));
+		createBtn.setIcon(FontAwesome.PLUS);
 		createBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		createBtn.setDescription("Create new folder");
 		createBtn.setEnabled(AppContext
@@ -224,8 +223,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				UI.getCurrent().addWindow(multiUploadWindow);
 			}
 		});
-		uploadBtn.setIcon(MyCollabResource
-				.newResource("icons/16/ecm/upload.png"));
+		uploadBtn.setIcon(FontAwesome.UPLOAD);
 		uploadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		uploadBtn.setDescription("Upload");
 
@@ -256,8 +254,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				streamSource);
 		downloaderExt.extend(downloadBtn);
 
-		downloadBtn.setIcon(MyCollabResource
-				.newResource("icons/16/ecm/download.png"));
+		downloadBtn.setIcon(FontAwesome.DOWNLOAD);
 		downloadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		downloadBtn.setDescription("Download");
 		downloadBtn.setEnabled(AppContext
@@ -280,8 +277,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				}
 			}
 		});
-		moveToBtn.setIcon(MyCollabResource
-				.newResource("icons/16/ecm/move_up.png"));
+		moveToBtn.setIcon(FontAwesome.ARROWS);
 		moveToBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		moveToBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
@@ -304,8 +300,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						}
 					}
 				});
-		deleteBtn.setIcon(MyCollabResource
-				.newResource("icons/16/ecm/delete.png"));
+		deleteBtn.setIcon(FontAwesome.TRASH_O);
 		deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
 		deleteBtn.setImmediate(true);
 		deleteBtn.setDescription("Delele");

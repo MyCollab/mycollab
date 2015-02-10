@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.Arrays;
-
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -38,12 +33,17 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -99,8 +99,7 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 					}
 				});
 		backtoTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		backtoTaskListBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_back));
+		backtoTaskListBtn.setIcon(FontAwesome.ARROW_LEFT);
 
 		header.with(titleIcon, headerText, backtoTaskListBtn)
 				.withAlign(titleIcon, Alignment.TOP_LEFT)

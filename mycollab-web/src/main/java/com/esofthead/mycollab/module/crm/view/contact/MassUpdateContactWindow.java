@@ -17,21 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MassUpdateWindow;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -44,7 +36,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 
 	public MassUpdateContactWindow(final String title,
 			final ContactListPresenter presenter) {
-		super(title, MyCollabResource.newResource(WebResourceIds._18_crm_contact),
+		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT),
 				new Contact(), presenter);
 	}
 
@@ -55,7 +47,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<Contact> buildBeanFormFieldFactory() {
-		return new ContactEditFormFieldFactory<Contact>(updateForm, false);
+		return new ContactEditFormFieldFactory<>(updateForm, false);
 	}
 
 	private class MassUpdateContactFormLayoutFactory implements

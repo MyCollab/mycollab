@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.*;
 import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
@@ -48,10 +48,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -254,7 +252,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createPhaseBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.MILESTONES));
-			createPhaseBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+			createPhaseBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
 			createPhaseBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createPhaseBtn);
 
@@ -271,7 +269,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createTaskBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.TASKS));
-			createTaskBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
+			createTaskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 			createTaskBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createTaskBtn);
 
@@ -287,7 +285,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createBugBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.BUGS));
-			createBugBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
+			createBugBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 			createBugBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createBugBtn);
 
@@ -303,7 +301,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createRiskBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.RISKS));
-			createRiskBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
+			createRiskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 			createRiskBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createRiskBtn);
 
@@ -319,7 +317,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					});
 			createProblemBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.PROBLEMS));
-			createProblemBtn.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
+			createProblemBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 			createProblemBtn.setStyleName("link");
 			popupButtonsControl.addComponent(createProblemBtn);
 

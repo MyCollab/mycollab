@@ -28,12 +28,16 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -156,8 +160,7 @@ public class AccountCaseListComp extends
             blockTop.setSpacing(true);
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
-            Image caseIcon = new Image(null,
-                    MyCollabResource.newResource(WebResourceIds._48_crm_case));
+            FontIconLabel caseIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
             iconWrap.addComponent(caseIcon);
             blockTop.addComponent(iconWrap);
 

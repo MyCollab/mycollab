@@ -19,20 +19,14 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -57,18 +51,18 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/crm/task.png");
+		return CrmAssetsManager.getAsset(CrmTypeConstants.TASK);
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<Task>(editForm)
+		return new EditFormControlsGenerator<>(editForm)
 				.createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<Task> initPreviewForm() {
-		return new AdvancedEditBeanForm<Task>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -103,8 +97,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 			} else if (propertyId.equals("description")) {
 				return new RichTextEditField();
 			} else if (propertyId.equals("contactid")) {
-				ContactSelectionField field = new ContactSelectionField();
-				return field;
+				return new ContactSelectionField();
 			} else if (propertyId.equals("subject")) {
 				TextField tf = new TextField();
 
@@ -116,14 +109,13 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 				return tf;
 			} else if (propertyId.equals("type")) {
-				RelatedEditItemField relatedField = new RelatedEditItemField(
+				return new RelatedEditItemField(
 						new String[] { CrmTypeConstants.ACCOUNT,
 								CrmTypeConstants.CAMPAIGN,
 								CrmTypeConstants.CONTACT,
 								CrmTypeConstants.LEAD,
 								CrmTypeConstants.OPPORTUNITY,
 								CrmTypeConstants.CASE }, attachForm.getBean());
-				return relatedField;
 			} else if (propertyId.equals("typeid")) {
 				return new DummyCustomField<Integer>();
 			} else if (propertyId.equals("assignuser")) {

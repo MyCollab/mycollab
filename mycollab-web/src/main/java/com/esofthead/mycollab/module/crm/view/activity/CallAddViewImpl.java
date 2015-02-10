@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
@@ -46,7 +47,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
     @Override
     protected Resource initFormIconResource() {
-        return MyCollabResource.newResource("icons/22/crm/call.png");
+        return CrmAssetsManager.getAsset(CrmTypeConstants.CALL);
     }
 
     @Override

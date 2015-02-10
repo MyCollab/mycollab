@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -55,7 +55,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
 
     @Override
     protected Resource initFormIconResource() {
-        return AssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE);
     }
 
     @Override

@@ -16,17 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.vaadin.ui.Field;
 
 /**
@@ -53,14 +49,12 @@ public class OpportunityReadFormFieldFactory extends
 			field = new LinkViewField(opportunity.getAccountName(),
 					CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity
 							.getAccountid()),
-					MyCollabResource
-							.newResourceLink(WebResourceIds._16_crm_account));
+					CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 		} else if (propertyId.equals("campaignid")) {
 			field = new LinkViewField(opportunity.getCampaignName(),
 					CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity
 							.getCampaignid()),
-					MyCollabResource
-							.newResourceLink(WebResourceIds._16_crm_campaign));
+                    CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
 		} else if (propertyId.equals("assignuser")) {
 			field = new UserLinkViewField(opportunity.getAssignuser(),
 					opportunity.getAssignUserAvatarId(),

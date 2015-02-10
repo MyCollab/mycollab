@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
@@ -47,7 +46,7 @@ public abstract class MeetingFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public ComponentContainer getLayout() {
 		AddViewLayout2 meetingLayout = new AddViewLayout2(title,
-				MyCollabResource.newResource(WebResourceIds._22_crm_meeting));
+                CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 
 		Layout topPanel = createTopPanel();
 		if (topPanel != null) {

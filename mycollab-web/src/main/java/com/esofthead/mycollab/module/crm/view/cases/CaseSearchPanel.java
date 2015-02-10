@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -94,12 +95,7 @@ public class CaseSearchPanel extends
 				.withMargin(new MarginInfo(true, false, true, false))
 				.withStyleName(UIConstants.HEADER_VIEW);
 
-		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._22_crm_case));
-		layout.addComponent(titleIcon);
-		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
-
-		final Label searchtitle = new Label(
+		final Label searchtitle = new CrmViewHeader(CrmTypeConstants.CASE,
 				AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 

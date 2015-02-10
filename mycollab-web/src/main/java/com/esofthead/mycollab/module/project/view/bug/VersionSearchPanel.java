@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -37,16 +37,13 @@ import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
@@ -83,7 +80,7 @@ public class VersionSearchPanel extends
 				.withSpacing(true)
 				.withMargin(new MarginInfo(true, false, true, false));
 
-		final Label versionTitle = new HeaderView(ProjectTypeConstants.BUG_VERSION,
+		final Label versionTitle = new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION,
 				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
 		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.with(versionTitle)

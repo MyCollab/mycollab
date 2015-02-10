@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -181,8 +182,7 @@ public class TimeTrackingTableDisplay
                                 LabelLink b = new LabelLink(itemLogging.getProjectName(),
                                         ProjectLinkBuilder.generateProjectFullLink(itemLogging
                                                 .getProjectid()));
-                                b.setIconLink(MyCollabResource
-                                        .newResourceLink(WebResourceIds._16_project_project));
+                                b.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
                                 return b;
                             }
                         }
@@ -256,8 +256,7 @@ public class TimeTrackingTableDisplay
                                     }
                                 });
                                 editBtn.setStyleName("link");
-                                editBtn.setIcon(MyCollabResource
-                                        .newResource(WebResourceIds._16_edit));
+                                editBtn.setIcon(FontAwesome.EDIT);
                                 layout.addComponent(editBtn);
 
                                 Button deleteBtn = new Button("", new Button.ClickListener() {

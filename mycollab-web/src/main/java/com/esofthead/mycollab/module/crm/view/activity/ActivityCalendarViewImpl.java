@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -50,6 +51,8 @@ import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
 import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.text.DateFormatSymbols;
@@ -86,7 +89,6 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 		calendarActionBtn = new PopupButton(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		calendarActionBtn.addStyleName("esofthead");
 
 		this.setVerticalTabsheetFix(true);
 		this.setVerticalTabsheetFixToLeft(false);
@@ -95,41 +97,26 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 	}
 
 	private void initContent() {
-
-		HorizontalLayout contentWrapper = new HorizontalLayout();
-		contentWrapper.setWidth("100%");
+		MHorizontalLayout contentWrapper = new MHorizontalLayout().withSpacing(false).withWidth("100%");
 		this.addComponent(contentWrapper);
 
 		/* Content cheat */
-		VerticalLayout mainContent = new VerticalLayout();
-		mainContent.setStyleName("readview-layout");
-		mainContent.setWidth("100%");
-		mainContent.setMargin(new MarginInfo(false, true, true, true));
-		mainContent.setSpacing(true);
-		contentWrapper.addComponent(mainContent);
-		contentWrapper.setExpandRatio(mainContent, 1.0f);
+		MVerticalLayout mainContent = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true))
+                .withWidth("100%").withStyleName("readview-layout");
+		contentWrapper.with(mainContent).expand(mainContent);
 
-		VerticalLayout rightColumn = new VerticalLayout();
-		rightColumn.setWidth("250px");
-		rightColumn.setSpacing(true);
+		MVerticalLayout rightColumn = new MVerticalLayout().withMargin(new MarginInfo(true, false, true, false))
+                .withWidth("250px");
 		rightColumn.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		rightColumn.setMargin(new MarginInfo(true, false, true, false));
 		contentWrapper.addComponent(rightColumn);
 
-		HorizontalLayout actionPanel = new HorizontalLayout();
-		actionPanel.setWidth("100%");
-		actionPanel.setSpacing(true);
-		actionPanel.setMargin(new MarginInfo(true, false, true, false));
-		actionPanel.setStyleName(UIConstants.HEADER_VIEW);
+		MHorizontalLayout actionPanel = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+                .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
 		actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		actionPanel.addComponent(new Image(null, MyCollabResource
-				.newResource("icons/22/crm/event.png")));
 
-		Label headerText = new Label("Activity Calendar");
+		Label headerText = new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Calendar");
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
-		headerText.setSizeUndefined();
-		actionPanel.addComponent(headerText);
-		actionPanel.setExpandRatio(headerText, 1.0f);
+		actionPanel.with(headerText).expand(headerText);
 
 		mainContent.addComponent(actionPanel);
 
@@ -143,10 +130,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 		toggleViewBtn = new PopupButton("Monthly");
 		toggleViewBtn.setWidth("200px");
 		toggleViewBtn.addStyleName("calendar-view-switcher");
-		VerticalLayout popupLayout = new VerticalLayout();
-		popupLayout.setSpacing(true);
-		popupLayout.setMargin(new MarginInfo(false, true, false, true));
-		popupLayout.setWidth("190px");
+		MVerticalLayout popupLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true))
+                .withWidth("190px");
 
 		monthViewBtn = new Button("Monthly", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;

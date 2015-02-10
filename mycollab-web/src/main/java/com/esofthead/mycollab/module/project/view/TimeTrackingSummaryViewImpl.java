@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -224,8 +225,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			});
 
 			backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			backBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_back));
+			backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
 			controlBtns.addComponent(backBtn);
 
@@ -367,8 +367,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			exportButtonControl = new SplitButton(exportBtn);
 			exportButtonControl.setWidthUndefined();
 			exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-			exportButtonControl.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_export));
+			exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
 			VerticalLayout popupButtonsControl = new VerticalLayout();
 			exportButtonControl.setContent(popupButtonsControl);
@@ -377,8 +376,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			FileDownloader pdfDownloader = new FileDownloader(
 					constructStreamResource(ReportExportType.PDF));
 			pdfDownloader.extend(exportPdfBtn);
-			exportPdfBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_filetypes_pdf));
+			exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
 			exportPdfBtn.setStyleName("link");
 			popupButtonsControl.addComponent(exportPdfBtn);
 
@@ -386,8 +384,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			FileDownloader excelDownloader = new FileDownloader(
 					constructStreamResource(ReportExportType.EXCEL));
 			excelDownloader.extend(exportExcelBtn);
-			exportExcelBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_filetypes_excel));
+			exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
 			exportExcelBtn.setStyleName("link");
 			popupButtonsControl.addComponent(exportExcelBtn);
 
@@ -431,8 +428,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			});
 
 			backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			backBtn.setIcon(MyCollabResource
-					.newResource(WebResourceIds._16_back));
+			backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
 			VerticalLayout contentWrapper = new VerticalLayout();
 			contentWrapper.setSpacing(true);

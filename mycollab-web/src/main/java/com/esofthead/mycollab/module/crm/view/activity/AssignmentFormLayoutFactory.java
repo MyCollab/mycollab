@@ -17,11 +17,10 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
@@ -45,7 +44,7 @@ public abstract class AssignmentFormLayoutFactory implements IFormLayoutFactory 
 	@Override
 	public ComponentContainer getLayout() {
 		AddViewLayout2 taskAddLayout = new AddViewLayout2(title,
-				MyCollabResource.newResource(WebResourceIds._18_crm_task));
+                CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 
 		Layout topPanel = createTopPanel();
 		if (topPanel != null) {

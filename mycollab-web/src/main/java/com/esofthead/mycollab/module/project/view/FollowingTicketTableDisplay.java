@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSear
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -73,7 +73,7 @@ public class FollowingTicketTableDisplay
 						.getSummary());
 
 				if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
-					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.BUG));
+					ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
 
 					if (BugStatus.Verified.name().equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -99,7 +99,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.TASK.equals(ticket.getType())) {
-					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TASK));
+					ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -129,7 +129,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.PROBLEM.equals(ticket.getType())) {
-					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
+					ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -159,7 +159,7 @@ public class FollowingTicketTableDisplay
 						}
 					});
 				} else if (ProjectTypeConstants.RISK.equals(ticket.getType())) {
-					ticketLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.RISK));
+					ticketLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
 
 					if ("Closed".equals(ticket.getStatus())) {
 						ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
@@ -216,7 +216,7 @@ public class FollowingTicketTableDisplay
 								new ProjectEvent.GotoMyProject(this, chain));
 					}
 				});
-				projectLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+				projectLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 				return projectLink;
 			}
 		});

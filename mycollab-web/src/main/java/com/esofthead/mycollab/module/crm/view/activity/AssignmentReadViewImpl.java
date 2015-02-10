@@ -20,12 +20,8 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
-import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
-import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
-import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -33,11 +29,10 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -55,7 +50,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private CrmFollowersComp<SimpleTask> followersComp;
 
 	public AssignmentReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/task.png"));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 	}
 
 	@Override
@@ -75,7 +70,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<SimpleTask>(previewForm)
+		return new CrmPreviewFormControlsGenerator<>(previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_TASK);
 	}
 
@@ -101,26 +96,22 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		noteListItems = new NoteListItems(
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
 
-		followersComp = new CrmFollowersComp<SimpleTask>(CrmTypeConstants.TASK,
+		followersComp = new CrmFollowersComp<>(CrmTypeConstants.TASK,
 				RolePermissionCollections.CRM_TASK);
 		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override

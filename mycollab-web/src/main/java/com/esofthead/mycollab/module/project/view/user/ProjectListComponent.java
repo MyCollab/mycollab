@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.ProjectAddWindow;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -81,7 +81,7 @@ public class ProjectListComponent extends MVerticalLayout {
 		Label componentHeader = new Label();
 		componentHeader.setStyleName("h2");
 
-		headerPopupButton.setIcon(AssetsManager.getAsset(ProjectTypeConstants.PROJECT));
+		headerPopupButton.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT));
 		headerBar.with(headerPopupButton);
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {

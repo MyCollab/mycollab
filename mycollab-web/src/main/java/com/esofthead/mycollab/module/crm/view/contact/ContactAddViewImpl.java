@@ -19,11 +19,15 @@ package com.esofthead.mycollab.module.crm.view.contact;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -47,7 +51,7 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._22_crm_contact);
+		return CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
 	}
 
 	@Override

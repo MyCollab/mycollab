@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-services.
- *
- * mycollab-services is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-services is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.core.utils;
 
 import java.io.IOException;
@@ -49,9 +33,9 @@ import org.apache.tika.Tika;
 public class MimeTypesUtil {
 	public static String BINARY_MIME_TYPE = "application/octet-stream";
 
-	public static String BINARY_TYPE = "application";
+	public static String TEXT_TYPE = "text/plain";
 
-	public static String TEXT_TYPE = "text";
+    public static String HTML_TYPE = "text/html";
 
 	public static String IMAGE_TYPE = "image";
 
@@ -97,4 +81,8 @@ public class MimeTypesUtil {
 	public static boolean isImageMimetype(String mimeType) {
 		return SUPPORTED_IMAGES.contains(mimeType);
 	}
+
+    public static void main(String[] args) {
+        System.out.println(detectMimeType("aaa.css"));
+    }
 }

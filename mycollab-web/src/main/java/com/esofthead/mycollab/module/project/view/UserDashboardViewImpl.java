@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.user.ActivityStreamComponent;
 import com.esofthead.mycollab.module.project.view.user.MyProjectListComponent;
 import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
@@ -159,7 +159,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 								UserDashboardViewImpl.this, prjKeys));
 			}
 		});
-		timeTrackingLink.setIcon(AssetsManager.getAsset(ProjectTypeConstants.TIME));
+		timeTrackingLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
 
 		final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withSpacing(true).withMargin(false)
 				.with(followingTicketsLink, timeTrackingLink);

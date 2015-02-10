@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.ui.components.ProjectTaskListComboBox;
@@ -74,7 +74,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
     @Override
     protected Resource initFormIconResource() {
-        return AssetsManager.getAsset(ProjectTypeConstants.TASK);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK);
     }
 
     @Override

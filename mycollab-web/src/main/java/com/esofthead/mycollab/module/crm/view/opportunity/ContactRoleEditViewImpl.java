@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.ContactOpportunityService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -70,7 +72,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 		AddViewLayout2 previewLayout = new AddViewLayout2(
 				"Add or Edit Contact Roles",
-				MyCollabResource.newResource("icons/22/crm/contact.png"));
+                CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 		this.addComponent(previewLayout);
 
 		ComponentContainer actionControls = createButtonControls();

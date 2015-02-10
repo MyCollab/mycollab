@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -38,6 +39,8 @@ import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
@@ -594,52 +597,43 @@ public class MessageListViewImpl extends AbstractPageView implements
 		}
 	}
 
-	private class MessageListNoItemView extends VerticalLayout {
+	private class MessageListNoItemView extends ProjectListNoItemView {
 		private static final long serialVersionUID = 6711716775690122182L;
 
-		public MessageListNoItemView() {
-			MVerticalLayout layout = new MVerticalLayout();
-			layout.addStyleName("message-noitem");
-			layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        @Override
+        protected FontAwesome viewIcon() {
+            return ProjectAssetsManager.getAsset(ProjectTypeConstants.MESSAGE);
+        }
 
-			Image image = new Image(null,
-					MyCollabResource
-							.newResource(WebResourceIds._48_project_message));
-			layout.addComponent(image);
+        @Override
+        protected String viewTitle() {
+            return AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_TITLE);
+        }
 
-			Label title = new Label(
-					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_TITLE));
-			title.addStyleName("h2");
-			title.setWidthUndefined();
-			layout.addComponent(title);
+        @Override
+        protected String viewHint() {
+            return AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_HINT);
+        }
 
-			Label body = new Label(
-					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_HINT));
-			body.setWidthUndefined();
-			layout.addComponent(body);
+        @Override
+        protected String actionMessage() {
+            return AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE);
+        }
 
-			Button createMessageBtn = new Button(
-					AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        @Override
+        protected Button.ClickListener actionListener() {
+            return new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    MessageListViewImpl.this.createAddMessageLayout();
+                }
+            };
+        }
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							MessageListViewImpl.this.createAddMessageLayout();
-						}
-					});
-			createMessageBtn.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.MESSAGES));
-
-			HorizontalLayout links = new HorizontalLayout();
-			links.addComponent(createMessageBtn);
-			createMessageBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			links.setSpacing(true);
-
-			layout.addComponent(links);
-			this.addComponent(layout);
-			this.setComponentAlignment(layout, Alignment.TOP_CENTER);
-		}
+        @Override
+        protected boolean hasPermission() {
+            return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES);
+        }
 	}
 
 	public void createAddMessageLayout() {

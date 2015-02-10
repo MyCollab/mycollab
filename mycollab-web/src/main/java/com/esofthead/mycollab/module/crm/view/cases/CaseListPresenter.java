@@ -58,7 +58,7 @@ public class CaseListPresenter extends
 	private CaseService caseService;
 
 	public CaseListPresenter() {
-		super(CaseListView.class, CaseListNoItemView.class);
+		super(CaseListView.class, CaseCrmListNoItemView.class);
 	}
 
 	@Override

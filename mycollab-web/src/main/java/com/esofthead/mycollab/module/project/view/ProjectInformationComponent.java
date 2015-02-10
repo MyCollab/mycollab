@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
@@ -93,7 +93,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 	public void displayProjectInformation() {
 		this.project = CurrentProjectVariables.getProject();
 		this.projectInfoHeader.removeAllComponents();
-		final Button icon = new Button(null, AssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
+		final Button icon = new Button(null, ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
         icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
         icon.addStyleName("icon-18px");
 

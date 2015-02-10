@@ -21,7 +21,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -183,7 +183,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
     @Override
     protected Resource initFormIconResource() {
-        return AssetsManager.getAsset(ProjectTypeConstants.BUG);
+        return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG);
     }
 
     @Override

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -44,7 +45,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._22_crm_lead);
+		return CrmAssetsManager.getAsset(CrmTypeConstants.LEAD);
 	}
 
 	@Override

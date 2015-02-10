@@ -28,13 +28,14 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -58,7 +59,7 @@ public class AccountOpportunityListComp
 
 	private Account account;
 
-	public static Map<String, String> colormap = new HashMap<String, String>();
+	public static Map<String, String> colormap = new HashMap<>();
 
 	static {
 		for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
@@ -166,9 +167,7 @@ public class AccountOpportunityListComp
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image opportunityIcon = new Image(null,
-					MyCollabResource
-							.newResource("icons/48/crm/opportunity.png"));
+			FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
 			iconWrap.addComponent(opportunityIcon);
 			blockTop.addComponent(iconWrap);
 

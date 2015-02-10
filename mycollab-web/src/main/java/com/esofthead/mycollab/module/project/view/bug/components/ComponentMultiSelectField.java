@@ -55,7 +55,7 @@ public class ComponentMultiSelectField extends MultiSelectComp {
 				.getSpringBean(ComponentService.class);
 
 		List<Component> components = componentService
-				.findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		return components;
 	}

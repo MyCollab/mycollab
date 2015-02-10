@@ -24,12 +24,15 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -69,17 +72,10 @@ public class OpportunitySearchPanel extends
                 .withMargin(new MarginInfo(true, false, true, false))
                 .withStyleName(UIConstants.HEADER_VIEW);
 
-        final Image titleIcon = new Image(null,
-                MyCollabResource.newResource("icons/22/crm/opportunity.png"));
-        layout.addComponent(titleIcon);
-        layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
-
-        final Label searchtitle = new Label(
+        final Label searchtitle = new CrmViewHeader(CrmTypeConstants.OPPORTUNITY,
                 AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
         searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-        layout.addComponent(searchtitle);
-        layout.setExpandRatio(searchtitle, 1.0f);
-        layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
+        layout.with(searchtitle).expand(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT);
 
         final Button createAccountBtn = new Button(
                 AppContext

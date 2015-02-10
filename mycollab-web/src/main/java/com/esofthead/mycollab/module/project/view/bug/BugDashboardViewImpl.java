@@ -27,15 +27,13 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
-import com.esofthead.mycollab.module.project.ui.components.HeaderView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -82,7 +80,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void initHeader() {
-		final Label title = new HeaderView(ProjectTypeConstants.BUG,
+		final Label title = new ProjectViewHeader(ProjectTypeConstants.BUG,
 				AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
 		header.with(title).withAlign(title, Alignment.MIDDLE_LEFT).expand(title);
 

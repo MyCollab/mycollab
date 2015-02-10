@@ -98,7 +98,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 
 		initRelatedComponents();
 
-		// previewLayout.addBody(previewItemContainer.getContentWrapper());
 		previewContent.addComponent(previewForm);
 		previewContent.addComponent(createBottomPanel());
 	}

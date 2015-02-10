@@ -41,7 +41,7 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
-Version 4.6.0
+Version 5.0.0
 -----------------------------
 **Library Upgrades**
 
@@ -51,6 +51,7 @@ Version 4.6.0
 
 **Improvements**
 
+* Replace icons by font awesome
 * Revise task group layout
 * Support sub tasks for project task
 * Simplify application configuration (for developers)
@@ -62,6 +63,7 @@ Version 4.6.0
 **Bug Fixes**
 
 * Internal issue causes the lazy views load infinitely
+* Save crm call throws exception
 
 
 Version 4.5.5

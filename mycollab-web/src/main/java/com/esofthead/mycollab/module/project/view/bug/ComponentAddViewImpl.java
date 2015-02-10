@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
-import com.esofthead.mycollab.module.project.ui.AssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -60,7 +60,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return AssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
+		return ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG_COMPONENT);
 	}
 
 	@Override

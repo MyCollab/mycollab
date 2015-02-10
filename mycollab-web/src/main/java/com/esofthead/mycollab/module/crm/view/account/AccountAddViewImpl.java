@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.account;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -27,8 +28,6 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
@@ -52,7 +51,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource(WebResourceIds._22_crm_account);
+		return CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
 	}
 
 	@Override

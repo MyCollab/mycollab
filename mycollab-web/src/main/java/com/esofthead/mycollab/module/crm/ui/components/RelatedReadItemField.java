@@ -16,28 +16,19 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.crm.service.*;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
+import org.apache.commons.beanutils.PropertyUtils;
 
 /**
  * 
@@ -69,7 +60,7 @@ public class RelatedReadItemField extends CustomField {
 				return new Label("");
 			}
 
-			String relatedLink = null;
+			FontAwesome relatedLink = null;
 			String relateItemName = null;
 
 			if ("Account".equals(type)) {
@@ -79,8 +70,7 @@ public class RelatedReadItemField extends CustomField {
 						AppContext.getAccountId());
 				if (account != null) {
 					relateItemName = account.getAccountname();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/account.png");
+					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
 				}
 			} else if ("Campaign".equals(type)) {
 				CampaignService campaignService = ApplicationContextUtil
@@ -89,8 +79,7 @@ public class RelatedReadItemField extends CustomField {
 						typeid, AppContext.getAccountId());
 				if (campaign != null) {
 					relateItemName = campaign.getCampaignname();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/campaign.png");
+					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
 
 				}
 			} else if ("Contact".equals(type)) {
@@ -100,8 +89,7 @@ public class RelatedReadItemField extends CustomField {
 						AppContext.getAccountId());
 				if (contact != null) {
 					relateItemName = contact.getContactName();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/contact.png");
+					relatedLink =CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
 
 				}
 			} else if ("Lead".equals(type)) {
@@ -111,8 +99,7 @@ public class RelatedReadItemField extends CustomField {
 						AppContext.getAccountId());
 				if (lead != null) {
 					relateItemName = lead.getLeadName();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/lead.png");
+					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.LEAD);
 
 				}
 			} else if ("Opportunity".equals(type)) {
@@ -122,8 +109,7 @@ public class RelatedReadItemField extends CustomField {
 						.findById(typeid, AppContext.getAccountId());
 				if (opportunity != null) {
 					relateItemName = opportunity.getOpportunityname();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/opportunity.png");
+					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
 
 				}
 			} else if ("Case".equals(type)) {
@@ -133,9 +119,7 @@ public class RelatedReadItemField extends CustomField {
 						AppContext.getAccountId());
 				if (cases != null) {
 					relateItemName = cases.getSubject();
-					relatedLink = MyCollabResource
-							.newResourceLink("icons/16/crm/case.png");
-
+					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CASE);
 				}
 			}
 

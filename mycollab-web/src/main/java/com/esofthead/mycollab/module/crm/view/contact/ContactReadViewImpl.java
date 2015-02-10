@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -66,7 +67,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	private CrmFollowersComp<SimpleContact> compFollowers;
 
 	public ContactReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/crm/contact.png"));
+		super(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 	}
 
 	@Override
@@ -133,7 +134,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		dateInfoComp.displayEntryDateTime(beanItem);
 		compFollowers.displayFollowers(beanItem);
 
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override
@@ -181,11 +182,11 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
-		previewItemContainer.addTab(associateOpportunityList, "opportunity",
+		previewItemContainer.addTab(associateOpportunityList, CrmTypeConstants.OPPORTUNITY,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
-		previewItemContainer.addTab(associateActivityList, "activity",
+		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 
