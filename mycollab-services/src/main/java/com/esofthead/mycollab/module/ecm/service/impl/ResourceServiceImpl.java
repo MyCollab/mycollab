@@ -16,25 +16,6 @@
  */
 package com.esofthead.mycollab.module.ecm.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
@@ -42,12 +23,7 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
-import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction;
-import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogBuilder;
-import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogWithBLOBs;
-import com.esofthead.mycollab.module.ecm.domain.Folder;
-import com.esofthead.mycollab.module.ecm.domain.Resource;
+import com.esofthead.mycollab.module.ecm.domain.*;
 import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
 import com.esofthead.mycollab.module.ecm.esb.EcmEndPoints;
 import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;
@@ -55,6 +31,19 @@ import com.esofthead.mycollab.module.ecm.service.ContentActivityLogService;
 import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service(value = "resourceService")
 public class ResourceServiceImpl implements ResourceService {
@@ -135,7 +124,7 @@ public class ResourceServiceImpl implements ResourceService {
 		String contentPath = content.getPath();
 		rawContentService.saveContent(contentPath, refStream);
 
-		if (MimeTypesUtil.isImageMimetype(mimeType)) {
+		if (MimeTypesUtil.isImage(mimeType)) {
 			try {
 				InputStream newInputStream = rawContentService
 						.getContentStream(contentPath);

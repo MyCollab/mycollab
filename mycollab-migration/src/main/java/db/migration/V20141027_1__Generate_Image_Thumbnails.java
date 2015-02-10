@@ -62,7 +62,7 @@ public class V20141027_1__Generate_Image_Thumbnails implements
 					LOG.info("Check mimetype " + mimeType + " of content "
 							+ content.getPath() + "--" + content.getThumbnail()
 							+ ".");
-					if (MimeTypesUtil.isImageMimetype(mimeType)) {
+					if (MimeTypesUtil.isImage(mimeType)) {
 						try {
 							BufferedImage image = ImageUtil
 									.generateImageThumbnail(resourceService

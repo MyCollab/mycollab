@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
-import com.vaadin.server.FontAwesome;
-import org.apache.commons.lang3.StringUtils;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -30,11 +24,9 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.bug.components.BugRelationComboBox;
-import com.esofthead.mycollab.module.tracker.BugRelationConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugRelatedSearchCriteria;
@@ -43,22 +35,16 @@ import com.esofthead.mycollab.module.tracker.service.RelatedBugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -146,8 +132,7 @@ public class BugRelatedField extends CustomComponent {
 
 			}
 		});
-		browseBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_browseItem));
+		browseBtn.setIcon(FontAwesome.ELLIPSIS_H);
 		browseBtn.setStyleName("link");
 
 		layoutAdd.addComponent(browseBtn);
@@ -161,7 +146,7 @@ public class BugRelatedField extends CustomComponent {
 				setItemFieldValue("");
 			}
 		});
-		clearBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clearItem));
+		clearBtn.setIcon(FontAwesome.TRASH_O);
 		clearBtn.setStyleName("link");
 
 		layoutAdd.addComponent(clearBtn);

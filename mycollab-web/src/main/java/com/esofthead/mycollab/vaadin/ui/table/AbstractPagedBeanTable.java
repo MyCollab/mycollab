@@ -16,17 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui.table;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.domain.NullCustomViewStore;
@@ -39,22 +28,19 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * 
@@ -456,10 +442,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		if (StringUtils.isNotBlank((String) this.sortColumnId)) {
 			this.tableItem.setColumnIcon(
 					this.sortColumnId,
-					this.isAscending ? MyCollabResource
-							.newResource(WebResourceIds._16_arrow_down)
-							: MyCollabResource
-									.newResource(WebResourceIds._16_arrow_up));
+					this.isAscending ? FontAwesome.CARET_DOWN
+							: FontAwesome.CARET_UP);
 		}
 
 		this.tableItem.addHeaderClickListener(new Table.HeaderClickListener() {

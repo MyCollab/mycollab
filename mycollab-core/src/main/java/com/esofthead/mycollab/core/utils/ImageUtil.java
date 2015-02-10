@@ -145,12 +145,4 @@ public class ImageUtil {
 			return null;
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedImage thumbnail = generateImageThumbnail(new FileInputStream(
-				new File("/Users/haiphucnguyen/Downloads/Jeep_Image.png")));
-		ImageIO.write(thumbnail, "png", new File(
-				"/Users/haiphucnguyen/Desktop/test.png"));
-		System.out.println("Thumb: " + thumbnail);
-	}
 }

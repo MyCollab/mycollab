@@ -7849,29 +7849,9 @@ body .mycollab.v-app .v-app-loading {
 	border: 1px solid #CFCFCF;
 }
 
-.mycollab .v-button-buttonlinkcenter .v-button-wrap .v-popup-indicator {
-	background: url('icons/calendar_2.png') no-repeat scroll center center transparent;
-	cursor: pointer;
-	display: inline-block;
-	height: 16px;
-	width: 24px;
-}
-
 .mycollab .v-popupbutton .v-button-caption:before {
 	content: "";
 	display: inline-block;
-}
-
-.mycollab div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .v-popupbutton {
-	margin: 0px;
-	text-align: center;
-}
-
-.mycollab .v-button-link-buttonlinkcenter .v-button-caption {
-	text-decoration: none;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 .mycollab .v-textarea {

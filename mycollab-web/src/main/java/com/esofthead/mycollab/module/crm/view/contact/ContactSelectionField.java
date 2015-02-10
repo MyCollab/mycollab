@@ -22,18 +22,10 @@ import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 
 /**
  * 
@@ -51,39 +43,35 @@ public class ContactSelectionField extends CustomField<Integer> implements
 
 	private SimpleContact contact;
 
-	private Image browseBtn;
-	private Image clearBtn;
+	private Button browseBtn;
+	private Button clearBtn;
 
 	public ContactSelectionField() {
 		contactName = new TextField();
 		contactName.setNullRepresentation("");
 		contactName.setWidth("100%");
-		browseBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_browseItem));
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+		browseBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ContactSelectionWindow contactWindow = new ContactSelectionWindow(
+                        ContactSelectionField.this);
+                UI.getCurrent().addWindow(contactWindow);
+                contactWindow.show();
+            }
+        });
 
-			@Override
-			public void click(ClickEvent event) {
-				ContactSelectionWindow contactWindow = new ContactSelectionWindow(
-						ContactSelectionField.this);
-				UI.getCurrent().addWindow(contactWindow);
-				contactWindow.show();
-			}
-		});
+		clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-		clearBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_clearItem));
-
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				contactName.setValue("");
-				contact = null;
-			}
-		});
+		clearBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                contactName.setValue("");
+                contact = null;
+            }
+        });
 	}
 
 	@Override
@@ -105,20 +93,6 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		} else {
 			super.setPropertyDataSource(newDataSource);
 		}
-		/*
-		 * else if (value instanceof SimpleContact) {
-		 * setInternalContact((SimpleContact) value);
-		 * super.setPropertyDataSource(new AbstractField<Integer>() { private
-		 * static final long serialVersionUID = 1L;
-		 * 
-		 * @Override public Integer getValue() { return ((SimpleContact)
-		 * value).getId(); }
-		 * 
-		 * @Override public Class<? extends Integer> getType() { return
-		 * Integer.class; } }); } else { throw new MyCollabException(
-		 * "Do not support property source different than int or SimpleContact"
-		 * ); }
-		 */
 	}
 
 	@Override

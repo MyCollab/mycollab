@@ -22,18 +22,11 @@ import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -48,8 +41,6 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 	private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
 
 	private TextField campaignName = new TextField();
-	private Image browseBtn;
-	private Image clearBtn;
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
@@ -86,44 +77,33 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
+		MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		campaignName.setWidth("100%");
-		layout.addComponent(campaignName);
 
-		browseBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_browseItem));
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
+		Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
+		browseBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
+                        CampaignSelectionField.this);
+                UI.getCurrent().addWindow(campaignWindow);
+                campaignWindow.show();
+            }
+        });
 
-			@Override
-			public void click(ClickEvent event) {
-				CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
-						CampaignSelectionField.this);
-				UI.getCurrent().addWindow(campaignWindow);
-				campaignWindow.show();
+		Button clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+		clearBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                campaignName.setValue("");
+                internalValue = null;
+            }
+        });
 
-			}
-		});
-
-		clearBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_clearItem));
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-
-			@Override
-			public void click(ClickEvent event) {
-				campaignName.setValue("");
-				internalValue = null;
-			}
-		});
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		layout.setExpandRatio(campaignName, 1.0f);
+        layout.with(campaignName, browseBtn, clearBtn).expand(campaignName);
 		return layout;
 	}
 
@@ -140,5 +120,4 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 			setInternalValue(data.getId());
 		}
 	}
-
 }

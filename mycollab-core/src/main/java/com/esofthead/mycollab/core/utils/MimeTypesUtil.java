@@ -16,12 +16,10 @@
  */
 package com.esofthead.mycollab.core.utils;
 
+import org.apache.tika.Tika;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.tika.Tika;
 
 /**
  * Utility class mainly used to detect mimetype of file upload to MyCollab
@@ -32,16 +30,6 @@ import org.apache.tika.Tika;
  */
 public class MimeTypesUtil {
 	public static String BINARY_MIME_TYPE = "application/octet-stream";
-
-	public static String TEXT_TYPE = "text/plain";
-
-    public static String HTML_TYPE = "text/html";
-
-	public static String IMAGE_TYPE = "image";
-
-	public static String AUDIO_TYPE = "audio";
-
-	public static String VIDEO_TYPE = "video";
 
 	private static Tika tika = new Tika();
 
@@ -70,19 +58,27 @@ public class MimeTypesUtil {
 		return tika.detect(contentName.trim());
 	}
 
-	public static boolean isImage(String contentName) {
+	public static boolean isImageType(String contentName) {
 		return tika.detect(contentName).startsWith("image/");
 	}
 
-	private static final List<String> SUPPORTED_IMAGES = Arrays
-			.asList("image/jpg", "image/jpeg", "image/png",
-					"image/gif", "image/bmp");
+    public static boolean isImage(String mimeType) {
+        return mimeType.startsWith("image/");
+    }
 
-	public static boolean isImageMimetype(String mimeType) {
-		return SUPPORTED_IMAGES.contains(mimeType);
-	}
+    public static boolean isText(String mimeType) {
+        return mimeType.startsWith("text/");
+    }
+
+    public static boolean isAudio(String mimeType) {
+        return mimeType.startsWith("audio/");
+    }
+
+    public static boolean isVideo(String mimeType) {
+        return mimeType.startsWith("video/");
+    }
 
     public static void main(String[] args) {
-        System.out.println(detectMimeType("aaa.css"));
+        System.out.println(detectMimeType("aaa.tar"));
     }
 }

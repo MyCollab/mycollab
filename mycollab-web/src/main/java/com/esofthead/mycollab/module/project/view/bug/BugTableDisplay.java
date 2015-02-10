@@ -17,25 +17,11 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.peter.contextmenu.ContextMenu;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
@@ -50,18 +36,21 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.UI;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.peter.contextmenu.ContextMenu;
+import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
+import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
+import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
+
+import java.util.List;
 
 /**
  * 
@@ -96,9 +85,7 @@ public class BugTableDisplay extends
 					Object columnId) {
 				final SimpleBug bug = BugTableDisplay.this
 						.getBeanByIndex(itemId);
-				final Button bugSettingBtn = new Button();
-				bugSettingBtn.setIcon(MyCollabResource
-						.newResource("icons/16/item_settings.png"));
+				final Button bugSettingBtn = new Button(null, FontAwesome.COG);
 				bugSettingBtn.setStyleName("link");
 
 				final ContextMenu contextMenu = new ContextMenu();

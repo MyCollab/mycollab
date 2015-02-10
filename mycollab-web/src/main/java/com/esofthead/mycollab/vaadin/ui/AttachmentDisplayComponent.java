@@ -96,7 +96,7 @@ public class AttachmentDisplayComponent extends CssLayout {
 		attachmentLayout.addComponent(thumbnailWrap,
 				"top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 0;");
 
-		if (MimeTypesUtil.isImage(docName)) {
+		if (MimeTypesUtil.isImageType(docName)) {
 			thumbnail.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = -2853211588120500523L;
 
@@ -127,7 +127,6 @@ public class AttachmentDisplayComponent extends CssLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-
 				ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
 						GenericI18Enum.DIALOG_DELETE_TITLE,
 						SiteConfiguration.getSiteName()), AppContext

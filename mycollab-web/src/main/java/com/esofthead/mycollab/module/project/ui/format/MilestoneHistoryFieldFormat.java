@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.ui.format;
 
 import com.esofthead.mycollab.html.FormatUtils;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.hp.gagawa.java.elements.Text;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,9 +76,7 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 					AppContext.getAccountId());
 
 			if (milestone != null) {
-				String milestoneIconLink = ProjectResources
-						.getResourceLink(ProjectTypeConstants.MILESTONE);
-				Img img = FormatUtils.newImg("icon", milestoneIconLink);
+				Text img = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
 
 				String milestoneLink = ProjectLinkGenerator
 						.generateMilestonePreviewFullLink(

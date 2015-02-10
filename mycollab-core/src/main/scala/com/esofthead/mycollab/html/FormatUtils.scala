@@ -43,5 +43,7 @@ object FormatUtils {
 
   def newImg(alt: String, src: String): Img = new Img(alt, src).setStyle("vertical-align: middle; margin-right: 3px;")
 
-  def newLink(img: Img, link: A): Span = new Span().appendChild(img, link)
+  def newLink(img: Img, link: A): Span = new Span().appendChild(img, DivLessFormatter.EMPTY_SPACE, link)
+
+  def newLink(txt:Text, link: A):Span = new Span().appendChild(txt, DivLessFormatter.EMPTY_SPACE, link)
 }

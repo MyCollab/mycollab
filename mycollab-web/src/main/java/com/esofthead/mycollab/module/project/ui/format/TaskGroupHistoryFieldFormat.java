@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.html.FormatUtils;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.hp.gagawa.java.elements.Text;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,9 +76,7 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 			SimpleTaskList taskgroup = tasklistService.findById(taskgroupId,
 					AppContext.getAccountId());
 			if (taskgroup != null) {
-				String taskgroupIconLink = ProjectResources
-						.getResourceLink(ProjectTypeConstants.TASK_LIST);
-				Img img = FormatUtils.newImg("icon", taskgroupIconLink);
+				Text img = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK_LIST).getHtml());
 
 				String taskgroupLink = ProjectLinkGenerator
 						.generateTaskGroupPreviewFullLink(

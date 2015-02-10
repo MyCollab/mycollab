@@ -16,22 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.cases.CaseSelectionWindow;
@@ -41,20 +27,16 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySelectionWi
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -74,8 +56,8 @@ public class RelatedEditItemField extends CustomField<String> implements
 	private Object bean;
 
 	private TextField itemField;
-	private Image browseBtn;
-	private Image clearBtn;
+	private Button browseBtn;
+	private Button clearBtn;
 
 	public RelatedEditItemField(String[] types, Object bean) {
 		this.bean = bean;
@@ -84,85 +66,67 @@ public class RelatedEditItemField extends CustomField<String> implements
 		itemField = new TextField();
 		itemField.setEnabled(true);
 
-		browseBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_browseItem));
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        browseBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                String type = (String) relatedItemComboBox.getValue();
+                if ("Account".equals(type)) {
+                    AccountSelectionWindow accountWindow = new AccountSelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(accountWindow);
+                    accountWindow.show();
+                } else if ("Campaign".equals(type)) {
+                    CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(campaignWindow);
+                    campaignWindow.show();
+                } else if ("Contact".equals(type)) {
+                    ContactSelectionWindow contactWindow = new ContactSelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(contactWindow);
+                    contactWindow.show();
+                } else if ("Lead".equals(type)) {
+                    LeadSelectionWindow leadWindow = new LeadSelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(leadWindow);
+                    leadWindow.show();
+                } else if ("Opportunity".equals(type)) {
+                    OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(opportunityWindow);
+                    opportunityWindow.show();
+                } else if ("Case".equals(type)) {
+                    CaseSelectionWindow caseWindow = new CaseSelectionWindow(
+                            RelatedEditItemField.this);
+                    UI.getCurrent().addWindow(caseWindow);
+                    caseWindow.show();
+                } else {
+                    relatedItemComboBox.focus();
+                }
+            }
+        });
 
-			@SuppressWarnings("unchecked")
-			@Override
-			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
-				String type = (String) relatedItemComboBox.getValue();
-				if ("Account".equals(type)) {
-					AccountSelectionWindow accountWindow = new AccountSelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(accountWindow);
-					accountWindow.show();
-				} else if ("Campaign".equals(type)) {
-					CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(campaignWindow);
-					campaignWindow.show();
-				} else if ("Contact".equals(type)) {
-					ContactSelectionWindow contactWindow = new ContactSelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(contactWindow);
-					contactWindow.show();
-				} else if ("Lead".equals(type)) {
-					LeadSelectionWindow leadWindow = new LeadSelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(leadWindow);
-					leadWindow.show();
-				} else if ("Opportunity".equals(type)) {
-					OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(opportunityWindow);
-					opportunityWindow.show();
-				} else if ("Case".equals(type)) {
-					CaseSelectionWindow caseWindow = new CaseSelectionWindow(
-							RelatedEditItemField.this);
-					UI.getCurrent().addWindow(caseWindow);
-					caseWindow.show();
-				} else {
-					relatedItemComboBox.focus();
-				}
-			}
-		});
-
-		clearBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_clearItem));
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				try {
-					PropertyUtils.setProperty(RelatedEditItemField.this.bean,
-							"typeid", null);
-				} catch (Exception e) {
-					LOG.error("Error while saving type", e);
-				}
-			}
-		});
+		clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+		clearBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                try {
+                    PropertyUtils.setProperty(RelatedEditItemField.this.bean,
+                            "typeid", null);
+                } catch (Exception e) {
+                    LOG.error("Error while saving type", e);
+                }
+            }
+        });
 	}
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-
-		layout.addComponent(relatedItemComboBox);
-
-		layout.addComponent(itemField);
-		layout.setComponentAlignment(itemField, Alignment.MIDDLE_LEFT);
-
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
-
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		return layout;
+		return new MHorizontalLayout().with(relatedItemComboBox, itemField, browseBtn, clearBtn)
+                .alignAll(Alignment.MIDDLE_LEFT);
 	}
 
 	@Override

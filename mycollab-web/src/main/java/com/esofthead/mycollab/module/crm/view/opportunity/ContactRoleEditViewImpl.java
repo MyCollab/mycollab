@@ -141,8 +141,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 					}
 				});
-		cancelBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_cancel_black));
+		cancelBtn.setIcon(FontAwesome.TIMES);
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonWrapper.addComponent(cancelBtn);
 
@@ -154,7 +153,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 	private void updateContactRoles() {
 		Iterator<Component> components = contactRoleList.getBodySubComponents();
-		List<ContactOpportunity> contactOpps = new ArrayList<ContactOpportunity>();
+		List<ContactOpportunity> contactOpps = new ArrayList<>();
 
 		while (components.hasNext()) {
 			Component component = components.next();
@@ -223,7 +222,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 			criteria.setOpportunityId(new NumberSearchField(SearchField.AND,
 					opportunity.getId()));
 			List<SimpleContactOpportunityRel> contactOppoRels = contactOppoService
-					.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+					.findPagableListByCriteria(new SearchRequest<>(
 							criteria));
 			boolean oddRow = true;
 			if (!CollectionUtils.isEmpty(contactOppoRels)) {

@@ -62,10 +62,10 @@ public class ProjectCommentInput extends MHorizontalLayout {
 			final boolean isSendingEmailRelay,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		super();
-		this.withSpacing(true).withWidth("100%").withStyleName("message");
+		this.withWidth("100%").withStyleName("message");
 
 		final SimpleUser currentUser = AppContext.getSession();
-		MVerticalLayout userBlock = new MVerticalLayout().withSpacing(true).withMargin(false).withWidth("80px");
+		MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
 		ClickListener gotoUser = new ClickListener() {
@@ -92,7 +92,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		userBlock.addComponent(userName);
 
 		this.addComponent(userBlock);
-		MVerticalLayout textAreaWrap = new MVerticalLayout().withSpacing(true).withMargin(true).withWidth("100%")
+		MVerticalLayout textAreaWrap = new MVerticalLayout().withWidth("100%")
 				.withStyleName("message-container");
 		this.addComponent(textAreaWrap);
 		this.setExpandRatio(textAreaWrap, 1.0f);

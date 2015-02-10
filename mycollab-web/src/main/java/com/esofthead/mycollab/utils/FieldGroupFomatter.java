@@ -56,7 +56,7 @@ public class FieldGroupFomatter {
 	protected Map<String, FieldDisplayHandler> fieldsFormat = new HashMap<String, FieldDisplayHandler>();
 
 	static {
-		defaultFieldHandlers = new HashMap<String, HistoryFieldFormat>();
+		defaultFieldHandlers = new HashMap<>();
 		defaultFieldHandlers
 				.put(DEFAULT_FIELD, new DefaultHistoryFieldFormat());
 		defaultFieldHandlers.put(DATE_FIELD, new DateHistoryFieldFormat());

@@ -22,136 +22,121 @@ import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 
 public class AccountSelectionField extends CustomField<Integer> implements
-		FieldSelection<Account> {
-	private static final long serialVersionUID = 1L;
+        FieldSelection<Account> {
+    private static final long serialVersionUID = 1L;
 
-	private TextField accountName = new TextField();
-	private Account account = null;
+    private TextField accountName = new TextField();
+    private Account account = null;
 
-	private void clearValue() {
-		accountName.setValue("");
-		this.account = null;
-		this.setInternalValue(null);
-	}
+    private void clearValue() {
+        accountName.setValue("");
+        this.account = null;
+        this.setInternalValue(null);
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		Object value = newDataSource.getValue();
-		if (value instanceof Integer) {
-			setAccountByVal((Integer) value);
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value instanceof Integer) {
+            setAccountByVal((Integer) value);
+            super.setPropertyDataSource(newDataSource);
+        } else {
+            super.setPropertyDataSource(newDataSource);
+        }
+    }
 
-			super.setPropertyDataSource(newDataSource);
-		} else {
-			super.setPropertyDataSource(newDataSource);
-		}
-	}
+    @Override
+    public void setValue(Integer value) {
+        this.setAccountByVal(value);
+        super.setValue(value);
+    }
 
-	@Override
-	public void setValue(Integer value) {
-		this.setAccountByVal(value);
-		super.setValue(value);
-	}
+    private void setAccountByVal(Integer accountId) {
+        AccountService accountService = ApplicationContextUtil
+                .getSpringBean(AccountService.class);
+        SimpleAccount account = accountService.findById(accountId,
+                AppContext.getAccountId());
+        if (account != null) {
+            setInternalAccount(account);
+        }
+    }
 
-	private void setAccountByVal(Integer accountId) {
-		AccountService accountService = ApplicationContextUtil
-				.getSpringBean(AccountService.class);
-		SimpleAccount account = accountService.findById(accountId,
-				AppContext.getAccountId());
-		if (account != null) {
-			setInternalAccount(account);
-		}
-	}
+    private void setInternalAccount(SimpleAccount account) {
+        this.account = account;
+        accountName.setValue(account.getAccountname());
+    }
 
-	private void setInternalAccount(SimpleAccount account) {
-		this.account = account;
-		accountName.setValue(account.getAccountname());
-	}
+    public Account getAccount() {
+        return account;
+    }
 
-	public Account getAccount() {
-		return account;
-	}
+    @Override
+    public void fireValueChange(Account data) {
+        account = data;
+        if (account != null) {
+            accountName.setValue(account.getAccountname());
+            setInternalValue(account.getId());
+        }
+    }
 
-	@Override
-	public void fireValueChange(Account data) {
-		account = data;
-		if (account != null) {
-			accountName.setValue(account.getAccountname());
-			setInternalValue(account.getId());
-		}
-	}
+    @Override
+    protected Component initContent() {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.setSpacing(true);
+        layout.setWidth("100%");
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-	@Override
-	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        accountName.setNullRepresentation("");
+        accountName.setEnabled(true);
+        accountName.setWidth("100%");
+        layout.addComponent(accountName);
+        layout.setComponentAlignment(accountName, Alignment.MIDDLE_LEFT);
 
-		accountName.setNullRepresentation("");
-		accountName.setEnabled(true);
-		accountName.setWidth("100%");
-		layout.addComponent(accountName);
-		layout.setComponentAlignment(accountName, Alignment.MIDDLE_LEFT);
+        Button browseBtn = new Button(null,FontAwesome.ELLIPSIS_H);
+        browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        layout.addComponent(browseBtn);
+        layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
 
-		Image browseBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_browseItem));
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
+        browseBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AccountSelectionWindow accountWindow = new AccountSelectionWindow(
+                        AccountSelectionField.this);
+                UI.getCurrent().addWindow(accountWindow);
+                accountWindow.show();
+            }
+        });
 
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button clearBtn = new Button(null, FontAwesome.TRASH_O);
+        clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                clearValue();
+            }
+        });
 
-			@Override
-			public void click(ClickEvent event) {
-				AccountSelectionWindow accountWindow = new AccountSelectionWindow(
-						AccountSelectionField.this);
-				UI.getCurrent().addWindow(accountWindow);
-				accountWindow.show();
-			}
-		});
+        layout.addComponent(clearBtn);
+        layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
 
-		Image clearBtn = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._16_clearItem));
+        layout.setExpandRatio(accountName, 1.0f);
 
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        return layout;
+    }
 
-			@Override
-			public void click(ClickEvent event) {
-				clearValue();
-			}
-		});
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		layout.setExpandRatio(accountName, 1.0f);
-
-		return layout;
-	}
-
-	@Override
-	public Class<Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<Integer> getType() {
+        return Integer.class;
+    }
 }

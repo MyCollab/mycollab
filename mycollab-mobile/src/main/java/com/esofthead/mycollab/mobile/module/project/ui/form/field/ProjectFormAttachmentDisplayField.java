@@ -87,7 +87,7 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
 							.substring(lastIndex + 1, docName.length());
 				}
 
-				if (MimeTypesUtil.isImage(docName)) {
+				if (MimeTypesUtil.isImageType(docName)) {
 					Button b = new Button(attachment.getTitle(),
 							new Button.ClickListener() {
 

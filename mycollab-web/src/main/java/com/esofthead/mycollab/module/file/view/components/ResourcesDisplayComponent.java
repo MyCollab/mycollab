@@ -129,8 +129,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 		final Button selectAllBtn = new Button();
 		selectAllBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
-		selectAllBtn.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_checkbox_empty));
+		selectAllBtn.setIcon(FontAwesome.SQUARE_O);
 		selectAllBtn.setData(false);
 		selectAllBtn.setImmediate(true);
 		selectAllBtn.setDescription("Select all");
@@ -141,14 +140,12 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (!(Boolean) selectAllBtn.getData()) {
-					selectAllBtn.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_checkbox));
+					selectAllBtn.setIcon(FontAwesome.CHECK_SQUARE_O);
 					selectAllBtn.setData(true);
 					resourcesContainer.setAllValues(true);
 				} else {
 					selectAllBtn.setData(false);
-					selectAllBtn.setIcon(MyCollabResource
-							.newResource("icons/16/checkbox_empty.png"));
+					selectAllBtn.setIcon(FontAwesome.SQUARE_O);
 					resourcesContainer.setAllValues(false);
 				}
 			}
