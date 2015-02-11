@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissi
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.CustomizeScreenData;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
@@ -43,6 +44,7 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -70,11 +72,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		this.addStyleName("main-content-wrapper");
 		this.addStyleName("accountViewContainer");
 
-		final HorizontalLayout topPanel = new HorizontalLayout();
-		topPanel.setWidth("100%");
-		topPanel.setMargin(true);
-		topPanel.setStyleName("top-panel");
-
+		final MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
+                .withMargin(new MarginInfo(true, true, true, false));
 		this.breadcrumb = ViewManager
 				.getCacheComponent(AccountSettingBreadcrumb.class);
 
@@ -114,15 +113,15 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 	private void buildComponents() {
 		this.accountTab.addTab(this.constructUserInformationComponent(),
-				"profile", AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE));
+				SettingUIConstants.PROFILE, AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE));
 
 		this.accountTab.addTab(this.constructAccountSettingsComponent(),
-				"billing", AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
+				SettingUIConstants.BILLING, AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
 
-		this.accountTab.addTab(this.constructUserRoleComponent(), "users",
+		this.accountTab.addTab(this.constructUserRoleComponent(),SettingUIConstants.USERS,
 				AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
-		this.accountTab.addTab(this.constructThemeComponent(), "customize",
+		this.accountTab.addTab(this.constructThemeComponent(), SettingUIConstants.CUSTOMIZATION,
 				AppContext.getMessage(AdminI18nEnum.VIEW_CUSTOMIZE));
 
 		this.accountTab
@@ -134,15 +133,15 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 						final Tab tab = ((VerticalTabsheet) event.getSource())
 								.getSelectedTab();
 						final String tabId = ((TabImpl) tab).getTabId();
-						if ("profile".equals(tabId)) {
+						if (SettingUIConstants.PROFILE.equals(tabId)) {
 							profilePresenter.go(AccountModuleImpl.this, null);
-						} else if ("billing".equals(tabId)) {
+						} else if (SettingUIConstants.BILLING.equals(tabId)) {
 							billingPresenter.go(AccountModuleImpl.this,
 									new BillingScreenData.BillingSummary());
-						} else if ("users".equals(tabId)) {
+						} else if (SettingUIConstants.USERS.equals(tabId)) {
 							userPermissionPresenter.go(AccountModuleImpl.this,
 									null);
-						} else if ("customize".equals(tabId)) {
+						} else if (SettingUIConstants.CUSTOMIZATION.equals(tabId)) {
 							customizePresenter.go(AccountModuleImpl.this,
 									new CustomizeScreenData.ThemeCustomize());
 						}

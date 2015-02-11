@@ -30,14 +30,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -54,7 +51,7 @@ public class PasswordChangeWindow extends Window {
 	private final User user;
 
 	public PasswordChangeWindow(final User user) {
-		this.setWidth("500px");
+		this.setWidth("600px");
 		this.initUI();
 		this.center();
 		this.setResizable(false);
@@ -65,11 +62,7 @@ public class PasswordChangeWindow extends Window {
 	}
 
 	private void initUI() {
-
-		final VerticalLayout mainLayout = new VerticalLayout();
-		mainLayout.setWidth("100%");
-		mainLayout.setMargin(true);
-		mainLayout.setSpacing(true);
+		final MVerticalLayout mainLayout = new MVerticalLayout().withWidth("100%");
 
 		final Label lbInstruct1 = new Label(
 				AppContext
@@ -84,7 +77,7 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 3,
-				UIConstants.DEFAULT_CONTROL_WIDTH_1024_RESOLUTION, "150px");
+				"300px", "180px");
 
 		txtNewPassword = new PasswordField();
 		passInfo.addComponent(txtNewPassword, "New Password", 0, 0);
@@ -98,7 +91,7 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setComponentAlignment(passInfo.getLayout(),
 				Alignment.MIDDLE_CENTER);
 
-		final HorizontalLayout hlayoutControls = new HorizontalLayout();
+		final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(true);
 
 		final Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -110,15 +103,9 @@ public class PasswordChangeWindow extends Window {
 						PasswordChangeWindow.this.close();
 					}
 				});
-
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		hlayoutControls.addComponent(cancelBtn);
-		hlayoutControls.setSpacing(true);
-		hlayoutControls.setMargin(true);
-		hlayoutControls.setComponentAlignment(cancelBtn,
-				Alignment.MIDDLE_CENTER);
 
-		final Button sendBtn = new Button(
+		final Button saveBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -128,13 +115,12 @@ public class PasswordChangeWindow extends Window {
 						PasswordChangeWindow.this.changePassword();
 					}
 				});
-		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		hlayoutControls.addComponent(sendBtn);
-		hlayoutControls.setComponentAlignment(sendBtn, Alignment.MIDDLE_CENTER);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setIcon(FontAwesome.SAVE);
 
-		mainLayout.addComponent(hlayoutControls);
-		mainLayout.setComponentAlignment(hlayoutControls,
-				Alignment.MIDDLE_RIGHT);
+        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+
+		mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
 		this.setModal(true);
 		this.setContent(mainLayout);

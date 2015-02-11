@@ -16,14 +16,13 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.esofthead.mycollab.configuration.MyCollabAssets;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -45,14 +44,6 @@ public class ProjectResources {
 	public static final String B_PRIORITY_MAJOR_IMG_12 = "icons/12/priority_medium.png";
 	public static final String B_PRIORITY_MINOR_IMG_12 = "icons/12/priority_low.png";
 	public static final String B_PRIORITY_TRIVIAL_IMG_12 = "icons/12/priority_none.png";
-
-	static final String M_STATUS_INPROGRESS_IMG_12 = "icons/12/project/phase_progress.png";
-	static final String M_STATUS_CLOSED_IMG_12 = "icons/12/project/phase_closed.png";
-	static final String M_STATUS_FUTURE_IMG_12 = "icons/12/project/phase_future.png";
-
-	static final String M_STATUS_INPROGRESS_IMG_16 = "icons/16/project/phase_progress.png";
-	static final String M_STATUS_CLOSED_IMG_16 = "icons/16/project/phase_closed.png";
-	static final String M_STATUS_FUTURE_IMG_16 = "icons/16/project/phase_future.png";
 
 	public static final String B_SEVERITY_CRITICAL_IMG_12 = "icons/12/severity_critical.png";
 	public static final String B_SEVERITY_MAJOR_IMG_12 = "icons/12/severity_major.png";
@@ -89,44 +80,6 @@ public class ProjectResources {
 
 	public static String getResourceLink(String type) {
 		return resourceLinks.get(type);
-	}
-
-	public static String getIconResource12LinkOfPhaseStatus(String phase) {
-		String iconseverity = MyCollabAssets
-				.newResourceLink(M_STATUS_INPROGRESS_IMG_12);
-		MilestoneStatus status = MilestoneStatus.valueOf(phase);
-
-		if (MilestoneStatus.InProgress.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_INPROGRESS_IMG_12);
-		} else if (MilestoneStatus.Future.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_FUTURE_IMG_12);
-		} else if (MilestoneStatus.Closed.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_CLOSED_IMG_12);
-		}
-
-		return iconseverity;
-	}
-
-	public static String getIconResource16LinkOfPhaseStatus(String phase) {
-		String iconseverity = MyCollabAssets
-				.newResourceLink(M_STATUS_INPROGRESS_IMG_16);
-		MilestoneStatus status = MilestoneStatus.valueOf(phase);
-
-		if (MilestoneStatus.InProgress.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_INPROGRESS_IMG_16);
-		} else if (MilestoneStatus.Future.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_FUTURE_IMG_16);
-		} else if (MilestoneStatus.Closed.equals(status)) {
-			iconseverity = MyCollabAssets
-					.newResourceLink(M_STATUS_CLOSED_IMG_16);
-		}
-
-		return iconseverity;
 	}
 
 	public static String getIconResourceLink12ByBugSeverity(String severity) {

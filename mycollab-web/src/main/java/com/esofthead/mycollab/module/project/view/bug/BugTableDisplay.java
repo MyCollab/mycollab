@@ -284,7 +284,6 @@ public class BugTableDisplay extends
 			@Override
 			public com.vaadin.ui.Component generateCell(Table source,
 					final Object itemId, Object columnId) {
-
 				final SimpleBug bug = BugTableDisplay.this
 						.getBeanByIndex(itemId);
 

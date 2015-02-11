@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.ProfileScreenData;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -40,7 +41,7 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView("profile");
+		accountContainer.gotoSubView(SettingUIConstants.PROFILE);
 
 		AbstractPresenter<?> presenter = null;
 		if (data == null) {

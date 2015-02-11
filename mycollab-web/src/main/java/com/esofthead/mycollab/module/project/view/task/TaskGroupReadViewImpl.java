@@ -280,9 +280,9 @@ public class TaskGroupReadViewImpl extends
             this.setSpacing(true);
             this.setMargin(new MarginInfo(false, false, false, true));
 
-            Label peopleInfoHeader = new Label(
+            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 

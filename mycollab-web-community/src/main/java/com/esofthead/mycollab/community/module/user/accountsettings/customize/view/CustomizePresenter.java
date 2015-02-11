@@ -19,6 +19,7 @@ package com.esofthead.mycollab.community.module.user.accountsettings.customize.v
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizeContainer;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
@@ -41,6 +42,6 @@ public class CustomizePresenter extends AbstractPresenter<ICustomizeContainer>
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView("customize");
+		accountContainer.gotoSubView(SettingUIConstants.CUSTOMIZATION);
 	}
 }

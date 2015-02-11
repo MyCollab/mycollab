@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.vaadin.server.FontAwesome;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -43,6 +44,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -76,11 +79,7 @@ class ContactInfoChangeWindow extends Window {
 	}
 
 	private void initUI() {
-
-		final VerticalLayout mainLayout = new VerticalLayout();
-		mainLayout.setWidth("100%");
-		mainLayout.setMargin(new MarginInfo(false, false, true, false));
-		mainLayout.setSpacing(true);
+		final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
 				"100%", "150px", Alignment.TOP_LEFT);
@@ -111,9 +110,8 @@ class ContactInfoChangeWindow extends Window {
 		mainLayout.setComponentAlignment(passInfo.getLayout(),
 				Alignment.TOP_LEFT);
 
-		final HorizontalLayout hlayoutControls = new HorizontalLayout();
-		hlayoutControls.setSpacing(true);
-		hlayoutControls.setMargin(new MarginInfo(false, true, false, true));
+		final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+
 		final Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
@@ -124,11 +122,7 @@ class ContactInfoChangeWindow extends Window {
 						ContactInfoChangeWindow.this.close();
 					}
 				});
-
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		hlayoutControls.addComponent(cancelBtn);
-		hlayoutControls.setComponentAlignment(cancelBtn,
-				Alignment.MIDDLE_CENTER);
 
 		final Button saveBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
@@ -141,12 +135,11 @@ class ContactInfoChangeWindow extends Window {
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		hlayoutControls.addComponent(saveBtn);
-		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
+        saveBtn.setIcon(FontAwesome.SAVE);
 
-		mainLayout.addComponent(hlayoutControls);
-		mainLayout.setComponentAlignment(hlayoutControls,
-				Alignment.MIDDLE_RIGHT);
+        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+
+		mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
 		this.setModal(true);
 		this.setContent(mainLayout);

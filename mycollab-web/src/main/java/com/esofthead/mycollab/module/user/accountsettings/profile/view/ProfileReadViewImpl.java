@@ -40,6 +40,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -51,17 +52,17 @@ public class ProfileReadViewImpl extends AbstractPageView implements
     private static final long serialVersionUID = 1L;
 
     private final PreviewForm formItem;
-    private final VerticalLayout userAvatar;
-    private final HorizontalLayout avatarAndPass;
+    private final MVerticalLayout userAvatar;
+    private final MHorizontalLayout avatarAndPass;
 
     public ProfileReadViewImpl() {
         super();
         this.setMargin(new MarginInfo(false, true, true, true));
         this.addStyleName("userInfoContainer");
-        this.userAvatar = new VerticalLayout();
+        this.userAvatar = new MVerticalLayout();
         this.userAvatar.setWidthUndefined();
         this.userAvatar.setDefaultComponentAlignment(Alignment.TOP_LEFT);
-        this.avatarAndPass = new HorizontalLayout();
+        this.avatarAndPass = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false)).withWidth("100%");
 
         this.formItem = new PreviewForm();
         this.formItem.setWidth("100%");
@@ -76,9 +77,6 @@ public class ProfileReadViewImpl extends AbstractPageView implements
         userAvatar.addComponent(cropField);
 
         this.avatarAndPass.removeAllComponents();
-        avatarAndPass.setSpacing(true);
-        avatarAndPass.setMargin(new MarginInfo(true, true, true, false));
-        avatarAndPass.setWidth("100%");
         avatarAndPass.addComponent(userAvatar);
 
         User user = formItem.getUser();
@@ -189,6 +187,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
                 }
             }
         };
+        avatarUploadField.addStyleName("upload-field");
         avatarUploadField.setButtonCaption(AppContext
                 .getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
         avatarUploadField.setSizeUndefined();

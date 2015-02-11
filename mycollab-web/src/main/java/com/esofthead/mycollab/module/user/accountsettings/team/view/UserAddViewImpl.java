@@ -26,33 +26,13 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
-import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -118,8 +98,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 			String title = (user.getUsername() == null) ? AppContext
 					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();
-			final AddViewLayout formAddLayout = new AddViewLayout(title,
-					MyCollabResource.newResource("icons/24/project/user.png"));
+			final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
 			final VerticalLayout layout = new VerticalLayout();
 			final Label organizationHeader = new Label(
@@ -225,8 +204,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 			String title = (user.getUsername() == null) ? AppContext
 					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();
-			final AddViewLayout formAddLayout = new AddViewLayout(title,
-					MyCollabResource.newResource("icons/24/project/user.png"));
+			final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
 			formAddLayout.addHeaderRight(createButtonControls());
 

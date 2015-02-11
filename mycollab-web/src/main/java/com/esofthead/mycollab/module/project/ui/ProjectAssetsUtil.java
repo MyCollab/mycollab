@@ -14,28 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.ui.components;
+package com.esofthead.mycollab.module.project.ui;
 
-import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Component;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.vaadin.server.FontAwesome;
+
+import java.util.Properties;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.1
- * 
+ * @since 5.0.0
  */
-public class UserVerticalTabsheet extends VerticalTabsheet {
-	private static final long serialVersionUID = -9095044309853738791L;
+public class ProjectAssetsUtil {
 
-	@Override
-	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
-        ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
-        String tabId = btnTabImpl.getTabId();
 
-        Resource resource = SettingAssetsManager.getAsset(tabId);
-        btn.setIcon(resource);
+    public static FontAwesome getPhaseIcon(String status) {
+        if (OptionI18nEnum.MilestoneStatus.Closed.name().equals(status)) {
+            return FontAwesome.MINUS;
+        } else if (OptionI18nEnum.MilestoneStatus.Future.name().equals(status)) {
+            return FontAwesome.CLOCK_O;
+        } else {
+            return FontAwesome.SPINNER;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(FontAwesome.ARROW_DOWN.getHtml());
     }
 }

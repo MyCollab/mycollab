@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -56,11 +57,8 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 				.withMargin(new MarginInfo(true, false, true, false));
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		layout.addComponent(new Image(null, MyCollabResource
-				.newResource("icons/24/project/user.png")));
-
-		final Label searchtitle = new Label(
-				AppContext.getMessage(RoleI18nEnum.VIEW_LIST_TITLE));
+		final Label searchtitle = new Label(FontAwesome.USERS.getHtml() + " " +
+				AppContext.getMessage(RoleI18nEnum.VIEW_LIST_TITLE), ContentMode.HTML);
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);

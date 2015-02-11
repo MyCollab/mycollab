@@ -36,6 +36,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -49,16 +50,15 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -201,17 +201,11 @@ public class MilestoneReadViewImpl extends
                 return new RichTextViewField(
                         milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
-                final ContainerHorizontalViewField statusField = new ContainerHorizontalViewField();
-                Image icon = new Image();
-                icon.setSource(new ExternalResource(ProjectResources
-                        .getIconResource12LinkOfPhaseStatus(beanItem
-                                .getStatus())));
-                statusField.addComponentField(icon);
-                Label statusLbl = new Label(AppContext.getMessage(
-                        MilestoneStatus.class, beanItem.getStatus()));
-                statusField.addComponentField(statusLbl);
-                statusField.getLayout().setExpandRatio(statusLbl, 1.0f);
-                return statusField;
+                String milestoneStatus = AppContext.getMessage(
+                        MilestoneStatus.class, beanItem.getStatus());
+                FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
+                DefaultViewField field = new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML);
+                return field;
             } else if (Milestone.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp());
@@ -411,9 +405,9 @@ public class MilestoneReadViewImpl extends
             this.setSpacing(true);
             this.setMargin(new MarginInfo(false, false, false, true));
 
-            Label peopleInfoHeader = new Label(
+            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 

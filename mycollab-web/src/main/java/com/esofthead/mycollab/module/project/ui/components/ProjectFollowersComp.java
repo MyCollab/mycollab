@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -93,8 +94,8 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
 		MHorizontalLayout header = new MHorizontalLayout().withSpacing(true);
-		Label followerHeader = new Label(
-				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS));
+		Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
+				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
 		followerHeader.setStyleName("info-hdr");
 		header.addComponent(followerHeader);
 

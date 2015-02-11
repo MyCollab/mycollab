@@ -21,7 +21,9 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -44,8 +46,8 @@ public class PeopleInfoComp extends MVerticalLayout {
 		this.removeAllComponents();
 		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
-		Label peopleInfoHeader = new Label(
-				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE));
+		Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
+				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
 		peopleInfoHeader.setStyleName("info-hdr");
 		this.addComponent(peopleInfoHeader);
 

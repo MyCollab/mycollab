@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -36,11 +38,6 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -156,8 +153,7 @@ public class CampaignAccountListComp extends
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image accountAvatar = new Image(null,
-					MyCollabResource.newResource("icons/48/crm/account.png"));
+			FontIconLabel accountAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 			iconWrap.addComponent(accountAvatar);
 			blockTop.addComponent(iconWrap);
 

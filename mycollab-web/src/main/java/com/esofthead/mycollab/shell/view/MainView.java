@@ -30,6 +30,8 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18n
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
+import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -44,6 +46,7 @@ import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -358,6 +361,7 @@ public final class MainView extends AbstractPageView {
 										new String[] { "preview" }));
 					}
 				});
+        myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
 		myProfileBtn.setStyleName("link");
 		accLayout.addComponent(myProfileBtn);
 
@@ -375,6 +379,7 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 		myAccountBtn.setStyleName("link");
+        myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
 		accLayout.addComponent(myAccountBtn);
 
 		final Button userMgtBtn = new Button(
@@ -391,6 +396,7 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 		userMgtBtn.setStyleName("link");
+        userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
 		accLayout.addComponent(userMgtBtn);
 
 		final Button signoutBtn = new Button(
@@ -406,6 +412,7 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 		signoutBtn.setStyleName("link");
+        signoutBtn.setIcon(FontAwesome.SIGN_OUT);
 		accLayout.addComponent(signoutBtn);
 
 		accountMenu.setContent(accLayout);

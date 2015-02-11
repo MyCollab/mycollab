@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.RoleScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.UserScreenData;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -49,9 +50,9 @@ public class UserPermissionManagementPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContaier = (AccountModule) container;
-		accountContaier.gotoSubView("users");
+		accountContaier.gotoSubView(SettingUIConstants.USERS);
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter;
 		if ((data == null) || (data instanceof UserScreenData.Read)
 				|| (data instanceof UserScreenData.Search)
 				|| (data instanceof UserScreenData.Add)

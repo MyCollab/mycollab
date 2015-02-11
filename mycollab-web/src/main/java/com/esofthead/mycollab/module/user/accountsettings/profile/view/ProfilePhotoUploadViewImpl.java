@@ -16,16 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
@@ -43,19 +33,22 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.vaadin.cropField.CropField;
 import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * 
@@ -108,8 +101,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 				ContentMode.HTML);
 		previewBoxRight.addComponent(lbPreview);
 
-		HorizontalLayout controlBtns = new HorizontalLayout();
-		controlBtns.setSpacing(true);
+		MHorizontalLayout controlBtns = new MHorizontalLayout();
 		controlBtns.setSizeUndefined();
 
 		Button cancelBtn = new Button(
@@ -124,8 +116,6 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 					}
 				});
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		controlBtns.addComponent(cancelBtn);
-		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
 		Button acceptBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT),
@@ -156,8 +146,9 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 					}
 				});
 		acceptBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlBtns.addComponent(acceptBtn);
-		controlBtns.setComponentAlignment(acceptBtn, Alignment.TOP_LEFT);
+        acceptBtn.setIcon(FontAwesome.CHECK);
+
+        controlBtns.with(acceptBtn, cancelBtn).alignAll(Alignment.MIDDLE_LEFT);
 
 		previewBoxRight.addComponent(controlBtns);
 		previewBoxRight.setComponentAlignment(controlBtns, Alignment.TOP_LEFT);

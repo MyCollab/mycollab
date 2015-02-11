@@ -16,21 +16,22 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.common.ui.components.AbstractNotification;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -48,12 +49,11 @@ public class NotificationButton extends PopupButton implements
 
 	public NotificationButton() {
 		super();
-		notificationItems = new ArrayList<AbstractNotification>();
+		notificationItems = new ArrayList<>();
 		notificationContainer = new VerticalLayout();
 		notificationContainer.setMargin(true);
 		this.setContent(notificationContainer);
-		this.setIcon(MyCollabResource
-				.newResource(WebResourceIds._16_notification_indicator));
+		this.setIcon(FontAwesome.EXCLAMATION_CIRCLE);
 		this.setStyleName("notification-button");
 
 		addPopupVisibilityListener(this);
@@ -66,8 +66,7 @@ public class NotificationButton extends PopupButton implements
 
 		if (notificationItems.size() > 0) {
 			for (AbstractNotification item : notificationItems) {
-				HorizontalLayout notificationItem = new HorizontalLayout();
-				notificationItem.setSpacing(true);
+				MHorizontalLayout notificationItem = new MHorizontalLayout();
 				Label notificationType = new Label(item.getType() + ":");
 				notificationType.setStyleName("notification-type");
 				notificationType.addStyleName("notification-type-"

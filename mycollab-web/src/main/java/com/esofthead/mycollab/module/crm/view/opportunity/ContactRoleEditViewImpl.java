@@ -38,7 +38,9 @@ import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -304,8 +306,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 						}
 					});
-			accountLink.setIcon(MyCollabResource
-					.newResource("icons/16/crm/account.png"));
+			accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 			accountLink.setStyleName("link");
 			accountLink.setWidth("250px");
 			this.addComponent(accountLink);

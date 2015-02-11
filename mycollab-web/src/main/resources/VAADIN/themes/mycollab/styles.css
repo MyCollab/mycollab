@@ -6503,10 +6503,6 @@ body .mycollab.v-app .v-app-loading {
 	padding: 3px 7px 3px 2px;
 }
 
-.mycollab .v-popupbutton.greenbtn .v-popup-indicator {
-	background: url(components/icons/sprites.png) no-repeat scroll -5px -10px transparent;
-}
-
 .mycollab .v-popupbutton .v-button-wrap * {
 	float: none;
 }
@@ -6731,6 +6727,14 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-upload-immediate .v-button .v-button-caption {
 	color: black;
+}
+
+.mycollab .upload-field .v-upload-immediate .v-button {
+	background-color: #17d61b;
+}
+
+.mycollab .upload-field .v-upload-immediate .v-button .v-button-caption {
+	color: white;
 }
 
 .mycollab .v-progressbar {
@@ -8248,10 +8252,6 @@ body .mycollab.v-app .v-app-loading {
 	padding: 0 3px;
 }
 
-.mycollab .topNavigation .v-popupbutton .v-popup-indicator {
-	background: url("icons/sprites.png") no-repeat -5px -10px transparent;
-}
-
 .mycollab .topNavigation .v-popupbutton .v-popup-indicator:before {
 	content: "";
 }
@@ -8285,9 +8285,40 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .topNavigation .accountMenu .v-button-caption {
-	text-shadow: 1px 1px 0px #6b6b6b;
-	filter: progid:DXImageTransform.Microsoft.Shadow(color='#6B6B6B', direction=45);
 	font-weight: bold;
+}
+
+.mycollab .topNavigation .accountMenu .v-popup-indicator::before {
+	content: "\f0d7";
+	color: white;
+}
+
+.mycollab .topNavigation .v-button.notification-button {
+	background: none no-repeat left top #E4E4E4;
+	border-radius: 5px;
+}
+
+.mycollab .topNavigation .v-button.notification-button .v-button-caption {
+	color: #c31616;
+	padding: 0px;
+}
+
+.mycollab .topNavigation .v-button.notification-button .v-popup-indicator {
+	display: none;
+}
+
+.mycollab .topNavigation .v-button.notification-button .v-icon {
+	font-size: 16px;
+	color: chocolate;
+}
+
+.mycollab .notification-type {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.mycollab .notification-type.notification-type-warning {
+	color: #c31616;
 }
 
 .mycollab .v-popupbutton-popup.v-popupbutton-popup-topNavPopup {
@@ -8490,7 +8521,7 @@ body .mycollab.v-app .v-app-loading {
 }
 
 .mycollab .crmContainer .navigator-wrap .basic-info .info-hdr {
-	font-size: 16px;
+	font-size: 13px;
 	font-weight: bold;
 }
 
@@ -9002,17 +9033,6 @@ body .mycollab.v-app .v-app-loading {
 	border-color: #CCC;
 	border-width: 0px 1px 0px 0px;
 	background: none;
-}
-
-.mycollab .accountViewContainer .userInfoContainer .avatar-pass-wrapper {
-	border-bottom: 1px solid #CFCFCF;
-	background-color: #E9F2F7;
-}
-
-.mycollab .avatar-pass-wrapper .v-upload .v-button {
-	color: #525252;
-	border-color: #CFCFCF;
-	border-width: 1px;
 }
 
 .mycollab .accountViewContainer .addview-layout-body {
@@ -12556,33 +12576,6 @@ body .mycollab.v-app .v-app-loading {
 	padding: 0 20px 0 10px;
 }
 
-.mycollab .topNavigation .v-button.notification-button {
-	background: none no-repeat left top #E4E4E4;
-	border-radius: 5px;
-}
-
-.mycollab .topNavigation .v-button.notification-button:focus {
-	background: none no-repeat left top #E4E4E4;
-	border-radius: 5px;
-}
-
-.mycollab .topNavigation .v-button.notification-button .v-button-caption, .mycollab .topNavigation .v-button.notification-button:focus .v-button-caption {
-	color: #c31616;
-}
-
-.mycollab .topNavigation .v-button.notification-button .v-popup-indicator {
-	display: none;
-}
-
-.mycollab .notification-type {
-	text-transform: uppercase;
-	font-weight: bold;
-}
-
-.mycollab .notification-type.notification-type-warning {
-	color: #c31616;
-}
-
 .mycollab .verticaltabsheet-fix {
 	position: absolute;
 	top: 0px;
@@ -13647,6 +13640,14 @@ a.pending {
 
 .v-upload-immediate .v-button .v-button-caption {
 	color: black;
+}
+
+.upload-field .v-upload-immediate .v-button {
+	background-color: #17d61b;
+}
+
+.upload-field .v-upload-immediate .v-button .v-button-caption {
+	color: white;
 }
 
 .v-progressbar {

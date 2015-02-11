@@ -22,7 +22,9 @@ import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
@@ -52,8 +54,8 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
 
 		HorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false);
 
-		Label dateInfoHeader = new Label(
-				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
+		Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
+				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
 		dateInfoHeader.setStyleName("info-hdr");
 		header.addComponent(dateInfoHeader);
 

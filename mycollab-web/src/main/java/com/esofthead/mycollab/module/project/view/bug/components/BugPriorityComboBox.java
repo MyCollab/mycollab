@@ -25,10 +25,10 @@ import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class BugPriorityComboBox extends I18nValueComboBox {
 

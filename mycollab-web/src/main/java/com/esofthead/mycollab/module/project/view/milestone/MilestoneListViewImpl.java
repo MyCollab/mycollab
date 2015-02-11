@@ -51,6 +51,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -220,10 +221,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 
 		PopupButton taskSettingPopupBtn = new PopupButton();
 		taskSettingPopupBtn.setWidth("20px");
-		VerticalLayout filterBtnLayout = new VerticalLayout();
-		filterBtnLayout.setMargin(true);
-		filterBtnLayout.setSpacing(true);
-		filterBtnLayout.setWidth("100px");
+		MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("100px");
 
 		Button editButton = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),

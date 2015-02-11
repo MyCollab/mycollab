@@ -17,25 +17,24 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComboBox;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 
@@ -58,7 +57,7 @@ public class MilestoneComboBox extends ComboBox {
 			MilestoneService milestoneService = ApplicationContextUtil
 					.getSpringBean(MilestoneService.class);
 			List<SimpleMilestone> milestoneList = (List<SimpleMilestone>) milestoneService
-					.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
+					.findPagableListByCriteria(new SearchRequest<>(
 							criteria, 0, Integer.MAX_VALUE));
 
 			Collections.sort(milestoneList, new MilestoneComparator());
@@ -66,12 +65,7 @@ public class MilestoneComboBox extends ComboBox {
 			for (SimpleMilestone milestone : milestoneList) {
 				this.addItem(milestone.getId());
 				this.setItemCaption(milestone.getId(), milestone.getName());
-
-				Resource iconRes = new ExternalResource(
-						ProjectResources
-								.getIconResource16LinkOfPhaseStatus(milestone
-										.getStatus()));
-
+				Resource iconRes = ProjectAssetsUtil.getPhaseIcon(milestone.getStatus());
 				this.setItemIcon(milestone.getId(), iconRes);
 			}
 		}

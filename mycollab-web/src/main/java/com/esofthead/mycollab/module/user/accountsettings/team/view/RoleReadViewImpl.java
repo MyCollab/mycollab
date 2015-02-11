@@ -20,31 +20,17 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
-import com.esofthead.mycollab.security.AccessPermissionFlag;
-import com.esofthead.mycollab.security.BooleanPermissionFlag;
-import com.esofthead.mycollab.security.PermissionChecker;
-import com.esofthead.mycollab.security.PermissionDefItem;
-import com.esofthead.mycollab.security.PermissionMap;
-import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.security.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.PreviewFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -64,25 +50,18 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		super();
 		this.setMargin(new MarginInfo(false, true, false, true));
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setStyleName(UIConstants.HEADER_VIEW);
+		MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+                .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		header.setSpacing(true);
-		header.setMargin(new MarginInfo(true, false, true, false));
-		header.addComponent(new Image(null, MyCollabResource
-				.newResource("icons/24/project/user.png")));
 
-		Label headerText = new Label("Detail Role");
-		headerText.setSizeUndefined();
+		Label headerText = new Label(FontAwesome.USERS.getHtml() + " Detail Role", ContentMode.HTML);
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
-		header.addComponent(headerText);
-		header.setExpandRatio(headerText, 1.0f);
+		header.with(headerText).expand(headerText);
 
 		this.addComponent(header);
 
-		this.previewForm = new AdvancedPreviewBeanForm<Role>();
+		this.previewForm = new AdvancedPreviewBeanForm<>();
 		this.addComponent(this.previewForm);
 
 		Layout controlButtons = createTopPanel();
@@ -92,10 +71,9 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 	}
 
 	protected Layout createTopPanel() {
-		buttonControls = new PreviewFormControlsGenerator<Role>(previewForm);
-		HorizontalLayout layout = buttonControls
+		buttonControls = new PreviewFormControlsGenerator<>(previewForm);
+		return buttonControls
 				.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
-		return layout;
 	}
 
 	@Override

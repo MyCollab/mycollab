@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
@@ -48,8 +49,7 @@ class CaseReadFormFieldFactory extends
 			return new LinkViewField(cases.getAccountName(),
 					CrmLinkBuilder.generateAccountPreviewLinkFull(cases
 							.getAccountid()),
-					MyCollabResource
-							.newResourceLink("icons/16/crm/account.png"));
+                    CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 		} else if (propertyId.equals("email")) {
 			return new EmailViewField(cases.getEmail());
 		} else if (propertyId.equals("assignuser")) {

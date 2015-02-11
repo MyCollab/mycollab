@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
@@ -25,12 +23,14 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -112,13 +112,9 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			this.loadData(Arrays.asList(MilestoneStatus.InProgress,
 					MilestoneStatus.Future, MilestoneStatus.Closed));
 
-			this.setItemIcon(MilestoneStatus.InProgress.name(),
-					MyCollabResource
-							.newResource("icons/16/project/phase_progress.png"));
-			this.setItemIcon(MilestoneStatus.Future.name(), MyCollabResource
-					.newResource("icons/16/project/phase_future.png"));
-			this.setItemIcon(MilestoneStatus.Closed.name(), MyCollabResource
-					.newResource("icons/16/project/phase_closed.png"));
+			this.setItemIcon(MilestoneStatus.InProgress.name(), FontAwesome.SPINNER);
+			this.setItemIcon(MilestoneStatus.Future.name(), FontAwesome.CLOCK_O);
+			this.setItemIcon(MilestoneStatus.Closed.name(), FontAwesome.MINUS);
 		}
 	}
 

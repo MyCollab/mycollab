@@ -19,6 +19,7 @@ package com.esofthead.mycollab.community.module.user.accountsettings.billing.vie
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingContainer;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
+import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
@@ -41,7 +42,7 @@ public class BillingPresenter extends AbstractPresenter<IBillingContainer>
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView("billing");
+		accountContainer.gotoSubView(SettingUIConstants.BILLING);
 	}
 
 }

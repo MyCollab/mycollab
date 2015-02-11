@@ -545,9 +545,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
             this.removeAllComponents();
             this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
 
-            Label peopleInfoHeader = new Label(
+            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 

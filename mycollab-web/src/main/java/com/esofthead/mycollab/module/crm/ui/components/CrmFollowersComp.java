@@ -16,16 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import com.vaadin.server.FontAwesome;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.SimpleMonitorItem;
@@ -40,22 +30,24 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserMultiSelectComp;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Button;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -97,8 +89,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 
 		HorizontalLayout header = new HorizontalLayout();
 		header.setSpacing(true);
-		Label followerHeader = new Label(
-				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS));
+		Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
+				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
 		followerHeader.setStyleName("info-hdr");
 		header.addComponent(followerHeader);
 

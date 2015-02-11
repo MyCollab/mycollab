@@ -21,8 +21,10 @@ import java.io.IOException;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.resources.OnDemandFileDownloader;
@@ -64,8 +66,7 @@ public class ContactReadFormFieldFactory extends
 		if (propertyId.equals("accountid")) {
 			return new LinkViewField(contact.getAccountName(),
 					CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()),
-					MyCollabResource
-							.newResourceLink("icons/16/crm/account.png"));
+                    CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 		} else if (propertyId.equals("email")) {
 			return new EmailViewField(attachForm.getBean().getEmail());
 		} else if (propertyId.equals("assignuser")) {

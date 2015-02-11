@@ -45,6 +45,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.*;
 
@@ -127,7 +128,7 @@ public class LeadConvertReadViewImpl extends
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		previewItemContainer.selectTab("about");
+		previewItemContainer.selectTab(CrmTypeConstants.DETAIL);
 	}
 
 	@Override
@@ -146,11 +147,7 @@ public class LeadConvertReadViewImpl extends
 		associateActivityList = new ActivityRelatedItemListComp(false);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		VerticalLayout basicInfo = new VerticalLayout();
-		basicInfo.setWidth("100%");
-		basicInfo.setMargin(true);
-		basicInfo.setSpacing(true);
-		basicInfo.setStyleName("basic-info");
+		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
@@ -160,10 +157,10 @@ public class LeadConvertReadViewImpl extends
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "about", "About");
-		previewItemContainer.addTab(associateCampaignList, "campaign",
+		previewItemContainer.addTab(previewContent, CrmTypeConstants.DETAIL, "About");
+		previewItemContainer.addTab(associateCampaignList, CrmTypeConstants.CAMPAIGN,
 				"Campaigns");
-		previewItemContainer.addTab(associateActivityList, "activity",
+		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
 				"Activities");
 	}
 
@@ -248,8 +245,7 @@ public class LeadConvertReadViewImpl extends
 
 						}
 					});
-			accountLink.setIcon(MyCollabResource
-					.newResource("icons/16/crm/account.png"));
+			accountLink.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 			accountLink.setStyleName("link");
 			layoutHelper.addComponent(accountLink, "Account", 0, 0);
 		} else {

@@ -42,6 +42,7 @@ import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -107,10 +108,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
 			@Override
 			public ComponentContainer getLayout() {
-				final AddViewLayout formAddLayout = new AddViewLayout(
-						initFormHeader(),
-						MyCollabResource
-								.newResource("icons/24/project/user.png"));
+				final AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), FontAwesome.USERS);
 
 				final ComponentContainer topLayout = createButtonControls();
 				if (topLayout != null) {
