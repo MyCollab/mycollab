@@ -34,6 +34,7 @@ package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -45,6 +46,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,12 +119,14 @@ public class ProjectLinkBuilder {
 		SimpleProjectMember member = projectMemberService.findMemberByUsername(
 				username, projectId, AppContext.getAccountId());
 		if (member != null) {
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                    member.getMemberAvatarId(), 16));
 			A link = new A();
 			link.setHref(generateProjectMemberFullLink(projectId,
 					member.getUsername()));
 			Text text = new Text(member.getDisplayName());
 			link.appendChild(text);
-			return link.write();
+			return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link).write();
 		} else {
 			return null;
 		}

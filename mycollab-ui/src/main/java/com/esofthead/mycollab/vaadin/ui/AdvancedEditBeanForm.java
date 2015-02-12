@@ -51,7 +51,7 @@ public class AdvancedEditBeanForm<B> extends GenericBeanForm<B> implements
 	@Override
 	public void addFormHandler(EditFormHandler<B> editFormHandler) {
 		if (editFormHandlers == null) {
-			editFormHandlers = new ArrayList<EditFormHandler<B>>();
+			editFormHandlers = new ArrayList<>();
 		}
 
 		editFormHandlers.add(editFormHandler);

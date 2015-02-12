@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -29,8 +28,10 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -41,7 +42,6 @@ import com.vaadin.ui.Window;
 public class CampaignSelectionWindow extends Window {
 
 	private static final long serialVersionUID = 1L;
-	private CampaignSearchCriteria searchCriteria;
 	private CampaignTableDisplay tableItem;
 	private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
@@ -55,27 +55,24 @@ public class CampaignSelectionWindow extends Window {
 	}
 
 	public void show() {
-		searchCriteria = new CampaignSearchCriteria();
+        CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+		MVerticalLayout layout = new MVerticalLayout();
 
 		createCampaignList();
 		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
 		campaignSimpleSearchPanel
 				.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
 
-					@Override
-					public void onSearch(CampaignSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+                    @Override
+                    public void onSearch(CampaignSearchCriteria criteria) {
+                        tableItem.setSearchCriteria(criteria);
+                    }
 
-				});
-		layout.addComponent(campaignSimpleSearchPanel);
-		layout.addComponent(tableItem);
+                });
+		layout.with(campaignSimpleSearchPanel, tableItem);
 		this.setContent(layout);
 
 		tableItem.setSearchCriteria(searchCriteria);
@@ -88,7 +85,7 @@ public class CampaignSelectionWindow extends Window {
 				CampaignTableFieldDef.campaignname, CampaignTableFieldDef.type,
 				CampaignTableFieldDef.status, CampaignTableFieldDef.endDate,
 				CampaignTableFieldDef.assignUser));
-
+        tableItem.setDisplayNumItems(10);
 		tableItem.setWidth("100%");
 
 		tableItem.addGeneratedColumn("campaignname",
@@ -102,18 +99,20 @@ public class CampaignSelectionWindow extends Window {
 						final SimpleCampaign campaign = tableItem
 								.getBeanByIndex(itemId);
 
-						ButtonLink b = new ButtonLink(campaign
+						ButtonLink campaingLink = new ButtonLink(campaign
 								.getCampaignname(), new Button.ClickListener() {
 
 							@Override
 							public void buttonClick(
 									final Button.ClickEvent event) {
-								// TODO Auto-generated method stub
 								fieldSelection.fireValueChange(campaign);
 								CampaignSelectionWindow.this.close();
 							}
 						});
-						return b;
+                        campaingLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
+                                AppContext.getUserLocale(), campaign,
+                                AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        return campaingLink;
 					}
 				});
 	}

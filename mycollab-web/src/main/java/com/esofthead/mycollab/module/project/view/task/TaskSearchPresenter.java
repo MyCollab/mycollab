@@ -58,6 +58,10 @@ public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS)) {
+            ProjectBreadcrumb breadCrumb = ViewManager
+                    .getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoTaskFilter();
+
 			TaskContainer trackerContainer = (TaskContainer) container;
 			trackerContainer.removeAllComponents();
 			trackerContainer.addComponent(view.getWidget());
@@ -71,10 +75,6 @@ public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 			} else {
 				view.moveToBasicSearch();
 			}
-
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			breadcrumb.gotoTaskDashboard();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

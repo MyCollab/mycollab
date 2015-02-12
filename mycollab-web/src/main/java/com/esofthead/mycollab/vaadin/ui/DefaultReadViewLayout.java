@@ -35,11 +35,10 @@ public class DefaultReadViewLayout extends ReadViewLayout {
     }
 
     private ComponentContainer buildHeader(String title) {
-        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withSpacing(true);
+        MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 
         this.titleLbl = new Label();
         this.titleLbl.setStyleName("headerName");
-        this.titleLbl.setImmediate(true);
 
         header.with(titleLbl).expand(titleLbl);
 

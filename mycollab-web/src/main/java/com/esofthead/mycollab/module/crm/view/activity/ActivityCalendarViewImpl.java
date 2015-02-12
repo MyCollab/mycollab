@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityEventProvider.CrmEvent;
@@ -222,20 +223,19 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 
 		ButtonLink todoBtn = new ButtonLink("New Task", listener);
 		actionBtnLayout.addComponent(todoBtn);
-		todoBtn.setIcon(MyCollabResource.newResource("icons/16/crm/task.png"));
+		todoBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 		todoBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
 
 		Button callBtn = new ButtonLink("New Call", listener);
 		actionBtnLayout.addComponent(callBtn);
-		callBtn.setIcon(MyCollabResource.newResource("icons/16/crm/call.png"));
+		callBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
 		callBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
 
-		ButtonLink meetingBtn = new ButtonLink("New Event", listener);
+		ButtonLink meetingBtn = new ButtonLink("New Meeting", listener);
 		actionBtnLayout.addComponent(meetingBtn);
-		meetingBtn.setIcon(MyCollabResource
-				.newResource("icons/16/crm/meeting.png"));
+		meetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 		meetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
 

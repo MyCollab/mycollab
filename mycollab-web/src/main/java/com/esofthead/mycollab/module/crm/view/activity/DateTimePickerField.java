@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
@@ -28,7 +27,7 @@ import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -67,18 +66,8 @@ public class DateTimePickerField extends CustomField<Date> {
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-
-		try {
-			layout.addComponent(popupDateField);
-			layout.addComponent(hourPickerComboBox);
-			layout.addComponent(minutePickerComboBox);
-			layout.addComponent(timeFormatComboBox);
-			return layout;
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
+		return new MHorizontalLayout().with(popupDateField, hourPickerComboBox, minutePickerComboBox,
+                timeFormatComboBox);
 	}
 
 	@Override
@@ -134,10 +123,11 @@ public class DateTimePickerField extends CustomField<Date> {
 		}
 		Date baseDate = DateTimeUtils.trimHMSOfDate(popupDateField
 				.getValue());
-		Integer hour = Integer.parseInt((String) hourPickerComboBox.getValue());
-		Integer minus = Integer.parseInt((String) minutePickerComboBox
-				.getValue());
-		String timeFormat = (String) timeFormatComboBox.getValue();
+		Integer hour = (hourPickerComboBox.getValue() != null) ? Integer.parseInt((String) hourPickerComboBox.getValue
+                ()) : 0;
+		Integer minus = (minutePickerComboBox.getValue() != null) ? Integer.parseInt((String) minutePickerComboBox
+				.getValue()) : 0;
+		String timeFormat = (timeFormatComboBox.getValue() != null) ? (String)timeFormatComboBox.getValue() : "AM";
 		long milliseconds = calculateMiniSecond(hour, minus, timeFormat);
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.setTimeInMillis(baseDate.getTime() + milliseconds);
@@ -146,24 +136,24 @@ public class DateTimePickerField extends CustomField<Date> {
 
 	private class HourPickerComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
-		private final String[] HOURDATA = new String[] { "00", "01", "02",
+		private final String[] HOURS = new String[] { "00", "01", "02",
 				"03", "04", "05", "06", "07", "08", "09", "10", "11" };
 
 		public HourPickerComboBox() {
 			super();
 			setCaption(null);
-			this.loadData(HOURDATA);
+			this.loadData(HOURS);
 		}
 	}
 
 	private class MinutePickerComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
-		private String[] MINUSDATA = new String[] { "00", "15", "30", "45" };
+		private String[] MINUS = new String[] { "00", "15", "30", "45" };
 
 		public MinutePickerComboBox() {
 			super();
 			setCaption(null);
-			this.loadData(MINUSDATA);
+			this.loadData(MINUS);
 		}
 	}
 }

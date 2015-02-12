@@ -16,12 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
@@ -43,6 +39,10 @@ import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -77,8 +77,8 @@ public class CaseListPresenter extends
 								NotificationUtil.showWarningNotification(AppContext
 										.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
-								List<String> lstMail = new ArrayList<String>();
-								List<SimpleCase> tableData = view
+								List<String> lstMail = new ArrayList<>();
+								Collection<SimpleCase> tableData = view
 										.getPagedBeanTable()
 										.getCurrentDataList();
 								for (SimpleCase item : tableData) {
@@ -152,7 +152,7 @@ public class CaseListPresenter extends
 		if (!isSelectAll) {
 			Collection<SimpleCase> currentDataList = view.getPagedBeanTable()
 					.getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (SimpleCase item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());
@@ -178,7 +178,7 @@ public class CaseListPresenter extends
 		if (!isSelectAll) {
 			Collection<SimpleCase> currentDataList = view.getPagedBeanTable()
 					.getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (SimpleCase item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());

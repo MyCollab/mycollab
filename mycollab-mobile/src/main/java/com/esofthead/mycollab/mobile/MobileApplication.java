@@ -21,6 +21,8 @@ import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
 import java.util.Collection;
 
 import com.esofthead.mycollab.core.IgnoreException;
+import com.esofthead.mycollab.core.SessionExpireException;
+import com.vaadin.server.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,6 +89,14 @@ public class MobileApplication extends MyCollabUI {
                 IgnoreException ignoreException = (IgnoreException) getExceptionType(
                         e, IgnoreException.class);
                 if (ignoreException != null) {
+                    return;
+                }
+
+                SessionExpireException sessionExpireException = (SessionExpireException) getExceptionType(
+                        e, SessionExpireException.class);
+                if (sessionExpireException != null) {
+                    Page.getCurrent().getJavaScript()
+                            .execute("window.location.reload();");
                     return;
                 }
 

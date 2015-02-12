@@ -47,7 +47,6 @@ public class UIConstants {
 	public static final String THEME_TRANSPARENT_LINK = "transparentbtn";
 	public static final String THEME_BROWN_LINK = "brownbtn";
 	public static final String THEME_LINK = "link";
-	public static final String THEME_ROUND_BUTTON = "round-border";
 	public static final String THEME_NO_BORDER = "no-border";
 	public static final String THEME_TAB_STYLE3 = "tab-style3";
 	public static final String LABEL_CLICKABLE = "clickable-label";

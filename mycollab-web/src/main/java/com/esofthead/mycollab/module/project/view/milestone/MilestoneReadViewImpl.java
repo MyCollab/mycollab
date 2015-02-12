@@ -26,7 +26,10 @@ import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -331,8 +334,7 @@ public class MilestoneReadViewImpl extends
         private Div buildItemValue(ProjectGenericTask task) {
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img image = new Img("", ProjectResources.getResourceLink(task
-                    .getType()));
+            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
 
             A itemLink = new A();
             itemLink.setId("tag" + uid);

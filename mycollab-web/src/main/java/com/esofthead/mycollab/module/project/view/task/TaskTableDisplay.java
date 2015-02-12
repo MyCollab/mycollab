@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -31,8 +32,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.table.BeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +40,6 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -48,17 +47,19 @@ import java.util.List;
  * @since 1.0
  */
 public class TaskTableDisplay extends
-        BeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
+        DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
     private static final long serialVersionUID = 1L;
 
     TaskTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
+        this.displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
     }
 
     public TaskTableDisplay(TableViewField requiredColumn,
                             List<TableViewField> displayColumns) {
         super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
                 SimpleTask.class, requiredColumn, displayColumns);
+        this.displayNumItems = Integer.MAX_VALUE;
 
         this.addGeneratedColumn("taskname", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -90,22 +91,12 @@ public class TaskTableDisplay extends
 
                 }
 
-                if (task.getPercentagecomplete() != null
-                        && 100d == task.getPercentagecomplete()) {
+                if (task.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else {
-                    if (StatusI18nEnum.Pending.name().equals(task.getStatus())) {
-                        b.addStyleName(UIConstants.LINK_PENDING);
-                    } else if ((task.getEnddate() != null && (task.getEnddate()
-                            .before(new GregorianCalendar().getTime())))
-                            || (task.getActualenddate() != null && (task
-                            .getActualenddate()
-                            .before(new GregorianCalendar().getTime())))
-                            || (task.getDeadline() != null && (task
-                            .getDeadline()
-                            .before(new GregorianCalendar().getTime())))) {
-                        b.addStyleName(UIConstants.LINK_OVERDUE);
-                    }
+                } else if (task.isPending()) {
+                    b.addStyleName(UIConstants.LINK_PENDING);
+                } else if (task.isOverdue()) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
 
                 taskName.addComponent(b);

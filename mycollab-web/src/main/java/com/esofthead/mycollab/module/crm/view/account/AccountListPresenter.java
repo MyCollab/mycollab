@@ -91,7 +91,7 @@ public class AccountListPresenter
 										.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<>();
-								List<SimpleAccount> tableData = view
+								Collection<SimpleAccount> tableData = view
 										.getPagedBeanTable()
 										.getCurrentDataList();
 								for (SimpleAccount item : tableData) {

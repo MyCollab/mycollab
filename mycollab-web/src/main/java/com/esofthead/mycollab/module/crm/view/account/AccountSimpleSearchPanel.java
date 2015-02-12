@@ -63,7 +63,6 @@ public class AccountSimpleSearchPanel extends
 	}
 
 	private void createBasicSearchLayout() {
-
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
 		final ValueComboBox group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
@@ -99,6 +98,7 @@ public class AccountSimpleSearchPanel extends
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.setIcon(FontAwesome.SEARCH);
+        searchBtn.setDescription("Search");
 
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override

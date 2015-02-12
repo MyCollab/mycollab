@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -36,6 +34,8 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
+
+import java.util.List;
 
 /**
  * 
@@ -98,8 +98,7 @@ public class CaseTableDisplay extends
 				LabelLink b = new LabelLink(cases.getSubject(), CrmLinkBuilder
 						.generateCasePreviewLinkFull(cases.getId()));
 
-				if ("Closed".equals(cases.getStatus())
-						|| "Rejected".equals(cases.getStatus())) {
+				if (cases.isCompleted()) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}
 				b.setDescription(CrmTooltipGenerator.generateTooltipCases(
@@ -118,10 +117,9 @@ public class CaseTableDisplay extends
 				final SimpleCase cases = CaseTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(cases.getAccountName(),
+				return new LabelLink(cases.getAccountName(),
 						CrmLinkBuilder.generateAccountPreviewLinkFull(cases
 								.getAccountid()));
-				return b;
 			}
 		});
 
@@ -134,10 +132,9 @@ public class CaseTableDisplay extends
 							final Object itemId, Object columnId) {
 						final SimpleCase cases = CaseTableDisplay.this
 								.getBeanByIndex(itemId);
-						UserLink b = new UserLink(cases.getAssignuser(), cases
+						return new UserLink(cases.getAssignuser(), cases
 								.getAssignUserAvatarId(), cases
 								.getAssignUserFullName());
-						return b;
 
 					}
 				});

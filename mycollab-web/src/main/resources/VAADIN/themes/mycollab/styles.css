@@ -6332,32 +6332,6 @@ body .mycollab.v-app .v-app-loading {
 	float: left;
 }
 
-.mycollab .v-button.v-button-round-border {
-	background: url(components/icons/grad-dark-bottom.png) repeat-x left bottom #fcfcfc;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border: 1px solid #8f8f8f;
-	display: inline-block;
-	color: #222222;
-	font-family: arial;
-	font-size: 13px;
-	font-weight: bold;
-	padding: 3px 13px;
-	text-decoration: none;
-	text-shadow: 0px 1px 0px #ffffff;
-}
-
-.mycollab .v-button.v-button-round-border .v-button-wrap, .mycollab .v-button.v-button-round-border:active .v-button-wrap {
-	border: none;
-	background: none;
-	padding: 3px 13px;
-}
-
-.mycollab .v-button.v-button-round-border:hover {
-	color: #0a58cd;
-}
-
 .mycollab .v-button.select-bg {
 	height: 25px;
 	width: 22px;
@@ -6366,21 +6340,6 @@ body .mycollab.v-app .v-app-loading {
 	border-width: 1px 1px 1px 0px;
 	border-color: #CFCFCF;
 	position: relative;
-}
-
-.mycollab .v-button.select-bg::after {
-	background: url(components/icons/sprites-black.png) no-repeat 0px -9px transparent;
-	content: "";
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	position: absolute;
-	opacity: 0.4;
-}
-
-.mycollab .v-button.select-bg:hover::after {
-	opacity: 0.7;
 }
 
 .mycollab .v-button.select-bg .v-button-wrap, .mycollab .v-button.select-bg:active .v-button-wrap, .mycollab .v-button.select-bg:hover .v-button-wrap {
@@ -6610,6 +6569,11 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-button.button-icon-only.icon-18px .v-button-wrap {
 	font-size: 18px;
+}
+
+.mycollab .v-label.icon-48px .v-icon {
+	font-size: 48px;
+	color: #525252;
 }
 
 .mycollab .v-icon .black {
@@ -7427,6 +7391,7 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .form-container .v-button-link.v-button-block .v-button-caption {
 	color: white;
+	vertical-align: sub;
 }
 
 .mycollab .task-attached {
@@ -9160,21 +9125,16 @@ body .mycollab.v-app .v-app-loading {
 	height: 40px;
 }
 
-.mycollab .depotComp.collapsed .header-wrapper {
-	border-width: 1px;
+.mycollab .depotComp .depot-title::before {
+	content: "\f0d7";
+	font-family: FontAwesome;
+	font-size: 16px;
 }
 
-.mycollab .depotComp .depot-title {
-	background: url('icons/16/depot_arrow_down.png') no-repeat left center transparent;
-	cursor: pointer;
-}
-
-.mycollab .depotComp .depot-title .v-verticallayout-margin {
-	padding: 0px;
-}
-
-.mycollab .depotComp.collapsed .depot-title {
-	background: url('icons/16/depot_arrow_right.png') no-repeat left center transparent;
+.mycollab .depotComp.collapsed .depot-title::before {
+	content: "\f0da";
+	font-family: FontAwesome;
+	font-size: 16px;
 }
 
 .mycollab .depotHeader .h2, .mycollab .readview-layout-body .depotHeader .h2, .mycollab .readViewBody .depotHeader .h2, .mycollab .readViewBottomControls .depotHeader .h2 {
@@ -9185,7 +9145,7 @@ body .mycollab.v-app .v-app-loading {
 	line-height: 16px;
 	font-weight: 400;
 	cursor: pointer;
-	padding: 0px 0px 0px 20px;
+	padding: 0px 0px 0px 5px;
 	word-break: normal;
 	word-wrap: break-word;
 	white-space: normal;

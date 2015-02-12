@@ -60,7 +60,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 				ApplicationContextUtil.getSpringBean(AuditLogService.class),
 				HistoryLogRowDisplay.class);
 
-		this.withWidth("100%").withMargin(true).withSpacing(true).withStyleName("historylog-component");
+		this.withWidth("100%").withStyleName("historylog-component");
 		this.setHeightUndefined();
 
 		this.addComponent(logTable);

@@ -125,6 +125,14 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
+        SessionExpireException sessionExpireException = (SessionExpireException) getExceptionType(
+                e, SessionExpireException.class);
+        if (sessionExpireException != null) {
+            Page.getCurrent().getJavaScript()
+                    .execute("window.location.reload();");
+            return;
+        }
+
         UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
                 e, UserInvalidInputException.class);
         if (invalidException != null) {
@@ -138,14 +146,6 @@ public class DesktopApplication extends MyCollabUI {
                 e, UnsupportedFeatureException.class);
         if (unsupportedException != null) {
             NotificationUtil.showFeatureNotPresentInSubscription();
-            return;
-        }
-
-        SessionExpireException sessionExpireException = (SessionExpireException) getExceptionType(
-                e, SessionExpireException.class);
-        if (sessionExpireException != null) {
-            Page.getCurrent().getJavaScript()
-                    .execute("window.location.reload();");
             return;
         }
 

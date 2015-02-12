@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -28,93 +27,93 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class OpportunitySelectionWindow extends Window {
 
-	private static final long serialVersionUID = 1L;
-	private OpportunitySearchCriteria searchCriteria;
-	private OpportunityTableDisplay tableItem;
-	private FieldSelection fieldSelection;
+    private static final long serialVersionUID = 1L;
+    private OpportunityTableDisplay tableItem;
+    private FieldSelection fieldSelection;
 
-	public OpportunitySelectionWindow(FieldSelection fieldSelection) {
-		super("Opportunity Selection");
-		this.setWidth("900px");
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-		this.setResizable(false);
-	}
+    public OpportunitySelectionWindow(FieldSelection fieldSelection) {
+        super("Opportunity Selection");
+        this.setWidth("900px");
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+        this.setResizable(false);
+    }
 
-	public void show() {
-		searchCriteria = new OpportunitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    public void show() {
+        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+        MVerticalLayout layout = new MVerticalLayout();
 
-		createOpportunityList();
-		OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
-		opportunitySimpleSearchPanel
-				.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
+        createOpportunityList();
+        OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
+        opportunitySimpleSearchPanel
+                .addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
 
-					@Override
-					public void onSearch(OpportunitySearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+                    @Override
+                    public void onSearch(OpportunitySearchCriteria criteria) {
+                        tableItem.setSearchCriteria(criteria);
+                    }
 
-				});
-		layout.addComponent(opportunitySimpleSearchPanel);
-		layout.addComponent(tableItem);
-		this.setContent(layout);
+                });
+        layout.with(opportunitySimpleSearchPanel, tableItem);
+        this.setContent(layout);
 
-		tableItem.setSearchCriteria(searchCriteria);
-		center();
-	}
+        tableItem.setSearchCriteria(searchCriteria);
+        center();
+    }
 
-	private void createOpportunityList() {
-		tableItem = new OpportunityTableDisplay(Arrays.asList(
-				OpportunityTableFieldDef.opportunityName,
-				OpportunityTableFieldDef.saleStage,
-				OpportunityTableFieldDef.accountName,
-				OpportunityTableFieldDef.assignUser));
+    private void createOpportunityList() {
+        tableItem = new OpportunityTableDisplay(Arrays.asList(
+                OpportunityTableFieldDef.opportunityName,
+                OpportunityTableFieldDef.saleStage,
+                OpportunityTableFieldDef.accountName,
+                OpportunityTableFieldDef.assignUser));
+        tableItem.setDisplayNumItems(10);
+        tableItem.setWidth("100%");
 
-		tableItem.setWidth("100%");
+        tableItem.addGeneratedColumn("opportunityname",
+                new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-		tableItem.addGeneratedColumn("opportunityname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public com.vaadin.ui.Component generateCell(
+                            final Table source, final Object itemId,
+                            final Object columnId) {
+                        final SimpleOpportunity opportunity = tableItem
+                                .getBeanByIndex(itemId);
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleOpportunity opportunity = tableItem
-								.getBeanByIndex(itemId);
+                        ButtonLink b = new ButtonLink(opportunity
+                                .getOpportunityname(),
+                                new Button.ClickListener() {
+                                    private static final long serialVersionUID = 1L;
 
-						ButtonLink b = new ButtonLink(opportunity
-								.getOpportunityname(),
-								new Button.ClickListener() {
-									private static final long serialVersionUID = 1L;
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										fieldSelection
-												.fireValueChange(opportunity);
-										OpportunitySelectionWindow.this.close();
-									}
-								});
-						return b;
-					}
-				});
-	}
+                                    @Override
+                                    public void buttonClick(
+                                            final Button.ClickEvent event) {
+                                        fieldSelection
+                                                .fireValueChange(opportunity);
+                                        OpportunitySelectionWindow.this.close();
+                                    }
+                                });
+                        b.setDescription(CrmTooltipGenerator
+                                .generateTooltipOpportunity(AppContext.getUserLocale(),
+                                        opportunity, AppContext.getSiteUrl(),
+                                        AppContext.getTimezone()));
+                        return b;
+                    }
+                });
+    }
 }

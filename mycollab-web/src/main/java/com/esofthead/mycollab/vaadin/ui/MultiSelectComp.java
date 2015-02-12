@@ -97,7 +97,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 		content.setComponentAlignment(this.componentsDisplay,
 				Alignment.MIDDLE_LEFT);
 
-		this.componentPopupSelection.addStyleName("nonPopupIndicator");
 		this.componentPopupSelection.addStyleName(UIConstants.SELECT_BG);
 		this.componentPopupSelection.setWidth("25px");
 		this.componentPopupSelection.setPopupPositionComponent(content);

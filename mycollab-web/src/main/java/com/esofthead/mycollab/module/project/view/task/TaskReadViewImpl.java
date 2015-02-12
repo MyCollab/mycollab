@@ -125,10 +125,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         commentList = new CommentDisplay(CommentType.PRJ_TASK,
                 CurrentProjectVariables.getProjectId(), true, true,
                 ProjectTaskRelayEmailNotificationAction.class);
-        commentList.setMargin(true);
 
         historyList = new TaskHistoryList();
-        historyList.setMargin(true);
 
         dateInfoComp = new DateInfoComp();
         addToSideBar(dateInfoComp);
@@ -156,7 +154,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
             previewLayout.setTitleStyleName("headerNameOverdue");
         }
 
-        if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
+        if (!beanItem.isCompleted()) {
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
@@ -218,9 +216,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
             @Override
             public void buttonClick(ClickEvent event) {
-                if (beanItem.getStatus() != null
-                        && beanItem.getStatus().equals(
-                        StatusI18nEnum.Closed.name())) {
+                if (beanItem.isCompleted()) {
                     beanItem.setStatus(StatusI18nEnum.Open.name());
                     beanItem.setPercentagecomplete(0d);
                     TaskReadViewImpl.this
@@ -265,14 +261,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
     }
 
     private static class TaskPreviewFormLayout extends ReadViewLayout {
+        private Label titleLbl;
+
         TaskPreviewFormLayout() {
             super();
         }
 
         void displayTaskHeader(SimpleTask task) {
-            Label titleLbl;
             if (task.getParenttaskid() == null) {
-                MHorizontalLayout header = new MHorizontalLayout().withWidth("100%").withSpacing(true);
+                MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
                 titleLbl = new Label(task.getTaskname());
                 titleLbl.setStyleName("headerName");
                 header.with(titleLbl).expand(titleLbl);
@@ -308,22 +305,22 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
         @Override
         public void clearTitleStyleName() {
-
+            this.titleLbl.setStyleName("headerName");
         }
 
         @Override
         public void addTitleStyleName(final String styleName) {
-
+            this.titleLbl.addStyleName(styleName);
         }
 
         @Override
         public void setTitleStyleName(final String styleName) {
-
+            this.titleLbl.setStyleName(styleName);
         }
 
         @Override
         public void removeTitleStyleName(final String styleName) {
-
+            this.titleLbl.removeStyleName(styleName);
         }
 
         @Override

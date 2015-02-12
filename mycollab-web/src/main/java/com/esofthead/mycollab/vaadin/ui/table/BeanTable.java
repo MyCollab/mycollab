@@ -66,14 +66,14 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 	@SuppressWarnings("unchecked")
 	public void setSearchCriteria(S searchCriteria) {
 		List itemsCol = searchService
-				.findPagableListByCriteria(new SearchRequest<S>(searchCriteria,
+				.findPagableListByCriteria(new SearchRequest<>(searchCriteria,
 						0, Integer.MAX_VALUE));
 		setItems(itemsCol);
 	}
 
 	private void displayTableColumns() {
-		List<String> visibleColumnsCol = new ArrayList<String>();
-		List<String> columnHeadersCol = new ArrayList<String>();
+		List<String> visibleColumnsCol = new ArrayList<>();
+		List<String> columnHeadersCol = new ArrayList<>();
 
 		if (requiredColumn != null) {
 			visibleColumnsCol.add(requiredColumn.getField());
@@ -96,8 +96,8 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 			}
 		}
 
-		String[] visibleColumns = visibleColumnsCol.toArray(new String[0]);
-		String[] columnHeaders = columnHeadersCol.toArray(new String[0]);
+		String[] visibleColumns = visibleColumnsCol.toArray(new String[visibleColumnsCol.size()]);
+		String[] columnHeaders = columnHeadersCol.toArray(new String[columnHeadersCol.size()]);
 
 		this.setVisibleColumns(visibleColumns);
 		this.setColumnHeaders(columnHeaders);
@@ -107,7 +107,7 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		if (itemsCol == null) {
 			itemsCol = new ArrayList<>();
 		}
-		BeanItemContainer<T> container = new BeanItemContainer<T>(typeClass,
+		BeanItemContainer<T> container = new BeanItemContainer<>(typeClass,
 				itemsCol);
 		this.setContainerDataSource(container);
 		displayTableColumns();

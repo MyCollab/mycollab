@@ -273,14 +273,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
             this.setSpacing(true);
             this.setMargin(new MarginInfo(false, false, false, true));
 
-            Label pageInfoHeader = new Label("Page Information");
+            Label pageInfoHeader = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " Page Information", ContentMode.HTML);
             pageInfoHeader.setStyleName("info-hdr");
             this.addComponent(pageInfoHeader);
 
-            VerticalLayout layout = new VerticalLayout();
-            layout.setWidth("100%");
-            layout.setSpacing(true);
-            layout.setMargin(new MarginInfo(false, false, false, true));
+            MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
+                    .withWidth("100%");
             String createdDate = AppContext.formatDate(beanItem
                     .getCreatedTime().getTime());
             layout.addComponent(new Label(AppContext.getMessage(

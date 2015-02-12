@@ -212,9 +212,9 @@ class TaskDisplayComponent extends CssLayout {
         this.addComponent(taskGroupFooter);
 
         if (CollectionUtils.isNotEmpty(taskList.getSubTasks())) {
-            taskDisplay.setItems(taskList.getSubTasks());
+            taskDisplay.setCurrentDataList(taskList.getSubTasks());
         } else {
-            taskDisplay.setItems(new ArrayList<SimpleTask>());
+            taskDisplay.setCurrentDataList(new ArrayList<SimpleTask>());
         }
     }
 

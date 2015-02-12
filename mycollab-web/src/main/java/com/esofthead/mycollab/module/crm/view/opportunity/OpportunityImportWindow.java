@@ -36,7 +36,7 @@ public class OpportunityImportWindow extends
 	private static final long serialVersionUID = 1L;
 
 	public OpportunityImportWindow() {
-		super(false, "Import Opportunity Window", ApplicationContextUtil
+		super(false, "Import Opportunities", ApplicationContextUtil
 				.getSpringBean(OpportunityService.class),
 				SimpleOpportunity.class);
 	}

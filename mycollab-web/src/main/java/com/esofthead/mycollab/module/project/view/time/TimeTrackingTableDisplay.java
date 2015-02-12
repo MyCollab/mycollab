@@ -40,6 +40,7 @@ import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -293,8 +294,8 @@ public class TimeTrackingTableDisplay
 
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Img image = new Img("", ProjectResources.getResourceLink(itemLogging
-                .getType()));
+        Text image = new Text(ProjectAssetsManager.getAsset(itemLogging
+                .getType()).getHtml());
         A itemLink = new A();
         itemLink.setId("tag" + uid);
 

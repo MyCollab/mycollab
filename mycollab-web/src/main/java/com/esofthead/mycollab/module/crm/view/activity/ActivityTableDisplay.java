@@ -19,15 +19,14 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -38,427 +37,423 @@ import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.lang.Object;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class ActivityTableDisplay
-		extends
-		DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
-	private static final long serialVersionUID = 1L;
+        extends
+        DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ActivityTableDisplay.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ActivityTableDisplay.class);
 
-	public ActivityTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public ActivityTableDisplay(List<TableViewField> displayColumns) {
+        this(null, displayColumns);
+    }
 
-	public ActivityTableDisplay(TableViewField requireColumn,
-			List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(EventService.class),
-				SimpleActivity.class, requireColumn, displayColumns);
+    public ActivityTableDisplay(TableViewField requireColumn,
+                                List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(EventService.class),
+                SimpleActivity.class, requireColumn, displayColumns);
 
-		this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					Object columnId) {
-				final SimpleActivity simpleEvent = ActivityTableDisplay.this
-						.getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent
-						.isSelected());
-				cb.setImmediate(true);
-				cb.addValueChangeListener(new Property.ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       Object columnId) {
+                final SimpleActivity simpleEvent = ActivityTableDisplay.this
+                        .getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent
+                        .isSelected());
+                cb.setImmediate(true);
+                cb.addValueChangeListener(new Property.ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						ActivityTableDisplay.this
-								.fireSelectItemEvent(simpleEvent);
-					}
-				});
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
+                        ActivityTableDisplay.this
+                                .fireSelectItemEvent(simpleEvent);
+                    }
+                });
 
-				simpleEvent.setExtraData(cb);
-				return cb;
-			}
-		});
+                simpleEvent.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		this.addGeneratedColumn("startDate", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("startDate", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					Object itemId, Object columnId) {
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
 
-				final SimpleActivity event = ActivityTableDisplay.this
-						.getBeanByIndex(itemId);
-				Label l = new Label();
-				l.setValue(AppContext.formatDateTime(event.getStartDate()));
-				return l;
-			}
-		});
+                final SimpleActivity event = ActivityTableDisplay.this
+                        .getBeanByIndex(itemId);
+                Label l = new Label();
+                l.setValue(AppContext.formatDateTime(event.getStartDate()));
+                return l;
+            }
+        });
 
-		this.addGeneratedColumn("endDate", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("endDate", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					Object itemId, Object columnId) {
-				final SimpleActivity event = ActivityTableDisplay.this
-						.getBeanByIndex(itemId);
-				Label l = new Label();
-				l.setValue(AppContext.formatDateTime(event.getEndDate()));
-				return l;
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                final SimpleActivity event = ActivityTableDisplay.this
+                        .getBeanByIndex(itemId);
+                Label l = new Label();
+                l.setValue(AppContext.formatDateTime(event.getEndDate()));
+                return l;
+            }
+        });
 
-		this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					final Object itemId, Object columnId) {
-				final SimpleActivity simpleEvent = ActivityTableDisplay.this
-						.getBeanByIndex(itemId);
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        final Object itemId, Object columnId) {
+                final SimpleActivity simpleEvent = ActivityTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-				final LabelLink b = new LabelLink(
-						simpleEvent.getSubject(),
-						CrmLinkBuilder.generateActivityPreviewLinkFull(
-								simpleEvent.getEventType(), simpleEvent.getId()));
+                final LabelLink b = new LabelLink(
+                        simpleEvent.getSubject(),
+                        CrmLinkBuilder.generateActivityPreviewLinkFull(
+                                simpleEvent.getEventType(), simpleEvent.getId()));
 
-				String iconLink = CrmResources.getResourceLink(simpleEvent
-						.getEventType());
-				b.setIconLink(iconLink);
+                FontAwesome iconLink = CrmAssetsManager.getAsset(simpleEvent
+                        .getEventType());
+                b.setIconLink(iconLink);
 
-				if ("Held".equals(simpleEvent.getStatus())) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				} else {
-					if (simpleEvent.getEndDate() != null
-							&& (simpleEvent.getEndDate()
-									.before(DateTimeUtils.getCurrentDateWithoutMS()))) {
-						b.addStyleName(UIConstants.LINK_OVERDUE);
-					}
-				}
-				b.setDescription(generateToolTip(simpleEvent));
-				return b;
+                if (simpleEvent.isCompleted()) {
+                    b.addStyleName(UIConstants.LINK_COMPLETED);
+                } else if (simpleEvent.isOverdue()) {
+                    b.addStyleName(UIConstants.LINK_OVERDUE);
+                }
+                b.setDescription(generateToolTip(simpleEvent));
+                return b;
 
-			}
-		});
-	}
+            }
+        });
+    }
 
-	private static String generateToolTip(SimpleActivity event) {
+    private static String generateToolTip(SimpleActivity event) {
 
-		if (CrmTypeConstants.MEETING.equals(event.getEventType())) {
-			return generateToolTipMeeting(event);
-		} else if (CrmTypeConstants.CALL.equals(event.getEventType())) {
-			return generateToolTipCall(event);
-		} else if (CrmTypeConstants.TASK.equals(event.getEventType())) {
-			return generateToolTipTask(event);
-		}
-		return "";
-	}
+        if (CrmTypeConstants.MEETING.equals(event.getEventType())) {
+            return generateToolTipMeeting(event);
+        } else if (CrmTypeConstants.CALL.equals(event.getEventType())) {
+            return generateToolTipCall(event);
+        } else if (CrmTypeConstants.TASK.equals(event.getEventType())) {
+            return generateToolTipTask(event);
+        }
+        return "";
+    }
 
-	private static String generateToolTipMeeting(SimpleActivity meeting) {
-		try {
-			Div div = new Div();
-			H3 eventName = new H3();
-			eventName.appendText(meeting.getSubject());
-			div.appendChild(eventName);
+    private static String generateToolTipMeeting(SimpleActivity meeting) {
+        try {
+            Div div = new Div();
+            H3 eventName = new H3();
+            eventName.appendText(meeting.getSubject());
+            div.appendChild(eventName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Start Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											AppContext.formatDateTime(meeting
-													.getStartDate())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:110px; vertical-align: top; text-align: left;")
-									.appendText(
-											(meeting.getStatus() != null) ? meeting
-													.getStatus() : ""));
+            com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+            table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+            Tr trRow1 = new Tr();
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 100px; vertical-align: top; text-align: right;")
+                            .appendText("Start Date & Time:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            AppContext.formatDateTime(meeting
+                                                    .getStartDate())));
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Status:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "width:110px; vertical-align: top; text-align: left;")
+                                    .appendText(
+                                            (meeting.getStatus() != null) ? meeting
+                                                    .getStatus() : ""));
 
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("End Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											AppContext.formatDateTime(meeting
-													.getEndDate())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Location:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(meeting.getMeetingLocation() != null) ? meeting
-													.getMeetingLocation() : ""));
-			Tr trRow3 = new Tr();
-			Td trRow3_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(meeting.getDescription()));
-			trRow3_value.setAttribute("colspan", "3");
+            Tr trRow2 = new Tr();
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 100px; vertical-align: top; text-align: right;")
+                            .appendText("End Date & Time:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            AppContext.formatDateTime(meeting
+                                                    .getEndDate())));
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Location:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            (meeting.getMeetingLocation() != null) ? meeting
+                                                    .getMeetingLocation() : ""));
+            Tr trRow3 = new Tr();
+            Td trRow3_value = new Td()
+                    .setStyle(
+                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendText(
+                            StringUtils.trimHtmlTags(meeting.getDescription()));
+            trRow3_value.setAttribute("colspan", "3");
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow3_value);
+            trRow3.appendChild(
+                    new Td().setStyle(
+                            "width: 70px; vertical-align: top; text-align: right;")
+                            .appendText("Description:")).appendChild(
+                    trRow3_value);
 
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			return "";
-		}
-	}
+            table.appendChild(trRow1);
+            table.appendChild(trRow2);
+            table.appendChild(trRow3);
+            div.appendChild(table);
+            return div.write();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-	private static String generateToolTipCall(SimpleActivity call) {
-		try {
-			Div div = new Div();
-			H3 callName = new H3();
-			callName.appendText(call.getSubject());
-			div.appendChild(callName);
+    private static String generateToolTipCall(SimpleActivity call) {
+        try {
+            Div div = new Div();
+            H3 callName = new H3();
+            callName.appendText(call.getSubject());
+            div.appendChild(callName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 120px; vertical-align: top; text-align: right;")
-							.appendText("Start Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											AppContext.formatDateTime(call
-													.getStartDate())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(call.getStatus() != null) ? call
-													.getStatus() : ""));
+            com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+            table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+            Tr trRow1 = new Tr();
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 120px; vertical-align: top; text-align: right;")
+                            .appendText("Start Date & Time:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            AppContext.formatDateTime(call
+                                                    .getStartDate())));
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 110px; vertical-align: top; text-align: right;")
+                            .appendText("Status:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            (call.getStatus() != null) ? call
+                                                    .getStatus() : ""));
 
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Duration:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(call.getCallDuration() != null) ? call
-													.getCallDuration()
-													.toString() : ""));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Purpose:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(call.getCallPurpose() != null) ? call
-													.getCallPurpose() : ""));
-			Tr trRow3 = new Tr();
-			Td trRow3_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(StringUtils.trimHtmlTags(call.getDescription()));
-			trRow3_value.setAttribute("colspan", "3");
+            Tr trRow2 = new Tr();
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Duration:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            (call.getCallDuration() != null) ? call
+                                                    .getCallDuration()
+                                                    .toString() : ""));
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 110px; vertical-align: top; text-align: right;")
+                            .appendText("Purpose:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            (call.getCallPurpose() != null) ? call
+                                                    .getCallPurpose() : ""));
+            Tr trRow3 = new Tr();
+            Td trRow3_value = new Td()
+                    .setStyle(
+                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendText(StringUtils.trimHtmlTags(call.getDescription()));
+            trRow3_value.setAttribute("colspan", "3");
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow3_value);
+            trRow3.appendChild(
+                    new Td().setStyle(
+                            "width: 70px; vertical-align: top; text-align: right;")
+                            .appendText("Description:")).appendChild(
+                    trRow3_value);
 
-			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(StringUtils.trimHtmlTags(call.getCallResult()));
-			trRow4_value.setAttribute("colspan", "3");
+            Tr trRow4 = new Tr();
+            Td trRow4_value = new Td()
+                    .setStyle(
+                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendText(StringUtils.trimHtmlTags(call.getCallResult()));
+            trRow4_value.setAttribute("colspan", "3");
 
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Result:")).appendChild(trRow4_value);
+            trRow4.appendChild(
+                    new Td().setStyle(
+                            "width: 70px; vertical-align: top; text-align: right;")
+                            .appendText("Result:")).appendChild(trRow4_value);
 
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow4);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			return "";
-		}
-	}
+            table.appendChild(trRow1);
+            table.appendChild(trRow2);
+            table.appendChild(trRow4);
+            div.appendChild(table);
+            return div.write();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-	private static String generateToolTipTask(SimpleActivity event) {
-		try {
-			Div div = new Div();
-			H3 eventName = new H3();
-			eventName.appendText(Jsoup.parse(event.getSubject()).html());
-			div.appendChild(eventName);
+    private static String generateToolTipTask(SimpleActivity event) {
+        try {
+            Div div = new Div();
+            H3 eventName = new H3();
+            eventName.appendText(Jsoup.parse(event.getSubject()).html());
+            div.appendChild(eventName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Start Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											AppContext.formatDateTime(event
-													.getStartDate())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.setStyle(
-											"width:110px; vertical-align: top; text-align: left;")
-									.appendText(
-											StringUtils.trimHtmlTags(event
-													.getStatus())));
+            com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+            table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+            Tr trRow1 = new Tr();
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 100px; vertical-align: top; text-align: right;")
+                            .appendText("Start Date:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            AppContext.formatDateTime(event
+                                                    .getStartDate())));
+            trRow1.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Status:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .setStyle(
+                                            "width:110px; vertical-align: top; text-align: left;")
+                                    .appendText(
+                                            StringUtils.trimHtmlTags(event
+                                                    .getStatus())));
 
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Due Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											AppContext.formatDateTime(event
-													.getEndDate())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Contact:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:110px; vertical-align: top; text-align: left;")
-									.appendChild(
-											new A().setHref(
-													(event.getContactId() != null) ? AppContext
-															.getSiteUrl()
-															+ "#"
-															+ CrmLinkGenerator
-																	.generateContactPreviewLink(event
-																			.getContactId())
-															: "")
-													.appendText(
-															StringUtils
-																	.trimHtmlTags(event
-																			.getContactFullName()))));
+            Tr trRow2 = new Tr();
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 100px; vertical-align: top; text-align: right;")
+                            .appendText("Due Date:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            AppContext.formatDateTime(event
+                                                    .getEndDate())));
+            trRow2.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Contact:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "width:110px; vertical-align: top; text-align: left;")
+                                    .appendChild(
+                                            new A().setHref(
+                                                    (event.getContactId() != null) ? AppContext
+                                                            .getSiteUrl()
+                                                            + "#"
+                                                            + CrmLinkGenerator
+                                                            .generateContactPreviewLink(event
+                                                                    .getContactId())
+                                                            : "")
+                                                    .appendText(
+                                                            StringUtils
+                                                                    .trimHtmlTags(event
+                                                                            .getContactFullName()))));
 
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Priority:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.trimHtmlTags(event
-													.getPriority())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(event.getAssignUser() != null) ? AccountLinkGenerator
-															.generatePreviewFullUserLink(
-																	AppContext
-																			.getSiteUrl(),
-																	event.getAssignUser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	StorageManager
-																			.getAvatarLink(
-																					event.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.trimHtmlTags(event
-																			.getAssignUserFullName()))));
+            Tr trRow3 = new Tr();
+            trRow3.appendChild(
+                    new Td().setStyle(
+                            "width: 100px; vertical-align: top; text-align: right;")
+                            .appendText("Priority:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendText(
+                                            StringUtils.trimHtmlTags(event
+                                                    .getPriority())));
+            trRow3.appendChild(
+                    new Td().setStyle(
+                            "width: 90px; vertical-align: top; text-align: right;")
+                            .appendText("Assignee:"))
+                    .appendChild(
+                            new Td().setStyle(
+                                    "width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                                    .appendChild(
+                                            new A().setHref(
+                                                    (event.getAssignUser() != null) ? AccountLinkGenerator
+                                                            .generatePreviewFullUserLink(
+                                                                    AppContext
+                                                                            .getSiteUrl(),
+                                                                    event.getAssignUser())
+                                                            : "")
+                                                    .appendChild(
+                                                            new Img(
+                                                                    "",
+                                                                    StorageManager
+                                                                            .getAvatarLink(
+                                                                                    event.getAssignUserAvatarId(),
+                                                                                    16)))
+                                                    .appendText(
+                                                            StringUtils
+                                                                    .trimHtmlTags(event
+                                                                            .getAssignUserFullName()))));
 
-			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(event.getDescription()));
-			trRow4_value.setAttribute("colspan", "3");
+            Tr trRow4 = new Tr();
+            Td trRow4_value = new Td()
+                    .setStyle(
+                            "word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+                    .appendText(
+                            StringUtils.trimHtmlTags(event.getDescription()));
+            trRow4_value.setAttribute("colspan", "3");
 
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow4_value);
+            trRow4.appendChild(
+                    new Td().setStyle(
+                            "width: 70px; vertical-align: top; text-align: right;")
+                            .appendText("Description:")).appendChild(
+                    trRow4_value);
 
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			LOG.error("Error while generate Event tooltip", e);
-			return "";
-		}
-	}
+            table.appendChild(trRow1);
+            table.appendChild(trRow2);
+            table.appendChild(trRow3);
+            div.appendChild(table);
+            return div.write();
+        } catch (Exception e) {
+            LOG.error("Error while generate Event tooltip", e);
+            return "";
+        }
+    }
 }

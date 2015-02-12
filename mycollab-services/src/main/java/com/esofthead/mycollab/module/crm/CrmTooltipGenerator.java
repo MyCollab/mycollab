@@ -702,12 +702,12 @@ public class CrmTooltipGenerator {
 					.getDateFormatAssociateToLocale(locale);
 
 			Tr trRow1 = new Tr();
-			Td cell11 = buildCellValue(LocalizationHelper.getMessage(locale,
+			Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
 					CallI18nEnum.FORM_START_DATE_TIME));
 			String datetime = DateTimeUtils.converToStringWithUserTimeZone(
 					call.getStartdate(), dateFormat, userTimeZone);
 			Td cell12 = buildCellValue(datetime);
-			Td cell13 = buildCellValue(LocalizationHelper.getMessage(locale,
+			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
 					CallI18nEnum.FORM_STATUS));
 			Td cell14 = buildCellValue(call.getStatus());
 			trRow1.appendChild(cell11, cell12, cell13, cell14);

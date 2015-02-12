@@ -41,7 +41,7 @@ public class LeadImportWindow extends EntityImportWindow<SimpleLead> {
 	private static final long serialVersionUID = 1L;
 
 	public LeadImportWindow() {
-		super(false, "Import Lead Import", ApplicationContextUtil
+		super(false, "Import Leads", ApplicationContextUtil
 				.getSpringBean(LeadService.class), SimpleLead.class);
 	}
 

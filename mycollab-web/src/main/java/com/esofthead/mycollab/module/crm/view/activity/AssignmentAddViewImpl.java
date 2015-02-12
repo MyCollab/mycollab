@@ -56,8 +56,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm)
-				.createButtonControls();
+		return new EditFormControlsGenerator<>(editForm).createButtonControls();
 	}
 
 	@Override
@@ -67,8 +66,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.TASK,
-				AssignmentDefaultFormLayoutFactory.getForm());
+		return new DynaFormLayout(CrmTypeConstants.TASK, AssignmentDefaultFormLayoutFactory.getForm());
 	}
 
 	@Override
@@ -86,29 +84,27 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 		@Override
 		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("startdate")) {
+			if (Task.Field.startdate.equalTo(propertyId)) {
 				return new DateTimePickerField();
-			} else if (propertyId.equals("duedate")) {
+			} else if (Task.Field.duedate.equalTo(propertyId)) {
 				return new DateTimePickerField();
-			} else if (propertyId.equals("status")) {
+			} else if (Task.Field.status.equalTo(propertyId)) {
 				return new TaskStatusComboBox();
-			} else if (propertyId.equals("priority")) {
+			} else if (Task.Field.priority.equalTo(propertyId)) {
 				return new TaskPriorityComboBox();
-			} else if (propertyId.equals("description")) {
+			} else if (Task.Field.description.equalTo(propertyId)) {
 				return new RichTextEditField();
-			} else if (propertyId.equals("contactid")) {
+			} else if (Task.Field.contactid.equalTo(propertyId)) {
 				return new ContactSelectionField();
-			} else if (propertyId.equals("subject")) {
+			} else if (Task.Field.subject.equalTo(propertyId)) {
 				TextField tf = new TextField();
-
 				if (isValidateForm) {
 					tf.setRequired(true);
 					tf.setRequiredError("Subject must not be null");
 					tf.setNullRepresentation("");
 				}
-
 				return tf;
-			} else if (propertyId.equals("type")) {
+			} else if (Task.Field.type.equalTo(propertyId)) {
 				return new RelatedEditItemField(
 						new String[] { CrmTypeConstants.ACCOUNT,
 								CrmTypeConstants.CAMPAIGN,
@@ -116,9 +112,9 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 								CrmTypeConstants.LEAD,
 								CrmTypeConstants.OPPORTUNITY,
 								CrmTypeConstants.CASE }, attachForm.getBean());
-			} else if (propertyId.equals("typeid")) {
+			} else if (Task.Field.typeid.equalTo(propertyId)) {
 				return new DummyCustomField<Integer>();
-			} else if (propertyId.equals("assignuser")) {
+			} else if (Task.Field.assignuser.equalTo(propertyId)) {
 				ActiveUserComboBox userBox = new ActiveUserComboBox();
 				userBox.select(attachForm.getBean().getAssignuser());
 				return userBox;
@@ -128,7 +124,6 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 	}
 
 	class TaskPriorityComboBox extends ValueComboBox {
-
 		private static final long serialVersionUID = 1L;
 
 		public TaskPriorityComboBox() {
@@ -139,7 +134,6 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 	}
 
 	class TaskStatusComboBox extends ValueComboBox {
-
 		private static final long serialVersionUID = 1L;
 
 		public TaskStatusComboBox() {

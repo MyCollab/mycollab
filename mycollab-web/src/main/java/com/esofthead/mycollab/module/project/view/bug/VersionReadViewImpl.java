@@ -26,7 +26,10 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
@@ -327,7 +330,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
         private Div buildItemValue(SimpleBug bug) {
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img image = new Img("", ProjectResources.getResourceLink(ProjectTypeConstants.BUG));
+            Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
             A itemLink = new A();
             itemLink.setId("tag" + uid);

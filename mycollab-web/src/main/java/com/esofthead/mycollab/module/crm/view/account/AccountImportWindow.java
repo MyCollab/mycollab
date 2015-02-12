@@ -41,7 +41,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
 	private static final long serialVersionUID = 1L;
 
 	public AccountImportWindow() {
-		super(false, "Import Account Window", ApplicationContextUtil
+		super(false, "Import Accounts", ApplicationContextUtil
 				.getSpringBean(AccountService.class), Account.class);
 	}
 

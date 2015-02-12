@@ -50,9 +50,15 @@ class CallReadFormFieldFactory extends
 		} else if (propertyId.equals("type")) {
 			return new RelatedReadItemField(call);
 		} else if (propertyId.equals("status")) {
-			final String value = call.getStatus() + " " + call.getCalltype();
-			final DefaultViewField field = new DefaultViewField(value);
-			return field;
+            StringBuilder value = new StringBuilder();
+            if (call.getStatus() != null) {
+                value.append(call.getStatus()).append(" ");
+            }
+
+            if (call.getCalltype() != null) {
+                value.append(call.getCalltype());
+            }
+			return new DefaultViewField(value.toString());
 		} else if (propertyId.equals("durationinseconds")) {
 			final Integer duration = call.getDurationinseconds();
 			if (duration != null) {

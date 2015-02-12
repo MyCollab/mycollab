@@ -573,6 +573,10 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoTaskAssignmentDashboard()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button("Task: Filter"));
+        AppContext.addFragment(
+                "project/task/filter/"
+                        + UrlEncodeDecoder.encode(project.getId()),
+                "Task: Filter");
 	}
 
 	public void gotoTaskRead(SimpleTask task) {

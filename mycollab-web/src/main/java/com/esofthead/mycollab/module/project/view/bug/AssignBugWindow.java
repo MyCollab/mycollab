@@ -30,6 +30,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
@@ -48,7 +49,6 @@ import java.util.GregorianCalendar;
 class AssignBugWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	private final SimpleBug bug;
-	private final EditForm editForm;
 	private final IBugCallbackStatusComp callbackForm;
 
 	AssignBugWindow(final IBugCallbackStatusComp callbackForm,
@@ -63,9 +63,9 @@ class AssignBugWindow extends Window {
 
 		VerticalLayout contentLayout = new VerticalLayout();
 
-		this.editForm = new EditForm();
-		contentLayout.addComponent(this.editForm);
-		this.editForm.setBean(bug);
+		EditForm editForm = new EditForm();
+		contentLayout.addComponent(editForm);
+        editForm.setBean(bug);
 		contentLayout.setMargin(new MarginInfo(false, false, true, false));
 
 		this.setContent(contentLayout);
@@ -157,6 +157,7 @@ class AssignBugWindow extends Window {
 							}
 						});
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setIcon(FontAwesome.SHARE);
 				controlsBtn.addComponent(approveBtn);
 				controlsBtn.setComponentAlignment(approveBtn,
 						Alignment.MIDDLE_RIGHT);

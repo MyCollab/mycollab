@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui.table;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.EventListener;
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
@@ -28,6 +23,11 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
 import com.vaadin.util.ReflectTools;
+
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.EventListener;
 
 /**
  * 
@@ -40,7 +40,7 @@ public interface IPagedBeanTable<S extends SearchCriteria, T> extends
 
 	void setSearchCriteria(S searchCriteria);
 
-	List<T> getCurrentDataList();
+	Collection<T> getCurrentDataList();
 
 	void addTableListener(TableClickListener listener);
 

@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
@@ -50,7 +52,7 @@ public class CaseSelectionWindow extends Window {
     public void show() {
         CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
 
-        MVerticalLayout layout = new MVerticalLayout().withSpacing(true).withMargin(true);
+        MVerticalLayout layout = new MVerticalLayout();
 
         createCaseList();
         CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
@@ -77,6 +79,7 @@ public class CaseSelectionWindow extends Window {
                 CaseTableFieldDef.subject, CaseTableFieldDef.account,
                 CaseTableFieldDef.priority, CaseTableFieldDef.status,
                 CaseTableFieldDef.assignUser));
+        tableItem.setDisplayNumItems(10);
 
         tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -86,7 +89,7 @@ public class CaseSelectionWindow extends Window {
                                                         final Object itemId, final Object columnId) {
                 final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-                return new ButtonLink(cases.getSubject(),
+                ButtonLink b = new ButtonLink(cases.getSubject(),
                         new Button.ClickListener() {
 
                             @SuppressWarnings("unchecked")
@@ -97,6 +100,10 @@ public class CaseSelectionWindow extends Window {
                                 CaseSelectionWindow.this.close();
                             }
                         });
+                b.setDescription(CrmTooltipGenerator.generateTooltipCases(
+                        AppContext.getUserLocale(), cases,
+                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                return b;
             }
         });
     }

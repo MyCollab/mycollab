@@ -16,21 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
-
-import org.tltv.gantt.Gantt;
-import org.tltv.gantt.Gantt.MoveEvent;
-import org.tltv.gantt.Gantt.ResizeEvent;
-import org.tltv.gantt.client.shared.Step;
-import org.tltv.gantt.client.shared.Step.CaptionMode;
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -51,11 +36,16 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.tltv.gantt.Gantt;
+import org.tltv.gantt.Gantt.MoveEvent;
+import org.tltv.gantt.Gantt.ResizeEvent;
+import org.tltv.gantt.client.shared.Step;
+import org.tltv.gantt.client.shared.Step.CaptionMode;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.*;
+import java.util.Calendar;
 
 /**
  * 
@@ -94,7 +84,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 	}
 
 	private void constructGanttChart() {
-		stepMap = new LinkedHashMap<Step, SimpleTask>();
+		stepMap = new LinkedHashMap<>();
 
 		taskTable = new TaskTableDisplay(Arrays.asList(
 				TaskTableFieldDef.taskname, TaskTableFieldDef.startdate,
@@ -107,7 +97,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 		gantt.setWidth(100, Unit.PERCENTAGE);
 		gantt.setResizableSteps(true);
 		gantt.setMovableSteps(true);
-		gantt.setVerticalScrollDelegateTarget(taskTable);
+		gantt.setVerticalScrollDelegateTarget(taskTable.getTable());
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -141,7 +131,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 				task.setStartdate(gc.getTime());
 
 				taskService.updateWithSession(task, AppContext.getUsername());
-				taskTable.setItems(stepMap.values());
+				taskTable.setCurrentDataList(stepMap.values());
 			}
 		});
 
@@ -170,7 +160,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 				task.setStartdate(gc.getTime());
 
 				taskService.updateWithSession(task, AppContext.getUsername());
-				taskTable.setItems(stepMap.values());
+				taskTable.setCurrentDataList(stepMap.values());
 			}
 		});
 	}
@@ -247,7 +237,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 
 			}
 
-			taskTable.setItems(stepMap.values());
+			taskTable.setCurrentDataList(stepMap.values());
 		}
 
 		if (stepMap != null) {

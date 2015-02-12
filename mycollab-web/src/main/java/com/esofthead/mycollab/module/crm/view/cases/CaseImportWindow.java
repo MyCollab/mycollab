@@ -40,7 +40,7 @@ public class CaseImportWindow extends EntityImportWindow<SimpleCase> {
 	private static final long serialVersionUID = 1L;
 
 	public CaseImportWindow() {
-		super(false, "Import Case Window", ApplicationContextUtil
+		super(false, "Import Cases", ApplicationContextUtil
 				.getSpringBean(CaseService.class), SimpleCase.class);
 	}
 

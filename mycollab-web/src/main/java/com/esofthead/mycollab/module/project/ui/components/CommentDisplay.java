@@ -53,7 +53,7 @@ public class CommentDisplay extends MVerticalLayout implements
 			final boolean isDisplayCommentInput,
 			final boolean isSendingRelayEmail,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		withStyleName("comment-display").withSpacing(true).withMargin(false);
+		withStyleName("comment-display");
 		this.type = type;
 		if (isDisplayCommentInput) {
 			commentBox = new ProjectCommentInput(this, type, extraTypeId,

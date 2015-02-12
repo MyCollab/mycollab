@@ -14,38 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.community.ui.chart;
 
-import java.awt.Rectangle;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.zip.GZIPOutputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.vaadin.server.*;
+import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.ui.Embedded;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -54,367 +27,361 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.vaadin.server.DownloadStream;
-import com.vaadin.server.Page;
-import com.vaadin.server.Resource;
-import com.vaadin.server.Sizeable;
-import com.vaadin.server.StreamResource;
-import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.server.WebBrowser;
-import com.vaadin.ui.Embedded;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.*;
+import java.io.*;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * A simple JFreeChart wrapper that renders charts in SVG to browser.
- * 
+ * <p/>
  * To use this component, you'll need all the common JFreeChart and Batik
  * libraries.
- * 
+ * <p/>
  * For MSIE it will fall back to PNG rendering (not that nice when printing).
- * 
+ * <p/>
  * Supported sizes are currently just pixels, inches, centimeters (converted to
  * pixels by 96dpi). Set them to wrapper.
- * 
+ * <p/>
  * TODO make it support relative sizes (should be possible to do cleanly with
  * SVG)
- * 
+ * <p/>
  * TODO when browsers develop SVG could be painted to target instead of
  * registering application resource. This would shorten rendering time and
  * lessen memory consumption on server. This already works ok for webkit
  * browsers. Firefox and Opera fail with gradients.
- * 
+ *
  * @author mattitahvonen
  */
 @SuppressWarnings("serial")
 public class JFreeChartWrapper extends Embedded {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(JFreeChartWrapper.class);
 
-	public enum RenderingMode {
-		SVG, PNG, AUTO
-	}
+    public enum RenderingMode {
+        SVG, PNG, AUTO
+    }
 
-	// 809x 500 ~g olden ratio
-	private static final int DEFAULT_WIDTH = 809;
-	private static final int DEFAULT_HEIGHT = 500;
+    private static final Logger log = LoggerFactory.getLogger(JFreeChartWrapper.class);
 
-	private final JFreeChart chart;
-	private Resource res;
-	private RenderingMode mode = RenderingMode.AUTO;
-	private boolean gzipEnabled = false;
-	private int graphWidthInPixels = -1;
-	private int graphHeightInPixels = -1;
-	private String aspectRatio = "none"; // stretch to fill whole space
+    // 809x 500 ~g olden ratio
+    private static final int DEFAULT_WIDTH = 809;
+    private static final int DEFAULT_HEIGHT = 500;
 
-	public JFreeChartWrapper(JFreeChart chartToBeWrapped) {
-		chart = chartToBeWrapped;
-		setWidth(DEFAULT_WIDTH, Unit.PIXELS);
-		setHeight(DEFAULT_HEIGHT, Unit.PIXELS);
-	}
+    private final JFreeChart chart;
+    private Resource res;
+    private RenderingMode mode = RenderingMode.AUTO;
+    private boolean gzipEnabled = false;
+    private int graphWidthInPixels = -1;
+    private int graphHeightInPixels = -1;
+    private String aspectRatio = "none"; // stretch to fill whole space
 
-	public JFreeChartWrapper(JFreeChart chartToBeWrapped,
-			RenderingMode renderingMode) {
-		this(chartToBeWrapped);
-		setRenderingMode(renderingMode);
-	}
+    public JFreeChartWrapper(JFreeChart chartToBeWrapped) {
+        chart = chartToBeWrapped;
+        setWidth(DEFAULT_WIDTH, Unit.PIXELS);
+        setHeight(DEFAULT_HEIGHT, Unit.PIXELS);
+    }
 
-	/**
-	 * Compress SVG charts in wrapper. It makes sense to put this on if the
-	 * server does not automatically compress responses.
-	 * 
-	 * @param compress
-	 *            true to enable component level compression, default false
-	 */
-	public void setGzipCompression(boolean compress) {
-		this.gzipEnabled = compress;
-	}
+    public JFreeChartWrapper(JFreeChart chartToBeWrapped,
+                             RenderingMode renderingMode) {
+        this(chartToBeWrapped);
+        setRenderingMode(renderingMode);
+    }
 
-	private void setRenderingMode(RenderingMode newMode) {
-		if (newMode == RenderingMode.PNG) {
-			setType(TYPE_IMAGE);
-		} else {
-			setType(TYPE_OBJECT);
-			setMimeType("image/svg+xml");
-		}
-		mode = newMode;
-	}
+    /**
+     * Compress SVG charts in wrapper. It makes sense to put this on if the
+     * server does not automatically compress responses.
+     *
+     * @param compress true to enable component level compression, default false
+     */
+    public void setGzipCompression(boolean compress) {
+        this.gzipEnabled = compress;
+    }
 
-	@Override
-	public void attach() {
-		super.attach();
-		if (mode == RenderingMode.AUTO) {
-			WebBrowser browser = Page.getCurrent().getWebBrowser();
-			if (browser.isIE() && browser.getBrowserMajorVersion() < 9) {
-				setRenderingMode(RenderingMode.PNG);
-			} else {
-				// all decent browsers support SVG
-				setRenderingMode(RenderingMode.SVG);
-			}
-		}
-	}
+    private void setRenderingMode(RenderingMode newMode) {
+        if (newMode == RenderingMode.PNG) {
+            setType(TYPE_IMAGE);
+        } else {
+            setType(TYPE_OBJECT);
+            setMimeType("image/svg+xml");
+        }
+        mode = newMode;
+    }
 
-	@Override
-	public void detach() {
-		super.detach();
-	}
+    @Override
+    public void attach() {
+        super.attach();
+        if (mode == RenderingMode.AUTO) {
+            WebBrowser browser = Page.getCurrent().getWebBrowser();
+            if (browser.isIE()
+                    && browser.getBrowserMajorVersion() < 9) {
+                setRenderingMode(RenderingMode.PNG);
+            } else {
+                // all decent browsers support SVG
+                setRenderingMode(RenderingMode.SVG);
+            }
+        }
+        setResource("src", getSource());
+    }
 
-	/**
-	 * This method may be used to tune rendering of the chart when using
-	 * relative sizes. Most commonly you should use just use common methods
-	 * inherited from {@link Sizeable} interface.
-	 * <p>
-	 * Sets the pixel size of the area where the graph is rendered. Most
-	 * commonly developer may need to fine tune the value when the
-	 * {@link JFreeChartWrapper} has a relative size.
-	 * 
-	 * @see JFreeChartWrapper#getGraphWidth()
-	 * @see #setSvgAspectRatio(String)
-	 * @param width
-	 */
-	public void setGraphWidth(int width) {
-		graphWidthInPixels = width;
-	}
+    @Override
+    public void detach() {
+        super.detach();
+    }
 
-	/**
-	 * This method may be used to tune rendering of the chart when using
-	 * relative sizes. Most commonly you should use just use common methods
-	 * inherited from {@link Sizeable} interface.
-	 * <p>
-	 * Sets the pixel size of the area where the graph is rendered. Most
-	 * commonly developer may need to fine tune the value when the
-	 * {@link JFreeChartWrapper} has a relative size.
-	 * 
-	 * @see JFreeChartWrapper#getGraphHeigt()
-	 * @see #setSvgAspectRatio(String)
-	 * @param height
-	 */
-	public void setGraphHeight(int height) {
-		graphHeightInPixels = height;
-	}
+    /**
+     * This method may be used to tune rendering of the chart when using
+     * relative sizes. Most commonly you should use just use common methods
+     * inherited from {@link Sizeable} interface.
+     * <p/>
+     * Sets the pixel size of the area where the graph is rendered. Most commonly developer may need to fine tune the value when the {@link JFreeChartWrapper} has a relative size.
+     *
+     * @param width
+     * @see JFreeChartWrapper#getGraphWidth()
+     * @see #setSvgAspectRatio(String)
+     */
+    public void setGraphWidth(int width) {
+        graphWidthInPixels = width;
+    }
 
-	/**
-	 * Gets the pixel width into which the graph is rendered. Unless explicitly
-	 * set, the value is derived from the components size, except when the
-	 * component has relative size.
-	 */
-	public int getGraphWidth() {
-		if (graphWidthInPixels > 0) {
-			return graphWidthInPixels;
-		}
-		int width;
-		float w = getWidth();
-		if (w < 0) {
-			return DEFAULT_WIDTH;
-		}
-		switch (getWidthUnits()) {
-		case CM:
-			width = (int) (w * 96 / 2.54);
-			break;
-		case INCH:
-			width = (int) (w * 96);
-			break;
-		case PERCENTAGE:
-			width = DEFAULT_WIDTH;
-			break;
-		default:
-			width = (int) w;
-			break;
-		}
-		return width;
-	}
+    /**
+     * This method may be used to tune rendering of the chart when using
+     * relative sizes. Most commonly you should use just use common methods
+     * inherited from {@link Sizeable} interface.
+     * <p/>
+     * Sets the pixel size of the area where the graph is rendered. Most commonly developer may need to fine tune the value when the {@link JFreeChartWrapper} has a relative size.
+     *
+     * @param height
+     * @see JFreeChartWrapper#getGraphHeigt()
+     * @see #setSvgAspectRatio(String)
+     */
+    public void setGraphHeight(int height) {
+        graphHeightInPixels = height;
+    }
 
-	/**
-	 * Gets the pixel height into which the graph is rendered. Unless explicitly
-	 * set, the value is derived from the components size, except when the
-	 * component has relative size.
-	 */
-	public int getGraphHeight() {
-		if (graphHeightInPixels > 0) {
-			return graphHeightInPixels;
-		}
-		int height;
-		float w = getHeight();
-		if (w < 0) {
-			return DEFAULT_HEIGHT;
-		}
-		switch (getWidthUnits()) {
-		case CM:
-			height = (int) (w * 96 / 2.54);
-			break;
-		case INCH:
-			height = (int) (w * 96);
-			break;
-		case PERCENTAGE:
-			height = DEFAULT_HEIGHT;
-			break;
-		default:
-			height = (int) w;
-			break;
-		}
-		return height;
-	}
+    /**
+     * Gets the pixel width into which the graph is rendered. Unless explicitly
+     * set, the value is derived from the components size, except when the
+     * component has relative size.
+     */
+    public int getGraphWidth() {
+        if (graphWidthInPixels > 0) {
+            return graphWidthInPixels;
+        }
+        int width;
+        float w = getWidth();
+        if (w < 0) {
+            return DEFAULT_WIDTH;
+        }
+        switch (getWidthUnits()) {
+            case CM:
+                width = (int) (w * 96 / 2.54);
+                break;
+            case INCH:
+                width = (int) (w * 96);
+                break;
+            case PERCENTAGE:
+                width = DEFAULT_WIDTH;
+                break;
+            default:
+                width = (int) w;
+                break;
+        }
+        return width;
+    }
 
-	public String getSvgAspectRatio() {
-		return aspectRatio;
-	}
+    /**
+     * Gets the pixel height into which the graph is rendered. Unless explicitly
+     * set, the value is derived from the components size, except when the
+     * component has relative size.
+     */
+    public int getGraphHeight() {
+        if (graphHeightInPixels > 0) {
+            return graphHeightInPixels;
+        }
+        int height;
+        float w = getHeight();
+        if (w < 0) {
+            return DEFAULT_HEIGHT;
+        }
+        switch (getWidthUnits()) {
+            case CM:
+                height = (int) (w * 96 / 2.54);
+                break;
+            case INCH:
+                height = (int) (w * 96);
+                break;
+            case PERCENTAGE:
+                height = DEFAULT_HEIGHT;
+                break;
+            default:
+                height = (int) w;
+                break;
+        }
+        return height;
+    }
 
-	/**
-	 * See SVG spec from W3 for more information. Default is "none" (stretch),
-	 * another common value is "xMidYMid" (stretch proportionally, align middle
-	 * of the area).
-	 * 
-	 * @param svgAspectRatioSetting
-	 */
-	public void setSvgAspectRatio(String svgAspectRatioSetting) {
-		aspectRatio = svgAspectRatioSetting;
-	}
+    public String getSvgAspectRatio() {
+        return aspectRatio;
+    }
 
-	@Override
-	public Resource getSource() {
-		if (res == null) {
-			StreamSource streamSource = new StreamResource.StreamSource() {
-				private ByteArrayInputStream bytestream = null;
+    /**
+     * See SVG spec from W3 for more information.
+     * Default is "none" (stretch), another common value is "xMidYMid" (stretch
+     * proportionally, align middle of the area).
+     *
+     * @param svgAspectRatioSetting
+     */
+    public void setSvgAspectRatio(String svgAspectRatioSetting) {
+        aspectRatio = svgAspectRatioSetting;
+    }
 
-				ByteArrayInputStream getByteStream() {
-					if (chart != null && bytestream == null) {
-						int widht = getGraphWidth();
-						int height = getGraphHeight();
+    @Override
+    public Resource getSource() {
+        if (res == null) {
+            StreamSource streamSource = new StreamResource.StreamSource() {
+                private ByteArrayInputStream bytestream = null;
 
-						if (mode == RenderingMode.SVG) {
+                ByteArrayInputStream getByteStream() {
+                    if (chart != null && bytestream == null) {
+                        int width = getGraphWidth();
+                        int height = getGraphHeight();
 
-							DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-									.newInstance();
-							DocumentBuilder docBuilder = null;
-							try {
-								docBuilder = docBuilderFactory
-										.newDocumentBuilder();
-							} catch (ParserConfigurationException e1) {
-								throw new RuntimeException(e1);
-							}
-							Document document = docBuilder.newDocument();
-							Element svgelem = document.createElement("svg");
-							document.appendChild(svgelem);
+                        if (mode == RenderingMode.SVG) {
 
-							// Create an instance of the SVG Generator
-							SVGGraphics2D svgGenerator = new SVGGraphics2D(
-									document);
+                            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
+                                    .newInstance();
+                            DocumentBuilder docBuilder = null;
+                            try {
+                                docBuilder = docBuilderFactory
+                                        .newDocumentBuilder();
+                            } catch (ParserConfigurationException e1) {
+                                throw new RuntimeException(e1);
+                            }
+                            Document document = docBuilder.newDocument();
+                            Element svgelem = document.createElement("svg");
+                            document.appendChild(svgelem);
 
-							// draw the chart in the SVG generator
-							chart.draw(svgGenerator, new Rectangle(widht,
-									height));
-							Element el = svgGenerator.getRoot();
-							el.setAttributeNS(null, "viewBox", "0 0 " + widht
-									+ " " + height + "");
-							el.setAttributeNS(null, "style",
-									"width:100%;height:100%;");
-							el.setAttributeNS(null, "preserveAspectRatio",
-									getSvgAspectRatio());
+                            // Create an instance of the SVG Generator
+                            SVGGraphics2D svgGenerator = new SVGGraphics2D(
+                                    document);
 
-							// Write svg to buffer
-							ByteArrayOutputStream baoutputStream = new ByteArrayOutputStream();
-							Writer out;
-							try {
-								OutputStream outputStream = gzipEnabled ? new GZIPOutputStream(
-										baoutputStream) : baoutputStream;
-								out = new OutputStreamWriter(outputStream,
-										"UTF-8");
-								/*
-								 * don't use css, FF3 can'd deal with the result
-								 * perfectly: wrong font sizes
-								 */
-								boolean useCSS = false;
-								svgGenerator.stream(el, out, useCSS, false);
-								outputStream.flush();
-								outputStream.close();
-								bytestream = new ByteArrayInputStream(
-										baoutputStream.toByteArray());
-							} catch (Exception e) {
-								LOG.error("Error while generating chart", e);
-							}
-						} else {
-							// Draw png to bytestream
-							try {
-								byte[] bytes = ChartUtilities.encodeAsPNG(chart
-										.createBufferedImage(widht, height));
-								bytestream = new ByteArrayInputStream(bytes);
-							} catch (IOException e) {
-								LOG.error("Error while generating chart", e);
-							}
+                            // draw the chart in the SVG generator
+                            chart.draw(svgGenerator, new Rectangle(width,
+                                    height));
+                            Element el = svgGenerator.getRoot();
+                            el.setAttributeNS(null, "viewBox", "0 0 " + width
+                                    + " " + height + "");
+                            el.setAttributeNS(null, "style",
+                                    "width:100%;height:100%;");
+                            el.setAttributeNS(null, "preserveAspectRatio",
+                                    getSvgAspectRatio());
 
-						}
+                            // Write svg to buffer
+                            ByteArrayOutputStream baoutputStream = new ByteArrayOutputStream();
+                            Writer out;
+                            try {
+                                OutputStream outputStream = gzipEnabled ? new GZIPOutputStream(
+                                        baoutputStream) : baoutputStream;
+                                out = new OutputStreamWriter(outputStream,
+                                        "UTF-8");
+                                        /*
+										 * don't use css, FF3 can'd deal with the result
+										 * perfectly: wrong font sizes
+										 */
+                                boolean useCSS = false;
+                                svgGenerator.stream(el, out, useCSS, false);
+                                outputStream.flush();
+                                outputStream.close();
+                                bytestream = new ByteArrayInputStream(
+                                        baoutputStream.toByteArray());
+                            } catch (Exception e) {
+                                log.error("Error while generating SVG chart", e);
+                            }
+                        } else {
+                            // Draw png to bytestream
+                            try {
+                                byte[] bytes = ChartUtilities.encodeAsPNG(chart
+                                        .createBufferedImage(width, height));
+                                bytestream = new ByteArrayInputStream(bytes);
+                            } catch (Exception e) {
+                                log.error("Error while generating PNG chart", e);
+                            }
 
-					} else {
-						bytestream.reset();
-					}
-					return bytestream;
-				}
+                        }
 
-				@Override
-				public InputStream getStream() {
-					return getByteStream();
-				}
-			};
+                    } else {
+                        bytestream.reset();
+                    }
+                    return bytestream;
+                }
 
-			res = new StreamResource(streamSource, String.format("graph%d",
-					System.currentTimeMillis())) {
+                @Override
+                public InputStream getStream() {
+                    return getByteStream();
+                }
+            };
 
-				@Override
-				public int getBufferSize() {
-					if (getStreamSource().getStream() != null) {
-						try {
-							return getStreamSource().getStream().available();
-						} catch (IOException e) {
-							return 0;
-						}
-					} else {
-						return 0;
-					}
-				}
+            res = new StreamResource(streamSource, String.format("graph%d", System.currentTimeMillis())) {
 
-				@Override
-				public long getCacheTime() {
-					return 0;
-				}
+                @Override
+                public int getBufferSize() {
+                    if (getStreamSource().getStream() != null) {
+                        try {
+                            return getStreamSource().getStream().available();
+                        } catch (IOException e) {
+                            log.warn("Error while get stream info", e);
+                            return 0;
+                        }
+                    } else {
+                        return 0;
+                    }
+                }
 
-				@Override
-				public String getFilename() {
-					if (mode == RenderingMode.PNG) {
-						return super.getFilename() + ".png";
-					} else {
-						return super.getFilename()
-								+ (gzipEnabled ? ".svgz" : ".svg");
-					}
-				}
 
-				@Override
-				public DownloadStream getStream() {
-					DownloadStream downloadStream = new DownloadStream(
-							getStreamSource().getStream(), getMIMEType(),
-							getFilename());
-					if (gzipEnabled && mode == RenderingMode.SVG) {
-						downloadStream.setParameter("Content-Encoding", "gzip");
-					}
-					return downloadStream;
-				}
+                @Override
+                public long getCacheTime() {
+                    return 0;
+                }
 
-				@Override
-				public String getMIMEType() {
-					if (mode == RenderingMode.PNG) {
-						return "image/png";
-					} else {
-						return "image/svg+xml";
-					}
-				}
-			};
-		}
-		return res;
-	}
+                @Override
+                public String getFilename() {
+                    if (mode == RenderingMode.PNG) {
+                        return super.getFilename() + ".png";
+                    } else {
+                        return super.getFilename() + (gzipEnabled ? ".svgz" : ".svg");
+                    }
+                }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void markAsDirty() {
-		super.markAsDirty();
-		res = null;
-	}
+                @Override
+                public DownloadStream getStream() {
+                    DownloadStream downloadStream = new DownloadStream(
+                            getStreamSource().getStream(), getMIMEType(), getFilename());
+                    if (gzipEnabled && mode == RenderingMode.SVG) {
+                        downloadStream.setParameter("Content-Encoding", "gzip");
+                    }
+                    return downloadStream;
+                }
+
+                @Override
+                public String getMIMEType() {
+                    if (mode == RenderingMode.PNG) {
+                        return "image/png";
+                    } else {
+                        return "image/svg+xml";
+                    }
+                }
+            };
+        }
+        return res;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void markAsDirty() {
+        super.markAsDirty();
+        res = null;
+    }
 }

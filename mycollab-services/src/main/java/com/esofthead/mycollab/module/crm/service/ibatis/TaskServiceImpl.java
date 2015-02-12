@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import java.util.List;
 
+import com.esofthead.mycollab.module.crm.dao.CrmTaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,6 @@ import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
-import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 
 /**
@@ -56,7 +56,7 @@ public class TaskServiceImpl extends
 		TaskService {
 
 	@Autowired
-	protected TaskMapper taskMapper;
+	private CrmTaskMapper taskMapper;
 
 	@Autowired
 	private CrmTaskMapperExt taskMapperExt;

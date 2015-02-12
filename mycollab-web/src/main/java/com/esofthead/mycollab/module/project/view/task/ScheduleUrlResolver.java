@@ -35,6 +35,7 @@ public class ScheduleUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("dashboard", new DashboardUrlResolver());
 		this.addSubResolver("task", new TaskUrlResolver());
 		this.addSubResolver("taskgroup", new TaskGroupUrlResolver());
+        this.addSubResolver("filter", new FilterUrlResolver());
 	}
 
 	private static class DashboardUrlResolver extends ProjectUrlResolver {
@@ -48,4 +49,16 @@ public class ScheduleUrlResolver extends ProjectUrlResolver {
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
+
+    private static class FilterUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId = new UrlTokenizer(params[0]).getInt();
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new TaskGroupScreenData.GotoDashboard());
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 }

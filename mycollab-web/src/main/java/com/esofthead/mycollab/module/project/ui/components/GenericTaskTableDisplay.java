@@ -16,26 +16,21 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
+
+import java.util.List;
 
 /**
  * 
@@ -65,8 +60,7 @@ public class GenericTaskTableDisplay
 						.getBeanByIndex(itemId);
 
 				if (task.getType() != null) {
-					Embedded icon = new Embedded(null, new ExternalResource(
-							ProjectResources.getResourceLink(task.getType())));
+					FontIconLabel icon = new FontIconLabel(ProjectAssetsManager.getAsset(task.getType()));
 					layout.addComponent(icon);
 					layout.setComponentAlignment(icon, Alignment.MIDDLE_CENTER);
 				}
@@ -81,8 +75,6 @@ public class GenericTaskTableDisplay
 										"name"));
 							}
 						});
-
-				layout.addComponent(b);
 				b.setWidth("100%");
 				layout.addComponent(b);
 				layout.setExpandRatio(b, 1.0f);
@@ -99,9 +91,8 @@ public class GenericTaskTableDisplay
 					Object columnId) {
 				final ProjectGenericTask task = GenericTaskTableDisplay.this
 						.getBeanByIndex(itemId);
-				final UserLink b = new UserLink(task.getAssignUser(), task
+				return new UserLink(task.getAssignUser(), task
 						.getAssignUserAvatarId(), task.getAssignUserFullName());
-				return b;
 			}
 
 		});
@@ -114,9 +105,7 @@ public class GenericTaskTableDisplay
 					final Object itemId, final Object columnId) {
 				final ProjectGenericTask task = GenericTaskTableDisplay.this
 						.getBeanByIndex(itemId);
-				final Label b = new Label(AppContext.formatDate(task
-						.getDueDate()));
-				return b;
+				return new Label(AppContext.formatDate(task.getDueDate()));
 			}
 		});
 	}

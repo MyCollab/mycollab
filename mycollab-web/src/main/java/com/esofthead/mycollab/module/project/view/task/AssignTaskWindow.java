@@ -17,10 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.GregorianCalendar;
-
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -34,21 +30,14 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -110,9 +99,7 @@ public class AssignTaskWindow extends Window {
 
 				layout.addComponent(informationLayout.getLayout());
 
-				HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
+				MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
 				Button cancelBtn = new Button(
@@ -126,9 +113,6 @@ public class AssignTaskWindow extends Window {
 							}
 						});
 				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				Button approveBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
@@ -177,10 +161,10 @@ public class AssignTaskWindow extends Window {
 								}
 							}
 						});
+                approveBtn.setIcon(FontAwesome.SHARE);
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				controlsBtn.addComponent(approveBtn);
-				controlsBtn.setComponentAlignment(approveBtn,
-						Alignment.MIDDLE_RIGHT);
+
+                controlsBtn.with(approveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

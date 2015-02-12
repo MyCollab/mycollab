@@ -69,8 +69,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
                 AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
         headerText.setStyleName("hdr-text");
 
-        viewHeader.addComponent(headerText);
-        viewHeader.setExpandRatio(headerText, 1.0f);
+        viewHeader.with(headerText).expand(headerText);
 
         Button createBtn = new Button(
                 AppContext
@@ -104,12 +103,12 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
     @Override
     @SuppressWarnings("unchecked")
     public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
+        contentLayout.removeAllComponents();
         ProjectMemberService prjMemberService = ApplicationContextUtil
                 .getSpringBean(ProjectMemberService.class);
         List<SimpleProjectMember> memberLists = prjMemberService
                 .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
-        contentLayout.removeAllComponents();
         for (SimpleProjectMember member : memberLists) {
             contentLayout.addComponent(generateMemberBlock(member));
         }
@@ -187,8 +186,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         Label memberRole = new Label();
         memberRole.setContentMode(ContentMode.HTML);
         memberRole.setStyleName("member-role");
-        if (member.getIsadmin() != null && member.getIsadmin() == Boolean.TRUE
-                || member.getProjectroleid() == null) {
+        if (member.isAdmin()) {
             memberRole.setValue(roleLink
                     + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
         } else {

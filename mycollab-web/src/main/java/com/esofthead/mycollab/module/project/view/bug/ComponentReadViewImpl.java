@@ -345,7 +345,7 @@ public class ComponentReadViewImpl extends
         private Div buildItemValue(SimpleBug bug) {
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img image = new Img("", ProjectResources.getResourceLink(ProjectTypeConstants.BUG));
+            Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
             A itemLink = new A();
             itemLink.setId("tag" + uid);

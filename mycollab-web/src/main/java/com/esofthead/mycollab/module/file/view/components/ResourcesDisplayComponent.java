@@ -39,8 +39,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -117,8 +115,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 		// file breadcrum ---------------------
 		HorizontalLayout breadcrumbContainer = new HorizontalLayout();
-		breadcrumbContainer
-				.setMargin(new MarginInfo(false, false, false, true));
+		breadcrumbContainer.setMargin(false);
 		fileBreadCrumb = new FileBreadcrumb(rootPath);
 		breadcrumbContainer.addComponent(fileBreadCrumb);
 		mainBodyLayout.addComponent(breadcrumbContainer);
@@ -299,8 +296,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				});
 		deleteBtn.setIcon(FontAwesome.TRASH_O);
 		deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
-		deleteBtn.setImmediate(true);
-		deleteBtn.setDescription("Delele");
+		deleteBtn.setDescription("Delete resource");
 		deleteBtn.setEnabled(AppContext
 				.canAccess(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 
@@ -331,46 +327,46 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 	private void deleteResourceAction() {
 		ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
-				GenericI18Enum.DIALOG_DELETE_TITLE,
-				SiteConfiguration.getSiteName()), AppContext
-				.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-				AppContext.getMessage(GenericI18Enum.BUTTON_YES), AppContext
-						.getMessage(GenericI18Enum.BUTTON_NO),
-				new ConfirmDialog.Listener() {
-					private static final long serialVersionUID = 1L;
+                        GenericI18Enum.DIALOG_DELETE_TITLE,
+                        SiteConfiguration.getSiteName()), AppContext
+                        .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                AppContext.getMessage(GenericI18Enum.BUTTON_YES), AppContext
+                        .getMessage(GenericI18Enum.BUTTON_NO),
+                new ConfirmDialog.Listener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onClose(final ConfirmDialog dialog) {
-						Collection<Resource> selectedResources = getSelectedResources();
-						if (CollectionUtils.isNotEmpty(selectedResources)) {
-							if (dialog.isConfirmed()) {
-								for (Resource res : selectedResources) {
-									if (res.isExternalResource()) {
-										externalResourceService.deleteResource(
-												((ExternalFolder) res)
-														.getExternalDrive(),
-												res.getPath());
-									} else {
-										if (res instanceof Folder) {
-											fireEvent(new ResourceRemovedEvent(
-													ResourcesDisplayComponent.this,
-													res));
-										}
-										resourceService.removeResource(
-												res.getPath(),
-												AppContext.getUsername(),
-												AppContext.getAccountId());
-									}
-								}
+                    @Override
+                    public void onClose(final ConfirmDialog dialog) {
+                        Collection<Resource> selectedResources = getSelectedResources();
+                        if (CollectionUtils.isNotEmpty(selectedResources)) {
+                            if (dialog.isConfirmed()) {
+                                for (Resource res : selectedResources) {
+                                    if (res.isExternalResource()) {
+                                        externalResourceService.deleteResource(
+                                                ((ExternalFolder) res)
+                                                        .getExternalDrive(),
+                                                res.getPath());
+                                    } else {
+                                        if (res instanceof Folder) {
+                                            fireEvent(new ResourceRemovedEvent(
+                                                    ResourcesDisplayComponent.this,
+                                                    res));
+                                        }
+                                        resourceService.removeResource(
+                                                res.getPath(),
+                                                AppContext.getUsername(),
+                                                AppContext.getAccountId());
+                                    }
+                                }
 
-								resourcesContainer.constructBody(baseFolder);
+                                resourcesContainer.constructBody(baseFolder);
 
-								NotificationUtil
-										.showNotification("Delete content successfully.");
-							}
-						}
-					}
-				});
+                                NotificationUtil
+                                        .showNotification("Delete content successfully.");
+                            }
+                        }
+                    }
+                });
 	}
 
 	public void constructBodyItemContainer(Folder folder) {
@@ -379,18 +375,9 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		resourcesContainer.constructBody(folder);
 	}
 
-	public void constructBodyItemContainerSearchActionResult(
-			List<Resource> lst, String criteria) {
-
-	}
-
 	public void addSearchHandlerToBreadCrumb(
 			final SearchHandler<FileSearchCriteria> handler) {
 		fileBreadCrumb.addSearchHandler(handler);
-	}
-
-	public void initBreadCrumb() {
-		fileBreadCrumb.initBreadcrumb();
 	}
 
 	public Collection<Resource> getSelectedResources() {
@@ -405,7 +392,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		private List<Resource> resources;
 
 		public ResourcesContainer(Folder folder) {
-			checkboxes = new ArrayList<CheckBox>();
+			checkboxes = new ArrayList<>();
 			this.setMargin(true);
 			this.setSpacing(false);
 			this.setWidth("100%");
@@ -455,13 +442,13 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			if (CollectionUtils.isNotEmpty(resources)) {
 				if (resources.size() <= ResourcePagingNavigator.pageItemNum) {
 					for (Resource res : resources) {
-						this.addComponent(buildResourceRowComp(res, false));
+						this.addComponent(buildResourceRowComp(res));
 						this.addComponent(new Hr());
 					}
 				} else if (resources.size() > ResourcePagingNavigator.pageItemNum) {
 					for (int i = 0; i < ResourcePagingNavigator.pageItemNum; i++) {
 						Resource res = resources.get(i);
-						this.addComponent(buildResourceRowComp(res, false));
+						this.addComponent(buildResourceRowComp(res));
 						this.addComponent(new Hr());
 					}
 					pagingResourceWapper = new ResourcePagingNavigator(
@@ -474,39 +461,23 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			}
 		}
 
-		private HorizontalLayout buildResourceRowComp(final Resource res,
-				final boolean isSearchAction) {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
+		private HorizontalLayout buildResourceRowComp(final Resource res) {
+			final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withHeight("44px");
 			layout.addStyleName("resourceItem");
-			layout.setHeight("44px");
 
 			final CheckBox checkbox = new CheckBox();
 			checkbox.setWidth("25px");
-			checkbox.setImmediate(true);
-			checkbox.setStyleName(UIConstants.THEME_ROUND_BUTTON);
 			checkboxes.add(checkbox);
 
 			checkbox.addValueChangeListener(new ValueChangeListener() {
-				private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void valueChange(ValueChangeEvent event) {
-					res.setSelected(checkbox.getValue());
-				}
-			});
-			layout.addComponent(checkbox);
-			layout.setComponentAlignment(checkbox, Alignment.MIDDLE_LEFT);
-
-			layout.addLayoutClickListener(new LayoutClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void layoutClick(LayoutClickEvent event) {
-					checkbox.setValue(!checkbox.getValue());
-				}
-			});
+                @Override
+                public void valueChange(ValueChangeEvent event) {
+                    res.setSelected(checkbox.getValue());
+                }
+            });
+			layout.with(checkbox).withAlign(checkbox, Alignment.MIDDLE_LEFT);
 
 			CssLayout resIconWapper = new CssLayout();
 			final Embedded resourceIcon = new Embedded();
@@ -607,7 +578,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 			final PopupButton resourceSettingPopupBtn = new PopupButton();
 
-			final VerticalLayout filterBtnLayout = new VerticalLayout();
+			final MVerticalLayout filterBtnLayout = new MVerticalLayout();
 
 			final Button renameBtn = new Button("Rename",
 					new Button.ClickListener() {
@@ -626,12 +597,12 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 			final Button downloadBtn = new Button("Download");
 
-			LazyStreamSource streamsource = new LazyStreamSource() {
+			LazyStreamSource streamSource = new LazyStreamSource() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				protected StreamSource buildStreamSource() {
-					List<Resource> lstRes = new ArrayList<Resource>();
+					List<Resource> lstRes = new ArrayList<>();
 					lstRes.add(res);
 					return StreamDownloadResourceUtil
 							.getStreamSourceSupportExtDrive(lstRes);
@@ -644,7 +615,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			};
 
 			OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(
-					streamsource);
+					streamSource);
 			downloaderExt.extend(downloadBtn);
 
 			downloadBtn.addStyleName("link");
@@ -680,11 +651,8 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			filterBtnLayout.addComponent(deleteBtn);
 			// ------------------------------------------------------------------------
 
-			filterBtnLayout.setMargin(true);
-			filterBtnLayout.setSpacing(true);
 			filterBtnLayout.setWidth("100px");
-			resourceSettingPopupBtn.setIcon(MyCollabResource
-					.newResource("icons/16/item_settings_big.png"));
+			resourceSettingPopupBtn.setIcon(FontAwesome.COG);
 			resourceSettingPopupBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			resourceSettingPopupBtn.setContent(filterBtnLayout);
 
@@ -705,7 +673,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 						});
 				return selectedResources;
 			} else {
-				return new ArrayList<Resource>();
+				return new ArrayList<>();
 			}
 
 		}
@@ -809,12 +777,10 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			contentLayout.setMargin(true);
 			this.setContent(contentLayout);
 
-			final HorizontalLayout fileLayout = new HorizontalLayout();
-			fileLayout.setSpacing(true);
+			final MHorizontalLayout fileLayout = new MHorizontalLayout();
 			fileLayout.setSizeUndefined();
 			final Label captionLbl = new Label("Enter folder name: ");
-			fileLayout.addComponent(captionLbl);
-			fileLayout.setComponentAlignment(captionLbl, Alignment.MIDDLE_LEFT);
+			fileLayout.with(captionLbl).withAlign(captionLbl, Alignment.MIDDLE_LEFT);
 
 			this.folderName = new TextField();
 			fileLayout.addComponent(this.folderName);
@@ -826,9 +792,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			contentLayout.setComponentAlignment(fileLayout,
 					Alignment.MIDDLE_CENTER);
 
-			final HorizontalLayout controlsLayout = new HorizontalLayout();
-			controlsLayout.setSpacing(true);
-			controlsLayout.setMargin(new MarginInfo(true, false, false, false));
+			final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
 
 			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
@@ -925,9 +889,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			this.layoutHelper.getLayout().addStyleName("colored-gridlayout");
 			contentLayout.addComponent(this.layoutHelper.getLayout());
 
-			final HorizontalLayout controlsLayout = new HorizontalLayout();
-			controlsLayout.setSpacing(true);
-			controlsLayout.setMargin(new MarginInfo(true, false, false, false));
+			final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
 
 			final Button uploadBtn = new Button("Upload",
 					new Button.ClickListener() {
@@ -1168,7 +1130,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			for (int i = start; i < end; i++) {
 				Resource res = lstResource.get(i);
 				resourcesContainer.addComponent(resourcesContainer
-						.buildResourceRowComp(res, false));
+						.buildResourceRowComp(res));
 				resourcesContainer.addComponent(new Hr());
 			}
 			createPageControls();

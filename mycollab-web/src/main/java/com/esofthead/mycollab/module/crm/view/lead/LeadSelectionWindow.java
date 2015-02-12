@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -29,88 +28,87 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class LeadSelectionWindow extends Window {
 
-	private static final long serialVersionUID = 1L;
-	private LeadSearchCriteria searchCriteria;
-	private LeadTableDisplay tableItem;
-	private FieldSelection<Lead> fieldSelection;
+    private static final long serialVersionUID = 1L;
+    private LeadSearchCriteria searchCriteria;
+    private LeadTableDisplay tableItem;
+    private FieldSelection<Lead> fieldSelection;
 
-	public LeadSelectionWindow(FieldSelection<Lead> fieldSelection) {
-		super("Lead Selection");
-		this.setWidth("800px");
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-		this.setResizable(false);
-	}
+    public LeadSelectionWindow(FieldSelection<Lead> fieldSelection) {
+        super("Lead Selection");
+        this.setWidth("800px");
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+        this.setResizable(false);
+    }
 
-	public void show() {
-		searchCriteria = new LeadSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    public void show() {
+        searchCriteria = new LeadSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+        MVerticalLayout layout = new MVerticalLayout();
 
-		createLeadList();
+        createLeadList();
 
-		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-		leadSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+        LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
+        leadSimpleSearchPanel
+                .addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
 
-					@Override
-					public void onSearch(LeadSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+                    @Override
+                    public void onSearch(LeadSearchCriteria criteria) {
+                        tableItem.setSearchCriteria(criteria);
+                    }
 
-				});
-		layout.addComponent(leadSimpleSearchPanel);
-		layout.addComponent(tableItem);
-		this.setContent(layout);
+                });
+        layout.with(leadSimpleSearchPanel, tableItem);
+        this.setContent(layout);
 
-		tableItem.setSearchCriteria(searchCriteria);
-		center();
-	}
+        tableItem.setSearchCriteria(searchCriteria);
+        center();
+    }
 
-	@SuppressWarnings("serial")
-	private void createLeadList() {
-		tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name,
-				LeadTableFieldDef.status, LeadTableFieldDef.assignedUser,
-				LeadTableFieldDef.accountName));
+    @SuppressWarnings("serial")
+    private void createLeadList() {
+        tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name,
+                LeadTableFieldDef.status, LeadTableFieldDef.assignedUser,
+                LeadTableFieldDef.accountName));
+        tableItem.setDisplayNumItems(10);
+        tableItem.setWidth("100%");
 
-		tableItem.setWidth("100%");
+        tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-		tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleLead lead = tableItem.getBeanByIndex(itemId);
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleLead lead = tableItem.getBeanByIndex(itemId);
+                ButtonLink b = new ButtonLink(lead.getLeadName(),
+                        new Button.ClickListener() {
 
-				ButtonLink b = new ButtonLink(lead.getLeadName(),
-						new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								// TODO Auto-generated method stub
-								fieldSelection.fireValueChange(lead);
-								LeadSelectionWindow.this.close();
-							}
-						});
-				return b;
-			}
-		});
-	}
+                            @Override
+                            public void buttonClick(
+                                    final Button.ClickEvent event) {
+                                fieldSelection.fireValueChange(lead);
+                                LeadSelectionWindow.this.close();
+                            }
+                        });
+                b.setDescription(CrmTooltipGenerator.generateTooltipLead(
+                        AppContext.getUserLocale(), lead,
+                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                return b;
+            }
+        });
+    }
 }

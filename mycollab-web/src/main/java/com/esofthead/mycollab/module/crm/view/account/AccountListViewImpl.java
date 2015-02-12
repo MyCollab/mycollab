@@ -149,6 +149,5 @@ public class AccountListViewImpl extends
         importBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_ACCOUNT));
         this.addExtraButton(importBtn);
-
     }
 }

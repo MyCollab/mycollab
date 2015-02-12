@@ -41,7 +41,7 @@ public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
 	private static final long serialVersionUID = 1L;
 
 	public CampaignImportWindow() {
-		super(false, "Import Campaign Window", ApplicationContextUtil
+		super(false, "Import Campaign", ApplicationContextUtil
 				.getSpringBean(CampaignService.class), SimpleCampaign.class);
 	}
 

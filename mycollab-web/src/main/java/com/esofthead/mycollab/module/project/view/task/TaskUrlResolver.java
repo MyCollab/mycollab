@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -33,6 +30,8 @@ import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -74,7 +73,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 									+ " and project " + prjShortName);
 				}
 			} else {
-				LOG.error("Shold not call this. Fall back function: "
+				LOG.error("Should not call this. Fall back function: "
 						+ params[0]);
 				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
 				projectId = tokenizer.getInt();

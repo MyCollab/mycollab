@@ -44,7 +44,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 	private static final long serialVersionUID = 1L;
 
 	public ContactImportWindow() {
-		super(true, "Import Contact Window", ApplicationContextUtil
+		super(true, "Import Contacts", ApplicationContextUtil
 				.getSpringBean(ContactService.class), Contact.class);
 	}
 

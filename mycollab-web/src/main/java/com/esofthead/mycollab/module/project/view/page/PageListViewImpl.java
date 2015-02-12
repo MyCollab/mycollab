@@ -263,14 +263,10 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     private Layout displayFolderBlock(final Folder resource) {
-        HorizontalLayout container = new HorizontalLayout();
-        container.setWidth("100%");
-        container.setSpacing(true);
-        container.setStyleName("page-item-block");
-        Image iconResource = new Image(null,
-                MyCollabResource.newResource("icons/48/project/folder.png"));
-        container.addComponent(iconResource);
-        container.setComponentAlignment(iconResource, Alignment.TOP_LEFT);
+        MHorizontalLayout container = new MHorizontalLayout().withWidth("100%").withStyleName("page-item-block");
+
+        FontIconLabel iconResource = new FontIconLabel(FontAwesome.FOLDER_OPEN);
+        iconResource.addStyleName("icon-48px");
 
         VerticalLayout block = new VerticalLayout();
         block.setWidth("600px");
@@ -370,21 +366,17 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         HorizontalLayout footer = new HorizontalLayout();
         block.addComponent(footer);
 
-        container.addComponent(block);
-        container.setExpandRatio(block, 1);
+        MHorizontalLayout wrapper = new MHorizontalLayout();
+        wrapper.with(iconResource, block);
+        container.with(wrapper);
         return container;
     }
 
     private Layout displayPageBlock(final Page resource) {
-        HorizontalLayout container = new HorizontalLayout();
-        container.setWidth("100%");
-        container.setSpacing(true);
-        container.setStyleName("page-item-block");
+        MHorizontalLayout container = new MHorizontalLayout().withWidth("100%").withStyleName("page-item-block");
 
-        Image iconResource = new Image(null,
-                MyCollabResource.newResource("icons/48/project/document.png"));
-        container.addComponent(iconResource);
-        container.setComponentAlignment(iconResource, Alignment.TOP_LEFT);
+        FontIconLabel iconResource = new FontIconLabel(FontAwesome.FILE_WORD_O);
+        iconResource.addStyleName("icon-48px");
 
         VerticalLayout block = new VerticalLayout();
         block.setWidth("600px");
@@ -420,9 +412,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         lastUpdateInfo.addStyleName("last-update-info");
         block.addComponent(lastUpdateInfo);
 
-        HorizontalLayout controlBtns = new HorizontalLayout();
-        controlBtns.setSpacing(true);
-        controlBtns.setStyleName("control-btns");
+        MHorizontalLayout controlBtns = new MHorizontalLayout().withStyleName("control-btns");
         Button editBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {
@@ -486,8 +476,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         block.addComponent(controlBtns);
 
-        container.addComponent(block);
-        container.setExpandRatio(block, 1);
+        MHorizontalLayout wrapper = new MHorizontalLayout();
+        wrapper.with(iconResource, block);
+        container.with(wrapper);
         return container;
     }
 
@@ -560,9 +551,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
                     layout.addComponent(this.informationLayout.getLayout());
 
-                    final HorizontalLayout controlsBtn = new HorizontalLayout();
-                    controlsBtn.setSpacing(true);
-                    controlsBtn.setMargin(new MarginInfo(true, true, true,
+                    final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true,
                             false));
                     layout.addComponent(controlsBtn);
 

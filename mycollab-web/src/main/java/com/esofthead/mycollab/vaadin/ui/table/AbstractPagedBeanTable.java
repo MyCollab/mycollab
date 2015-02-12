@@ -58,7 +58,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			.getLogger(AbstractPagedBeanTable.class);
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
-	protected List<B> currentListData;
+	protected Collection<B> currentListData;
 
 	protected HorizontalLayout pageManagement;
 
@@ -181,6 +181,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		return this.currentViewCount;
 	}
 
+
 	@Override
 	public int totalItemsCount() {
 		return this.totalCount;
@@ -196,11 +197,11 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	}
 
 	@Override
-	public List<B> getCurrentDataList() {
+	public Collection<B> getCurrentDataList() {
 		return currentListData;
 	}
 
-	public void setCurrentDataList(List<B> list) {
+	public void setCurrentDataList(Collection<B> list) {
 		this.currentListData = list;
 		this.currentViewCount = list.size();
 		createTable();
@@ -229,6 +230,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 				this.currentPage, this.displayNumItems);
 		this.doSearch();
 	}
+
+    public void setDisplayNumItems(int displayNumItems) {
+        this.displayNumItems = displayNumItems;
+    }
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -505,6 +510,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		}
 
 	}
+
+    public Table getTable() {
+        return tableItem;
+    }
 
 	public List<TableViewField> getDefaultSelectedColumns() {
 		return defaultSelectedColumns;

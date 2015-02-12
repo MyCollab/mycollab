@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -29,8 +28,10 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
  * 
@@ -58,9 +59,7 @@ public class ContactSelectionWindow extends Window {
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+		MVerticalLayout layout = new MVerticalLayout();
 
 		createContactList();
 
@@ -89,6 +88,7 @@ public class ContactSelectionWindow extends Window {
 				ContactTableFieldDef.phoneOffice, ContactTableFieldDef.email,
 				ContactTableFieldDef.assignUser));
 		tableItem.setWidth("100%");
+        tableItem.setDisplayNumItems(10);
 
 		tableItem.addGeneratedColumn("contactName",
 				new Table.ColumnGenerator() {
@@ -107,11 +107,13 @@ public class ContactSelectionWindow extends Window {
 									@Override
 									public void buttonClick(
 											final Button.ClickEvent event) {
-										// TODO Auto-generated method stub
 										fieldSelection.fireValueChange(contact);
 										ContactSelectionWindow.this.close();
 									}
 								});
+                        b.setDescription(CrmTooltipGenerator.generateToolTipContact(
+                                AppContext.getUserLocale(), contact,
+                                AppContext.getSiteUrl(), AppContext.getTimezone()));
 						return b;
 					}
 				});

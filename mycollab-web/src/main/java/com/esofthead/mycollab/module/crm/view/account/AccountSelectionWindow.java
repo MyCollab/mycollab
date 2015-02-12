@@ -16,10 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -29,91 +28,93 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class AccountSelectionWindow extends Window {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private AccountTableDisplay tableItem;
-	private FieldSelection<Account> fieldSelection;
+    private AccountTableDisplay tableItem;
+    private FieldSelection<Account> fieldSelection;
 
-	public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
-		super("Account Selection");
-		this.setWidth("900px");
-		this.setResizable(false);
-		this.setModal(true);
-		this.fieldSelection = fieldSelection;
-		this.setModal(true);
-	}
+    public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
+        super("Account Selection");
+        this.setWidth("900px");
+        this.setResizable(false);
+        this.setModal(true);
+        this.fieldSelection = fieldSelection;
+        this.setModal(true);
+    }
 
-	public void show() {
-		AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
+    public void show() {
+        AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-		layout.setMargin(true);
+        MVerticalLayout layout = new MVerticalLayout();
 
-		createAccountList();
+        createAccountList();
 
-		AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
-		accountSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
+        AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
+        accountSimpleSearchPanel
+                .addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
 
-					@Override
-					public void onSearch(AccountSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+                    @Override
+                    public void onSearch(AccountSearchCriteria criteria) {
+                        tableItem.setSearchCriteria(criteria);
+                    }
 
-				});
-		layout.addComponent(accountSimpleSearchPanel);
-		layout.addComponent(tableItem);
-		this.setContent(layout);
+                });
+        layout.addComponent(accountSimpleSearchPanel);
+        layout.addComponent(tableItem);
+        this.setContent(layout);
 
-		tableItem.setSearchCriteria(searchCriteria);
-		center();
-	}
+        tableItem.setSearchCriteria(searchCriteria);
+        center();
+    }
 
-	@SuppressWarnings("serial")
-	private void createAccountList() {
-		tableItem = new AccountTableDisplay(Arrays.asList(
-				AccountTableFieldDef.accountname, AccountTableFieldDef.city,
-				AccountTableFieldDef.assignUser));
+    @SuppressWarnings("serial")
+    private void createAccountList() {
+        tableItem = new AccountTableDisplay(Arrays.asList(
+                AccountTableFieldDef.accountname, AccountTableFieldDef.city,
+                AccountTableFieldDef.assignUser));
 
-		tableItem.setWidth("100%");
-		tableItem.addGeneratedColumn("accountname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.setWidth("100%");
+        tableItem.setDisplayNumItems(10);
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleAccount account = tableItem
-								.getBeanByIndex(itemId);
+        tableItem.addGeneratedColumn("accountname",
+                new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-						return new ButtonLink(account.getAccountname(),
-								new Button.ClickListener() {
+                    @Override
+                    public com.vaadin.ui.Component generateCell(
+                            final Table source, final Object itemId,
+                            final Object columnId) {
+                        final SimpleAccount account = tableItem
+                                .getBeanByIndex(itemId);
 
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										// TODO Auto-generated method stub
-										fieldSelection.fireValueChange(account);
-										AccountSelectionWindow.this.close();
-									}
-								});
-					}
-				});
+                        ButtonLink accountLink = new ButtonLink(account.getAccountname(),
+                                new Button.ClickListener() {
 
-	}
+                                    @Override
+                                    public void buttonClick(
+                                            final Button.ClickEvent event) {
+                                        fieldSelection.fireValueChange(account);
+                                        AccountSelectionWindow.this.close();
+                                    }
+                                });
+                        accountLink.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+                                AppContext.getUserLocale(), account,
+                                AppContext.getSiteUrl()));
+                        return accountLink;
+                    }
+                });
+    }
 }

@@ -162,8 +162,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 						}
 					});
 			assignBtn.setIcon(FontAwesome.SHARE_SQUARE_O);
-			assignBtn.setStyleName(UIConstants.THEME_LINK);
-			popupButtonsControl.addComponent(assignBtn);
+			assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			editButtons.addComponent(assignBtn, 0);
 
 		}
 

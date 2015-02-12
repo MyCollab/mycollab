@@ -82,4 +82,8 @@ public class SimpleCase extends CaseWithBLOBs {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
+
+    public boolean isCompleted() {
+        return "Closed".equals(getStatus()) || "Rejected".equals(getStatus());
+    }
 }
