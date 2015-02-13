@@ -143,8 +143,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				RiskScreenData.Edit.class)) {
 			presenter = PresenterResolver.getPresenter(IRiskPresenter.class);
 		} else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Read.class,
-				TaskScreenData.Edit.class, TaskScreenData.Filter.class,
-				TaskGroupScreenData.GotoDashboard.class,
+				TaskScreenData.Edit.class, TaskGroupScreenData.GotoDashboard.class,
 				TaskGroupScreenData.Read.class, TaskGroupScreenData.Edit.class)) {
 			presenter = PresenterResolver.getPresenter(TaskPresenter.class);
 		} else if (ClassUtils.instanceOf(pageAction, BugScreenData.Read.class,

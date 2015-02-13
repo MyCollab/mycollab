@@ -35,7 +35,7 @@ public class ScheduleUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("dashboard", new DashboardUrlResolver());
 		this.addSubResolver("task", new TaskUrlResolver());
 		this.addSubResolver("taskgroup", new TaskGroupUrlResolver());
-        this.addSubResolver("filter", new FilterUrlResolver());
+        this.setDefaultUrlResolver(new FilterUrlResolver());
 	}
 
 	private static class DashboardUrlResolver extends ProjectUrlResolver {

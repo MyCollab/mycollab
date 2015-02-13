@@ -58,11 +58,11 @@ public class TaskEvent {
 		}
 	}
 
-	public static class Filter extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
+    public static class GotoGanttChart extends ApplicationEvent {
+        private static final long serialVersionUID = 1L;
 
-		public Filter(Object source, Object data) {
-			super(source, data);
-		}
-	}
+        public GotoGanttChart(Object source, Object data) {
+            super(source, data);
+        }
+    }
 }

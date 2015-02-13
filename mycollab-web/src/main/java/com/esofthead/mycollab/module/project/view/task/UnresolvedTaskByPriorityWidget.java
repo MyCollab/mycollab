@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -40,6 +38,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.List;
 
 /**
  * 
@@ -139,7 +139,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 			TaskFilterParameter filterParam = new TaskFilterParameter(
 					searchCriteria, "Task Filter by Priority: " + key);
 			EventBusFactory.getInstance().post(
-					new TaskEvent.Filter(this, filterParam));
+					new TaskEvent.Search(this, filterParam));
 
 		}
 	}

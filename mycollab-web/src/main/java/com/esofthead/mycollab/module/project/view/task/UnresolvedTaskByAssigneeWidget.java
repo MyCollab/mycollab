@@ -121,7 +121,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 									TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
 									assigneeFullName));
 					EventBusFactory.getInstance().post(
-							new TaskEvent.Filter(this, filterParam));
+							new TaskEvent.Search(this, filterParam));
 				}
 			});
 

@@ -60,7 +60,7 @@ public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 				.canRead(ProjectRolePermissionCollections.TASKS)) {
             ProjectBreadcrumb breadCrumb = ViewManager
                     .getCacheComponent(ProjectBreadcrumb.class);
-            breadCrumb.gotoTaskFilter();
+            breadCrumb.gotoTaskSearch();
 
 			TaskContainer trackerContainer = (TaskContainer) container;
 			trackerContainer.removeAllComponents();

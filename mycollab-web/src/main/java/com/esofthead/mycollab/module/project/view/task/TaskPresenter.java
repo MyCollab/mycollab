@@ -30,71 +30,69 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class TaskPresenter extends AbstractPresenter<TaskContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TaskPresenter() {
-		super(TaskContainer.class);
-	}
+    public TaskPresenter() {
+        super(TaskContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.TASK);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.TASK);
 
-		view.removeAllComponents();
+        view.removeAllComponents();
 
-		AbstractPresenter<?> presenter;
+        AbstractPresenter<?> presenter;
 
-		if (data instanceof TaskScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
-		} else if (data instanceof TaskGroupScreenData.Read) {
-			presenter = PresenterResolver
-					.getPresenter(TaskGroupReadPresenter.class);
-		} else if (ClassUtils.instanceOf(data, TaskScreenData.Edit.class,
-				TaskScreenData.Add.class)) {
-			presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
-		} else if (ClassUtils.instanceOf(data, TaskGroupScreenData.Add.class,
-				TaskGroupScreenData.Edit.class)) {
-			presenter = PresenterResolver
-					.getPresenter(TaskGroupAddPresenter.class);
-		} else if (data instanceof TaskGroupScreenData.ReorderTaskListRequest) {
-			presenter = PresenterResolver
-					.getPresenter(TaskGroupReorderPresenter.class);
-		} else if (data instanceof TaskGroupScreenData.GotoDashboard
-				|| data == null) {
-			presenter = PresenterResolver
-					.getPresenter(TaskGroupDisplayPresenter.class);
-		} else if (data instanceof TaskGroupScreenData.GotoGanttChartView) {
-			presenter = PresenterResolver
-					.getPresenter(GanttChartViewPresenter.class);
-		} else if (data instanceof TaskScreenData.Filter) {
-			presenter = PresenterResolver
-					.getPresenter(FilterTaskPresenter.class);
-		} else if (data instanceof TaskScreenData.Search) {
-			presenter = PresenterResolver
-					.getPresenter(TaskSearchPresenter.class);
-		} else {
+        if (data instanceof TaskScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
+        } else if (data instanceof TaskGroupScreenData.Read) {
+            presenter = PresenterResolver
+                    .getPresenter(TaskGroupReadPresenter.class);
+        } else if (ClassUtils.instanceOf(data, TaskScreenData.Edit.class,
+                TaskScreenData.Add.class)) {
+            presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
+        } else if (ClassUtils.instanceOf(data, TaskGroupScreenData.Add.class,
+                TaskGroupScreenData.Edit.class)) {
+            presenter = PresenterResolver
+                    .getPresenter(TaskGroupAddPresenter.class);
+        } else if (data instanceof TaskGroupScreenData.ReorderTaskListRequest) {
+            presenter = PresenterResolver
+                    .getPresenter(TaskGroupReorderPresenter.class);
+        } else if (data instanceof TaskGroupScreenData.GotoDashboard
+                || data == null) {
+            presenter = PresenterResolver
+                    .getPresenter(TaskGroupDisplayPresenter.class);
+        } else if (data instanceof TaskGroupScreenData.GotoGanttChartView) {
+            presenter = PresenterResolver
+                    .getPresenter(GanttChartViewPresenter.class);
+        } else if (data instanceof TaskScreenData.Search) {
+            presenter = PresenterResolver
+                    .getPresenter(TaskSearchPresenter.class);
+        } else if (data instanceof TaskScreenData.GanttChart) {
+            presenter = PresenterResolver.getPresenter(GanttChartViewPresenter.class);
+        } else {
             throw new MyCollabException("No support data: " + data);
         }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
-	@Override
-	public void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
+    @Override
+    public void handleChain(ComponentContainer container,
+                            PageActionChain pageActionChain) {
 
-		ScreenData<?> pageAction = pageActionChain.peek();
-		onGo(container, pageAction);
-	}
+        ScreenData<?> pageAction = pageActionChain.peek();
+        onGo(container, pageAction);
+    }
 }

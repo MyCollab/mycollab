@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Date;
@@ -134,16 +135,12 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 				if (visibleRows == 0) {
 					return null;
 				} else {
-					HorizontalLayout header = new HorizontalLayout();
-					header.setWidth("100%");
-					header.setSpacing(true);
+					MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 					UserLink userLink = new UserLink(log.getPosteduser(),
 							log.getPostedUserAvatarId(),
 							log.getPostedUserFullName(), false);
 
-					header.addComponent(userLink);
-					header.setComponentAlignment(userLink,
-							Alignment.MIDDLE_LEFT);
+					header.with(userLink).withAlign(userLink, Alignment.MIDDLE_LEFT);
 
 					Date changeDate = DateTimeUtils
 							.convertDateByFormatW3C(strDate);
@@ -151,9 +148,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 							+ DateTimeUtils.getPrettyDateValue(changeDate,
 									AppContext.getUserLocale()));
 					lbDate.setDescription(AppContext.formatDateTime(changeDate));
-					header.addComponent(lbDate);
-					header.setComponentAlignment(lbDate, Alignment.MIDDLE_LEFT);
-					header.setExpandRatio(lbDate, 1.0f);
+					header.with(lbDate).withAlign(lbDate, Alignment.MIDDLE_LEFT).expand(lbDate);
 					gridLayout.addComponent(header, 0, 0, 2, 0);
 
 					gridLayout

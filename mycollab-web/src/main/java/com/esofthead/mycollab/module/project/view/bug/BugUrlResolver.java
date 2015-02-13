@@ -39,8 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
  */
 public class BugUrlResolver extends ProjectUrlResolver {
 	public BugUrlResolver() {
-		this.addSubResolver("dashboard", new DashboardUrlResolver());
-		this.addSubResolver("list", new DashboardUrlResolver());
+        this.setDefaultUrlResolver(new DefaultUrlResolver());
 		this.addSubResolver("add", new AddUrlResolver());
 		this.addSubResolver("edit", new EditUrlResolver());
 		this.addSubResolver("preview", new PreviewUrlResolver());
@@ -49,7 +48,7 @@ public class BugUrlResolver extends ProjectUrlResolver {
 
 	}
 
-	private static class DashboardUrlResolver extends ProjectUrlResolver {
+	private static class DefaultUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			int projectId = new UrlTokenizer(params[0]).getInt();

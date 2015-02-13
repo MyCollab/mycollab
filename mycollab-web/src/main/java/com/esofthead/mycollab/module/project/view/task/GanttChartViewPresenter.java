@@ -18,7 +18,9 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -44,10 +46,13 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
 			taskContainer.removeAllComponents();
 			taskContainer.addComponent(view.getWidget());
 			view.displayGanttChart();
+
+            ProjectBreadcrumb breadCrumb = ViewManager
+                    .getCacheComponent(ProjectBreadcrumb.class);
+            breadCrumb.gotoGanttView();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
-
 	}
 
 }

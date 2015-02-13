@@ -53,14 +53,10 @@ public class TaskScreenData {
 			super(task);
 		}
 	}
-
-	public static class Filter extends ScreenData<TaskFilterParameter> {
-		public Filter(TaskFilterParameter criteria) {
-			super(criteria);
-		}
-	}
 	
-	
-	
-	
+	public static class GanttChart extends ScreenData {
+        public GanttChart() {
+            super(null);
+        }
+    }
 }

@@ -58,8 +58,4 @@ public class TaskFilterParameter {
 		return screenTitle;
 	}
 
-	public void setScreenTitle(String screenTitle) {
-		this.screenTitle = screenTitle;
-	}
-
 }

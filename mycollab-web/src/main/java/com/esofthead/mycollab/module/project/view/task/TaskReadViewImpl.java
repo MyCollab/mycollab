@@ -151,7 +151,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         } else if (beanItem.isPending()) {
             addLayoutStyleName(UIConstants.LINK_PENDING);
         } else if (beanItem.isOverdue()) {
-            previewLayout.setTitleStyleName("headerNameOverdue");
+            addLayoutStyleName("headerNameOverdue");
         }
 
         if (!beanItem.isCompleted()) {

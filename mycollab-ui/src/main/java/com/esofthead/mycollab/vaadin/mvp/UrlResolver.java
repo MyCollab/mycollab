@@ -32,93 +32,94 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public abstract class UrlResolver {
-	private static final Logger LOG = LoggerFactory.getLogger(UrlResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UrlResolver.class);
 
-	private Map<String, UrlResolver> subResolvers;
+    private Map<String, UrlResolver> subResolvers;
+    private UrlResolver defaultUrlResolver;
 
-	public void addSubResolver(String key, UrlResolver subResolver) {
-		if (subResolvers == null) {
-			subResolvers = new HashMap<String, UrlResolver>();
-		}
-		subResolvers.put(key, subResolver);
-	}
+    public void addSubResolver(String key, UrlResolver subResolver) {
+        if (subResolvers == null) {
+            subResolvers = new HashMap<>();
+        }
+        subResolvers.put(key, subResolver);
+    }
 
-	/**
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public UrlResolver getSubResolver(String key) {
-		return subResolvers.get(key);
-	}
+    public void setDefaultUrlResolver(UrlResolver defaultUrlResolver) {
+        this.defaultUrlResolver = defaultUrlResolver;
+    }
 
-	/**
-	 * 
-	 * @param params
-	 */
-	public void handle(String... params) {
-		try {
-			if (ArrayUtils.isNotEmpty(params)) {
-				String key = params[0];
-				if (subResolvers == null) {
-					handlePage(params);
-				} else {
-					UrlResolver urlResolver = subResolvers.get(key);
-					if (urlResolver == null) {
-						throw new MyCollabException(
-								"Can not register resolver key " + key
-										+ " for Resolver: " + this);
-					} else {
-						List<String> paramList = Arrays.asList(params).subList(
-								1, params.length);
-						String[] nxtParams = paramList.toArray(new String[0]);
+    /**
+     * @param key
+     * @return
+     */
+    public UrlResolver getSubResolver(String key) {
+        return subResolvers.get(key);
+    }
 
-						LOG.debug("Handle url in resolver: " + urlResolver);
-						urlResolver.handle(nxtParams);
+    /**
+     * @param params
+     */
+    public void handle(String... params) {
+        try {
+            if (ArrayUtils.isNotEmpty(params)) {
+                String key = params[0];
+                if (subResolvers == null) {
+                    handlePage(params);
+                } else {
+                    UrlResolver urlResolver = subResolvers.get(key);
+                    if (urlResolver == null) {
+                        if (defaultUrlResolver != null) {
+                            urlResolver = defaultUrlResolver;
+                        } else {
+                            throw new MyCollabException(
+                                    "Can not register resolver key " + key
+                                            + " for Resolver: " + this);
+                        }
+                    }
+                    List<String> paramList = Arrays.asList(params).subList(
+                            1, params.length);
+                    String[] nxtParams = paramList.toArray(new String[0]);
 
-					}
-				}
-			} else {
-				handlePage();
-			}
-		} catch (Exception e) {
-			LOG.error("Error while navigation", e);
-			defaultPageErrorHandler();
-			NotificationUtil.showRecordNotExistNotification();
-		}
-	}
+                    LOG.debug("Handle url in resolver: " + urlResolver);
+                    urlResolver.handle(nxtParams);
+                }
+            } else {
+                handlePage();
+            }
+        } catch (Exception e) {
+            LOG.error("Error while navigation", e);
+            defaultPageErrorHandler();
+            NotificationUtil.showRecordNotExistNotification();
+        }
+    }
 
-	/**
-	 * 
-	 */
-	abstract protected void defaultPageErrorHandler();
+    /**
+     *
+     */
+    abstract protected void defaultPageErrorHandler();
 
-	/**
-	 * 
-	 * @param params
-	 */
-	protected void handlePage(String... params) {
-		LOG.debug("Handle page: " + this + " with params: "
-				+ BeanUtility.printBeanObj(params));
-	}
+    /**
+     * @param params
+     */
+    protected void handlePage(String... params) {
+        LOG.debug("Handle page: " + this + " with params: "
+                + BeanUtility.printBeanObj(params));
+    }
 }

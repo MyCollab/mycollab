@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>parent-community</artifactId>
-    <version>4.5.5</version>
+    <version>5.0.0</version>
     <packaging>pom</packaging>
     <properties>
         <springVersion>4.1.4.RELEASE</springVersion>

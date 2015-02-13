@@ -46,7 +46,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean sendRelayEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(SendingRelayEmailJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -54,7 +53,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean sendInviteUserEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(SendUserInvitationEmailJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -62,7 +60,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean projectSendRelayNotificationEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(ProjectSendingRelayEmailNotificationJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -70,7 +67,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean crmSendRelayNotificationEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(CrmSendingRelayEmailNotificationJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -78,7 +74,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean userSignUpNotificationEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(UserSignUpEmailNotificationJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -86,7 +81,6 @@ public class DefaultScheduleConfiguration {
     public JobDetailFactoryBean sendErrorReportEmailJob() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
         bean.setJobClass(SendingErrorReportEmailJob.class);
-        bean.setDurability(true);
         return bean;
     }
 
@@ -144,9 +138,9 @@ public class DefaultScheduleConfiguration {
     @Bean public SchedulerFactoryBean quartzScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
 
-        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
-            bean.setDataSource(new DataSourceConfiguration().dataSource());
-        }
+//        if (DeploymentMode.site == SiteConfiguration.getDeploymentMode()) {
+//            bean.setDataSource(new DataSourceConfiguration().dataSource());
+//        }
 
         bean.setQuartzProperties(new QuartzScheduleProperties());
         bean.setOverwriteExistingJobs(true);
