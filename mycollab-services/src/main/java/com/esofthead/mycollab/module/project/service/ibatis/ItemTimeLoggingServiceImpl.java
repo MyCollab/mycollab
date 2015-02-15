@@ -72,20 +72,20 @@ public class ItemTimeLoggingServiceImpl extends
 
 	@Override
 	public int saveWithSession(ItemTimeLogging record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
+        CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
 		return super.saveWithSession(record, username);
 	}
 
 	@Override
 	public int updateWithSession(ItemTimeLogging record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
+        CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
 		return super.updateWithSession(record, username);
 	}
 
 	@Override
 	public int removeWithSession(Integer primaryKey, String username,
 			int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectService.class);
+		CacheUtils.cleanCaches(accountId, ItemTimeLoggingService.class, ProjectService.class);
 		return super.removeWithSession(primaryKey, username, accountId);
 	}
 
@@ -143,7 +143,7 @@ public class ItemTimeLoggingServiceImpl extends
 								return timeLoggings.size();
 							}
 						});
-		CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class);
+		CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
 	}
 
 }

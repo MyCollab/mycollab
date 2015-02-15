@@ -17,8 +17,8 @@
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.3.10</vaadinVersion>
         <jettyVersion>9.2.6.v20141205</jettyVersion>
-        <mysqlVersion>5.1.32</mysqlVersion>
-        <camelVersion>2.14.0</camelVersion>
+        <mysqlVersion>5.1.34</mysqlVersion>
+        <camelVersion>2.14.1</camelVersion>
         <junitVersion>4.12</junitVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>

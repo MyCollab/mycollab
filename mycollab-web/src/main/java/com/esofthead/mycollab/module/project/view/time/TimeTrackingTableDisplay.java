@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
@@ -33,22 +32,24 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.List;
 import java.util.UUID;
@@ -200,13 +201,11 @@ public class TimeTrackingTableDisplay
                                                        Object columnId) {
                                 final SimpleItemTimeLogging timeLogging = TimeTrackingTableDisplay.this
                                         .getBeanByIndex(itemId);
-                                Button icon = new Button();
+                                FontIconLabel icon;
                                 if (timeLogging.getIsbillable()) {
-                                    icon.setIcon(MyCollabResource
-                                            .newResource(WebResourceIds._16_yes));
+                                    icon = new FontIconLabel(FontAwesome.CHECK);
                                 } else {
-                                    icon.setIcon(MyCollabResource
-                                            .newResource(WebResourceIds._16_no));
+                                    icon = new FontIconLabel(FontAwesome.TIMES);
                                 }
                                 return icon;
                             }
@@ -243,8 +242,7 @@ public class TimeTrackingTableDisplay
                                 final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
                                         .getBeanByIndex(itemId);
 
-                                HorizontalLayout layout = new HorizontalLayout();
-                                layout.setSpacing(true);
+                                MHorizontalLayout layout = new MHorizontalLayout();
                                 Button editBtn = new Button("", new Button.ClickListener() {
                                     private static final long serialVersionUID = 1L;
 
@@ -256,9 +254,8 @@ public class TimeTrackingTableDisplay
 
                                     }
                                 });
-                                editBtn.setStyleName("link");
+                                editBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                                 editBtn.setIcon(FontAwesome.EDIT);
-                                layout.addComponent(editBtn);
 
                                 Button deleteBtn = new Button("", new Button.ClickListener() {
                                     private static final long serialVersionUID = 1L;
@@ -273,7 +270,7 @@ public class TimeTrackingTableDisplay
                                 });
                                 deleteBtn.setIcon(FontAwesome.TRASH_O);
                                 deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-                                layout.addComponent(deleteBtn);
+                                layout.with(editBtn, deleteBtn);
                                 return layout;
                             }
 

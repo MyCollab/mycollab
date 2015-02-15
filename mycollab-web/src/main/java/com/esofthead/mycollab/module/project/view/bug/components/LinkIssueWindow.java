@@ -18,8 +18,6 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
@@ -33,10 +31,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
-import org.vaadin.viritin.fields.CaptionGenerator;
-import org.vaadin.viritin.fields.LazyComboBox;
-
-import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -137,7 +131,6 @@ public class LinkIssueWindow extends Window {
                 if (RelatedBug.Field.relatetype.equalTo(propertyId)) {
                     return new BugRelationComboBox();
                 } else if (RelatedBug.Field.relatedid.equalTo(propertyId)) {
-                    return new BugSuggestionField();
                 } else if (RelatedBug.Field.comment.equalTo(propertyId)) {
                     return new RichTextArea();
                 }
@@ -145,29 +138,6 @@ public class LinkIssueWindow extends Window {
             }
         }
 
-        private class BugSuggestionField extends LazyComboBox<SimpleBug> {
-            public BugSuggestionField() {
-                super(SimpleBug.class, new LazyComboBox.FilterablePagingProvider<SimpleBug>() {
-                    @Override
-                    public List<SimpleBug> findEntities(int firstRow, String filter) {
-                        searchCriteria.setDescription(new StringSearchField(filter));
-                        return bugService.findPagableListByCriteria(new SearchRequest<>(searchCriteria, firstRow, 10));
-                    }
-                }, new LazyComboBox.FilterableCountProvider() {
-                    @Override
-                    public int size(String filter) {
-                        searchCriteria.setDescription(new StringSearchField(filter));
-                        return bugService.getTotalCount(searchCriteria);
-                    }
-                });
-
-                this.setCaptionGenerator(new CaptionGenerator<SimpleBug>() {
-                    @Override
-                    public String getCaption(SimpleBug bug) {
-                        return bug.getSummary();
-                    }
-                });
-            }
-        }
+        
     }
 }

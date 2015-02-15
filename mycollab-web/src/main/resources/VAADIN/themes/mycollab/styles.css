@@ -7469,6 +7469,51 @@ body .mycollab.v-app .v-app-loading {
 	color: #FFF;
 }
 
+.mycollab .gantt-view {
+	border: 1px solid #CFCFCF;
+}
+
+.mycollab .gantt-wrap {
+	border-top: 1px solid #CFCFCF;
+}
+
+.mycollab .gantt-table .v-table-cell-wrapper a {
+	word-wrap: normal;
+	white-space: nowrap;
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
+	padding-left: 19px;
+	box-sizing: border-box;
+	margin-left: -19px;
+}
+
+.mycollab .gantt-table .v-table-header-wrap {
+	border-width: 0px 1px 1px 0px;
+}
+
+.mycollab .gantt-table.list-view .v-table-header td, .mycollab .gantt-table.list-view .v-table-header-wrap {
+	height: 44px;
+}
+
+.mycollab .gantt-table.list-view .v-table-header .v-table-resizer {
+	height: 44px;
+}
+
+.mycollab .gantt-table.list-view .v-table-header .v-table-caption-container {
+	line-height: 42px;
+	font-size: 12px;
+}
+
+.mycollab .gantt-table .v-table-body-wrapper.v-table-body {
+	border-width: 0px 1px 0px 0px;
+}
+
+.mycollab .gantt-container {
+	height: 100% !important;
+}
+
 .mycollab html {
 	overflow: hidden;
 }
@@ -12600,51 +12645,6 @@ body .mycollab.v-app .v-app-loading {
 
 .mycollab .v-window.lazyload-progress .v-window-wrap .v-window-outerheader {
 	display: none;
-}
-
-.mycollab .gantt-view {
-	border: 1px solid #CFCFCF;
-}
-
-.mycollab .gantt-wrap {
-	border-top: 1px solid #CFCFCF;
-}
-
-.mycollab .gantt-table .v-table-cell-wrapper a {
-	word-wrap: normal;
-	white-space: nowrap;
-	display: inline-block;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	width: 100%;
-	padding-left: 19px;
-	box-sizing: border-box;
-	margin-left: -19px;
-}
-
-.mycollab .gantt-table .v-table-header-wrap {
-	border-width: 0px 1px 1px 0px;
-}
-
-.mycollab .gantt-table.list-view .v-table-header td, .mycollab .gantt-table.list-view .v-table-header-wrap {
-	height: 44px;
-}
-
-.mycollab .gantt-table.list-view .v-table-header .v-table-resizer {
-	height: 44px;
-}
-
-.mycollab .gantt-table.list-view .v-table-header .v-table-caption-container {
-	line-height: 42px;
-	font-size: 12px;
-}
-
-.mycollab .gantt-table .v-table-body-wrapper.v-table-body {
-	border-width: 0px 1px 0px 0px;
-}
-
-.mycollab .gantt-container {
-	height: 100% !important;
 }
 
 .mycollab .crm-toolbar .quickadd-btn .v-button-caption {

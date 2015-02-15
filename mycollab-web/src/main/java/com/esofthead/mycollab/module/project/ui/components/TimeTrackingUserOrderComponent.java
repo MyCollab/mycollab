@@ -30,9 +30,7 @@ import com.google.common.collect.Ordering;
  * @since 4.5.1
  * 
  */
-public class TimeTrackingUserOrderComponent
-		extends
-			AbstractTimeTrackingDisplayComp {
+public class TimeTrackingUserOrderComponent extends AbstractTimeTrackingDisplayComp {
 
 	private static final long serialVersionUID = 1L;
 

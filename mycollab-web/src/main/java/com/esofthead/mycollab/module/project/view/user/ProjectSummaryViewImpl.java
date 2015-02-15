@@ -24,6 +24,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
@@ -49,9 +50,7 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		ProjectInformationComponent prjView = new ProjectInformationComponent();
 		contentWrapper.addComponent(prjView);
 
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
+		final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 		contentWrapper.addComponent(layout);
 
 		final VerticalLayout leftPanel = new VerticalLayout();
@@ -64,13 +63,10 @@ public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
 		layout.addComponent(rightPanel);
 
 		ProjectMessageListComponent messageWidget = new ProjectMessageListComponent();
-		rightPanel.addComponent(messageWidget);
-
 		ProjectMembersWidget membersWidget = new ProjectMembersWidget();
 		ProjectAssignmentsWidget taskOverdueWidget = new ProjectAssignmentsWidget();
 
-		rightPanel.addComponent(membersWidget);
-		rightPanel.addComponent(taskOverdueWidget);
+        rightPanel.with(messageWidget, membersWidget, taskOverdueWidget);
 
 		activityPanel.showProjectFeeds();
 		prjView.displayProjectInformation();

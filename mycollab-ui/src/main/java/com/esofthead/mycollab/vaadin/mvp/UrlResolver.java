@@ -95,7 +95,7 @@ public abstract class UrlResolver {
                     }
                     List<String> paramList = Arrays.asList(params).subList(
                             1, params.length);
-                    String[] nxtParams = paramList.toArray(new String[0]);
+                    String[] nxtParams = paramList.toArray(new String[paramList.size()]);
 
                     LOG.debug("Handle url in resolver: " + urlResolver);
                     urlResolver.handle(nxtParams);

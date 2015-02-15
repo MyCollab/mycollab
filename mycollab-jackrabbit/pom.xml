@@ -24,7 +24,7 @@
     </parent>
 
     <properties>
-        <jackrabbitVersion>2.8.0</jackrabbitVersion>
+        <jackrabbitVersion>2.9.1</jackrabbitVersion>
     </properties>
 
     <dependencies>

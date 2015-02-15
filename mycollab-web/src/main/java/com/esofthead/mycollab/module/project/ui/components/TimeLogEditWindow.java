@@ -157,15 +157,13 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 					Object columnId) {
 				final SimpleItemTimeLogging monitorItem = tableItem
 						.getBeanByIndex(itemId);
-				Button icon = new Button();
+				FontIconLabel icon;
 				if (monitorItem.getIsbillable()) {
-					icon.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_yes));
+					icon = new FontIconLabel(FontAwesome.CHECK);
 				} else {
-					icon.setIcon(MyCollabResource
-							.newResource(WebResourceIds._16_no));
+					icon = new FontIconLabel(FontAwesome.TIMES);
 				}
-				icon.setStyleName("link");
+				icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 				return icon;
 			}
 		});

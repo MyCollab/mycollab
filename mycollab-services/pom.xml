@@ -59,7 +59,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.9</version>
+            <version>1.10</version>
         </dependency>
 
         <dependency>
@@ -77,29 +77,13 @@
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.9-RC2</version>
+            <version>0.9.9</version>
         </dependency>
 
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections-spring</artifactId>
             <version>0.9.9-RC1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.scala</groupId>
-            <artifactId>spring-scala_2.10</artifactId>
-            <version>1.0.0.RC1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-reflect</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>
