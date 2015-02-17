@@ -48,7 +48,6 @@ Version 5.0.0
 * Upgrade Vaadin to 7.3.10
 * Upgrade Spring frameworks to 4.1.4.RELEASE
 * Upgrade several Vaadin addons
-* Upgrade several libraries
 
 **Improvements**
 
@@ -65,8 +64,6 @@ Version 5.0.0
 
 * Internal issue causes the lazy views load infinitely
 * Save crm call throws exception
-* Update time logging but not update the project information immediately
-* Tooltip of several entities do not display properly
 
 
 Version 4.5.5
