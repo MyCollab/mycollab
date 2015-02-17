@@ -41,8 +41,6 @@ public class CrmModule extends AbstractPageView implements IModule {
 
 	private final MVerticalLayout container;
 
-	private final CrmToolbar toolbar;
-
 	public CrmModule() {
 		this.setStyleName("crm-module");
 		ControllerRegistry.addController(new CrmController(this));
@@ -50,7 +48,7 @@ public class CrmModule extends AbstractPageView implements IModule {
 		container = new MVerticalLayout().withWidth("100%").withSpacing(false)
 				.withMargin(false).withStyleName("crmContainer");
 
-		toolbar = ViewManager.getCacheComponent(CrmToolbar.class);
+		CrmToolbar toolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		container.addComponent(toolbar);
 
 		this.addComponent(container);

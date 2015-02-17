@@ -72,7 +72,7 @@ public class HistoryViewManager {
 		List<ViewState> history = (List<ViewState>) MyCollabSession
 				.getVariable(HISTORY_VAL);
 		if (history == null) {
-			history = new ArrayList<ViewState>();
+			history = new ArrayList<>();
 			MyCollabSession.putVariable(HISTORY_VAL, history);
 		}
 		return history;

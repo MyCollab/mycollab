@@ -27,15 +27,15 @@ import com.google.common.eventbus.EventBus;
  */
 @SuppressWarnings("unchecked")
 public abstract class EventBusFactory {
-	private static String eventbusFactoryImplClsName = "com.esofthead.mycollab.eventmanager.EventBusFactoryImpl";
+	private static String eventBusFactoryImplClsName = "com.esofthead.mycollab.eventmanager.EventBusFactoryImpl";
 
-	private static EventBusFactory eventbusFactoryImpl;
+	private static EventBusFactory eventBusFactoryImpl;
 
 	static {
 		try {
 			Class<EventBusFactory> cls = (Class<EventBusFactory>) Class
-					.forName(eventbusFactoryImplClsName);
-			eventbusFactoryImpl = cls.newInstance();
+					.forName(eventBusFactoryImplClsName);
+			eventBusFactoryImpl = cls.newInstance();
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
@@ -44,6 +44,6 @@ public abstract class EventBusFactory {
 	abstract EventBus getInstanceInSession();
 
 	public static EventBus getInstance() {
-		return eventbusFactoryImpl.getInstanceInSession();
+		return eventBusFactoryImpl.getInstanceInSession();
 	}
 }

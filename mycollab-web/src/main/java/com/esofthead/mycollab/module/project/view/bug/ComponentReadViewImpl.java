@@ -236,7 +236,7 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
+        final TabSheetLazyLoadComp tabContainer = new TabSheetLazyLoadComp();
         tabContainer.addTab(commentDisplay, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabContainer.addTab(historyLogList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
@@ -405,13 +405,12 @@ public class ComponentReadViewImpl extends
         }
     }
 
-    private class PeopleInfoComp extends VerticalLayout {
+    private class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.setSpacing(true);
-            this.setMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext
@@ -463,7 +462,6 @@ public class ComponentReadViewImpl extends
             }
 
             this.addComponent(layout);
-
         }
     }
 

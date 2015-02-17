@@ -147,8 +147,7 @@ public class CrmController extends AbstractController {
 				AccountSearchCriteria criteria = new AccountSearchCriteria();
 				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 						AppContext.getAccountId()));
-				presenter.go(container,
-						new ScreenData.Search<AccountSearchCriteria>(criteria));
+				presenter.go(container, new ScreenData.Search<>(criteria));
 			}
 		});
 
@@ -159,8 +158,7 @@ public class CrmController extends AbstractController {
 			public void handle(AccountEvent.GotoAdd event) {
 				AccountAddPresenter presenter = PresenterResolver
 						.getPresenter(AccountAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleAccount>(
-						new SimpleAccount()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleAccount()));
 			}
 		});
 
@@ -171,8 +169,7 @@ public class CrmController extends AbstractController {
 			public void handle(AccountEvent.GotoEdit event) {
 				AccountAddPresenter presenter = PresenterResolver
 						.getPresenter(AccountAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -240,8 +237,7 @@ public class CrmController extends AbstractController {
 			public void handle(ActivityEvent.TaskEdit event) {
 				AssignmentAddPresenter presenter = PresenterResolver
 						.getPresenter(AssignmentAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -281,8 +277,7 @@ public class CrmController extends AbstractController {
 				MeetingAddPresenter presenter = PresenterResolver
 						.getPresenter(MeetingAddPresenter.class);
 
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -322,8 +317,7 @@ public class CrmController extends AbstractController {
 				CallAddPresenter presenter = PresenterResolver
 						.getPresenter(CallAddPresenter.class);
 
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -355,9 +349,7 @@ public class CrmController extends AbstractController {
 				searchCriteria.setSaccountid(new NumberSearchField(
 						SearchField.AND, AppContext.getAccountId()));
 
-				presenter.go(container,
-						new ScreenData.Search<CampaignSearchCriteria>(
-								searchCriteria));
+				presenter.go(container, new ScreenData.Search<>(searchCriteria));
 			}
 		});
 
@@ -367,8 +359,7 @@ public class CrmController extends AbstractController {
 			public void handle(CampaignEvent.GotoAdd event) {
 				CampaignAddPresenter presenter = PresenterResolver
 						.getPresenter(CampaignAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleCampaign>(
-						new SimpleCampaign()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleCampaign()));
 			}
 		});
 
@@ -378,8 +369,7 @@ public class CrmController extends AbstractController {
 			public void handle(CampaignEvent.GotoEdit event) {
 				CampaignAddPresenter presenter = PresenterResolver
 						.getPresenter(CampaignAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -407,9 +397,7 @@ public class CrmController extends AbstractController {
 				ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
 				searchCriteria.setSaccountid(new NumberSearchField(
 						SearchField.AND, AppContext.getAccountId()));
-				presenter.go(container,
-						new ScreenData.Search<ContactSearchCriteria>(
-								searchCriteria));
+				presenter.go(container, new ScreenData.Search<>(searchCriteria));
 			}
 		});
 
@@ -419,8 +407,7 @@ public class CrmController extends AbstractController {
 			public void handle(ContactEvent.GotoAdd event) {
 				ContactAddPresenter presenter = PresenterResolver
 						.getPresenter(ContactAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleContact>(
-						new SimpleContact()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleContact()));
 			}
 		});
 
@@ -430,8 +417,7 @@ public class CrmController extends AbstractController {
 			public void handle(ContactEvent.GotoEdit event) {
 				ContactAddPresenter presenter = PresenterResolver
 						.getPresenter(ContactAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -500,9 +486,7 @@ public class CrmController extends AbstractController {
 				LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
 				searchCriteria.setSaccountid(new NumberSearchField(
 						SearchField.AND, AppContext.getAccountId()));
-				presenter.go(container,
-						new ScreenData.Search<LeadSearchCriteria>(
-								searchCriteria));
+				presenter.go(container, new ScreenData.Search<>(searchCriteria));
 			}
 		});
 
@@ -512,8 +496,7 @@ public class CrmController extends AbstractController {
 			public void handle(LeadEvent.GotoAdd event) {
 				LeadAddPresenter presenter = PresenterResolver
 						.getPresenter(LeadAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleLead>(
-						new SimpleLead()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleLead()));
 			}
 		});
 
@@ -523,8 +506,7 @@ public class CrmController extends AbstractController {
 			public void handle(LeadEvent.GotoEdit event) {
 				LeadAddPresenter presenter = PresenterResolver
 						.getPresenter(LeadAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -579,9 +561,7 @@ public class CrmController extends AbstractController {
 							SearchField.AND, AppContext.getAccountId()));
 				}
 
-				presenter.go(container,
-						new ScreenData.Search<OpportunitySearchCriteria>(
-								searchCriteria));
+				presenter.go(container, new ScreenData.Search<>(searchCriteria));
 			}
 		});
 
@@ -591,8 +571,7 @@ public class CrmController extends AbstractController {
 			public void handle(OpportunityEvent.GotoAdd event) {
 				OpportunityAddPresenter presenter = PresenterResolver
 						.getPresenter(OpportunityAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleOpportunity>(
-						new SimpleOpportunity()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleOpportunity()));
 			}
 		});
 
@@ -602,8 +581,7 @@ public class CrmController extends AbstractController {
 			public void handle(OpportunityEvent.GotoEdit event) {
 				OpportunityAddPresenter presenter = PresenterResolver
 						.getPresenter(OpportunityAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 
@@ -642,9 +620,7 @@ public class CrmController extends AbstractController {
 				CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
 				searchCriteria.setSaccountid(new NumberSearchField(
 						SearchField.AND, AppContext.getAccountId()));
-				presenter.go(container,
-						new ScreenData.Search<CaseSearchCriteria>(
-								searchCriteria));
+				presenter.go(container, new ScreenData.Search<>(searchCriteria));
 			}
 		});
 
@@ -654,8 +630,7 @@ public class CrmController extends AbstractController {
 			public void handle(CaseEvent.GotoAdd event) {
 				CaseAddPresenter presenter = PresenterResolver
 						.getPresenter(CaseAddPresenter.class);
-				presenter.go(container, new ScreenData.Add<SimpleCase>(
-						new SimpleCase()));
+				presenter.go(container, new ScreenData.Add<>(new SimpleCase()));
 			}
 		});
 
@@ -665,8 +640,7 @@ public class CrmController extends AbstractController {
 			public void handle(CaseEvent.GotoEdit event) {
 				CaseAddPresenter presenter = PresenterResolver
 						.getPresenter(CaseAddPresenter.class);
-				presenter.go(container,
-						new ScreenData.Edit<Object>(event.getData()));
+				presenter.go(container, new ScreenData.Edit<>(event.getData()));
 			}
 		});
 

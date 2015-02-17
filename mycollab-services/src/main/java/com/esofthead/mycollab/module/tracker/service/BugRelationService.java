@@ -17,12 +17,11 @@
 package com.esofthead.mycollab.module.tracker.service;
 
 import com.esofthead.mycollab.cache.IgnoreCacheClass;
-import com.esofthead.mycollab.core.persistence.service.IDefaultService;
-import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugRelatedSearchCriteria;
+import com.esofthead.mycollab.core.persistence.service.IService;
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 
 @IgnoreCacheClass
-public interface RelatedBugService extends
-		IDefaultService<Integer, SimpleRelatedBug, BugRelatedSearchCriteria> {
+public interface BugRelationService extends IService {
 
+    void saveRelation(String relation, SimpleBug bug, SimpleBug relatedBug);
 }

@@ -43,6 +43,8 @@ import com.vaadin.ui.Table.ColumnGenerator;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -55,7 +57,7 @@ import java.util.List;
  * @since 4.3.3
  *
  */
-public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
+public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CrmFollowersComp.class);
@@ -79,16 +81,15 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 
 		this.type = type;
 		this.permissionItem = permissionItem;
+
+        this.withMargin(new MarginInfo(true, false, true, true));
 	}
 
 	public void displayFollowers(final V bean) {
 		this.bean = bean;
 		this.removeAllComponents();
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, false, true));
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setSpacing(true);
+		MHorizontalLayout header = new MHorizontalLayout();
 		Label followerHeader = new Label(FontAwesome.EYE.getHtml() + " " +
 				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS), ContentMode.HTML);
 		followerHeader.setStyleName("info-hdr");
@@ -147,11 +148,10 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 					.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
 		}
 
-		VerticalLayout layout = new VerticalLayout();
+		MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
+                .withWidth("100%");
+
 		this.addComponent(layout);
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(false, false, false, true));
 
 		int totalFollowers = getTotalFollowers(bean);
 		followersBtn = new Button(AppContext.getMessage(

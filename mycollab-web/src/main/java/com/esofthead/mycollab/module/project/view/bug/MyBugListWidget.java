@@ -35,6 +35,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -56,9 +57,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 
 		@Override
 		public Component generateRow(final SimpleBug bug, int rowIndex) {
-			MHorizontalLayout layout = new MHorizontalLayout().withMargin(true).withWidth("100%");
-
-			VerticalLayout rowContent = new VerticalLayout();
+			MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
 
 			LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
@@ -87,31 +86,22 @@ public class MyBugListWidget extends BugDisplayWidget {
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			rowContent.addComponent(dateInfo);
 
-			HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
-			hLayoutAssigneeInfo.setSpacing(true);
+			MHorizontalLayout hLayoutAssigneeInfo = new MHorizontalLayout();
+            hLayoutAssigneeInfo.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 			Label assignee = new Label(
 					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
 			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-			hLayoutAssigneeInfo.addComponent(assignee);
-			hLayoutAssigneeInfo.setComponentAlignment(assignee,
-					Alignment.MIDDLE_CENTER);
 
 			ProjectUserLink userLink = new ProjectUserLink(bug.getAssignuser(),
 					bug.getAssignUserAvatarId(), bug.getAssignuserFullName(),
 					false, true);
-			hLayoutAssigneeInfo.addComponent(userLink);
-			hLayoutAssigneeInfo.setComponentAlignment(userLink,
-					Alignment.MIDDLE_CENTER);
+            hLayoutAssigneeInfo.with(assignee, userLink);
 			rowContent.addComponent(hLayoutAssigneeInfo);
-
-			layout.addComponent(rowContent);
-			layout.setExpandRatio(rowContent, 1.0f);
-			layout.setStyleName(UIConstants.WIDGET_ROW);
-			if ((rowIndex + 1) % 2 != 0) {
-				layout.addStyleName("odd");
+            rowContent.setStyleName(UIConstants.WIDGET_ROW);
+            if ((rowIndex + 1) % 2 != 0) {
+                rowContent.addStyleName("odd");
 			}
-			layout.setWidth("100%");
-			return layout;
+            return rowContent;
 		}
 	}
 

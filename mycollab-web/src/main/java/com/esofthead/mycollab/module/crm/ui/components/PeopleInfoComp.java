@@ -44,7 +44,7 @@ public class PeopleInfoComp extends MVerticalLayout {
 
 	public void displayEntryPeople(ValuedBean bean) {
 		this.removeAllComponents();
-		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
+		this.withMargin(new MarginInfo(true, false, true, true));
 
 		Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
 				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);

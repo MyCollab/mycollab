@@ -17,26 +17,21 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.module.tracker.BugRelationConstants;
-import com.vaadin.ui.ComboBox;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugRelationComboBox extends ComboBox {
+public class BugRelationComboBox extends I18nValueComboBox {
 
 	private static final long serialVersionUID = 1L;
 
 	public BugRelationComboBox() {
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		this.addItem(BugRelationConstants.RELATED);
-		this.addItem(BugRelationConstants.DUPLICATED);
-		this.addItem(BugRelationConstants.BLOCK);
-
-		this.setNullSelectionAllowed(false);
-		this.select(BugRelationConstants.RELATED);
+		super(false, OptionI18nEnum.BugRelation.Block, OptionI18nEnum.BugRelation.Duplicated, OptionI18nEnum
+                .BugRelation.Related);
 	}
 
 }

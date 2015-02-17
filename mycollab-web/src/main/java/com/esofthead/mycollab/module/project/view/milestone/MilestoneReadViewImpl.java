@@ -115,7 +115,7 @@ public class MilestoneReadViewImpl extends
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
+        final TabSheetLazyLoadComp tabContainer = new TabSheetLazyLoadComp();
         tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabContainer.addTab(historyListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;

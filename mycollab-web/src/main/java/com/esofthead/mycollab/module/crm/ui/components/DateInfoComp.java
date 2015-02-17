@@ -25,10 +25,10 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Date;
 
@@ -38,24 +38,20 @@ import java.util.Date;
  * @since 4.0
  * 
  */
-public class DateInfoComp extends VerticalLayout {
+public class DateInfoComp extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory.getLogger(DateInfoComp.class);
 
 	public void displayEntryDateTime(ValuedBean bean) {
 		this.removeAllComponents();
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, false, false, true));
+		this.withMargin(new MarginInfo(true, false, true, true));
 		Label dateInfoHeader = new Label(FontAwesome.CALENDAR.getHtml() + " " +
 				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_DATES), ContentMode.HTML);
 		dateInfoHeader.setStyleName("info-hdr");
 		this.addComponent(dateInfoHeader);
 
-		VerticalLayout layout = new VerticalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(new MarginInfo(false, false, false, true));
+		MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true)).withWidth("100%");
 		try {
 			Date createdDate = (Date) PropertyUtils.getProperty(bean,
 					"createdtime");
@@ -64,9 +60,7 @@ public class DateInfoComp extends VerticalLayout {
 					DateTimeUtils.getPrettyDateValue(createdDate,
 							AppContext.getUserLocale())));
 			createdDateLbl.setDescription(AppContext
-					.formatDateTime(createdDate));
-
-			layout.addComponent(createdDateLbl);
+                    .formatDateTime(createdDate));
 
 			Date updatedDate = (Date) PropertyUtils.getProperty(bean,
 					"lastupdatedtime");
@@ -77,7 +71,7 @@ public class DateInfoComp extends VerticalLayout {
 			updatedDateLbl.setDescription(AppContext
 					.formatDateTime(updatedDate));
 
-			layout.addComponent(updatedDateLbl);
+			layout.with(createdDateLbl, updatedDateLbl);
 			this.addComponent(layout);
 		} catch (Exception e) {
 			LOG.error("Get date is failed {}", BeanUtility.printBeanObj(bean));

@@ -17,18 +17,17 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.common.MyCollabSession.PRESENTER_VAL;
+import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.core.MyCollabException;
+import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.common.MyCollabSession;
-import com.esofthead.mycollab.core.MyCollabException;
+import static com.esofthead.mycollab.common.MyCollabSession.PRESENTER_VAL;
 
 /**
  * 
@@ -62,7 +61,7 @@ public final class PresenterResolver {
 		Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession
 				.getVariable(PRESENTER_VAL);
 		if (presenterMap == null) {
-			presenterMap = new HashMap<Class<?>, Object>();
+			presenterMap = new HashMap<>();
 			MyCollabSession.putVariable(PRESENTER_VAL, presenterMap);
 		}
 

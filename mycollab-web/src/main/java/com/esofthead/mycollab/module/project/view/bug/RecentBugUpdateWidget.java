@@ -33,8 +33,11 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.*;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -62,9 +65,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 
 		@Override
 		public Component generateRow(final SimpleBug bug, final int rowIndex) {
-			final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(true).withWidth("100%");
-
-			VerticalLayout rowContent = new VerticalLayout();
+			MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
 			final LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
@@ -111,14 +112,11 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 					Alignment.MIDDLE_CENTER);
 			rowContent.addComponent(hLayoutAssigneeInfo);
 
-			layout.addComponent(rowContent);
-			layout.setExpandRatio(rowContent, 1.0f);
-			layout.setStyleName(UIConstants.WIDGET_ROW);
+			rowContent.setStyleName(UIConstants.WIDGET_ROW);
 			if ((rowIndex + 1) % 2 != 0) {
-				layout.addStyleName("odd");
+                rowContent.addStyleName("odd");
 			}
-			layout.setWidth("100%");
-			return layout;
+			return rowContent;
 		}
 	}
 }

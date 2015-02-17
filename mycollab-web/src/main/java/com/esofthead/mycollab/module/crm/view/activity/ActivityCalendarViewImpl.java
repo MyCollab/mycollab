@@ -91,9 +91,6 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-		this.setVerticalTabsheetFix(true);
-		this.setVerticalTabsheetFixToLeft(false);
-
 		initContent();
 	}
 

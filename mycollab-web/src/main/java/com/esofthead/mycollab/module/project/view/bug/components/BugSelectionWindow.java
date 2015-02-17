@@ -14,23 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.view.bug.BugSimpleSearchPanel;
+import com.esofthead.mycollab.module.project.view.bug.BugTableDisplay;
+import com.esofthead.mycollab.module.project.view.bug.BugTableFieldDef;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -43,19 +46,17 @@ public class BugSelectionWindow extends Window {
 
     private static final long serialVersionUID = 1L;
     private DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> tableItem;
-    private BugRelatedField fieldSelection;
+    private FieldSelection<SimpleBug> fieldSelection;
 
-    public BugSelectionWindow(BugRelatedField fieldSelection) {
-        super("Bug Lookup");
+    public BugSelectionWindow(FieldSelection<SimpleBug> fieldSelection) {
+        super("Bug Selection");
+
         this.setWidth("900px");
-        this.setHeight("500px");
-        this.fieldSelection = fieldSelection;
         this.setModal(true);
         this.setResizable(false);
+        this.fieldSelection = fieldSelection;
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.setSpacing(true);
-        layout.setMargin(true);
+        MVerticalLayout layout = new MVerticalLayout();
         BugSimpleSearchPanel contactSimpleSearchPanel = new BugSimpleSearchPanel();
         contactSimpleSearchPanel
                 .addSearchHandler(new SearchHandler<BugSearchCriteria>() {
@@ -70,18 +71,16 @@ public class BugSelectionWindow extends Window {
         createBugList();
         layout.addComponent(tableItem);
         this.setContent(layout);
+        show();
     }
 
-    void show() {
-        BugSearchCriteria searchCriteria = new BugSearchCriteria();
-        searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-                CurrentProjectVariables.getProject().getId()));
-        tableItem.setSearchCriteria(searchCriteria);
-        center();
+    public void show() {
+        BugSearchCriteria criteria = new BugSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        tableItem.setSearchCriteria(criteria);
     }
 
     private void createBugList() {
-
         tableItem = new BugTableDisplay(Arrays.asList(BugTableFieldDef.summary,
                 BugTableFieldDef.severity, BugTableFieldDef.resolution,
                 BugTableFieldDef.assignUser));

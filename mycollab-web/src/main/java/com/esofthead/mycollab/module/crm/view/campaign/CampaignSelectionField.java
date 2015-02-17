@@ -29,61 +29,59 @@ import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class CampaignSelectionField extends CustomField<Integer> implements
-		FieldSelection<CampaignWithBLOBs> {
+        FieldSelection<CampaignWithBLOBs> {
 
-	private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
+    private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
 
-	private TextField campaignName = new TextField();
+    private TextField campaignName = new TextField();
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		Object value = newDataSource.getValue();
-		if (value instanceof Integer) {
-			setCampaignByVal((Integer) value);
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value instanceof Integer) {
+            setCampaignByVal((Integer) value);
 
-			super.setPropertyDataSource(newDataSource);
-		} else {
-			super.setPropertyDataSource(newDataSource);
-		}
-	}
+            super.setPropertyDataSource(newDataSource);
+        } else {
+            super.setPropertyDataSource(newDataSource);
+        }
+    }
 
-	@Override
-	public void setValue(Integer value) {
-		this.setCampaignByVal(value);
-		super.setValue(value);
-	}
+    @Override
+    public void setValue(Integer value) {
+        this.setCampaignByVal(value);
+        super.setValue(value);
+    }
 
-	private void setCampaignByVal(Integer campaignId) {
-		CampaignService campaignService = ApplicationContextUtil
-				.getSpringBean(CampaignService.class);
-		SimpleCampaign campaign = campaignService.findById(campaignId,
-				AppContext.getAccountId());
-		if (campaign != null) {
-			setInternalCampaign(campaign);
-		}
-	}
+    private void setCampaignByVal(Integer campaignId) {
+        CampaignService campaignService = ApplicationContextUtil
+                .getSpringBean(CampaignService.class);
+        SimpleCampaign campaign = campaignService.findById(campaignId,
+                AppContext.getAccountId());
+        if (campaign != null) {
+            setInternalCampaign(campaign);
+        }
+    }
 
-	private void setInternalCampaign(SimpleCampaign campaign) {
-		this.internalValue = campaign;
-		campaignName.setValue(internalValue.getCampaignname());
-	}
+    private void setInternalCampaign(SimpleCampaign campaign) {
+        this.internalValue = campaign;
+        campaignName.setValue(internalValue.getCampaignname());
+    }
 
-	@Override
-	protected Component initContent() {
-		MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
-		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+    @Override
+    protected Component initContent() {
+        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
+        Button browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
         browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-
-		browseBtn.addClickListener(new Button.ClickListener() {
+        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
@@ -93,9 +91,10 @@ public class CampaignSelectionField extends CustomField<Integer> implements
             }
         });
 
-		Button clearBtn = new Button(null, FontAwesome.TRASH_O);
+        Button clearBtn = new Button(null, FontAwesome.TRASH_O);
         clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-		clearBtn.addClickListener(new Button.ClickListener() {
+        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
+        clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 campaignName.setValue("");
@@ -104,20 +103,20 @@ public class CampaignSelectionField extends CustomField<Integer> implements
         });
 
         layout.with(campaignName, browseBtn, clearBtn).expand(campaignName);
-		return layout;
-	}
+        return layout;
+    }
 
-	@Override
-	public Class<Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<Integer> getType() {
+        return Integer.class;
+    }
 
-	@Override
-	public void fireValueChange(CampaignWithBLOBs data) {
-		this.internalValue = data;
-		if (internalValue != null) {
-			campaignName.setValue(internalValue.getCampaignname());
-			setInternalValue(data.getId());
-		}
-	}
+    @Override
+    public void fireValueChange(CampaignWithBLOBs data) {
+        this.internalValue = data;
+        if (internalValue != null) {
+            campaignName.setValue(internalValue.getCampaignname());
+            setInternalValue(data.getId());
+        }
+    }
 }

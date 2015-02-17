@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		FieldSelection<Contact> {
 	private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout layout;
+	private MHorizontalLayout layout;
 
 	private TextField contactName;
 
@@ -52,6 +53,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		contactName.setWidth("100%");
 		browseBtn = new Button(null, FontAwesome.ELLIPSIS_H);
         browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
 		browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -64,6 +66,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 
 		clearBtn = new Button(null, FontAwesome.TRASH_O);
         clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
 
 		clearBtn.addClickListener(new Button.ClickListener() {
             @Override
@@ -122,20 +125,9 @@ public class ContactSelectionField extends CustomField<Integer> implements
 
 	@Override
 	protected Component initContent() {
-		layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-
-		layout.addComponent(contactName);
-		layout.setComponentAlignment(contactName, Alignment.MIDDLE_LEFT);
-		layout.setExpandRatio(contactName, 1.0f);
-
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
-
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
+		layout = new MHorizontalLayout().withWidth("100%");
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		layout.with(contactName, browseBtn, clearBtn).expand(contactName);
 		return layout;
 	}
 

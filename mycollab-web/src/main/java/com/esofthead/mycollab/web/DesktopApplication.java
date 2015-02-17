@@ -116,6 +116,17 @@ public class DesktopApplication extends MyCollabUI {
                 });
 
         EventBusFactory.getInstance().register(new ShellErrorHandler());
+
+        String userAgent = request.getHeader("user-agent");
+        if (isInNotSupportedBrowserList(userAgent.toLowerCase())) {
+            NotificationUtil.showWarningNotification("Your browser is out of date. Some features of MyCollab will not" +
+                    " behave correctly. You should upgrade to the newer browser.");
+        }
+    }
+
+    private boolean isInNotSupportedBrowserList(String userAgent) {
+        return (userAgent.indexOf("msie 6.0") != -1) || (userAgent.indexOf("msie 6.1") != -1)
+                || userAgent.indexOf("msie 7.0") != -1 || userAgent.indexOf("msie 8.0") != -1 || userAgent.indexOf("msie 9.0") != -1;
     }
 
     private void handleException(Throwable e) {

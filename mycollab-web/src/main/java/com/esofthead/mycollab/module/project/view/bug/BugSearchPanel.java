@@ -207,8 +207,7 @@ public class BugSearchPanel extends
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
                     project.getId()));
-            searchCriteria.setSummary(new StringSearchField(this.nameField
-                    .getValue().toString().trim()));
+            searchCriteria.setSummary(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
                 searchCriteria.setAssignuser(new StringSearchField(
                         SearchField.AND, AppContext.getUsername()));

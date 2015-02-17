@@ -29,13 +29,15 @@ import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -61,9 +63,7 @@ public class DueBugWidget extends BugDisplayWidget {
 
 		@Override
 		public Component generateRow(final SimpleBug bug, final int rowIndex) {
-			final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(true).withWidth("100%");
-
-			VerticalLayout rowContent = new VerticalLayout();
+			MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
 			final LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
@@ -112,14 +112,12 @@ public class DueBugWidget extends BugDisplayWidget {
 					Alignment.MIDDLE_CENTER);
 
 			rowContent.addComponent(hLayoutDateInfo);
-			layout.addComponent(rowContent);
-			layout.setExpandRatio(rowContent, 1.0f);
-			layout.setStyleName(UIConstants.WIDGET_ROW);
+			rowContent.setStyleName(UIConstants.WIDGET_ROW);
 			if ((rowIndex + 1) % 2 != 0) {
-				layout.addStyleName("odd");
+                rowContent.addStyleName("odd");
 			}
-			layout.setWidth("100%");
-			return layout;
+
+			return rowContent;
 		}
 	}
 }

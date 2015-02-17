@@ -36,7 +36,7 @@ public class ControllerRegistry {
 		Map<Class, AbstractController> controllerList = ((Map<Class, AbstractController>) MyCollabSession
 				.getVariable(CONTROLLER_REGISTRY));
 		if (controllerList == null) {
-			controllerList = new HashMap<Class, AbstractController>();
+			controllerList = new HashMap<>();
 			MyCollabSession.putVariable(CONTROLLER_REGISTRY, controllerList);
 		}
 		AbstractController existingController = controllerList.get(controller

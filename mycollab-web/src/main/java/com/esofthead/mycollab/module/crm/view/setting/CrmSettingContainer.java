@@ -43,7 +43,7 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 		PageView {
 	private static final long serialVersionUID = 1L;
 
-	private final VerticalTabsheet settingTab;
+	private final CrmVerticalTabsheet settingTab;
 
 	private ICrmCustomViewPresenter customViewPresenter;
 	private CrmNotifcationSettingPresenter notificationPresenter;
@@ -52,7 +52,6 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 		this.setWidth("100%");
 
 		final CssLayout contentWrapper = new CssLayout();
-		// contentWrapper.setStyleName("verticalTabView");
 		contentWrapper.setWidth("100%");
 		this.addComponent(contentWrapper);
 
@@ -62,8 +61,6 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 		settingTab.setNavigatorStyleName("sidebar-menu");
 		settingTab.setContainerStyleName("tab-content");
 		settingTab.setHeight(null);
-		this.setVerticalTabsheetFix(true);
-		this.setVerticalTabsheetFixToLeft(false);
 
 		buildComponents();
 		contentWrapper.addComponent(settingTab);
@@ -73,7 +70,6 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 	@Override
 	public void attach() {
 		super.attach();
-
 		if (this.getParent() instanceof CustomLayout) {
 			this.getParent().addStyleName("preview-comp");
 		}
@@ -121,8 +117,7 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 	}
 
 	public Component gotoSubView(String viewId) {
-		PageView component = (PageView) settingTab.selectTab(viewId);
-		return component;
+		return settingTab.selectTab(viewId);
 	}
 
 }

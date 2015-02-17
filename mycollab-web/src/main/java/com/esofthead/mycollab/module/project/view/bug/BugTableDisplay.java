@@ -62,7 +62,7 @@ public class BugTableDisplay extends
 		implements IBugCallbackStatusComp {
 	private static final long serialVersionUID = 1L;
 
-	BugTableDisplay(List<TableViewField> displayColumns) {
+	public BugTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
 	}
 
@@ -86,7 +86,7 @@ public class BugTableDisplay extends
 				final SimpleBug bug = BugTableDisplay.this
 						.getBeanByIndex(itemId);
 				final Button bugSettingBtn = new Button(null, FontAwesome.COG);
-				bugSettingBtn.setStyleName("link");
+				bugSettingBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
 				final ContextMenu contextMenu = new ContextMenu();
 				contextMenu.setAsContextMenuOf(bugSettingBtn);

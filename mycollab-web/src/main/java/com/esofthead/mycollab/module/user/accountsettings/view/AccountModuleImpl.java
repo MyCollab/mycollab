@@ -29,16 +29,11 @@ import com.esofthead.mycollab.module.user.accountsettings.view.parameters.Custom
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
-import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -64,9 +59,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 	private IBillingPresenter billingPresenter;
 	private ICustomizePresenter customizePresenter;
 
-	private final AccountSettingBreadcrumb breadcrumb;
-
 	public AccountModuleImpl() {
+        super(true);
 		ControllerRegistry.addController(new UserAccountController(this));
 		this.setWidth("100%");
 		this.addStyleName("main-content-wrapper");
@@ -74,10 +68,10 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 		final MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));
-		this.breadcrumb = ViewManager
+        AccountSettingBreadcrumb breadcrumb = ViewManager
 				.getCacheComponent(AccountSettingBreadcrumb.class);
 
-		topPanel.addComponent(this.breadcrumb);
+		topPanel.addComponent(breadcrumb);
 
 		this.accountTab = new UserVerticalTabsheet();
 		this.accountTab.setWidth("100%");
@@ -85,7 +79,6 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		this.accountTab.setNavigatorStyleName("sidebar-menu");
 		this.accountTab.setContainerStyleName("tab-content");
 		this.accountTab.setHeight(null);
-		this.setVerticalTabsheetFix(true);
 
 		VerticalLayout contentWrapper = this.accountTab.getContentWrapper();
 		contentWrapper.addStyleName("main-content");

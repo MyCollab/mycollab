@@ -254,7 +254,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
+        TabSheetLazyLoadComp tabTaskDetail = new TabSheetLazyLoadComp();
         tabTaskDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
         tabTaskDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabTaskDetail;

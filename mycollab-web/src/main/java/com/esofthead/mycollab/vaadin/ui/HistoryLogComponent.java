@@ -79,8 +79,8 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 		int numHistories = logTable.setSearchCriteria(criteria);
 
 		Object parentComp = this.getParent();
-		if (parentComp instanceof TabsheetLazyLoadComp) {
-			((TabsheetLazyLoadComp)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
+		if (parentComp instanceof TabSheetLazyLoadComp) {
+			((TabSheetLazyLoadComp)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
 					.TAB_HISTORY, numHistories));
 		}
 	}

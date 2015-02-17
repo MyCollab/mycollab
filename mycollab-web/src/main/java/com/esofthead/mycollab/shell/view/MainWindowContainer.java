@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.shell.view;
 
-import javax.servlet.http.Cookie;
-
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -29,9 +27,10 @@ import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
-import com.vaadin.server.Page;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+
+import javax.servlet.http.Cookie;
 
 /**
  * 
@@ -57,11 +56,7 @@ public class MainWindowContainer extends CssLayout {
 		this.addComponent(container);
 	}
 
-	public void addFragement(String fragement) {
-		Page.getCurrent().setUriFragment(fragement, false);
-	}
-
-	private final void setDefaultView() {
+	private void setDefaultView() {
 		final LoginPresenter presenter = PresenterResolver
 				.getPresenter(LoginPresenter.class);
 		LoginView loginView = presenter.getView();
@@ -94,10 +89,6 @@ public class MainWindowContainer extends CssLayout {
 				}
 			}
 		}
-	}
-
-	public boolean isAutoLogin() {
-		return isAutoLogin;
 	}
 
 	public void setAutoLogin(boolean isAutoLogin) {

@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -92,21 +93,16 @@ public class AccountSelectionField extends CustomField<Integer> implements
 
     @Override
     protected Component initContent() {
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
-        layout.setWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         accountName.setNullRepresentation("");
         accountName.setEnabled(true);
         accountName.setWidth("100%");
-        layout.addComponent(accountName);
-        layout.setComponentAlignment(accountName, Alignment.MIDDLE_LEFT);
 
         Button browseBtn = new Button(null,FontAwesome.ELLIPSIS_H);
         browseBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-        layout.addComponent(browseBtn);
-        layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
+        browseBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
 
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
@@ -120,6 +116,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
 
         Button clearBtn = new Button(null, FontAwesome.TRASH_O);
         clearBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         clearBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -127,11 +124,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
             }
         });
 
-        layout.addComponent(clearBtn);
-        layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-        layout.setExpandRatio(accountName, 1.0f);
-
+        layout.with(accountName, browseBtn, clearBtn).expand(accountName);
         return layout;
     }
 

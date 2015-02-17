@@ -39,8 +39,7 @@ class EventBusFactoryImpl extends EventBusFactory {
 
 	@Override
 	EventBus getInstanceInSession() {
-		EventBus eventBus = (EventBus) MyCollabSession
-				.getVariable(EVENT_BUS_VAL);
+		EventBus eventBus = (EventBus) MyCollabSession.getVariable(EVENT_BUS_VAL);
 		LOG.debug("Event bus {}", eventBus);
 		if (eventBus == null) {
 			eventBus = new EventBus(new SubscriberEventBusExceptionHandler());
@@ -56,10 +55,7 @@ class EventBusFactoryImpl extends EventBusFactory {
 		@Override
 		public void handleException(Throwable exception,
 				SubscriberExceptionContext context) {
-			EventBusFactory
-					.getInstance()
-					.post(new ShellEvent.NotifyErrorEvent(
-							SubscriberEventBusExceptionHandler.this, exception));
+			EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(SubscriberEventBusExceptionHandler.this, exception));
 		}
 
 	}

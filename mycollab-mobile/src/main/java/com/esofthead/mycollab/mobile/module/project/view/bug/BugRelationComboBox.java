@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import com.esofthead.mycollab.module.tracker.BugRelationConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.vaadin.ui.ListSelect;
 
 /**
@@ -30,12 +30,12 @@ public class BugRelationComboBox extends ListSelect {
 
 	public BugRelationComboBox() {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-		this.addItem(BugRelationConstants.RELATED);
-		this.addItem(BugRelationConstants.DUPLICATED);
-		this.addItem(BugRelationConstants.BLOCK);
+		this.addItem(OptionI18nEnum.BugRelation.Related.name());
+		this.addItem(OptionI18nEnum.BugRelation.Duplicated.name());
+		this.addItem(OptionI18nEnum.BugRelation.Block.name());
 
 		this.setNullSelectionAllowed(false);
-		this.select(BugRelationConstants.RELATED);
+		this.select(OptionI18nEnum.BugRelation.Related.name());
 	}
 
 }

@@ -66,7 +66,7 @@ public class ViewManager {
 		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession
 				.getVariable(VIEW_MANAGER_VAL);
 		if (viewMap == null) {
-			viewMap = new HashMap<Class<?>, Object>();
+			viewMap = new HashMap<>();
 			MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);
 		}
 

@@ -21,7 +21,8 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.TabsheetDecor;
+import com.esofthead.mycollab.vaadin.ui.TabSheetDecor;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -36,13 +37,13 @@ import com.vaadin.ui.TabSheet.Tab;
 public class UserPermissionManagementViewImpl extends AbstractPageView
 		implements UserPermissionManagementView {
 	private static final long serialVersionUID = 1L;
-	private TabsheetDecor groupTab;
+	private TabSheetDecor groupTab;
 	private UserPresenter userPresenter;
 	private RolePresenter rolePresenter;
 
 	public UserPermissionManagementViewImpl() {
-		groupTab = new TabsheetDecor();
-		groupTab.setStyleName("tab-style3");
+		groupTab = new TabSheetDecor();
+		groupTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
 
 		this.addComponent(groupTab);
 
@@ -61,7 +62,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
 			@Override
 			public void selectedTabChange(SelectedTabChangeEvent event) {
-				Tab tab = ((TabsheetDecor) event.getTabSheet())
+				Tab tab = ((TabSheetDecor) event.getTabSheet())
 						.getSelectedTabInfo();
 				String caption = tab.getCaption();
 				if ("Users".equals(caption)) {

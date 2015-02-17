@@ -28,7 +28,8 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.TabsheetDecor;
+import com.esofthead.mycollab.vaadin.ui.TabSheetDecor;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -53,14 +54,13 @@ public class TrackerContainer extends AbstractPageView {
 
 	private VersionPresenter versionPresenter;
 
-	private final TabsheetDecor myProjectTab;
+	private final TabSheetDecor myProjectTab;
 
 	private String selectedTabId = "";
 
 	public TrackerContainer() {
-
-		this.myProjectTab = new TabsheetDecor();
-		this.myProjectTab.setStyleName("tab-style3");
+		this.myProjectTab = new TabSheetDecor();
+		this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
 		this.addComponent(myProjectTab);
 		this.setWidth("100%");
 		this.buildComponents();
@@ -93,7 +93,7 @@ public class TrackerContainer extends AbstractPageView {
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((TabsheetDecor) event
+						final Tab tab = ((TabSheetDecor) event
 								.getTabSheet()).getSelectedTabInfo();
 						final String caption = tab.getCaption();
 						final SimpleProject project = CurrentProjectVariables

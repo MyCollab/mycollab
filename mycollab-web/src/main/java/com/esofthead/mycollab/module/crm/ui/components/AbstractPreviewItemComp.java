@@ -62,8 +62,6 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		navigatorWrapper.setWidth("250px");
-		this.setVerticalTabsheetFix(true);
-		this.setVerticalTabsheetFixToLeft(false);
 
 		previewItemContainer
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {

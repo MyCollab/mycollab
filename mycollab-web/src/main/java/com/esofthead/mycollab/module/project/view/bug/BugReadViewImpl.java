@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
@@ -404,7 +403,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabsheetLazyLoadComp tabBugDetail = new TabsheetLazyLoadComp();
+        final TabSheetLazyLoadComp tabBugDetail = new TabSheetLazyLoadComp();
         tabBugDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabBugDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabBugDetail;

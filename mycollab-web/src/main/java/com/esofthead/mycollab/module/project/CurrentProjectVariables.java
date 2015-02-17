@@ -16,27 +16,21 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
-import static com.esofthead.mycollab.common.MyCollabSession.PROJECT_MEMBER;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
-import com.esofthead.mycollab.module.project.domain.ProjectCustomizeView;
-import com.esofthead.mycollab.module.project.domain.ProjectMember;
-import com.esofthead.mycollab.module.project.domain.ProjectRolePermission;
-import com.esofthead.mycollab.module.project.domain.ProjectRolePermissionExample;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.common.MyCollabSession.PROJECT_MEMBER;
 
 /**
  * 
@@ -64,9 +58,7 @@ public class CurrentProjectVariables {
 				AppContext.getUsername(), project.getId(),
 				AppContext.getAccountId());
 		if (prjMember != null) {
-			if (((prjMember.getIsadmin() != null && prjMember.getIsadmin() == Boolean.FALSE) || (prjMember
-					.getIsadmin() == null))
-					&& prjMember.getProjectroleid() != null) {
+			if (!prjMember.isAdmin()) {
 				ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
 				ex.createCriteria()
 						.andRoleidEqualTo(prjMember.getProjectroleid())
@@ -123,11 +115,7 @@ public class CurrentProjectVariables {
 		try {
 			PermissionMap permissionMap = getProjectMember()
 					.getPermissionMaps();
-			if (permissionMap == null) {
-				return false;
-			} else {
-				return permissionMap.canRead(permissionItem);
-			}
+			return (permissionMap != null) && permissionMap.canRead(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
 			return false;
@@ -146,11 +134,7 @@ public class CurrentProjectVariables {
 		try {
 			PermissionMap permissionMap = getProjectMember()
 					.getPermissionMaps();
-			if (permissionMap == null) {
-				return false;
-			} else {
-				return permissionMap.canWrite(permissionItem);
-			}
+			return (permissionMap != null) && permissionMap.canWrite(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
 			return false;
@@ -169,11 +153,7 @@ public class CurrentProjectVariables {
 		try {
 			PermissionMap permissionMap = getProjectMember()
 					.getPermissionMaps();
-			if (permissionMap == null) {
-				return false;
-			} else {
-				return permissionMap.canAccess(permissionItem);
-			}
+			return (permissionMap != null) && permissionMap.canAccess(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
 			return false;

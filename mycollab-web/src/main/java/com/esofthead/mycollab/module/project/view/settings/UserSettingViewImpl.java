@@ -32,7 +32,8 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.TabsheetDecor;
+import com.esofthead.mycollab.vaadin.ui.TabSheetDecor;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -52,12 +53,12 @@ public class UserSettingViewImpl extends AbstractPageView implements
 	private ProjectRolePresenter rolePresenter;
 	private ProjectSettingPresenter settingPresenter;
 
-	private final TabsheetDecor myProjectTab;
+	private final TabSheetDecor myProjectTab;
 
 	public UserSettingViewImpl() {
 		this.setWidth("100%");
-		this.myProjectTab = new TabsheetDecor();
-		this.myProjectTab.setStyleName("tab-style3");
+		this.myProjectTab = new TabSheetDecor();
+		this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
 
 		this.addComponent(myProjectTab);
 
@@ -86,7 +87,7 @@ public class UserSettingViewImpl extends AbstractPageView implements
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((TabsheetDecor) event.getTabSheet())
+						final Tab tab = ((TabSheetDecor) event.getTabSheet())
 								.getSelectedTabInfo();
 						final String caption = tab.getCaption();
 						final SimpleProject project = CurrentProjectVariables

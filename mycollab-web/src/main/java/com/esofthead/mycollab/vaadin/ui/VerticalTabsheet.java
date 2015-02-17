@@ -45,20 +45,19 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class VerticalTabsheet extends CustomComponent {
 	private static final long serialVersionUID = 1L;
+    private static final String TABSHEET_STYLENAME = "vertical-tabsheet";
+    private static final String TAB_STYLENAME = "tab";
+    private static final String TAB_SELECTED_STYLENAME = "tab-selected";
 
-	private VerticalLayout tabNavigator;
+	private VerticalLayout navigatorContainer;
 	private CssLayout tabContainer;
 	private VerticalLayout contentWrapper;
 	private CssLayout navigatorWrapper;
 
-	private Map<String, Tab> compMap = new HashMap<String, Tab>();
+	private Map<String, Tab> compMap = new HashMap<>();
 
 	private Component selectedButton = null;
 	private Tab selectedComp = null;
-
-	private final String TABSHEET_STYLENAME = "vertical-tabsheet";
-	private final String TAB_STYLENAME = "tab";
-	private final String TAB_SELECTED_STYLENAME = "tab-selected";
 
 	public VerticalTabsheet() {
 		this(true);
@@ -66,10 +65,11 @@ public class VerticalTabsheet extends CustomComponent {
 
 	public VerticalTabsheet(boolean isLeft) {
 		CssLayout contentLayout = new CssLayout();
+
 		navigatorWrapper = new CssLayout();
 		navigatorWrapper.setStyleName("navigator-wrap");
-		tabNavigator = new VerticalLayout();
-		navigatorWrapper.addComponent(tabNavigator);
+		navigatorContainer = new VerticalLayout();
+		navigatorWrapper.addComponent(navigatorContainer);
 
 		contentWrapper = new VerticalLayout();
 		contentWrapper.setStyleName("container-wrap");
@@ -87,7 +87,6 @@ public class VerticalTabsheet extends CustomComponent {
 			contentLayout.addComponent(contentWrapper);
 			contentLayout.addComponent(navigatorWrapper);
 		}
-		// contentLayout.setExpandRatio(contentWrapper, 1.0f);
 
 		this.setCompositionRoot(contentLayout);
 		this.setStyleName(TABSHEET_STYLENAME);
@@ -144,8 +143,8 @@ public class VerticalTabsheet extends CustomComponent {
 
 			if (button.getLevel() > 0) {
 				int insertIndex = 0;
-				for (int i = 0; i < tabNavigator.getComponentCount(); i++) {
-					ButtonTabImpl buttonTmp = (ButtonTabImpl) tabNavigator
+				for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
+					ButtonTabImpl buttonTmp = (ButtonTabImpl) navigatorContainer
 							.getComponent(i);
 					if (buttonTmp.getLevel() > level) {
 						break;
@@ -153,9 +152,9 @@ public class VerticalTabsheet extends CustomComponent {
 						insertIndex++;
 					}
 				}
-				tabNavigator.addComponent(button, insertIndex);
+				navigatorContainer.addComponent(button, insertIndex);
 			} else {
-				tabNavigator.addComponent(button);
+				navigatorContainer.addComponent(button);
 			}
 
 			TabImpl tabImpl = new TabImpl(id, caption, component);
@@ -173,15 +172,15 @@ public class VerticalTabsheet extends CustomComponent {
 		if (tabImpl != null) {
 			ButtonTabImpl button = getButtonById(viewId);
 			if (button != null) {
-				tabNavigator.removeComponent(button);
+				navigatorContainer.removeComponent(button);
 				compMap.remove(viewId);
 			}
 		}
 	}
 
 	private ButtonTabImpl getButtonById(String viewId) {
-		for (int i = 0; i < tabNavigator.getComponentCount(); i++) {
-			ButtonTabImpl button = (ButtonTabImpl) tabNavigator.getComponent(i);
+		for (int i = 0; i < navigatorContainer.getComponentCount(); i++) {
+			ButtonTabImpl button = (ButtonTabImpl) navigatorContainer.getComponent(i);
 			if (viewId.equals(button.getTabId())) {
 				return button;
 			}
@@ -201,7 +200,6 @@ public class VerticalTabsheet extends CustomComponent {
 					.getDeclaredMethod("selectedTabChange",
 							SelectedTabChangeEvent.class);
 		} catch (final java.lang.NoSuchMethodException e) {
-			// This should never happen
 			throw new java.lang.RuntimeException(
 					"Internal error finding methods in TabSheet");
 		}
@@ -244,8 +242,8 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public void setNavigatorWidth(String width) {
-		tabNavigator.setWidth(width);
-		Iterator<Component> i = tabNavigator.iterator();
+		navigatorContainer.setWidth(width);
+		Iterator<Component> i = navigatorContainer.iterator();
 		while (i.hasNext()) {
 			Component childComponent = i.next();
 			childComponent.setWidth(width);
@@ -253,28 +251,16 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public void setNavigatorStyleName(String styleName) {
-		tabNavigator.setStyleName(styleName);
-	}
-
-	public void addNavigatorStyleName(String styleName) {
-		tabNavigator.addStyleName(styleName);
-	}
-
-	public void setContainerWidth(String width) {
-		tabContainer.setWidth(width);
+        navigatorContainer.setStyleName(styleName);
 	}
 
 	public void setContainerStyleName(String styleName) {
-		tabContainer.setStyleName(styleName);
-	}
-
-	public void addContainerStyleName(String styleName) {
-		tabContainer.addStyleName(styleName);
+        tabContainer.setStyleName(styleName);
 	}
 
 	private void clearTabSelection(boolean setDefaultIcon) {
-		Iterator<Component> iterator = tabNavigator.iterator();
-		if (setDefaultIcon == true) {
+		Iterator<Component> iterator = navigatorContainer.iterator();
+		if (setDefaultIcon) {
 			while (iterator.hasNext()) {
 				Component btn = iterator.next();
 				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
