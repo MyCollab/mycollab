@@ -22,10 +22,10 @@ package com.esofthead.mycollab.vaadin.ui;
  * @since 3.0
  * 
  */
-public class TabSheetLazyLoadComp extends TabSheetDecor {
+public class TabSheetLazyLoadComponent extends TabSheetDecorator {
 	private static final long serialVersionUID = 1L;
 
-	public TabSheetLazyLoadComp() {
+	public TabSheetLazyLoadComponent() {
 		super();
 		this.setWidth("100%");
 	}

@@ -403,7 +403,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComp tabBugDetail = new TabSheetLazyLoadComp();
+        final TabSheetLazyLoadComponent tabBugDetail = new TabSheetLazyLoadComponent();
         tabBugDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabBugDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabBugDetail;

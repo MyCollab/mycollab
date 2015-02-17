@@ -37,6 +37,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -73,9 +75,7 @@ public class UserLink extends Button {
 				try {
 					UI.getCurrent().addWindow(new UserQuickPreviewWindow(user));
 				} catch (Exception e) {
-					LOG.error(
-							"Error while try to show user information window",
-							e);
+					LOG.error("Error while try to show user information window", e);
 				}
 			}
 		});
@@ -101,15 +101,12 @@ public class UserLink extends Button {
 		}
 
 		private void constructBody() {
-			VerticalLayout layout = new VerticalLayout();
-			layout.setSpacing(true);
-			layout.setMargin(true);
+			MVerticalLayout layout = new MVerticalLayout();
 
-			HorizontalLayout topLayout = new HorizontalLayout();
+			MHorizontalLayout topLayout = new MHorizontalLayout();
 			layout.addComponent(topLayout);
 
 			// ---------define top layout
-			topLayout.setSpacing(true);
 			
 			topLayout.addComponent(new Label("View full profile at: "));
 
@@ -121,8 +118,6 @@ public class UserLink extends Button {
 
 			userFullLinkBtn.setWidth("370px");
 			topLayout.addComponent(userFullLinkBtn);
-			//topLayout.setExpandRatio(userFullLinkBtn, 1.0f);
-			// -----------------------------------
 			CssLayout mainBodyWapper = new CssLayout();
 			mainBodyWapper.addStyleName("border-box2-color");
 			mainBodyWapper.setSizeFull();
@@ -131,16 +126,13 @@ public class UserLink extends Button {
 			VerticalLayout bodyLayout = new VerticalLayout();
 			mainBodyWapper.addComponent(bodyLayout);
 			HorizontalLayout infoHorizontalWapper = new HorizontalLayout();
-			VerticalLayout mainUserInfoLayout = new VerticalLayout();
+			MVerticalLayout mainUserInfoLayout = new MVerticalLayout().withWidth("360px");
 			VerticalLayout userImageLayout = new VerticalLayout();
 			infoHorizontalWapper.addComponent(mainUserInfoLayout);
 			infoHorizontalWapper.addComponent(userImageLayout);
 			bodyLayout.addComponent(infoHorizontalWapper);
 
 			// Construct mainUserInfoLayout ------------------
-			mainUserInfoLayout.setWidth("360px");
-			mainUserInfoLayout.setSpacing(true);
-			mainUserInfoLayout.setMargin(true);
 
 			Label userNameLbl = new Label(user.getDisplayName());
 			userNameLbl.addStyleName("h2");

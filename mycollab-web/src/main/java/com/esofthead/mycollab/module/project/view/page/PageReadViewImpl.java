@@ -219,7 +219,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComp tabContainer = new TabSheetLazyLoadComp();
+        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
         tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         return tabContainer;
     }

@@ -24,7 +24,7 @@ import com.vaadin.ui.TabSheet;
  * @since 3.0
  * 
  */
-public class TabSheetDecor extends TabSheet {
+public class TabSheetDecorator extends TabSheet {
 	private static final long serialVersionUID = 1L;
 
 	public Tab selectTab(final String viewName) {

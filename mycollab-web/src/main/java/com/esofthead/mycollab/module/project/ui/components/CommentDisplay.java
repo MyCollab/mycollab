@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComp;
+import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -86,8 +86,8 @@ public class CommentDisplay extends MVerticalLayout implements
 		int numComments = commentList.setSearchCriteria(searchCriteria);
 
 		Object parentComp = this.getParent();
-		if (parentComp instanceof TabSheetLazyLoadComp) {
-			((TabSheetLazyLoadComp)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
+		if (parentComp instanceof TabSheetLazyLoadComponent) {
+			((TabSheetLazyLoadComponent)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
 					.TAB_COMMENT, numComments));
 		}
 	}

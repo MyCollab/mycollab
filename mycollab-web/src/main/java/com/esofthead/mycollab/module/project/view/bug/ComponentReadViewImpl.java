@@ -236,7 +236,7 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComp tabContainer = new TabSheetLazyLoadComp();
+        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
         tabContainer.addTab(commentDisplay, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabContainer.addTab(historyLogList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
