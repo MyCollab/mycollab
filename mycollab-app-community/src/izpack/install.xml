@@ -12,7 +12,7 @@
         <url>https://www.mycollab.com/</url>
     </info>
 
-    <!-- The gui preferences indication. Sets the installer window to 640x480.
+    <!-- The gui preferences indication. Sets the installer window to 640x480. 
         It will not be able to change the size. -->
     <guiprefs width="640" height="480" resizable="no">
         <splash>flash_install_8.png</splash>
@@ -22,20 +22,20 @@
         <modifier key="layoutAnchor" value="CENTER" />
     </guiprefs>
 
-    <!-- The locale section. Asks here to include the English and French
+    <!-- The locale section. Asks here to include the English and French 
         langpacks. -->
     <locale>
         <langpack iso3="eng" />
     </locale>
 
-    <!-- The resources section. The ids must be these ones if you want to
+    <!-- The resources section. The ids must be these ones if you want to 
         use the LicencePanel and/or the InfoPanel. -->
     <resources>
         <res id="LicencePanel.licence" src="txt/LICENSE.txt" />
         <res id="InfoPanel.info" src="txt/README.md" />
     </resources>
 
-    <!-- The panels section. We indicate here which panels we want to use.
+    <!-- The panels section. We indicate here which panels we want to use. 
         The order will be respected. -->
     <panels>
         <panel classname="InfoPanel" />

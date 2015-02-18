@@ -16,42 +16,36 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.ListSelect;
-import com.vaadin.ui.TextField;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * @author MyCollab Ltd.
+ * @since 4.0.0
+ */
 public class FollowingTicketSearchPanel extends
 		DefaultGenericSearchPanel<FollowingTicketSearchCriteria> {
 
@@ -93,13 +87,12 @@ public class FollowingTicketSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return new HorizontalLayout();
+			return null;
 		}
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withSpacing(true).withMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
 			final GridLayout selectionLayout = new GridLayout(5, 2);
 			selectionLayout.setSpacing(true);
@@ -107,63 +100,40 @@ public class FollowingTicketSearchPanel extends
 			selectionLayout.setMargin(true);
 			basicSearchBody.addComponent(selectionLayout);
 
-			MVerticalLayout summaryLbWrapper = new MVerticalLayout()
-					.withWidth("70px");
 			Label summaryLb = new Label("Summary:");
 			summaryLb.setWidthUndefined();
-
-			summaryLbWrapper.with(summaryLb).withAlign(summaryLb,
-					Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(summaryLbWrapper, 0, 0);
+			selectionLayout.addComponent(summaryLb, 0, 0);
 
 			this.summaryField = new TextField();
 			this.summaryField.setWidth("100%");
 			selectionLayout.addComponent(this.summaryField, 1, 0);
 
-			MVerticalLayout typeLbWrapper = new MVerticalLayout()
-					.withWidth("70px");
-
 			Label typeLb = new Label("Type:");
 			typeLb.setWidthUndefined();
 
-			typeLbWrapper.with(typeLb).withAlign(typeLb, Alignment.TOP_RIGHT);
+			selectionLayout.addComponent(typeLb, 0, 1);
 
-			selectionLayout.addComponent(typeLbWrapper, 0, 1);
-
-			HorizontalLayout typeSelectWrapper = new HorizontalLayout();
-			typeSelectWrapper.setSpacing(true);
-			typeSelectWrapper.setMargin(new MarginInfo(false, true, false,
-					false));
+			MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false,
+                    false));
 			selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
-			this.taskSelect = new CheckBox("Task");
+			this.taskSelect = new CheckBox("Task", true);
 			this.taskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
-			this.taskSelect.setValue(true);
-			typeSelectWrapper.addComponent(this.taskSelect);
 
-			this.bugSelect = new CheckBox("Bug");
+			this.bugSelect = new CheckBox("Bug", true);
 			this.bugSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-			this.bugSelect.setValue(true);
-			typeSelectWrapper.addComponent(this.bugSelect);
 
-			this.problemSelect = new CheckBox("Problem");
+			this.problemSelect = new CheckBox("Problem", true);
 			this.problemSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
-			this.problemSelect.setValue(true);
-			typeSelectWrapper.addComponent(this.problemSelect);
 
-			this.riskSelect = new CheckBox("Risk");
+			this.riskSelect = new CheckBox("Risk", true);
 			this.riskSelect.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.RISK));
-			this.riskSelect.setValue(true);
-			typeSelectWrapper.addComponent(this.riskSelect);
 
-			MVerticalLayout projectLbWrapper = new MVerticalLayout()
-					.withWidth("70px");
+            typeSelectWrapper.with(this.taskSelect, this.bugSelect, this.riskSelect, this.problemSelect);
+
 			Label projectLb = new Label("Project:");
 			projectLb.setWidthUndefined();
-
-			projectLbWrapper.with(projectLb).withAlign(projectLb,
-					Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(projectLbWrapper, 2, 0);
+			selectionLayout.addComponent(projectLb, 2, 0);
 
 			this.projectField = new UserInvolvedProjectsListSelect();
 			this.projectField.setWidth("300px");
@@ -183,13 +153,9 @@ public class FollowingTicketSearchPanel extends
 							FollowingTicketSearchPanel.this.doSearch();
 						}
 					});
-			queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-			MVerticalLayout queryBtnWrapper = new MVerticalLayout()
-					.withWidth("100px").with(queryBtn)
-					.withAlign(queryBtn, Alignment.TOP_RIGHT);
-
-			selectionLayout.addComponent(queryBtnWrapper, 4, 0);
+			selectionLayout.addComponent(queryBtn, 4, 0);
 
 			return basicSearchBody;
 		}

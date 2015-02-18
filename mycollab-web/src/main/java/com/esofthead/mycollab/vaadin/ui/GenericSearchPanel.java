@@ -131,7 +131,10 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 		protected void initLayout() {
 			this.header = this.constructHeader();
 			this.body = this.constructBody();
-			this.addComponent(this.header, "basicSearchHeader");
+            if (header != null) {
+                this.addComponent(this.header, "basicSearchHeader");
+            }
+
 			this.addComponent(this.body, "basicSearchBody");
 		}
 

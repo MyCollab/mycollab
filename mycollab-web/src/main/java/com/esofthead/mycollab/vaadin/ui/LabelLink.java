@@ -50,9 +50,14 @@ public class LabelLink extends Label {
         }
 
         if (title != null) {
-            link.appendText(title);
+            setTitle(title);
         }
         div.appendChild(link);
+    }
+
+    public void setTitle(String title) {
+        link.removeChildren();
+        link.appendChild(new Text(title));
     }
 
     public void setIconLink(Object source) {

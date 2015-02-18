@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -48,7 +49,10 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
+import com.esofthead.mycollab.vaadin.ui.SplitButton;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
@@ -62,6 +66,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.*;
@@ -117,16 +122,15 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			@Override
 			protected StreamSource buildStreamSource() {
-				return new SimpleGridExportItemsStreamResource.AllItems<ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
+				return new SimpleGridExportItemsStreamResource.AllItems<>(
 						"Time Tracking Report", new RpParameterBuilder(
 								getVisibleFields()), exportType,
 						itemTimeLoggingService, searchCriteria,
 						SimpleItemTimeLogging.class);
 			}
 		};
-		StreamResource res = new StreamResource(streamSource,
+		return new StreamResource(streamSource,
 				ExportItemsStreamResource.getDefaultExportFileName(exportType));
-		return res;
 	}
 
 	private AbstractTimeTrackingDisplayComp buildTimeTrackingComp() {
@@ -179,26 +183,17 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			headerWrapper.setWidth("100%");
 			headerWrapper.setStyleName("projectfeed-hdr-wrapper");
 
-			final HorizontalLayout header = new HorizontalLayout();
-			header.setWidth("100%");
-			header.setSpacing(true);
-
-			HorizontalLayout controlsPanel = new HorizontalLayout();
 			HorizontalLayout loggingPanel = new HorizontalLayout();
 
 			HorizontalLayout controlBtns = new HorizontalLayout();
 			controlBtns.setMargin(new MarginInfo(true, false, true, false));
 
-			final Embedded timeIcon = new Embedded();
-			timeIcon.setSource(MyCollabResource
-					.newResource("icons/24/time_tracking.png"));
-			header.addComponent(timeIcon);
-
-			final Label layoutHeader = new Label("Time Tracking");
+			final Label layoutHeader = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME).getHtml() +
+                    " Time Tracking", ContentMode.HTML);
 			layoutHeader.addStyleName("h2");
-			header.addComponent(layoutHeader);
-			header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
-			header.setExpandRatio(layoutHeader, 1.0f);
+
+            final MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+			header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
 
 			final CssLayout contentWrapper = new CssLayout();
 			contentWrapper.setWidth("100%");
@@ -207,6 +202,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			headerWrapper.addComponent(header);
 			this.addComponent(headerWrapper);
 			contentWrapper.addComponent(controlBtns);
+
+            MHorizontalLayout controlsPanel = new MHorizontalLayout().withWidth("100%");
+
 			contentWrapper.addComponent(controlsPanel);
 			contentWrapper.addComponent(loggingPanel);
 			this.addComponent(contentWrapper);
@@ -241,13 +239,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			selectionLayout.setMargin(true);
 			selectionLayoutWrapper.addComponent(selectionLayout);
 
-			MVerticalLayout fromLbWrapper = new MVerticalLayout()
-					.withWidth("50px");
-
 			Label fromLb = new Label("From:");
 			fromLb.setWidthUndefined();
-			fromLbWrapper.with(fromLb).withAlign(fromLb, Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(fromLbWrapper, 0, 0);
+			selectionLayout.addComponent(fromLb, 0, 0);
 
 			this.fromDateField = new PopupDateFieldExt();
 			this.fromDateField.setResolution(Resolution.DAY);
@@ -255,12 +249,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			this.fromDateField.setWidth("100px");
 			selectionLayout.addComponent(this.fromDateField, 1, 0);
 
-			MVerticalLayout toLbWrapper = new MVerticalLayout()
-					.withWidth("50px");
 			Label toLb = new Label("To:");
 			toLb.setWidthUndefined();
-			toLbWrapper.with(toLb).withAlign(toLb, Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(toLbWrapper, 2, 0);
+			selectionLayout.addComponent(toLb, 2, 0);
 
 			this.toDateField = new PopupDateFieldExt();
 			this.toDateField.setResolution(Resolution.DAY);
@@ -268,48 +259,34 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			this.toDateField.setWidth("100px");
 			selectionLayout.addComponent(this.toDateField, 3, 0);
 
-			MVerticalLayout groupLbWrapper = new MVerticalLayout()
-					.withWidth("50px");
 			Label groupLb = new Label("Group:");
 			groupLb.setWidthUndefined();
-			groupLbWrapper.with(groupLb)
-					.withAlign(groupLb, Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(groupLbWrapper, 0, 1);
+			selectionLayout.addComponent(groupLb, 0, 1);
 
 			this.groupField = new ValueComboBox(false, GROUPBY_PROJECT,
 					GROUPBY_DATE, GROUPBY_USER);
 			this.groupField.setWidth("100px");
 			selectionLayout.addComponent(this.groupField, 1, 1);
 
-			MVerticalLayout sortLbWrapper = new MVerticalLayout()
-					.withWidth("50px");
 			Label sortLb = new Label("Sort:");
 			sortLb.setWidthUndefined();
-			sortLbWrapper.with(sortLb).withAlign(sortLb, Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(sortLbWrapper, 2, 1);
+			selectionLayout.addComponent(sortLb, 2, 1);
 
 			this.orderField = new ItemOrderComboBox();
 			this.orderField.setWidth("100px");
 			selectionLayout.addComponent(this.orderField, 3, 1);
 
-			MVerticalLayout projectLbWrapper = new MVerticalLayout()
-					.withWidth("70px");
 			Label projectLb = new Label("Project:");
 			projectLb.setWidthUndefined();
-			projectLbWrapper.with(projectLb).withAlign(projectLb,
-					Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(projectLbWrapper, 4, 0);
+			selectionLayout.addComponent(projectLb, 4, 0);
 
 			this.projectField = new UserInvolvedProjectsListSelect();
 			initListSelectStyle(this.projectField);
 			selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
 
-			MVerticalLayout userLbWrapper = new MVerticalLayout()
-					.withWidth("70px");
 			Label userLb = new Label("User:");
 			userLb.setWidthUndefined();
-			userLbWrapper.with(userLb).withAlign(userLb, Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(userLbWrapper, 6, 0);
+			selectionLayout.addComponent(userLb, 6, 0);
 
 			this.userField = new UserInvolvedProjectsMemberListSelect(
 					getProjectIds());
@@ -333,14 +310,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					});
 			queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-			MVerticalLayout queryBtnWrapper = new MVerticalLayout()
-					.withWidth("100px");
-			queryBtnWrapper.with(queryBtn).withAlign(queryBtn,
-					Alignment.TOP_RIGHT);
-			selectionLayout.addComponent(queryBtnWrapper, 8, 0);
-
-			controlsPanel.setWidth("100%");
-			controlsPanel.setSpacing(true);
+			selectionLayout.addComponent(queryBtn, 8, 0);
 
 			loggingPanel.setWidth("100%");
 			loggingPanel.setHeight("80px");

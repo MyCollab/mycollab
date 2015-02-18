@@ -80,7 +80,7 @@ public class SplitButton extends CustomComponent {
 			}
 		});
 
-		contentLayout.addComponent(this.parentButton);
+		contentLayout.addComponent(parentButton);
 		contentLayout.addComponent(popupButton);
 
 		this.setCompositionRoot(contentLayout);
@@ -96,8 +96,8 @@ public class SplitButton extends CustomComponent {
 		parentButton.setIcon(icon);
 	}
 
-	public void setPopupVisible(boolean isvisible) {
-		this.isPopupVisible = isvisible;
+	public void setPopupVisible(boolean isVisible) {
+		this.isPopupVisible = isVisible;
 		popupButton.setPopupVisible(isPopupVisible);
 	}
 
@@ -175,15 +175,11 @@ public class SplitButton extends CustomComponent {
 	}
 
 	@Override
-	public void addStyleName(String stylename) {
-		super.addStyleName(stylename);
+	public void addStyleName(String styleName) {
+		super.addStyleName(styleName);
 
-		parentButton.addStyleName(stylename);
-		popupButton.addStyleName(stylename);
-	}
-
-	public void setWidthPopupButton(String width) {
-		popupButton.setWidth(width);
+		parentButton.addStyleName(styleName);
+		popupButton.addStyleName(styleName);
 	}
 
 }

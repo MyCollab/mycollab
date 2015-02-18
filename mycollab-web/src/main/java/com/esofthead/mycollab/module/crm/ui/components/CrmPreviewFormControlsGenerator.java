@@ -57,12 +57,10 @@ public class CrmPreviewFormControlsGenerator<T> {
 		Button editButtons = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
 				new Button.ClickListener() {
-
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-
 						optionBtn.setPopupVisible(true);
 					}
 				});

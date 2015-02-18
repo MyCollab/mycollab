@@ -56,16 +56,13 @@ public class MyProjectListComponent extends MVerticalLayout {
         titleLbl = new Label(AppContext.getMessage(
                 ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
-
         final PopupButton projectsPopup = new PopupButton("");
         projectsPopup.addStyleName("popuplistindicator");
 
         final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
 
-        ProjectService projectService = ApplicationContextUtil
-                .getSpringBean(ProjectService.class);
-        int allProjectCount = projectService
-                .getTotalCount(getAllProjectsSearchCriteria());
+        ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+        int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
         Button allProjectsBtn = new Button(AppContext.getMessage(
                 ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount),
                 new ClickListener() {

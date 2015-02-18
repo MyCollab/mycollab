@@ -22,10 +22,7 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
-import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -40,7 +37,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -54,175 +53,144 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class UserDashboardViewImpl extends AbstractLazyPageView implements
-		UserDashboardView {
-	private static final long serialVersionUID = 1L;
+        UserDashboardView {
+    private static final long serialVersionUID = 1L;
 
-	private ButtonLink followingTicketsLink;
+    private LabelLink followingTicketsLink;
 
-	private List<Integer> prjKeys;
+    private List<Integer> prjKeys;
 
-	@Override
-	protected void displayView() {
-		this.removeAllComponents();
+    @Override
+    protected void displayView() {
+        this.removeAllComponents();
 
-		this.withSpacing(true).withMargin(false).withWidth("100%");
+        this.withMargin(false).withWidth("100%");
 
-		final CssLayout headerWrapper = new CssLayout();
-		headerWrapper.setWidth("100%");
-		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
+        final CssLayout headerWrapper = new CssLayout();
+        headerWrapper.setWidth("100%");
+        headerWrapper.setStyleName("projectfeed-hdr-wrapper");
 
-		final MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
-		header.addStyleName("projectfeed-hdr");
+        final MHorizontalLayout header = new MHorizontalLayout().withMargin(false).withWidth("100%");
+        header.addStyleName("projectfeed-hdr");
 
-		Button avatar = UserAvatarControlFactory
-				.createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(),
-						64);
-		avatar.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button avatar = UserAvatarControlFactory
+                .createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(),
+                        64);
+        avatar.addClickListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				String userFullLinkStr = AccountLinkGenerator
-						.generatePreviewFullUserLink(AppContext.getSiteUrl(),
-								AppContext.getUsername());
-				getUI().getPage().open(userFullLinkStr, null);
-			}
-		});
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                String userFullLinkStr = AccountLinkGenerator
+                        .generatePreviewFullUserLink(AppContext.getSiteUrl(),
+                                AppContext.getUsername());
+                getUI().getPage().open(userFullLinkStr, null);
+            }
+        });
 
-		header.addComponent(avatar);
+        header.addComponent(avatar);
 
-		final MVerticalLayout headerContent = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
-		headerContent.addStyleName("projectfeed-hdr-content");
+        final MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
+        headerContent.addStyleName("projectfeed-hdr-content");
 
-		final Label headerLabel = new Label(AppContext.getSession()
-				.getDisplayName());
-		headerLabel.setStyleName(Reindeer.LABEL_H1);
+        final Label headerLabel = new Label(AppContext.getSession().getDisplayName());
+        headerLabel.setStyleName(Reindeer.LABEL_H1);
 
-		final MHorizontalLayout headerContentTop = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, false, true, false));
-		headerContentTop.addComponent(headerLabel);
-		headerContentTop.setComponentAlignment(headerLabel, Alignment.TOP_LEFT);
+        final MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false));
+        headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT);
 
-		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-			final Button createProjectBtn = new Button(
-					AppContext
-							.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
+            final Button createProjectBtn = new Button(
+                    AppContext
+                            .getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
-							UI.getCurrent().addWindow(projectNewWindow);
-						}
-					});
-			createProjectBtn.setIcon(FontAwesome.PLUS);
-			createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			headerContentTop.addComponent(createProjectBtn);
-			headerContentTop.setComponentAlignment(createProjectBtn,
-					Alignment.MIDDLE_LEFT);
-		}
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
+                            UI.getCurrent().addWindow(projectNewWindow);
+                        }
+                    });
+            createProjectBtn.setIcon(FontAwesome.PLUS);
+            createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            headerContentTop.addComponent(createProjectBtn);
+            headerContentTop.setComponentAlignment(createProjectBtn,
+                    Alignment.MIDDLE_LEFT);
+        }
 
 
-		followingTicketsLink = new ButtonLink(AppContext.getMessage(
-				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0), false);
+        followingTicketsLink = new LabelLink(AppContext.getMessage(
+                FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0), AppContext.getSiteUrl() + "#project/following");
 
-		followingTicketsLink.setIcon(FontAwesome.EYE);
-		followingTicketsLink.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        followingTicketsLink.setIconLink(FontAwesome.EYE);
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (prjKeys != null) {
-					EventBusFactory.getInstance().post(
-							new FollowingTicketEvent.GotoMyFollowingItems(
-									UserDashboardViewImpl.this, prjKeys));
-				}
-			}
-		});
+        LabelLink timeTrackingLink = new LabelLink(AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER), AppContext.getSiteUrl()
+                + "#project/timetracking");
+        timeTrackingLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
 
-		ButtonLink timeTrackingLink = new ButtonLink(
-				AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER), false);
-		timeTrackingLink.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withMargin(false)
+                .with(followingTicketsLink, timeTrackingLink);
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new TimeTrackingEvent.GotoTimeTrackingView(
-								UserDashboardViewImpl.this, prjKeys));
-			}
-		});
-		timeTrackingLink.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
+        headerContent.with(headerContentTop, headerContentBottom);
 
-		final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withSpacing(true).withMargin(false)
-				.with(followingTicketsLink, timeTrackingLink);
+        header.with(headerContent).expand(headerContent);
+        headerWrapper.addComponent(header);
 
-		headerContent.with(headerContentTop, headerContentBottom);
+        this.addComponent(headerWrapper);
 
-		header.addComponent(headerContent);
-		header.setExpandRatio(headerContent, 1.0f);
-		headerWrapper.addComponent(header);
+        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false,
+                false, true, false)).withWidth("100%");
 
-		this.addComponent(headerWrapper);
+        ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
+        final MVerticalLayout leftPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
+                true, false, false)).withWidth("100%").with(activityStreamComponent);
 
-		final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false,
-				false, true, false)).withWidth("100%");
+        final MVerticalLayout rightPanel = new MVerticalLayout().withMargin(false).withWidth("565px");
+        MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
+        TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
+        rightPanel.with(myProjectListComponent, taskStatusComponent);
 
-		ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
-		final MVerticalLayout leftPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
-				true, false, false)).withWidth("100%").with(activityStreamComponent);
+        layout.with(leftPanel, rightPanel).expand(leftPanel);
 
-		final MVerticalLayout rightPanel = new MVerticalLayout().withSpacing(true).withMargin(false);
-		MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
-		TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
-		rightPanel.setWidth("565px");
-		rightPanel.addComponent(myProjectListComponent);
-		rightPanel.addComponent(taskStatusComponent);
+        final CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setWidth("100%");
+        contentWrapper.addStyleName("content-wrapper");
+        this.addComponent(contentWrapper);
+        contentWrapper.addComponent(layout);
 
-		layout.addComponent(leftPanel);
-		layout.addComponent(rightPanel);
-		layout.setExpandRatio(leftPanel, 1.0f);
+        final ProjectService prjService = ApplicationContextUtil
+                .getSpringBean(ProjectService.class);
+        prjKeys = prjService.getProjectKeysUserInvolved(
+                AppContext.getUsername(), AppContext.getAccountId());
+        if (CollectionUtils.isNotEmpty(prjKeys)) {
+            activityStreamComponent.showFeeds(prjKeys);
+            myProjectListComponent.displayDefaultProjectsList();
+            displayFollowingTicketsCount();
+        }
 
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("content-wrapper");
-		this.addComponent(contentWrapper);
-		contentWrapper.addComponent(layout);
+        taskStatusComponent.showProjectTasksByStatus(prjKeys);
 
-		final ProjectService prjService = ApplicationContextUtil
-				.getSpringBean(ProjectService.class);
-		prjKeys = prjService.getProjectKeysUserInvolved(
-				AppContext.getUsername(), AppContext.getAccountId());
-		if (CollectionUtils.isNotEmpty(prjKeys)) {
-			activityStreamComponent.showFeeds(prjKeys);
-			myProjectListComponent.displayDefaultProjectsList();
-			displayFollowingTicketsCount();
-		}
+    }
 
-		taskStatusComponent.showProjectTasksByStatus(prjKeys);
-
-	}
-
-	private void displayFollowingTicketsCount() {
-		// show following ticket numbers
-		MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
-		searchCriteria.setUser(new StringSearchField(SearchField.AND,
-				AppContext.getUsername()));
-		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
-				.toArray(new Integer[prjKeys.size()])));
-		MonitorItemService monitorService = ApplicationContextUtil
-				.getSpringBean(MonitorItemService.class);
-		int followingItemsCount = monitorService.getTotalCount(searchCriteria);
-		followingTicketsLink
-				.setCaption(AppContext.getMessage(
-						FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
-						followingItemsCount));
-	}
+    private void displayFollowingTicketsCount() {
+        // show following ticket numbers
+        MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
+        searchCriteria.setUser(new StringSearchField(SearchField.AND,
+                AppContext.getUsername()));
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
+                .toArray(new Integer[prjKeys.size()])));
+        MonitorItemService monitorService = ApplicationContextUtil
+                .getSpringBean(MonitorItemService.class);
+        int followingItemsCount = monitorService.getTotalCount(searchCriteria);
+        followingTicketsLink
+                .setTitle(AppContext.getMessage(
+                        FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
+                        followingItemsCount));
+    }
 }

@@ -42,6 +42,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -69,13 +70,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		final MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
 				("100%").withStyleName("projectfeed-hdr-wrapper");
 
-		final MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth("100%");
+		final MHorizontalLayout header = new MHorizontalLayout().withMargin(false).withWidth("100%");
 
-		final Image timeIcon = new Image(null,
-				MyCollabResource.newResource(WebResourceIds._24_follow));
-		header.addComponent(timeIcon);
-
-		final Label layoutHeader = new Label("My Following Tickets");
+		final Label layoutHeader = new Label(FontAwesome.EYE.getHtml() +  " My Following Tickets", ContentMode.HTML);
 		layoutHeader.addStyleName("h2");
 		header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
 
