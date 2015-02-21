@@ -220,11 +220,11 @@ public class SiteConfiguration {
 		return getInstance().supportedLanguages;
 	}
 
-	public static String getSiteUrl(String subdomain) {
-		String siteUrl = "";
+	public static String getSiteUrl(String subDomain) {
+		String siteUrl;
 		if (getInstance().deploymentMode == DeploymentMode.site) {
 			siteUrl = String.format(ApplicationProperties
-					.getString(ApplicationProperties.APP_URL), subdomain);
+					.getString(ApplicationProperties.APP_URL), subDomain);
 		} else {
 			siteUrl = String.format(ApplicationProperties
 					.getString(ApplicationProperties.APP_URL),
@@ -262,7 +262,7 @@ public class SiteConfiguration {
 	}
 
 	private static List<Locale> getSupportedLocales(String languageVal) {
-		List<Locale> locales = new ArrayList<Locale>();
+		List<Locale> locales = new ArrayList<>();
 		String[] languages = languageVal.split(",");
 		for (String language : languages) {
 			Locale locale = toLocale(language.trim());

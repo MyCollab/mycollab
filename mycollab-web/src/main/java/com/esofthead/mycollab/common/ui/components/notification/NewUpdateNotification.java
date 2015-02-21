@@ -26,27 +26,30 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
+import java.util.Properties;
+
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.1
- * 
+ * @since 5.0.0
  */
-public class TimezoneNotification extends AbstractNotification {
+public class NewUpdateNotification extends AbstractNotification {
+    private Properties props;
 
-	public TimezoneNotification() {
-		super(AbstractNotification.WARNING);
-	}
+    public NewUpdateNotification(Properties props) {
+        super(AbstractNotification.WARNING);
 
-	@Override
-	public Component renderContent() {
-		Span spanEl = new Span();
-		spanEl.appendText("You haven't chosen preferred timezone. Please set it ");
+        this.props = props;
+    }
 
-		A link = new A(AccountLinkGenerator.generatePreviewFullUserLink(
-				AppContext.getSiteUrl(), AppContext.getSession().getUsername()));
-		link.appendText("here");
-		spanEl.appendChild(link);
-		return new Label(FontAwesome.EXCLAMATION.getHtml() + " " + spanEl.write(), ContentMode.HTML);
-	}
+    @Override
+    public Component renderContent() {
+        Span spanEl = new Span();
+        spanEl.appendText("There is the new MyCollab version " + props.getProperty("version") + " . For the " +
+                "enhancements and security purpose, you should upgrade to the latest version at ");
+
+        A link = new A(props.getProperty("downloadLink"), "_blank");
+        link.appendText("here");
+        spanEl.appendChild(link);
+        return new Label(FontAwesome.EXCLAMATION.getHtml() + " " + spanEl.write(), ContentMode.HTML);
+    }
 }

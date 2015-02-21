@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CONTROLLER_REGISTRY;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CONTROLLER_REGISTRY;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
 /**
  * 

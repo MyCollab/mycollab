@@ -21,6 +21,10 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 
 /**
  * 
@@ -31,20 +35,19 @@ import com.hp.gagawa.java.elements.Span;
 public class RequestUploadAvatarNotification extends AbstractNotification {
 
 	public RequestUploadAvatarNotification() {
-		super("You haven't uploaded your avatar yet. Please upload it at ",
-				AbstractNotification.WARNING);
+		super(AbstractNotification.WARNING);
 	}
 
 	@Override
-	public String renderContent() {
+	public Component renderContent() {
 		Span spanEl = new Span();
-		spanEl.appendText(getMessage());
+		spanEl.appendText("You haven't uploaded your avatar yet. Please upload it at ");
 
 		A link = new A(AccountLinkGenerator.generateFullProfileLink(AppContext
 				.getSiteUrl()));
 		link.appendText("here");
 		spanEl.appendChild(link);
-		return spanEl.write();
+		return new Label(FontAwesome.EXCLAMATION.getHtml() + " " + spanEl.write(), ContentMode.HTML);
 	}
 
 }

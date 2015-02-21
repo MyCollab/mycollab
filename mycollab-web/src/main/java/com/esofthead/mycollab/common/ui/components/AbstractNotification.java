@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.common.ui.components;
 
+import com.vaadin.ui.Component;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -23,24 +25,18 @@ package com.esofthead.mycollab.common.ui.components;
  * 
  */
 public abstract class AbstractNotification {
-	private String message;
 	private String type;
 
 	public static final String WARNING = "warning";
 	public static final String NEWS = "news";
 
-	public AbstractNotification(String message, String type) {
-		this.message = message;
+	public AbstractNotification(String type) {
 		this.type = type;
-	}
-
-	public String getMessage() {
-		return message;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	abstract public String renderContent();
+	abstract public Component renderContent();
 }

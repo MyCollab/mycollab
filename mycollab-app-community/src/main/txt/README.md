@@ -46,24 +46,28 @@ Version 5.0.0
 **Library Upgrades**
 
 * Upgrade Vaadin to 7.3.10
-* Upgrade Spring frameworks to 4.1.4.RELEASE
+* Upgrade Spring frameworks to 4.1.5.RELEASE
 * Upgrade several Vaadin addons
 * Upgrade all libraries up-to-date, there are few name are Infinispan, Apache commons, etc
 
 **Improvements**
 
+* Check the latest version notification
 * Replace icons by font awesome
 * Revise task group layout
 * Support sub tasks for project task
 * Simplify application configuration (for developers) to utilize convention over configuration
 * Using Scala for several back-end components such as scheduler
+* Allow assign user in task view
 * Allow deselect assignee in bug or task
 * Revise project and crm views
 * Revise the related bug relationship
 * Remove redundant css elements
+* Fix layout issues in the Internet Explorer browsers
 
 **Bug Fixes**
 
+* Load the empty list of projects throws error in some special cases
 * Internal issue causes the lazy views load infinitely
 * Save crm call throws exception
 * Update time logging but not update the project information immediately

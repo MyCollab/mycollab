@@ -17,9 +17,9 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_PROJECT;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;

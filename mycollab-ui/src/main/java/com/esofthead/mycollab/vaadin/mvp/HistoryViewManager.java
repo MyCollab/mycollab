@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.common.MyCollabSession.HISTORY_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.HISTORY_VAL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
 /**
  * 

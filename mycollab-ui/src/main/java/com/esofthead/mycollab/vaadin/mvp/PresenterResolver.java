@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.esofthead.mycollab.common.MyCollabSession.PRESENTER_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PRESENTER_VAL;
 
 /**
  * 

@@ -22,13 +22,11 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,7 @@ public class NotificationButton extends PopupButton implements
 		notificationContainer = new VerticalLayout();
 		notificationContainer.setMargin(true);
 		this.setContent(notificationContainer);
-		this.setIcon(FontAwesome.EXCLAMATION_CIRCLE);
+		this.setIcon(FontAwesome.BELL);
 		this.setStyleName("notification-button");
 
 		addPopupVisibilityListener(this);
@@ -66,18 +64,11 @@ public class NotificationButton extends PopupButton implements
 
 		if (notificationItems.size() > 0) {
 			for (AbstractNotification item : notificationItems) {
-				MHorizontalLayout notificationItem = new MHorizontalLayout();
-				Label notificationType = new Label(item.getType() + ":");
-				notificationType.setStyleName("notification-type");
-				notificationType.addStyleName("notification-type-"
-						+ item.getType());
-				notificationItem.addComponent(notificationType);
-
-				Label notificationLbl = new Label(item.renderContent(),
-						ContentMode.HTML);
-				notificationItem.addComponent(notificationLbl);
-				notificationItem.setExpandRatio(notificationLbl, 1.0f);
-				notificationContainer.addComponent(notificationItem);
+                Component comp = item.renderContent();
+                comp.setStyleName("notification-type");
+                comp.addStyleName("notification-type-"
+                        + item.getType());
+				notificationContainer.addComponent(comp);
 			}
 		} else {
 			Label noItemLbl = new Label("There is no notification right now");

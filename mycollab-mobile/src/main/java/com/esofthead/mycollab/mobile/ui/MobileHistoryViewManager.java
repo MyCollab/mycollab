@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import static com.esofthead.mycollab.common.MyCollabSession.HISTORY_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.HISTORY_VAL;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;

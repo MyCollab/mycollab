@@ -18,8 +18,12 @@ package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.ui.components.notification.NewUpdateNotification;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
@@ -43,6 +47,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
+import com.google.gson.Gson;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.ExternalResource;
@@ -53,411 +58,436 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public final class MainView extends AbstractPageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private CssLayout bodyLayout;
+    private static Logger LOG = LoggerFactory.getLogger(MainView.class);
 
-	private ServiceMenu serviceMenu;
+    private CssLayout bodyLayout;
 
-	public MainView() {
-		this.setSizeFull();
-		ControllerRegistry.addController(new MainViewController(this));
-	}
+    private ServiceMenu serviceMenu;
 
-	public void initialize() {
-		this.removeAllComponents();
-		this.addComponent(this.createTopMenu());
-		this.bodyLayout = new CssLayout();
-		this.bodyLayout.addStyleName("main-body");
-		this.bodyLayout.setId("main-body");
-		this.bodyLayout.setWidth("100%");
-		this.bodyLayout.setHeight("100%");
-		this.addComponent(this.bodyLayout);
-		this.setExpandRatio(this.bodyLayout, 1.0f);
-		this.addComponent(this.createFooter());
-		ThemeManager.loadUserTheme(AppContext.getAccountId());
-	}
+    public MainView() {
+        this.setSizeFull();
+        ControllerRegistry.addController(new MainViewController(this));
+    }
 
-	public void addModule(final IModule module) {
-		ModuleHelper.setCurrentModule(module);
-		this.bodyLayout.removeAllComponents();
-		this.bodyLayout.addComponent(module.getWidget());
+    public void initialize() {
+        this.removeAllComponents();
+        this.addComponent(this.createTopMenu());
+        this.bodyLayout = new CssLayout();
+        this.bodyLayout.addStyleName("main-body");
+        this.bodyLayout.setId("main-body");
+        this.bodyLayout.setWidth("100%");
+        this.bodyLayout.setHeight("100%");
+        this.addComponent(this.bodyLayout);
+        this.setExpandRatio(this.bodyLayout, 1.0f);
+        this.addComponent(this.createFooter());
+        ThemeManager.loadUserTheme(AppContext.getAccountId());
+    }
 
-		if (ModuleHelper.isCurrentCrmModule()) {
-			serviceMenu.selectService(0);
-		} else if (ModuleHelper.isCurrentProjectModule()) {
-			serviceMenu.selectService(1);
-		} else if (ModuleHelper.isCurrentFileModule()) {
-			serviceMenu.selectService(2);
-		} else if (ModuleHelper.isCurrentAccountModule()) {
-			serviceMenu.selectService(3);
-		}
-	}
+    public void addModule(final IModule module) {
+        ModuleHelper.setCurrentModule(module);
+        this.bodyLayout.removeAllComponents();
+        this.bodyLayout.addComponent(module.getWidget());
 
-	private CustomLayout createFooter() {
-		final CustomLayout footer = CustomLayoutExt.createLayout("footer");
+        if (ModuleHelper.isCurrentCrmModule()) {
+            serviceMenu.selectService(0);
+        } else if (ModuleHelper.isCurrentProjectModule()) {
+            serviceMenu.selectService(1);
+        } else if (ModuleHelper.isCurrentFileModule()) {
+            serviceMenu.selectService(2);
+        } else if (ModuleHelper.isCurrentAccountModule()) {
+            serviceMenu.selectService(3);
+        }
+    }
 
-		Link companyLink = new Link("eSoftHead", new ExternalResource(
-				"http://www.esofthead.com"));
-		companyLink.setTargetName("_blank");
+    private CustomLayout createFooter() {
+        final CustomLayout footer = CustomLayoutExt.createLayout("footer");
 
-		footer.addComponent(companyLink, "company-url");
+        Link companyLink = new Link("eSoftHead", new ExternalResource(
+                "http://www.esofthead.com"));
+        companyLink.setTargetName("_blank");
 
-		Calendar currentCal = Calendar.getInstance();
+        footer.addComponent(companyLink, "company-url");
 
-		Label currentYear = new Label(String.valueOf(currentCal
-				.get(Calendar.YEAR)));
-		currentYear.setSizeUndefined();
-		footer.addComponent(currentYear, "current-year");
+        Calendar currentCal = Calendar.getInstance();
 
-		HorizontalLayout footerRight = new HorizontalLayout();
-		footerRight.setSpacing(true);
+        Label currentYear = new Label(String.valueOf(currentCal
+                .get(Calendar.YEAR)));
+        currentYear.setSizeUndefined();
+        footer.addComponent(currentYear, "current-year");
 
-		final Button sendFeedback = new Button("Feedback");
-		sendFeedback.setStyleName("link");
-		sendFeedback.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+        HorizontalLayout footerRight = new HorizontalLayout();
+        footerRight.setSpacing(true);
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				UI.getCurrent().addWindow(new FeedbackWindow());
-			}
-		});
-		Link blogLink = new Link("Blog", new ExternalResource(
-				"https://www.mycollab.com/blog"));
-		blogLink.setTargetName("_blank");
+        final Button sendFeedback = new Button("Feedback");
+        sendFeedback.setStyleName("link");
+        sendFeedback.addClickListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		Link forumLink = new Link("Forum", new ExternalResource(
-				"http://forum.mycollab.com"));
-		forumLink.setTargetName("_blank");
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                UI.getCurrent().addWindow(new FeedbackWindow());
+            }
+        });
+        Link blogLink = new Link("Blog", new ExternalResource(
+                "https://www.mycollab.com/blog"));
+        blogLink.setTargetName("_blank");
 
-		Link wikiLink = new Link("Knowledge Base", new ExternalResource(
-				"https://www.mycollab.com/help/"));
-		wikiLink.setTargetName("_blank");
+        Link forumLink = new Link("Forum", new ExternalResource(
+                "http://forum.mycollab.com"));
+        forumLink.setTargetName("_blank");
 
-		footerRight.addComponent(blogLink);
-		footerRight.addComponent(forumLink);
-		footerRight.addComponent(wikiLink);
-		footerRight.addComponent(sendFeedback);
+        Link wikiLink = new Link("Knowledge Base", new ExternalResource(
+                "https://www.mycollab.com/help/"));
+        wikiLink.setTargetName("_blank");
 
-		footer.addComponent(footerRight, "footer-right");
-		return footer;
-	}
+        footerRight.addComponent(blogLink);
+        footerRight.addComponent(forumLink);
+        footerRight.addComponent(wikiLink);
+        footerRight.addComponent(sendFeedback);
 
-	private CustomLayout createTopMenu() {
-		final CustomLayout layout = CustomLayoutExt
-				.createLayout("topNavigation");
-		layout.setStyleName("topNavigation");
-		layout.setHeight("40px");
-		layout.setWidth("100%");
+        footer.addComponent(footerRight, "footer-right");
+        return footer;
+    }
 
-		Button accountLogo = AccountLogoFactory
-				.createAccountLogoImageComponent(
-						ThemeManager.loadLogoPath(AppContext.getAccountId()),
-						150);
+    private CustomLayout createTopMenu() {
+        final CustomLayout layout = CustomLayoutExt
+                .createLayout("topNavigation");
+        layout.setStyleName("topNavigation");
+        layout.setHeight("40px");
+        layout.setWidth("100%");
 
-		accountLogo.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button accountLogo = AccountLogoFactory
+                .createAccountLogoImageComponent(
+                        ThemeManager.loadLogoPath(AppContext.getAccountId()),
+                        150);
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final UserPreference pref = AppContext.getUserPreference();
-				if (pref.getLastmodulevisit() == null
-						|| ModuleNameConstants.PRJ.equals(pref
-								.getLastmodulevisit())) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoProjectModule(this, null));
-				} else if (ModuleNameConstants.CRM.equals(pref
-						.getLastmodulevisit())) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoCrmModule(this, null));
-				} else if (ModuleNameConstants.ACCOUNT.equals(pref
-						.getLastmodulevisit())) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoUserAccountModule(this, null));
-				} else if (ModuleNameConstants.FILE.equals(pref
-						.getLastmodulevisit())) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoFileModule(this, null));
-				}
-			}
-		});
-		layout.addComponent(accountLogo, "mainLogo");
+        accountLogo.addClickListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		serviceMenu = new ServiceMenu();
-		serviceMenu.addStyleName("topNavPopup");
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                final UserPreference pref = AppContext.getUserPreference();
+                if (pref.getLastmodulevisit() == null
+                        || ModuleNameConstants.PRJ.equals(pref
+                        .getLastmodulevisit())) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoProjectModule(this, null));
+                } else if (ModuleNameConstants.CRM.equals(pref
+                        .getLastmodulevisit())) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoCrmModule(this, null));
+                } else if (ModuleNameConstants.ACCOUNT.equals(pref
+                        .getLastmodulevisit())) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoUserAccountModule(this, null));
+                } else if (ModuleNameConstants.FILE.equals(pref
+                        .getLastmodulevisit())) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoFileModule(this, null));
+                }
+            }
+        });
+        layout.addComponent(accountLogo, "mainLogo");
 
-		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.MODULE_CRM),
-				MyCollabResource.newResource(WebResourceIds._16_customer),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        serviceMenu = new ServiceMenu();
+        serviceMenu.addStyleName("topNavPopup");
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoCrmModule(this, null));
-					}
-				});
+        serviceMenu.addService(
+                AppContext.getMessage(GenericI18Enum.MODULE_CRM),
+                MyCollabResource.newResource(WebResourceIds._16_customer),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
-				MyCollabResource.newResource(WebResourceIds._16_project),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoCrmModule(this, null));
+                    }
+                });
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						if (!event.isCtrlKey() && !event.isMetaKey()) {
-							EventBusFactory.getInstance()
-									.post(new ShellEvent.GotoProjectModule(
-											this, null));
-						}
-					}
-				});
+        serviceMenu.addService(
+                AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
+                MyCollabResource.newResource(WebResourceIds._16_project),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
-				MyCollabResource.newResource(WebResourceIds._16_document),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        if (!event.isCtrlKey() && !event.isMetaKey()) {
+                            EventBusFactory.getInstance()
+                                    .post(new ShellEvent.GotoProjectModule(
+                                            this, null));
+                        }
+                    }
+                });
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoFileModule(this, null));
-					}
-				});
+        serviceMenu.addService(
+                AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
+                MyCollabResource.newResource(WebResourceIds._16_document),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
-				MyCollabResource.newResource(WebResourceIds._16_account),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoFileModule(this, null));
+                    }
+                });
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoUserAccountModule(this,
-										new String[] { "user", "list" }));
-					}
-				});
+        serviceMenu.addService(
+                AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
+                MyCollabResource.newResource(WebResourceIds._16_account),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		layout.addComponent(serviceMenu, "serviceMenu");
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoUserAccountModule(this,
+                                        new String[]{"user", "list"}));
+                    }
+                });
 
-		final MHorizontalLayout accountLayout = new MHorizontalLayout()
-				.withMargin(new MarginInfo(false, true, false, false))
-				.withSpacing(true);
-		accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        layout.addComponent(serviceMenu, "serviceMenu");
 
-		final Label accountNameLabel = new Label(AppContext.getSubDomain());
-		accountNameLabel.setStyleName("subdomain");
-		accountLayout.addComponent(accountNameLabel);
+        final MHorizontalLayout accountLayout = new MHorizontalLayout()
+                .withMargin(new MarginInfo(false, true, false, false));
+        accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		// display trial box if user in trial mode
-		SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
-		if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
-			Label informLbl = new Label("", ContentMode.HTML);
-			informLbl.addStyleName("trialEndingNotification");
-			informLbl.setHeight("100%");
-			HorizontalLayout informBox = new HorizontalLayout();
-			informBox.addStyleName("trialInformBox");
-			informBox.setSizeFull();
-			informBox.addComponent(informLbl);
-			informBox.setMargin(new MarginInfo(false, true, false, false));
-			informBox
-					.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-						private static final long serialVersionUID = 1L;
+        final Label accountNameLabel = new Label(AppContext.getSubDomain());
+        accountNameLabel.setStyleName("subdomain");
+        accountLayout.addComponent(accountNameLabel);
 
-						@Override
-						public void layoutClick(LayoutClickEvent event) {
-							EventBusFactory.getInstance().post(
-									new ShellEvent.GotoUserAccountModule(this,
-											new String[] { "billing" }));
-						}
-					});
-			accountLayout.addComponent(informBox);
-			accountLayout.setSpacing(true);
-			accountLayout.setComponentAlignment(informBox,
-					Alignment.MIDDLE_LEFT);
+        // display trial box if user in trial mode
+        SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
+        if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
+            Label informLbl = new Label("", ContentMode.HTML);
+            informLbl.addStyleName("trialEndingNotification");
+            informLbl.setHeight("100%");
+            HorizontalLayout informBox = new HorizontalLayout();
+            informBox.addStyleName("trialInformBox");
+            informBox.setSizeFull();
+            informBox.addComponent(informLbl);
+            informBox.setMargin(new MarginInfo(false, true, false, false));
+            informBox
+                    .addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-			Date createdtime = billingAccount.getCreatedtime();
-			long timeDeviation = System.currentTimeMillis()
-					- createdtime.getTime();
-			int daysLeft = (int) Math.floor(timeDeviation
-					/ (1000 * 60 * 60 * 24));
-			if (daysLeft > 30) {
-				BillingService billingService = ApplicationContextUtil
-						.getSpringBean(BillingService.class);
-				BillingPlan freeBillingPlan = billingService
-						.getFreeBillingPlan();
-				billingAccount.setBillingPlan(freeBillingPlan);
+                        @Override
+                        public void layoutClick(LayoutClickEvent event) {
+                            EventBusFactory.getInstance().post(
+                                    new ShellEvent.GotoUserAccountModule(this,
+                                            new String[]{"billing"}));
+                        }
+                    });
+            accountLayout.addComponent(informBox);
+            accountLayout.setSpacing(true);
+            accountLayout.setComponentAlignment(informBox,
+                    Alignment.MIDDLE_LEFT);
 
-				informLbl
-						.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-								+ " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
-			} else {
-				if (AppContext.isAdmin()) {
-					informLbl
-							.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-									+ (30 - daysLeft)
-									+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
-				} else {
-					informLbl
-							.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-									+ (30 - daysLeft)
-									+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
-				}
-			}
-		}
+            Date createdTime = billingAccount.getCreatedtime();
+            long timeDeviation = System.currentTimeMillis()
+                    - createdTime.getTime();
+            int daysLeft = (int) Math.floor(timeDeviation
+                    / (1000 * 60 * 60 * 24));
+            if (daysLeft > 30) {
+                BillingService billingService = ApplicationContextUtil
+                        .getSpringBean(BillingService.class);
+                BillingPlan freeBillingPlan = billingService
+                        .getFreeBillingPlan();
+                billingAccount.setBillingPlan(freeBillingPlan);
 
-		NotificationButton notificationButton = new NotificationButton();
-		accountLayout.addComponent(notificationButton);
-		if (AppContext.getSession().getTimezone() == null) {
-			EventBusFactory.getInstance().post(
-					new ShellEvent.NewNotification(this,
-							new TimezoneNotification()));
-		}
+                informLbl
+                        .setValue("<div class='informBlock'>TRIAL ENDING<br>"
+                                + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+            } else {
+                if (AppContext.isAdmin()) {
+                    informLbl
+                            .setValue("<div class='informBlock'>TRIAL ENDING<br>"
+                                    + (30 - daysLeft)
+                                    + " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+                } else {
+                    informLbl
+                            .setValue("<div class='informBlock'>TRIAL ENDING<br>"
+                                    + (30 - daysLeft)
+                                    + " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+                }
+            }
+        }
 
-		if (StringUtils.isBlank(AppContext.getSession().getAvatarid())) {
-			EventBusFactory.getInstance().post(
-					new ShellEvent.NewNotification(this,
-							new RequestUploadAvatarNotification()));
-		}
+        NotificationButton notificationButton = new NotificationButton();
+        accountLayout.addComponent(notificationButton);
+        if (AppContext.getSession().getTimezone() == null) {
+            EventBusFactory.getInstance().post(
+                    new ShellEvent.NewNotification(this,
+                            new TimezoneNotification()));
+        }
 
-		UserAvatarComp userAvatar = new UserAvatarComp();
-		accountLayout.addComponent(userAvatar);
-		accountLayout.setComponentAlignment(userAvatar, Alignment.MIDDLE_LEFT);
+        if (StringUtils.isBlank(AppContext.getSession().getAvatarid())) {
+            EventBusFactory.getInstance().post(
+                    new ShellEvent.NewNotification(this,
+                            new RequestUploadAvatarNotification()));
+        }
 
-		final PopupButton accountMenu = new PopupButton(AppContext.getSession()
-				.getDisplayName());
-		final VerticalLayout accLayout = new VerticalLayout();
-		accLayout.setWidth("140px");
+        if (SiteConfiguration.getDeploymentMode() != DeploymentMode.site && AppContext.isAdmin()) {
+            try {
+                Client client = ClientBuilder.newBuilder().build();
+                WebTarget target = client.target("http://api.mycollab.com/api/checkupdate");
+                Response response = target.request().get();
+                String values = response.readEntity(String.class);
+                Gson gson = new Gson();
+                Properties props = gson.fromJson(values, Properties.class);
+                String version = props.getProperty("version");
+                if (!MyCollabVersion.getVersion().equals(version)) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.NewNotification(this,
+                                    new NewUpdateNotification(props)));
+                }
+            } catch (Exception e) {
+                LOG.error("Error when call remote api", e);
+            }
+        }
 
-		final Button myProfileBtn = new Button(
-				AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        UserAvatarComp userAvatar = new UserAvatarComp();
+        accountLayout.addComponent(userAvatar);
+        accountLayout.setComponentAlignment(userAvatar, Alignment.MIDDLE_LEFT);
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						accountMenu.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoUserAccountModule(this,
-										new String[] { "preview" }));
-					}
-				});
+        final PopupButton accountMenu = new PopupButton(AppContext.getSession()
+                .getDisplayName());
+        final VerticalLayout accLayout = new VerticalLayout();
+        accLayout.setWidth("140px");
+
+        final Button myProfileBtn = new Button(
+                AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        accountMenu.setPopupVisible(false);
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoUserAccountModule(this,
+                                        new String[]{"preview"}));
+                    }
+                });
         myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
-		myProfileBtn.setStyleName("link");
-		accLayout.addComponent(myProfileBtn);
+        myProfileBtn.setStyleName("link");
+        accLayout.addComponent(myProfileBtn);
 
-		final Button myAccountBtn = new Button(
-				AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button myAccountBtn = new Button(
+                AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						accountMenu.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoUserAccountModule(this,
-										new String[] { "billing" }));
-					}
-				});
-		myAccountBtn.setStyleName("link");
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        accountMenu.setPopupVisible(false);
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoUserAccountModule(this,
+                                        new String[]{"billing"}));
+                    }
+                });
+        myAccountBtn.setStyleName("link");
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
-		accLayout.addComponent(myAccountBtn);
+        accLayout.addComponent(myAccountBtn);
 
-		final Button userMgtBtn = new Button(
-				AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button userMgtBtn = new Button(
+                AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						accountMenu.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoUserAccountModule(this,
-										new String[] { "user", "list" }));
-					}
-				});
-		userMgtBtn.setStyleName("link");
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        accountMenu.setPopupVisible(false);
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.GotoUserAccountModule(this,
+                                        new String[]{"user", "list"}));
+                    }
+                });
+        userMgtBtn.setStyleName("link");
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
-		accLayout.addComponent(userMgtBtn);
+        accLayout.addComponent(userMgtBtn);
 
-		final Button signoutBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button signoutBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						AppContext.getInstance().clearSession();
-						EventBusFactory.getInstance().post(
-								new ShellEvent.LogOut(this, null));
-					}
-				});
-		signoutBtn.setStyleName("link");
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        AppContext.getInstance().clearSession();
+                        EventBusFactory.getInstance().post(
+                                new ShellEvent.LogOut(this, null));
+                    }
+                });
+        signoutBtn.setStyleName("link");
         signoutBtn.setIcon(FontAwesome.SIGN_OUT);
-		accLayout.addComponent(signoutBtn);
+        accLayout.addComponent(signoutBtn);
 
-		accountMenu.setContent(accLayout);
-		accountMenu.setStyleName("accountMenu");
-		accountMenu.addStyleName("topNavPopup");
-		accountLayout.addComponent(accountMenu);
+        accountMenu.setContent(accLayout);
+        accountMenu.setStyleName("accountMenu");
+        accountMenu.addStyleName("topNavPopup");
+        accountLayout.addComponent(accountMenu);
 
-		layout.addComponent(accountLayout, "accountMenu");
+        layout.addComponent(accountLayout, "accountMenu");
 
-		return layout;
-	}
+        return layout;
+    }
 
-	private static class UserAvatarComp extends CssLayout {
-		private static final long serialVersionUID = 1L;
+    private static class UserAvatarComp extends CssLayout {
+        private static final long serialVersionUID = 1L;
 
-		public UserAvatarComp() {
-			addUserAvatar();
+        public UserAvatarComp() {
+            addUserAvatar();
 
-			// add listener to listen the change avatar or user information to
-			// update top menu
-			EventBusFactory
-					.getInstance()
-					.register(
-							new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-								private static final long serialVersionUID = 1L;
+            // add listener to listen the change avatar or user information to
+            // update top menu
+            EventBusFactory
+                    .getInstance()
+                    .register(
+                            new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+                                private static final long serialVersionUID = 1L;
 
-								@Subscribe
-								@Override
-								public void handle(UserProfileChangeEvent event) {
-									if ("avatarid".equals(event
-											.getFieldChange())) {
-										UserAvatarComp.this
-												.removeAllComponents();
-										addUserAvatar();
-									}
-								}
-							});
+                                @Subscribe
+                                @Override
+                                public void handle(UserProfileChangeEvent event) {
+                                    if ("avatarid".equals(event
+                                            .getFieldChange())) {
+                                        UserAvatarComp.this
+                                                .removeAllComponents();
+                                        addUserAvatar();
+                                    }
+                                }
+                            });
 
-		}
+        }
 
-		private void addUserAvatar() {
-			Image userAvatar = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(
-							AppContext.getUserAvatarId(), 24);
-			this.addComponent(userAvatar);
-		}
-	}
+        private void addUserAvatar() {
+            Image userAvatar = UserAvatarControlFactory
+                    .createUserAvatarEmbeddedComponent(
+                            AppContext.getUserAvatarId(), 24);
+            this.addComponent(userAvatar);
+        }
+    }
 }

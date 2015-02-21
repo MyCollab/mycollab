@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin;
 
-import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_FORMAT;
-import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_TIME_DATE_FORMAT;
-import static com.esofthead.mycollab.common.MyCollabSession.USER_DAY_MONTH_FORMAT;
-import static com.esofthead.mycollab.common.MyCollabSession.USER_SHORT_DATE_FORMAT;
-import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DATE_FORMAT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DATE_TIME_DATE_FORMAT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DAY_MONTH_FORMAT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_SHORT_DATE_FORMAT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.cal10n.IMessageConveyor;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
@@ -61,7 +61,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
 
 /**
  * The core class that keep user session data while user login to MyCollab

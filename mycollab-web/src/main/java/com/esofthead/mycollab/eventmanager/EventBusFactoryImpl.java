@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.eventmanager;
 
-import static com.esofthead.mycollab.common.MyCollabSession.EVENT_BUS_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.EVENT_BUS_VAL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;

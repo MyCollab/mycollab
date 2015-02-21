@@ -78,12 +78,10 @@ public class StorageManager {
 	}
 
 	public static boolean isFileStorage() {
-		return StorageConfiguration.FILE_STORAGE_SYSTEM
-				.equals(instance.storageSystem);
+		return StorageConfiguration.FILE_STORAGE_SYSTEM.equals(instance.storageSystem);
 	}
 
 	public static boolean isS3Storage() {
-		return StorageConfiguration.S3_STORAGE_SYSTEM
-				.equals(instance.storageSystem);
+		return StorageConfiguration.S3_STORAGE_SYSTEM.equals(instance.storageSystem);
 	}
 }

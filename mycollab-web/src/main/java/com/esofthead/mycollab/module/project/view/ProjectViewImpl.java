@@ -94,6 +94,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	@Override
 	public void initView(final SimpleProject project) {
 		this.removeAllComponents();
+        updateVerticalTabsheetFixStatus();
 		ControllerRegistry.addController(new ProjectController(this));
 		this.setWidth("100%");
 

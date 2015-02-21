@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.web;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -53,8 +53,8 @@ import org.vaadin.dialogs.ConfirmDialog;
 import javax.servlet.http.Cookie;
 import java.util.Collection;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
-import static com.esofthead.mycollab.common.MyCollabSession.EVENT_BUS_VAL;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.EVENT_BUS_VAL;
 
 /**
  * @author MyCollab Ltd.

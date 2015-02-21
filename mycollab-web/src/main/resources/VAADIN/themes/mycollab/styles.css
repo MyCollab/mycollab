@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.3.10";
+	content: "7.3.9";
 }
 
 .v-generated-body {
@@ -4248,8 +4248,8 @@ div.v-Notification {
 	-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 	-moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-	background: white url(../chameleon/img/grad-light-top.png) repeat-x;
-	background: rgba(255, 255, 255, 0.9) url(../chameleon/img/grad-light-top.png) repeat-x;
+	background: white url(../chameleon/components/img/grad-light-top.png) repeat-x;
+	background: rgba(255, 255, 255, 0.9) url(../chameleon/components/img/grad-light-top.png) repeat-x;
 }
 
 .v-Notification p {
@@ -8552,11 +8552,6 @@ input.v-textfield-pagedtable-pagefield {
 .topNavigation .v-button.notification-button .v-icon {
 	font-size: 16px;
 	color: chocolate;
-}
-
-.notification-type {
-	text-transform: uppercase;
-	font-weight: bold;
 }
 
 .notification-type.notification-type-warning {

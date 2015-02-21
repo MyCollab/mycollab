@@ -57,12 +57,10 @@ public abstract class MyCollabAssets {
 
 		@Override
 		protected String generateResourceLink(String resourceId) {
-			String res = String.format(ApplicationProperties
+			return String.format(ApplicationProperties
 					.getString(ApplicationProperties.APP_URL),
 					SiteConfiguration.getServerAddress(), SiteConfiguration
-							.getServerPort())
-					+ "assets/" + resourceId;
-			return res;
+							.getServerPort()) + "assets/" + resourceId;
 		}
 
 	}

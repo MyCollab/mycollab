@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
 
 import java.util.Collection;
 
@@ -26,7 +26,7 @@ import com.vaadin.server.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;

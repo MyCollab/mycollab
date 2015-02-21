@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -36,7 +36,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
 
 /**
  * 

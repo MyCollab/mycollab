@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;

@@ -9,13 +9,13 @@
     <version>5.0.0</version>
     <packaging>pom</packaging>
     <properties>
-        <springVersion>4.1.4.RELEASE</springVersion>
+        <springVersion>4.1.5.RELEASE</springVersion>
         <aspectjVersion>1.8.5</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.10</slf4jVersion>
         <log4jVersion>1.2.17</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.3.10</vaadinVersion>
+        <vaadinVersion>7.3.9</vaadinVersion>
         <jettyVersion>9.2.6.v20141205</jettyVersion>
         <mysqlVersion>5.1.34</mysqlVersion>
         <camelVersion>2.14.1</camelVersion>

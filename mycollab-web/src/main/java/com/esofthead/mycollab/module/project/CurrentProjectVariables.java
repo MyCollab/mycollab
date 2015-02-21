@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.*;
@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
-import static com.esofthead.mycollab.common.MyCollabSession.PROJECT_MEMBER;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PROJECT_MEMBER;
 
 /**
  * 
