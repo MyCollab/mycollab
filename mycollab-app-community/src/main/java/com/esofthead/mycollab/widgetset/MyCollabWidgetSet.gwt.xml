@@ -40,4 +40,6 @@
     <inherits name="com.esofthead.vaadin.popupbutton.WidgetSet" />
 
     <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet" />
+
+    <inherits name="org.vaadin.suggestfield.WidgetSet" />
 </module>

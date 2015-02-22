@@ -225,31 +225,32 @@ public class PermissionMap extends ValuedBean {
 	 * @return
 	 */
 	public static PermissionMap buildGuestPermissionCollection() {
-		final PermissionMap permissionMap = new PermissionMap();
-		for (final PermissionDefItem element : RolePermissionCollections.CRM_PERMISSIONS_ARR) {
-			permissionMap
-					.addPath(element.getKey(), AccessPermissionFlag.ACCESS);
-		}
+        final PermissionMap permissionMap = new PermissionMap();
+        for (final PermissionDefItem element : RolePermissionCollections.CRM_PERMISSIONS_ARR) {
+            permissionMap.addPath(element.getKey(),
+                    AccessPermissionFlag.NO_ACCESS);
+        }
 
-		for (final PermissionDefItem element : RolePermissionCollections.ACCOUNT_PERMISSION_ARR) {
-			if (element.getKey().equals(
-					RolePermissionCollections.ACCOUNT_BILLING)) {
-				permissionMap.addPath(element.getKey(),
-						BooleanPermissionFlag.TRUE);
-			} else {
-				permissionMap.addPath(element.getKey(),
-						AccessPermissionFlag.ACCESS);
-			}
-		}
+        for (final PermissionDefItem element : RolePermissionCollections.ACCOUNT_PERMISSION_ARR) {
+            if (element.getKey().equals(
+                    RolePermissionCollections.ACCOUNT_BILLING)) {
+                permissionMap.addPath(element.getKey(),
+                        BooleanPermissionFlag.FALSE);
+            } else {
+                permissionMap.addPath(element.getKey(),
+                        AccessPermissionFlag.NO_ACCESS);
+            }
+        }
 
-		for (final PermissionDefItem element : RolePermissionCollections.PROJECT_PERMISSION_ARR) {
-			permissionMap.addPath(element.getKey(), BooleanPermissionFlag.TRUE);
-		}
+        for (final PermissionDefItem element : RolePermissionCollections.PROJECT_PERMISSION_ARR) {
+            permissionMap
+                    .addPath(element.getKey(), BooleanPermissionFlag.FALSE);
+        }
 
-		for (final PermissionDefItem element : RolePermissionCollections.DOCUMENT_PERMISSION_ARR) {
-			permissionMap
-					.addPath(element.getKey(), AccessPermissionFlag.ACCESS);
-		}
-		return permissionMap;
+        for (final PermissionDefItem element : RolePermissionCollections.DOCUMENT_PERMISSION_ARR) {
+            permissionMap.addPath(element.getKey(),
+                    AccessPermissionFlag.NO_ACCESS);
+        }
+        return permissionMap;
 	}
 }

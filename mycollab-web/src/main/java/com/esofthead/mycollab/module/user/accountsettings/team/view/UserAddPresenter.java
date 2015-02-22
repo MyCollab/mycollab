@@ -28,98 +28,96 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_USER, impliedPermissionVal = AccessPermissionFlag.READ_WRITE)
 public class UserAddPresenter extends AbstractPresenter<UserAddView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UserAddPresenter() {
-		super(UserAddView.class);
-	}
+    public UserAddPresenter() {
+        super(UserAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<SimpleUser>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(
+                new EditFormHandler<SimpleUser>() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final SimpleUser item) {
-						save(item);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new UserEvent.GotoList(this, null));
-						}
-					}
+                    @Override
+                    public void onSave(final SimpleUser item) {
+                        save(item);
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState instanceof NullViewState) {
+                            EventBusFactory.getInstance().post(
+                                    new UserEvent.GotoList(this, null));
+                        }
+                    }
 
-					@Override
-					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new UserEvent.GotoList(this, null));
-						}
-					}
+                    @Override
+                    public void onCancel() {
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState instanceof NullViewState) {
+                            EventBusFactory.getInstance().post(
+                                    new UserEvent.GotoList(this, null));
+                        }
+                    }
 
-					@Override
-					public void onSaveAndNew(final SimpleUser item) {
-						save(item);
-						EventBusFactory.getInstance().post(
-								new UserEvent.GotoAdd(this, null));
-					}
-				});
-	}
+                    @Override
+                    public void onSaveAndNew(final SimpleUser item) {
+                        save(item);
+                        EventBusFactory.getInstance().post(
+                                new UserEvent.GotoAdd(this, null));
+                    }
+                });
+    }
 
-	public void save(SimpleUser item) {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
+    public void save(SimpleUser item) {
+        UserService userService = ApplicationContextUtil
+                .getSpringBean(UserService.class);
 
-		item.setAccountId(AppContext.getAccountId());
+        item.setAccountId(AppContext.getAccountId());
 
-		if (item.getStatus() == null) {
-			item.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
-		}
+        if (item.getStatus() == null) {
+            item.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
+        }
 
-		if (item.getUsername() == null) {
-			userService.saveUserAccount(item, AppContext.getAccountId(),
-					AppContext.getUsername());
-		} else {
-			userService.updateUserAccount(item, AppContext.getAccountId());
-		}
+        if (item.getUsername() == null) {
+            userService.saveUserAccount(item, AppContext.getAccountId(),
+                    AppContext.getUsername());
+        } else {
+            userService.updateUserAccount(item, AppContext.getAccountId());
+        }
 
-	}
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		UserContainer userContainer = (UserContainer) container;
-		userContainer.removeAllComponents();
-		userContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        UserContainer userContainer = (UserContainer) container;
+        userContainer.removeAllComponents();
+        userContainer.addComponent(view.getWidget());
 
-		SimpleUser user = (SimpleUser) data.getParams();
-		view.editItem(user);
+        SimpleUser user = (SimpleUser) data.getParams();
+        if (user.getUsername() != null) {
+            view.editItem(user, false);
+        } else {
+            view.editItem(user);
+        }
 
-		AccountSettingBreadcrumb breadcrumb = ViewManager
-				.getCacheComponent(AccountSettingBreadcrumb.class);
+        AccountSettingBreadcrumb breadcrumb = ViewManager
+                .getCacheComponent(AccountSettingBreadcrumb.class);
 
-		if (user.getUsername() == null) {
-			breadcrumb.gotoUserAdd();
-		} else {
-			breadcrumb.gotoUserEdit(user);
-		}
+        if (user.getUsername() == null) {
+            breadcrumb.gotoUserAdd();
+        } else {
+            breadcrumb.gotoUserEdit(user);
+        }
 
-	}
+    }
 }

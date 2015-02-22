@@ -300,16 +300,16 @@ public class UserServiceDBImpl extends
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public SimpleUser authentication(String username, String password,
-			String subdomain, boolean isPasswordEncrypt) {
+			String subDomain, boolean isPasswordEncrypt) {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setUsername(new StringSearchField(username));
 		criteria.setSaccountid(null);
 
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			criteria.setSubdomain(new StringSearchField(subdomain));
+			criteria.setSubdomain(new StringSearchField(subDomain));
 		}
 
-		List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+		List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(
 				criteria, 0, Integer.MAX_VALUE));
 		if (users == null || users.isEmpty()) {
 			throw new UserInvalidInputException("User " + username
@@ -400,7 +400,7 @@ public class UserServiceDBImpl extends
 									+ username
 									+ ". The reason is "
 									+ username
-									+ " is the unique account owner of current account.");
+									+ " is the unique account owner of the current account.");
 				}
 			}
 		}
@@ -467,7 +467,7 @@ public class UserServiceDBImpl extends
 	@Override
 	public int getTotalActiveUsersInAccount(@CacheKey Integer accountId) {
 		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setRegisterStatuses(new SetSearchField<String>(
+		criteria.setRegisterStatuses(new SetSearchField<>(
 				new String[] { RegisterStatusConstants.ACTIVE }));
 		criteria.setSaccountid(new NumberSearchField(accountId));
 		return userMapperExt.getTotalCount(criteria);

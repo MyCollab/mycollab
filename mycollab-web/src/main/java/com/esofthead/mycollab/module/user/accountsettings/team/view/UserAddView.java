@@ -29,4 +29,6 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 public interface UserAddView extends IFormAddView<SimpleUser> {
 
 	HasEditFormHandlers<SimpleUser> getEditFormHandlers();
+
+    void editItem(SimpleUser item, boolean isBasicForm);
 }

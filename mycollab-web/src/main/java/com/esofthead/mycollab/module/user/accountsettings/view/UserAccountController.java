@@ -171,7 +171,7 @@ public class UserAccountController extends AbstractController {
 				UserSearchCriteria criteria = new UserSearchCriteria();
 				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 						AppContext.getAccountId()));
-				criteria.setRegisterStatuses(new SetSearchField<String>(
+				criteria.setRegisterStatuses(new SetSearchField<>(
 						SearchField.AND,
 						new String[] {
 								RegisterStatusConstants.ACTIVE,

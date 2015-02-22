@@ -74,6 +74,7 @@ Version 5.0.0
 * Tooltip of several entities do not display properly
 * Time logging display the double value wrongly some times
 * Gantt chart display to miss the last day of task
+* Default permission of guest role is wide open
 
 
 Version 4.5.5

@@ -35,316 +35,321 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class UserAddViewImpl extends AbstractPageView implements UserAddView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private EditUserForm editUserForm;
-	private SimpleUser user;
-	private DateComboboxSelectionField cboDateBirthday;
-	private TimeZoneSelectionField cboTimezone;
+    private EditUserForm editUserForm;
+    private SimpleUser user;
 
-	public UserAddViewImpl() {
-		super();
+    public UserAddViewImpl() {
+        super();
 
-		this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, false, true));
 
-		this.editUserForm = new EditUserForm();
-		this.addComponent(this.editUserForm);
-	}
+        this.editUserForm = new EditUserForm();
+        this.addComponent(this.editUserForm);
+    }
 
-	@Override
-	public void editItem(final SimpleUser item) {
-		this.user = item;
-		this.removeAllComponents();
-		this.addComponent(this.editUserForm);
-		this.editUserForm.displayBasicForm(this.user);
-	}
+    @Override
+    public void editItem(final SimpleUser item) {
+        editItem(item, true);
+    }
 
-	@Override
-	public HasEditFormHandlers<SimpleUser> getEditFormHandlers() {
-		return this.editUserForm;
-	}
+    @Override
+    public void editItem(SimpleUser item, boolean isBasicForm) {
+        this.user = item;
+        this.removeAllComponents();
+        this.addComponent(this.editUserForm);
+        if (isBasicForm) {
+            this.editUserForm.displayBasicForm(this.user);
+        } else {
+            this.editUserForm.displayAdvancedForm(this.user);
+        }
+    }
 
-	private class EditUserForm extends AdvancedEditBeanForm<SimpleUser> {
-		private static final long serialVersionUID = 1L;
 
-		public void displayBasicForm(final SimpleUser newDataSource) {
-			this.setFormLayoutFactory(new BasicFormLayoutFactory());
-			this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(
-					editUserForm));
-			super.setBean(newDataSource);
-		}
+    @Override
+    public HasEditFormHandlers<SimpleUser> getEditFormHandlers() {
+        return this.editUserForm;
+    }
 
-		public void displayAdvancedForm(final SimpleUser newDataSource) {
-			this.setFormLayoutFactory(new AdvancedFormLayoutFactory());
-			this.setBeanFormFieldFactory(new AdvancedEditFormFieldFactory(
-					editUserForm));
-			super.setBean(newDataSource);
-		}
-	}
+    private class EditUserForm extends AdvancedEditBeanForm<SimpleUser> {
+        private static final long serialVersionUID = 1L;
 
-	private class BasicFormLayoutFactory implements IFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+        public void displayBasicForm(final SimpleUser newDataSource) {
+            this.setFormLayoutFactory(new BasicFormLayoutFactory());
+            this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(
+                    editUserForm));
+            super.setBean(newDataSource);
+        }
 
-		private GridFormLayoutHelper basicInformationLayout;
+        public void displayAdvancedForm(final SimpleUser newDataSource) {
+            this.setFormLayoutFactory(new AdvancedFormLayoutFactory());
+            this.setBeanFormFieldFactory(new AdvancedEditFormFieldFactory(
+                    editUserForm));
+            super.setBean(newDataSource);
+        }
+    }
 
-		@Override
-		public ComponentContainer getLayout() {
-			String title = (user.getUsername() == null) ? AppContext
-					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
-					.getDisplayName();
-			final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
+    private class BasicFormLayoutFactory implements IFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-			final VerticalLayout layout = new VerticalLayout();
-			final Label organizationHeader = new Label(
-					AppContext
-							.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
-			organizationHeader.setStyleName("h2");
-			layout.addComponent(organizationHeader);
+        private GridFormLayoutHelper basicInformationLayout;
 
-			this.basicInformationLayout = new GridFormLayoutHelper(2, 1,
-					"100%", "167px", Alignment.TOP_LEFT);
-			this.basicInformationLayout.getLayout().setWidth("100%");
-			this.basicInformationLayout.getLayout().setMargin(false);
-			this.basicInformationLayout.getLayout().addStyleName(
-					UIConstants.COLORED_GRIDLAYOUT);
+        @Override
+        public ComponentContainer getLayout() {
+            String title = (user.getUsername() == null) ? AppContext
+                    .getMessage(UserI18nEnum.VIEW_NEW_USER) : user
+                    .getDisplayName();
+            final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
-			layout.addComponent(this.basicInformationLayout.getLayout());
+            final VerticalLayout layout = new VerticalLayout();
+            final Label organizationHeader = new Label(
+                    AppContext
+                            .getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
+            organizationHeader.setStyleName("h2");
+            layout.addComponent(organizationHeader);
 
-			formAddLayout.addHeaderRight(createButtonControls());
-			formAddLayout.addBody(layout);
-			formAddLayout.addBottomControls(createBottomPanel());
-			return formAddLayout;
-		}
+            this.basicInformationLayout = new GridFormLayoutHelper(2, 1,
+                    "100%", "167px", Alignment.TOP_LEFT);
+            this.basicInformationLayout.getLayout().setWidth("100%");
+            this.basicInformationLayout.getLayout().setMargin(false);
+            this.basicInformationLayout.getLayout().addStyleName(
+                    UIConstants.COLORED_GRIDLAYOUT);
 
-		private Layout createButtonControls() {
-			final HorizontalLayout controlPanel = new HorizontalLayout();
-			final Layout controlButtons = (new EditFormControlsGenerator<SimpleUser>(
-					editUserForm)).createButtonControls();
-			controlButtons.setSizeUndefined();
-			controlPanel.addComponent(controlButtons);
-			controlPanel.setComponentAlignment(controlButtons,
-					Alignment.MIDDLE_CENTER);
-			return controlPanel;
-		}
+            layout.addComponent(this.basicInformationLayout.getLayout());
 
-		private Layout createBottomPanel() {
-			final HorizontalLayout controlPanel = new HorizontalLayout();
-			controlPanel.setMargin(true);
-			controlPanel.setStyleName("more-info");
-			controlPanel.setHeight("40px");
-			controlPanel.setWidth("100%");
-			Button moreInfoBtn = new Button("More information...",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            formAddLayout.addHeaderRight(createButtonControls());
+            formAddLayout.addBody(layout);
+            formAddLayout.addBottomControls(createBottomPanel());
+            return formAddLayout;
+        }
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							editUserForm.displayAdvancedForm(user);
-						}
-					});
-			moreInfoBtn.addStyleName(UIConstants.THEME_LINK);
-			controlPanel.addComponent(moreInfoBtn);
-			controlPanel.setComponentAlignment(moreInfoBtn,
-					Alignment.MIDDLE_LEFT);
-			return controlPanel;
-		}
+        private Layout createButtonControls() {
+            final HorizontalLayout controlPanel = new HorizontalLayout();
+            final Layout controlButtons = (new EditFormControlsGenerator<>(
+                    editUserForm)).createButtonControls();
+            controlButtons.setSizeUndefined();
+            controlPanel.addComponent(controlButtons);
+            controlPanel.setComponentAlignment(controlButtons,
+                    Alignment.MIDDLE_CENTER);
+            return controlPanel;
+        }
 
-		@Override
-		public void attachField(Object propertyId, Field<?> field) {
-			if (propertyId.equals("email")) {
-				basicInformationLayout.addComponent(field,
-						AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 0);
-			} else if (propertyId.equals("roleid")) {
-				basicInformationLayout.addComponent(field,
-						AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 0);
-			}
+        private Layout createBottomPanel() {
+            final HorizontalLayout controlPanel = new HorizontalLayout();
+            controlPanel.setMargin(true);
+            controlPanel.setStyleName("more-info");
+            controlPanel.setHeight("40px");
+            controlPanel.setWidth("100%");
+            Button moreInfoBtn = new Button("More information...",
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-		}
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            editUserForm.displayAdvancedForm(user);
+                        }
+                    });
+            moreInfoBtn.addStyleName(UIConstants.THEME_LINK);
+            controlPanel.addComponent(moreInfoBtn);
+            controlPanel.setComponentAlignment(moreInfoBtn,
+                    Alignment.MIDDLE_LEFT);
+            return controlPanel;
+        }
 
-	}
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            if (propertyId.equals("email")) {
+                basicInformationLayout.addComponent(field,
+                        AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 0);
+            } else if (propertyId.equals("roleid")) {
+                basicInformationLayout.addComponent(field,
+                        AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 0);
+            }
 
-	private class BasicEditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
-		private static final long serialVersionUID = 1L;
+        }
 
-		public BasicEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
-			super(form);
-		}
+    }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("roleid")) {
-				return new AdminRoleSelectionField();
-			} else if (propertyId.equals("email")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("This field must be not null");
-				return tf;
-			}
+    private class BasicEditFormFieldFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
+        private static final long serialVersionUID = 1L;
 
-			return null;
-		}
+        public BasicEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
+            super(form);
+        }
 
-	}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("roleid")) {
+                return new AdminRoleSelectionField();
+            } else if (propertyId.equals("email")) {
+                final TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("This field must be not null");
+                return tf;
+            }
 
-	private class AdvancedFormLayoutFactory implements IFormLayoutFactory {
+            return null;
+        }
 
-		private static final long serialVersionUID = 1L;
-		private UserInformationLayout userInformationLayout;
+    }
 
-		@Override
-		public ComponentContainer getLayout() {
-			String title = (user.getUsername() == null) ? AppContext
-					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
-					.getDisplayName();
-			final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
+    private class AdvancedFormLayoutFactory implements IFormLayoutFactory {
 
-			formAddLayout.addHeaderRight(createButtonControls());
+        private static final long serialVersionUID = 1L;
+        private UserInformationLayout userInformationLayout;
 
-			userInformationLayout = new UserInformationLayout();
+        @Override
+        public ComponentContainer getLayout() {
+            String title = (user.getUsername() == null) ? AppContext
+                    .getMessage(UserI18nEnum.VIEW_NEW_USER) : user
+                    .getDisplayName();
+            final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
-			formAddLayout.addBody(userInformationLayout.getLayout());
+            formAddLayout.addHeaderRight(createButtonControls());
 
-			return formAddLayout;
-		}
+            userInformationLayout = new UserInformationLayout();
 
-		private Layout createButtonControls() {
-			final HorizontalLayout controlPanel = new HorizontalLayout();
-			final Layout controlButtons = (new EditFormControlsGenerator<SimpleUser>(
-					editUserForm)).createButtonControls();
-			controlButtons.setSizeUndefined();
-			controlPanel.addComponent(controlButtons);
-			controlPanel.setComponentAlignment(controlButtons,
-					Alignment.MIDDLE_CENTER);
-			return controlPanel;
-		}
+            formAddLayout.addBody(userInformationLayout.getLayout());
 
-		@Override
-		public void attachField(Object propertyId, Field<?> field) {
-			userInformationLayout.attachField(propertyId, field);
+            return formAddLayout;
+        }
 
-		}
-	}
+        private Layout createButtonControls() {
+            final HorizontalLayout controlPanel = new HorizontalLayout();
+            final Layout controlButtons = (new EditFormControlsGenerator<>(
+                    editUserForm)).createButtonControls();
+            controlButtons.setSizeUndefined();
+            controlPanel.addComponent(controlButtons);
+            controlPanel.setComponentAlignment(controlButtons,
+                    Alignment.MIDDLE_CENTER);
+            return controlPanel;
+        }
 
-	private class AdvancedEditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
-		private static final long serialVersionUID = 1L;
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            userInformationLayout.attachField(propertyId, field);
 
-		public AdvancedEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
-			super(form);
-		}
+        }
+    }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
+    private class AdvancedEditFormFieldFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
+        private static final long serialVersionUID = 1L;
 
-			if (propertyId.equals("roleid")) {
-				return new AdminRoleSelectionField();
-			} else if (propertyId.equals("firstname")
-					|| propertyId.equals("lastname")
-					|| propertyId.equals("email")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("This field must be not null");
-				return tf;
-			} else if (propertyId.equals("dateofbirth")) {
-				UserAddViewImpl.this.cboDateBirthday = new DateComboboxSelectionField();
-				return UserAddViewImpl.this.cboDateBirthday;
-			} else if (propertyId.equals("timezone")) {
-				UserAddViewImpl.this.cboTimezone = new TimeZoneSelectionField();
-				if (UserAddViewImpl.this.user.getTimezone() != null) {
-					UserAddViewImpl.this.cboTimezone.setTimeZone(TimezoneMapper
-							.getTimezoneExt(UserAddViewImpl.this.user
-									.getTimezone()));
-				} else {
-					if (AppContext.getSession().getTimezone() != null) {
-						UserAddViewImpl.this.cboTimezone
-								.setTimeZone(TimezoneMapper
-										.getTimezoneExt(AppContext.getSession()
-												.getTimezone()));
-					}
-				}
-				return UserAddViewImpl.this.cboTimezone;
-			} else if (propertyId.equals("country")) {
-				final CountryComboBox cboCountry = new CountryComboBox();
-				cboCountry
-						.addValueChangeListener(new Property.ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
+        public AdvancedEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
+            super(form);
+        }
 
-							@Override
-							public void valueChange(
-									final Property.ValueChangeEvent event) {
-								UserAddViewImpl.this.user
-										.setCountry((String) cboCountry
-												.getValue());
-							}
-						});
-				return cboCountry;
-			}
-			return null;
-		}
-	}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
 
-	private class AdminRoleSelectionField extends CustomField<Integer> {
-		private static final long serialVersionUID = 1L;
+            if (propertyId.equals("roleid")) {
+                return new AdminRoleSelectionField();
+            } else if (propertyId.equals("firstname")
+                    || propertyId.equals("lastname")
+                    || propertyId.equals("email")) {
+                final TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("This field must be not null");
+                return tf;
+            } else if (propertyId.equals("dateofbirth")) {
+                return new DateComboboxSelectionField();
+            } else if (propertyId.equals("timezone")) {
+                TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField();
+                if (UserAddViewImpl.this.user.getTimezone() != null) {
+                    cboTimezone.setTimeZone(TimezoneMapper
+                            .getTimezoneExt(UserAddViewImpl.this.user
+                                    .getTimezone()));
+                } else {
+                    if (AppContext.getSession().getTimezone() != null) {
+                        cboTimezone
+                                .setTimeZone(TimezoneMapper
+                                        .getTimezoneExt(AppContext.getSession()
+                                                .getTimezone()));
+                    }
+                }
+                return cboTimezone;
+            } else if (propertyId.equals("country")) {
+                final CountryComboBox cboCountry = new CountryComboBox();
+                cboCountry
+                        .addValueChangeListener(new Property.ValueChangeListener() {
+                            private static final long serialVersionUID = 1L;
 
-		private RoleComboBox roleBox;
+                            @Override
+                            public void valueChange(
+                                    final Property.ValueChangeEvent event) {
+                                UserAddViewImpl.this.user
+                                        .setCountry((String) cboCountry
+                                                .getValue());
+                            }
+                        });
+                return cboCountry;
+            }
+            return null;
+        }
+    }
 
-		public AdminRoleSelectionField() {
-			roleBox = new RoleComboBox();
-			this.roleBox
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						private static final long serialVersionUID = 1L;
+    private class AdminRoleSelectionField extends CustomField<Integer> {
+        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void valueChange(
-								final Property.ValueChangeEvent event) {
-							getValue();
+        private RoleComboBox roleBox;
 
-						}
-					});
-		}
+        public AdminRoleSelectionField() {
+            roleBox = new RoleComboBox();
+            this.roleBox.addValueChangeListener(new Property.ValueChangeListener() {
+                private static final long serialVersionUID = 1L;
 
-		@Override
-		public void setPropertyDataSource(Property newDataSource) {
-			Object value = newDataSource.getValue();
-			if (value == null) {
-				Object itemId = roleBox.getItemIds().iterator().next();
-				roleBox.setValue(itemId);
-			} else if (value instanceof Integer) {
-				roleBox.setValue(value);
-			}
-			super.setPropertyDataSource(newDataSource);
-		}
+                @Override
+                public void valueChange(
+                        final Property.ValueChangeEvent event) {
+                    getValue();
 
-		@Override
-		public void commit() throws SourceException, InvalidValueException {
-			Integer roleId = (Integer) roleBox.getValue();
-			if (roleId == -1) {
-				user.setIsAccountOwner(Boolean.TRUE);
-			} else {
-				user.setIsAccountOwner(Boolean.FALSE);
-			}
-			setInternalValue(roleId);
-			super.commit();
-		}
+                }
+            });
+        }
 
-		@Override
-		public Class<Integer> getType() {
-			return Integer.class;
-		}
+        @Override
+        public void setPropertyDataSource(Property newDataSource) {
+            Object value = newDataSource.getValue();
+            if (value == null) {
+                Object itemId = roleBox.getItemIds().iterator().next();
+                roleBox.setValue(itemId);
+            } else if (value instanceof Integer) {
+                roleBox.setValue(value);
+            }
+            super.setPropertyDataSource(newDataSource);
+        }
 
-		@Override
-		protected Component initContent() {
-			return roleBox;
-		}
-	}
+        @Override
+        public void commit() throws SourceException, InvalidValueException {
+            Integer roleId = (Integer) roleBox.getValue();
+            if (roleId == -1) {
+                user.setIsAccountOwner(Boolean.TRUE);
+            } else {
+                user.setIsAccountOwner(Boolean.FALSE);
+            }
+            setInternalValue(roleId);
+            super.commit();
+        }
+
+        @Override
+        public Class<Integer> getType() {
+            return Integer.class;
+        }
+
+        @Override
+        protected Component initContent() {
+            return roleBox;
+        }
+    }
 
 }

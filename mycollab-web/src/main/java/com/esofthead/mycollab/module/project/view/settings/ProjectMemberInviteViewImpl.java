@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.tokenfield.TokenField;
 
@@ -108,7 +109,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		final AddViewLayout userAddLayout = new AddViewLayout(
 				AppContext
 						.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
-				MyCollabResource.newResource(WebResourceIds._24_project_user));
+                FontAwesome.USER);
 
 		userAddLayout.addHeaderRight(createButtonControls());
 
@@ -118,8 +119,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		informationLayout.getLayout().setMargin(false);
 		informationLayout.getLayout().addStyleName("colored-gridlayout");
 
-		final HorizontalLayout lo = new HorizontalLayout();
-		lo.setSpacing(true);
+		final MHorizontalLayout lo = new MHorizontalLayout();
 		InviteUserTokenField inviteUserTokenField = new InviteUserTokenField(lo);
 		informationLayout.addComponent(inviteUserTokenField, AppContext
 				.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);

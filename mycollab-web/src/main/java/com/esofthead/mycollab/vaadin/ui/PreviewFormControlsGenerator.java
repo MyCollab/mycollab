@@ -25,6 +25,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -42,18 +44,16 @@ public class PreviewFormControlsGenerator<B> {
 	private Button cloneBtn;
 	private SplitButton optionBtn;
 	private Button optionParentBtn;
-	private VerticalLayout popupButtonsControl;
-	private HorizontalLayout editButtons;
-	private HorizontalLayout layout;
+	private MVerticalLayout popupButtonsControl;
+	private MHorizontalLayout editButtons;
+	private MHorizontalLayout layout;
 
 	public PreviewFormControlsGenerator(AdvancedPreviewBeanForm<B> editForm) {
 		this.previewForm = editForm;
 	}
 
 	public HorizontalLayout createButtonControls(String permissionItem) {
-		layout = new HorizontalLayout();
-		layout.setStyleName("control-buttons");
-		layout.setSpacing(true);
+		layout = new MHorizontalLayout().withStyleName("control-buttons");
 		layout.setSizeUndefined();
 
 		optionParentBtn = new Button("Option", new Button.ClickListener() {
@@ -69,13 +69,10 @@ public class PreviewFormControlsGenerator<B> {
 		optionBtn.setWidthUndefined();
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-		popupButtonsControl = new VerticalLayout();
-		popupButtonsControl.setWidth("100px");
-		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
-		popupButtonsControl.setSpacing(true);
+		popupButtonsControl = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withWidth
+                ("100px");
 
-		editButtons = new HorizontalLayout();
-		editButtons.setSpacing(true);
+		editButtons = new MHorizontalLayout();
 
 		editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 				new Button.ClickListener() {

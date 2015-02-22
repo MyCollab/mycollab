@@ -353,7 +353,7 @@ public final class MainView extends AbstractPageView {
         if (SiteConfiguration.getDeploymentMode() != DeploymentMode.site && AppContext.isAdmin()) {
             try {
                 Client client = ClientBuilder.newBuilder().build();
-                WebTarget target = client.target("http://api.mycollab.com/api/checkupdate");
+                WebTarget target = client.target("https://api.mycollab.com/api/checkupdate");
                 Response response = target.request().get();
                 String values = response.readEntity(String.class);
                 Gson gson = new Gson();

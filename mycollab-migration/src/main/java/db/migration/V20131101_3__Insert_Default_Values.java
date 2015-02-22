@@ -54,7 +54,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 						"hasStandupMeetingEnable", "hasTimeTracking")
 				.usingGeneratedKeyColumns("id");
 
-		Map<String, Object> billingParameters = new HashMap<String, Object>();
+		Map<String, Object> billingParameters = new HashMap<>();
 		billingParameters.put("billingType", "Community");
 		billingParameters.put("numUsers", 99999999);
 		billingParameters.put("volume", 999999999999L);
@@ -72,7 +72,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 				.withTableName("s_account")
 				.usingColumns("status", "billingPlanId", "paymentMethod",
 						"subdomain").usingGeneratedKeyColumns("id");
-		Map<String, Object> accountParameters = new HashMap<String, Object>();
+		Map<String, Object> accountParameters = new HashMap<>();
 		accountParameters.put("status", "Active");
 		accountParameters.put("billingPlanId", billingPlanId);
 		accountParameters.put("paymentMethod", "None");
@@ -86,7 +86,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 						"lastname", "email", "status", "registeredTime",
 						"password", "timezone");
 
-		Map<String, Object> userParameters = new HashMap<String, Object>();
+		Map<String, Object> userParameters = new HashMap<>();
 		userParameters.put("username", "admin@mycollab.com");
 		userParameters.put("firstname", "");
 		userParameters.put("lastname", "admin");
@@ -108,7 +108,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 				.usingColumns("username", "accountId", "isAccountOwner",
 						"registeredTime", "registerStatus")
 				.usingGeneratedKeyColumns("id");
-		Map<String, Object> userAccountParameters = new HashMap<String, Object>();
+		Map<String, Object> userAccountParameters = new HashMap<>();
 		userAccountParameters.put("username", "admin@mycollab.com");
 		userAccountParameters.put("accountId", accountId);
 		userAccountParameters.put("isAccountOwner", Boolean.TRUE);
