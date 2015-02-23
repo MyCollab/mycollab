@@ -9,22 +9,22 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3837/14952300710_dd5b36cf87_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm4.staticflickr.com/3837/14952300710_af0a265c03_m.jpg" alt="Project Dashboard">
+      <a href="https://farm9.staticflickr.com/8643/16002088053_c0625bfc27_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm9.staticflickr.com/8643/16002088053_349a44fa8e_m.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3837/14952463917_591a14217a_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm4.staticflickr.com/3837/14952463917_a837822673_m.jpg" alt="Bug Dashboard">
+      <a href="https://farm8.staticflickr.com/7444/16348037810_0baef51371_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm8.staticflickr.com/7444/16348037810_4769d44661_m.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3857/15138957105_30c1ca1212_o.png" target="_blank" title="Task Dashboard">
-        <img src="https://farm4.staticflickr.com/3857/15138957105_8803049194_m.jpg" alt="Task Dashboard">
+      <a href="https://farm9.staticflickr.com/8632/16414547937_a74c207794_o.png" target="_blank" title="Task Dashboard">
+        <img src="https://farm9.staticflickr.com/8632/16414547937_1226b19ee8_m.jpg" alt="Task Dashboard">
       </a>
       <br />
       <em>Task Dashboard</em>
@@ -32,30 +32,28 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
   </tr>
   <tr>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3919/14952575038_f6b2275750_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm4.staticflickr.com/3919/14952575038_ee1de254df_m.jpg" alt="Page Editor">
+      <a href="https://farm9.staticflickr.com/8646/16620727611_302a26eae2_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm9.staticflickr.com/8646/16620727611_1a5f325b30_m.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3879/14967195719_502c90f617_o.png" target="_blank" title="Crm Dashboard">
-        <img src="https://farm4.staticflickr.com/3879/14967195719_04118a461b_m.jpg" alt="Crm Dashboard">
+      <a href="https://farm9.staticflickr.com/8581/16414549727_a580a39234_o.png" target="_blank" title="Crm Dashboard">
+        <img src="https://farm9.staticflickr.com/8581/16414549727_b99d82c131_m.jpg" alt="Crm Dashboard">
       </a>
       <br />
       <em>CRM Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5590/14952153828_ccde9dd6ba_o.png" target="_blank" title="View Account">
-        <img src="https://farm6.staticflickr.com/5590/14952153828_11ba7e64f0_m.jpg" alt="View Account">
+      <a href="https://farm9.staticflickr.com/8610/16434669088_d67688ee20_o.png" target="_blank" title="View Account">
+        <img src="https://farm9.staticflickr.com/8610/16434669088_9bb103e793_m.jpg" alt="View Account">
       </a>
       <br />
       <em>Detail Account</em>
     </td>
   </tr>
 </table>
-
-More MyCollab’s screenshots could be viewed at http://community.mycollab.com/screenshots.html
 
 New features, enhancements, and updates appear on a regular basis.
 
