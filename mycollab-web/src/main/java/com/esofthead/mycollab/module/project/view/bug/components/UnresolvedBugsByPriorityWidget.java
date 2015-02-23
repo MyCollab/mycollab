@@ -14,20 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.bug;
+
+package com.esofthead.mycollab.module.project.view.bug.components;
 
 import java.util.List;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
-import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
+import com.esofthead.mycollab.module.project.view.bug.IBugReportDisplayContainer;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -35,8 +33,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
@@ -46,17 +42,20 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class UnresolvedBugsByPriorityWidget2 extends Depot {
+public class UnresolvedBugsByPriorityWidget extends Depot {
 	private static final long serialVersionUID = 1L;
 
+	private final IBugReportDisplayContainer componentLayout;
 	private BugSearchCriteria bugSearchCriteria;
 
-	public UnresolvedBugsByPriorityWidget2() {
+	public UnresolvedBugsByPriorityWidget(
+			final IBugReportDisplayContainer componentLayout) {
 		super(AppContext
 				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
 				new VerticalLayout());
+
+		this.componentLayout = componentLayout;
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);
 		((VerticalLayout) this.bodyContent).setMargin(true);
@@ -81,17 +80,12 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 						final HorizontalLayout priorityLayout = new HorizontalLayout();
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
-						final ButtonI18nComp userLbl = new ButtonI18nComp(
+						final ButtonI18nComp priorityLink = new ButtonI18nComp(
 								priority.name(), priority, listener);
-						final Resource iconPriority = new ExternalResource(
-								ProjectResources
-										.getIconResourceLink12ByBugPriority(priority
-												.name()));
-						userLbl.setIcon(iconPriority);
-						userLbl.setWidth("110px");
-						userLbl.setStyleName("link");
+						priorityLink.setWidth("110px");
+						priorityLink.setStyleName("link");
 
-						priorityLayout.addComponent(userLbl);
+						priorityLayout.addComponent(priorityLink);
 						final ProgressBarIndicator indicator = new ProgressBarIndicator(
 								totalCount, totalCount - item.getValue(), false);
 						indicator.setWidth("100%");
@@ -107,16 +101,11 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 					final HorizontalLayout priorityLayout = new HorizontalLayout();
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
-					final Button userLbl = new ButtonI18nComp(priority.name(),
-							priority, listener);
-					final Resource iconPriority = new ExternalResource(
-							ProjectResources
-									.getIconResourceLink12ByBugPriority(priority
-											.name()));
-					userLbl.setIcon(iconPriority);
-					userLbl.setWidth("110px");
-					userLbl.setStyleName("link");
-					priorityLayout.addComponent(userLbl);
+					final ButtonI18nComp priorityLink = new ButtonI18nComp(
+							priority.name(), priority, listener);
+					priorityLink.setWidth("110px");
+					priorityLink.setStyleName("link");
+					priorityLayout.addComponent(priorityLink);
 					final ProgressBarIndicator indicator = new ProgressBarIndicator(
 							totalCount, totalCount, false);
 					indicator.setWidth("100%");
@@ -130,21 +119,20 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 		}
 	}
 
-	private class BugPriorityClickListener implements Button.ClickListener {
+	class BugPriorityClickListener implements Button.ClickListener {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
 			final String key = ((ButtonI18nComp) event.getButton()).getKey();
-			UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria
-					.setPriorities(new SetSearchField<String>(
+			UnresolvedBugsByPriorityWidget.this.bugSearchCriteria
+					.setPriorities(new SetSearchField<String>(SearchField.AND,
 							new String[] { key }));
-			final BugFilterParameter param = new BugFilterParameter(
-					"Unresolved " + key + " Bug List",
-					UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
-			EventBusFactory.getInstance()
-					.post(new BugEvent.GotoList(this, new BugScreenData.Search(
-							param)));
+			UnresolvedBugsByPriorityWidget.this.componentLayout
+					.displayBugListWidget(
+							key,
+							UnresolvedBugsByPriorityWidget.this.bugSearchCriteria);
 		}
+
 	}
 }

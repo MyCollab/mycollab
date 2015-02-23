@@ -556,6 +556,10 @@ public class AppContext implements Serializable {
 		return output;
 	}
 
+    public static String formatPrettyTime(Date date) {
+        return DateTimeUtils.getPrettyDateValue(date, getUserLocale());
+    }
+
 	/**
 	 * 
 	 * @param fragement

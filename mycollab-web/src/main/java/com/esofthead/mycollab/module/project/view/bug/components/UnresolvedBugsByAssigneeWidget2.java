@@ -14,8 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package com.esofthead.mycollab.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.bug.components;
 
 import java.util.List;
 
@@ -23,7 +22,11 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -40,20 +43,17 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
+ * 
  */
-public class UnresolvedBugsByAssigneeWidget extends Depot {
+public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 	private static final long serialVersionUID = 1L;
 
-	private final IBugReportDisplayContainer componentLayout;
 	private BugSearchCriteria bugSearchCriteria;
 
-	public UnresolvedBugsByAssigneeWidget(
-			final IBugReportDisplayContainer componentLayout) {
+	public UnresolvedBugsByAssigneeWidget2() {
 		super(AppContext
 				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
 				new VerticalLayout());
-
-		this.componentLayout = componentLayout;
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);
 		((VerticalLayout) this.bodyContent).setMargin(true);
@@ -82,39 +82,39 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 					assignUserFullName = StringUtils
 							.extractNameFromEmail(assignUser);
 				}
-
-				final BugAssigneeButton userLbl = new BugAssigneeButton(
-						assignUser, item.getExtraValue(), assignUserFullName);
+				final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
+						item.getExtraValue(), assignUserFullName);
 				assigneeLayout.addComponent(userLbl);
 				final ProgressBarIndicator indicator = new ProgressBarIndicator(
 						totalCount, totalCount - item.getValue(), false);
 				indicator.setWidth("100%");
 				assigneeLayout.addComponent(indicator);
 				assigneeLayout.setExpandRatio(indicator, 1.0f);
-
 				this.bodyContent.addComponent(assigneeLayout);
 			}
 
 		}
 	}
 
-	class BugAssigneeButton extends Button {
+	class BugAssigneeLink extends Button {
 		private static final long serialVersionUID = 1L;
 
-		public BugAssigneeButton(final String assignee,
+		public BugAssigneeLink(final String assignee,
 				final String assigneeAvatarId, final String assigneeFullName) {
 			super(assigneeFullName, new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
-					UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria
+					UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
 							.setAssignuser(new StringSearchField(
 									SearchField.AND, assignee));
-					UnresolvedBugsByAssigneeWidget.this.componentLayout
-							.displayBugListWidget(
-									assigneeFullName + " Bugs List",
-									UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria);
+					final BugFilterParameter param = new BugFilterParameter(
+							"Unresolved Bugs of " + assigneeFullName,
+							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
+					EventBusFactory.getInstance().post(
+							new BugEvent.GotoList(this,
+									new BugScreenData.Search(param)));
 				}
 			});
 

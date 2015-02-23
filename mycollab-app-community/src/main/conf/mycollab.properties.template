@@ -7,7 +7,7 @@
 #    SITE CONFIGURATION
 #=====================================================
 locale.default=en_US
-locale.list=en_US, es_ES, ja_JP, zh_CN, fr_FR, de_DE, it_IT, ko_KR
+locale.list=en_US
 
 site.name=${sitename}
 running.mode=standalone

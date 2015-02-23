@@ -14,52 +14,58 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.i18n.DayI18nEnum;
+package com.esofthead.mycollab.module.project.view.bug.components;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-public class MyBugListWidget extends BugDisplayWidget {
+public class DueBugWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
-	public MyBugListWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_MY_OPEN_BUGS_TITLE),
-				true, MyBugRowDisplayHandler.class);
+	public DueBugWidget() {
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true,
+				DueBugRowDisplayHandler.class);
 	}
 
-	public static class MyBugRowDisplayHandler extends
+	@Override
+	protected BugFilterParameter constructMoreDisplayFilter() {
+		return new BugFilterParameter("Due Bugs", searchCriteria);
+	}
+
+	public static class DueBugRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component generateRow(final SimpleBug bug, int rowIndex) {
+		public Component generateRow(final SimpleBug bug, final int rowIndex) {
 			MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
-
-			LabelLink defectLink = new LabelLink("["
+			final LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
 					ProjectLinkBuilder.generateBugPreviewFullLink(
@@ -73,42 +79,46 @@ public class MyBugListWidget extends BugDisplayWidget {
 			if (bug.isOverdue()) {
 				defectLink.addStyleName(UIConstants.LINK_OVERDUE);
 			}
+
 			rowContent.addComponent(defectLink);
 
-			LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
+			final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
 					bug.getDescription());
 			descInfo.setWidth("100%");
 			rowContent.addComponent(descInfo);
 
-			Label dateInfo = new Label(AppContext.getMessage(
-					DayI18nEnum.LAST_UPDATED_ON,
-					AppContext.formatDateTime(bug.getLastupdatedtime())));
+			String bugInfo = String.format("%s: %s. %s: %s",
+					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
+					AppContext.formatDate(bug.getDuedate()),
+					AppContext.getMessage(BugI18nEnum.FORM_STATUS),
+					AppContext.getMessage(BugStatus.class, bug.getStatus()));
+			final Label dateInfo = new Label(bugInfo);
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			rowContent.addComponent(dateInfo);
 
-			MHorizontalLayout hLayoutAssigneeInfo = new MHorizontalLayout();
-            hLayoutAssigneeInfo.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-			Label assignee = new Label(
+			final HorizontalLayout hLayoutDateInfo = new HorizontalLayout();
+			hLayoutDateInfo.setSpacing(true);
+			final Label lbAssignee = new Label(
 					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
-			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
+			lbAssignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
+			hLayoutDateInfo.addComponent(lbAssignee);
+			hLayoutDateInfo.setComponentAlignment(lbAssignee,
+					Alignment.MIDDLE_CENTER);
 
-			ProjectUserLink userLink = new ProjectUserLink(bug.getAssignuser(),
-					bug.getAssignUserAvatarId(), bug.getAssignuserFullName(),
-					false, true);
-            hLayoutAssigneeInfo.with(assignee, userLink);
-			rowContent.addComponent(hLayoutAssigneeInfo);
-            rowContent.setStyleName(UIConstants.WIDGET_ROW);
-            if ((rowIndex + 1) % 2 != 0) {
+			final ProjectUserLink userLink = new ProjectUserLink(
+					bug.getAssignuser(), bug.getAssignUserAvatarId(),
+					bug.getAssignuserFullName(), false, true);
+			hLayoutDateInfo.addComponent(userLink);
+			hLayoutDateInfo.setComponentAlignment(userLink,
+					Alignment.MIDDLE_CENTER);
+
+			rowContent.addComponent(hLayoutDateInfo);
+			rowContent.setStyleName(UIConstants.WIDGET_ROW);
+			if ((rowIndex + 1) % 2 != 0) {
                 rowContent.addStyleName("odd");
 			}
-            return rowContent;
-		}
-	}
 
-	@Override
-	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter(
-				AppContext.getMessage(BugI18nEnum.WIDGET_MY_BUGS_TITLE),
-				searchCriteria);
+			return rowContent;
+		}
 	}
 }

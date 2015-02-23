@@ -17,23 +17,44 @@
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
 
+import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
+import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper;
 import com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt;
+import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
+import com.esofthead.mycollab.module.tracker.service.BugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BugRelationServiceImpl implements BugRelationService {
+public class BugRelationServiceImpl extends DefaultCrudService<Integer, RelatedBug> implements BugRelationService {
     @Autowired
     private RelatedBugMapper relatedBugMapper;
 
     @Autowired
     private RelatedBugMapperExt relatedBugMapperExt;
 
-    @Override
-    public void saveRelation(String relation, SimpleBug bug, SimpleBug relatedBug) {
+    @Autowired
+    private BugService bugService;
 
+    @Override
+    public ICrudGenericDAO<Integer, RelatedBug> getCrudMapper() {
+        return relatedBugMapper;
+    }
+
+    public int saveWithSession(RelatedBug record, String username) {
+        int bugId = record.getBugid();
+        if (OptionI18nEnum.BugRelation.Duplicated.name().equals(record.getRelatetype())) {
+            SimpleBug bug = bugService.findById(bugId, 0);
+            if (bug != null) {
+                bug.setStatus(OptionI18nEnum.BugStatus.Resolved.name());
+                bug.setResolution(OptionI18nEnum.BugResolution.Duplicate.name());
+                bugService.updateSelectiveWithSession(bug, username);
+            }
+        }
+        return super.saveWithSession(record, username);
     }
 }

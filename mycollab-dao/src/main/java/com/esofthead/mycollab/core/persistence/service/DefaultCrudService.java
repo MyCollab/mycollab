@@ -52,7 +52,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 	}
 
 	@Override
-	public synchronized int saveWithSession(T record, String username) {
+	public int saveWithSession(T record, String username) {
 		if (!StringUtils.isBlank(username)) {
 			try {
 				PropertyUtils.setProperty(record, "createduser", username);

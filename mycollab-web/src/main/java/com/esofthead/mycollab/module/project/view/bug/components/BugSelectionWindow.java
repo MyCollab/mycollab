@@ -18,13 +18,14 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.view.bug.BugSimpleSearchPanel;
 import com.esofthead.mycollab.module.project.view.bug.BugTableDisplay;
 import com.esofthead.mycollab.module.project.view.bug.BugTableFieldDef;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
@@ -36,14 +37,12 @@ import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class BugSelectionWindow extends Window {
-
     private static final long serialVersionUID = 1L;
     private DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> tableItem;
     private FieldSelection<SimpleBug> fieldSelection;
@@ -95,12 +94,12 @@ public class BugSelectionWindow extends Window {
                                                         final Object itemId, Object columnId) {
                 final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
-                String bugname = "[%s-%s] %s";
-                bugname = String.format(bugname, CurrentProjectVariables
+                String bugName = "[%s-%s] %s";
+                bugName = String.format(bugName, CurrentProjectVariables
                         .getProject().getShortname(), bug.getBugkey(), bug
                         .getSummary());
 
-                ButtonLink b = new ButtonLink(bugname,
+                ButtonLink b = new ButtonLink(bugName,
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -111,13 +110,15 @@ public class BugSelectionWindow extends Window {
                             }
                         });
 
-                if (BugStatus.Verified.name().equals(bug.getStatus())) {
+                if (bug.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
-                } else if (bug.getDuedate() != null
-                        && (bug.getDuedate().before(new GregorianCalendar()
-                        .getTime()))) {
+                } else if (bug.isOverdue()) {
                     b.addStyleName(UIConstants.LINK_OVERDUE);
                 }
+
+                b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
+                        AppContext.getUserLocale(), bug,
+                        AppContext.getSiteUrl(), AppContext.getTimezone()));
 
                 return b;
 

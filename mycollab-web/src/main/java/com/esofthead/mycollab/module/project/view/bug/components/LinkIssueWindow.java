@@ -53,6 +53,7 @@ public class LinkIssueWindow extends Window {
     private BugSearchCriteria searchCriteria;
 
     private SimpleBug selectedBug;
+    private SimpleBug hostedBug;
     private RelatedBug relatedBug;
 
     public LinkIssueWindow(SimpleBug bug) {
@@ -60,6 +61,7 @@ public class LinkIssueWindow extends Window {
         this.setResizable(false);
         this.setModal(true);
 
+        this.hostedBug = bug;
         searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
@@ -117,6 +119,13 @@ public class LinkIssueWindow extends Window {
                             throw new UserInvalidInputException("The related bug must be not null");
                         }
 
+                        if (selectedBug.getId() == hostedBug.getId()) {
+                            throw new UserInvalidInputException("The relation is invalid since the both entries are " +
+                                    "the same");
+                        }
+
+                        relatedBug.setRelatedid(selectedBug.getId());
+                        relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
                         LinkIssueWindow.this.close();
                     }
                 });
@@ -175,6 +184,7 @@ public class LinkIssueWindow extends Window {
                 suggestField.setPopupWidth(600);
                 suggestField.setWidth("400px");
                 suggestField.setInputPrompt("Enter related bug's name");
+                suggestField.setInvalidAllowed(false);
 
                 suggestField.setSuggestionHandler(new SuggestField.SuggestionHandler() {
                     @Override
@@ -210,6 +220,7 @@ public class LinkIssueWindow extends Window {
             @Override
             public void fireValueChange(SimpleBug data) {
                 selectedBug = data;
+                suggestField.setValue(selectedBug);
             }
 
             private List<Object> handleSearchQuery(String query) {
