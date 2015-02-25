@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_billing_plan id="1" billingType="Credit Card"
+                    numProjects="10" numUsers="10" volume="500" pricing="20" />
+    <s_account id="1" status="Active" paymentMethod="Credit Card"
+               createdTime="2013-04-10 13:29:23" billingPlanId="1" />
+    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai"
+            email="hainguyen@esofthead.com" avatarId="1" />
+
+    <s_user_account id="1" isAccountOwner="1"
+                    registerStatus="Active" username="hainguyen" accountId="1"
+                    registeredTime="2013-04-10 13:29:23" />
+    <m_prj_project id="1" name="aaa" shortname="aaa" projectStatus="Open" sAccountId="1"/>
+    <m_tracker_bug id="1" summary="a" status="Open" projectid="1" sAccountId="1"/>
+</dataset>

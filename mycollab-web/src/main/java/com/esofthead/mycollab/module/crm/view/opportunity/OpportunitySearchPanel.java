@@ -191,7 +191,7 @@ public class OpportunitySearchPanel extends
         }
 
         @Override
-        protected SearchCriteria fillupSearchCriteria() {
+        protected SearchCriteria fillUpSearchCriteria() {
             OpportunitySearchPanel.this.searchCriteria = new OpportunitySearchCriteria();
             OpportunitySearchPanel.this.searchCriteria
                     .setSaccountid(new NumberSearchField(SearchField.AND,

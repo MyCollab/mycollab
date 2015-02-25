@@ -239,7 +239,7 @@ public class CaseSearchPanel extends
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			CaseSearchPanel.this.searchCriteria = new CaseSearchCriteria();
 			CaseSearchPanel.this.searchCriteria
 					.setSaccountid(new NumberSearchField(SearchField.AND,

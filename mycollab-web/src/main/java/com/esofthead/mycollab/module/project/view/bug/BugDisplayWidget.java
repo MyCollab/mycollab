@@ -35,6 +35,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -97,12 +98,9 @@ public abstract class BugDisplayWidget extends Depot {
 						}
 					});
 			moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			final VerticalLayout widgetFooter = new VerticalLayout();
+			final MVerticalLayout widgetFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
 			widgetFooter.addStyleName("widget-footer");
-			widgetFooter.setWidth("100%");
-			widgetFooter.setMargin(true);
-			widgetFooter.addComponent(moreBtn);
-			widgetFooter.setComponentAlignment(moreBtn, Alignment.TOP_RIGHT);
+			widgetFooter.with(moreBtn).withAlign(moreBtn, Alignment.TOP_RIGHT);
 			bodyContent.addComponent(widgetFooter);
 		}
 	}

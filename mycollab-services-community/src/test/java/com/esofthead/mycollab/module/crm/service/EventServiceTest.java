@@ -52,7 +52,7 @@ public class EventServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivity> list = eventService
-				.findPagableListByCriteria(new SearchRequest<ActivitySearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(list.size()).isEqualTo(1);
@@ -74,7 +74,7 @@ public class EventServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivity> list = eventService
-				.findPagableListByCriteria(new SearchRequest<ActivitySearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));

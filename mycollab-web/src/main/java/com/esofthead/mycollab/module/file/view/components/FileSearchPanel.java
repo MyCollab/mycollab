@@ -30,7 +30,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -129,7 +128,7 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					fireEvent(new SearchResourceEvent(FileSearchPanel.this,
-							fillupSearchCriteria()));
+							fillUpSearchCriteria()));
 				}
 			});
 			basicSearchBody.with(searchBtn).withAlign(searchBtn,
@@ -153,7 +152,7 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 		}
 
 		@Override
-		protected FileSearchCriteria fillupSearchCriteria() {
+		protected FileSearchCriteria fillUpSearchCriteria() {
 			FileSearchPanel.this.searchCriteria = new FileSearchCriteria();
 			FileSearchPanel.this.searchCriteria.setRootFolder(rootPath);
 			FileSearchPanel.this.searchCriteria.setFileName(this.nameField

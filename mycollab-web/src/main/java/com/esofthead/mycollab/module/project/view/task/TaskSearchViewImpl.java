@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -107,7 +108,7 @@ public class TaskSearchViewImpl extends AbstractPageView implements
                 Arrays.asList(TaskTableFieldDef.taskname,
                         TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
                         TaskTableFieldDef.assignee,
-                        TaskTableFieldDef.percentagecomplete));
+                        TaskTableFieldDef.percentagecomplete), SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
 
         this.tableItem.addTableListener(new TableClickListener() {
             private static final long serialVersionUID = 1L;

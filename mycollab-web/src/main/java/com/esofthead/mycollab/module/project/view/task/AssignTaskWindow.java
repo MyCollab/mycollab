@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -163,6 +164,7 @@ public class AssignTaskWindow extends Window {
 						});
                 approveBtn.setIcon(FontAwesome.SHARE);
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 controlsBtn.with(approveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
 

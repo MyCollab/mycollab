@@ -59,7 +59,6 @@ public class ProjectMemberSelectionBox extends ComboBox {
 	}
 
 	private void loadUserList(List<SimpleProjectMember> memberList) {
-
 		for (SimpleProjectMember member : memberList) {
 			this.addItem(member);
 			this.setItemCaption(member, member.getDisplayName());

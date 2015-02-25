@@ -28,27 +28,13 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -86,7 +72,6 @@ public class ProjectAddWindow extends Window {
 
 	private class EditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<Project> {
-
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<Project> form) {
@@ -175,9 +160,8 @@ public class ProjectAddWindow extends Window {
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			saveBtn.setIcon(FontAwesome.SAVE);
-			buttonControls.addComponent(saveBtn);
-			buttonControls.setComponentAlignment(saveBtn,
-					Alignment.MIDDLE_RIGHT);
+            saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+			buttonControls.with(saveBtn).withAlign(saveBtn, Alignment.MIDDLE_RIGHT);
 
 			final Button closeBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
@@ -191,9 +175,7 @@ public class ProjectAddWindow extends Window {
 
 					});
 			closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			buttonControls.addComponent(closeBtn);
-			buttonControls.setComponentAlignment(closeBtn,
-					Alignment.MIDDLE_RIGHT);
+			buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
 
 			projectAddLayout.addComponent(buttonControls);
 			projectAddLayout.setComponentAlignment(buttonControls,

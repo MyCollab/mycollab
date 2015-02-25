@@ -161,7 +161,7 @@ public class TaskSearchPanel extends
 		}
 
 		@Override
-		protected TaskSearchCriteria fillupSearchCriteria() {
+		protected TaskSearchCriteria fillUpSearchCriteria() {
 			searchCriteria = new TaskSearchCriteria();
 			searchCriteria.setProjectid(new NumberSearchField(
 					CurrentProjectVariables.getProjectId()));
@@ -214,8 +214,8 @@ public class TaskSearchPanel extends
 		}
 
 		@Override
-		protected TaskSearchCriteria fillupSearchCriteria() {
-			searchCriteria = super.fillupSearchCriteria();
+		protected TaskSearchCriteria fillUpSearchCriteria() {
+			searchCriteria = super.fillUpSearchCriteria();
 			searchCriteria.setProjectid(new NumberSearchField(
 					CurrentProjectVariables.getProjectId()));
 			return searchCriteria;

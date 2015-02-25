@@ -250,7 +250,6 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (propertyId.equals("roleid")) {
                 return new AdminRoleSelectionField();
             } else if (propertyId.equals("firstname")
@@ -264,7 +263,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             } else if (propertyId.equals("dateofbirth")) {
                 return new DateComboboxSelectionField();
             } else if (propertyId.equals("timezone")) {
-                TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField();
+                TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
                 if (UserAddViewImpl.this.user.getTimezone() != null) {
                     cboTimezone.setTimeZone(TimezoneMapper
                             .getTimezoneExt(UserAddViewImpl.this.user

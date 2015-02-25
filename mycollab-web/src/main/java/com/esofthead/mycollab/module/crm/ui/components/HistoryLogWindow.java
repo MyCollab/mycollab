@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 import com.vaadin.ui.Window;
@@ -49,7 +49,7 @@ public abstract class HistoryLogWindow extends Window {
 		historyLogComponent.loadHistory(typeid);
 	}
 
-	protected abstract FieldGroupFomatter buildFormatter();
+	protected abstract FieldGroupFormatter buildFormatter();
 
 	private class WrappedHistoryLogComponent extends HistoryLogComponent {
 		private static final long serialVersionUID = 1L;
@@ -59,7 +59,7 @@ public abstract class HistoryLogWindow extends Window {
 		}
 
 		@Override
-		protected FieldGroupFomatter buildFormatter() {
+		protected FieldGroupFormatter buildFormatter() {
 			return HistoryLogWindow.this.buildFormatter();
 		}
 

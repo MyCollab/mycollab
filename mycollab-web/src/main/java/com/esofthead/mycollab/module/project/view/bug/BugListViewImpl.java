@@ -39,9 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resources.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resources.StreamWrapperFileDownloader;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -69,23 +67,19 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	private final BugSearchPanel bugSearchPanel;
 	private BugTableDisplay tableItem;
 	private final VerticalLayout bugListLayout;
-	private PopupButton exportButtonControl;
 
 	public BugListViewImpl() {
-
 		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.bugSearchPanel = new BugSearchPanel();
 		this.bugListLayout = new VerticalLayout();
 		this.generateDisplayTable();
 		this.bugSearchPanel.addRightComponent(constructTableActionControls());
-		addComponent(this.bugSearchPanel);
-		addComponent(this.bugListLayout);
+		with(bugSearchPanel, bugListLayout);
 
 	}
 
 	private void generateDisplayTable() {
-
 		this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
 				BugTableFieldDef.action, Arrays.asList(
 						BugTableFieldDef.summary, BugTableFieldDef.assignUser,
@@ -117,11 +111,9 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 		final Label lbEmpty = new Label("");
-		layout.addComponent(lbEmpty);
-		layout.setExpandRatio(lbEmpty, 1.0f);
+		layout.with(lbEmpty).expand(lbEmpty);
 
-		HorizontalLayout buttonControls = new HorizontalLayout();
-		buttonControls.setSpacing(true);
+		MHorizontalLayout buttonControls = new MHorizontalLayout();
 		layout.addComponent(buttonControls);
 
 		Button customizeViewBtn = new Button("", new Button.ClickListener() {
@@ -140,7 +132,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonControls.addComponent(customizeViewBtn);
 
-		exportButtonControl = new PopupButton();
+        PopupButton exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 		exportButtonControl.setDescription(AppContext

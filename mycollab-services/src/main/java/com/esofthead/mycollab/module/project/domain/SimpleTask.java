@@ -181,7 +181,7 @@ public class SimpleTask extends Task {
     }
 
     public static enum Field {
-        taskListName;
+        assignUserFullName, taskListName;
 
         public boolean equalTo(Object value) {
             return name().equals(value);

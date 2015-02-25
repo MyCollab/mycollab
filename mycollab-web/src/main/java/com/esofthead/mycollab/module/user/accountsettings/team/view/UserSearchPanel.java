@@ -136,7 +136,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			UserSearchPanel.this.searchCriteria = new UserSearchCriteria();
 			UserSearchPanel.this.searchCriteria
 					.setSaccountid(new NumberSearchField(AppContext

@@ -181,7 +181,7 @@ public class LeadSearchPanel extends
         }
 
         @Override
-        protected SearchCriteria fillupSearchCriteria() {
+        protected SearchCriteria fillUpSearchCriteria() {
             LeadSearchPanel.this.searchCriteria = new LeadSearchCriteria();
             LeadSearchPanel.this.searchCriteria
                     .setSaccountid(new NumberSearchField(SearchField.AND,

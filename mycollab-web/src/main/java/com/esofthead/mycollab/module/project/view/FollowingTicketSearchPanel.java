@@ -162,7 +162,7 @@ public class FollowingTicketSearchPanel extends
 
 		@Override
 		@SuppressWarnings("unchecked")
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
 			searchCriteria.setUser(new StringSearchField(AppContext
 					.getUsername()));

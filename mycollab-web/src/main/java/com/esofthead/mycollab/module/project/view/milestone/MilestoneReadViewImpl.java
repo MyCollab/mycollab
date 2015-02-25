@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
@@ -80,7 +80,7 @@ import java.util.UUID;
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class MilestoneReadViewImpl extends
-        AbstractPreviewItemComp2<SimpleMilestone> implements MilestoneReadView {
+        AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
 
     private static final long serialVersionUID = 1L;
 
@@ -128,13 +128,10 @@ public class MilestoneReadViewImpl extends
         this.commentListComp = new CommentDisplay(CommentType.PRJ_MILESTONE,
                 CurrentProjectVariables.getProjectId(), true, true,
                 ProjectMilestoneRelayEmailNotificationAction.class);
-        this.commentListComp.setMargin(true);
-
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(peopleInfoComp);
+
+        addToSideBar(dateInfoComp, peopleInfoComp);
     }
 
     @Override

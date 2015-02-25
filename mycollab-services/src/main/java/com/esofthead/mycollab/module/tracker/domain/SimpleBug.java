@@ -54,6 +54,7 @@ public class SimpleBug extends BugWithBLOBs {
 	private String milestoneName;
 
 	public static enum Field {
+        selected,
 		components,
 		fixedVersions,
 		affectedVersions,

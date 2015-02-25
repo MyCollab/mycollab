@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -31,26 +31,26 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class CampaignHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter campaignFormatter;
+	public static final FieldGroupFormatter campaignFormatter;
 
 	static {
-		campaignFormatter = new FieldGroupFomatter();
+		campaignFormatter = new FieldGroupFormatter();
 
 		campaignFormatter.generateFieldDisplayHandler("campaignname",
 				CampaignI18nEnum.FORM_CAMPAIGN_NAME);
 		campaignFormatter
 				.generateFieldDisplayHandler("startdate",
 						CampaignI18nEnum.FORM_START_DATE,
-						FieldGroupFomatter.DATE_FIELD);
+						FieldGroupFormatter.DATE_FIELD);
 		campaignFormatter.generateFieldDisplayHandler("enddate",
-				CampaignI18nEnum.FORM_END_DATE, FieldGroupFomatter.DATE_FIELD);
+				CampaignI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
 		campaignFormatter.generateFieldDisplayHandler("status",
 				CampaignI18nEnum.FORM_STATUS);
 		campaignFormatter.generateFieldDisplayHandler("type",
 				CampaignI18nEnum.FORM_TYPE);
 		campaignFormatter.generateFieldDisplayHandler("currencyid",
 				CampaignI18nEnum.FORM_CURRENCY,
-				FieldGroupFomatter.CURRENCY_FIELD);
+				FieldGroupFormatter.CURRENCY_FIELD);
 		campaignFormatter.generateFieldDisplayHandler("budget",
 				CampaignI18nEnum.FORM_BUDGET);
 		campaignFormatter.generateFieldDisplayHandler("expectedcost",
@@ -70,7 +70,7 @@ public class CampaignHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return campaignFormatter;
 	}
 }

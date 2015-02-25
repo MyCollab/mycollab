@@ -258,14 +258,11 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 					.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
 			this.setWidth("600px");
 
-			VerticalLayout content = new VerticalLayout();
-			content.setMargin(true);
-			content.setSpacing(true);
+			MVerticalLayout content = new MVerticalLayout();
 			this.setContent(content);
 
 			if (isEdit) {
-				HorizontalLayout headerPanel = new HorizontalLayout();
-				headerPanel.setSpacing(true);
+				MHorizontalLayout headerPanel = new MHorizontalLayout();
 				content.addComponent(headerPanel);
 
 				final ActiveUserMultiSelectComp memberSelection = new ActiveUserMultiSelectComp();

@@ -47,7 +47,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleOpportunity> opportunities = opportunityService
-				.findPagableListByCriteria(new SearchRequest<OpportunitySearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(opportunities.size()).isEqualTo(2);
@@ -60,7 +60,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCount() {
 		List<SimpleOpportunity> opportunities = opportunityService
-				.findPagableListByCriteria(new SearchRequest<OpportunitySearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(opportunities.size()).isEqualTo(2);
@@ -80,12 +80,12 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUsers() {
 		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"hai", "linh"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleOpportunity> opportunities = opportunityService
-				.findPagableListByCriteria(new SearchRequest<OpportunitySearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(opportunities.size()).isEqualTo(2);

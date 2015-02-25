@@ -42,7 +42,7 @@ public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
 	@Override
 	public void addFormHandler(PreviewFormHandler<B> handler) {
 		if (handlers == null) {
-			handlers = new HashSet<PreviewFormHandler<B>>();
+			handlers = new HashSet<>();
 		}
 
 		handlers.add(handler);

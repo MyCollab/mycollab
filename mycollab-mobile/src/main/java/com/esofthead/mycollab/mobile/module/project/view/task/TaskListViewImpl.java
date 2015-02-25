@@ -78,7 +78,7 @@ public class TaskListViewImpl extends
 		editBtn.setButtonCaption(null);
 		editBtn.setStyleName("edit-btn");
 
-		ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
+		ProjectPreviewFormControlsGenerator<SimpleTaskList> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(
 				this);
 		VerticalLayout menuContent = controlsGenerator
 				.createButtonControls(ProjectRolePermissionCollections.TASKS);
@@ -148,7 +148,7 @@ public class TaskListViewImpl extends
 	@Override
 	public void addFormHandler(PreviewFormHandler<SimpleTaskList> handler) {
 		if (handlers == null) {
-			handlers = new HashSet<PreviewFormHandler<SimpleTaskList>>();
+			handlers = new HashSet<>();
 		}
 
 		handlers.add(handler);

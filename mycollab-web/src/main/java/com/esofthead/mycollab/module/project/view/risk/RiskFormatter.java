@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -28,7 +28,7 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
  * @since 4.3.3
  *
  */
-public class RiskFormatter extends FieldGroupFomatter {
+public class RiskFormatter extends FieldGroupFormatter {
 	public static final RiskFormatter instance;
 
 	static {
@@ -51,7 +51,7 @@ public class RiskFormatter extends FieldGroupFomatter {
 				RiskI18nEnum.FORM_CONSEQUENCE);
 
 		this.generateFieldDisplayHandler("datedue", RiskI18nEnum.FORM_DATE_DUE,
-				FieldGroupFomatter.DATE_FIELD);
+				FieldGroupFormatter.DATE_FIELD);
 		this.generateFieldDisplayHandler("probalitity",
 				RiskI18nEnum.FORM_PROBABILITY);
 		this.generateFieldDisplayHandler("status", RiskI18nEnum.FORM_STATUS,

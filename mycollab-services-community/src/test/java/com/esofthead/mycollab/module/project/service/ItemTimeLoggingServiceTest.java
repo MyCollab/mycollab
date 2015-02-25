@@ -52,7 +52,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.setIsBillable(new BooleanSearchField(false));
-		criteria.setLogUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setLogUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"hai79", "nghiemle"}));
 		return criteria;
 	}
@@ -62,7 +62,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetListItemTimeLoggings() throws ParseException {
 		List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(itemTimeLoggings.size()).isEqualTo(2);
@@ -79,7 +79,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testgetTotalCount() {
 		List<ItemTimeLogging> itemTimeLoggings = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 		assertThat(itemTimeLoggings.size()).isEqualTo(2);
 	}

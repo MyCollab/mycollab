@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
@@ -71,7 +71,7 @@ import java.util.UUID;
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskGroupReadViewImpl extends
-        AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
+        AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory
@@ -102,16 +102,10 @@ public class TaskGroupReadViewImpl extends
                 CurrentProjectVariables.getProjectId(), true, true,
                 ProjectTaskGroupRelayEmailNotificationAction.class);
         commentList.setWidth("100%");
-        commentList.setMargin(true);
-
         historyList = new TaskGroupHistoryLogList();
-        historyList.setMargin(true);
-
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(peopleInfoComp);
+        addToSideBar(dateInfoComp, peopleInfoComp);
     }
 
     @Override

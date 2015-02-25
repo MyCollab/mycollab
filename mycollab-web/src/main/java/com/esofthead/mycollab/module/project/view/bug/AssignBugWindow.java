@@ -30,6 +30,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -158,6 +159,7 @@ class AssignBugWindow extends Window {
 						});
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setIcon(FontAwesome.SHARE);
+                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 				controlsBtn.addComponent(approveBtn);
 				controlsBtn.setComponentAlignment(approveBtn,
 						Alignment.MIDDLE_RIGHT);

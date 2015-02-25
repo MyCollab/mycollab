@@ -58,7 +58,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetListComponents() throws ParseException {
 		List<SimpleComponent> components = componentService
-				.findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(components.size()).isEqualTo(4);
@@ -80,7 +80,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testTotalCount() {
 		List<SimpleComponent> components = componentService
-				.findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(components.size()).isEqualTo(4);
@@ -94,7 +94,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 		criteria.setId(new NumberSearchField(1));
 
 		List<SimpleComponent> components = componentService
-				.findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(components.size()).isEqualTo(1);
 		assertThat(components).extracting("id", "description", "status",
@@ -113,7 +113,7 @@ public class ComponentServiceTest extends IntergrationServiceTest {
 		criteria.setUserlead(new StringSearchField("nghiemle"));
 
 		List<SimpleComponent> components = componentService
-				.findPagableListByCriteria(new SearchRequest<ComponentSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(components.size()).isEqualTo(1);
 		assertThat(components).extracting("id", "description", "status",

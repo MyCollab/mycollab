@@ -47,7 +47,7 @@ public class CampaignServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleCampaign> campaigns = campaignService
-				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(campaigns.size()).isEqualTo(2);
@@ -60,7 +60,7 @@ public class CampaignServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCounts() {
 		List<SimpleCampaign> campaigns = campaignService
-				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(campaigns.size()).isEqualTo(2);
@@ -71,11 +71,11 @@ public class CampaignServiceTest extends IntergrationServiceTest {
 		criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
 		criteria.setCampaignName(new StringSearchField(SearchField.AND, "A"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"hai79", "linh"}));
-		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+		criteria.setStatuses(new SetSearchField<>(SearchField.AND,
 				new String[]{"a", "b"}));
-		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
+		criteria.setTypes(new SetSearchField<>(SearchField.AND,
 				new String[]{"a", "b"}));
 		return criteria;
 	}

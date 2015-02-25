@@ -31,6 +31,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
@@ -157,9 +158,8 @@ class ApproveInputWindow extends Window {
 							}
 						});
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				controlsBtn.addComponent(approveBtn);
-				controlsBtn.setComponentAlignment(approveBtn,
-						Alignment.MIDDLE_RIGHT);
+                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+				controlsBtn.with(approveBtn).withAlign(approveBtn, Alignment.MIDDLE_LEFT);
 
 				final Button cancelBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -173,9 +173,7 @@ class ApproveInputWindow extends Window {
 							}
 						});
 				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
+				controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_LEFT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

@@ -57,7 +57,7 @@ public class StandupReportServiceTest extends IntergrationServiceTest {
 		criteria.setOnDate(new DateSearchField(SearchField.AND, d));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleStandupReport> reports = reportService
-				.findPagableListByCriteria(new SearchRequest<StandupReportSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(reports.size()).isEqualTo(1);
 		assertThat(reports).extracting("id", "logby", "whattoday").contains(

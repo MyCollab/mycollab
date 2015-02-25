@@ -82,7 +82,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUsers() {
 		CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[] { "linh", "admin" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 
@@ -100,7 +100,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchPriorities() {
 		CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setPriorities(new SetSearchField<String>(SearchField.AND,
+		criteria.setPriorities(new SetSearchField<>(SearchField.AND,
 				new String[] { "High", "Medium" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 
@@ -118,7 +118,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchStatuses() {
 		CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+		criteria.setStatuses(new SetSearchField<>(SearchField.AND,
 				new String[] { "New", "Test Status" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 

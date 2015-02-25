@@ -16,15 +16,16 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper.TimezoneExt;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -34,25 +35,24 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 public class TimeZoneSelectionField extends CustomField<String> {
-
+    private boolean isVerticalDisplay = true;
 	private ValueComboBox comboArea;
 	private ValueComboBox comboTimezone;
-	private List<String> lstLimeZoneArea = new ArrayList<String>();
+	private List<String> lstLimeZoneArea = new ArrayList<>();
 
-	public TimeZoneSelectionField() {
+	public TimeZoneSelectionField(boolean isVerticalDisplay) {
+        this.isVerticalDisplay = isVerticalDisplay;
 		comboArea = new ValueComboBox(false, TimezoneMapper.AREAS);
-		comboArea.setWidth("100%");
 		comboArea.addValueChangeListener(new Property.ValueChangeListener() {
 
 			@Override
 			public void valueChange(
 					com.vaadin.data.Property.ValueChangeEvent event) {
-				lstLimeZoneArea.removeAll(lstLimeZoneArea);
+				lstLimeZoneArea.clear();
 				setCboTimeZone(event.getProperty().getValue().toString().trim());
 			}
 		});
 
-		lstLimeZoneArea.removeAll(lstLimeZoneArea);
 		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
 			if (timezone.getArea().equals(comboArea.getValue())) {
 				lstLimeZoneArea.add(timezone.getDisplayName());
@@ -63,19 +63,19 @@ public class TimeZoneSelectionField extends CustomField<String> {
 				.toArray(new String[lstLimeZoneArea.size()]);
 
 		comboTimezone = new ValueComboBox(false, arrayTimezone);
-		comboTimezone.setWidth("100%");
 	}
 
 	@Override
 	protected Component initContent() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-
-		layout.addComponent(comboArea);
-
-		layout.addComponent(comboTimezone);
-
-		return layout;
+        if (isVerticalDisplay) {
+            MVerticalLayout layout = new MVerticalLayout().withMargin(false);
+            layout.with(comboArea, comboTimezone);
+            return layout;
+        } else {
+            MHorizontalLayout layout = new MHorizontalLayout();
+            layout.with(comboArea, comboTimezone);
+            return layout;
+        }
 	}
 
 	private void setCboTimeZone(String area) {

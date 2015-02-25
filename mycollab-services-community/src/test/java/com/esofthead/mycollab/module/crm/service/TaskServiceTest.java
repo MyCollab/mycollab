@@ -44,7 +44,7 @@ public class TaskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleTask> tasks = taskService
-				.findPagableListByCriteria(new SearchRequest<TodoSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(tasks.size()).isEqualTo(1);
@@ -57,7 +57,7 @@ public class TaskServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCounts() {
 		List<SimpleTask> tasks = taskService
-				.findPagableListByCriteria(new SearchRequest<TodoSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(tasks.size()).isEqualTo(1);

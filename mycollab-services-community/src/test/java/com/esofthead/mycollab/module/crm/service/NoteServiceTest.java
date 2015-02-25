@@ -53,7 +53,7 @@ public class NoteServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearch() {
 		List<SimpleNote> noteList = noteService
-				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(noteList.size()).isEqualTo(1);

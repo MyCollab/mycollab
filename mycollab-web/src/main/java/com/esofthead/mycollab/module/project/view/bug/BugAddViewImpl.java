@@ -17,12 +17,16 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.module.project.ui.components.ProjectSubscribersComp;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.BugSeverityComboBox;
@@ -33,6 +37,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -62,6 +67,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
     private ComponentMultiSelectField componentSelect;
     private VersionMultiSelectField affectedVersionSelect;
     private VersionMultiSelectField fixedVersionSelect;
+    private ProjectSubscribersComp subcribersComp;
 
     @Override
     public ProjectFormAttachmentUploadField getAttachUploadField() {
@@ -93,11 +99,12 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
         public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
             super(form);
+            subcribersComp = new ProjectSubscribersComp(false, CurrentProjectVariables.getProjectId(), AppContext
+                    .getUsername());
         }
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (propertyId.equals("environment")) {
                 return new RichTextEditField();
             } else if (propertyId.equals("description")) {
@@ -108,7 +115,16 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
                 }
                 return new BugPriorityComboBox();
             } else if (propertyId.equals("assignuser")) {
-                return new ProjectMemberSelectionField();
+                ProjectMemberSelectionField field = new ProjectMemberSelectionField();
+                field.addValueChangeListener(new Property.ValueChangeListener() {
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                        Property property = valueChangeEvent.getProperty();
+                        SimpleProjectMember member = (SimpleProjectMember)property.getValue();
+                        subcribersComp.addFollower(member.getUsername());
+                    }
+                });
+                return field;
             } else if (propertyId.equals("id")) {
                 attachmentUploadField = new ProjectFormAttachmentUploadField();
                 if (beanItem.getId() != null) {
@@ -158,6 +174,8 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
             } else if (propertyId.equals("estimatetime")
                     || (propertyId.equals("estimateremaintime"))) {
                 return new NumberField();
+            } else if (propertyId.equals("selected")) {
+                return subcribersComp;
             }
 
             return null;
@@ -198,11 +216,22 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new BugAddFormLayoutFactory();
+        if (beanItem.getId() == null) {
+            return new DynaFormLayout(ProjectTypeConstants.BUG,
+                    BugDefaultFormLayoutFactory.getForm());
+        } else {
+            return new DynaFormLayout(ProjectTypeConstants.BUG,
+                    BugDefaultFormLayoutFactory.getForm(), "selected");
+        }
     }
 
     @Override
     protected AbstractBeanFieldGroupEditFieldFactory<SimpleBug> initBeanFormFieldFactory() {
         return new EditFormFieldFactory(editForm);
+    }
+
+    @Override
+    public List<String> getFollowers() {
+        return subcribersComp.getFollowers();
     }
 }

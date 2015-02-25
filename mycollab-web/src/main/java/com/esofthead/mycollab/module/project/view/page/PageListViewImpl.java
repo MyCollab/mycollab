@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.google.common.collect.Ordering;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -598,6 +599,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                                 }
                             });
                     saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                    saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
                     controlsBtn.addComponent(saveBtn);
                     controlsBtn.setComponentAlignment(saveBtn,
                             Alignment.MIDDLE_RIGHT);

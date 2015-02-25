@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
@@ -72,7 +72,7 @@ import java.util.List;
  * @since 4.4.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
+public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         PageReadView {
     private static final long serialVersionUID = 1L;
     private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"

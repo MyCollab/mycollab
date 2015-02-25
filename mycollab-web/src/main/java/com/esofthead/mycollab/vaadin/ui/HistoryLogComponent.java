@@ -27,8 +27,8 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.FieldDisplayHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -50,7 +50,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 	protected BeanList<AuditLogService, AuditLogSearchCriteria, SimpleAuditLog> logTable;
 	private String module;
 	private String type;
-	private FieldGroupFomatter groupFormatter;
+	private FieldGroupFormatter groupFormatter;
 
 	public HistoryLogComponent(String module, String type) {
 		this.module = module;
@@ -68,7 +68,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 		groupFormatter = buildFormatter();
 	}
 
-	protected abstract FieldGroupFomatter buildFormatter();
+	protected abstract FieldGroupFormatter buildFormatter();
 
 	public void loadHistory(int typeid) {
 		AuditLogSearchCriteria criteria = new AuditLogSearchCriteria();

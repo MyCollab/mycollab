@@ -41,6 +41,22 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 5.0.1
+-----------------------------
+**Library Upgrades**
+
+* Upgrade libraries version
+
+**Improvements**
+
+* Add custom notifiers
+* Support default button in windows
+* Improve search result of task list
+
+**Bug Fixes**
+
+* Attachment box in Safari display wrongly
+
 Version 5.0.0
 -----------------------------
 **Library Upgrades**

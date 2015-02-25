@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -31,16 +31,16 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class OpportunityHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter opportunityFormatter;
+	public static final FieldGroupFormatter opportunityFormatter;
 
 	static {
-		opportunityFormatter = new FieldGroupFomatter();
+		opportunityFormatter = new FieldGroupFormatter();
 
 		opportunityFormatter.generateFieldDisplayHandler("opportunityname",
 				OpportunityI18nEnum.FORM_NAME);
 		opportunityFormatter.generateFieldDisplayHandler("currencyid",
 				OpportunityI18nEnum.FORM_CURRENCY,
-				FieldGroupFomatter.CURRENCY_FIELD);
+				FieldGroupFormatter.CURRENCY_FIELD);
 		opportunityFormatter.generateFieldDisplayHandler("amount",
 				OpportunityI18nEnum.FORM_AMOUNT);
 		opportunityFormatter.generateFieldDisplayHandler("salesstage",
@@ -53,7 +53,7 @@ public class OpportunityHistoryLogWindow extends HistoryLogWindow {
 				OpportunityI18nEnum.FORM_ACCOUNT_NAME);
 		opportunityFormatter.generateFieldDisplayHandler("expectedcloseddate",
 				OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE,
-				FieldGroupFomatter.DATE_FIELD);
+				FieldGroupFormatter.DATE_FIELD);
 		opportunityFormatter.generateFieldDisplayHandler("opportunitytype",
 				OpportunityI18nEnum.FORM_TYPE);
 		opportunityFormatter.generateFieldDisplayHandler("source",
@@ -71,7 +71,7 @@ public class OpportunityHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return opportunityFormatter;
 	}
 }

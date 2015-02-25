@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -32,21 +30,14 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -66,19 +57,16 @@ public class AssignTaskGroupWindow extends Window {
 		this.setResizable(false);
 		this.setModal(true);
 
-		VerticalLayout contentLayout = new VerticalLayout();
 		editForm = new EditForm();
 		editForm.setBean(task);
-		contentLayout.addComponent(editForm);
-		contentLayout.setSpacing(true);
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false));
+        contentLayout.addComponent(editForm);
 
 		this.setContent(contentLayout);
 		center();
 	}
 
 	private class EditForm extends AdvancedEditBeanForm<TaskList> {
-
 		private static final long serialVersionUID = 1L;
 		private RichTextArea commentArea;
 
@@ -106,9 +94,7 @@ public class AssignTaskGroupWindow extends Window {
 
 				layout.addComponent(informationLayout.getLayout());
 
-				HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
+				MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
 				Button cancelBtn = new Button(
@@ -177,9 +163,8 @@ public class AssignTaskGroupWindow extends Window {
 							}
 						});
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				controlsBtn.addComponent(approveBtn);
-				controlsBtn.setComponentAlignment(approveBtn,
-						Alignment.MIDDLE_RIGHT);
+                approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+				controlsBtn.with(approveBtn).withAlign(approveBtn, Alignment.MIDDLE_RIGHT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

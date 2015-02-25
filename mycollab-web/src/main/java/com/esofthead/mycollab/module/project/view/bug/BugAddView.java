@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentUpload
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
@@ -42,4 +43,6 @@ public interface BugAddView extends IFormAddView<SimpleBug> {
     List<Version> getAffectedVersions();
     
     List<Version> getFixedVersion();
+
+    List<String> getFollowers();
 }

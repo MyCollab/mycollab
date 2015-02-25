@@ -143,7 +143,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			RoleSearchPanel.this.searchCriteria = new RoleSearchCriteria();
 			if (StringUtils.isNotBlank(this.nameField.getValue())) {
 				RoleSearchPanel.this.searchCriteria

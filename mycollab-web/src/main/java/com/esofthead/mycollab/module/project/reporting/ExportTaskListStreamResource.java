@@ -16,39 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.reporting;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
-import static net.sf.dynamicreports.report.builder.DynamicReports.col;
-import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
-import static net.sf.dynamicreports.report.builder.DynamicReports.report;
-import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
-import static net.sf.dynamicreports.report.builder.DynamicReports.type;
-
-import java.lang.reflect.Field;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
-import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
-import net.sf.dynamicreports.report.builder.column.ComponentColumnBuilder;
-import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
-import net.sf.dynamicreports.report.builder.component.SubreportBuilder;
-import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
-import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
-import net.sf.dynamicreports.report.builder.style.StyleBuilder;
-import net.sf.dynamicreports.report.constant.HorizontalAlignment;
-import net.sf.dynamicreports.report.constant.VerticalAlignment;
-import net.sf.dynamicreports.report.definition.ReportParameters;
-import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
-import net.sf.dynamicreports.report.exception.DRException;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -61,15 +28,32 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
-import com.esofthead.mycollab.reporting.BeanDataSource;
-import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.RpParameterBuilder;
-import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
+import com.esofthead.mycollab.reporting.*;
 import com.esofthead.mycollab.reporting.expression.MValue;
 import com.esofthead.mycollab.vaadin.AppContext;
+import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
+import net.sf.dynamicreports.report.builder.column.ComponentColumnBuilder;
+import net.sf.dynamicreports.report.builder.component.*;
+import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.HorizontalAlignment;
+import net.sf.dynamicreports.report.constant.VerticalAlignment;
+import net.sf.dynamicreports.report.definition.ReportParameters;
+import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
+import net.sf.dynamicreports.report.exception.DRException;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 /**
  * 
@@ -77,7 +61,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 1.0
  * 
  */
-public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
+public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 		ExportItemsStreamResource<SimpleTaskList> {
 	private static final long serialVersionUID = 1L;
 
@@ -105,13 +89,13 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initReport() throws Exception {
-		SearchRequest<S> searchRequest = new SearchRequest<S>(searchCriteria,
+		SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria,
 				0, Integer.MAX_VALUE);
-		List<SimpleTaskList> lstSimleTaskList = searchService
+		List<SimpleTaskList> taskLists = searchService
 				.findPagableListByCriteria(searchRequest);
 
-		for (SimpleTaskList taskList : lstSimleTaskList) {
-			VerticalListBuilder componetBuilder = cmp.verticalList();
+		for (SimpleTaskList taskList : taskLists) {
+			VerticalListBuilder componentBuilder = cmp.verticalList();
 			StyleBuilder style = stl
 					.style(reportTemplate.getBold12TitleStyle()).setBorder(
 							stl.penThin());
@@ -146,11 +130,11 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			LOG.debug("Label value : " + taskList.getDescription());
 			TextFieldBuilder<String> desLabel = cmp.text("Description :")
 					.setStyle(style).setFixedWidth(150);
-			TextFieldBuilder<String> descriptText = cmp
+			TextFieldBuilder<String> description = cmp
 					.text(taskList.getDescription()).setFixedWidth(1020)
 					.setStyle(style);
-			HorizontalListBuilder deshorizontal = cmp.horizontalList();
-			deshorizontal.add(desLabel).add(descriptText);
+			HorizontalListBuilder descContainer = cmp.horizontalList();
+			descContainer.add(desLabel).add(description);
 
 			// Assignee
 			LOG.debug("Assignee value : " + taskList.getOwnerFullName());
@@ -176,9 +160,9 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.setStyle(reportTemplate.getUnderlineStyle())
 					.setStyle(styleHyperLink).setFixedWidth(435);
 
-			HorizontalListBuilder assingeeAndPhaseHorizontal = cmp
+			HorizontalListBuilder assigneeAndPhaseHorizontal = cmp
 					.horizontalList();
-			assingeeAndPhaseHorizontal.add(assigneeLbl).add(assignee)
+			assigneeAndPhaseHorizontal.add(assigneeLbl).add(assignee)
 					.add(phaseLbl).add(phase);
 
 			// progress
@@ -194,7 +178,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.setStyle(style).setFixedWidth(435);
 
 			TextFieldBuilder<String> numberTaskLbl = cmp
-					.text("Number of open tasks :").setStyle(style)
+					.text("Open tasks :").setStyle(style)
 					.setFixedWidth(150);
 
 			TextFieldBuilder<String> taskNumText = cmp
@@ -209,17 +193,16 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.add(numberTaskLbl).add(taskNumText);
 
 			// Add to Vertical List Builder -------
-			componetBuilder.add(taskGroupLabel).add(deshorizontal)
-					.add(assingeeAndPhaseHorizontal)
+			componentBuilder.add(taskGroupLabel).add(descContainer)
+					.add(assigneeAndPhaseHorizontal)
 					.add(horizontalOfProgressAndNumberTask);
 			SimpleTaskJasperReportBuilder subReportBuilder = new SimpleTaskJasperReportBuilder(
 					reportTemplate, taskList.getSubTasks(), parameters);
-			if (taskList.getSubTasks() != null
-					&& taskList.getSubTasks().size() > 0) {
-				componetBuilder.add(subReportBuilder.getSubreportBuilder());
+			if (CollectionUtils.isNotEmpty(taskList.getSubTasks())) {
+				componentBuilder.add(subReportBuilder.getSubReportBuilder());
 			}
-			componetBuilder.add(cmp.horizontalList().setHeight(7));
-			reportBuilder.addDetail(componetBuilder);
+			componentBuilder.add(cmp.horizontalList().setHeight(7));
+			reportBuilder.addDetail(componentBuilder);
 		}
 	}
 
@@ -239,14 +222,14 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 		}
 
 		@SuppressWarnings("rawtypes")
-		public ComponentBuilder getSubreportBuilder() {
+		public ComponentBuilder getSubReportBuilder() {
 			HorizontalListBuilder horizontalBuilder = cmp.horizontalList();
 			horizontalBuilder.setStyle(stl.style(
 					reportTemplate.getBoldCenteredStyle()).setBorder(
 					stl.penThin()));
-			SubreportBuilder subreport = cmp.subreport(
+			SubreportBuilder subReport = cmp.subreport(
 					new SimpleTaskExpression()).setDataSource(dataSource);
-			horizontalBuilder.add(subreport);
+			horizontalBuilder.add(subReport);
 			return horizontalBuilder;
 		}
 
@@ -265,7 +248,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 							|| "selected".equals(objField.getName())) {
 						continue;
 					}
-					DRIDataType<Object, ? extends Object> jrType = null;
+					DRIDataType<Object, Object> jrType;
 					try {
 						jrType = type.detectType(objField.getType().getName());
 					} catch (DRException e) {
@@ -280,7 +263,6 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 						.getListFieldBuilder(SimpleTask.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
-
 					LOG.debug("Inject renderer if any");
 					if (lstFieldBuilder != null) {
 						MValue columnFieldBuilder = lstFieldBuilder.get(field

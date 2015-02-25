@@ -22,8 +22,8 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 
 /**
  * 
@@ -33,10 +33,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
 public class AccountHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter accountFormatter;
+	public static final FieldGroupFormatter accountFormatter;
 
 	static {
-		accountFormatter = new FieldGroupFomatter();
+		accountFormatter = new FieldGroupFormatter();
 
 		accountFormatter.generateFieldDisplayHandler("accountname",
 				AccountI18nEnum.FORM_ACCOUNT_NAME);
@@ -89,7 +89,7 @@ public class AccountHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return accountFormatter;
 	}
 }

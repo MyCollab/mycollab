@@ -64,7 +64,7 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
 		criteria.setMilestoneName(new StringSearchField("milestone 1"));
 
 		List<SimpleMilestone> milestones = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(milestones.size()).isEqualTo(1);
@@ -81,7 +81,7 @@ public class MilestoneServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetListMilestonesByCriteria() throws ParseException {
 		List<SimpleMilestone> milestones = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(milestones.size()).isEqualTo(4);

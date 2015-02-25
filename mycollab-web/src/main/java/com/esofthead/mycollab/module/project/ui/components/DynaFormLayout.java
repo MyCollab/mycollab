@@ -52,9 +52,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 	private DynaForm dynaForm;
 
-	private VerticalLayout layout;
-
-	private Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
+	private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
 	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
 	private Set<String> excludeFields;
@@ -75,7 +73,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		if (excludeField.length > 0) {
 			this.excludeFields = new HashSet<>(Arrays.asList(excludeField));
 		} else {
-			this.excludeFields = new HashSet<String>();
+			this.excludeFields = new HashSet<>();
 		}
 
 		LOG.debug("Fill fields of originSection to map field");
@@ -103,18 +101,15 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
 	@Override
 	public ComponentContainer getLayout() {
-		layout = new VerticalLayout();
+		VerticalLayout layout = new VerticalLayout();
 		int sectionCount = dynaForm.getSectionCount();
-		sectionMappings = new HashMap<DynaSection, GridFormLayoutHelper>();
+		sectionMappings = new HashMap<>();
 
 		for (int i = 0; i < sectionCount; i++) {
 			DynaSection section = dynaForm.getSection(i);
 			if (section.isDeletedSection()) {
 				continue;
 			}
-			// Label header = new Label(section.getHeader());
-			// header.setStyleName("h2");
-			// layout.addComponent(header);
 
 			GridFormLayoutHelper gridLayout;
 

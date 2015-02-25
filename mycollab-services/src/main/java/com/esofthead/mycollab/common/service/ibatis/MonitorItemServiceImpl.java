@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.common.dao.MonitorItemMapper;
 import com.esofthead.mycollab.common.dao.MonitorItemMapperExt;
 import com.esofthead.mycollab.common.domain.MonitorItem;
@@ -28,63 +25,72 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 public class MonitorItemServiceImpl extends
-		DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements
-		MonitorItemService {
+        DefaultService<Integer, MonitorItem, MonitorSearchCriteria> implements
+        MonitorItemService {
 
-	@Autowired
-	private MonitorItemMapper monitorItemMapper;
+    @Autowired
+    private MonitorItemMapper monitorItemMapper;
 
-	@Autowired
-	private MonitorItemMapperExt monitorItemMapperExt;
+    @Autowired
+    private MonitorItemMapperExt monitorItemMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, MonitorItem> getCrudMapper() {
-		return monitorItemMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, MonitorItem> getCrudMapper() {
+        return monitorItemMapper;
+    }
 
-	@Override
-	public ISearchableDAO<MonitorSearchCriteria> getSearchMapper() {
-		return monitorItemMapperExt;
-	}
+    @Override
+    public ISearchableDAO<MonitorSearchCriteria> getSearchMapper() {
+        return monitorItemMapperExt;
+    }
 
-	@Override
-	public boolean isUserWatchingItem(String username, String type, int typeid) {
-		MonitorItemExample ex = new MonitorItemExample();
-		ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type)
-				.andTypeidEqualTo(typeid);
-		return monitorItemMapper.countByExample(ex) > 0;
-	}
+    @Override
+    public boolean isUserWatchingItem(String username, String type, int typeid) {
+        MonitorItemExample ex = new MonitorItemExample();
+        ex.createCriteria().andUserEqualTo(username).andTypeEqualTo(type)
+                .andTypeidEqualTo(typeid);
+        return monitorItemMapper.countByExample(ex) > 0;
+    }
 
-	@Override
-	public int saveWithSession(MonitorItem record, String username) {
-		MonitorItemExample ex = new MonitorItemExample();
-		ex.createCriteria().andTypeEqualTo(record.getType())
-				.andTypeidEqualTo(record.getTypeid())
-				.andUserEqualTo(record.getUser());
-		int count = monitorItemMapper.countByExample(ex);
-		if (count > 0) {
-			return 1;
-		} else {
-			return super.saveWithSession(record, username);
-		}
-	}
+    @Override
+    public int saveWithSession(MonitorItem record, String username) {
+        MonitorItemExample ex = new MonitorItemExample();
+        ex.createCriteria().andTypeEqualTo(record.getType())
+                .andTypeidEqualTo(record.getTypeid())
+                .andUserEqualTo(record.getUser());
+        int count = monitorItemMapper.countByExample(ex);
+        if (count > 0) {
+            return 1;
+        } else {
+            return super.saveWithSession(record, username);
+        }
+    }
 
-	@Override
-	public Integer getNextItemKey(MonitorSearchCriteria arg0) {
-		return null;
-	}
+    @Override
+    public void saveMonitorItems(Collection<MonitorItem> monitorItems) {
+        if (monitorItems.size() > 0) {
+            monitorItemMapperExt.saveMonitorItems(monitorItems);
+        }
+    }
 
-	@Override
-	public Integer getPreviousItemKey(MonitorSearchCriteria arg0) {
-		return null;
-	}
+    @Override
+    public Integer getNextItemKey(MonitorSearchCriteria arg0) {
+        return null;
+    }
+
+    @Override
+    public Integer getPreviousItemKey(MonitorSearchCriteria arg0) {
+        return null;
+    }
 }

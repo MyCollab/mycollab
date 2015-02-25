@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -30,10 +30,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class AssignmentHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter assignmentFormatter;
+	public static final FieldGroupFormatter assignmentFormatter;
 
 	static {
-		assignmentFormatter = new FieldGroupFomatter();
+		assignmentFormatter = new FieldGroupFormatter();
 
 		assignmentFormatter.generateFieldDisplayHandler("subject",
 				TaskI18nEnum.FORM_SUBJECT);
@@ -56,7 +56,7 @@ public class AssignmentHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return assignmentFormatter;
 	}
 

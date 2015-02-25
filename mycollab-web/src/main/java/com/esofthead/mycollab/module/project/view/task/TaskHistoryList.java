@@ -23,8 +23,8 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.TaskGroupHistoryFieldFormat;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -36,24 +36,24 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class TaskHistoryList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter taskFormatter;
+	public static final FieldGroupFormatter taskFormatter;
 
 	static {
-		taskFormatter = new FieldGroupFomatter();
+		taskFormatter = new FieldGroupFormatter();
 		taskFormatter.generateFieldDisplayHandler("taskname",
 				TaskI18nEnum.FORM_TASK_NAME);
 		taskFormatter.generateFieldDisplayHandler("startdate",
-				TaskI18nEnum.FORM_START_DATE, FieldGroupFomatter.DATE_FIELD);
+				TaskI18nEnum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("enddate",
-				TaskI18nEnum.FORM_END_DATE, FieldGroupFomatter.DATE_FIELD);
+				TaskI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("actualstartdate",
 				TaskI18nEnum.FORM_ACTUAL_START_DATE,
-				FieldGroupFomatter.DATE_FIELD);
+				FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("actualenddate",
 				TaskI18nEnum.FORM_ACTUAL_END_DATE,
-				FieldGroupFomatter.DATE_FIELD);
+				FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("deadline",
-				TaskI18nEnum.FORM_DEADLINE, FieldGroupFomatter.DATE_FIELD);
+				TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("priority",
 				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
 						TaskPriority.class));
@@ -76,7 +76,7 @@ public class TaskHistoryList extends HistoryLogComponent {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return taskFormatter;
 	}
 }

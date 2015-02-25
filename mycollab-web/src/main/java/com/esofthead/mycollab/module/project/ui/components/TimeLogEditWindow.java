@@ -223,29 +223,20 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		this.totalSpentTimeLbl.addStyleName("numberTotal");
 		totalLayout.addComponent(this.totalSpentTimeLbl);
 
-		final HorizontalLayout addLayout = new HorizontalLayout();
-		addLayout.setSpacing(true);
+		final MHorizontalLayout addLayout = new MHorizontalLayout();
 		addLayout.setSizeUndefined();
+        addLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		spentTimePanel.addComponent(addLayout);
 
 		this.newTimeInputField = new NumericTextField();
 		this.newTimeInputField.setWidth("80px");
-		addLayout.addComponent(this.newTimeInputField);
-		addLayout.setComponentAlignment(this.newTimeInputField,
-				Alignment.MIDDLE_LEFT);
 
 		this.forDateField = new DateFieldExt();
 		this.forDateField.setValue(new GregorianCalendar().getTime());
-		addLayout.addComponent(this.forDateField);
-		addLayout.setComponentAlignment(this.forDateField,
-				Alignment.MIDDLE_LEFT);
 
 		this.isBillableField = new CheckBox(
 				AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
 				true);
-		addLayout.addComponent(this.isBillableField);
-		addLayout.setComponentAlignment(this.isBillableField,
-				Alignment.MIDDLE_LEFT);
 
 		btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 				new Button.ClickListener() {
@@ -272,8 +263,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
 		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
 		btnAdd.setIcon(FontAwesome.PLUS);
-		addLayout.addComponent(btnAdd);
-		addLayout.setComponentAlignment(btnAdd, Alignment.MIDDLE_LEFT);
+        addLayout.with(this.newTimeInputField, this.forDateField, this.isBillableField, btnAdd);
 	}
 
 	private void constructRemainTimeEntryPanel() {
@@ -295,8 +285,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		this.remainTimeLbl.addStyleName("numberTotal");
 		updateLayout.addComponent(this.remainTimeLbl);
 
-		final HorizontalLayout addLayout = new HorizontalLayout();
-		addLayout.setSpacing(true);
+		final MHorizontalLayout addLayout = new MHorizontalLayout();
 		addLayout.setSizeUndefined();
 		remainTimePanel.addComponent(addLayout);
 

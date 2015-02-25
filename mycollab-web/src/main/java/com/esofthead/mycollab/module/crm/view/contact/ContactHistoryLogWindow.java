@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -31,10 +31,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class ContactHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter contactFormatter;
+	public static final FieldGroupFormatter contactFormatter;
 
 	static {
-		contactFormatter = new FieldGroupFomatter();
+		contactFormatter = new FieldGroupFormatter();
 
 		contactFormatter.generateFieldDisplayHandler("firstname",
 				ContactI18nEnum.FORM_FIRSTNAME);
@@ -63,7 +63,7 @@ public class ContactHistoryLogWindow extends HistoryLogWindow {
 		contactFormatter.generateFieldDisplayHandler("otherphone",
 				ContactI18nEnum.FORM_OTHER_PHONE);
 		contactFormatter.generateFieldDisplayHandler("birthday",
-				ContactI18nEnum.FORM_BIRTHDAY, FieldGroupFomatter.DATE_FIELD);
+				ContactI18nEnum.FORM_BIRTHDAY, FieldGroupFormatter.DATE_FIELD);
 		contactFormatter.generateFieldDisplayHandler("iscallable",
 				ContactI18nEnum.FORM_IS_CALLABLE);
 		contactFormatter.generateFieldDisplayHandler("assignuser",
@@ -97,7 +97,7 @@ public class ContactHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return contactFormatter;
 	}
 

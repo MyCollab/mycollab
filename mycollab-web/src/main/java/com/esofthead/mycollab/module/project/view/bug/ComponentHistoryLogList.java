@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -32,10 +32,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class ComponentHistoryLogList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter componentFormatter;
+	public static final FieldGroupFormatter componentFormatter;
 
 	static {
-		componentFormatter = new FieldGroupFomatter();
+		componentFormatter = new FieldGroupFormatter();
 
 		componentFormatter.generateFieldDisplayHandler("componentname",
 				ComponentI18nEnum.FORM_NAME);
@@ -53,7 +53,7 @@ public class ComponentHistoryLogList extends HistoryLogComponent {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return componentFormatter;
 	}
 

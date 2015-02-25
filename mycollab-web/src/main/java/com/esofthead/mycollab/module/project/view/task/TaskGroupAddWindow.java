@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -146,6 +147,7 @@ public class TaskGroupAddWindow extends Window {
 						});
 				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				saveBtn.setIcon(FontAwesome.SAVE);
+                saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(

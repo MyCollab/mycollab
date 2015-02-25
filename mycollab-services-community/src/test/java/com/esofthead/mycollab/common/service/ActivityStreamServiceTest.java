@@ -46,12 +46,12 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchActivityStreams() {
 		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
+		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
 				new String[] { "aa", "bb" }));
 		searchCriteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivityStream> activities = activityStreamService
-				.findPagableListByCriteria(new SearchRequest<ActivityStreamSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 
 		assertThat(activities.size()).isEqualTo(3);
@@ -62,12 +62,12 @@ public class ActivityStreamServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testQueryActivityWithComments() {
 		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
+		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
 				new String[] { "bb" }));
 		searchCriteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleActivityStream> activities = activityStreamService
-				.findPagableListByCriteria(new SearchRequest<ActivityStreamSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 
 		assertThat(activities.size()).isEqualTo(1);

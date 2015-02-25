@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -28,7 +28,7 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
  * @since 4.3.3
  *
  */
-public class ProblemFormatter extends FieldGroupFomatter {
+public class ProblemFormatter extends FieldGroupFormatter {
 	public static final ProblemFormatter instance;
 
 	static {
@@ -50,7 +50,7 @@ public class ProblemFormatter extends FieldGroupFomatter {
 		this.generateFieldDisplayHandler("impact", ProblemI18nEnum.FORM_IMPACT);
 
 		this.generateFieldDisplayHandler("datedue",
-				ProblemI18nEnum.FORM_DATE_DUE, FieldGroupFomatter.DATE_FIELD);
+				ProblemI18nEnum.FORM_DATE_DUE, FieldGroupFormatter.DATE_FIELD);
 		this.generateFieldDisplayHandler("priority",
 				ProblemI18nEnum.FORM_PRIORITY);
 		this.generateFieldDisplayHandler("status", ProblemI18nEnum.FORM_STATUS,

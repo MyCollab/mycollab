@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -36,21 +34,14 @@ import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -97,7 +88,6 @@ class ResolvedInputWindow extends Window {
 		}
 
 		class FormLayoutFactory implements IFormLayoutFactory {
-
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 
@@ -113,12 +103,10 @@ class ResolvedInputWindow extends Window {
 
 				layout.addComponent(this.informationLayout.getLayout());
 
-				final HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(true);
+				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(true);
 				layout.addComponent(controlsBtn);
 
-				final Button wonFixBtn = new Button(
+				final Button resolveBtn = new Button(
 						AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -181,10 +169,9 @@ class ResolvedInputWindow extends Window {
 
 							}
 						});
-				wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				controlsBtn.addComponent(wonFixBtn);
-				controlsBtn.setComponentAlignment(wonFixBtn,
-						Alignment.MIDDLE_RIGHT);
+				resolveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                resolveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+				controlsBtn.with(resolveBtn).withAlign(resolveBtn, Alignment.MIDDLE_RIGHT);
 
 				final Button cancelBtn = new Button(
 						AppContext
@@ -199,9 +186,7 @@ class ResolvedInputWindow extends Window {
 							}
 						});
 				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
+				controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

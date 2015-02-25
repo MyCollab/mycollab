@@ -218,7 +218,7 @@ public class ActivitySearchPanel extends
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			ActivitySearchPanel.this.searchCriteria = new ActivitySearchCriteria();
 			ActivitySearchPanel.this.searchCriteria
 					.setSaccountid(new NumberSearchField(SearchField.AND,

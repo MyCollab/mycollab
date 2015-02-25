@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -32,10 +32,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class VersionHistoryLogList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter versionFormatter;
+	public static final FieldGroupFormatter versionFormatter;
 
 	static {
-		versionFormatter = new FieldGroupFomatter();
+		versionFormatter = new FieldGroupFormatter();
 
 		versionFormatter.generateFieldDisplayHandler("versionname",
 				VersionI18nEnum.FORM_NAME);
@@ -45,7 +45,7 @@ public class VersionHistoryLogList extends HistoryLogComponent {
 		versionFormatter.generateFieldDisplayHandler("description",
 				GenericI18Enum.FORM_DESCRIPTION);
 		versionFormatter.generateFieldDisplayHandler("duedate",
-				VersionI18nEnum.FORM_DUE_DATE, FieldGroupFomatter.DATE_FIELD);
+				VersionI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD);
 	}
 
 	public VersionHistoryLogList(String module, String type) {
@@ -53,7 +53,7 @@ public class VersionHistoryLogList extends HistoryLogComponent {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return versionFormatter;
 	}
 

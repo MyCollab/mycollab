@@ -51,11 +51,11 @@ public class AccountServiceTest extends IntergrationServiceTest {
 	private AccountSearchCriteria getCriteria() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setAccountname(new StringSearchField(SearchField.AND, "xy"));
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"hai79", "linhduong"}));
-		criteria.setIndustries(new SetSearchField<String>(SearchField.AND,
+		criteria.setIndustries(new SetSearchField<>(SearchField.AND,
 				new String[]{"a", "b"}));
-		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
+		criteria.setTypes(new SetSearchField<>(SearchField.AND,
 				new String[]{"a", "b"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 		return criteria;
@@ -66,7 +66,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(2);
@@ -89,7 +89,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(accounts.size()).isEqualTo(2);
 		assertThat(accounts).extracting("id", "accountname", "industry")
@@ -105,7 +105,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(accounts.size()).isEqualTo(2);
 		assertThat(accounts).extracting("id", "accountname", "industry")
@@ -122,7 +122,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(1);
@@ -142,7 +142,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testRemoveAccountBySearchCriteria() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
-		criteria.setIndustries(new SetSearchField<String>(SearchField.AND,
+		criteria.setIndustries(new SetSearchField<>(SearchField.AND,
 				new String[]{"a"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
@@ -152,7 +152,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(2);
@@ -184,7 +184,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(3);
@@ -202,7 +202,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(2);
@@ -219,7 +219,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(2);
@@ -236,7 +236,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(1);
@@ -253,7 +253,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(1);
@@ -275,7 +275,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(accounts.size()).isEqualTo(3);
@@ -295,7 +295,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 				"m_crm_account.accountName is not null"));
 		
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		
 		assertThat(accounts.size()).isEqualTo(3);
@@ -314,7 +314,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 				"m_crm_account.accountName = ", "xyz"));
 		
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		
 		assertThat(accounts.size()).isEqualTo(1);
@@ -333,7 +333,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		
 		
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		
 		assertThat(accounts.size()).isEqualTo(2);
@@ -357,7 +357,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 		criteria.addExtraField(compoField);
 		
 		List<SimpleAccount> accounts = accountService
-				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		
 		assertThat(accounts.size()).isEqualTo(1);

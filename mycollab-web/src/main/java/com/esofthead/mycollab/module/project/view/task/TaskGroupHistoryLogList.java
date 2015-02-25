@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -34,10 +34,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class TaskGroupHistoryLogList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter tasklistFormatter;
+	public static final FieldGroupFormatter tasklistFormatter;
 
 	static {
-		tasklistFormatter = new FieldGroupFomatter();
+		tasklistFormatter = new FieldGroupFormatter();
 
 		tasklistFormatter.generateFieldDisplayHandler("name",
 				TaskGroupI18nEnum.FORM_NAME_FIELD);
@@ -57,7 +57,7 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return tasklistFormatter;
 	}
 }

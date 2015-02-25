@@ -130,7 +130,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	}
 
 	@Override
-	protected S fillupSearchCriteria() {
+	protected S fillUpSearchCriteria() {
 		return buildCriterionComp.fillupSearchCriteria();
 	}
 

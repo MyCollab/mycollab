@@ -28,12 +28,15 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
@@ -78,7 +81,7 @@ import java.util.UUID;
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class ComponentReadViewImpl extends
-        AbstractPreviewItemComp2<SimpleComponent> implements ComponentReadView {
+        AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
     private static final long serialVersionUID = 1L;
 
@@ -125,16 +128,10 @@ public class ComponentReadViewImpl extends
                 CurrentProjectVariables.getProjectId(), true, true,
                 ComponentRelayEmailNotificationAction.class);
         commentDisplay.setWidth("100%");
-        commentDisplay.setMargin(true);
-
-        historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ,
-                ProjectTypeConstants.BUG_COMPONENT);
-
+        historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT);
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(peopleInfoComp);
+        addToSideBar(dateInfoComp, peopleInfoComp);
     }
 
     @Override

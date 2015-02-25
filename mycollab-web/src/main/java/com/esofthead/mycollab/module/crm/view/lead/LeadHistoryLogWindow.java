@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -31,10 +31,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class LeadHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter leadFormatter;
+	public static final FieldGroupFormatter leadFormatter;
 
 	static {
-		leadFormatter = new FieldGroupFomatter();
+		leadFormatter = new FieldGroupFormatter();
 
 		leadFormatter.generateFieldDisplayHandler("prefixname",
 				LeadI18nEnum.FORM_PREFIX);
@@ -98,7 +98,7 @@ public class LeadHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return leadFormatter;
 	}
 

@@ -63,7 +63,7 @@ public class RiskServiceTest extends IntergrationServiceTest {
 		criteria.setRiskname(new StringSearchField(SearchField.AND, "a"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleRisk> risks = riskService
-				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(risks.size()).isEqualTo(2);

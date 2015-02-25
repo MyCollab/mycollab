@@ -30,7 +30,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
+public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
         implements PageView {
     private static final long serialVersionUID = 1L;
 
@@ -43,17 +43,17 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
     private MVerticalLayout sidebarContent;
     private MVerticalLayout bodyContent;
 
-    public AbstractPreviewItemComp2(String headerText, Resource iconResource) {
+    public AbstractPreviewItemComp(String headerText, Resource iconResource) {
         this(headerText, iconResource, null);
     }
 
-    public AbstractPreviewItemComp2(ComponentContainer customHeader) {
+    public AbstractPreviewItemComp(ComponentContainer customHeader) {
         this.header = customHeader;
         this.addComponent(header);
         initContent();
     }
 
-    public AbstractPreviewItemComp2(String headerText, Resource iconResource, ReadViewLayout layout) {
+    public AbstractPreviewItemComp(String headerText, Resource iconResource, ReadViewLayout layout) {
         Label headerLbl = new Label("", ContentMode.HTML);
         headerLbl.setSizeUndefined();
         headerLbl.setStyleName("hdr-text");
@@ -157,8 +157,10 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
         header.addComponent(c);
     }
 
-    public void addToSideBar(Component component) {
-        sidebarContent.addComponent(component);
+    public void addToSideBar(Component... components) {
+        for (Component component:components) {
+            sidebarContent.addComponent(component);
+        }
     }
 
     public B getBeanItem() {

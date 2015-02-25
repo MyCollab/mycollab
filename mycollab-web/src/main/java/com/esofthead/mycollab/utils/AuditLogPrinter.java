@@ -22,7 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.FieldDisplayHandler;
 
 /**
  * 
@@ -32,9 +32,9 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
  */
 public class AuditLogPrinter {
 
-	private FieldGroupFomatter groupFormatter;
+	private FieldGroupFormatter groupFormatter;
 
-	public AuditLogPrinter(FieldGroupFomatter groupFormatter) {
+	public AuditLogPrinter(FieldGroupFormatter groupFormatter) {
 		this.groupFormatter = groupFormatter;
 	}
 

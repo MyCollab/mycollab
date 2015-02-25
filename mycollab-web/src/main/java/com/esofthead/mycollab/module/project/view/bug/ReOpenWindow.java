@@ -17,12 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.GregorianCalendar;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -39,22 +33,19 @@ import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -87,7 +78,6 @@ class ReOpenWindow extends Window {
 	}
 
 	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
 		private static final long serialVersionUID = 1L;
 		private RichTextEditField commentArea;
 
@@ -99,7 +89,6 @@ class ReOpenWindow extends Window {
 		}
 
 		class FormLayoutFactory implements IFormLayoutFactory {
-
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 
@@ -115,9 +104,7 @@ class ReOpenWindow extends Window {
 
 				layout.addComponent(this.informationLayout.getLayout());
 
-				final HorizontalLayout controlsBtn = new HorizontalLayout();
-				controlsBtn.setSpacing(true);
-				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
+				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
 				final Button wonFixBtn = new Button(
@@ -181,9 +168,8 @@ class ReOpenWindow extends Window {
 							}
 						});
 				wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				controlsBtn.addComponent(wonFixBtn);
-				controlsBtn.setComponentAlignment(wonFixBtn,
-						Alignment.MIDDLE_RIGHT);
+                wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+				controlsBtn.with(wonFixBtn).withAlign(wonFixBtn, Alignment.MIDDLE_RIGHT);
 
 				final Button cancelBtn = new Button(
 						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -195,9 +181,7 @@ class ReOpenWindow extends Window {
 							}
 						});
 				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
+				controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
 
 				layout.setComponentAlignment(controlsBtn,
 						Alignment.MIDDLE_RIGHT);

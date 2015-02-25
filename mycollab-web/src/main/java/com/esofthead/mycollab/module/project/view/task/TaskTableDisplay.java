@@ -51,15 +51,19 @@ public class TaskTableDisplay extends
     private static final long serialVersionUID = 1L;
 
     TaskTableDisplay(List<TableViewField> displayColumns) {
-        this(null, displayColumns);
-        this.displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
+        this(null, displayColumns, SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
     }
 
     public TaskTableDisplay(TableViewField requiredColumn,
                             List<TableViewField> displayColumns) {
+        this(requiredColumn, displayColumns, Integer.MAX_VALUE);
+    }
+
+    public TaskTableDisplay(TableViewField requiredColumn,
+                            List<TableViewField> displayColumns, int displayNums) {
         super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
                 SimpleTask.class, requiredColumn, displayColumns);
-        this.displayNumItems = Integer.MAX_VALUE;
+        this.displayNumItems = displayNums;
 
         this.addGeneratedColumn("taskname", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;

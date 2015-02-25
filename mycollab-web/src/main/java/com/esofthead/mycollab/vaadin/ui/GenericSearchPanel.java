@@ -28,7 +28,6 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
 
 /**
@@ -90,7 +89,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 		}
 
 		public void callSearchAction() {
-			final S searchCriteria = this.fillupSearchCriteria();
+			final S searchCriteria = this.fillUpSearchCriteria();
 			this.searchPanel.notifySearchHandler(searchCriteria);
 		}
 
@@ -110,7 +109,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 			return textField;
 		}
 
-		abstract protected S fillupSearchCriteria();
+		abstract protected S fillUpSearchCriteria();
 
 		abstract protected void addHeaderRight(Component c);
 

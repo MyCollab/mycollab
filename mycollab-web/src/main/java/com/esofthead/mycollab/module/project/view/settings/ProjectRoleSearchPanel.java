@@ -124,7 +124,7 @@ public class ProjectRoleSearchPanel extends
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			ProjectRoleSearchPanel.this.searchCriteria = new ProjectRoleSearchCriteria();
 			ProjectRoleSearchPanel.this.searchCriteria
 					.setProjectId(new NumberSearchField(SearchField.AND,

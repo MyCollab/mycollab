@@ -48,7 +48,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByCriteria() {
 		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<LeadSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, 2));
 		assertThat(leads.size()).isEqualTo(2);
 		assertThat(leads).extracting("id", "source").contains(
@@ -78,7 +78,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<LeadSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, 2));
 		assertThat(leads.size()).isEqualTo(1);
 		assertThat(leads).extracting("id", "source").contains(
@@ -90,12 +90,12 @@ public class LeadServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUser() {
 		LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<String>(SetSearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SetSearchField.AND,
 				new String[]{"linh", "hai"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<LeadSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, 2));
 		assertThat(leads.size()).isEqualTo(2);
 		assertThat(leads).extracting("id", "source").contains(

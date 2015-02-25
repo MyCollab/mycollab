@@ -55,7 +55,7 @@ public class BugSearchPanel extends
 
     private final SimpleProject project;
     private BugSearchCriteria searchCriteria;
-    private Label bugtitle;
+    private Label bugTitle;
     private ComponentContainer rightComponent;
 
     private static Param[] paramFields = new Param[]{
@@ -69,11 +69,11 @@ public class BugSearchPanel extends
 
     public BugSearchPanel() {
         this.project = CurrentProjectVariables.getProject();
-        this.bugtitle = new Label("Bugs");
+        this.bugTitle = new Label("Bugs");
     }
 
     public void setBugTitle(final String title) {
-        this.bugtitle.setValue(title);
+        this.bugTitle.setValue(title);
     }
 
     void addRightComponent(ComponentContainer c) {
@@ -203,7 +203,7 @@ public class BugSearchPanel extends
         }
 
         @Override
-        protected BugSearchCriteria fillupSearchCriteria() {
+        protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
                     project.getId()));
@@ -261,8 +261,8 @@ public class BugSearchPanel extends
         }
 
         @Override
-        protected BugSearchCriteria fillupSearchCriteria() {
-            searchCriteria = super.fillupSearchCriteria();
+        protected BugSearchCriteria fillUpSearchCriteria() {
+            searchCriteria = super.fillUpSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
                     project.getId()));
             return searchCriteria;

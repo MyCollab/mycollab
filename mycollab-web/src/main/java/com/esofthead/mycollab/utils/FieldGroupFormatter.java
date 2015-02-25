@@ -42,9 +42,9 @@ import com.vaadin.ui.Label;
  * @since 4.3.3
  *
  */
-public class FieldGroupFomatter {
+public class FieldGroupFormatter {
 	private static final Logger LOG = LoggerFactory
-			.getLogger(FieldGroupFomatter.class);
+			.getLogger(FieldGroupFormatter.class);
 
 	private static Map<String, HistoryFieldFormat> defaultFieldHandlers;
 

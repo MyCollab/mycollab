@@ -172,7 +172,7 @@ public class ComponentSearchPanel extends
         }
 
         @Override
-        protected SearchCriteria fillupSearchCriteria() {
+        protected SearchCriteria fillUpSearchCriteria() {
             ComponentSearchPanel.this.searchCriteria = new ComponentSearchCriteria();
             ComponentSearchPanel.this.searchCriteria
                     .setProjectid(new NumberSearchField(SearchField.AND,

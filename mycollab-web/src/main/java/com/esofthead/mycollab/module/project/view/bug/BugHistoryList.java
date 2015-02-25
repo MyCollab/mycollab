@@ -28,8 +28,8 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -40,10 +40,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 @SuppressWarnings("serial")
 public class BugHistoryList extends HistoryLogComponent {
 
-	public static final FieldGroupFomatter bugFomatter;
+	public static final FieldGroupFormatter bugFomatter;
 
 	static {
-		bugFomatter = new FieldGroupFomatter();
+		bugFomatter = new FieldGroupFormatter();
 
 		bugFomatter.generateFieldDisplayHandler("description",
 				GenericI18Enum.FORM_DESCRIPTION);
@@ -66,9 +66,9 @@ public class BugHistoryList extends HistoryLogComponent {
 		bugFomatter.generateFieldDisplayHandler("estimateremaintime",
 				BugI18nEnum.FORM_REMAIN_ESTIMATE);
 		bugFomatter.generateFieldDisplayHandler("duedate",
-				BugI18nEnum.FORM_DUE_DATE, FieldGroupFomatter.DATE_FIELD);
+				BugI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD);
 		bugFomatter.generateFieldDisplayHandler("createdTime",
-				BugI18nEnum.FORM_CREATED_TIME, FieldGroupFomatter.DATE_FIELD);
+				BugI18nEnum.FORM_CREATED_TIME, FieldGroupFormatter.DATE_FIELD);
 		bugFomatter.generateFieldDisplayHandler("loguserFullName",
 				BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
 		bugFomatter.generateFieldDisplayHandler("assignuser",
@@ -84,7 +84,7 @@ public class BugHistoryList extends HistoryLogComponent {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return bugFomatter;
 	}
 }

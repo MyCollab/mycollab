@@ -215,7 +215,7 @@ public class AccountSearchPanel extends
 		}
 
 		@Override
-		protected AccountSearchCriteria fillupSearchCriteria() {
+		protected AccountSearchCriteria fillUpSearchCriteria() {
 			final AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
 			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 					AppContext.getAccountId()));

@@ -85,9 +85,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 				public void handleAction(Object sender, Object target) {
 					if (target == passwordField) {
 						try {
-
 							custom.removeComponent("customErrorMsg");
-
 							LoginViewImpl.this
 									.fireEvent(new ViewEvent<>(
 											LoginViewImpl.this, new PlainLogin(

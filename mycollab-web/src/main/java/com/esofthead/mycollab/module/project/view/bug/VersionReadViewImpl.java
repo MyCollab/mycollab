@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
@@ -73,7 +73,7 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
+public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
         implements VersionReadView {
     private static final long serialVersionUID = 1L;
 

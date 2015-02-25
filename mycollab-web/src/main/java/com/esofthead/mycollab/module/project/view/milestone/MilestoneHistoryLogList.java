@@ -21,8 +21,8 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
-import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -32,10 +32,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class MilestoneHistoryLogList extends HistoryLogComponent {
     private static final long serialVersionUID = 1L;
 
-    public static final FieldGroupFomatter milestoneFormatter;
+    public static final FieldGroupFormatter milestoneFormatter;
 
     static {
-        milestoneFormatter = new FieldGroupFomatter();
+        milestoneFormatter = new FieldGroupFormatter();
 
         milestoneFormatter.generateFieldDisplayHandler("name",
                 MilestoneI18nEnum.FORM_NAME_FIELD);
@@ -47,10 +47,10 @@ public class MilestoneHistoryLogList extends HistoryLogComponent {
                 new ProjectMemberHistoryFieldFormat());
         milestoneFormatter.generateFieldDisplayHandler("startdate",
                 MilestoneI18nEnum.FORM_START_DATE_FIELD,
-                FieldGroupFomatter.DATE_FIELD);
+                FieldGroupFormatter.DATE_FIELD);
         milestoneFormatter.generateFieldDisplayHandler("enddate",
                 MilestoneI18nEnum.FORM_END_DATE_FIELD,
-                FieldGroupFomatter.DATE_FIELD);
+                FieldGroupFormatter.DATE_FIELD);
         milestoneFormatter.generateFieldDisplayHandler(Milestone.Field.description.name(), GenericI18Enum.FORM_DESCRIPTION);
     }
 
@@ -59,7 +59,7 @@ public class MilestoneHistoryLogList extends HistoryLogComponent {
     }
 
     @Override
-    protected FieldGroupFomatter buildFormatter() {
+    protected FieldGroupFormatter buildFormatter() {
         return milestoneFormatter;
     }
 

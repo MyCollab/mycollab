@@ -194,7 +194,7 @@ public class CampaignSearchPanel extends
 		}
 
 		@Override
-		protected CampaignSearchCriteria fillupSearchCriteria() {
+		protected CampaignSearchCriteria fillUpSearchCriteria() {
 			CampaignSearchPanel.this.searchCriteria = new CampaignSearchCriteria();
 			CampaignSearchPanel.this.searchCriteria
 					.setSaccountid(new NumberSearchField(SearchField.AND,

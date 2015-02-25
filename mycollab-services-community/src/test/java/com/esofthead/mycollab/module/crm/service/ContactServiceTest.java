@@ -47,7 +47,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetFindByCriteria() {
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(1);
@@ -60,7 +60,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetTotalCount() {
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(1);
@@ -68,7 +68,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 
 	private ContactSearchCriteria getCriteria() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"linh"}));
 		criteria.setContactName(new StringSearchField(SearchField.AND, "Hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
@@ -85,7 +85,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(1);
@@ -98,12 +98,12 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUsers() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
 				new String[]{"linh", "hai"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(3);
@@ -116,12 +116,12 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchLeadSources() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setLeadSources(new SetSearchField<String>(SearchField.AND,
+		criteria.setLeadSources(new SetSearchField<>(SearchField.AND,
 				new String[]{"Email", "Campaign"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -139,7 +139,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -156,7 +156,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -174,7 +174,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -187,12 +187,12 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAnyCountries() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setCountries(new SetSearchField<String>(SearchField.AND,
+		criteria.setCountries(new SetSearchField<>(SearchField.AND,
 				new String[]{"Viet nam", "America"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -209,7 +209,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -226,7 +226,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -243,7 +243,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(2);
@@ -260,7 +260,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(1);
@@ -277,7 +277,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
-				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(contacts.size()).isEqualTo(3);

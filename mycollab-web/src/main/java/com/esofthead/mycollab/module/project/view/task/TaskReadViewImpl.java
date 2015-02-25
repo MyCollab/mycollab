@@ -78,7 +78,7 @@ import java.util.UUID;
  * @since 2.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
+public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         implements TaskReadView {
 
     private static final long serialVersionUID = 1L;
@@ -125,22 +125,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         commentList = new CommentDisplay(CommentType.PRJ_TASK,
                 CurrentProjectVariables.getProjectId(), true, true,
                 ProjectTaskRelayEmailNotificationAction.class);
-
         historyList = new TaskHistoryList();
-
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(peopleInfoComp);
-
-        followerSheet = new ProjectFollowersComp<>(
-                ProjectTypeConstants.TASK,
-                ProjectRolePermissionCollections.TASKS);
-        addToSideBar(followerSheet);
-
+        followerSheet = new ProjectFollowersComp<>(ProjectTypeConstants.TASK, ProjectRolePermissionCollections.TASKS);
         timesheetComp = new TaskTimeLogSheet();
-        addToSideBar(timesheetComp);
+
+        addToSideBar(dateInfoComp, peopleInfoComp, followerSheet, timesheetComp);
     }
 
     @Override
@@ -166,11 +157,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         }
 
         commentList.loadComments("" + beanItem.getId());
-
         historyList.loadHistory(beanItem.getId());
-
         followerSheet.displayFollowers(beanItem);
-
         peopleInfoComp.displayEntryPeople(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
         timesheetComp.displayTime(beanItem);
@@ -262,10 +250,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
     private static class TaskPreviewFormLayout extends ReadViewLayout {
         private Label titleLbl;
-
-        TaskPreviewFormLayout() {
-            super();
-        }
 
         void displayTaskHeader(SimpleTask task) {
             if (task.getParenttaskid() == null) {
@@ -409,7 +393,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         protected Component initContent() {
             MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
 
-            tasksLayout = new MVerticalLayout().withWidth("100%").withSpacing(true).withMargin(new MarginInfo(false,
+            tasksLayout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                     true, true, false));
             contentLayout.addComponent(tasksLayout);
             contentLayout.setExpandRatio(tasksLayout, 1.0f);
@@ -455,7 +439,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
         }
 
         private HorizontalLayout generateSubTaskContent(final SimpleTask subTask) {
-            MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(false);
+            MHorizontalLayout layout = new MHorizontalLayout();
 
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables
@@ -540,7 +524,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
         public void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext

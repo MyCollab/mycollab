@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -29,10 +29,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 class ProjectMemberHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter projectMememberFormatter;
+	public static final FieldGroupFormatter projectMememberFormatter;
 
 	static {
-		projectMememberFormatter = new FieldGroupFomatter();
+		projectMememberFormatter = new FieldGroupFormatter();
 
 		projectMememberFormatter.generateFieldDisplayHandler("username",
 				ProjectMemberI18nEnum.FORM_USER);
@@ -47,7 +47,7 @@ class ProjectMemberHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return projectMememberFormatter;
 	}
 }

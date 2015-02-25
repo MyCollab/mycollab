@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
@@ -67,6 +67,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
@@ -77,7 +78,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
+public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         implements BugReadView, IBugCallbackStatusComp {
 
     private static final long serialVersionUID = 1L;
@@ -101,7 +102,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
     public BugReadViewImpl() {
         super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
-                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
+                ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG), new BugPreviewFormLayout());
     }
 
     private void displayWorkflowControl() {
@@ -279,12 +280,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
     public void previewItem(final SimpleBug item) {
         super.previewItem(item);
         displayWorkflowControl();
-        this.previewLayout.clearTitleStyleName();
-        if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
-            this.previewLayout.addTitleStyleName(UIConstants.LINK_COMPLETED);
-        } else if (this.beanItem.isOverdue()) {
-            this.previewLayout.setTitleStyleName("headerNameOverdue");
-        }
+        ((BugPreviewFormLayout) previewLayout).displayBugHeader(beanItem);
     }
 
     @Override
@@ -299,22 +295,14 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
         commentList = new CommentDisplay(CommentType.PRJ_BUG,
                 CurrentProjectVariables.getProjectId(), true, true,
                 BugRelayEmailNotificationAction.class);
-        commentList.setMargin(true);
 
         historyList = new BugHistoryList();
-
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
-
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(peopleInfoComp);
-
         bugFollowersList = new ProjectFollowersComp<>(
                 ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
-        addToSideBar(bugFollowersList);
-
         bugTimeLogList = new BugTimeLogSheet();
-        addToSideBar(bugTimeLogList);
+        addToSideBar(dateInfoComp, peopleInfoComp, bugFollowersList, bugTimeLogList);
     }
 
     @Override
@@ -333,6 +321,49 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
     protected String initFormTitle() {
         return AppContext.getMessage(BugI18nEnum.FORM_READ_TITLE,
                 this.beanItem.getBugkey(), this.beanItem.getSummary());
+    }
+
+    private static class BugPreviewFormLayout extends ReadViewLayout {
+        private Label titleLbl;
+
+        void displayBugHeader(SimpleBug bug) {
+            MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
+            titleLbl = new Label(bug.getSummary());
+            titleLbl.setStyleName("headerName");
+            header.with(titleLbl).expand(titleLbl);
+            this.addHeader(header);
+
+            this.clearTitleStyleName();
+            if (bug.isCompleted()) {
+                this.addTitleStyleName(UIConstants.LINK_COMPLETED);
+            } else if (bug.isOverdue()) {
+                this.setTitleStyleName("headerNameOverdue");
+            }
+        }
+
+        @Override
+        public void clearTitleStyleName() {
+            this.titleLbl.setStyleName("headerName");
+        }
+
+        @Override
+        public void addTitleStyleName(final String styleName) {
+            this.titleLbl.addStyleName(styleName);
+        }
+
+        @Override
+        public void setTitleStyleName(final String styleName) {
+            this.titleLbl.setStyleName(styleName);
+        }
+
+        @Override
+        public void removeTitleStyleName(final String styleName) {
+            this.titleLbl.removeStyleName(styleName);
+        }
+
+        @Override
+        public void setTitle(final String title) {
+        }
     }
 
     @Override

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import java.util.List;
 
+import com.vaadin.ui.Notification;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -72,6 +73,8 @@ public class ProjectMemberInvitePresenter extends
 							inviteMembers.getInviteMessage(),
 							AppContext.getAccountId());
 
+                    NotificationUtil.showNotification("Success", "Invitation is sent successfully", Notification.Type
+                            .HUMANIZED_MESSAGE);
 					EventBusFactory.getInstance().post(
 							new ProjectMemberEvent.GotoList(this, null));
 				}

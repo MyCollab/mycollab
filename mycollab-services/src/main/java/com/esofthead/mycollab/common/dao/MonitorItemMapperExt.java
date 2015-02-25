@@ -16,9 +16,15 @@
  */
 package com.esofthead.mycollab.common.dao;
 
+import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Collection;
 
 public interface MonitorItemMapperExt extends
 		ISearchableDAO<MonitorSearchCriteria> {
+
+    void saveMonitorItems(@Param("monitors") Collection<MonitorItem> monitorItems);
 }

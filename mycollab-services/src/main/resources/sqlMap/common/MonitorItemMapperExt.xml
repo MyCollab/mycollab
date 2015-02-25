@@ -75,6 +75,17 @@
         #end
     </select>
 
+    <insert id="saveMonitorItems">
+        insert into m_monitor_item (id, user, monitor_date, type, typeid, extraTypeId, sAccountId)
+        values
+        <foreach collection="monitors" item="monitorItem" separator=",">
+            (
+            #{monitorItem.id}, #{monitorItem.user}, #{monitorItem.monitorDate}, #{monitorItem.type},
+            #{monitorItem.typeid}, #{monitorItem.extratypeid}, #{monitorItem.saccountid}
+            )
+        </foreach>
+    </insert>
+
     <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
         resultMap="MonitorItemResult" lang="velocity">
 

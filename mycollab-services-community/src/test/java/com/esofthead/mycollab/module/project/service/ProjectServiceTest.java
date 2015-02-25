@@ -82,7 +82,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List projects = projectService
-				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(projects.size()).isEqualTo(4);
 		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
@@ -99,7 +99,7 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List projects = projectService
-				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(projects.size()).isEqualTo(2);
@@ -123,12 +123,12 @@ public class ProjectServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testGetActivityStreams() {
 		ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
-		criteria.setModuleSet(new SetSearchField<String>(
+		criteria.setModuleSet(new SetSearchField<>(
 				new String[] { ModuleNameConstants.PRJ }));
-		criteria.setExtraTypeIds(new SetSearchField<Integer>(4));
+		criteria.setExtraTypeIds(new SetSearchField<>(4));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<ProjectActivityStream> streams = projectActivityStreamService
-				.getProjectActivityStreams(new SearchRequest<ActivityStreamSearchCriteria>(
+				.getProjectActivityStreams(new SearchRequest<>(
 						criteria));
 
 		assertThat(streams.size()).isEqualTo(3);

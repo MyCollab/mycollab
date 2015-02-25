@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.tracker.service.BugRelationService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -80,7 +81,6 @@ public class LinkIssueWindow extends Window {
     }
 
     private class RelatedBugEditForm extends AdvancedEditBeanForm<RelatedBug> {
-
         @Override
         public void setBean(final RelatedBug newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
@@ -131,6 +131,7 @@ public class LinkIssueWindow extends Window {
                 });
                 saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
                 saveBtn.setIcon(FontAwesome.SAVE);
+                saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override

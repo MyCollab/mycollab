@@ -73,7 +73,7 @@ public class BugServiceTest extends IntergrationServiceTest {
 		criteria.setDetail(new StringSearchField("detail"));
 
 		List<SimpleBug> bugs = bugService
-				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(bugs.size()).isEqualTo(1);
 		assertThat(bugs).extracting("id", "detail", "summary").contains(
@@ -96,10 +96,10 @@ public class BugServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByComponents() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
-		criteria.setComponentids(new SetSearchField<Integer>(1, 2));
+		criteria.setComponentids(new SetSearchField<>(1, 2));
 
 		List<SimpleBug> bugs = bugService
-				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(bugs.size()).isEqualTo(1);
@@ -120,11 +120,11 @@ public class BugServiceTest extends IntergrationServiceTest {
 	@Test
 	public void testSearchByVersions() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
-		criteria.setFixedversionids(new SetSearchField<Integer>(1, 2, 3));
-		criteria.setAffectedversionids(new SetSearchField<Integer>(1, 2, 3));
+		criteria.setFixedversionids(new SetSearchField<>(1, 2, 3));
+		criteria.setAffectedversionids(new SetSearchField<>(1, 2, 3));
 
 		List<SimpleBug> bugs = bugService
-				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(bugs.size()).isEqualTo(1);
@@ -159,7 +159,7 @@ public class BugServiceTest extends IntergrationServiceTest {
 
 		assertThat(
 				bugService.findPagableListByCriteria(
-						new SearchRequest<BugSearchCriteria>(criteria, 0,
+						new SearchRequest<>(criteria, 0,
 								Integer.MAX_VALUE)).size()).isEqualTo(0);
 	}
 

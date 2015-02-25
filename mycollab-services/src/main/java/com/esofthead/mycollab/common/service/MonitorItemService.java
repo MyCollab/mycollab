@@ -22,6 +22,8 @@ import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 
+import java.util.Collection;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -33,4 +35,6 @@ public interface MonitorItemService extends ICrudService<Integer, MonitorItem>,
 		ISearchableService<MonitorSearchCriteria> {
 
 	boolean isUserWatchingItem(String username, String type, int typeid);
+
+    void saveMonitorItems(Collection<MonitorItem> monitorItems);
 }

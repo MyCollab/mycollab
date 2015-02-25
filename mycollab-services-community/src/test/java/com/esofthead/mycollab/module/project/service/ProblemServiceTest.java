@@ -61,7 +61,7 @@ public class ProblemServiceTest extends IntergrationServiceTest {
 				"a"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleProblem> problems = problemService
-				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(problems.size()).isEqualTo(1);
 		assertThat(problems).extracting("id", "issuename").contains(
@@ -77,7 +77,7 @@ public class ProblemServiceTest extends IntergrationServiceTest {
 		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
 				"a"));
 		List<SimpleProblem> problems = problemService
-				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(problems.size()).isEqualTo(1);
 		assertThat(problems).extracting("id", "issuename").contains(

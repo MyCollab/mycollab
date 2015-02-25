@@ -180,7 +180,7 @@ public class VersionSearchPanel extends
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			VersionSearchPanel.this.searchCriteria = new VersionSearchCriteria();
 			VersionSearchPanel.this.searchCriteria
 					.setProjectId(new NumberSearchField(SearchField.AND,

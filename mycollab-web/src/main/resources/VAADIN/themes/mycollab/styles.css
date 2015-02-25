@@ -137,6 +137,10 @@ a.pending {
 	border: none;
 	background: transparent;
 	color: #454545;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 }
 
@@ -6911,6 +6915,10 @@ a.pending {
 	border: none;
 	background: transparent;
 	color: #454545;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
 	display: flex;
 }
 
@@ -7746,6 +7754,21 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .gantt-container {
 	height: 100% !important;
+}
+
+div.v-csslayout.followers-container {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
+}
+
+div.v-csslayout.followers-container .v-checkbox {
+	margin-right: 10px;
 }
 
 html {
@@ -12002,10 +12025,6 @@ div.v-ratingstars-bar {
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-flex-direction: row;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-webkit-box-orient: horizontal;
 }
 
 .vertical-tabsheet .navigator-wrap {

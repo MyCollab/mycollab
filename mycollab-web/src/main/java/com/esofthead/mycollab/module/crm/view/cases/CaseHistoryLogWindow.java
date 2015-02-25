@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFormatter;
 
 /**
  * 
@@ -31,10 +31,10 @@ import com.esofthead.mycollab.utils.FieldGroupFomatter;
 public class CaseHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFomatter caseFormatter;
+	public static final FieldGroupFormatter caseFormatter;
 
 	static {
-		caseFormatter = new FieldGroupFomatter();
+		caseFormatter = new FieldGroupFormatter();
 
 		caseFormatter.generateFieldDisplayHandler("priority",
 				CaseI18nEnum.FORM_PRIORITY);
@@ -67,7 +67,7 @@ public class CaseHistoryLogWindow extends HistoryLogWindow {
 	}
 
 	@Override
-	protected FieldGroupFomatter buildFormatter() {
+	protected FieldGroupFormatter buildFormatter() {
 		return caseFormatter;
 	}
 

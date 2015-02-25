@@ -51,7 +51,7 @@ class BasicInfoChangeWindow extends Window {
 	private TextField txtLastName = new TextField();
 	private TextField txtEmail = new TextField();
 	private DateComboboxSelectionField birthdayField = new DateComboboxSelectionField();
-	private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField();
+	private TimeZoneSelectionField timeZoneField = new TimeZoneSelectionField(true);
 	private LanguageComboBox languageBox = new LanguageComboBox();
 
 	private final User user;

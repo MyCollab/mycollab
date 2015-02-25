@@ -182,7 +182,7 @@ public class ContactSearchPanel extends
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected SearchCriteria fillUpSearchCriteria() {
 			final ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
 			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 					AppContext.getAccountId()));

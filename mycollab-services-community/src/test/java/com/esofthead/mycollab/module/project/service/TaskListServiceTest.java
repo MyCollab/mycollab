@@ -52,7 +52,7 @@ public class TaskListServiceTest extends IntergrationServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleTaskList> taskLists = (List<SimpleTaskList>) projectTaskListService
-				.findPagableListByCriteria(new SearchRequest<TaskListSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria));
 		assertThat(taskLists.size()).isEqualTo(2);
 		assertThat(taskLists).extracting("id", "name").contains(
