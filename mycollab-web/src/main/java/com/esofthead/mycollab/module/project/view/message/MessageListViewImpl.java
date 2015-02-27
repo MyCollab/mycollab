@@ -52,12 +52,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -95,8 +94,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 	public MessageListViewImpl() {
 		super();
-		this.setWidth("100%");
-		this.setMargin(true);
+		this.withMargin(true).withWidth("100%");
 
 		this.topMessagePanel = new TopMessagePanel();
 		this.topMessagePanel.setWidth("100%");
@@ -164,17 +162,12 @@ public class MessageListViewImpl extends AbstractPageView implements
 		@Override
 		public Component generateRow(final SimpleMessage message,
 				final int rowIndex) {
-			final HorizontalLayout messageLayout = new HorizontalLayout();
-			messageLayout.setStyleName("message");
-			messageLayout.setSpacing(true);
+			final MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withWidth("100%");
 			if (message.getIsstick() != null && message.getIsstick()) {
 				messageLayout.addStyleName("important-message");
 			}
-			messageLayout.setWidth("100%");
-			VerticalLayout userBlock = new VerticalLayout();
+			MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
 			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-			userBlock.setWidth("80px");
-			userBlock.setSpacing(true);
 			ClickListener gotoUser = new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -197,6 +190,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			userName.addStyleName("link");
 			userName.addStyleName(UIConstants.WORD_WRAP);
 			userName.addClickListener(gotoUser);
+
 			userBlock.addComponent(userName);
 			messageLayout.addComponent(userBlock);
 
@@ -220,9 +214,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 			title.setStyleName("link");
 			title.addStyleName(UIConstants.WORD_WRAP);
 
-			final HorizontalLayout messageHeader = new HorizontalLayout();
-			messageHeader.setStyleName("message-header");
-			messageHeader.setMargin(new MarginInfo(true, true, false, true));
+			final MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true, true,
+                    false, true)).withStyleName("message-header");
 			final VerticalLayout leftHeader = new VerticalLayout();
 
 			title.addStyleName("message-title");
@@ -276,10 +269,7 @@ public class MessageListViewImpl extends AbstractPageView implements
             rightHeader.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 			rightHeader.with(timePostLbl, deleteBtn);
 
-			messageHeader.addComponent(leftHeader);
-			messageHeader.setExpandRatio(leftHeader, 1.0f);
-			messageHeader.addComponent(rightHeader);
-			messageHeader.setWidth("100%");
+			messageHeader.with(leftHeader, rightHeader).expand(leftHeader);
 
 			rowLayout.addComponent(messageHeader);
 
@@ -289,10 +279,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
 
-            final HorizontalLayout notification = new HorizontalLayout();
-            notification.setStyleName("notification");
+            final MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification");
             notification.setSizeUndefined();
-            notification.setSpacing(true);
             if (message.getCommentsCount() > 0) {
                 final MHorizontalLayout commentNotification = new MHorizontalLayout();
                 final Label commentCountLbl = new Label(
@@ -339,20 +327,17 @@ public class MessageListViewImpl extends AbstractPageView implements
 				rowLayout.addComponent(messageFooter);
 			}
 
-			messageLayout.addComponent(rowLayout);
-			messageLayout.setExpandRatio(rowLayout, 1.0f);
+			messageLayout.with(rowLayout).expand(rowLayout);
 
 			return messageLayout;
 		}
 	}
 
 	@SuppressWarnings({ "serial" })
-	private class MessageSearchPanel extends
-			GenericSearchPanel<MessageSearchCriteria> {
-
-		private final SimpleProject project;
+	private class MessageSearchPanel extends GenericSearchPanel<MessageSearchCriteria> {
+		private SimpleProject project;
 		private MessageSearchCriteria messageSearchCriteria;
-		private String textSearch = "";
+        private TextField nameField;
 
 		public MessageSearchPanel() {
 			this.project = CurrentProjectVariables.getProject();
@@ -366,37 +351,20 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 		private void createBasicSearchLayout() {
 			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withStyleName("message-search").withSpacing(true);
+					.withStyleName("message-search");
 			basicSearchBody.setSizeUndefined();
 
-			final TextField nameField = new TextField();
-			nameField.addTextChangeListener(new TextChangeListener() {
-				@Override
-				public void textChange(final TextChangeEvent event) {
-					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
-
-					MessageSearchPanel.this.messageSearchCriteria
-							.setProjectids(new SetSearchField<>(
-									SearchField.AND,
-									MessageSearchPanel.this.project.getId()));
-
-					MessageSearchPanel.this.textSearch = event.getText().trim();
-
-					MessageSearchPanel.this.messageSearchCriteria
-							.setMessage(new StringSearchField(
-									MessageSearchPanel.this.textSearch));
-
-					MessageSearchPanel.this
-							.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
-				}
-			});
-
-			nameField.setTextChangeEventMode(TextChangeEventMode.LAZY);
-			nameField.setTextChangeTimeout(200);
+			nameField = new TextField();
 			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField.addShortcutListener(new ShortcutListener("MessageTextSearch", ShortcutAction.KeyCode.ENTER,
+                    null) {
+                @Override
+                public void handleAction(Object o, Object o1) {
+                    doSearch();
+                }
+            });
 
-			basicSearchBody.with(nameField).withAlign(nameField,
-					Alignment.MIDDLE_LEFT);
+			basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_LEFT);
 
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -405,19 +373,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
-
-					MessageSearchPanel.this.messageSearchCriteria
-							.setProjectids(new SetSearchField<>(
-									SearchField.AND,
-									MessageSearchPanel.this.project.getId()));
-
-					MessageSearchPanel.this.messageSearchCriteria
-							.setMessage(new StringSearchField(
-									MessageSearchPanel.this.textSearch));
-
-					MessageSearchPanel.this
-							.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
+					doSearch();
 				}
 			});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -426,22 +382,25 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 			this.setCompositionRoot(basicSearchBody);
 		}
+
+        private void doSearch() {
+            messageSearchCriteria = new MessageSearchCriteria();
+            messageSearchCriteria.setProjectids(new SetSearchField<>(SearchField.AND, project.getId()));
+            messageSearchCriteria.setMessage(new StringSearchField(nameField.getValue()));
+            notifySearchHandler(messageSearchCriteria);
+        }
 	}
 
-	private final class TopMessagePanel extends VerticalLayout {
-
+	private final class TopMessagePanel extends MVerticalLayout {
 		private static final long serialVersionUID = 1L;
 		private final MessageSearchPanel messageSearchPanel;
 		private final HorizontalLayout messagePanelBody;
 
 		public TopMessagePanel() {
-			this.setWidth("100%");
-			this.setMargin(true);
-			this.setStyleName("message-toppanel");
+			this.withWidth("100%").withStyleName("message-toppanel");
 			this.messageSearchPanel = new MessageSearchPanel();
 			this.messagePanelBody = new HorizontalLayout();
-			this.messagePanelBody
-					.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+			this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			this.messageSearchPanel.setWidth("400px");
 			this.messagePanelBody.setStyleName("message-toppanel-body");
@@ -453,50 +412,35 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 		private void createAddMessageLayout() {
 			this.messagePanelBody.removeAllComponents();
-
-			final MVerticalLayout addMessageWrapper = new MVerticalLayout()
-					.withSpacing(true).withWidth("700px");
+			final MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("700px");
 
 			final RichTextArea ckEditorTextField = new RichTextArea();
+            ckEditorTextField.setWidth("100%");
+            ckEditorTextField.setHeight("200px");
+
 			final AttachmentPanel attachments = new AttachmentPanel();
 			final TextField titleField = new TextField();
 
-			final MHorizontalLayout titleLayout = new MHorizontalLayout()
-					.withSpacing(true);
-			final Label titleLbl = new Label(
-					AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
+			final MHorizontalLayout titleLayout = new MHorizontalLayout().withWidth("100%");
+			final Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
 			titleLbl.setWidthUndefined();
 
 			titleField.setWidth("100%");
 			titleField.setNullRepresentation("");
 			titleField.setRequired(true);
-			titleField.setRequiredError(AppContext
-					.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
+            titleField.setRequiredError(AppContext.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
 
-			titleLayout.addComponent(titleLbl);
-			titleLayout.addComponent(titleField);
-			titleLayout.setExpandRatio(titleField, 1.0f);
-			titleLayout.setWidth("100%");
+			titleLayout.with(titleLbl, titleField).expand(titleField);
 
-			addMessageWrapper.addComponent(titleLayout);
-			addMessageWrapper.setComponentAlignment(titleLayout,
-					Alignment.MIDDLE_LEFT);
-
-			ckEditorTextField.setWidth("100%");
-			ckEditorTextField.setHeight("200px");
-			addMessageWrapper.addComponent(ckEditorTextField);
-			addMessageWrapper.setExpandRatio(ckEditorTextField, 1.0f);
-			addMessageWrapper.setComponentAlignment(ckEditorTextField,
-					Alignment.MIDDLE_CENTER);
+            addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
+                    .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
 
 			final MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
 
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					attachments);
 			uploadExt.addComponent(attachments);
-			controls.addComponent(uploadExt);
-			controls.setExpandRatio(uploadExt, 1.0f);
-			controls.setComponentAlignment(uploadExt, Alignment.TOP_LEFT);
+            controls.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
 			final CheckBox chkIsStick = new CheckBox(
 					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
@@ -556,9 +500,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 			controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
-			addMessageWrapper.addComponent(controls);
-			addMessageWrapper.setComponentAlignment(controls,
-					Alignment.MIDDLE_CENTER);
+            addMessageWrapper.with(controls).withAlign(controls, Alignment.MIDDLE_CENTER);
 			this.messagePanelBody.addComponent(addMessageWrapper);
 		}
 

@@ -20,18 +20,23 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
@@ -52,6 +57,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -61,6 +67,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
 import java.util.UUID;
@@ -187,7 +195,7 @@ public class TaskGroupReadViewImpl extends
                     return new DefaultViewField(beanItem.getDescription(),
                             ContentMode.HTML);
                 } else if (TaskList.Field.groupindex.equalTo(propertyId)) {
-                    return new SubTasksViewField();
+                    return new SubTasksField();
                 }
 
                 return null;
@@ -195,25 +203,80 @@ public class TaskGroupReadViewImpl extends
         };
     }
 
-    class SubTasksViewField extends CustomField {
+    private class SubTasksField extends CustomField {
+        private TaskSearchCriteria searchCriteria;
+        private DefaultBeanPagedList<ProjectTaskService, TaskSearchCriteria, SimpleTask> assignmentsList;
 
         @Override
         protected Component initContent() {
-            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-            List<SimpleTask> subTasks = taskService.findSubTasksOfGroup(beanItem.getId(), AppContext.getAccountId());
-            if (CollectionUtils.isNotEmpty(subTasks)) {
-                Div div = new Div();
-                for (SimpleTask task : subTasks) {
-                    Div taskDiv = buildTaskDiv(task);
-                    div.appendChild(taskDiv);
+            MVerticalLayout layout = new MVerticalLayout().withMargin(false);
+
+            MHorizontalLayout header = new MHorizontalLayout();
+
+            final CheckBox openSelection = new CheckBox("Open", true);
+            openSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    if (openSelection.getValue()) {
+                        searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+                    } else {
+                        searchCriteria.setStatuses(null);
+                    }
+                    updateSearchStatus();
                 }
-                return new Label(div.write(), ContentMode.HTML);
-            } else {
-                return new Label();
-            }
+            });
+
+            final CheckBox overdueSelection = new CheckBox("Overdue", false);
+            overdueSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                    if (overdueSelection.getValue()) {
+                        searchCriteria.setDueDate(new DateSearchField(SearchField.AND, DateSearchField.LESSTHAN,
+                                DateTimeUtils.getCurrentDateWithoutMS()));
+                    } else {
+                        searchCriteria.setDueDate(null);
+                    }
+                    updateSearchStatus();
+                }
+            });
+            header.with(openSelection, overdueSelection);
+
+            assignmentsList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectTaskService.class), new
+                    AssignmentRowDisplay(), 10);
+            assignmentsList.setControlStyle("borderlessControl");
+
+            layout.with(header, assignmentsList);
+            searchCriteria = new TaskSearchCriteria();
+            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+            searchCriteria.setTaskListId(new NumberSearchField(beanItem.getId()));
+            updateSearchStatus();
+            return layout;
         }
 
-        private Div buildTaskDiv(SimpleTask task) {
+        void updateSearchStatus() {
+            assignmentsList.setSearchCriteria(searchCriteria);
+        }
+
+        @Override
+        public Class getType() {
+            return Integer.class;
+        }
+    }
+
+    private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<SimpleTask> {
+        @Override
+        public Component generateRow(SimpleTask task, int rowIndex) {
+            Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
+            if (task.isOverdue()) {
+                lbl.addStyleName("overdue");
+            } else if (task.isCompleted()) {
+                lbl.addStyleName("completed");
+            }
+            return lbl;
+        }
+
+        private Div buildDivLine(SimpleTask task) {
             String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
                     .getTaskname());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
@@ -259,20 +322,14 @@ public class TaskGroupReadViewImpl extends
                         "inside;");
             }
         }
-
-        @Override
-        public Class getType() {
-            return String.class;
-        }
     }
 
-    private class PeopleInfoComp extends VerticalLayout {
+    private class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.setSpacing(true);
-            this.setMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext

@@ -76,7 +76,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(ProjectTypeConstants.BUG_COMPONENT,
-				ComponentDefaultFormLayoutFactory.getForm());
+				ComponentDefaultFormLayoutFactory.getForm(), "id");
 	}
 
 	@Override

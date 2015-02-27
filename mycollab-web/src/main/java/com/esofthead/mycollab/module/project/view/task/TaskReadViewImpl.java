@@ -86,6 +86,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
     private static final Logger LOG = LoggerFactory
             .getLogger(TaskReadViewImpl.class);
 
+    private TagViewComponent tagViewComponent;
+
     private CommentDisplay commentList;
 
     private TaskHistoryList historyList;
@@ -156,6 +158,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
         }
 
+        tagViewComponent.display(ProjectTypeConstants.TASK, beanItem.getId());
         commentList.loadComments("" + beanItem.getId());
         historyList.loadHistory(beanItem.getId());
         followerSheet.displayFollowers(beanItem);
@@ -232,12 +235,17 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-        if (!CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             quickActionStatusBtn.setEnabled(false);
         }
 
         return topPanel;
+    }
+
+    @Override
+    protected ComponentContainer createExtraControls() {
+        tagViewComponent = new TagViewComponent();
+        return tagViewComponent;
     }
 
     @Override
@@ -322,7 +330,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-
             if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(),
@@ -392,11 +399,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         @Override
         protected Component initContent() {
             MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
-
             tasksLayout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false,
                     true, true, false));
-            contentLayout.addComponent(tasksLayout);
-            contentLayout.setExpandRatio(tasksLayout, 1.0f);
+            contentLayout.with(tasksLayout).expand(tasksLayout);
 
             Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
                     new Button.ClickListener() {
@@ -444,12 +449,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             final CheckBox checkBox = new CheckBox("", subTask.isCompleted());
             checkBox.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
-            layout.addComponent(checkBox);
 
             final Label taskLink = new Label(buildTaskLink(subTask), ContentMode.HTML);
             taskLink.addStyleName("wordWrap");
-            layout.addComponent(taskLink);
-            layout.setExpandRatio(taskLink, 1.0f);
+            layout.with(checkBox, taskLink).expand(taskLink);
 
             checkBox.addValueChangeListener(new ValueChangeListener() {
                 @Override

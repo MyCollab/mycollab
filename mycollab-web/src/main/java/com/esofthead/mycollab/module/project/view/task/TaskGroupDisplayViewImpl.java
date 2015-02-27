@@ -49,6 +49,8 @@ import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -442,10 +444,14 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
         basicSearchBody.addStyleName(UIConstants.BORDER_BOX_2);
 
         nameField = new TextField();
-
         nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-        basicSearchBody.with(nameField).withAlign(nameField,
-                Alignment.MIDDLE_CENTER);
+        nameField.addShortcutListener(new ShortcutListener("EnterSearchKey", ShortcutAction.KeyCode.ENTER, null) {
+            @Override
+            public void handleAction(Object o, Object o1) {
+                doSearch();
+            }
+        });
+        basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
         MHorizontalLayout control = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
 
@@ -458,14 +464,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-                searchCriteria.setProjectid(new NumberSearchField(
-                        CurrentProjectVariables.getProjectId()));
-                searchCriteria.setTaskName(new StringSearchField(nameField
-                        .getValue().trim()));
-                TaskFilterParameter taskFilter = new TaskFilterParameter(
-                        searchCriteria, "Task Search");
-                moveToTaskSearch(taskFilter);
+                doSearch();
             }
         });
         control.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
@@ -497,7 +496,18 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
         return basicSearchBody;
     }
 
-    void moveToTaskSearch(TaskFilterParameter taskFilter) {
+    private void doSearch() {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setProjectid(new NumberSearchField(
+                CurrentProjectVariables.getProjectId()));
+        searchCriteria.setTaskName(new StringSearchField(nameField
+                .getValue().trim()));
+        TaskFilterParameter taskFilter = new TaskFilterParameter(
+                searchCriteria, "Task Search");
+        moveToTaskSearch(taskFilter);
+    }
+
+    private void moveToTaskSearch(TaskFilterParameter taskFilter) {
         EventBusFactory.getInstance().post(
                 new TaskEvent.Search(this, taskFilter));
     }

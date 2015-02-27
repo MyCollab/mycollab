@@ -197,17 +197,14 @@ public class VerticalTabsheet extends CustomComponent {
 	static {
 		try {
 			SELECTED_TAB_CHANGE_METHOD = SelectedTabChangeListener.class
-					.getDeclaredMethod("selectedTabChange",
-							SelectedTabChangeEvent.class);
+					.getDeclaredMethod("selectedTabChange", SelectedTabChangeEvent.class);
 		} catch (final java.lang.NoSuchMethodException e) {
 			throw new java.lang.RuntimeException(
 					"Internal error finding methods in TabSheet");
 		}
 	}
 
-	public void addSelectedTabChangeListener(
-			final TabSheet.SelectedTabChangeListener listener) {
-
+	public void addSelectedTabChangeListener(TabSheet.SelectedTabChangeListener listener) {
 		this.addListener(SelectedTabChangeEvent.class, listener,
 				SELECTED_TAB_CHANGE_METHOD);
 	}

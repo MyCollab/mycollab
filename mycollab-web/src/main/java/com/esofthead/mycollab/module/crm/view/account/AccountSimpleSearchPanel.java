@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,10 +30,8 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -47,13 +47,12 @@ import com.vaadin.ui.TextField;
  * 
  */
 @SuppressWarnings("serial")
-public class AccountSimpleSearchPanel extends
-		GenericSearchPanel<AccountSearchCriteria> {
-
+public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCriteria> {
 	private AccountSearchCriteria searchCriteria;
 	private TextField textValueField;
+    private ValueComboBox group;
 	private ActiveUserComboBox userBox;
-	private GridLayout layoutSearchPane;
+	private GridLayout layoutSearchPanel;
 
 	@Override
 	public void attach() {
@@ -63,34 +62,34 @@ public class AccountSimpleSearchPanel extends
 	}
 
 	private void createBasicSearchLayout() {
-		layoutSearchPane = new GridLayout(3, 3);
-		layoutSearchPane.setSpacing(true);
-		final ValueComboBox group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
+		layoutSearchPanel = new GridLayout(3, 3);
+		layoutSearchPanel.setSpacing(true);
+		group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
 				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				removeComponents();
-				String searchType = (String) group.getValue();
-				if (searchType.equals("Name")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Email")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Website")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Phone")) {
-					addTextFieldSearch();
-				} else if (searchType.equals(AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
-					addUserListSelectField();
-				}
-			}
-		});
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                removeComponents();
+                String searchType = (String) group.getValue();
+                if (searchType.equals("Name")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Email")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Website")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Phone")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals(AppContext
+                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                    addUserListSelectField();
+                }
+            }
+        });
 
-		layoutSearchPane.addComponent(group, 1, 0);
-		layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+		layoutSearchPanel.addComponent(group, 1, 0);
+		layoutSearchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
 
 		addTextFieldSearch();
 
@@ -101,77 +100,82 @@ public class AccountSimpleSearchPanel extends
         searchBtn.setDescription("Search");
 
 		searchBtn.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				searchCriteria = new AccountSearchCriteria();
-				searchCriteria.setSaccountid(new NumberSearchField(
-						SearchField.AND, AppContext.getAccountId()));
-
-				String searchType = (String) group.getValue();
-				if (StringUtils.isNotBlank(searchType)) {
-
-					if (textValueField != null) {
-						String strSearch = textValueField.getValue();
-						if (StringUtils.isNotBlank(strSearch)) {
-
-							if (searchType.equals("Name")) {
-								searchCriteria
-										.setAccountname(new StringSearchField(
-												SearchField.AND, strSearch));
-							} else if (searchType.equals("Email")) {
-								searchCriteria
-										.setAnyMail(new StringSearchField(
-												SearchField.AND, strSearch));
-							} else if (searchType.equals("Website")) {
-								searchCriteria
-										.setWebsite(new StringSearchField(
-												SearchField.AND, strSearch));
-							} else if (searchType.equals("Phone")) {
-								searchCriteria
-										.setAnyPhone(new StringSearchField(
-												SearchField.AND, strSearch));
-							}
-						}
-					}
-
-					if (userBox != null) {
-						String user = (String) userBox.getValue();
-						if (StringUtils.isNotBlank(user)) {
-							searchCriteria
-									.setAssignUsers(new SetSearchField<>(
-											SearchField.AND,
-											new String[] { user }));
-						}
-					}
-				}
-
-				AccountSimpleSearchPanel.this
-						.notifySearchHandler(searchCriteria);
-			}
-		});
-		layoutSearchPane.addComponent(searchBtn, 2, 0);
-		layoutSearchPane.setComponentAlignment(searchBtn,
-				Alignment.MIDDLE_CENTER);
-		this.setCompositionRoot(layoutSearchPane);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                doSearch();
+            }
+        });
+		layoutSearchPanel.addComponent(searchBtn, 2, 0);
+		layoutSearchPanel.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
+		this.setCompositionRoot(layoutSearchPanel);
 	}
+
+    private void doSearch() {
+        searchCriteria = new AccountSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(
+                SearchField.AND, AppContext.getAccountId()));
+
+        String searchType = (String) group.getValue();
+        if (StringUtils.isNotBlank(searchType)) {
+            if (textValueField != null) {
+                String strSearch = textValueField.getValue();
+                if (StringUtils.isNotBlank(strSearch)) {
+
+                    if (searchType.equals("Name")) {
+                        searchCriteria
+                                .setAccountname(new StringSearchField(
+                                        SearchField.AND, strSearch));
+                    } else if (searchType.equals("Email")) {
+                        searchCriteria
+                                .setAnyMail(new StringSearchField(
+                                        SearchField.AND, strSearch));
+                    } else if (searchType.equals("Website")) {
+                        searchCriteria
+                                .setWebsite(new StringSearchField(
+                                        SearchField.AND, strSearch));
+                    } else if (searchType.equals("Phone")) {
+                        searchCriteria
+                                .setAnyPhone(new StringSearchField(
+                                        SearchField.AND, strSearch));
+                    }
+                }
+            }
+
+            if (userBox != null) {
+                String user = (String) userBox.getValue();
+                if (StringUtils.isNotBlank(user)) {
+                    searchCriteria
+                            .setAssignUsers(new SetSearchField<>(
+                                    SearchField.AND, new String[]{user}));
+                }
+            }
+        }
+
+        notifySearchHandler(searchCriteria);
+    }
 
 	private void addTextFieldSearch() {
 		textValueField = new TextField();
-		layoutSearchPane.addComponent(textValueField, 0, 0);
-		layoutSearchPane.setComponentAlignment(textValueField,
-				Alignment.MIDDLE_CENTER);
+        textValueField.addShortcutListener(new ShortcutListener("AccountSearchName", ShortcutAction.KeyCode.ENTER,
+                null) {
+            @Override
+            public void handleAction(Object o, Object o1) {
+                doSearch();
+            }
+        });
+		layoutSearchPanel.addComponent(textValueField, 0, 0);
+		layoutSearchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
 	}
 
 	private void addUserListSelectField() {
 		userBox = new ActiveUserComboBox();
 		userBox.setImmediate(true);
-		layoutSearchPane.addComponent(userBox, 0, 0);
-		layoutSearchPane
-				.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+		layoutSearchPanel.addComponent(userBox, 0, 0);
+		layoutSearchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
 	}
 
 	private void removeComponents() {
-		layoutSearchPane.removeComponent(0, 0);
+		layoutSearchPanel.removeComponent(0, 0);
 		userBox = null;
 		textValueField = null;
 	}

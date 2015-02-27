@@ -41,4 +41,12 @@ public class ProjectEvent {
 			super(source, data);
 		}
 	}
+
+    public static class GotoTagListView extends ApplicationEvent {
+        private static final long serialVersionUID = 1L;
+
+        public GotoTagListView(Object source, Object data) {
+            super(source, data);
+        }
+    }
 }

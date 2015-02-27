@@ -41,7 +41,7 @@ import static com.esofthead.mycollab.module.project.view.milestone.MilestoneHist
 public class ProjectAuditLogStreamGenerator {
 	private static final Map<String, AuditLogPrinter> auditPrinters;
 	static {
-		auditPrinters = new HashMap<String, AuditLogPrinter>();
+		auditPrinters = new HashMap<>();
 		auditPrinters.put(ProjectTypeConstants.BUG, new AuditLogPrinter(
 				bugFomatter));
 		auditPrinters.put(ProjectTypeConstants.TASK, new AuditLogPrinter(

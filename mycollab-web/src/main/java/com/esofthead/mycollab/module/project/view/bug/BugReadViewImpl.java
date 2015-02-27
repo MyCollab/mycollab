@@ -33,10 +33,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
+import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.bug.components.LinkIssueWindow;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -85,6 +82,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     private static final Logger LOG = LoggerFactory
             .getLogger(BugReadViewImpl.class);
+
+    private TagViewComponent tagViewComponent;
 
     private HorizontalLayout bugWorkflowControl;
 
@@ -307,6 +306,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     @Override
     protected void onPreviewItem() {
+        tagViewComponent.display(ProjectTypeConstants.BUG, beanItem.getId());
         commentList.loadComments("" + this.beanItem.getId());
         historyList.loadHistory(this.beanItem.getId());
         bugTimeLogList.displayTime(this.beanItem);
@@ -430,6 +430,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         topPanel.setSizeUndefined();
 
         return topPanel;
+    }
+
+    protected ComponentContainer createExtraControls() {
+        tagViewComponent = new TagViewComponent();
+        return tagViewComponent;
     }
 
     @Override

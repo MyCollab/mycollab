@@ -62,14 +62,13 @@ public class ContactSearchPanel extends
 	private HorizontalLayout createSearchTopPanel() {
 		final MHorizontalLayout layout = new MHorizontalLayout()
 				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-				.withSpacing(true)
 				.withMargin(new MarginInfo(true, false, true, false));
 
-		final Label searchtitle = new CrmViewHeader(CrmTypeConstants.CONTACT,
+		final Label searchTitle = new CrmViewHeader(CrmTypeConstants.CONTACT,
 				AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
-		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
-				.expand(searchtitle);
+		searchTitle.setStyleName(UIConstants.HEADER_TEXT);
+		layout.with(searchTitle).withAlign(searchTitle, Alignment.MIDDLE_LEFT)
+				.expand(searchTitle);
 
 		final Button createBtn = new Button(
 				AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
@@ -104,7 +103,6 @@ public class ContactSearchPanel extends
 
 	@SuppressWarnings("rawtypes")
 	private class ContactBasicSearchLayout extends BasicSearchLayout {
-
 		private static final long serialVersionUID = 1L;
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
@@ -121,8 +119,7 @@ public class ContactSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withSpacing(true).withMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfBasicSearch");
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
@@ -133,8 +130,7 @@ public class ContactSearchPanel extends
 					AppContext
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -150,8 +146,7 @@ public class ContactSearchPanel extends
 			basicSearchBody.with(searchBtn).withAlign(searchBtn,
 					Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+			final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {
@@ -160,8 +155,7 @@ public class ContactSearchPanel extends
 					ContactBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
 			final Button advancedSearchBtn = new Button(
 					AppContext
@@ -176,8 +170,7 @@ public class ContactSearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			basicSearchBody.with(advancedSearchBtn).withAlign(
-					advancedSearchBtn, Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}
 
@@ -192,9 +185,8 @@ public class ContactSearchPanel extends
 			}
 
 			if (this.myItemCheckbox.getValue()) {
-				searchCriteria.setAssignUsers(new SetSearchField<String>(
-						SearchField.AND, new String[] { AppContext
-								.getUsername() }));
+				searchCriteria.setAssignUsers(new SetSearchField<>(
+						SearchField.AND, new String[] { AppContext.getUsername() }));
 			} else {
 				searchCriteria.setAssignUsers(null);
 			}

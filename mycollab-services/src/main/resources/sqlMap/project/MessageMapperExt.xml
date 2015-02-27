@@ -42,7 +42,7 @@
             #end
             
             #ifnotnull($searchCriteria.message)
-                ${searchCriteria.message.operation} m_prj_message.message like '%${searchCriteria.message.value}%' OR m_prj_message.title like '%${searchCriteria.message.value}%'
+                ${searchCriteria.message.operation} (m_prj_message.message like '%${searchCriteria.message.value}%' OR m_prj_message.title like '%${searchCriteria.message.value}%')
             #end
         ]]>
     </sql>

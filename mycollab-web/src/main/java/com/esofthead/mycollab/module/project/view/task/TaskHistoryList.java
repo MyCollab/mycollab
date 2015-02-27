@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -55,8 +56,8 @@ public class TaskHistoryList extends HistoryLogComponent {
 		taskFormatter.generateFieldDisplayHandler("deadline",
 				TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("priority",
-				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
-						TaskPriority.class));
+				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(TaskPriority.class));
+        taskFormatter.generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
 		taskFormatter.generateFieldDisplayHandler("isestimated",
 				TaskI18nEnum.FORM_IS_ESTIMATED);
 		taskFormatter.generateFieldDisplayHandler("remainestimate",
@@ -67,8 +68,7 @@ public class TaskHistoryList extends HistoryLogComponent {
 				TaskI18nEnum.FORM_TASKGROUP, new TaskGroupHistoryFieldFormat());
 		taskFormatter.generateFieldDisplayHandler("percentagecomplete",
 				TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
-		taskFormatter.generateFieldDisplayHandler("notes",
-				TaskI18nEnum.FORM_NOTES);
+		taskFormatter.generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES);
 	}
 
 	public TaskHistoryList() {

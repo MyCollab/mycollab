@@ -81,7 +81,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
-				VersionDefaultFormLayoutFactory.getForm());
+				VersionDefaultFormLayoutFactory.getForm(), "id");
 	}
 
 	@Override
@@ -99,7 +99,6 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 		@Override
 		protected Field<?> onCreateField(final Object propertyId) {
-
 			if (Version.Field.versionname.equalTo(propertyId)) {
 				final TextField tf = new TextField();
 				if (isValidateForm) {

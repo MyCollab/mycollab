@@ -51,10 +51,10 @@ public class ProjectTaskListComboBox extends ComboBox {
 		ProjectTaskListService taskListService = ApplicationContextUtil
 				.getSpringBean(ProjectTaskListService.class);
 		List<SimpleTaskList> taskLists = taskListService
-				.findPagableListByCriteria(new SearchRequest<TaskListSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
-		BeanContainer<String, SimpleTaskList> beanItem = new BeanContainer<String, SimpleTaskList>(
+		BeanContainer<String, SimpleTaskList> beanItem = new BeanContainer<>(
 				SimpleTaskList.class);
 		beanItem.setBeanIdProperty("id");
 		beanItem.addAll(taskLists);

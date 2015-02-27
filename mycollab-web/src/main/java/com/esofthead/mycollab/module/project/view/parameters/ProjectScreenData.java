@@ -39,4 +39,10 @@ public class ProjectScreenData {
 			super(params);
 		}
 	}
+
+    public static class GotoTagList extends ScreenData<Object> {
+        public GotoTagList(Object params) {
+            super(params);
+        }
+    }
 }

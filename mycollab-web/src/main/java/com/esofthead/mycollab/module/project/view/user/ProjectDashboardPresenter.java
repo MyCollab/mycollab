@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectView;
+import com.esofthead.mycollab.module.project.view.TagListPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -31,53 +32,55 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectDashboardPresenter extends
-		AbstractPresenter<ProjectDashboardContainer> {
-	private static final long serialVersionUID = 1L;
+        AbstractPresenter<ProjectDashboardContainer> {
+    private static final long serialVersionUID = 1L;
 
-	public ProjectDashboardPresenter() {
-		super(ProjectDashboardContainer.class);
-	}
+    public ProjectDashboardPresenter() {
+        super(ProjectDashboardContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView(ProjectTypeConstants.DASHBOARD);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ProjectView projectViewContainer = (ProjectView) container;
+        projectViewContainer.gotoSubView(ProjectTypeConstants.DASHBOARD);
 
-		view.removeAllComponents();
+        view.removeAllComponents();
 
-		ProjectBreadcrumb breadcrumb = ViewManager
-				.getCacheComponent(ProjectBreadcrumb.class);
+        ProjectBreadcrumb breadcrumb = ViewManager
+                .getCacheComponent(ProjectBreadcrumb.class);
 
-		if (data instanceof ProjectScreenData.Edit) {
-			if (CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.PROJECT)) {
-				ProjectAddPresenter presenter = PresenterResolver
-						.getPresenter(ProjectAddPresenter.class);
-				presenter.go(view, data);
-				breadcrumb.gotoProjectEdit();
-			} else {
-				NotificationUtil.showMessagePermissionAlert();
-			}
-		} else {
-			if (CurrentProjectVariables
-					.canRead(ProjectRolePermissionCollections.PROJECT)) {
-				ProjectSummaryPresenter presenter = PresenterResolver
-						.getPresenter(ProjectSummaryPresenter.class);
-				presenter.go(view, data);
-				breadcrumb.gotoProjectDashboard();
-			} else {
-				NotificationUtil.showMessagePermissionAlert();
-			}
-		}
-	}
+        if (data instanceof ProjectScreenData.Edit) {
+            if (CurrentProjectVariables
+                    .canWrite(ProjectRolePermissionCollections.PROJECT)) {
+                ProjectAddPresenter presenter = PresenterResolver
+                        .getPresenter(ProjectAddPresenter.class);
+                presenter.go(view, data);
+                breadcrumb.gotoProjectEdit();
+            } else {
+                NotificationUtil.showMessagePermissionAlert();
+            }
+        } else if (data instanceof ProjectScreenData.GotoTagList) {
+            TagListPresenter presenter = PresenterResolver.getPresenter(TagListPresenter.class);
+            presenter.go(view, data);
+        } else {
+            if (CurrentProjectVariables
+                    .canRead(ProjectRolePermissionCollections.PROJECT)) {
+                ProjectSummaryPresenter presenter = PresenterResolver
+                        .getPresenter(ProjectSummaryPresenter.class);
+                presenter.go(view, data);
+                breadcrumb.gotoProjectDashboard();
+            } else {
+                NotificationUtil.showMessagePermissionAlert();
+            }
+        }
+    }
 }

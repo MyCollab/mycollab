@@ -74,11 +74,9 @@ import com.vaadin.server.VaadinSession;
  * 
  */
 public class AppContext implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AppContext.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AppContext.class);
 
 	/**
 	 * Current user LOG in to MyCollab
@@ -99,7 +97,7 @@ public class AppContext implements Serializable {
 	 * Subdomain associates with account of current user. This value is valid
 	 * only for on-demand edition
 	 */
-	private String subdomain;
+	private String subDomain;
 
 	/**
 	 * id of account of current user. This value is valid only for on-demand
@@ -191,7 +189,7 @@ public class AppContext implements Serializable {
 		MyCollabSession.putVariable(USER_DAY_MONTH_FORMAT,
 				LocaleHelper.getDayMonthFormatAssociateToLocale(userLocale));
 
-		TimeZone timezone = null;
+		TimeZone timezone;
 		if (session.getTimezone() == null) {
 			timezone = TimeZone.getDefault();
 		} else {
@@ -246,7 +244,7 @@ public class AppContext implements Serializable {
 	 *            associate with current user logged in.
 	 */
 	public void initDomain(String domain) {
-		this.subdomain = domain;
+		this.subDomain = domain;
 		BillingAccountService billingService = ApplicationContextUtil
 				.getSpringBean(BillingAccountService.class);
 
@@ -256,7 +254,7 @@ public class AppContext implements Serializable {
 			throw new SubDomainNotExistException(AppContext.getMessage(
 					ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
 		} else {
-			LOG.debug("Get billing account {} of subdomain {}",
+			LOG.debug("Get billing account {} of subDomain {}",
 					BeanUtility.printBeanObj(account), domain);
 			accountId = account.getId();
 		}
@@ -292,12 +290,12 @@ public class AppContext implements Serializable {
 	}
 
 	/**
-	 * Get subdomain of current user
+	 * Get subDomain of current user
 	 * 
-	 * @return subdomain of current user
+	 * @return subDomain of current user
 	 */
 	public static String getSubDomain() {
-		return getInstance().subdomain;
+		return getInstance().subDomain;
 	}
 
 	private String siteUrl = null;
@@ -309,7 +307,7 @@ public class AppContext implements Serializable {
 	public static String getSiteUrl() {
 		if (getInstance().siteUrl == null) {
 			getInstance().siteUrl = SiteConfiguration
-					.getSiteUrl(getInstance().subdomain);
+					.getSiteUrl(getInstance().subDomain);
 		}
 
 		return getInstance().siteUrl;

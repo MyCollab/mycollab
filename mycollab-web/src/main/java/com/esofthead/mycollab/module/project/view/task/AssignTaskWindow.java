@@ -54,8 +54,7 @@ public class AssignTaskWindow extends Window {
 		super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE,
 				task.getTaskname()));
 
-		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(true)
-				.withMargin(false)
+		MVerticalLayout contentLayout = new MVerticalLayout()
 				.withMargin(new MarginInfo(false, false, true, false));
 
 		this.task = task;
@@ -84,7 +83,6 @@ public class AssignTaskWindow extends Window {
 		}
 
 		class FormLayoutFactory implements IFormLayoutFactory {
-
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 

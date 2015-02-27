@@ -72,7 +72,6 @@ import java.util.GregorianCalendar;
 @SuppressWarnings("serial")
 @ViewComponent
 public class ProjectViewImpl extends AbstractCssPageView implements ProjectView {
-
 	private ProjectVerticalTabsheet myProjectTab;
 	private ProjectDashboardPresenter dashboardPresenter;
 	private MessagePresenter messagePresenter;

@@ -76,6 +76,13 @@
         #ifnotnull($searchCriteria.milestoneId)
             ${searchCriteria.milestoneId.operation} m_prj_task_list.milestoneId=@{searchCriteria.milestoneId.value,jdbcType=NUMERIC}
         #end
+
+        #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation}
+            CAST(m_prj_task.deadline AS DATE )
+            ${searchCriteria.dueDate.comparision}
+            @{searchCriteria.dueDate.value}
+        #end
         
         #selectExpr($searchCriteria.extraFields)
         ]]>

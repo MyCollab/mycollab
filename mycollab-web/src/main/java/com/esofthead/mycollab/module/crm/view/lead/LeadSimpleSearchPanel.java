@@ -24,9 +24,13 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -43,9 +47,9 @@ public class LeadSimpleSearchPanel extends
         GenericSearchPanel<LeadSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
-    private LeadSearchCriteria searchCriteria;
     private TextField textValueField;
     private ActiveUserComboBox userBox;
+    private ValueComboBox group;
     private GridLayout layoutSearchPane;
 
     @Override
@@ -59,7 +63,7 @@ public class LeadSimpleSearchPanel extends
         layoutSearchPane = new GridLayout(3, 3);
         layoutSearchPane.setSpacing(true);
 
-        final ValueComboBox group = new ValueComboBox(false, "Name", "Email", "Phone",
+        group = new ValueComboBox(false, "Name", "Email", "Phone",
                 AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
         group.select("Name");
         group.setImmediate(true);
@@ -96,37 +100,7 @@ public class LeadSimpleSearchPanel extends
 
             @Override
             public void buttonClick(ClickEvent event) {
-                searchCriteria = new LeadSearchCriteria();
-                searchCriteria.setSaccountid(new NumberSearchField(
-                        SearchField.AND, AppContext.getAccountId()));
-
-                String searchType = (String) group.getValue();
-                if (StringUtils.isNotBlank(searchType)) {
-
-                    if (textValueField != null) {
-                        String strSearch = textValueField.getValue();
-                        if (StringUtils.isNotBlank(strSearch)) {
-
-                            if (searchType.equals("Name")) {
-                                searchCriteria
-                                        .setLeadName(new StringSearchField(
-                                                SearchField.AND, strSearch));
-                            }
-                        }
-                    }
-
-                    if (userBox != null) {
-                        String user = (String) userBox.getValue();
-                        if (StringUtils.isNotBlank(user)) {
-                            searchCriteria
-                                    .setAssignUsers(new SetSearchField<>(
-                                            SearchField.AND,
-                                            new String[]{user}));
-                        }
-                    }
-                }
-
-                LeadSimpleSearchPanel.this.notifySearchHandler(searchCriteria);
+                doSearch();
             }
         });
         layoutSearchPane.addComponent(searchBtn, 2, 0);
@@ -135,8 +109,41 @@ public class LeadSimpleSearchPanel extends
         this.setCompositionRoot(layoutSearchPane);
     }
 
+    private void doSearch() {
+        LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(
+                SearchField.AND, AppContext.getAccountId()));
+
+        String searchType = (String) group.getValue();
+        if (StringUtils.isNotBlank(searchType)) {
+            if (textValueField != null) {
+                String strSearch = textValueField.getValue();
+                if (StringUtils.isNotBlank(strSearch)) {
+                    if (searchType.equals("Name")) {
+                        searchCriteria.setLeadName(new StringSearchField(SearchField.AND, strSearch));
+                    }
+                }
+            }
+
+            if (userBox != null) {
+                String user = (String) userBox.getValue();
+                if (StringUtils.isNotBlank(user)) {
+                    searchCriteria.setAssignUsers(new SetSearchField<>(SearchField.AND, new String[]{user}));
+                }
+            }
+        }
+
+        notifySearchHandler(searchCriteria);
+    }
+
     private void addTextFieldSearch() {
         textValueField = new TextField();
+        textValueField.addShortcutListener(new ShortcutListener("LeadSearchField", ShortcutAction.KeyCode.ENTER, null) {
+            @Override
+            public void handleAction(Object o, Object o1) {
+                doSearch();
+            }
+        });
         layoutSearchPane.addComponent(textValueField, 0, 0);
         layoutSearchPane.setComponentAlignment(textValueField,
                 Alignment.MIDDLE_CENTER);

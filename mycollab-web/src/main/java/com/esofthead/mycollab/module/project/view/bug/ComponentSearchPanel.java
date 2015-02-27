@@ -35,6 +35,8 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCrit
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -45,9 +47,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ComponentSearchPanel extends
-        GenericSearchPanel<ComponentSearchCriteria> {
-
+public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCriteria> {
     private static final long serialVersionUID = 1L;
     private final SimpleProject project;
     protected ComponentSearchCriteria searchCriteria;
@@ -67,18 +67,13 @@ public class ComponentSearchPanel extends
     }
 
     private HorizontalLayout createSearchTopPanel() {
-        final MHorizontalLayout layout = new MHorizontalLayout()
-                .withWidth("100%").withSpacing(true)
-                .withStyleName(UIConstants.HEADER_VIEW)
-                .withMargin(new MarginInfo(true, false, true, false));
+        final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName(UIConstants.HEADER_VIEW).withMargin(new MarginInfo(true, false, true, false));
 
-        final Label componenttitle = new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
+        final Label componentTitle = new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
                 AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
-        componenttitle.setStyleName(UIConstants.HEADER_TEXT);
+        componentTitle.setStyleName(UIConstants.HEADER_TEXT);
 
-        layout.with(componenttitle)
-                .withAlign(componenttitle, Alignment.MIDDLE_LEFT)
-                .expand(componenttitle);
+        layout.with(componentTitle).withAlign(componentTitle, Alignment.MIDDLE_LEFT).expand(componentTitle);
 
         final Button createBtn = new Button(
                 AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
@@ -121,16 +116,20 @@ public class ComponentSearchPanel extends
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-                    .withSpacing(true).withMargin(true);
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             Label nameLbl = new Label("Name:");
-            basicSearchBody.with(nameLbl).withAlign(nameLbl,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
             this.nameField = new TextField();
             this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            basicSearchBody.with(nameField).withAlign(nameField,
-                    Alignment.MIDDLE_CENTER);
+            nameField.addShortcutListener(new ShortcutListener("ComponentSearchName", ShortcutAction.KeyCode.ENTER,
+                    null) {
+                @Override
+                public void handleAction(Object o, Object o1) {
+                    callSearchAction();
+                }
+            });
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(
                     AppContext
@@ -173,23 +172,18 @@ public class ComponentSearchPanel extends
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
-            ComponentSearchPanel.this.searchCriteria = new ComponentSearchCriteria();
-            ComponentSearchPanel.this.searchCriteria
-                    .setProjectid(new NumberSearchField(SearchField.AND,
-                            ComponentSearchPanel.this.project.getId()));
-            ComponentSearchPanel.this.searchCriteria
-                    .setComponentName(new StringSearchField(this.nameField
-                            .getValue().trim()));
+            searchCriteria = new ComponentSearchCriteria();
+            searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
+            searchCriteria.setComponentName(new StringSearchField(this.nameField.getValue().trim()));
 
             if (this.myItemCheckbox.getValue()) {
-                ComponentSearchPanel.this.searchCriteria
-                        .setUserlead(new StringSearchField(SearchField.AND,
+                searchCriteria.setUserlead(new StringSearchField(SearchField.AND,
                                 AppContext.getUsername()));
             } else {
-                ComponentSearchPanel.this.searchCriteria.setUserlead(null);
+                searchCriteria.setUserlead(null);
             }
 
-            return ComponentSearchPanel.this.searchCriteria;
+            return searchCriteria;
         }
     }
 

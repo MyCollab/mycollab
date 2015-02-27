@@ -41,7 +41,17 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 
 	private SetSearchField<String> types;
 
-	public DateSearchField getDueDate() {
+    private SetSearchField<String> tagNames;
+
+    public SetSearchField<String> getTagNames() {
+        return tagNames;
+    }
+
+    public void setTagNames(SetSearchField<String> tagNames) {
+        this.tagNames = tagNames;
+    }
+
+    public DateSearchField getDueDate() {
 		return dueDate;
 	}
 

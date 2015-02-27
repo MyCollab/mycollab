@@ -345,7 +345,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
         }
     }
 
-    private static class UserAssignmentWidget extends MVerticalLayout {
+    private class UserAssignmentWidget extends MVerticalLayout {
 
         private static final long serialVersionUID = 1L;
 
@@ -401,11 +401,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             this.with(header, taskList);
         }
 
-        public void showOpenAssignments() {
+        private void showOpenAssignments() {
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(
                     CurrentProjectVariables.getProjectId()));
-            searchCriteria.setAssignUser(new StringSearchField(AppContext.getUsername()));
+            searchCriteria.setAssignUser(new StringSearchField(beanItem.getUsername()));
             searchCriteria.setIsOpenned(new SearchField());
             updateSearchResult();
         }
@@ -414,119 +414,118 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             taskList.setSearchCriteria(searchCriteria);
             titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
         }
+    }
 
-        public static class TaskRowDisplayHandler implements
-                DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+    public static class TaskRowDisplayHandler implements
+            DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
-            @Override
-            public Component generateRow(final ProjectGenericTask genericTask,
-                                         final int rowIndex) {
-                final CssLayout layout = new CssLayout();
-                layout.setWidth("100%");
-                layout.setStyleName("list-row");
+        @Override
+        public Component generateRow(final ProjectGenericTask genericTask,
+                                     final int rowIndex) {
+            final CssLayout layout = new CssLayout();
+            layout.setWidth("100%");
+            layout.setStyleName("list-row");
 
-                if ((rowIndex + 1) % 2 != 0) {
-                    layout.addStyleName("odd");
-                }
-
-                Div itemDiv = buildItemValue(genericTask);
-
-                Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
-                if (genericTask.isOverdue()) {
-                    taskLbl.addStyleName("overdue");
-                } else if (genericTask.isClosed()) {
-                    taskLbl.addStyleName("completed");
-                }
-
-                layout.addComponent(taskLbl);
-
-                Div footerDiv = new Div().setCSSClass("activity-date");
-
-                Date dueDate = genericTask.getDueDate();
-                if (dueDate != null) {
-                    footerDiv.appendChild(new Text(AppContext.getMessage(
-                            TaskI18nEnum.OPT_DUE_DATE,
-                            DateTimeUtils.getPrettyDateValue(dueDate,
-                                    AppContext.getUserLocale()))));
-                } else {
-                    footerDiv.appendChild(new Text(AppContext.getMessage(
-                            TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
-                }
-
-
-                if (genericTask.getAssignUser() != null) {
-                    footerDiv.appendChild(buildAssigneeValue(genericTask));
-                }
-
-                layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
-                return layout;
+            if ((rowIndex + 1) % 2 != 0) {
+                layout.addStyleName("odd");
             }
 
-            private Div buildItemValue(ProjectGenericTask task) {
-                String uid = UUID.randomUUID().toString();
-                Div div = new DivLessFormatter();
-                Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-                A itemLink = new A();
-                itemLink.setId("tag" + uid);
-                if (ProjectTypeConstants.TASK.equals(task.getType())
-                        || ProjectTypeConstants.BUG.equals(task.getType())) {
-                    itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                            task.getProjectShortName(),
-                            task.getProjectId(), task.getType(),
-                            task.getExtraTypeId() + ""));
-                } else {
-                    itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                            task.getProjectShortName(),
-                            task.getProjectId(), task.getType(),
-                            task.getTypeId() + ""));
-                }
+            Div itemDiv = buildItemValue(genericTask);
 
-
-                String arg17 = "'" + uid + "'";
-                String arg18 = "'" + task.getType() + "'";
-                String arg19 = "'" + task.getTypeId() + "'";
-                String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-                String arg21 = "'" + AppContext.getAccountId() + "'";
-                String arg22 = "'" + AppContext.getSiteUrl() + "'";
-                String arg23 = AppContext.getSession().getTimezone();
-                String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-                String mouseOverFunc = String.format(
-                        "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                        arg20, arg21, arg22, arg23, arg24);
-                itemLink.setAttribute("onmouseover", mouseOverFunc);
-                itemLink.appendText(task.getName());
-
-                div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid));
-                return div;
+            Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
+            if (genericTask.isOverdue()) {
+                taskLbl.addStyleName("overdue");
+            } else if (genericTask.isClosed()) {
+                taskLbl.addStyleName("completed");
             }
 
-            private Div buildAssigneeValue(ProjectGenericTask task) {
-                String uid = UUID.randomUUID().toString();
-                Div div = new DivLessFormatter();
-                Img userAvatar = new Img("", StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16));
-                A userLink = new A();
-                userLink.setId("tag" + uid);
-                userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                        task.getProjectId(),
-                        task.getAssignUser()));
+            layout.addComponent(taskLbl);
 
-                userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
-                userLink.appendText(task.getAssignUserFullName());
+            Div footerDiv = new Div().setCSSClass("activity-date");
 
-                String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
-
-                div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter
-                                .EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt),
-                        userAvatar, DivLessFormatter
-                                .EMPTY_SPACE(), userLink,
-                        DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid));
-
-                return div;
+            Date dueDate = genericTask.getDueDate();
+            if (dueDate != null) {
+                footerDiv.appendChild(new Text(AppContext.getMessage(
+                        TaskI18nEnum.OPT_DUE_DATE,
+                        DateTimeUtils.getPrettyDateValue(dueDate,
+                                AppContext.getUserLocale()))));
+            } else {
+                footerDiv.appendChild(new Text(AppContext.getMessage(
+                        TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }
+
+
+            if (genericTask.getAssignUser() != null) {
+                footerDiv.appendChild(buildAssigneeValue(genericTask));
+            }
+
+            layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
+            return layout;
         }
 
+        private Div buildItemValue(ProjectGenericTask task) {
+            String uid = UUID.randomUUID().toString();
+            Div div = new DivLessFormatter();
+            Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
+            A itemLink = new A();
+            itemLink.setId("tag" + uid);
+            if (ProjectTypeConstants.TASK.equals(task.getType())
+                    || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getExtraTypeId() + ""));
+            } else {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                        task.getProjectShortName(),
+                        task.getProjectId(), task.getType(),
+                        task.getTypeId() + ""));
+            }
+
+
+            String arg17 = "'" + uid + "'";
+            String arg18 = "'" + task.getType() + "'";
+            String arg19 = "'" + task.getTypeId() + "'";
+            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+            String arg21 = "'" + AppContext.getAccountId() + "'";
+            String arg22 = "'" + AppContext.getSiteUrl() + "'";
+            String arg23 = AppContext.getSession().getTimezone();
+            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+            String mouseOverFunc = String.format(
+                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+                    arg20, arg21, arg22, arg23, arg24);
+            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.appendText(task.getName());
+
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+            return div;
+        }
+
+        private Div buildAssigneeValue(ProjectGenericTask task) {
+            String uid = UUID.randomUUID().toString();
+            Div div = new DivLessFormatter();
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16));
+            A userLink = new A();
+            userLink.setId("tag" + uid);
+            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectId(),
+                    task.getAssignUser()));
+
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.appendText(task.getAssignUserFullName());
+
+            String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
+
+            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter
+                            .EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt),
+                    userAvatar, DivLessFormatter
+                            .EMPTY_SPACE(), userLink,
+                    DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+
+            return div;
+        }
     }
 }

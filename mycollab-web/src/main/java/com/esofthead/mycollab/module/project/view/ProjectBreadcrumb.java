@@ -785,6 +785,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         }
     }
 
+    public void gotoTagList() {
+        this.select(0);
+        this.addLink(new Button("Tags"));
+        AppContext.addFragment("project/tag/" + UrlEncodeDecoder.encode(project.getId()), "Tags");
+    }
+
     public void gotoComponentList() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
@@ -1133,15 +1139,13 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
                 menuLinkGenerator.handleText(linkname), linkname);
     }
 
-    private static Button generateBreadcrumbLink(String linkname,
-                                                 Button.ClickListener listener) {
+    private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
         return CommonUIFactory.createButtonTooltip(
                 menuLinkGenerator.handleText(linkname), linkname, listener);
     }
 
     private static class BreadcrumbLabelStringGenerator implements
             LabelStringGenerator {
-
         @Override
         public String handleText(String value) {
             if (value.length() > 35) {

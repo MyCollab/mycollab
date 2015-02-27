@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -32,6 +33,8 @@ import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -67,15 +70,13 @@ public class ProjectRoleSearchPanel extends
 
 	@SuppressWarnings("rawtypes")
 	private class ProjectRoleBasicSearchLayout extends BasicSearchLayout {
+        private static final long serialVersionUID = 1L;
+        private TextField nameField;
 
 		@SuppressWarnings("unchecked")
 		public ProjectRoleBasicSearchLayout() {
 			super(ProjectRoleSearchPanel.this);
 		}
-
-		private static final long serialVersionUID = 1L;
-		private TextField nameField;
-		private CheckBox myItemCheckbox;
 
 		@Override
 		public ComponentContainer constructBody() {
@@ -86,11 +87,14 @@ public class ProjectRoleSearchPanel extends
 			basicSearchBody.addComponent(new Label("Name"));
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            this.nameField.addShortcutListener(new ShortcutListener("RoleSearchText", ShortcutAction.KeyCode.ENTER,
+                    null) {
+                @Override
+                public void handleAction(Object o, Object o1) {
+                    callSearchAction();
+                }
+            });
 			basicSearchBody.addComponent(this.nameField);
-			this.myItemCheckbox = new CheckBox(
-					AppContext
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			basicSearchBody.addComponent(this.myItemCheckbox);
 
 			final Button searchBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
@@ -99,8 +103,7 @@ public class ProjectRoleSearchPanel extends
 
 						@Override
 						public void buttonClick(final Button.ClickEvent event) {
-							ProjectRoleBasicSearchLayout.this
-									.callSearchAction();
+							callSearchAction();
 						}
 					});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -125,11 +128,10 @@ public class ProjectRoleSearchPanel extends
 
 		@Override
 		protected SearchCriteria fillUpSearchCriteria() {
-			ProjectRoleSearchPanel.this.searchCriteria = new ProjectRoleSearchCriteria();
-			ProjectRoleSearchPanel.this.searchCriteria
-					.setProjectId(new NumberSearchField(SearchField.AND,
-							ProjectRoleSearchPanel.this.project.getId()));
-			return ProjectRoleSearchPanel.this.searchCriteria;
+			searchCriteria = new ProjectRoleSearchCriteria();
+			searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, project.getId()));
+            searchCriteria.setRolename(new StringSearchField(nameField.getValue()));
+			return searchCriteria;
 		}
 
 		@Override

@@ -72,12 +72,10 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 
         final MHorizontalLayout body = new MHorizontalLayout().withMargin(false).withWidth("100%");
 
-        this.leftColumn = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
-        body.with(this.leftColumn).expand(leftColumn);
+        leftColumn = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false));
+        rightColumn = new MVerticalLayout().withMargin(false);
 
-        this.rightColumn = new MVerticalLayout().withMargin(false);
-
-        body.with(this.rightColumn).withAlign(rightColumn, Alignment.TOP_RIGHT);
+        body.with(leftColumn, rightColumn).withAlign(rightColumn, Alignment.TOP_RIGHT).expand(leftColumn);
 
         this.addComponent(body);
 

@@ -37,6 +37,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
@@ -106,7 +108,6 @@ public class BugSearchPanel extends
 
         MHorizontalLayout header = new MHorizontalLayout()
                 .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-                .withSpacing(true)
                 .withMargin(new MarginInfo(true, false, true, false));
 
         header.with(headerText, createBtn, rightComponent)
@@ -142,22 +143,25 @@ public class BugSearchPanel extends
         @SuppressWarnings("serial")
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-                    .withSpacing(true).withMargin(true);
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl,
                     Alignment.MIDDLE_LEFT);
 
             this.nameField = new TextField();
             this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            basicSearchBody.with(nameField).withAlign(nameLbl,
-                    Alignment.MIDDLE_CENTER);
+            nameField.addShortcutListener(new ShortcutListener("BugSearchName", ShortcutAction.KeyCode.ENTER, null) {
+                @Override
+                public void handleAction(Object o, Object o1) {
+                    callSearchAction();
+                }
+            });
+            basicSearchBody.with(nameField).withAlign(nameLbl, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(
                     AppContext
                             .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-                    Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
             final Button searchBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
@@ -167,8 +171,7 @@ public class BugSearchPanel extends
             searchBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-
-                    BugBasicSearchLayout.this.callSearchAction();
+                    callSearchAction();
                 }
             });
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -192,7 +195,7 @@ public class BugSearchPanel extends
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            BugSearchPanel.this.moveToAdvancedSearchLayout();
+                            moveToAdvancedSearchLayout();
                         }
                     });
             advancedSearchBtn.setStyleName("link");

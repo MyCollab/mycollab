@@ -19,10 +19,7 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
@@ -78,6 +75,7 @@ public class TaskSearchCriteria extends SearchCriteria {
 	private NumberSearchField taskListId;
 	private NumberSearchField parentTaskId;
 	private StringSearchField taskName;
+    private DateSearchField dueDate;
 	private NumberSearchField milestoneId;
 	private NumberSearchField id;
 	private StringSearchField assignUser;
@@ -155,4 +153,12 @@ public class TaskSearchCriteria extends SearchCriteria {
 	public void setPriorities(SetSearchField<String> priorities) {
 		this.priorities = priorities;
 	}
+
+    public DateSearchField getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(DateSearchField dueDate) {
+        this.dueDate = dueDate;
+    }
 }

@@ -27,92 +27,103 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 
-	private BugSearchCriteria searchCriteria;
-	private TextField textValueField;
-	private GridLayout layoutSearchPane;
+    private BugSearchCriteria searchCriteria;
+    private TextField textValueField;
+    private GridLayout layoutSearchPane;
+    private CheckBox chkIsOpenBug;
 
-	@Override
-	public void attach() {
-		super.attach();
-		this.setHeight("32px");
-		createBasicSearchLayout();
-	}
+    @Override
+    public void attach() {
+        super.attach();
+        this.setHeight("32px");
+        createBasicSearchLayout();
+    }
 
-	private void createBasicSearchLayout() {
-		layoutSearchPane = new GridLayout(5, 3);
-		layoutSearchPane.setSpacing(true);
+    private void createBasicSearchLayout() {
+        layoutSearchPane = new GridLayout(5, 3);
+        layoutSearchPane.setSpacing(true);
 
-		addTextFieldSearch();
+        addTextFieldSearch();
 
-		final CheckBox chkIsOpenBug = new CheckBox("Only Open Bugs");
-		layoutSearchPane.addComponent(chkIsOpenBug, 2, 0);
-		layoutSearchPane.setComponentAlignment(chkIsOpenBug,
-				Alignment.MIDDLE_CENTER);
+        chkIsOpenBug = new CheckBox("Only Open Bugs");
+        layoutSearchPane.addComponent(chkIsOpenBug, 2, 0);
+        layoutSearchPane.setComponentAlignment(chkIsOpenBug,
+                Alignment.MIDDLE_CENTER);
 
-		Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(FontAwesome.SEARCH);
-		searchBtn.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				searchCriteria = new BugSearchCriteria();
-				searchCriteria.setProjectId(new NumberSearchField(
-						SearchField.AND, CurrentProjectVariables.getProject()
-								.getId()));
-				searchCriteria.setSummary(new StringSearchField(textValueField
-						.getValue().trim()));
+        Button searchBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setIcon(FontAwesome.SEARCH);
+        searchBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                doSearch();
+            }
+        });
+        layoutSearchPane.addComponent(searchBtn, 3, 0);
+        layoutSearchPane.setComponentAlignment(searchBtn,
+                Alignment.MIDDLE_CENTER);
 
-				if (chkIsOpenBug.getValue()) {
-					searchCriteria.setStatuses(new SetSearchField<>(
-							SearchField.AND, new String[] {
-									BugStatus.InProgress.name(),
-									BugStatus.Open.name(),
-									BugStatus.ReOpened.name() }));
-				}
+        Button clearBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+        clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        clearBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                textValueField.setValue("");
+            }
+        });
 
-				BugSimpleSearchPanel.this.notifySearchHandler(searchCriteria);
-			}
-		});
-		layoutSearchPane.addComponent(searchBtn, 3, 0);
-		layoutSearchPane.setComponentAlignment(searchBtn,
-				Alignment.MIDDLE_CENTER);
+        layoutSearchPane.addComponent(clearBtn, 4, 0);
+        layoutSearchPane.setComponentAlignment(clearBtn,
+                Alignment.MIDDLE_CENTER);
 
-		Button clearBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		clearBtn.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				textValueField.setValue("");
-			}
-		});
+        this.setCompositionRoot(layoutSearchPane);
+    }
 
-		layoutSearchPane.addComponent(clearBtn, 4, 0);
-		layoutSearchPane.setComponentAlignment(clearBtn,
-				Alignment.MIDDLE_CENTER);
+    private void doSearch() {
+        searchCriteria = new BugSearchCriteria();
+        searchCriteria.setProjectId(new NumberSearchField(
+                SearchField.AND, CurrentProjectVariables.getProject()
+                .getId()));
+        searchCriteria.setSummary(new StringSearchField(textValueField
+                .getValue().trim()));
 
-		this.setCompositionRoot(layoutSearchPane);
-	}
+        if (chkIsOpenBug.getValue()) {
+            searchCriteria.setStatuses(new SetSearchField<>(
+                    SearchField.AND, new String[]{
+                    BugStatus.InProgress.name(),
+                    BugStatus.Open.name(),
+                    BugStatus.ReOpened.name()}));
+        }
 
-	private void addTextFieldSearch() {
-		textValueField = new TextField();
-		textValueField.setWidth("300px");
-		layoutSearchPane.addComponent(textValueField, 0, 0);
-		layoutSearchPane.setComponentAlignment(textValueField,
-				Alignment.MIDDLE_CENTER);
-	}
+        notifySearchHandler(searchCriteria);
+    }
+
+    private void addTextFieldSearch() {
+        textValueField = new TextField();
+        textValueField.addShortcutListener(new ShortcutListener("BugSearchField", ShortcutAction.KeyCode.ENTER, null) {
+            @Override
+            public void handleAction(Object o, Object o1) {
+                doSearch();
+            }
+        });
+        textValueField.setWidth("300px");
+        layoutSearchPane.addComponent(textValueField, 0, 0);
+        layoutSearchPane.setComponentAlignment(textValueField,
+                Alignment.MIDDLE_CENTER);
+    }
 }

@@ -60,7 +60,7 @@ public class ProjectMessageListComponent extends MVerticalLayout {
 		withSpacing(false).withMargin(false);
 
 		Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS));
-		MHorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(false, true,
+		MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
 				false, true)).withHeight("34px").withWidth("100%").with(titleLbl).withAlign(titleLbl, Alignment
 				.MIDDLE_LEFT);
 		header.addStyleName("panel-header");

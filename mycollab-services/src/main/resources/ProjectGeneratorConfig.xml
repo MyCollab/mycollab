@@ -38,9 +38,6 @@
         <table domainObjectName="Milestone" schema="mycollab"
             tableName="m_prj_milestone" />
 
-        <table domainObjectName="Permission" schema="mycollab"
-            tableName="m_prj_permission" />
-
         <table domainObjectName="Problem" schema="mycollab"
             tableName="m_prj_problem" />
 

@@ -53,6 +53,7 @@ import java.util.List;
 public class ProjectUrlResolver extends UrlResolver {
     public UrlResolver build() {
         this.addSubResolver("dashboard", new ProjectPageUrlResolver());
+        this.addSubResolver("tag", new ProjectTagUrlResolver());
         this.addSubResolver("message", new MessageUrlResolver());
         this.addSubResolver("milestone", new MilestoneUrlResolver());
         this.addSubResolver("task", new ScheduleUrlResolver());
@@ -85,6 +86,17 @@ public class ProjectUrlResolver extends UrlResolver {
     protected void defaultPageErrorHandler() {
         EventBusFactory.getInstance().post(
                 new ShellEvent.GotoProjectModule(this, null));
+    }
+
+    public static class ProjectTagUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId = new UrlTokenizer(params[0]).getInt();
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId), new ProjectScreenData.GotoTagList(null));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
     }
 
     public static class ProjectPageUrlResolver extends ProjectUrlResolver {

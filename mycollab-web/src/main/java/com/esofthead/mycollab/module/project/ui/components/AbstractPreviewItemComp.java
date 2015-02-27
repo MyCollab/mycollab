@@ -64,10 +64,9 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
         if (iconResource != null) {
             if (iconResource instanceof FontAwesome) {
-                String title = ((FontAwesome)iconResource).getHtml() + " " + headerText;
+                String title = ((FontAwesome) iconResource).getHtml() + " " + headerText;
                 headerLbl.setValue(title);
-            }
-            else {
+            } else {
                 Image titleIcon = new Image(null, iconResource);
                 ((MHorizontalLayout) header).with(titleIcon).withAlign(titleIcon, Alignment.MIDDLE_LEFT);
                 headerLbl.setValue(headerText);
@@ -82,6 +81,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
                 .withSpacing(true).withMargin(true);
 
         this.addComponent(header);
+        ComponentContainer extraComp;
+        if ((extraComp = createExtraControls()) != null) {
+            this.addComponent(extraComp);
+        }
         initContent();
     }
 
@@ -158,7 +161,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
     }
 
     public void addToSideBar(Component... components) {
-        for (Component component:components) {
+        for (Component component : components) {
             sidebarContent.addComponent(component);
         }
     }
@@ -199,6 +202,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
     abstract protected IFormLayoutFactory initFormLayoutFactory();
 
     abstract protected AbstractBeanFieldGroupViewFieldFactory<B> initBeanFormFieldFactory();
+
+    protected ComponentContainer createExtraControls() {
+        return null;
+    }
 
     abstract protected ComponentContainer createButtonControls();
 

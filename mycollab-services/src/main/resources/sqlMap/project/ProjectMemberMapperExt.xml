@@ -188,7 +188,7 @@
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,
-                s_user_account.accountId, s_user.language
+                s_user_account.accountId, s_user.language, s_user.avatarid
             FROM s_user, s_user_account
          WHERE s_user.username=s_user_account.username AND ((SELECT COUNT(*) 
                 FROM m_prj_member 

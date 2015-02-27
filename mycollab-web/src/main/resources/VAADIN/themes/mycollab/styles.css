@@ -7771,6 +7771,66 @@ div.v-csslayout.followers-container .v-checkbox {
 	margin-right: 10px;
 }
 
+.v-csslayout.project-tag-comp {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-writing-mode: lr-tb;
+	padding: 0px 30px 10px 30px;
+}
+
+.v-csslayout.tag-block {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	margin: 0px 10px 5px 0px;
+	background-color: bisque;
+	height: 19px;
+}
+
+.v-csslayout.tag-block .v-button.link:focus .v-button-wrap, .v-csslayout.tag-block .v-button-wrap, .v-csslayout.tag-block .v-pressed .v-button-wrap {
+	padding: 2px 5px 0px 5px;
+}
+
+.v-csslayout.tag-block .remove-btn-sup .v-button-wrap {
+	background-color: bisque;
+	padding: 0px;
+	margin: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-image-width: 0;
+}
+
+.v-csslayout.tag-block .remove-btn-sup .v-button-wrap .v-icon {
+	font-size: 10px;
+	height: 19px;
+}
+
+.v-csslayout.tagcloud {
+	border-style: solid;
+	border-top-style: none;
+	border-width: 1px;
+	border-color: #CFCFCF;
+}
+
+.v-csslayout.tagcloud .tagbutton {
+	margin: 2px;
+}
+
+.v-csslayout.tagcloud .tagbutton.selected {
+	background-color: blue;
+}
+
+.v-csslayout.tagcloud .tagbutton.nonselected {
+	background-color: red;
+}
+
 html {
 	overflow: hidden;
 }

@@ -90,8 +90,7 @@ public class ActivityStreamComponent extends CssLayout {
             this.totalCount = this.projectActivityStreamService
                     .getTotalActivityStream(this.searchRequest
                             .getSearchCriteria());
-            this.totalPage = (this.totalCount - 1)
-                    / this.searchRequest.getNumberOfItems() + 1;
+            this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
             if (this.searchRequest.getCurrentPage() > this.totalPage) {
                 this.searchRequest.setCurrentPage(this.totalPage);
             }
@@ -161,14 +160,12 @@ public class ActivityStreamComponent extends CssLayout {
                             content.append(AppContext
                                     .getMessage(
                                             ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
-                                            assigneeValue, type, itemLink,
-                                            projectLink));
+                                            assigneeValue, type, itemLink, projectLink));
                         }
 
                     } else if (ActivityStreamConstants.ACTION_UPDATE
                             .equals(activityStream.getAction())) {
-                        if (ProjectTypeConstants.PROJECT.equals(activityStream
-                                .getType())) {
+                        if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
                             content.append(AppContext
                                     .getMessage(
                                             ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
@@ -177,8 +174,7 @@ public class ActivityStreamComponent extends CssLayout {
                             content.append(AppContext
                                     .getMessage(
                                             ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-                                            assigneeValue, type, itemLink,
-                                            projectLink));
+                                            assigneeValue, type, itemLink, projectLink));
                         }
                         if (activityStream.getAssoAuditLog() != null) {
                             content.append(ProjectAuditLogStreamGenerator

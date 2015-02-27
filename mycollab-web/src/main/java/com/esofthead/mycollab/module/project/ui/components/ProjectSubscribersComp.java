@@ -83,7 +83,6 @@ public class ProjectSubscribersComp extends CustomField {
     }
 
     public void addFollower(String follower) {
-        List<String> followers = new ArrayList<>();
         for (FollowerCheckbox followerCheckbox : memberSelections) {
             if (followerCheckbox.user.getUsername().equals(follower)) {
                 followerCheckbox.setValue(true);

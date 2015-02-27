@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
-import com.vaadin.server.FontAwesome;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -30,22 +25,23 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
+import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -55,141 +51,129 @@ import com.vaadin.ui.TextField;
 public class VersionSearchPanel extends
 		GenericSearchPanel<VersionSearchCriteria> {
 
-	private static final long serialVersionUID = 1L;
-	private final SimpleProject project;
-	protected VersionSearchCriteria searchCriteria;
+    private static final long serialVersionUID = 1L;
+    private final SimpleProject project;
+    protected VersionSearchCriteria searchCriteria;
 
-	public VersionSearchPanel() {
-		this.project = CurrentProjectVariables.getProject();
-	}
+    public VersionSearchPanel() {
+        this.project = CurrentProjectVariables.getProject();
+    }
 
-	@Override
-	public void attach() {
-		super.attach();
-		this.createBasicSearchLayout();
-	}
+    @Override
+    public void attach() {
+        super.attach();
+        this.createBasicSearchLayout();
+    }
 
-	private void createBasicSearchLayout() {
+    private void createBasicSearchLayout() {
 
-		this.setCompositionRoot(new VersionBasicSearchLayout());
-	}
+        this.setCompositionRoot(new VersionBasicSearchLayout());
+    }
 
-	private HorizontalLayout createSearchTopPanel() {
-		final MHorizontalLayout layout = new MHorizontalLayout()
-				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-				.withSpacing(true)
-				.withMargin(new MarginInfo(true, false, true, false));
+    private HorizontalLayout createSearchTopPanel() {
+        final MHorizontalLayout layout = new MHorizontalLayout()
+                .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
+                .withMargin(new MarginInfo(true, false, true, false));
 
-		final Label versionTitle = new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION,
-				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
-		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
-		layout.with(versionTitle)
-				.withAlign(versionTitle, Alignment.MIDDLE_LEFT)
-				.expand(versionTitle);
+        final Label versionTitle = new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION,
+                AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
+        versionTitle.setStyleName(UIConstants.HEADER_TEXT);
+        layout.with(versionTitle)
+                .withAlign(versionTitle, Alignment.MIDDLE_LEFT)
+                .expand(versionTitle);
 
-		final Button createBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button createBtn = new Button(
+                AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoAdd(this, null));
-					}
-				});
-		createBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.VERSIONS));
-		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS);
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new BugVersionEvent.GotoAdd(this, null));
+                    }
+                });
+        createBtn.setEnabled(CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.VERSIONS));
+        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setIcon(FontAwesome.PLUS);
 
-		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_LEFT);
+        layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_LEFT);
 
-		return layout;
-	}
+        return layout;
+    }
 
-	@SuppressWarnings("rawtypes")
-	private class VersionBasicSearchLayout extends
-			GenericSearchPanel.BasicSearchLayout {
+    @SuppressWarnings("rawtypes")
+    private class VersionBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout {
 
-		@SuppressWarnings("unchecked")
-		public VersionBasicSearchLayout() {
-			super(VersionSearchPanel.this);
-		}
+        @SuppressWarnings("unchecked")
+        public VersionBasicSearchLayout() {
+            super(VersionSearchPanel.this);
+        }
 
-		private static final long serialVersionUID = 1L;
-		private TextField nameField;
-		private CheckBox myItemCheckbox;
+        private static final long serialVersionUID = 1L;
+        private TextField nameField;
 
-		@Override
-		public ComponentContainer constructHeader() {
-			return VersionSearchPanel.this.createSearchTopPanel();
-		}
+        @Override
+        public ComponentContainer constructHeader() {
+            return VersionSearchPanel.this.createSearchTopPanel();
+        }
 
-		@Override
-		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withSpacing(true).withMargin(true);
+        @Override
+        public ComponentContainer constructBody() {
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-			Label nameLbl = new Label("Name:");
-			basicSearchBody.with(nameLbl).withAlign(nameLbl,
-					Alignment.MIDDLE_LEFT);
+            Label nameLbl = new Label("Name:");
+            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-			this.nameField = new TextField();
-			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			basicSearchBody.with(nameField).withAlign(nameField,
-					Alignment.MIDDLE_CENTER);
+            this.nameField = new TextField();
+            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            this.nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode
+                    .ENTER, null) {
+                @Override
+                public void handleAction(Object o, Object o1) {
+                    callSearchAction();
+                }
+            });
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox(
-					AppContext
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
+            final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setIcon(FontAwesome.SEARCH);
 
-			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(FontAwesome.SEARCH);
+            searchBtn.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-			searchBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    callSearchAction();
+                }
+            });
+            basicSearchBody.with(searchBtn).withAlign(searchBtn,
+                    Alignment.MIDDLE_CENTER);
 
-				private static final long serialVersionUID = 1L;
+            final Button cancelBtn = new Button(
+                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            cancelBtn.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					VersionBasicSearchLayout.this.callSearchAction();
-				}
-			});
-			basicSearchBody.with(searchBtn).withAlign(searchBtn,
-					Alignment.MIDDLE_CENTER);
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    VersionBasicSearchLayout.this.nameField.setValue("");
+                }
+            });
+            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            basicSearchBody.with(cancelBtn);
 
-			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			cancelBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            return basicSearchBody;
+        }
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					VersionBasicSearchLayout.this.nameField.setValue("");
-				}
-			});
-			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			basicSearchBody.with(cancelBtn);
-
-			return basicSearchBody;
-		}
-
-		@Override
-		protected SearchCriteria fillUpSearchCriteria() {
-			VersionSearchPanel.this.searchCriteria = new VersionSearchCriteria();
-			VersionSearchPanel.this.searchCriteria
-					.setProjectId(new NumberSearchField(SearchField.AND,
-							VersionSearchPanel.this.project.getId()));
-			VersionSearchPanel.this.searchCriteria
-					.setVersionname(new StringSearchField(this.nameField
-							.getValue().trim()));
-			return VersionSearchPanel.this.searchCriteria;
-		}
-	}
-
+        @Override
+        protected SearchCriteria fillUpSearchCriteria() {
+            searchCriteria = new VersionSearchCriteria();
+            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, project.getId()));
+            searchCriteria.setVersionname(new StringSearchField(this.nameField.getValue().trim()));
+            return searchCriteria;
+        }
+    }
 }
