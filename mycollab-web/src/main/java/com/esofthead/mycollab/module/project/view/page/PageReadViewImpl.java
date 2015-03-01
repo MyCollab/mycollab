@@ -110,7 +110,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
         ((MHorizontalLayout) header).addComponent(headerLbl, 0);
         ((MHorizontalLayout) header).addComponent(pageVersionsSelection, 1);
-        ((MHorizontalLayout) header).withMargin(true).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
+        ((MHorizontalLayout) header).withWidth("100%").withStyleName("hdr-view").expand(pageVersionsSelection).alignAll(Alignment.MIDDLE_LEFT);
     }
 
     @Override
@@ -128,7 +128,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
         pageInfoComp = new PageInfoComp();
         addToSideBar(pageInfoComp);
-
     }
 
     @Override
@@ -222,6 +221,11 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
         tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
         return tabContainer;
+    }
+
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.PAGE;
     }
 
     private static class PageReadFormFieldFactory extends

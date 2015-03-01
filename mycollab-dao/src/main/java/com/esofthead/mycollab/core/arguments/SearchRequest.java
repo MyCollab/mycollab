@@ -51,6 +51,8 @@ public class SearchRequest<S extends SearchCriteria> implements Serializable {
 
 	private int numberOfItems = 1;
 
+    private String requestedUser;
+
 	public SearchRequest() {
 		this(null, 1, 1);
 	}
@@ -63,6 +65,7 @@ public class SearchRequest<S extends SearchCriteria> implements Serializable {
 		this.searchCriteria = searchCriteria;
 		this.currentPage = currentPage;
 		this.numberOfItems = numberOfItems;
+        this.requestedUser = GroupIdProvider.getRequestedUser();
 	}
 
 	public S getSearchCriteria() {
@@ -85,7 +88,11 @@ public class SearchRequest<S extends SearchCriteria> implements Serializable {
 		return numberOfItems;
 	}
 
-	public void setNumberOfItems(int numberOfItems) {
-		this.numberOfItems = numberOfItems;
-	}
+    public String getRequestedUser() {
+        return requestedUser;
+    }
+
+    public void setRequestedUser(String requestedUser) {
+        this.requestedUser = requestedUser;
+    }
 }

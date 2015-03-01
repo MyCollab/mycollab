@@ -16,6 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import com.esofthead.mycollab.common.domain.FavoriteItem;
+import com.esofthead.mycollab.common.service.FavoriteItemService;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
@@ -23,6 +28,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -34,6 +42,8 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
         implements PageView {
     private static final long serialVersionUID = 1L;
 
+    private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
+
     protected B beanItem;
     protected AdvancedPreviewBeanForm<B> previewForm;
     protected ReadViewLayout previewLayout;
@@ -42,6 +52,9 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
     private MVerticalLayout sidebarContent;
     private MVerticalLayout bodyContent;
+
+    private Button favoriteBtn;
+    private FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
 
     public AbstractPreviewItemComp(String headerText, Resource iconResource) {
         this(headerText, iconResource, null);
@@ -60,7 +73,9 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout();
+        header = new MHorizontalLayout().withSpacing(false).withStyleName("hdr-view").withWidth("100%").withMargin
+                (true);
+        ((MHorizontalLayout) header).setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
             if (iconResource instanceof FontAwesome) {
@@ -75,10 +90,18 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
             headerLbl.setValue(headerText);
         }
 
-        ((MHorizontalLayout) header).with(headerLbl).withAlign
-                (headerLbl, Alignment.MIDDLE_LEFT)
-                .expand(headerLbl).withStyleName("hdr-view").withWidth("100%")
-                .withSpacing(true).withMargin(true);
+        favoriteBtn = new Button(FontAwesome.STAR);
+        favoriteBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                toggleFavorite();
+            }
+        });
+        favoriteBtn.addStyleName("favorite-btn");
+
+        Label spaceLbl = new Label();
+
+        ((MHorizontalLayout) header).with(headerLbl, favoriteBtn, spaceLbl).expand(spaceLbl);
 
         this.addComponent(header);
         ComponentContainer extraComp;
@@ -111,11 +134,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
         bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
         bodyContainer.setContent(bodyContent);
 
-        sidebarContent = new MVerticalLayout().withWidth("250px").withSpacing(true).withStyleName("readview-sidebar");
+        sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
         bodyContainer.setSidebar(sidebarContent);
 
-        FloatingComponent floatSidebar = FloatingComponent
-                .floatThis(sidebarContent);
+        FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
         floatSidebar.setContainerId("main-body");
 
         previewLayout.addBody(bodyContainer);
@@ -125,6 +147,39 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
     abstract protected void initRelatedComponents();
 
+    abstract protected String getType();
+
+    protected void toggleFavorite() {
+        try {
+            if (isFavorite()) {
+                favoriteBtn.removeStyleName("favorite-btn-selected");
+                favoriteBtn.addStyleName("favorite-btn");
+            } else {
+                favoriteBtn.addStyleName("favorite-btn-selected");
+                favoriteBtn.removeStyleName("favorite-btn");
+            }
+            FavoriteItem favoriteItem = new FavoriteItem();
+            favoriteItem.setExtratypeid(CurrentProjectVariables.getProjectId());
+            favoriteItem.setType(getType());
+            favoriteItem.setTypeid(PropertyUtils.getProperty(beanItem, "id").toString());
+            favoriteItem.setSaccountid(AppContext.getAccountId());
+            favoriteItem.setCreateduser(AppContext.getUsername());
+            FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
+            favoriteItemService.saveOrDelete(favoriteItem);
+        } catch (Exception e) {
+            LOG.error("Error while set favorite flag to bean", e);
+        }
+    }
+
+    private boolean isFavorite() {
+        try {
+            return favoriteItemService.isUserFavorite(AppContext.getUsername(), getType(), PropertyUtils.getProperty(beanItem, "id").toString());
+        } catch (Exception e) {
+            LOG.error("Error while check favorite", e);
+            return false;
+        }
+    }
+
     public void previewItem(final B item) {
         this.beanItem = item;
         initLayout();
@@ -133,6 +188,12 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
         previewForm.setFormLayoutFactory(initFormLayoutFactory());
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
         previewForm.setBean(item);
+
+        if (isFavorite()) {
+            favoriteBtn.addStyleName("favorite-btn-selected");
+        } else {
+            favoriteBtn.addStyleName("favorite-btn");
+        }
 
         onPreviewItem();
     }

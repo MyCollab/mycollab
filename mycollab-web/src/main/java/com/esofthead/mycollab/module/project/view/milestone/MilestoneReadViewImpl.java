@@ -175,6 +175,11 @@ public class MilestoneReadViewImpl extends
         return new MilestoneFormFieldFactory(previewForm);
     }
 
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.MILESTONE;
+    }
+
     private class MilestoneFormFieldFactory extends
             AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
 

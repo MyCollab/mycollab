@@ -43,15 +43,18 @@ public abstract class MyCollabUI extends UI {
 
 	static {
 		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
-
 			@Override
 			public Integer getGroupId() {
 				return AppContext.getAccountId();
 			}
-		});
+
+            @Override
+            public String getGroupRequestedUser() {
+                return AppContext.getUsername();
+            }
+        });
 
 		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
-
 			@Override
 			public String getSessionIdApp() {
 				return UI.getCurrent().toString();

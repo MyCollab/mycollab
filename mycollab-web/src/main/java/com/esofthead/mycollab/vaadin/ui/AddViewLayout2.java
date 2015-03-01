@@ -25,27 +25,25 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class AddViewLayout2 extends VerticalLayout {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private  MHorizontalLayout header;
-	private  Label titleLbl;
+    private MHorizontalLayout header;
+    private Label titleLbl;
     private Resource viewIcon;
-	private  MVerticalLayout body;
+    private MVerticalLayout body;
 
-	public AddViewLayout2(final String title, final Resource icon) {
-		setStyleName("addview-layout");
+    public AddViewLayout2(final String title, final Resource icon) {
+        setStyleName("addview-layout");
 
         this.viewIcon = icon;
 
-		this.header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%")
+        this.header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%")
                 .withStyleName(UIConstants.HEADER_VIEW);
-		this.header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+        this.header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         if (!(icon instanceof FontAwesome)) {
             Image iconEmbed = new Image();
@@ -53,56 +51,56 @@ public class AddViewLayout2 extends VerticalLayout {
             this.header.with(iconEmbed);
         }
 
-		this.titleLbl = new Label("", ContentMode.HTML);
-		this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
-		this.header.with(this.titleLbl).expand(titleLbl);
+        this.titleLbl = new Label("", ContentMode.HTML);
+        this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
+        this.header.with(this.titleLbl).expand(titleLbl);
 
-		if (title == null) {
-			if (icon != null) {
-				this.setTitle("Undefined");
-			}
-		} else {
-			this.setTitle(title);
-		}
+        if (title == null) {
+            if (icon != null) {
+                this.setTitle("Undefined");
+            }
+        } else {
+            this.setTitle(title);
+        }
 
-		this.addComponent(header);
+        this.addComponent(header);
 
-		body = new MVerticalLayout().withSpacing(false).withMargin(false).withStyleName("addview-layout-body");
-		this.addComponent(body);
+        body = new MVerticalLayout().withSpacing(false).withMargin(false).withStyleName("addview-layout-body");
+        this.addComponent(body);
 
-	}
-	
-	public void resetTitleStyle() {
-		this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
-	}
-	
-	public void setTitleStyleName(String style) {
-		this.titleLbl.setStyleName(style);
-	}
+    }
 
-	public void addBody(final ComponentContainer bodyContainer) {
-		this.body.with(bodyContainer).expand(bodyContainer);
-	}
+    public void resetTitleStyle() {
+        this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
+    }
 
-	public VerticalLayout getBody() {
-		return this.body;
-	}
+    public void setTitleStyleName(String style) {
+        this.titleLbl.setStyleName(style);
+    }
 
-	public void addControlButtons(final Component controlsBtn) {
-		controlsBtn.addStyleName("control-buttons");
-		addHeaderRight(controlsBtn);
-	}
+    public void addBody(final ComponentContainer bodyContainer) {
+        this.body.with(bodyContainer).expand(bodyContainer);
+    }
 
-	public void setTitle(final String viewTitle) {
+    public VerticalLayout getBody() {
+        return this.body;
+    }
+
+    public void addControlButtons(final Component controlsBtn) {
+        controlsBtn.addStyleName("control-buttons");
+        addHeaderRight(controlsBtn);
+    }
+
+    public void setTitle(final String viewTitle) {
         if (viewIcon instanceof FontAwesome) {
             String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
             this.titleLbl.setValue(title);
         } else {
             this.titleLbl.setValue(viewTitle);
         }
-	}
+    }
 
-	public void addHeaderRight(final Component headerRight) {
-		this.header.addComponent(headerRight);
-	}
+    public void addHeaderRight(final Component headerRight) {
+        this.header.addComponent(headerRight);
+    }
 }

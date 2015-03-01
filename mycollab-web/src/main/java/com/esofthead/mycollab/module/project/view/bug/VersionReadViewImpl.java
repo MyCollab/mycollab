@@ -228,8 +228,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
+    protected String getType() {
+        return ProjectTypeConstants.BUG_VERSION;
     }
 
     private class BugsComp extends MVerticalLayout {

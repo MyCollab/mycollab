@@ -272,6 +272,27 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: red;
 }
 
+.v-button.favorite-btn {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn .v-icon {
+	font-size: 14px;
+}
+
+.v-button.favorite-btn:hover, .v-button.favorite-btn:focus {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn-selected {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn-selected .v-icon {
+	font-size: 14px;
+	color: coral;
+}
+
 .stickytooltip {
 	border: 1px solid #CFCFCF;
 	display: none;
@@ -7048,6 +7069,27 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 .warning-icon .v-icon {
 	font-size: 48px;
 	color: red;
+}
+
+.v-button.favorite-btn {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn .v-icon {
+	font-size: 14px;
+}
+
+.v-button.favorite-btn:hover, .v-button.favorite-btn:focus {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn-selected {
+	background-color: transparent;
+}
+
+.v-button.favorite-btn-selected .v-icon {
+	font-size: 14px;
+	color: coral;
 }
 
 .h-sidebar-menu {

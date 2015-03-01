@@ -323,6 +323,11 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                 this.beanItem.getBugkey(), this.beanItem.getSummary());
     }
 
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.BUG;
+    }
+
     private static class BugPreviewFormLayout extends ReadViewLayout {
         private Label titleLbl;
 

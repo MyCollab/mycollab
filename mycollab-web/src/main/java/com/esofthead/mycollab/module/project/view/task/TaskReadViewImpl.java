@@ -256,6 +256,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         return tabTaskDetail;
     }
 
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.TASK;
+    }
+
     private static class TaskPreviewFormLayout extends ReadViewLayout {
         private Label titleLbl;
 

@@ -240,8 +240,8 @@ public class ComponentReadViewImpl extends
     }
 
     @Override
-    public ComponentContainer getWidget() {
-        return this;
+    protected String getType() {
+        return ProjectTypeConstants.BUG_COMPONENT;
     }
 
     private class BugsComp extends MVerticalLayout {

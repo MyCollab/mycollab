@@ -28,15 +28,12 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
-import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
-import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
@@ -63,14 +60,12 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -201,6 +196,11 @@ public class TaskGroupReadViewImpl extends
                 return null;
             }
         };
+    }
+
+    @Override
+    protected String getType() {
+        return ProjectTypeConstants.TASK_LIST;
     }
 
     private class SubTasksField extends CustomField {

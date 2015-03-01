@@ -66,6 +66,9 @@
 
         <table schema="mycollab" tableName="s_tag"
             domainObjectName="Tag" />
+
+        <table schema="mycollab" tableName="s_favorite"
+               domainObjectName="FavoriteItem" />
     </context>
 
 </generatorConfiguration>

@@ -16,14 +16,13 @@
  */
 package com.esofthead.mycollab.module.tracker.domain;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.esofthead.mycollab.core.arguments.NotBindable;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 
 /**
  * 

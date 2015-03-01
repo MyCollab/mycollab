@@ -372,11 +372,7 @@ public class AppContext implements Serializable {
 	 */
 	public static boolean isAdmin() {
 		Boolean isAdmin = getInstance().session.getIsAccountOwner();
-		if (isAdmin == null) {
-			return Boolean.FALSE;
-		} else {
-			return isAdmin;
-		}
+        return (isAdmin == null) ? Boolean.FALSE : isAdmin;
 	}
 
 	/**
@@ -431,11 +427,7 @@ public class AppContext implements Serializable {
 			return true;
 		}
 		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		if (permissionMap == null) {
-			return false;
-		} else {
-			return permissionMap.canWrite(permissionItem);
-		}
+        return (permissionMap == null) ? false: permissionMap.canWrite(permissionItem);
 	}
 
 	/**
