@@ -72,15 +72,13 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                     @Override
                     public void onSaveAndNew(final SimpleUser item) {
                         save(item);
-                        EventBusFactory.getInstance().post(
-                                new UserEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
                     }
                 });
     }
 
     public void save(SimpleUser item) {
-        UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
 
         item.setAccountId(AppContext.getAccountId());
 
@@ -118,6 +116,5 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         } else {
             breadcrumb.gotoUserEdit(user);
         }
-
     }
 }

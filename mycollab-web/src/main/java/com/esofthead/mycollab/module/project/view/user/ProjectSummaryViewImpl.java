@@ -35,8 +35,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 @SuppressWarnings("serial")
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
-		ProjectSummaryView {
+public class ProjectSummaryViewImpl extends AbstractLazyPageView implements ProjectSummaryView {
 
 	@Override
 	protected void displayView() {

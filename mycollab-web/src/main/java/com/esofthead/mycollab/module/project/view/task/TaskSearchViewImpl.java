@@ -22,26 +22,15 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.events.TaskListEvent;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Arrays;
@@ -51,14 +40,11 @@ import java.util.Arrays;
  * @since 4.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class TaskSearchViewImpl extends AbstractPageView implements
-        TaskSearchView {
-
+public class TaskSearchViewImpl extends AbstractPageView implements TaskSearchView {
     private static final long serialVersionUID = 1L;
 
     private TaskSearchPanel taskSearchPanel;
     private TaskTableDisplay tableItem;
-    private Label headerText;
 
     public void setSearchInputValue(String value) {
         taskSearchPanel.setTextField(value);
@@ -73,34 +59,7 @@ public class TaskSearchViewImpl extends AbstractPageView implements
         this.taskSearchPanel = new TaskSearchPanel();
         this.generateDisplayTable();
 
-        final MHorizontalLayout header = new MHorizontalLayout().withStyleName(UIConstants.HEADER_VIEW).withWidth("100%");
-
-        headerText = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml(), ContentMode.HTML);
-        headerText.setSizeUndefined();
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
-
-        Button backBtn = new Button(
-                AppContext.getMessage(TaskI18nEnum.BUTTON_BACK_TO_DASHBOARD),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        EventBusFactory.getInstance()
-                                .post(new TaskListEvent.GotoTaskListScreen(
-                                        this, null));
-
-                    }
-                });
-        backBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        backBtn.setIcon(FontAwesome.ARROW_LEFT);
-
-        header.with(headerText, backBtn)
-                .withAlign(headerText, Alignment.MIDDLE_LEFT)
-                .withAlign(backBtn, Alignment.MIDDLE_RIGHT)
-                .expand(headerText);
-
-        taskListLayout.with(header, taskSearchPanel, tableItem);
+        taskListLayout.with(taskSearchPanel, tableItem);
     }
 
     private void generateDisplayTable() {
@@ -135,11 +94,6 @@ public class TaskSearchViewImpl extends AbstractPageView implements
         return this.tableItem;
     }
 
-    @Override
-    public void setTitle(String title) {
-        headerText.setValue(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml() + " " + title);
-
-    }
 
     @Override
     public void moveToAdvanceSearch() {

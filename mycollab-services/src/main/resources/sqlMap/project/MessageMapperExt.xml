@@ -51,7 +51,7 @@
         <![CDATA[
           SELECT m_prj_message.id, m_prj_message.category, m_prj_message.title, m_prj_message.message,
           m_prj_message.posteddate, m_prj_message.posteduser, m_prj_message.projectid,
-              (SELECT COUNT(*) 
+              (SELECT count(*)
                     FROM m_comment 
                     WHERE m_comment.type='Project-Message' AND m_comment.typeid=m_prj_message.id) AS commentsCount,
               m_prj_message.createdTime, m_prj_message.lastUpdatedTime, m_prj_message.isStick,

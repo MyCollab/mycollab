@@ -88,19 +88,15 @@ public final class MainView extends AbstractPageView {
     public MainView() {
         this.setSizeFull();
         ControllerRegistry.addController(new MainViewController(this));
-    }
-
-    public void initialize() {
-        this.removeAllComponents();
-        this.addComponent(this.createTopMenu());
         this.bodyLayout = new CssLayout();
         this.bodyLayout.addStyleName("main-body");
         this.bodyLayout.setId("main-body");
         this.bodyLayout.setWidth("100%");
         this.bodyLayout.setHeight("100%");
-        this.addComponent(this.bodyLayout);
-        this.setExpandRatio(this.bodyLayout, 1.0f);
-        this.addComponent(this.createFooter());
+        this.with(createTopMenu(), bodyLayout, createFooter()).expand(bodyLayout);
+    }
+
+    public void initialize() {
         ThemeManager.loadUserTheme(AppContext.getAccountId());
     }
 
@@ -177,10 +173,8 @@ public final class MainView extends AbstractPageView {
         layout.setHeight("40px");
         layout.setWidth("100%");
 
-        Button accountLogo = AccountLogoFactory
-                .createAccountLogoImageComponent(
-                        ThemeManager.loadLogoPath(AppContext.getAccountId()),
-                        150);
+        Button accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
+                ThemeManager.loadLogoPath(AppContext.getAccountId()), 150);
 
         accountLogo.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -480,7 +474,6 @@ public final class MainView extends AbstractPageView {
                                     }
                                 }
                             });
-
         }
 
         private void addUserAvatar() {

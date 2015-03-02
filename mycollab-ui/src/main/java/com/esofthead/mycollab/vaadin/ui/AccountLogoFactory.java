@@ -37,7 +37,6 @@ public class AccountLogoFactory {
 	}
 
 	public static Resource createLogoResource(String logoId, int size) {
-
 		if (logoId == null) {
 			return MyCollabResource.newResource("icons/logo.png");
 		}

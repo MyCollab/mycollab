@@ -43,8 +43,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class PieChartWrapper<S extends SearchCriteria> extends
-		GenericChartWrapper<S> {
+public abstract class PieChartWrapper<S extends SearchCriteria> extends GenericChartWrapper<S> {
 	private static final long serialVersionUID = 1L;
 
 	protected DefaultPieDataset pieDataSet;
@@ -103,7 +102,6 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends
 	protected abstract void onClickedDescription(String key);
 
 	class JFreeChartLabelCustom implements PieSectionLabelGenerator {
-
 		@Override
 		public String generateSectionLabel(PieDataset dataset, Comparable key) {
 			String result = null;

@@ -14,21 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.Set;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 5.0.1
  */
-public abstract class AbstractRelatedListHandler<T> implements RelatedListHandler<T> {
+public class HeaderWithFontAwesome  extends Label {
+    private FontAwesome iconFont;
+    private String title;
 
-	@Override
-	public void selectAssociateItems(Set<T> items) {
+    public HeaderWithFontAwesome(FontAwesome iconFont, String title) {
+        super();
+        this.setContentMode(ContentMode.HTML);
+        this.iconFont = iconFont;
+        this.setStyleName("hdr-text");
+        updateTitle(title);
+    }
 
-	}
+    public void updateTitle(String value) {
+        this.title = value;
+        this.setValue(iconFont.getHtml() + " " + value);
+    }
 
+    public void appendToTitle(String value) {
+        this.setValue(iconFont.getHtml() + " " + title + " " + value);
+    }
 }

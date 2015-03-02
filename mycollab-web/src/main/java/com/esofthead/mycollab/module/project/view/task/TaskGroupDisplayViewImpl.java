@@ -66,8 +66,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @since 1.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
-        TaskGroupDisplayView {
+public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements TaskGroupDisplayView {
     private static final long serialVersionUID = 1L;
 
     private PopupButton taskGroupSelection;

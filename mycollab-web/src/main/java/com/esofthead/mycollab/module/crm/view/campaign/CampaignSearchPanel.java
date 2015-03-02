@@ -33,9 +33,9 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -47,8 +47,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 1.0
  * 
  */
-public class CampaignSearchPanel extends
-		DefaultGenericSearchPanel<CampaignSearchCriteria> {
+public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	private static Param[] paramFields = new Param[] {
@@ -60,47 +59,34 @@ public class CampaignSearchPanel extends
 			CampaignSearchCriteria.p_types, CampaignSearchCriteria.p_statuses,
 			CampaignSearchCriteria.p_assignee };
 
-	protected CampaignSearchCriteria searchCriteria;
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.CAMPAIGN,
+                AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+    }
 
-	public CampaignSearchPanel() {
-		this.searchCriteria = new CampaignSearchCriteria();
-	}
+    @Override
+    protected void buildExtraControls() {
+        final Button createCampaignBtn = new Button(
+                AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout createSearchTopPanel() {
-		final MHorizontalLayout layout = new MHorizontalLayout()
-				.withWidth("100%").withSpacing(true)
-				.withMargin(new MarginInfo(true, false, true, false))
-				.withStyleName(UIConstants.HEADER_VIEW);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new CampaignEvent.GotoAdd(this, null));
 
-		final Label searchtitle = new CrmViewHeader(CrmTypeConstants.CAMPAIGN,
-				AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
-		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
+                    }
+                });
+        createCampaignBtn.setIcon(FontAwesome.PLUS);
+        createCampaignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createCampaignBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        addHeaderRight(createCampaignBtn);
+    }
 
-		layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
-				.expand(searchtitle);
-
-		final Button createAccountBtn = new Button(
-				AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new CampaignEvent.GotoAdd(this, null));
-
-					}
-				});
-		createAccountBtn.setIcon(FontAwesome.PLUS);
-		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
-		layout.with(createAccountBtn).withAlign(createAccountBtn,
-				Alignment.MIDDLE_RIGHT);
-		return layout;
-	}
-
-	@Override
+    @Override
 	protected BasicSearchLayout<CampaignSearchCriteria> createBasicSearchLayout() {
 		return new CampaignBasicSearchLayout();
 	}
@@ -122,7 +108,7 @@ public class CampaignSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return CampaignSearchPanel.this.createSearchTopPanel();
+			return CampaignSearchPanel.this.constructHeader();
 		}
 
 		@Override
@@ -195,26 +181,26 @@ public class CampaignSearchPanel extends
 
 		@Override
 		protected CampaignSearchCriteria fillUpSearchCriteria() {
-			CampaignSearchPanel.this.searchCriteria = new CampaignSearchCriteria();
-			CampaignSearchPanel.this.searchCriteria
+            CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
+			searchCriteria
 					.setSaccountid(new NumberSearchField(SearchField.AND,
 							AppContext.getAccountId()));
 
 			if (StringUtils.isNotBlank(this.nameField.getValue().toString())) {
-				CampaignSearchPanel.this.searchCriteria
+				searchCriteria
 						.setCampaignName(new StringSearchField(SearchField.AND,
 								this.nameField.getValue()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
-				CampaignSearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
+				searchCriteria
+						.setAssignUsers(new SetSearchField<>(
 								SearchField.AND, new String[] { AppContext
 										.getUsername() }));
 			} else {
-				CampaignSearchPanel.this.searchCriteria.setAssignUsers(null);
+				searchCriteria.setAssignUsers(null);
 			}
-			return CampaignSearchPanel.this.searchCriteria;
+			return searchCriteria;
 		}
 	}
 
@@ -228,7 +214,7 @@ public class CampaignSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return CampaignSearchPanel.this.createSearchTopPanel();
+			return CampaignSearchPanel.this.constructHeader();
 		}
 
 		@Override

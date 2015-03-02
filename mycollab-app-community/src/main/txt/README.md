@@ -53,13 +53,18 @@ Version 5.0.1
 * Support default button in windows
 * Improve search result of task list
 * Support tag for tasks, bugs
+* User is able to manage the favorites
 * User is able to select the notifiers when he creates the new bug
+* Display number of items in the search panel
+* Support tooltip for project message widget
+* Optimize SQL query and there are some processes are 2x faster !!!
 
 **Bug Fixes**
 
 * Attachment box in Safari display wrongly
 * Query project member tasks show wrong items
 * Query project roles did not work
+* Export task list to document throws exception
 
 Version 5.0.0
 -----------------------------

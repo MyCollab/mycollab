@@ -270,12 +270,13 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 		this.currentPage = currentPage;
 	}
 
-	public void setSearchCriteria(final S searchCriteria) {
+	public int setSearchCriteria(final S searchCriteria) {
 		listContainer.removeAllComponents();
 
 		searchRequest = new SearchRequest<>(searchCriteria, currentPage,
 				defaultNumberSearchItems);
 		doSearch();
+        return totalCount;
 	}
 
 	public static interface RowDisplayHandler<T> {

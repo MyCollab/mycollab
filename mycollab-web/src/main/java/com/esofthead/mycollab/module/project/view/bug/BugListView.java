@@ -28,6 +28,4 @@ import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
  */
 public interface BugListView extends ListView<BugSearchCriteria, SimpleBug> {
 	public static final String VIEW_DEF_ID = "project-bug-list";
-
-	void setTitle(String title);
 }

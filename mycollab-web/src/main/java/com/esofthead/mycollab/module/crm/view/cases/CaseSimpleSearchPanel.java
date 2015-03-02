@@ -48,7 +48,6 @@ import org.apache.commons.lang3.StringUtils;
 @SuppressWarnings("serial")
 public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria> {
 	private CaseSearchCriteria searchCriteria;
-
 	private TextField textValueField;
 	private ActiveUserComboBox userBox;
     private ValueComboBox group;
@@ -166,4 +165,8 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
 		textValueField = null;
 	}
 
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

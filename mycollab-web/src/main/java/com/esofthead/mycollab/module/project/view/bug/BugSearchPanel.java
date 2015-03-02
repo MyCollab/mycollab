@@ -25,7 +25,6 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
@@ -36,11 +35,11 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -50,15 +49,10 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BugSearchPanel extends
-        DefaultGenericSearchPanel<BugSearchCriteria> {
-
+public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
-    private final SimpleProject project;
     private BugSearchCriteria searchCriteria;
-    private Label bugTitle;
-    private ComponentContainer rightComponent;
 
     private static Param[] paramFields = new Param[]{
             BugSearchCriteria.p_textDesc, BugSearchCriteria.p_priority,
@@ -69,23 +63,14 @@ public class BugSearchPanel extends
             BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
             BugSearchCriteria.p_lastupdatedtime};
 
-    public BugSearchPanel() {
-        this.project = CurrentProjectVariables.getProject();
-        this.bugTitle = new Label("Bugs");
-    }
-
-    public void setBugTitle(final String title) {
-        this.bugTitle.setValue(title);
-    }
-
-    void addRightComponent(ComponentContainer c) {
-        rightComponent.addComponent(c);
-    }
-
-    private ComponentContainer constructHeader() {
-        Label headerText = new ProjectViewHeader(ProjectTypeConstants.BUG,
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new ProjectViewHeader(ProjectTypeConstants.BUG,
                 AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
+    }
 
+    @Override
+    protected void buildExtraControls() {
         final Button createBtn = new Button(
                 AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
                 new Button.ClickListener() {
@@ -101,22 +86,7 @@ public class BugSearchPanel extends
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setEnabled(CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.BUGS));
-
-        headerText.setStyleName(UIConstants.HEADER_TEXT);
-
-        rightComponent = new MHorizontalLayout();
-
-        MHorizontalLayout header = new MHorizontalLayout()
-                .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-                .withMargin(new MarginInfo(true, false, true, false));
-
-        header.with(headerText, createBtn, rightComponent)
-                .withAlign(headerText, Alignment.MIDDLE_LEFT)
-                .withAlign(createBtn, Alignment.MIDDLE_RIGHT)
-                .withAlign(rightComponent, Alignment.MIDDLE_RIGHT)
-                .expand(headerText);
-
-        return header;
+        addHeaderRight(createBtn);
     }
 
     @Override
@@ -129,16 +99,14 @@ public class BugSearchPanel extends
         return new BugAdvancedSearchLayout();
     }
 
-    private class BugBasicSearchLayout extends
-            BasicSearchLayout<BugSearchCriteria> {
+    private class BugBasicSearchLayout extends BasicSearchLayout<BugSearchCriteria> {
+        private static final long serialVersionUID = 1L;
+        private TextField nameField;
+        private CheckBox myItemCheckbox;
 
         public BugBasicSearchLayout() {
             super(BugSearchPanel.this);
         }
-
-        private static final long serialVersionUID = 1L;
-        private TextField nameField;
-        private CheckBox myItemCheckbox;
 
         @SuppressWarnings("serial")
         @Override
@@ -209,7 +177,7 @@ public class BugSearchPanel extends
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-                    project.getId()));
+                    CurrentProjectVariables.getProjectId()));
             searchCriteria.setSummary(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
                 searchCriteria.setAssignuser(new StringSearchField(
@@ -226,8 +194,7 @@ public class BugSearchPanel extends
         }
     }
 
-    private class BugAdvancedSearchLayout extends
-            DynamicQueryParamLayout<BugSearchCriteria> {
+    private class BugAdvancedSearchLayout extends DynamicQueryParamLayout<BugSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
         public BugAdvancedSearchLayout() {
@@ -267,7 +234,7 @@ public class BugSearchPanel extends
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = super.fillUpSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-                    project.getId()));
+                    CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
     }

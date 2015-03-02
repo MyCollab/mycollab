@@ -26,19 +26,18 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -47,34 +46,27 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCriteria> {
+public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSearchCriteria> {
     private static final long serialVersionUID = 1L;
-    private final SimpleProject project;
-    protected ComponentSearchCriteria searchCriteria;
 
-    public ComponentSearchPanel() {
-        this.project = CurrentProjectVariables.getProject();
+    @Override
+    protected SearchLayout<ComponentSearchCriteria> createBasicSearchLayout() {
+        return new ComponentBasicSearchLayout();
     }
 
     @Override
-    public void attach() {
-        super.attach();
-        this.createBasicSearchLayout();
+    protected SearchLayout<ComponentSearchCriteria> createAdvancedSearchLayout() {
+        return null;
     }
 
-    private void createBasicSearchLayout() {
-        this.setCompositionRoot(new ComponentBasicSearchCriteria());
-    }
-
-    private HorizontalLayout createSearchTopPanel() {
-        final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName(UIConstants.HEADER_VIEW).withMargin(new MarginInfo(true, false, true, false));
-
-        final Label componentTitle = new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
                 AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
-        componentTitle.setStyleName(UIConstants.HEADER_TEXT);
+    }
 
-        layout.with(componentTitle).withAlign(componentTitle, Alignment.MIDDLE_LEFT).expand(componentTitle);
-
+    @Override
+    protected void buildExtraControls() {
         final Button createBtn = new Button(
                 AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
                 new Button.ClickListener() {
@@ -90,28 +82,23 @@ public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCrit
                 .canWrite(ProjectRolePermissionCollections.COMPONENTS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
-
-        layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
-
-        return layout;
+        this.addHeaderRight(createBtn);
     }
 
     @SuppressWarnings("rawtypes")
-    private class ComponentBasicSearchCriteria extends
-            GenericSearchPanel.BasicSearchLayout {
-
-        @SuppressWarnings("unchecked")
-        public ComponentBasicSearchCriteria() {
-            super(ComponentSearchPanel.this);
-        }
-
+    private class ComponentBasicSearchLayout extends BasicSearchLayout {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
         private CheckBox myItemCheckbox;
 
+        @SuppressWarnings("unchecked")
+        public ComponentBasicSearchLayout() {
+            super(ComponentSearchPanel.this);
+        }
+
         @Override
         public ComponentContainer constructHeader() {
-            return ComponentSearchPanel.this.createSearchTopPanel();
+            return ComponentSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -148,7 +135,7 @@ public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCrit
 
                 @Override
                 public void buttonClick(final Button.ClickEvent event) {
-                    ComponentBasicSearchCriteria.this.callSearchAction();
+                    callSearchAction();
                 }
             });
             basicSearchBody.with(searchBtn).withAlign(searchBtn,
@@ -161,7 +148,7 @@ public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCrit
 
                 @Override
                 public void buttonClick(final Button.ClickEvent event) {
-                    ComponentBasicSearchCriteria.this.nameField.setValue("");
+                    nameField.setValue("");
                 }
             });
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
@@ -172,8 +159,8 @@ public class ComponentSearchPanel extends GenericSearchPanel<ComponentSearchCrit
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
-            searchCriteria = new ComponentSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
+            ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
+            searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentName(new StringSearchField(this.nameField.getValue().trim()));
 
             if (this.myItemCheckbox.getValue()) {

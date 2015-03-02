@@ -47,18 +47,13 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class VersionListPresenter
-		extends
-		ProjectGenericListPresenter<VersionListView, VersionSearchCriteria, SimpleVersion> {
-
+public class VersionListPresenter extends ProjectGenericListPresenter<VersionListView, VersionSearchCriteria, SimpleVersion> {
 	private static final long serialVersionUID = 1L;
 	private final VersionService versionService;
 
 	public VersionListPresenter() {
 		super(VersionListView.class, VersionListNoItemView.class);
-
-		versionService = ApplicationContextUtil
-				.getSpringBean(VersionService.class);
+		versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
 	}
 
 	@Override
@@ -67,7 +62,6 @@ public class VersionListPresenter
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
-
 					@Override
 					protected void onSelectExtra(String id) {
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
@@ -119,7 +113,7 @@ public class VersionListPresenter
 		if (!isSelectAll) {
 			Collection<SimpleVersion> currentDataList = view
 					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (Version item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());
@@ -150,5 +144,4 @@ public class VersionListPresenter
 	public ISearchableService<VersionSearchCriteria> getSearchService() {
 		return versionService;
 	}
-
 }

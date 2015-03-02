@@ -47,9 +47,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
     public UserAddViewImpl() {
         super();
-
         this.setMargin(new MarginInfo(false, true, false, true));
-
         this.editUserForm = new EditUserForm();
         this.addComponent(this.editUserForm);
     }
@@ -212,13 +210,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     .getMessage(UserI18nEnum.VIEW_NEW_USER) : user
                     .getDisplayName();
             final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
-
             formAddLayout.addHeaderRight(createButtonControls());
-
             userInformationLayout = new UserInformationLayout();
-
             formAddLayout.addBody(userInformationLayout.getLayout());
-
             return formAddLayout;
         }
 
@@ -350,5 +344,4 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             return roleBox;
         }
     }
-
 }

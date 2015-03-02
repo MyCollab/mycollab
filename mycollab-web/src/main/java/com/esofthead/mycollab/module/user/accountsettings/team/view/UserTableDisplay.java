@@ -41,6 +41,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -108,15 +109,12 @@ public class UserTableDisplay extends
 						.getRegisterstatus())) {
 					return b;
 				} else {
-					HorizontalLayout layout = new HorizontalLayout();
-					layout.setWidth("100%");
-					layout.setSpacing(true);
+					MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 					if (RegisterStatusConstants.DELETE.equals(user
 							.getRegisterstatus())) {
 						layout.addComponent(b);
 						Label statusLbl = new Label("(Removed)");
-						layout.addComponent(statusLbl);
 						layout.addComponent(statusLbl);
 					} else {
 						HorizontalLayout userLayout = new HorizontalLayout();

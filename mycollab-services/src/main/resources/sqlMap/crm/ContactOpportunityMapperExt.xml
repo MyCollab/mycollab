@@ -29,11 +29,12 @@
         <if test="searchCriteria.opportunityId != null">
             <![CDATA[
                 ${searchCriteria.opportunityId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_opportunity, m_crm_contacts_opportunities 
                     WHERE m_crm_contacts_opportunities.opportunityId=#{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                         AND m_crm_contacts_opportunities.contactId=m_crm_contact.id 
-                        AND m_crm_opportunity.id=#{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_opportunity.id=#{searchCriteria.opportunityId.value,jdbcType=NUMERIC}
+                        LIMIT 1)
             ]]>
         </if>
     </sql>

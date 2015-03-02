@@ -160,4 +160,9 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
 		userBox = null;
 		textValueField = null;
 	}
+
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

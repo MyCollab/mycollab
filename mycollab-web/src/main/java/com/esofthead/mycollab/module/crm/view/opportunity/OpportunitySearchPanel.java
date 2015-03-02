@@ -32,9 +32,9 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -60,23 +60,14 @@ public class OpportunitySearchPanel extends
             OpportunitySearchCriteria.p_createdtime,
             OpportunitySearchCriteria.p_lastupdatedtime};
 
-    protected OpportunitySearchCriteria searchCriteria;
-
-    public OpportunitySearchPanel() {
-        this.searchCriteria = new OpportunitySearchCriteria();
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.OPPORTUNITY,
+                AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
     }
 
-    private HorizontalLayout createSearchTopPanel() {
-        final MHorizontalLayout layout = new MHorizontalLayout()
-                .withWidth("100%").withSpacing(true)
-                .withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName(UIConstants.HEADER_VIEW);
-
-        final Label searchtitle = new CrmViewHeader(CrmTypeConstants.OPPORTUNITY,
-                AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
-        searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-        layout.with(searchtitle).expand(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT);
-
+    @Override
+    protected void buildExtraControls() {
         final Button createAccountBtn = new Button(
                 AppContext
                         .getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
@@ -94,10 +85,7 @@ public class OpportunitySearchPanel extends
         createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createAccountBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-        layout.with(createAccountBtn).withAlign(createAccountBtn,
-                Alignment.MIDDLE_RIGHT);
-
-        return layout;
+        addHeaderRight(createAccountBtn);
     }
 
     @SuppressWarnings("unchecked")
@@ -125,7 +113,7 @@ public class OpportunitySearchPanel extends
 
         @Override
         public ComponentContainer constructHeader() {
-            return OpportunitySearchPanel.this.createSearchTopPanel();
+            return OpportunitySearchPanel.this.constructHeader();
         }
 
         @Override
@@ -192,29 +180,29 @@ public class OpportunitySearchPanel extends
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
-            OpportunitySearchPanel.this.searchCriteria = new OpportunitySearchCriteria();
-            OpportunitySearchPanel.this.searchCriteria
+            OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+            searchCriteria
                     .setSaccountid(new NumberSearchField(SearchField.AND,
                             AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.nameField.getValue()
                     .trim())) {
-                OpportunitySearchPanel.this.searchCriteria
+               searchCriteria
                         .setOpportunityName(new StringSearchField(
                                 SearchField.AND, this.nameField.getValue()
                                 .trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                OpportunitySearchPanel.this.searchCriteria
+                searchCriteria
                         .setAssignUsers(new SetSearchField<>(
                                 SearchField.AND, new String[]{AppContext
                                 .getUsername()}));
             } else {
-                OpportunitySearchPanel.this.searchCriteria.setAssignUsers(null);
+                searchCriteria.setAssignUsers(null);
             }
 
-            return OpportunitySearchPanel.this.searchCriteria;
+            return searchCriteria;
         }
     }
 
@@ -227,7 +215,7 @@ public class OpportunitySearchPanel extends
 
         @Override
         public ComponentContainer constructHeader() {
-            return OpportunitySearchPanel.this.createSearchTopPanel();
+            return OpportunitySearchPanel.this.constructHeader();
         }
 
         @Override

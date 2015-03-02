@@ -37,110 +37,102 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class UnresolvedTaskByPriorityWidget extends Depot {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private TaskSearchCriteria searchCriteria;
+    private TaskSearchCriteria searchCriteria;
 
-	public UnresolvedTaskByPriorityWidget() {
-		super(AppContext
-				.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
-				new VerticalLayout());
-		this.setContentBorder(true);
-		((VerticalLayout) this.bodyContent).setSpacing(true);
-		((VerticalLayout) this.bodyContent).setMargin(true);
-	}
+    public UnresolvedTaskByPriorityWidget() {
+        super(AppContext
+                        .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
+                new MVerticalLayout());
+        this.setContentBorder(true);
+    }
 
-	public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		this.bodyContent.removeAllComponents();
-		final ProjectTaskService taskService = ApplicationContextUtil
-				.getSpringBean(ProjectTaskService.class);
-		final int totalCount = taskService.getTotalCount(searchCriteria);
-		final List<GroupItem> groupItems = taskService
-				.getPrioritySummary(searchCriteria);
-		final TaskPriorityClickListener listener = new TaskPriorityClickListener();
+    public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        this.bodyContent.removeAllComponents();
+        final ProjectTaskService taskService = ApplicationContextUtil
+                .getSpringBean(ProjectTaskService.class);
+        final int totalCount = taskService.getTotalCount(searchCriteria);
+        final List<GroupItem> groupItems = taskService.getPrioritySummary(searchCriteria);
+        final TaskPriorityClickListener listener = new TaskPriorityClickListener();
+        this.setTitle(AppContext
+                .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
 
-		if (!groupItems.isEmpty()) {
-			for (final TaskPriority priority : OptionI18nEnum.task_priorities) {
-				boolean isFound = false;
-				for (final GroupItem item : groupItems) {
-					if (priority.name().equals(item.getGroupid())) {
-						isFound = true;
-						final HorizontalLayout priorityLayout = new HorizontalLayout();
-						priorityLayout.setSpacing(true);
-						priorityLayout.setWidth("100%");
-						final ButtonI18nComp userLbl = new ButtonI18nComp(
-								priority.name(), priority, listener);
-						final Resource iconPriority = new ExternalResource(
-								ProjectResources
-										.getIconResourceLink12ByTaskPriority(priority
-												.name()));
-						userLbl.setIcon(iconPriority);
-						userLbl.setWidth("110px");
-						userLbl.setStyleName("link");
+        if (!groupItems.isEmpty()) {
+            for (final TaskPriority priority : OptionI18nEnum.task_priorities) {
+                boolean isFound = false;
+                for (final GroupItem item : groupItems) {
+                    if (priority.name().equals(item.getGroupid())) {
+                        isFound = true;
+                        final HorizontalLayout priorityLayout = new HorizontalLayout();
+                        priorityLayout.setSpacing(true);
+                        priorityLayout.setWidth("100%");
+                        final ButtonI18nComp userLbl = new ButtonI18nComp(
+                                priority.name(), priority, listener);
+                        final Resource iconPriority = new ExternalResource(
+                                ProjectResources
+                                        .getIconResourceLink12ByTaskPriority(priority
+                                                .name()));
+                        userLbl.setIcon(iconPriority);
+                        userLbl.setWidth("110px");
+                        userLbl.setStyleName("link");
 
-						priorityLayout.addComponent(userLbl);
-						final ProgressBarIndicator indicator = new ProgressBarIndicator(
-								totalCount, totalCount - item.getValue(), false);
-						indicator.setWidth("100%");
-						priorityLayout.addComponent(indicator);
-						priorityLayout.setExpandRatio(indicator, 1.0f);
+                        priorityLayout.addComponent(userLbl);
+                        final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                                totalCount, totalCount - item.getValue(), false);
+                        indicator.setWidth("100%");
+                        priorityLayout.addComponent(indicator);
+                        priorityLayout.setExpandRatio(indicator, 1.0f);
 
-						this.bodyContent.addComponent(priorityLayout);
-					}
-				}
+                        this.bodyContent.addComponent(priorityLayout);
+                    }
+                }
 
-				if (!isFound) {
-					final HorizontalLayout priorityLayout = new HorizontalLayout();
-					priorityLayout.setSpacing(true);
-					priorityLayout.setWidth("100%");
-					final ButtonI18nComp userLbl = new ButtonI18nComp(
-							priority.name(), priority, listener);
-					final Resource iconPriority = new ExternalResource(
-							ProjectResources
-									.getIconResourceLink12ByTaskPriority(priority
-											.name()));
-					userLbl.setIcon(iconPriority);
-					userLbl.setWidth("110px");
-					userLbl.setStyleName("link");
-					priorityLayout.addComponent(userLbl);
-					final ProgressBarIndicator indicator = new ProgressBarIndicator(
-							totalCount, totalCount, false);
-					indicator.setWidth("100%");
-					priorityLayout.addComponent(indicator);
-					priorityLayout.setExpandRatio(indicator, 1.0f);
+                if (!isFound) {
+                    final MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                    final ButtonI18nComp userLbl = new ButtonI18nComp(
+                            priority.name(), priority, listener);
+                    final Resource iconPriority = new ExternalResource(
+                            ProjectResources
+                                    .getIconResourceLink12ByTaskPriority(priority
+                                            .name()));
+                    userLbl.setIcon(iconPriority);
+                    userLbl.setWidth("110px");
+                    userLbl.setStyleName("link");
+                    priorityLayout.addComponent(userLbl);
+                    final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                            totalCount, totalCount, false);
+                    indicator.setWidth("100%");
+                    priorityLayout.with(indicator).expand(indicator);
+                    this.bodyContent.addComponent(priorityLayout);
+                }
+            }
+        }
+    }
 
-					this.bodyContent.addComponent(priorityLayout);
-				}
-			}
+    private class TaskPriorityClickListener implements Button.ClickListener {
+        private static final long serialVersionUID = 1L;
 
-		}
-	}
-
-	private class TaskPriorityClickListener implements Button.ClickListener {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void buttonClick(final ClickEvent event) {
-			final String key = ((ButtonI18nComp) event.getButton()).getKey();
-			searchCriteria.setPriorities(new SetSearchField<>(
-					new String[] { key }));
-			TaskFilterParameter filterParam = new TaskFilterParameter(
-					searchCriteria, "Task Filter by Priority: " + key);
-			EventBusFactory.getInstance().post(
-					new TaskEvent.Search(this, filterParam));
-
-		}
-	}
+        @Override
+        public void buttonClick(final ClickEvent event) {
+            final String key = ((ButtonI18nComp) event.getButton()).getKey();
+            searchCriteria.setPriorities(new SetSearchField<>(
+                    new String[]{key}));
+            TaskFilterParameter filterParam = new TaskFilterParameter(
+                    searchCriteria, "Task Filter by Priority: " + key);
+            EventBusFactory.getInstance().post(
+                    new TaskEvent.Search(this, filterParam));
+        }
+    }
 }

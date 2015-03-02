@@ -16,43 +16,28 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
-import com.vaadin.server.FontAwesome;
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -60,11 +45,8 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  * 
  */
-public class CaseSearchPanel extends
-		DefaultGenericSearchPanel<CaseSearchCriteria> {
-
+public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteria> {
 	private static final long serialVersionUID = 1L;
-	private CaseSearchCriteria searchCriteria;
 
 	private static Param[] paramFields = new Param[] {
 			CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
@@ -74,11 +56,33 @@ public class CaseSearchPanel extends
 			CaseSearchCriteria.p_createdtime,
 			CaseSearchCriteria.p_lastupdatedtime };
 
-	public CaseSearchPanel() {
-		super();
-	}
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.CASE,
+                AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+    }
 
-	@SuppressWarnings("unchecked")
+    @Override
+    protected void buildExtraControls() {
+        final Button createCaseBtn = new Button(
+                AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new CaseEvent.GotoAdd(this, null));
+                    }
+                });
+        createCaseBtn.setIcon(FontAwesome.PLUS);
+        createCaseBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createCaseBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_CASE));
+        this.addHeaderRight(createCaseBtn);
+    }
+
+    @SuppressWarnings("unchecked")
 	@Override
 	protected BasicSearchLayout<CaseSearchCriteria> createBasicSearchLayout() {
 		return new CaseBasicSearchLayout();
@@ -87,40 +91,6 @@ public class CaseSearchPanel extends
 	@Override
 	protected SearchLayout<CaseSearchCriteria> createAdvancedSearchLayout() {
 		return new CaseAdvancedSearchLayout();
-	}
-
-	private HorizontalLayout createSearchTopPanel() {
-		final MHorizontalLayout layout = new MHorizontalLayout()
-				.withWidth("100%").withSpacing(true)
-				.withMargin(new MarginInfo(true, false, true, false))
-				.withStyleName(UIConstants.HEADER_VIEW);
-
-		final Label searchtitle = new CrmViewHeader(CrmTypeConstants.CASE,
-				AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
-		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-
-		layout.with(searchtitle).expand(searchtitle)
-				.withAlign(searchtitle, Alignment.MIDDLE_LEFT);
-
-		final Button createAccountBtn = new Button(
-				AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new CaseEvent.GotoAdd(this, null));
-					}
-				});
-		createAccountBtn.setIcon(FontAwesome.PLUS);
-		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CASE));
-		layout.with(createAccountBtn).withAlign(createAccountBtn,
-				Alignment.MIDDLE_RIGHT);
-
-		return layout;
 	}
 
 	private class CaseAdvancedSearchLayout extends
@@ -133,7 +103,7 @@ public class CaseSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return CaseSearchPanel.this.createSearchTopPanel();
+			return CaseSearchPanel.this.constructHeader();
 		}
 
 		@Override
@@ -171,14 +141,13 @@ public class CaseSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return CaseSearchPanel.this.createSearchTopPanel();
+			return CaseSearchPanel.this.constructHeader();
 		}
 
 		@SuppressWarnings("serial")
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withSpacing(true).withMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
 			this.subjectField = this.createSeachSupportTextField(
 					new TextField(), "subjectFieldName");
@@ -240,26 +209,26 @@ public class CaseSearchPanel extends
 
 		@Override
 		protected SearchCriteria fillUpSearchCriteria() {
-			CaseSearchPanel.this.searchCriteria = new CaseSearchCriteria();
-			CaseSearchPanel.this.searchCriteria
+            CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
+			searchCriteria
 					.setSaccountid(new NumberSearchField(SearchField.AND,
 							AppContext.getAccountId()));
 
 			if (StringUtils.isNotBlank(this.subjectField.getValue().trim())) {
-				CaseSearchPanel.this.searchCriteria
+				searchCriteria
 						.setSubject(new StringSearchField(SearchField.AND,
 								this.subjectField.getValue().trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
-				CaseSearchPanel.this.searchCriteria
+				searchCriteria
 						.setAssignUsers(new SetSearchField<>(
 								SearchField.AND, new String[] { AppContext
 										.getUsername() }));
 			} else {
-				CaseSearchPanel.this.searchCriteria.setAssignUsers(null);
+				searchCriteria.setAssignUsers(null);
 			}
-			return CaseSearchPanel.this.searchCriteria;
+			return searchCriteria;
 		}
 	}
 }

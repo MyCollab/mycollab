@@ -47,14 +47,12 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskGroupDisplayWidget
-        extends
+public class TaskGroupDisplayWidget extends
         BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
     private static final long serialVersionUID = 1L;
 
     public TaskGroupDisplayWidget() {
-        super(null, ApplicationContextUtil
-                        .getSpringBean(ProjectTaskListService.class),
+        super(null, ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
                 TaskListRowDisplayHandler.class);
         this.setDisplayEmptyListText(false);
     }
@@ -80,8 +78,7 @@ public class TaskGroupDisplayWidget
         private Button toogleBtn;
 
         private TaskListDepot(final SimpleTaskList taskListParam) {
-            super(taskListParam.getName(), null, new TaskDisplayComponent(
-                    taskListParam, true));
+            super(taskListParam.getName(), null, new TaskDisplayComponent(taskListParam, true));
 
             if (taskListParam.isArchieved()) {
                 this.headerLbl.addStyleName(UIConstants.LINK_COMPLETED);

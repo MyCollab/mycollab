@@ -30,83 +30,92 @@
         
         #ifnotnull($searchCriteria.contactId)
             ${searchCriteria.contactId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_contact 
                 WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_contact.id 
-                    AND m_crm_task.type='Contact') > 0
+                    AND m_crm_task.type='Contact'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_campaign 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_campaign.id 
-                    AND m_crm_task.type='Campaign') > 0
+                    AND m_crm_task.type='Campaign'
+                    LIMIT 1)
         #end 
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_account 
                 WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_account.id 
-                    AND m_crm_task.type='Account') > 0
+                    AND m_crm_task.type='Account'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.targetId)
             ${searchCriteria.targetId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_target 
                 WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_target.id 
-                    AND m_crm_task.type='Target') > 0
+                    AND m_crm_task.type='Target'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.leadId)
             ${searchCriteria.leadId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_lead 
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_lead.id 
-                    AND m_crm_task.type='Lead') > 0
+                    AND m_crm_task.type='Lead'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.opportunityId)
             ${searchCriteria.opportunityId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_opportunity 
                 WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_opportunity.id 
-                    AND m_crm_task.type='Opportunity') > 0
+                    AND m_crm_task.type='Opportunity'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.quoteId)
             ${searchCriteria.quoteId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
             FROM m_crm_quote 
             WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_quote.id 
-                AND m_crm_task.type='Quote') > 0
+                AND m_crm_task.type='Quote'
+                LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.productId)
             ${searchCriteria.productId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
             FROM m_crm_product 
             WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_product.id 
-                AND m_crm_task.type='Product') > 0
+                AND m_crm_task.type='Product'
+                LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.caseId)
             ${searchCriteria.caseId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
              FROM m_crm_case 
              WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
                  AND m_crm_task.typeid=m_crm_case.id 
-                 AND m_crm_task.type='Case') > 0
+                 AND m_crm_task.type='Case'
+                 LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.type)
@@ -139,83 +148,92 @@
         
         #ifnotnull($searchCriteria.contactId)
             ${searchCriteria.contactId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_contact 
                 WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_contact.id 
-                    AND m_crm_task.type='Contact') > 0
+                    AND m_crm_task.type='Contact'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_campaign 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_campaign.id 
-                    AND m_crm_task.type='Campaign') > 0
+                    AND m_crm_task.type='Campaign'
+                    LIMIT 1)
         #end 
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_account 
                 WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_account.id 
-                    AND m_crm_task.type='Account') > 0
+                    AND m_crm_task.type='Account'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.targetId)
             ${searchCriteria.targetId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_target 
                 WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_target.id 
-                    AND m_crm_task.type='Target') > 0
+                    AND m_crm_task.type='Target'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.leadId)
             ${searchCriteria.leadId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_lead 
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_lead.id 
-                    AND m_crm_task.type='Lead') > 0
+                    AND m_crm_task.type='Lead'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.opportunityId)
             ${searchCriteria.opportunityId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_opportunity 
                 WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_opportunity.id 
-                    AND m_crm_task.type='Opportunity') > 0
+                    AND m_crm_task.type='Opportunity'
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.quoteId)
             ${searchCriteria.quoteId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
             FROM m_crm_quote 
             WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_quote.id 
-                AND m_crm_task.type='Quote') > 0
+                AND m_crm_task.type='Quote'
+                LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.productId)
             ${searchCriteria.productId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
             FROM m_crm_product 
             WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_product.id 
-                AND m_crm_task.type='Product') > 0
+                AND m_crm_task.type='Product'
+                LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.caseId)
             ${searchCriteria.caseId.operation}
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
              FROM m_crm_case 
              WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
                  AND m_crm_task.typeid=m_crm_case.id 
-                 AND m_crm_task.type='Case') > 0
+                 AND m_crm_task.type='Case'
+                 LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.type)

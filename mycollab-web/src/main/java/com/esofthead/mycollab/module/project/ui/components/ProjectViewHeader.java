@@ -17,16 +17,14 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public class ProjectViewHeader extends Label {
+public class ProjectViewHeader extends HeaderWithFontAwesome {
     public ProjectViewHeader(String resId, String title) {
-        super(ProjectAssetsManager.getAsset(resId).getHtml() + " " + title, ContentMode.HTML);
-        this.setStyleName("hdr-text");
+        super(ProjectAssetsManager.getAsset(resId), title);
     }
 }

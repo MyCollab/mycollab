@@ -188,4 +188,8 @@ public class FileSearchPanel extends GenericSearchPanel<FileSearchCriteria> {
 		}
 	}
 
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

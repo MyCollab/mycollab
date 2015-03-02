@@ -66,8 +66,11 @@
         
         #ifnotnull($searchCriteria.involvedMember)
             ${searchCriteria.involvedMember.operation} 
-            (SELECT COUNT(*) FROM m_prj_member 
-                WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=@{searchCriteria.involvedMember.value}) > 0
+            EXISTS (SELECT 1 FROM m_prj_member
+                WHERE m_prj_member.status='Active'
+                    AND m_prj_member.projectId=m_prj_project.id
+                    AND m_prj_member.username=@{searchCriteria.involvedMember.value}
+                    LIMIT 1)
         #end
         
         #selectExpr($searchCriteria.extraFields)
@@ -92,8 +95,11 @@
         
         #ifnotnull($searchCriteria.involvedMember)
             ${searchCriteria.involvedMember.operation} 
-            (SELECT COUNT(*) FROM m_prj_member 
-                WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=@{searchCriteria.involvedMember.value}) > 0
+            EXISTS (SELECT 1 FROM m_prj_member
+                WHERE m_prj_member.status='Active'
+                    AND m_prj_member.projectId=m_prj_project.id
+                    AND m_prj_member.username=@{searchCriteria.involvedMember.value}
+                    LIMIT 1)
         #end
         
         #totalCountExpr($searchCriteria.extraFields)
@@ -157,7 +163,10 @@
         SELECT m_prj_project.id, m_prj_project.name
         FROM m_prj_project
         WHERE m_prj_project.sAccountId = @{_parameter.sAccountId} AND 
-            (SELECT COUNT(*) FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id AND m_prj_member.username=@{_parameter.username}) > 0
+            EXISTS (SELECT 1
+                        FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id
+                            AND m_prj_member.username=@{_parameter.username}
+                            LIMIT 1)
     </select>
 
     <select id="getUserProjectKeys" resultType="java.lang.Integer"

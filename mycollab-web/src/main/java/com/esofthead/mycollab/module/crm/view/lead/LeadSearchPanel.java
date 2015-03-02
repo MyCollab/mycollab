@@ -28,9 +28,11 @@ import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -41,8 +43,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class LeadSearchPanel extends
-        DefaultGenericSearchPanel<LeadSearchCriteria> {
+public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private static Param[] paramFields = new Param[]{
@@ -54,26 +55,15 @@ public class LeadSearchPanel extends
             LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
             LeadSearchCriteria.p_assignee};
 
-    protected LeadSearchCriteria searchCriteria;
-
-    public LeadSearchPanel() {
-        this.searchCriteria = new LeadSearchCriteria();
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.LEAD,
+                AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
     }
 
-    private HorizontalLayout createSearchTopPanel() {
-        final MHorizontalLayout layout = new MHorizontalLayout()
-                .withWidth("100%").withSpacing(true)
-                .withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName(UIConstants.HEADER_VIEW);
-
-        final Label searchtitle = new CrmViewHeader(CrmTypeConstants.LEAD,
-                AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
-        searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-
-        layout.with(searchtitle).withAlign(searchtitle, Alignment.MIDDLE_LEFT)
-                .expand(searchtitle);
-
-        final Button createAccountBtn = new Button(
+    @Override
+    protected void buildExtraControls() {
+        final Button createLeadBtn = new Button(
                 AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD),
                 new Button.ClickListener() {
 
@@ -83,15 +73,11 @@ public class LeadSearchPanel extends
                                 new LeadEvent.GotoAdd(this, null));
                     }
                 });
-        createAccountBtn.setIcon(FontAwesome.PLUS);
-        createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createAccountBtn.setEnabled(AppContext
+        createLeadBtn.setIcon(FontAwesome.PLUS);
+        createLeadBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createLeadBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_LEAD));
-
-        layout.with(createAccountBtn).withAlign(createAccountBtn,
-                Alignment.MIDDLE_RIGHT);
-
-        return layout;
+        this.addHeaderRight(createLeadBtn);
     }
 
     @SuppressWarnings("unchecked")
@@ -117,7 +103,7 @@ public class LeadSearchPanel extends
 
         @Override
         public ComponentContainer constructHeader() {
-            return LeadSearchPanel.this.createSearchTopPanel();
+            return LeadSearchPanel.this.constructHeader();
         }
 
         @Override
@@ -182,27 +168,27 @@ public class LeadSearchPanel extends
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
-            LeadSearchPanel.this.searchCriteria = new LeadSearchCriteria();
-            LeadSearchPanel.this.searchCriteria
+            LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+           searchCriteria
                     .setSaccountid(new NumberSearchField(SearchField.AND,
                             AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.nameField.getValue()
                     .trim())) {
-                LeadSearchPanel.this.searchCriteria
+                searchCriteria
                         .setLeadName(new StringSearchField(SearchField.AND,
                                 this.nameField.getValue()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                LeadSearchPanel.this.searchCriteria
+                searchCriteria
                         .setAssignUsers(new SetSearchField<>(
                                 SearchField.AND, new String[]{AppContext
                                 .getUsername()}));
             } else {
-                LeadSearchPanel.this.searchCriteria.setAssignUsers(null);
+                searchCriteria.setAssignUsers(null);
             }
-            return LeadSearchPanel.this.searchCriteria;
+            return searchCriteria;
         }
     }
 
@@ -215,7 +201,7 @@ public class LeadSearchPanel extends
 
         @Override
         public ComponentContainer constructHeader() {
-            return LeadSearchPanel.this.createSearchTopPanel();
+            return LeadSearchPanel.this.constructHeader();
         }
 
         @Override

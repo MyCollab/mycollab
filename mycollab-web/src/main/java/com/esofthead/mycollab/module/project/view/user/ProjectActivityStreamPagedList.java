@@ -59,8 +59,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectActivityStreamPagedList
-        extends
+public class ProjectActivityStreamPagedList extends
         AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
     private static final long serialVersionUID = 1L;
 

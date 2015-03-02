@@ -212,7 +212,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 	@Override
 	public void addSearchHandler(final SearchHandler<FileSearchCriteria> handler) {
 		if (this.handers == null) {
-			this.handers = new ArrayList<SearchHandler<FileSearchCriteria>>();
+			this.handers = new ArrayList<>();
 		}
 		this.handers.add(handler);
 	}
@@ -225,4 +225,8 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 		}
 	}
 
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

@@ -97,7 +97,6 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
                 toggleFavorite();
             }
         });
-        favoriteBtn.addStyleName("favorite-btn");
 
         Label spaceLbl = new Label();
 
@@ -189,10 +188,12 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
         previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
         previewForm.setBean(item);
 
-        if (isFavorite()) {
-            favoriteBtn.addStyleName("favorite-btn-selected");
-        } else {
-            favoriteBtn.addStyleName("favorite-btn");
+        if (favoriteBtn != null) {
+            if (isFavorite()) {
+                favoriteBtn.addStyleName("favorite-btn-selected");
+            } else {
+                favoriteBtn.addStyleName("favorite-btn");
+            }
         }
 
         onPreviewItem();

@@ -36,8 +36,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 public class BugChartComponent extends Depot {
 	private static final long serialVersionUID = 1L;
-	private final String[] reportDashboard = { "BugsByPriority",
-			"BugsByStatus", "BugByResolution" };
+	private final String[] reportDashboard = { "BugsByPriority", "BugsByStatus", "BugByResolution" };
 	private int currentReportIndex = 0;
 
 	private final BugSearchCriteria baseSearchCriteria;

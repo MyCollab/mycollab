@@ -46,247 +46,227 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugListViewImpl extends AbstractPageView implements BugListView {
 
-	private static final long serialVersionUID = 1L;
-	private final BugSearchPanel bugSearchPanel;
-	private BugTableDisplay tableItem;
-	private final VerticalLayout bugListLayout;
+    private static final long serialVersionUID = 1L;
+    private final BugSearchPanel bugSearchPanel;
+    private BugTableDisplay tableItem;
+    private final VerticalLayout bugListLayout;
 
-	public BugListViewImpl() {
-		this.setMargin(new MarginInfo(false, true, false, true));
+    public BugListViewImpl() {
+        this.setMargin(new MarginInfo(false, true, false, true));
 
-		this.bugSearchPanel = new BugSearchPanel();
-		this.bugListLayout = new VerticalLayout();
-		this.generateDisplayTable();
-		this.bugSearchPanel.addRightComponent(constructTableActionControls());
-		with(bugSearchPanel, bugListLayout);
+        this.bugSearchPanel = new BugSearchPanel();
+        this.bugListLayout = new VerticalLayout();
+        this.generateDisplayTable();
+        constructTableActionControls();
+        with(bugSearchPanel, bugListLayout);
 
-	}
+    }
 
-	private void generateDisplayTable() {
-		this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
-				BugTableFieldDef.action, Arrays.asList(
-						BugTableFieldDef.summary, BugTableFieldDef.assignUser,
-						BugTableFieldDef.severity, BugTableFieldDef.resolution,
-						BugTableFieldDef.duedate));
+    private void generateDisplayTable() {
+        this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
+                BugTableFieldDef.action, Arrays.asList(
+                BugTableFieldDef.summary, BugTableFieldDef.assignUser,
+                BugTableFieldDef.severity, BugTableFieldDef.resolution,
+                BugTableFieldDef.duedate));
 
-		this.tableItem.addTableListener(new TableClickListener() {
-			private static final long serialVersionUID = 1L;
+        this.tableItem.addTableListener(new TableClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void itemClick(final TableClickEvent event) {
-				final SimpleBug bug = (SimpleBug) event.getData();
-				if ("summary".equals(event.getFieldName())) {
-					EventBusFactory.getInstance().post(
-							new BugEvent.GotoRead(BugListViewImpl.this, bug
-									.getId()));
-				}
-			}
-		});
-		this.bugListLayout.addComponent(this.tableItem);
-	}
+            @Override
+            public void itemClick(final TableClickEvent event) {
+                final SimpleBug bug = (SimpleBug) event.getData();
+                if ("summary".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(
+                            new BugEvent.GotoRead(BugListViewImpl.this, bug
+                                    .getId()));
+                }
+            }
+        });
+        this.bugListLayout.addComponent(this.tableItem);
+    }
 
-	@Override
-	public HasSearchHandlers<BugSearchCriteria> getSearchHandlers() {
-		return this.bugSearchPanel;
-	}
+    @Override
+    public HasSearchHandlers<BugSearchCriteria> getSearchHandlers() {
+        return this.bugSearchPanel;
+    }
 
-	private ComponentContainer constructTableActionControls() {
-		final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+    private void constructTableActionControls() {
+        Button customizeViewBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-		final Label lbEmpty = new Label("");
-		layout.with(lbEmpty).expand(lbEmpty);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                UI.getCurrent().addWindow(
+                        new BugListCustomizeWindow(BugListView.VIEW_DEF_ID,
+                                tableItem));
 
-		MHorizontalLayout buttonControls = new MHorizontalLayout();
-		layout.addComponent(buttonControls);
-
-		Button customizeViewBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().addWindow(
-						new BugListCustomizeWindow(BugListView.VIEW_DEF_ID,
-								tableItem));
-
-			}
-		});
-		customizeViewBtn.setIcon(FontAwesome.COG);
-		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		buttonControls.addComponent(customizeViewBtn);
+            }
+        });
+        customizeViewBtn.setIcon(FontAwesome.COG);
+        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        bugSearchPanel.addHeaderRight(customizeViewBtn);
 
         PopupButton exportButtonControl = new PopupButton();
-		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
-		exportButtonControl.setDescription(AppContext
-				.getMessage(FileI18nEnum.EXPORT_FILE));
+        exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
+        exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
+        exportButtonControl.setDescription(AppContext
+                .getMessage(FileI18nEnum.EXPORT_FILE));
+        bugSearchPanel.addHeaderRight(exportButtonControl);
 
-		VerticalLayout popupButtonsControl = new VerticalLayout();
-		exportButtonControl.setContent(popupButtonsControl);
+        VerticalLayout popupButtonsControl = new VerticalLayout();
+        exportButtonControl.setContent(popupButtonsControl);
 
-		Button exportPdfBtn = new Button(
-				AppContext.getMessage(FileI18nEnum.PDF));
+        Button exportPdfBtn = new Button(
+                AppContext.getMessage(FileI18nEnum.PDF));
 
-		StreamWrapperFileDownloader fileDownloader = new StreamWrapperFileDownloader(
-				new StreamResourceFactory() {
+        StreamWrapperFileDownloader fileDownloader = new StreamWrapperFileDownloader(
+                new StreamResourceFactory() {
 
-					@Override
-					public StreamResource getStreamResource() {
-						String title = "Bugs of Project "
-								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
-										.getProject().getName() : "");
-						BugSearchCriteria searchCriteria = new BugSearchCriteria();
-						searchCriteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+                    @Override
+                    public StreamResource getStreamResource() {
+                        String title = "Bugs of Project "
+                                + ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
+                                .getProject().getName() != null) ? CurrentProjectVariables
+                                .getProject().getName() : "");
+                        BugSearchCriteria searchCriteria = new BugSearchCriteria();
+                        searchCriteria.setProjectId(new NumberSearchField(
+                                SearchField.AND, CurrentProjectVariables
+                                .getProject().getId()));
 
-						return new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<>(
-										title,
-										new RpParameterBuilder(tableItem
-												.getDisplayColumns()),
-										ReportExportType.PDF,
-										ApplicationContextUtil
-												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
-								"export.pdf");
-					}
+                        return new StreamResource(
+                                new SimpleGridExportItemsStreamResource.AllItems<>(
+                                        title,
+                                        new RpParameterBuilder(tableItem
+                                                .getDisplayColumns()),
+                                        ReportExportType.PDF,
+                                        ApplicationContextUtil
+                                                .getSpringBean(BugService.class),
+                                        searchCriteria, SimpleBug.class),
+                                "export.pdf");
+                    }
 
-				});
-		fileDownloader.extend(exportPdfBtn);
-		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-		exportPdfBtn.setStyleName("link");
-		popupButtonsControl.addComponent(exportPdfBtn);
+                });
+        fileDownloader.extend(exportPdfBtn);
+        exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
+        exportPdfBtn.setStyleName("link");
+        popupButtonsControl.addComponent(exportPdfBtn);
 
-		Button exportExcelBtn = new Button(
-				AppContext.getMessage(FileI18nEnum.EXCEL));
-		StreamWrapperFileDownloader excelDownloader = new StreamWrapperFileDownloader(
-				new StreamResourceFactory() {
+        Button exportExcelBtn = new Button(
+                AppContext.getMessage(FileI18nEnum.EXCEL));
+        StreamWrapperFileDownloader excelDownloader = new StreamWrapperFileDownloader(
+                new StreamResourceFactory() {
 
-					@Override
-					public StreamResource getStreamResource() {
-						String title = "Bugs of Project "
-								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
-										.getProject().getName() : "");
-						BugSearchCriteria searchCriteria = new BugSearchCriteria();
-						searchCriteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+                    @Override
+                    public StreamResource getStreamResource() {
+                        String title = "Bugs of Project "
+                                + ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
+                                .getProject().getName() != null) ? CurrentProjectVariables
+                                .getProject().getName() : "");
+                        BugSearchCriteria searchCriteria = new BugSearchCriteria();
+                        searchCriteria.setProjectId(new NumberSearchField(
+                                SearchField.AND, CurrentProjectVariables
+                                .getProject().getId()));
 
-						return new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<>(
-										title,
-										new RpParameterBuilder(tableItem
-												.getDisplayColumns()),
-										ReportExportType.EXCEL,
-										ApplicationContextUtil
-												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
-								"export.xlsx");
-					}
-				});
-		excelDownloader.extend(exportExcelBtn);
-		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-		exportExcelBtn.setStyleName("link");
-		popupButtonsControl.addComponent(exportExcelBtn);
+                        return new StreamResource(
+                                new SimpleGridExportItemsStreamResource.AllItems<>(
+                                        title,
+                                        new RpParameterBuilder(tableItem
+                                                .getDisplayColumns()),
+                                        ReportExportType.EXCEL,
+                                        ApplicationContextUtil
+                                                .getSpringBean(BugService.class),
+                                        searchCriteria, SimpleBug.class),
+                                "export.xlsx");
+                    }
+                });
+        excelDownloader.extend(exportExcelBtn);
+        exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+        exportExcelBtn.setStyleName("link");
+        popupButtonsControl.addComponent(exportExcelBtn);
 
-		Button exportCsvBtn = new Button(
-				AppContext.getMessage(FileI18nEnum.CSV));
+        Button exportCsvBtn = new Button(
+                AppContext.getMessage(FileI18nEnum.CSV));
 
-		StreamWrapperFileDownloader csvFileDownloader = new StreamWrapperFileDownloader(
-				new StreamResourceFactory() {
+        StreamWrapperFileDownloader csvFileDownloader = new StreamWrapperFileDownloader(
+                new StreamResourceFactory() {
 
-					@Override
-					public StreamResource getStreamResource() {
-						String title = "Bugs of Project "
-								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
-										.getProject().getName() : "");
-						BugSearchCriteria searchCriteria = new BugSearchCriteria();
-						searchCriteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+                    @Override
+                    public StreamResource getStreamResource() {
+                        String title = "Bugs of Project "
+                                + ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
+                                .getProject().getName() != null) ? CurrentProjectVariables
+                                .getProject().getName() : "");
+                        BugSearchCriteria searchCriteria = new BugSearchCriteria();
+                        searchCriteria.setProjectId(new NumberSearchField(
+                                SearchField.AND, CurrentProjectVariables
+                                .getProject().getId()));
 
-						return new StreamResource(
-								new SimpleGridExportItemsStreamResource.AllItems<>(
-										title,
-										new RpParameterBuilder(tableItem
-												.getDisplayColumns()),
-										ReportExportType.CSV,
-										ApplicationContextUtil
-												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
-								"export.csv");
-					}
-				});
-		csvFileDownloader.extend(exportCsvBtn);
+                        return new StreamResource(
+                                new SimpleGridExportItemsStreamResource.AllItems<>(
+                                        title,
+                                        new RpParameterBuilder(tableItem
+                                                .getDisplayColumns()),
+                                        ReportExportType.CSV,
+                                        ApplicationContextUtil
+                                                .getSpringBean(BugService.class),
+                                        searchCriteria, SimpleBug.class),
+                                "export.csv");
+                    }
+                });
+        csvFileDownloader.extend(exportCsvBtn);
 
-		exportCsvBtn.setIcon(FontAwesome.FILE_TEXT_O);
-		exportCsvBtn.setStyleName("link");
-		popupButtonsControl.addComponent(exportCsvBtn);
+        exportCsvBtn.setIcon(FontAwesome.FILE_TEXT_O);
+        exportCsvBtn.setStyleName("link");
+        popupButtonsControl.addComponent(exportCsvBtn);
+    }
 
-		buttonControls.addComponent(exportButtonControl);
-		return layout;
-	}
+    @Override
+    public HasSelectableItemHandlers<SimpleBug> getSelectableItemHandlers() {
+        return this.tableItem;
+    }
 
-	@Override
-	public HasSelectableItemHandlers<SimpleBug> getSelectableItemHandlers() {
-		return this.tableItem;
-	}
+    @Override
+    public void enableActionControls(int numOfSelectedItem) {
+        throw new UnsupportedOperationException(
+                "This view doesn't support this operation");
+    }
 
-	@Override
-	public void setTitle(final String title) {
-		if (this.bugSearchPanel != null) {
-			this.bugSearchPanel.setBugTitle(title);
-		}
-	}
+    @Override
+    public void disableActionControls() {
+        throw new UnsupportedOperationException(
+                "This view doesn't support this operation");
+    }
 
-	@Override
-	public void enableActionControls(int numOfSelectedItem) {
-		throw new UnsupportedOperationException(
-				"This view doesn't support this operation");
-	}
+    @Override
+    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+        throw new UnsupportedOperationException(
+                "This view doesn't support this operation");
+    }
 
-	@Override
-	public void disableActionControls() {
-		throw new UnsupportedOperationException(
-				"This view doesn't support this operation");
-	}
+    @Override
+    public HasMassItemActionHandlers getPopupActionHandlers() {
+        throw new UnsupportedOperationException(
+                "This view doesn't support this operation");
+    }
 
-	@Override
-	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-		throw new UnsupportedOperationException(
-				"This view doesn't support this operation");
-	}
-
-	@Override
-	public HasMassItemActionHandlers getPopupActionHandlers() {
-		throw new UnsupportedOperationException(
-				"This view doesn't support this operation");
-	}
-
-	@Override
-	public AbstractPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable() {
-		return this.tableItem;
-	}
-
+    @Override
+    public AbstractPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable() {
+        return this.tableItem;
+    }
 }

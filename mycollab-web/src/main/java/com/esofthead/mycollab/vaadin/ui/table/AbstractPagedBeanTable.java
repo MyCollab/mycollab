@@ -225,10 +225,11 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	}
 
 	@Override
-	public void setSearchCriteria(final S searchCriteria) {
+	public int setSearchCriteria(final S searchCriteria) {
 		this.searchRequest = new SearchRequest<>(searchCriteria,
 				this.currentPage, this.displayNumItems);
 		this.doSearch();
+        return this.totalCount;
 	}
 
     public void setDisplayNumItems(int displayNumItems) {

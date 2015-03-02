@@ -39,8 +39,7 @@ import com.vaadin.ui.HorizontalLayout;
  * 
  * @param <S>
  */
-public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
-		SearchLayout<S> {
+public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends SearchLayout<S> {
 	private static final long serialVersionUID = 1L;
 
 	protected String type;
@@ -74,8 +73,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	}
 
 	private HorizontalLayout createButtonControls() {
-		MHorizontalLayout buttonControls = new MHorizontalLayout().withSpacing(
-				true).withMargin(true);
+		MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
 
 		final Button searchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
@@ -90,8 +88,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.setIcon(FontAwesome.SEARCH);
 
-		buttonControls.with(searchBtn).withAlign(searchBtn,
-				Alignment.MIDDLE_CENTER);
+		buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
 		final Button clearBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
@@ -105,8 +102,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 				});
 		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-		buttonControls.with(clearBtn).withAlign(clearBtn,
-				Alignment.MIDDLE_CENTER);
+		buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
 
 		final Button basicSearchBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
@@ -120,8 +116,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 					}
 				});
 		basicSearchBtn.setStyleName("link");
-		buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn,
-				Alignment.MIDDLE_CENTER);
+		buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
 		return buttonControls;
 	}
 
@@ -141,8 +136,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	public abstract Param[] getParamFields();
 
 	public ComponentContainer constructBody() {
-		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(),
-				getType(), type) {
+		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(), getType(), type) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

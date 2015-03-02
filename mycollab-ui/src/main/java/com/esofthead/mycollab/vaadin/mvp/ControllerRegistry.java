@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CONTROLLER_REGISTRY;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CONTROLLER_REGISTRY;
 
 /**
  * 
@@ -45,9 +45,5 @@ public class ControllerRegistry {
 			existingController.unregisterAll();
 		}
 		controllerList.put(controller.getClass(), controller);
-	}
-
-	public static void reset() {
-		MyCollabSession.removeVariable(CONTROLLER_REGISTRY);
 	}
 }

@@ -95,7 +95,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     private Button exportPdfBtn;
 
     public PageReadViewImpl() {
-        super(new MHorizontalLayout());
+        super(new MHorizontalLayout().withMargin(true));
         pageService = ApplicationContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }
@@ -269,13 +269,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
     }
 
-    private class PageInfoComp extends VerticalLayout {
+    private class PageInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryInfo() {
             this.removeAllComponents();
-            this.setSpacing(true);
-            this.setMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(new MarginInfo(false, false, false, true));
 
             Label pageInfoHeader = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " Page Information", ContentMode.HTML);
             pageInfoHeader.setStyleName("info-hdr");

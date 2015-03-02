@@ -16,28 +16,22 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 /**
  * Generic list item
@@ -119,7 +113,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	private RowDisplayHandler<T> constructRowDisplayHandler() {
 		RowDisplayHandler<T> rowHandler;
 		try {
-
 			if (rowDisplayHandler.getEnclosingClass() != null
 					&& !Modifier.isStatic(rowDisplayHandler.getModifiers())) {
 
@@ -164,12 +157,9 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 					&& isDisplayEmptyListText) {
 				Label noItemLbl = new Label(
 						AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
-				final VerticalLayout widgetFooter = new VerticalLayout();
+				final MVerticalLayout widgetFooter = new MVerticalLayout().withWidth("100%");
 				widgetFooter.addStyleName("widget-footer");
-				widgetFooter.setWidth("100%");
-				widgetFooter.addComponent(noItemLbl);
-				widgetFooter.setComponentAlignment(noItemLbl,
-						Alignment.MIDDLE_CENTER);
+				widgetFooter.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER);
 				contentLayout.addComponent(widgetFooter);
 			} else {
 				int i = 0;

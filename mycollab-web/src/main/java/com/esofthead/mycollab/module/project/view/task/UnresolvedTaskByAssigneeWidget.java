@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -34,103 +32,100 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class UnresolvedTaskByAssigneeWidget extends Depot {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private TaskSearchCriteria searchCriteria;
+    private TaskSearchCriteria searchCriteria;
 
-	public UnresolvedTaskByAssigneeWidget() {
-		super(AppContext
-				.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
-				new VerticalLayout());
-		this.setContentBorder(true);
-		((VerticalLayout) this.bodyContent).setSpacing(true);
-		((VerticalLayout) this.bodyContent).setMargin(true);
-	}
+    public UnresolvedTaskByAssigneeWidget() {
+        super(AppContext
+                        .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
+                new MVerticalLayout());
+        this.setContentBorder(true);
+    }
 
-	public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		this.bodyContent.removeAllComponents();
-		ProjectTaskService projectTaskService = ApplicationContextUtil
-				.getSpringBean(ProjectTaskService.class);
-		int totalCountItems = projectTaskService.getTotalCount(searchCriteria);
-		final List<GroupItem> groupItems = projectTaskService
-				.getAssignedDefectsSummary(searchCriteria);
+    public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        this.bodyContent.removeAllComponents();
+        ProjectTaskService projectTaskService = ApplicationContextUtil
+                .getSpringBean(ProjectTaskService.class);
+        int totalCountItems = projectTaskService.getTotalCount(searchCriteria);
+        final List<GroupItem> groupItems = projectTaskService
+                .getAssignedDefectsSummary(searchCriteria);
 
-		if (!groupItems.isEmpty()) {
-			for (final GroupItem item : groupItems) {
-				final HorizontalLayout assigneeLayout = new HorizontalLayout();
-				assigneeLayout.setSpacing(true);
-				assigneeLayout.setWidth("100%");
+        this.setTitle(AppContext
+                .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCountItems + ")");
 
-				final String assignUser = item.getGroupid();
-				String assignUserFullName = item.getGroupid() == null ? ""
-						: item.getGroupname();
+        if (!groupItems.isEmpty()) {
+            for (final GroupItem item : groupItems) {
+                final MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
 
-				if (assignUserFullName == null
-						|| assignUserFullName.trim().equals("")) {
-					String displayName = item.getGroupid();
-					int index = displayName != null ? displayName.indexOf("@")
-							: 0;
-					if (index > 0) {
-						assignUserFullName = displayName.substring(0, index);
-					} else {
-						assignUserFullName = AppContext
-								.getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
-					}
-				}
+                final String assignUser = item.getGroupid();
+                String assignUserFullName = item.getGroupid() == null ? ""
+                        : item.getGroupname();
 
-				final TaskAssigneeLink userLbl = new TaskAssigneeLink(
-						assignUser, item.getExtraValue(), assignUserFullName);
-				assigneeLayout.addComponent(userLbl);
-				final ProgressBarIndicator indicator = new ProgressBarIndicator(
-						totalCountItems, totalCountItems - item.getValue(),
-						false);
-				indicator.setWidth("100%");
-				assigneeLayout.addComponent(indicator);
-				assigneeLayout.setExpandRatio(indicator, 1.0f);
-				this.bodyContent.addComponent(assigneeLayout);
-			}
+                if (assignUserFullName == null
+                        || assignUserFullName.trim().equals("")) {
+                    String displayName = item.getGroupid();
+                    int index = displayName != null ? displayName.indexOf("@")
+                            : 0;
+                    if (index > 0) {
+                        assignUserFullName = displayName.substring(0, index);
+                    } else {
+                        assignUserFullName = AppContext
+                                .getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
+                    }
+                }
 
-		}
-	}
+                final TaskAssigneeLink userLbl = new TaskAssigneeLink(
+                        assignUser, item.getExtraValue(), assignUserFullName);
+                assigneeLayout.addComponent(userLbl);
+                final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                        totalCountItems, totalCountItems - item.getValue(),
+                        false);
+                indicator.setWidth("100%");
+                assigneeLayout.with(indicator).expand(indicator);
+                this.bodyContent.addComponent(assigneeLayout);
+            }
+        }
+    }
 
-	class TaskAssigneeLink extends Button {
-		private static final long serialVersionUID = 1L;
+    class TaskAssigneeLink extends Button {
+        private static final long serialVersionUID = 1L;
 
-		public TaskAssigneeLink(final String assignee,
-				final String assigneeAvatarId, final String assigneeFullName) {
-			super(assigneeFullName, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+        public TaskAssigneeLink(final String assignee,
+                                final String assigneeAvatarId, final String assigneeFullName) {
+            super(assigneeFullName, new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					searchCriteria.setAssignUser(new StringSearchField(
-							SearchField.AND, assignee));
-					TaskFilterParameter filterParam = new TaskFilterParameter(
-							searchCriteria, AppContext.getMessage(
-									TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
-									assigneeFullName));
-					EventBusFactory.getInstance().post(
-							new TaskEvent.Search(this, filterParam));
-				}
-			});
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    searchCriteria.setAssignUser(new StringSearchField(
+                            SearchField.AND, assignee));
+                    TaskFilterParameter filterParam = new TaskFilterParameter(
+                            searchCriteria, AppContext.getMessage(
+                            TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
+                            assigneeFullName));
+                    EventBusFactory.getInstance().post(
+                            new TaskEvent.Search(this, filterParam));
+                }
+            });
 
-			this.setStyleName("link");
-			this.setWidth("110px");
-			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-			this.setDescription(assigneeFullName);
-			this.setIcon(UserAvatarControlFactory.createAvatarResource(
-					assigneeAvatarId, 16));
-		}
-	}
+            this.setStyleName("link");
+            this.setWidth("110px");
+            this.addStyleName(UIConstants.TEXT_ELLIPSIS);
+            this.setDescription(assigneeFullName);
+            this.setIcon(UserAvatarControlFactory.createAvatarResource(
+                    assigneeAvatarId, 16));
+        }
+    }
 }

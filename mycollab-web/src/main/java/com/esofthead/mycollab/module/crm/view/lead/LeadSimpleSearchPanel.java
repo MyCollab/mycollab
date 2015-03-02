@@ -43,8 +43,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class LeadSimpleSearchPanel extends
-        GenericSearchPanel<LeadSearchCriteria> {
+public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria> {
     private static final long serialVersionUID = 1L;
 
     private TextField textValueField;
@@ -161,5 +160,10 @@ public class LeadSimpleSearchPanel extends
         layoutSearchPane.removeComponent(0, 0);
         userBox = null;
         textValueField = null;
+    }
+
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
     }
 }

@@ -107,13 +107,9 @@ public class PrioritySummaryChartWidget extends
 	@Override
 	protected void onClickedDescription(String key) {
 		BugSearchCriteria searchCriteria = new BugSearchCriteria();
-		searchCriteria.setPriorities(new SetSearchField<String>(
-				SearchField.AND, new String[] { key }));
-		searchCriteria.setProjectId(new NumberSearchField(
-				CurrentProjectVariables.getProjectId()));
-		BugFilterParameter param = new BugFilterParameter(key + " Bug List",
-				searchCriteria);
-		EventBusFactory.getInstance().post(
-				new BugEvent.GotoList(this, new BugScreenData.Search(param)));
+		searchCriteria.setPriorities(new SetSearchField<>(SearchField.AND, new String[] { key }));
+		searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+		BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
+		EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
 	}
 }

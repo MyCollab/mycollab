@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.web;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -35,8 +34,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
@@ -54,7 +53,6 @@ import javax.servlet.http.Cookie;
 import java.util.Collection;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.EVENT_BUS_VAL;
 
 /**
  * @author MyCollab Ltd.
@@ -225,10 +223,7 @@ public class DesktopApplication extends MyCollabUI {
         if (currentContext != null) {
             currentContext.clearSession();
             initialUrl = "";
-            ViewManager.clearViewCaches();
-            PresenterResolver.clearCaches();
-            ControllerRegistry.reset();
-            MyCollabSession.removeVariable(EVENT_BUS_VAL);
+            VaadinSession.getCurrent().close();
         }
     }
 

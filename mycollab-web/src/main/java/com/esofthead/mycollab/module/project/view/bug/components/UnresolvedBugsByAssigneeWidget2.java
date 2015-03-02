@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -36,94 +34,89 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class UnresolvedBugsByAssigneeWidget2 extends Depot {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private BugSearchCriteria bugSearchCriteria;
+    private BugSearchCriteria bugSearchCriteria;
 
-	public UnresolvedBugsByAssigneeWidget2() {
-		super(AppContext
-				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
-				new VerticalLayout());
-		this.setContentBorder(true);
-		((VerticalLayout) this.bodyContent).setSpacing(true);
-		((VerticalLayout) this.bodyContent).setMargin(true);
-	}
+    public UnresolvedBugsByAssigneeWidget2() {
+        super("", new MVerticalLayout());
+        this.setContentBorder(true);
+    }
 
-	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-		this.bugSearchCriteria = searchCriteria;
-		this.bodyContent.removeAllComponents();
-		final BugService bugService = ApplicationContextUtil
-				.getSpringBean(BugService.class);
-		final int totalCount = bugService.getTotalCount(searchCriteria);
-		final List<GroupItem> groupItems = bugService
-				.getAssignedDefectsSummary(searchCriteria);
-		if (!groupItems.isEmpty()) {
-			for (final GroupItem item : groupItems) {
-				final HorizontalLayout assigneeLayout = new HorizontalLayout();
-				assigneeLayout.setSpacing(true);
-				assigneeLayout.setWidth("100%");
+    public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
+        this.bugSearchCriteria = searchCriteria;
+        this.bodyContent.removeAllComponents();
+        final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        final int totalCount = bugService.getTotalCount(searchCriteria);
+        this.setTitle(AppContext
+                .getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCount + ")");
 
-				String assignUser = item.getGroupid();
-				String assignUserFullName = item.getGroupid() == null ? AppContext
-						.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) : item
-						.getGroupname();
-				if (assignUserFullName == null
-						|| "".equals(assignUserFullName.trim())) {
-					assignUserFullName = StringUtils
-							.extractNameFromEmail(assignUser);
-				}
-				final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
-						item.getExtraValue(), assignUserFullName);
-				assigneeLayout.addComponent(userLbl);
-				final ProgressBarIndicator indicator = new ProgressBarIndicator(
-						totalCount, totalCount - item.getValue(), false);
-				indicator.setWidth("100%");
-				assigneeLayout.addComponent(indicator);
-				assigneeLayout.setExpandRatio(indicator, 1.0f);
-				this.bodyContent.addComponent(assigneeLayout);
-			}
+        final List<GroupItem> groupItems = bugService
+                .getAssignedDefectsSummary(searchCriteria);
+        if (!groupItems.isEmpty()) {
+            for (final GroupItem item : groupItems) {
+                final MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
 
-		}
-	}
+                String assignUser = item.getGroupid();
+                String assignUserFullName = item.getGroupid() == null ? AppContext
+                        .getMessage(BugI18nEnum.OPT_UNDEFINED_USER) : item
+                        .getGroupname();
+                if (assignUserFullName == null
+                        || "".equals(assignUserFullName.trim())) {
+                    assignUserFullName = StringUtils
+                            .extractNameFromEmail(assignUser);
+                }
+                final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
+                        item.getExtraValue(), assignUserFullName);
+                assigneeLayout.addComponent(userLbl);
+                final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                        totalCount, totalCount - item.getValue(), false);
+                indicator.setWidth("100%");
+                assigneeLayout.with(indicator).expand(indicator);
+                this.bodyContent.addComponent(assigneeLayout);
+            }
 
-	class BugAssigneeLink extends Button {
-		private static final long serialVersionUID = 1L;
+        }
+    }
 
-		public BugAssigneeLink(final String assignee,
-				final String assigneeAvatarId, final String assigneeFullName) {
-			super(assigneeFullName, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+    class BugAssigneeLink extends Button {
+        private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
-							.setAssignuser(new StringSearchField(
-									SearchField.AND, assignee));
-					final BugFilterParameter param = new BugFilterParameter(
-							"Unresolved Bugs of " + assigneeFullName,
-							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
-					EventBusFactory.getInstance().post(
-							new BugEvent.GotoList(this,
-									new BugScreenData.Search(param)));
-				}
-			});
+        public BugAssigneeLink(final String assignee,
+                               final String assigneeAvatarId, final String assigneeFullName) {
+            super(assigneeFullName, new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-			this.setStyleName("link");
-			this.setWidth("110px");
-			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-			this.setIcon(UserAvatarControlFactory.createAvatarResource(
-					assigneeAvatarId, 16));
-			this.setDescription(assigneeFullName);
-		}
-	}
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
+                            .setAssignuser(new StringSearchField(
+                                    SearchField.AND, assignee));
+                    final BugFilterParameter param = new BugFilterParameter(
+                            "Unresolved Bugs of " + assigneeFullName,
+                            UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
+                    EventBusFactory.getInstance().post(
+                            new BugEvent.GotoList(this,
+                                    new BugScreenData.Search(param)));
+                }
+            });
+
+            this.setStyleName("link");
+            this.setWidth("110px");
+            this.addStyleName(UIConstants.TEXT_ELLIPSIS);
+            this.setIcon(UserAvatarControlFactory.createAvatarResource(
+                    assigneeAvatarId, 16));
+            this.setDescription(assigneeFullName);
+        }
+    }
 }

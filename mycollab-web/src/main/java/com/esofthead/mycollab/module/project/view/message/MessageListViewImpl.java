@@ -349,7 +349,12 @@ public class MessageListViewImpl extends AbstractPageView implements
 			this.createBasicSearchLayout();
 		}
 
-		private void createBasicSearchLayout() {
+        @Override
+        public void setTotalCountNumber(int totalCountNumber) {
+
+        }
+
+        private void createBasicSearchLayout() {
 			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
 					.withStyleName("message-search");
 			basicSearchBody.setSizeUndefined();

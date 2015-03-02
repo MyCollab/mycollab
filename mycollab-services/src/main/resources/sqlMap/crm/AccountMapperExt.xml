@@ -80,11 +80,12 @@
         
          #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation} 
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
                 FROM m_crm_campaign, m_crm_campaigns_accounts 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
                     AND m_crm_account.id=m_crm_campaigns_accounts.accountId 
-                    AND m_crm_campaigns_accounts.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0
+                    AND m_crm_campaigns_accounts.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC}
+                    LIMIT 1)
          #end
          
          #selectExpr($searchCriteria.extraFields)
@@ -136,10 +137,11 @@
         
         #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation} 
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
                 FROM m_crm_campaign, m_crm_campaigns_accounts 
                 WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} AND m_crm_account.id=m_crm_campaigns_accounts.accountId AND
-                    m_crm_campaigns_accounts.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0
+                    m_crm_campaigns_accounts.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC}
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.types)

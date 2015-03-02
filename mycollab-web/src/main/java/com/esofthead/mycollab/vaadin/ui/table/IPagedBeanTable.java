@@ -38,7 +38,7 @@ import java.util.EventListener;
 public interface IPagedBeanTable<S extends SearchCriteria, T> extends
 		HasSelectableItemHandlers<T>, HasPagableHandlers, Component, IBeanTable {
 
-	void setSearchCriteria(S searchCriteria);
+	int setSearchCriteria(S searchCriteria);
 
 	Collection<T> getCurrentDataList();
 

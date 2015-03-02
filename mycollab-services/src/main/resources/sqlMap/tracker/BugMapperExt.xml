@@ -112,50 +112,54 @@
         #ifnotnull($searchCriteria.affectedversionids)
             ${searchCriteria.affectedversionids.operation}
             #repeat(${searchCriteria.affectedversionids.values} $affectedversion "OR" "(" ")")
-                (SELECT COUNT(*)
+                EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
                     AND m_tracker_bug_related_item.typeid=@{affectedversion,jdbcType=NUMERIC}
-                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                    LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.fixedversionids)
             ${searchCriteria.fixedversionids.operation}
             #repeat(${searchCriteria.fixedversionids.values} $fixedversion "OR" "(" ")")
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
                         AND m_tracker_bug_related_item.typeid=@{fixedversion,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.versionids)
             ${searchCriteria.versionids.operation}
             #repeat(${searchCriteria.versionids.values} $versionid "OR" "(" ")")
-                ((SELECT COUNT(*)
+                EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
                     AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
-                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0)
+                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                    LIMIT 1)
                   OR 
-                  ((SELECT COUNT(*) 
+                EXISTS  (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
                         AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0)
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                        LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.componentids)
             ${searchCriteria.componentids.operation}
             #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
-                (SELECT COUNT(*)
+                EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='Component'
                         AND m_tracker_bug_related_item.typeid=@{componentid,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                        LIMIT 1)
             #end
         #end
         
@@ -273,50 +277,55 @@
         #ifnotnull($searchCriteria.affectedversionids)
             ${searchCriteria.affectedversionids.operation}
             #repeat(${searchCriteria.affectedversionids.values} $affectedversion "OR" "(" ")")
-                (SELECT COUNT(*)
+                EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
                     AND m_tracker_bug_related_item.typeid=@{affectedversion,jdbcType=NUMERIC}
-                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                    LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.fixedversionids)
             ${searchCriteria.fixedversionids.operation}
             #repeat(${searchCriteria.fixedversionids.values} $fixedversion "OR" "(" ")")
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
                         AND m_tracker_bug_related_item.typeid=@{fixedversion,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                        LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.versionids)
             ${searchCriteria.versionids.operation}
             #repeat(${searchCriteria.versionids.values} $versionid "OR" "(" ")")
-                ((SELECT COUNT(*)
+                EXISTS (SELECT 1
                 FROM m_tracker_bug_related_item
                 WHERE m_tracker_bug_related_item.type='AffVersion'
                     AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
-                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0)
+                    AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                    LIMIT 1)
                   OR 
-                  ((SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='FixVersion'
                         AND m_tracker_bug_related_item.typeid=@{versionid,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0)
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                        LIMIT 1)
             #end
         #end
         
         #ifnotnull($searchCriteria.componentids)
             ${searchCriteria.componentids.operation}
             #repeat(${searchCriteria.componentids.values} $componentid "OR" "(" ")")
-                (SELECT COUNT(*)
+                EXISTS (SELECT 1
                     FROM m_tracker_bug_related_item
                     WHERE m_tracker_bug_related_item.type='Component'
                         AND m_tracker_bug_related_item.typeid=@{componentid,jdbcType=NUMERIC}
-                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id)> 0
+                        AND m_tracker_bug_related_item.bugid=m_tracker_bug.id
+                        LIMIT 1)
             #end
         #end
         

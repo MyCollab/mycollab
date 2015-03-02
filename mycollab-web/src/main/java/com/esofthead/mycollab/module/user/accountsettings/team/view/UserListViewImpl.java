@@ -66,13 +66,11 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setSearchCriteria(UserSearchCriteria searchCriteria) {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
+		UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
 		List<SimpleUser> userAccountList = userService
 				.findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
 		this.removeAllComponents();
-		this.setSpacing(true);
 		HorizontalLayout header = new HorizontalLayout();
 		header.setStyleName(UIConstants.HEADER_VIEW);
 		header.setWidth("100%");
@@ -272,8 +270,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 				&& member.getIsAccountOwner() == Boolean.TRUE) {
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
-			memberRole.setValue("<a style=\"color: #B00000;\">"
-					+ "Account Owner" + "</a>");
+			memberRole.setValue("<a style=\"color: #B00000;\">Account Owner</a>");
 			memberRole.setSizeUndefined();
 			blockContent.addComponent(memberRole);
 			blockContent.setComponentAlignment(memberRole,

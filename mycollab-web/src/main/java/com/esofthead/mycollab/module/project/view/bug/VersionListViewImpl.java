@@ -57,30 +57,25 @@ import java.util.GregorianCalendar;
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class VersionListViewImpl extends AbstractPageView implements
 		VersionListView {
-
 	private static final long serialVersionUID = 1L;
-	private final VersionSearchPanel componentSearchPanel;
+
+	private final VersionSearchPanel versionSearchPanel;
 	private SelectionOptionButton selectOptionButton;
 	private DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
-	private final VerticalLayout componentListLayout;
+	private VerticalLayout versionListLayout;
 	private DefaultMassItemActionHandlersContainer tableActionControls;
-	private final Label selectedItemsNumberLabel = new Label();
+	private Label selectedItemsNumberLabel = new Label();
 
 	public VersionListViewImpl() {
-
 		this.setMargin(new MarginInfo(false, true, false, true));
-
-		this.componentSearchPanel = new VersionSearchPanel();
-		this.addComponent(this.componentSearchPanel);
-
-		this.componentListLayout = new VerticalLayout();
-		this.addComponent(this.componentListLayout);
-
+		this.versionSearchPanel = new VersionSearchPanel();
+		this.versionListLayout = new VerticalLayout();
+		this.with(versionSearchPanel, versionListLayout);
 		this.generateDisplayTable();
 	}
 
 	private void generateDisplayTable() {
-		this.tableItem = new DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion>(
+		this.tableItem = new DefaultPagedBeanTable<>(
 				ApplicationContextUtil.getSpringBean(VersionService.class),
 				SimpleVersion.class,
 				new TableViewField(null, "selected",
@@ -175,14 +170,14 @@ public class VersionListViewImpl extends AbstractPageView implements
 
 		this.tableItem.setWidth("100%");
 
-		this.componentListLayout.addComponent(this
+		this.versionListLayout.addComponent(this
 				.constructTableActionControls());
-		this.componentListLayout.addComponent(this.tableItem);
+		this.versionListLayout.addComponent(this.tableItem);
 	}
 
 	@Override
 	public HasSearchHandlers<VersionSearchCriteria> getSearchHandlers() {
-		return this.componentSearchPanel;
+		return this.versionSearchPanel;
 	}
 
 	private ComponentContainer constructTableActionControls() {

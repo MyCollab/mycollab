@@ -168,5 +168,4 @@ public class ComponentReadPresenter extends
 			NotificationUtil.showMessagePermissionAlert();
 		}
 	}
-
 }

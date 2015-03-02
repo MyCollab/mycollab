@@ -64,8 +64,7 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 		displayView(container);
 	}
 
-	public void displayNoExistItems(ComponentContainer container,
-			ScreenData<?> data) {
+	public void displayNoExistItems(ComponentContainer container, ScreenData<?> data) {
 		this.candidateView = ViewManager
 				.getCacheComponent(noItemFallbackViewClass);
 		displayView(container);

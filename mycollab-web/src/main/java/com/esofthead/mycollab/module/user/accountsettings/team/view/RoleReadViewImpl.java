@@ -91,12 +91,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 					}
 				});
 		this.previewForm.setBean(role);
-		if (role.getIssystemrole() != null
-				&& role.getIssystemrole() == Boolean.TRUE) {
-			buttonControls.setDeleteButtonVisible(false);
-		} else {
-			buttonControls.setDeleteButtonVisible(true);
-		}
+        buttonControls.setDeleteButtonVisible(!role.isSystemRole());
 	}
 
 	@Override
@@ -114,13 +109,10 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 				return AppContext
 						.getMessage(AccessPermissionFlag.toKey(perVal));
 			} else if (PermissionChecker.isBooleanPermission(perVal)) {
-				return AppContext.getMessage(BooleanPermissionFlag
-						.toKey(perVal));
+				return AppContext.getMessage(BooleanPermissionFlag.toKey(perVal));
 			} else {
-				throw new MyCollabException("Do not support permission value "
-						+ perVal);
-			}
-
+				throw new MyCollabException("Do not support permission value " + perVal);
+            }
 		}
 	}
 
@@ -184,6 +176,5 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
 			return permissionsPanel;
 		}
-
 	}
 }

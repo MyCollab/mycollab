@@ -31,9 +31,9 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -59,38 +59,33 @@ public class ContactSearchPanel extends
 			ContactSearchCriteria.p_createdtime,
 			ContactSearchCriteria.p_lastupdatedtime };
 
-	private HorizontalLayout createSearchTopPanel() {
-		final MHorizontalLayout layout = new MHorizontalLayout()
-				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-				.withMargin(new MarginInfo(true, false, true, false));
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.CONTACT,
+                AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+    }
 
-		final Label searchTitle = new CrmViewHeader(CrmTypeConstants.CONTACT,
-				AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
-		searchTitle.setStyleName(UIConstants.HEADER_TEXT);
-		layout.with(searchTitle).withAlign(searchTitle, Alignment.MIDDLE_LEFT)
-				.expand(searchTitle);
+    @Override
+    protected void buildExtraControls() {
+        final Button createBtn = new Button(
+                AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		final Button createBtn = new Button(
-				AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new ContactEvent.GotoAdd(this, null));
+                    }
+                });
+        createBtn.setIcon(FontAwesome.PLUS);
+        createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_CONTACT));
+        this.addHeaderRight(createBtn);
+    }
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new ContactEvent.GotoAdd(this, null));
-					}
-				});
-		createBtn.setIcon(FontAwesome.PLUS);
-		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		layout.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
-
-		return layout;
-	}
-
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	@Override
 	protected BasicSearchLayout<ContactSearchCriteria> createBasicSearchLayout() {
 		return new ContactBasicSearchLayout();
@@ -114,7 +109,7 @@ public class ContactSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return ContactSearchPanel.this.createSearchTopPanel();
+			return ContactSearchPanel.this.constructHeader();
 		}
 
 		@Override
@@ -203,7 +198,7 @@ public class ContactSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return ContactSearchPanel.this.createSearchTopPanel();
+			return ContactSearchPanel.this.constructHeader();
 		}
 
 		@Override

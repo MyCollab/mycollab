@@ -44,7 +44,6 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * 
  */
 public abstract class BugDisplayWidget extends Depot {
-
 	private static final long serialVersionUID = 1L;
 	private static int MAX_ITEM_DISPLAY = 5;
 
@@ -61,9 +60,7 @@ public abstract class BugDisplayWidget extends Depot {
 		super(title, new VerticalLayout());
 		this.title = title;
 		this.isDisplayTotalCount = isDisplayTotalCount;
-		dataList = new BeanList<>(
-				ApplicationContextUtil.getSpringBean(BugService.class),
-				rowDisplayHandler);
+		dataList = new BeanList<>(ApplicationContextUtil.getSpringBean(BugService.class), rowDisplayHandler);
 		bodyContent.addComponent(dataList);
 		bodyContent.setStyleName(UIConstants.BUG_LIST);
 
@@ -82,8 +79,7 @@ public abstract class BugDisplayWidget extends Depot {
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		final int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
-			Button moreBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
+			Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

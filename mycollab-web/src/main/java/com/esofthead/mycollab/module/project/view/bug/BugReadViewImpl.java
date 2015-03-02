@@ -80,8 +80,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(BugReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BugReadViewImpl.class);
 
     private TagViewComponent tagViewComponent;
 

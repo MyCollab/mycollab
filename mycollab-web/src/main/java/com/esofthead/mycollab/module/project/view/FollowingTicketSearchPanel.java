@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -55,7 +56,17 @@ public class FollowingTicketSearchPanel extends
 
 	private List<SimpleProject> projects;
 
-	@Override
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return null;
+    }
+
+    @Override
+    protected void buildExtraControls() {
+
+    }
+
+    @Override
 	@SuppressWarnings("unchecked")
 	protected SearchLayout<FollowingTicketSearchCriteria> createBasicSearchLayout() {
 		basicSearchLayout = new FollowingTicketBasicSearchLayout();

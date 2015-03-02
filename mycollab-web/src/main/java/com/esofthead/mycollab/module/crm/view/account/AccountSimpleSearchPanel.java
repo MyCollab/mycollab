@@ -120,7 +120,6 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
             if (textValueField != null) {
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
-
                     if (searchType.equals("Name")) {
                         searchCriteria
                                 .setAccountname(new StringSearchField(
@@ -179,4 +178,9 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
 		userBox = null;
 		textValueField = null;
 	}
+
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

@@ -37,10 +37,11 @@
         
         #ifnotnull($searchCriteria.leadId)
             ${searchCriteria.leadId.operation} 
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
                 FROM m_crm_lead, m_crm_campaigns_leads
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} AND m_crm_campaigns_leads.leadId=m_crm_lead.id 
-                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id ) > 0
+                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.statuses)
@@ -92,10 +93,11 @@
         
         #ifnotnull($searchCriteria.leadId)
             ${searchCriteria.leadId.operation} 
-            (SELECT COUNT(*) 
+            EXISTS (SELECT 1
                 FROM m_crm_lead, m_crm_campaigns_leads
                 WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} AND m_crm_campaigns_leads.leadId=m_crm_lead.id 
-                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id ) > 0
+                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.statuses)

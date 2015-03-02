@@ -71,7 +71,6 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 				if (isSelectAll) {
 					selectAllItemsInCurrentPage();
 				}
-
 				checkWhetherEnableTableActionControl();
 			}
 		});
@@ -79,12 +78,10 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 		view.getOptionSelectionHandlers().addSelectionOptionHandler(
 				new SelectionOptionHandler() {
 					private static final long serialVersionUID = 1L;
-
 					@Override
 					public void onSelectCurrentPage() {
 						isSelectAll = false;
 						selectAllItemsInCurrentPage();
-
 						checkWhetherEnableTableActionControl();
 					}
 
@@ -99,16 +96,13 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 									.getExtraData();
 							checkBox.setValueWithoutNotifyListeners(false);
 						}
-
 						checkWhetherEnableTableActionControl();
-
 					}
 
 					@Override
 					public void onSelectAll() {
 						isSelectAll = true;
 						selectAllItemsInCurrentPage();
-
 						checkWhetherEnableTableActionControl();
 					}
 				});
@@ -119,7 +113,6 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 					public void onSelect(B item) {
 						isSelectAll = false;
 						item.setSelected(!item.isSelected());
-
 						checkWhetherEnableTableActionControl();
 					}
 				});
@@ -137,8 +130,9 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 
 	public void doSearch(S searchCriteria) {
 		this.searchCriteria = searchCriteria;
-		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+		int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
 		checkWhetherEnableTableActionControl();
+        view.getSearchHandlers().setTotalCountNumber(totalCountItems);
 	}
 
 	protected void checkWhetherEnableTableActionControl() {
@@ -158,7 +152,7 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 	}
 
 	protected List<B> getSelectedItems() {
-		List<B> items = new ArrayList<B>();
+		List<B> items = new ArrayList<>();
 		Collection<B> currentDataList = view.getPagedBeanTable()
 				.getCurrentDataList();
 		for (B item : currentDataList) {
@@ -166,7 +160,6 @@ public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends
 				items.add(item);
 			}
 		}
-
 		return items;
 	}
 

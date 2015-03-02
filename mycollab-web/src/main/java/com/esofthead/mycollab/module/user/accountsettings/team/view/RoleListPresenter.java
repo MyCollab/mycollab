@@ -65,13 +65,11 @@ public class RoleListPresenter extends
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
-
 					@Override
 					protected void onSelectExtra(String id) {
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							UI.getCurrent().addWindow(new MailFormWindow());
 						}
-
 					}
 
 					@Override
@@ -115,7 +113,6 @@ public class RoleListPresenter extends
 					AppContext.getAccountId());
 			doSearch(searchCriteria);
 		}
-
 	}
 
 	@Override

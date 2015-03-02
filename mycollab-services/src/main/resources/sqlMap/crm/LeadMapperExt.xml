@@ -34,10 +34,12 @@
         
         #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_campaign, m_crm_campaigns_leads 
-                    WHERE m_crm_campaigns_leads.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} AND m_crm_campaigns_leads.leadId=m_crm_lead.id
-                        AND m_crm_campaign.id=m_crm_campaigns_leads.campaignId) > 0
+                    WHERE m_crm_campaigns_leads.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC}
+                        AND m_crm_campaigns_leads.leadId=m_crm_lead.id
+                        AND m_crm_campaign.id=m_crm_campaigns_leads.campaignId
+                        LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.referredBy)
@@ -63,29 +65,32 @@
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_account, m_crm_accounts_leads 
                 WHERE m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_lead.id = m_crm_accounts_leads.leadId
-                    AND m_crm_account.id = m_crm_accounts_leads.accountId) > 0
+                    AND m_crm_account.id = m_crm_accounts_leads.accountId
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.campaignId)
             ${searchCriteria.campaignId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_campaign, m_crm_campaigns_leads 
                     WHERE m_crm_campaigns_leads.campaignId=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
                         AND m_crm_campaigns_leads.leadId=m_crm_lead.id
-                        AND m_crm_campaign.id=m_crm_campaigns_leads.campaignId) > 0
+                        AND m_crm_campaign.id=m_crm_campaigns_leads.campaignId
+                        LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.opportunityId)
             ${searchCriteria.opportunityId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_opportunity, m_crm_opportunities_leads
                     WHERE m_crm_opportunities_leads.opportunityId=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                         AND m_crm_opportunities_leads.leadId=m_crm_lead.id
-                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}
+                        LIMIT 1)
         #end
         
         #selectExpr($searchCriteria.extraFields)
@@ -119,11 +124,12 @@
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                 FROM m_crm_account, m_crm_accounts_leads 
                 WHERE m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_lead.id = m_crm_accounts_leads.leadId
-                    AND m_crm_account.id = m_crm_accounts_leads.accountId) > 0
+                    AND m_crm_account.id = m_crm_accounts_leads.accountId
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.campaignId)
@@ -132,11 +138,12 @@
         
         #ifnotnull($searchCriteria.opportunityId)
             ${searchCriteria.opportunityId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_opportunity, m_crm_opportunities_leads
                     WHERE m_crm_opportunities_leads.opportunityId=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                         AND m_crm_opportunities_leads.leadId=m_crm_lead.id
-                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}
+                        LIMIT 1)
         #end
             
         #totalCountExpr($searchCriteria.extraFields)

@@ -61,18 +61,19 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class MilestoneListViewImpl extends AbstractLazyPageView implements
-		MilestoneListView {
+public class MilestoneListViewImpl extends AbstractLazyPageView implements MilestoneListView {
 	private static final long serialVersionUID = 1L;
 
 	private CssLayout inProgressContainer;
+    private Label inProgressHeader;
 
 	private CssLayout futureContainer;
+    private Label futureHeader;
 
 	private CssLayout closeContainer;
+    private Label closedHeader;
 
 	private Button createBtn;
-	private CustomLayout bodyContent;
 
 	private List<SimpleMilestone> milestones;
 
@@ -84,20 +85,29 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		this.createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
+        int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
+
 		for (final SimpleMilestone milestone : milestones) {
 			if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
 				this.inProgressContainer.addComponent(this
 						.constructMilestoneBox(milestone));
+                totalInprogressMilestones++;
 			} else if (MilestoneStatus.Future.name().equals(
 					milestone.getStatus())) {
 				this.futureContainer.addComponent(this
 						.constructMilestoneBox(milestone));
+                totalFutureMilestones++;
 			} else if (MilestoneStatus.Closed.name().equals(
 					milestone.getStatus())) {
 				this.closeContainer.addComponent(this
 						.constructMilestoneBox(milestone));
+                totalClosedMilestones++;
 			}
 		}
+
+        updateClosedMilestoneNumber(totalClosedMilestones);
+        updateFutureMilestoneNumber(totalFutureMilestones);
+        updateInProgressMilestoneNumber(totalInprogressMilestones);
 	}
 
 	@Override
@@ -111,18 +121,16 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 				AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
 
 		MHorizontalLayout header = new MHorizontalLayout()
-				.withStyleName("hdr-view").withWidth("100%").withSpacing(true)
-				.withMargin(true)
+				.withStyleName("hdr-view").withWidth("100%").withMargin(true)
 				.with(headerText, createHeaderRight())
-				.withAlign(headerText, Alignment.MIDDLE_LEFT)
-				.expand(headerText);
+				.withAlign(headerText, Alignment.MIDDLE_LEFT).expand(headerText);
 		this.addComponent(header);
 	}
 
 	private HorizontalLayout createHeaderRight() {
 		final HorizontalLayout layout = new HorizontalLayout();
 
-		this.createBtn = new Button(
+		createBtn = new Button(
 				AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -134,43 +142,36 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 										MilestoneListViewImpl.this, null));
 					}
 				});
-
-		this.createBtn.setIcon(FontAwesome.PLUS);
-		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		this.createBtn.setEnabled(CurrentProjectVariables
+		createBtn.setIcon(FontAwesome.PLUS);
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.MILESTONES));
-		layout.addComponent(this.createBtn);
-		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
+		layout.addComponent(createBtn);
+		layout.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
 
 	private void constructBody() {
-		this.bodyContent = CustomLayoutExt.createLayout("milestoneView");
+		CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
 
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 
 		final MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
 
-		final Label closedHeader = new Label(FontAwesome.MINUS.getHtml() + " " +
-				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE), ContentMode.HTML);
+		closedHeader = new Label("", ContentMode.HTML);
 		closedHeader.setSizeUndefined();
-		closedHeaderLayout.addComponent(closedHeader);
-		closedHeaderLayout.setComponentAlignment(closedHeader,
-				Alignment.MIDDLE_CENTER);
+		closedHeaderLayout.with(closedHeader).withAlign(closedHeader, Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(closedHeaderLayout, "closed-header");
 		closeContainer = new CssLayout();
 		closeContainer.setStyleName("milestone-col");
 		closeContainer.setWidth("100%");
-		bodyContent.addComponent(this.closeContainer, "closed-milestones");
+		bodyContent.addComponent(closeContainer, "closed-milestones");
 
 		final MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
-		final Label inProgressHeader = new Label(FontAwesome.SPINNER.getHtml() + " " +
-				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE), ContentMode.HTML);
+		inProgressHeader = new Label("", ContentMode.HTML);
 		inProgressHeader.setSizeUndefined();
 		inProgressHeaderLayout.addComponent(inProgressHeader);
 		inProgressHeaderLayout.setComponentAlignment(inProgressHeader,
@@ -180,17 +181,13 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		inProgressContainer = new CssLayout();
 		inProgressContainer.setStyleName("milestone-col");
 		inProgressContainer.setWidth("100%");
-		bodyContent.addComponent(this.inProgressContainer,
-				"in-progress-milestones");
+		bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
 
 		final MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
-		final Label futureHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
-				AppContext
-						.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE), ContentMode.HTML);
+		futureHeader = new Label("", ContentMode.HTML);
 		futureHeader.setSizeUndefined();
 		futureHeaderLayout.addComponent(futureHeader);
-		futureHeaderLayout.setComponentAlignment(futureHeader,
-				Alignment.MIDDLE_CENTER);
+		futureHeaderLayout.setComponentAlignment(futureHeader, Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(futureHeaderLayout, "future-header");
 		futureContainer = new CssLayout();
@@ -200,6 +197,25 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 
 		this.addComponent(bodyContent);
 	}
+
+    private void updateClosedMilestoneNumber(int closeMilestones) {
+        closedHeader.setValue(FontAwesome.MINUS.getHtml() + " " +
+                AppContext
+                        .getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
+    }
+
+    private void updateFutureMilestoneNumber(int futureMilestones) {
+        futureHeader.setValue(FontAwesome.CLOCK_O.getHtml() + " " +
+                AppContext
+                        .getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
+    }
+
+    private void updateInProgressMilestoneNumber(int inProgressMilestones) {
+        inProgressHeader.setValue(FontAwesome.SPINNER.getHtml() + " " +
+                AppContext
+                        .getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
+                ")");
+    }
 
 	private ComponentContainer constructMilestoneBox(
 			final SimpleMilestone milestone) {

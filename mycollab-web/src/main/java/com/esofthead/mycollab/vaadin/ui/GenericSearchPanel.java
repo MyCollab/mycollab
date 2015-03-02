@@ -37,24 +37,24 @@ import com.vaadin.ui.TextField;
  * 
  */
 @SuppressWarnings("serial")
-public class GenericSearchPanel<S extends SearchCriteria> extends
-		CustomComponent implements HasSearchHandlers<S> {
+public abstract class GenericSearchPanel<S extends SearchCriteria> extends CustomComponent implements
+        HasSearchHandlers<S> {
 
-	private List<SearchHandler<S>> handers;
+	private List<SearchHandler<S>> searchHandlers;
 
 	private Component headerRight;
 
 	@Override
 	public void addSearchHandler(final SearchHandler<S> handler) {
-		if (this.handers == null) {
-			this.handers = new ArrayList<>();
+		if (this.searchHandlers == null) {
+			this.searchHandlers = new ArrayList<>();
 		}
-		this.handers.add(handler);
+		this.searchHandlers.add(handler);
 	}
 
 	public void notifySearchHandler(final S criteria) {
-		if (this.handers != null) {
-			for (final SearchHandler<S> handler : this.handers) {
+		if (this.searchHandlers != null) {
+			for (final SearchHandler<S> handler : this.searchHandlers) {
 				handler.onSearch(criteria);
 			}
 		}

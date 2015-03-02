@@ -52,7 +52,7 @@ public class ActivityListViewImpl extends
 	}
 
 	@Override
-	protected GenericSearchPanel<ActivitySearchCriteria> createSearchPanel() {
+	protected DefaultGenericSearchPanel<ActivitySearchCriteria> createSearchPanel() {
 		return new ActivitySearchPanel();
 	}
 

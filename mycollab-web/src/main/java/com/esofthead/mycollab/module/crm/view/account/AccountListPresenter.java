@@ -66,12 +66,10 @@ public class AccountListPresenter
 	@Override
 	protected void postInitView() {
 		super.postInitView();
-		accountService = ApplicationContextUtil
-				.getSpringBean(AccountService.class);
+		accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
-
 					@Override
 					protected Class<SimpleAccount> getReportModelClassType() {
 						return SimpleAccount.class;
@@ -114,7 +112,6 @@ public class AccountListPresenter
 									AccountListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
-
 					}
 				});
 	}
@@ -142,7 +139,6 @@ public class AccountListPresenter
 					AppContext.getAccountId());
 			doSearch(searchCriteria);
 		}
-
 	}
 
 	@Override

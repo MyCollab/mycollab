@@ -50,10 +50,8 @@ import java.util.List;
  * @since 1.0
  * 
  */
-public class CaseListPresenter extends
-		CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase>
+public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase>
 		implements MassUpdateCommand<CaseWithBLOBs> {
-
 	private static final long serialVersionUID = 1L;
 	private CaseService caseService;
 
@@ -100,7 +98,6 @@ public class CaseListPresenter extends
 									CaseListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
-
 					}
 
 					@Override
@@ -138,13 +135,6 @@ public class CaseListPresenter extends
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
-	}
-
-	@Override
-	public void doSearch(CaseSearchCriteria searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
-		checkWhetherEnableTableActionControl();
 	}
 
 	@Override

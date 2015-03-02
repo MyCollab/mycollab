@@ -17,16 +17,15 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.VIEW_MANAGER_VAL;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+import org.reflections.Reflections;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.reflections.Reflections;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
-import com.esofthead.mycollab.core.MyCollabException;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.VIEW_MANAGER_VAL;
 
 /**
  * 
@@ -54,10 +53,6 @@ public class ViewManager {
 
 	public static void init() {
 
-	}
-
-	public static void clearViewCaches() {
-		MyCollabSession.removeVariable(VIEW_MANAGER_VAL);
 	}
 
 	@SuppressWarnings("unchecked")

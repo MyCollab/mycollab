@@ -45,9 +45,7 @@ import org.apache.commons.lang3.StringUtils;
  * 
  */
 @SuppressWarnings("serial")
-public class CampaignSimpleSearchPanel extends
-		GenericSearchPanel<CampaignSearchCriteria> {
-
+public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearchCriteria> {
 	private CampaignSearchCriteria searchCriteria;
 	private TextField textValueField;
 	private GridLayout layoutSearchPane;
@@ -151,4 +149,8 @@ public class CampaignSimpleSearchPanel extends
 		dateSearchField = null;
 	}
 
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

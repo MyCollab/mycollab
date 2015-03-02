@@ -36,21 +36,21 @@ public class StringListParam extends ColumnParam {
 
 	public static String[] OPTIONS = { IN, NOT_IN };
 
-	private List<String> lstValues;
+	private List<String> values;
 
 	@SuppressWarnings("rawtypes")
 	public StringListParam(String id, Enum displayName, String table,
 			String column, List<String> values) {
 		super(id, displayName, table, column);
-		this.lstValues = values;
+		this.values = values;
 	}
 
-	public List<String> getLstValues() {
-		return lstValues;
+	public List<String> getValues() {
+		return values;
 	}
 
-	public void setLstValues(List<String> lstValues) {
-		this.lstValues = lstValues;
+	public void setValues(List<String> values) {
+		this.values = values;
 	}
 
 	public CollectionValueSearchField buildStringParamInList(String oper,

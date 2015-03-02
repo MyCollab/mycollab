@@ -46,9 +46,7 @@ import org.apache.commons.lang3.StringUtils;
  * 
  */
 @SuppressWarnings("serial")
-public class ContactSimpleSearchPanel extends
-		GenericSearchPanel<ContactSearchCriteria> {
-
+public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCriteria> {
 	private ContactSearchCriteria searchCriteria;
 	private TextField textValueField;
 	private ActiveUserComboBox userBox;
@@ -167,4 +165,9 @@ public class ContactSimpleSearchPanel extends
 		userBox = null;
 		textValueField = null;
 	}
+
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
+    }
 }

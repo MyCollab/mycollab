@@ -35,11 +35,12 @@
         
         #ifnotnull($searchCriteria.contactId)
              ${searchCriteria.contactId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT COUNT(*)
                     FROM m_crm_contacts_opportunities, m_crm_contact 
                     WHERE m_crm_contact.id=@{searchCriteria.contactId.value, jdbcType=NUMERIC} 
                         AND m_crm_opportunity.id= m_crm_contacts_opportunities.opportunityId
-                        AND m_crm_contacts_opportunities.contactId=@{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_contacts_opportunities.contactId=@{searchCriteria.contactId.value,jdbcType=NUMERIC}
+                        LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.campaignName)
@@ -92,19 +93,21 @@
         
         #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
-                (SELECT COUNT(*) 
+                EXISTS (SELECT COUNT(*)
                 FROM m_crm_account 
                 WHERE m_crm_opportunity.accountid = m_crm_account.id 
-                    AND m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC}) > 0
+                    AND m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC}
+                    LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.contactId)
             ${searchCriteria.contactId.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM m_crm_contacts_opportunities, m_crm_contact 
                     WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
                         AND m_crm_opportunity.id= m_crm_contacts_opportunities.opportunityId
-                        AND m_crm_contacts_opportunities.contactId=@{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_contacts_opportunities.contactId=@{searchCriteria.contactId.value,jdbcType=NUMERIC}
+                        LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.assignUsers)

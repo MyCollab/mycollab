@@ -104,15 +104,10 @@ public class StatusSummaryChartWidget extends
 	@Override
 	protected void onClickedDescription(String key) {
 		BugSearchCriteria searchCriteria = new BugSearchCriteria();
-		searchCriteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { key }));
-		searchCriteria.setProjectId(new NumberSearchField(
-				CurrentProjectVariables.getProjectId()));
-		BugFilterParameter param = new BugFilterParameter(key + " Bug List",
-				searchCriteria);
-		EventBusFactory.getInstance().post(
-				new BugEvent.GotoList(this, new BugScreenData.Search(param)));
+		searchCriteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[] { key }));
+		searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+		BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
+		EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
 
 	}
-
 }

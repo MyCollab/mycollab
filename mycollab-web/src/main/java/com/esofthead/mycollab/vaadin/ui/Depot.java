@@ -28,6 +28,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -36,11 +37,10 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class Depot extends VerticalLayout {
-
 	private static final long serialVersionUID = 1L;
-	private boolean isOpenned = true;
+	private boolean isOpened = true;
 	protected HorizontalLayout header;
-	protected final Label headerLbl;
+	protected Label headerLbl;
 	protected AbstractOrderedLayout headerContent;
 	protected ComponentContainer bodyContent;
 
@@ -73,9 +73,7 @@ public class Depot extends VerticalLayout {
 		if (headerElement != null) {
 			this.headerContent = headerElement;
 		} else {
-			this.headerContent = new HorizontalLayout();
-			this.headerContent.setSpacing(true);
-			this.headerContent.setMargin(true);
+			this.headerContent = new MHorizontalLayout().withMargin(true);
 			this.headerContent
 					.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 			this.headerContent.setVisible(false);
@@ -99,8 +97,8 @@ public class Depot extends VerticalLayout {
 
 			@Override
 			public void layoutClick(final LayoutClickEvent event) {
-				Depot.this.isOpenned = !Depot.this.isOpenned;
-				if (Depot.this.isOpenned) {
+				Depot.this.isOpened = !Depot.this.isOpened;
+				if (Depot.this.isOpened) {
 					Depot.this.bodyContent.setVisible(true);
 					Depot.this.removeStyleName("collapsed");
 				} else {
@@ -140,10 +138,6 @@ public class Depot extends VerticalLayout {
 					Alignment.MIDDLE_RIGHT);
 			this.headerContent.setVisible(true);
 		}
-	}
-
-	public Label getHeaderLbl() {
-		return this.headerLbl;
 	}
 
 	public void setContentBorder(final boolean hasBorder) {

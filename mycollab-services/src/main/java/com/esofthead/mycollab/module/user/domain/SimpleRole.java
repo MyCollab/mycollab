@@ -67,4 +67,8 @@ public class SimpleRole extends Role {
 		}
 		return permissionMap;
 	}
+
+    public boolean isSystemRole() {
+        return (getIssystemrole() != null && getIssystemrole() == Boolean.TRUE);
+    }
 }

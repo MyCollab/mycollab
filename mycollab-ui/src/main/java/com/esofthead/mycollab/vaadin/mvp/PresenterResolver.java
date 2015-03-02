@@ -17,8 +17,8 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,10 +50,6 @@ public final class PresenterResolver {
 
 	public static void init() {
 
-	}
-
-	public static void clearCaches() {
-		MyCollabSession.removeVariable(PRESENTER_VAL);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -39,106 +37,104 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class UnresolvedBugsByPriorityWidget2 extends Depot {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private BugSearchCriteria bugSearchCriteria;
+    private BugSearchCriteria bugSearchCriteria;
 
-	public UnresolvedBugsByPriorityWidget2() {
-		super(AppContext
-				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
-				new VerticalLayout());
-		this.setContentBorder(true);
-		((VerticalLayout) this.bodyContent).setSpacing(true);
-		((VerticalLayout) this.bodyContent).setMargin(true);
-	}
+    public UnresolvedBugsByPriorityWidget2() {
+        super("", new MVerticalLayout());
+        this.setContentBorder(true);
+    }
 
-	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-		this.bugSearchCriteria = searchCriteria;
-		this.bodyContent.removeAllComponents();
-		final BugService bugService = ApplicationContextUtil
-				.getSpringBean(BugService.class);
-		final int totalCount = bugService.getTotalCount(searchCriteria);
-		final List<GroupItem> groupItems = bugService
-				.getPrioritySummary(searchCriteria);
-		final BugPriorityClickListener listener = new BugPriorityClickListener();
+    public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
+        this.bugSearchCriteria = searchCriteria;
+        this.bodyContent.removeAllComponents();
+        final BugService bugService = ApplicationContextUtil
+                .getSpringBean(BugService.class);
+        final int totalCount = bugService.getTotalCount(searchCriteria);
+        this.setTitle(AppContext
+                .getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE) + " (" + totalCount + ")");
+        final List<GroupItem> groupItems = bugService
+                .getPrioritySummary(searchCriteria);
+        final BugPriorityClickListener listener = new BugPriorityClickListener();
 
-		if (!groupItems.isEmpty()) {
-			for (final BugPriority priority : OptionI18nEnum.bug_priorities) {
-				boolean isFound = false;
-				for (final GroupItem item : groupItems) {
-					if (priority.name().equals(item.getGroupid())) {
-						isFound = true;
-						final MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+        if (!groupItems.isEmpty()) {
+            for (final BugPriority priority : OptionI18nEnum.bug_priorities) {
+                boolean isFound = false;
+                for (final GroupItem item : groupItems) {
+                    if (priority.name().equals(item.getGroupid())) {
+                        isFound = true;
+                        final MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
 
-						final ButtonI18nComp userLbl = new ButtonI18nComp(
-								priority.name(), priority, listener);
-						final Resource iconPriority = new ExternalResource(
-								ProjectResources
-										.getIconResourceLink12ByBugPriority(priority
-												.name()));
-						userLbl.setIcon(iconPriority);
-						userLbl.setWidth("110px");
-						userLbl.setStyleName("link");
+                        final ButtonI18nComp userLbl = new ButtonI18nComp(
+                                priority.name(), priority, listener);
+                        final Resource iconPriority = new ExternalResource(
+                                ProjectResources
+                                        .getIconResourceLink12ByBugPriority(priority
+                                                .name()));
+                        userLbl.setIcon(iconPriority);
+                        userLbl.setWidth("110px");
+                        userLbl.setStyleName("link");
 
-						final ProgressBarIndicator indicator = new ProgressBarIndicator(
-								totalCount, totalCount - item.getValue(), false);
-						indicator.setWidth("100%");
+                        final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                                totalCount, totalCount - item.getValue(), false);
+                        indicator.setWidth("100%");
 
-						priorityLayout.with(userLbl, indicator).expand(indicator);
+                        priorityLayout.with(userLbl, indicator).expand(indicator);
 
-						this.bodyContent.addComponent(priorityLayout);
-					}
-				}
+                        this.bodyContent.addComponent(priorityLayout);
+                    }
+                }
 
-				if (!isFound) {
-					final MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
-					final Button userLbl = new ButtonI18nComp(priority.name(),
-							priority, listener);
-					final Resource iconPriority = new ExternalResource(
-							ProjectResources
-									.getIconResourceLink12ByBugPriority(priority
-											.name()));
-					userLbl.setIcon(iconPriority);
-					userLbl.setWidth("110px");
-					userLbl.setStyleName("link");
-					final ProgressBarIndicator indicator = new ProgressBarIndicator(
-							totalCount, totalCount, false);
-					indicator.setWidth("100%");
+                if (!isFound) {
+                    final MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
+                    final Button userLbl = new ButtonI18nComp(priority.name(),
+                            priority, listener);
+                    final Resource iconPriority = new ExternalResource(
+                            ProjectResources
+                                    .getIconResourceLink12ByBugPriority(priority
+                                            .name()));
+                    userLbl.setIcon(iconPriority);
+                    userLbl.setWidth("110px");
+                    userLbl.setStyleName("link");
+                    final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                            totalCount, totalCount, false);
+                    indicator.setWidth("100%");
 
-					priorityLayout.with(userLbl, indicator).expand(indicator);
+                    priorityLayout.with(userLbl, indicator).expand(indicator);
 
-					this.bodyContent.addComponent(priorityLayout);
-				}
-			}
+                    this.bodyContent.addComponent(priorityLayout);
+                }
+            }
 
-		}
-	}
+        }
+    }
 
-	private class BugPriorityClickListener implements Button.ClickListener {
-		private static final long serialVersionUID = 1L;
+    private class BugPriorityClickListener implements Button.ClickListener {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public void buttonClick(final ClickEvent event) {
-			final String key = ((ButtonI18nComp) event.getButton()).getKey();
-			UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria
-					.setPriorities(new SetSearchField<>(
-							new String[] { key }));
-			final BugFilterParameter param = new BugFilterParameter(
-					"Unresolved " + key + " Bug List",
-					UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
-			EventBusFactory.getInstance()
-					.post(new BugEvent.GotoList(this, new BugScreenData.Search(
-							param)));
-		}
-	}
+        @Override
+        public void buttonClick(final ClickEvent event) {
+            final String key = ((ButtonI18nComp) event.getButton()).getKey();
+            UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria
+                    .setPriorities(new SetSearchField<>(
+                            new String[]{key}));
+            final BugFilterParameter param = new BugFilterParameter(
+                    "Unresolved " + key + " Bug List",
+                    UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
+            EventBusFactory.getInstance()
+                    .post(new BugEvent.GotoList(this, new BugScreenData.Search(
+                            param)));
+        }
+    }
 }

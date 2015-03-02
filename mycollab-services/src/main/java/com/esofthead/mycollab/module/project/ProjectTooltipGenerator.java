@@ -78,8 +78,7 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 public class ProjectTooltipGenerator {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ProjectTooltipGenerator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProjectTooltipGenerator.class);
 
 	private static String generateTolltipNull(Locale locale) {
 		Div div = new Div();
@@ -828,7 +827,6 @@ public class ProjectTooltipGenerator {
 			div.appendChild(table);
 
 			return div.write();
-
 		} catch (Exception e) {
 			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
@@ -856,7 +854,6 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow2);
 
 			return tooltipManager.create().write();
-
 		} catch (Exception e) {
 			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",
@@ -885,7 +882,6 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow2);
 
 			return tooltipManager.create().write();
-
 		} catch (Exception e) {
 			LOG.error(
 					"Error while generate tooltip for servlet project tooltip",

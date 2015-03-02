@@ -69,8 +69,10 @@
         
         #ifnotnull($searchCriteria.saccountid)
             ${searchCriteria.saccountid.operation}
-                (SELECT COUNT(*) FROM m_prj_project
-                WHERE m_prj_project.sAccountId=@{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND m_prj_member.projectId=m_prj_project.id ) > 0
+                EXISTS (SELECT 1
+                           FROM m_prj_project
+                           WHERE m_prj_project.sAccountId=@{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+                               AND m_prj_member.projectId=m_prj_project.id LIMIT 1)
         #end
         
         #ifnotnull($searchCriteria.involvedMember)
@@ -190,13 +192,15 @@
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,
                 s_user_account.accountId, s_user.language, s_user.avatarid
             FROM s_user, s_user_account
-         WHERE s_user.username=s_user_account.username AND ((SELECT COUNT(*) 
+         WHERE s_user.username=s_user_account.username AND
+               EXISTS (SELECT 1
                 FROM m_prj_member 
                 WHERE m_prj_member.username = s_user.username 
                     AND m_prj_member.status='Active' 
                     AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
                     AND s_user_account.username=s_user.username 
-                    AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}) > 0)
+                    AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}
+                    LIMIT 1)
         ]]>
 
     </select>

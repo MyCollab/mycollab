@@ -116,7 +116,7 @@ public class BugSearchCriteria extends SearchCriteria {
 			StringBuffer sqlResult = new StringBuffer();
 			Object[] array = values.toArray();
 			for (int i = 0; i < array.length; i++) {
-				final Object affectedversion = array[i];
+				final Object affectedVersion = array[i];
 				String result = new SQL() {
 					{
 						SELECT("COUNT(*)");
@@ -126,7 +126,7 @@ public class BugSearchCriteria extends SearchCriteria {
 						AND();
 						WHERE(String.format(
 								"m_tracker_bug_related_item.typeid=%d",
-								affectedversion));
+								affectedVersion));
 						AND();
 						WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id");
 					}

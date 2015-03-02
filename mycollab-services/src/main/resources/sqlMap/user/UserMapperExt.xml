@@ -30,12 +30,12 @@
             
             #ifnotnull($searchCriteria.subdomain)
                 ${searchCriteria.subdomain.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM s_account, s_user_account AS user_account 
                     WHERE s_account.subdomain=@{searchCriteria.subdomain.value} 
                         AND  user_account.accountId=s_account.id 
                         AND user_account.username=s_user.username
-                ) > 0
+                LIMIT 1)
             #end
             
             #ifnotnull($searchCriteria.registerStatuses)
@@ -72,20 +72,20 @@
             
             #ifnotnull($searchCriteria.saccountid)
                 ${searchCriteria.saccountid.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM s_user_account 
                     WHERE s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC} 
-                        AND s_user_account.username=s_user.username) > 0
+                        AND s_user_account.username=s_user.username LIMIT 1)
             #end
             
             #ifnotnull($searchCriteria.subdomain)
                 ${searchCriteria.subdomain.operation} 
-                (SELECT COUNT(*) 
+                EXISTS (SELECT 1
                     FROM s_account, s_user_account AS user_account 
                     WHERE s_account.subdomain=@{searchCriteria.subdomain.value} 
                         AND  user_account.accountId=s_account.id 
                         AND user_account.username=s_user.username
-                ) > 0
+                LIMIT 1)
             #end
             
             #ifnotnull($searchCriteria.registerStatuses)
@@ -117,8 +117,8 @@
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
             s_user_account.registerStatus
         FROM s_user 
-                LEFT OUTER JOIN s_user_account ON (s_user.username=s_user_account.username)
-                LEFT OUTER JOIN s_account ON (s_user_account.accountId = s_account.id)
+                INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
+                INNER JOIN s_account ON (s_user_account.accountId = s_account.id)
                 LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
                 LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=s_user_account.accountId)
         ]]>

@@ -72,7 +72,6 @@ public class BugListPresenter extends
 
 			BugFilterParameter param = (BugFilterParameter) data.getParams();
 			searchCriteria = param.getSearchCriteria();
-			view.setTitle(param.getScreenTitle());
 			int totalCount = bugService
 					.getTotalCount(param.getSearchCriteria());
 
@@ -93,7 +92,8 @@ public class BugListPresenter extends
 
 	@Override
 	public void doSearch(BugSearchCriteria searchCriteria) {
-		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+		int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+        view.getSearchHandlers().setTotalCountNumber(totalCountItems);
 	}
 
 	@Override

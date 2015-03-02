@@ -32,9 +32,9 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
+import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -46,8 +46,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * 
  */
 @SuppressWarnings("serial")
-public class AccountSearchPanel extends
-		DefaultGenericSearchPanel<AccountSearchCriteria> {
+public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
 			AccountSearchCriteria.p_accountName,
@@ -62,40 +61,31 @@ public class AccountSearchPanel extends
 			AccountSearchCriteria.p_createdtime,
 			AccountSearchCriteria.p_lastupdatedtime };
 
-	private HorizontalLayout createSearchTopPanel() {
-		final MHorizontalLayout layout = new MHorizontalLayout()
-				.withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
-				.withSpacing(true)
-				.withMargin(new MarginInfo(true, false, true, false));
+    @Override
+    protected HeaderWithFontAwesome buildSearchTitle() {
+        return new CrmViewHeader(CrmTypeConstants.ACCOUNT,
+                AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
+    }
 
-		final Label searchTitle = new CrmViewHeader(CrmTypeConstants.ACCOUNT,
-				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
-		searchTitle.setStyleName(UIConstants.HEADER_TEXT);
+    @Override
+    protected void buildExtraControls() {
+        final Button createAccountBtn = new Button(
+                AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
+                new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        EventBusFactory.getInstance().post(
+                                new AccountEvent.GotoAdd(this, null));
+                    }
+                });
+        createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        createAccountBtn.setIcon(FontAwesome.PLUS);
+        createAccountBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        this.addHeaderRight(createAccountBtn);
+    }
 
-		layout.with(searchTitle).withAlign(searchTitle, Alignment.MIDDLE_LEFT)
-				.expand(searchTitle);
-
-		final Button createAccountBtn = new Button(
-				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new AccountEvent.GotoAdd(this, null));
-					}
-				});
-		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setIcon(FontAwesome.PLUS);
-		createAccountBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-
-		layout.with(createAccountBtn).withAlign(createAccountBtn,
-				Alignment.MIDDLE_RIGHT);
-
-		return layout;
-	}
-
-	@Override
+    @Override
 	protected BasicSearchLayout<AccountSearchCriteria> createBasicSearchLayout() {
 		return new AccountBasicSearchLayout();
 	}
@@ -114,7 +104,7 @@ public class AccountSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return AccountSearchPanel.this.createSearchTopPanel();
+			return AccountSearchPanel.this.constructHeader();
 		}
 
 		@Override
@@ -138,7 +128,6 @@ public class AccountSearchPanel extends
 
 	private class AccountBasicSearchLayout extends
 			BasicSearchLayout<AccountSearchCriteria> {
-
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
 
@@ -211,7 +200,7 @@ public class AccountSearchPanel extends
 
 		@Override
 		public ComponentContainer constructHeader() {
-			return AccountSearchPanel.this.createSearchTopPanel();
+			return AccountSearchPanel.this.constructHeader();
 		}
 
 		@Override
@@ -231,5 +220,4 @@ public class AccountSearchPanel extends
 			return searchCriteria;
 		}
 	}
-
 }

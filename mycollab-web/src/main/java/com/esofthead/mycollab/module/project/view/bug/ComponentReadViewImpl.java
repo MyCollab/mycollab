@@ -82,11 +82,9 @@ import java.util.UUID;
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class ComponentReadViewImpl extends
         AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
-
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ComponentReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ComponentReadViewImpl.class);
 
     private CommentDisplay commentDisplay;
     private ComponentHistoryLogList historyLogList;

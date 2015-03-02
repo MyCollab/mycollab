@@ -38,8 +38,7 @@ import com.vaadin.ui.Table;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class RoleTableDisplay extends
-		DefaultPagedBeanTable<RoleService, RoleSearchCriteria, SimpleRole> {
+public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSearchCriteria, SimpleRole> {
 	private static final long serialVersionUID = 1L;
 
 	public RoleTableDisplay(TableViewField requiredColumn,
@@ -81,14 +80,11 @@ public class RoleTableDisplay extends
 				final SimpleRole role = RoleTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(role.getRolename(),
+				return new LabelLink(role.getRolename(),
 						GenericLinkUtils.URL_PREFIX_PARAM
 								+ AccountLinkGenerator.generateRoleLink(role
 										.getId()));
-				return b;
-
 			}
 		});
 	}
-
 }

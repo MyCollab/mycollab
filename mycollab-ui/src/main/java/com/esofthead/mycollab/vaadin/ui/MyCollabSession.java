@@ -16,91 +16,87 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.SessionIdGenerator;
-import org.infinispan.commons.api.BasicCache;
+import com.esofthead.mycollab.core.SessionExpireException;
+import com.vaadin.server.VaadinSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class MyCollabSession {
 
-	private static final Logger LOG = LoggerFactory.getLogger(MyCollabSession.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MyCollabSession.class);
 
-	public static final String EVENT_BUS_VAL = "eventBusVal";
+    public static final String EVENT_BUS_VAL = "eventBusVal";
 
-	public static final String CURRENT_PROJECT = "project";
+    public static final String CURRENT_PROJECT = "project";
 
-	public static final String PROJECT_MEMBER = "project_member";
+    public static final String PROJECT_MEMBER = "project_member";
 
-	public static final String USER_TIMEZONE = "USER_TIMEZONE";
+    public static final String USER_TIMEZONE = "USER_TIMEZONE";
 
-	public static final String USER_SHORT_DATE_FORMAT = "USER_SHORT_DATE_FORMAT";
+    public static final String USER_SHORT_DATE_FORMAT = "USER_SHORT_DATE_FORMAT";
 
-	public static final String USER_DATE_FORMAT = "USER_DATE_FORMAT";
+    public static final String USER_DATE_FORMAT = "USER_DATE_FORMAT";
 
-	public static final String USER_DATE_TIME_DATE_FORMAT = "USER_DATE_TIME_DATE_FORMAT";
+    public static final String USER_DATE_TIME_DATE_FORMAT = "USER_DATE_TIME_DATE_FORMAT";
 
-	public static final String USER_DAY_MONTH_FORMAT = "USER_DAY_MONTH_FORMAT";
+    public static final String USER_DAY_MONTH_FORMAT = "USER_DAY_MONTH_FORMAT";
 
-	public static final String CURRENT_MODULE = "currentModule";
+    public static final String CURRENT_MODULE = "currentModule";
 
-	public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";
+    public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";
 
-	public static final String HISTORY_VAL = "historyVal";
+    public static final String HISTORY_VAL = "historyVal";
 
-	public static final String PRESENTER_VAL = "presenterMap";
+    public static final String PRESENTER_VAL = "presenterMap";
 
-	public static final String VIEW_MANAGER_VAL = "viewMap";
+    public static final String VIEW_MANAGER_VAL = "viewMap";
 
-	public static final String CURRENT_APP = "currentApp";
+    public static final String CURRENT_APP = "currentApp";
 
-	private MyCollabSession() {
-	}
+    private MyCollabSession() {
+    }
 
-	/**
-	 * 
-	 * @param key
-	 * @param value
-	 */
-	public static void putVariable(String key, Object value) {
-		BasicCache<String, Object> cache = LocalCacheManager
-				.getCache(getSessionId());
-		cache.put(key, value);
-	}
+    /**
+     * @param key
+     * @param value
+     */
+    public static void putVariable(String key, Object value) {
+        try {
+            VaadinSession.getCurrent().setAttribute(key, value);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
 
-	/**
-	 * 
-	 * @param key
-	 */
-	public static void removeVariable(String key) {
-		try {
-			BasicCache<String, Object> cache = LocalCacheManager
-					.getCache(getSessionId());
-			cache.remove(key);
-		} catch (Exception e) {
-			LOG.error("Can not remove cache key " + key, e);
-		}
-	}
+    /**
+     * @param key
+     */
+    public static void removeVariable(String key) {
+        try {
+            VaadinSession.getCurrent().setAttribute(key, null);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
 
-	/**
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public static Object getVariable(String key) {
-		BasicCache<String, Object> cache = LocalCacheManager
-				.getCache(getSessionId());
-		return cache.get(key);
-	}
+    /**
+     * @param key
+     * @return
+     */
+    public static Object getVariable(String key) {
+        try {
+            return VaadinSession.getCurrent().getAttribute(key);
+        } catch (Exception e) {
+            throw new SessionExpireException("Expire Exception");
+        }
+    }
 
-	public static String getSessionId() {
-		return SessionIdGenerator.getSessionId();
-	}
-
+    public static String getSessionId() {
+        return SessionIdGenerator.getSessionId();
+    }
 }

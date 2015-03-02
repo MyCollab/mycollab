@@ -39,7 +39,6 @@ import com.vaadin.ui.Button.ClickEvent;
  */
 @SuppressWarnings("serial")
 public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
-
     private BugSearchCriteria searchCriteria;
     private TextField textValueField;
     private GridLayout layoutSearchPane;
@@ -125,5 +124,10 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
         layoutSearchPane.addComponent(textValueField, 0, 0);
         layoutSearchPane.setComponentAlignment(textValueField,
                 Alignment.MIDDLE_CENTER);
+    }
+
+    @Override
+    public void setTotalCountNumber(int totalCountNumber) {
+
     }
 }
