@@ -16,17 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -46,13 +39,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
-import com.esofthead.mycollab.module.project.domain.Project;
-import com.esofthead.mycollab.module.project.domain.ProjectExample;
-import com.esofthead.mycollab.module.project.domain.ProjectMember;
-import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
-import com.esofthead.mycollab.module.project.domain.ProjectRole;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectCommand;
 import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
@@ -61,250 +48,260 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "name", type = ProjectTypeConstants.PROJECT, extraFieldName = "id")
+@Traceable(nameField = "name", extraFieldName = "id")
 public class ProjectServiceImpl extends
-		DefaultService<Integer, Project, ProjectSearchCriteria> implements
-		ProjectService {
+        DefaultService<Integer, Project, ProjectSearchCriteria> implements
+        ProjectService {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ProjectServiceImpl.class);
+    static {
+        ClassInfoMap.put(ProjectServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT));
+    }
 
-	@Autowired
-	private ProjectMapper projectMapper;
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ProjectServiceImpl.class);
 
-	@Autowired
-	private ProjectMapperExt projectMapperExt;
+    @Autowired
+    private ProjectMapper projectMapper;
 
-	@Autowired
-	private ProjectMemberMapper projectMemberMapper;
+    @Autowired
+    private ProjectMapperExt projectMapperExt;
 
-	@Autowired
-	private ProjectRoleService projectRoleService;
+    @Autowired
+    private ProjectMemberMapper projectMemberMapper;
 
-	@Autowired
-	private ProjectTaskListService taskListService;
+    @Autowired
+    private ProjectRoleService projectRoleService;
 
-	@Autowired
-	private BillingPlanCheckerService billingPlanCheckerService;
+    @Autowired
+    private ProjectTaskListService taskListService;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public ICrudGenericDAO<Integer, Project> getCrudMapper() {
-		return projectMapper;
-	}
+    @Autowired
+    private BillingPlanCheckerService billingPlanCheckerService;
 
-	@Override
-	public ISearchableDAO<ProjectSearchCriteria> getSearchMapper() {
-		return projectMapperExt;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public ICrudGenericDAO<Integer, Project> getCrudMapper() {
+        return projectMapper;
+    }
 
-	@Override
-	public int updateWithSession(Project record, String username) {
-		assertExistProjectShortnameInAccount(record.getShortname(),
-				record.getSaccountid());
-		return super.updateWithSession(record, username);
-	}
+    @Override
+    public ISearchableDAO<ProjectSearchCriteria> getSearchMapper() {
+        return projectMapperExt;
+    }
 
-	@Override
-	public int saveWithSession(Project record, String username) {
-		billingPlanCheckerService.validateAccountCanCreateMoreProject(record
-				.getSaccountid());
+    @Override
+    public int updateWithSession(Project record, String username) {
+        assertExistProjectShortnameInAccount(record.getShortname(),
+                record.getSaccountid());
+        return super.updateWithSession(record, username);
+    }
 
-		assertExistProjectShortnameInAccount(record.getShortname(),
-				record.getSaccountid());
+    @Override
+    public int saveWithSession(Project record, String username) {
+        billingPlanCheckerService.validateAccountCanCreateMoreProject(record
+                .getSaccountid());
 
-		int projectid = super.saveWithSession(record, username);
+        assertExistProjectShortnameInAccount(record.getShortname(),
+                record.getSaccountid());
 
-		// Add the first user to project
-		ProjectMember projectMember = new ProjectMember();
-		projectMember.setIsadmin(Boolean.TRUE);
-		projectMember.setStatus(ProjectMemberStatusConstants.ACTIVE);
-		projectMember.setJoindate(new GregorianCalendar().getTime());
-		projectMember.setProjectid(projectid);
-		projectMember.setUsername(username);
-		projectMember.setSaccountid(record.getSaccountid());
-		projectMemberMapper.insert(projectMember);
+        int projectid = super.saveWithSession(record, username);
 
-		// add client role to project
-		ProjectRole clientRole = createProjectRole(projectid,
-				record.getSaccountid(), "Client", "Default role for client");
+        // Add the first user to project
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setIsadmin(Boolean.TRUE);
+        projectMember.setStatus(ProjectMemberStatusConstants.ACTIVE);
+        projectMember.setJoindate(new GregorianCalendar().getTime());
+        projectMember.setProjectid(projectid);
+        projectMember.setUsername(username);
+        projectMember.setSaccountid(record.getSaccountid());
+        projectMemberMapper.insert(projectMember);
 
-		int clientRoleId = projectRoleService.saveWithSession(clientRole,
-				username);
+        // add client role to project
+        ProjectRole clientRole = createProjectRole(projectid,
+                record.getSaccountid(), "Client", "Default role for client");
 
-		PermissionMap permissionMapClient = new PermissionMap();
-		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+        int clientRoleId = projectRoleService.saveWithSession(clientRole,
+                username);
 
-			String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+        PermissionMap permissionMapClient = new PermissionMap();
+        for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
 
-			if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-					|| permissionName
-							.equals(ProjectRolePermissionCollections.ROLES)
-					|| permissionName
-							.equals(ProjectRolePermissionCollections.MESSAGES)) {
-				permissionMapClient
-						.addPath(
-								ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-								AccessPermissionFlag.NO_ACCESS);
-			} else {
-				permissionMapClient
-						.addPath(
-								ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-								AccessPermissionFlag.READ_ONLY);
-			}
-		}
-		projectRoleService.savePermission(projectid, clientRoleId,
-				permissionMapClient, record.getSaccountid());
+            String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
-		// add consultant role to project
-		LOG.debug("Add consultant role to project {}", record.getName());
-		ProjectRole consultantRole = createProjectRole(projectid,
-				record.getSaccountid(), "Consultant",
-				"Default role for consultant");
-		int consultantRoleId = projectRoleService.saveWithSession(
-				consultantRole, username);
+            if (permissionName.equals(ProjectRolePermissionCollections.USERS)
+                    || permissionName
+                    .equals(ProjectRolePermissionCollections.ROLES)
+                    || permissionName
+                    .equals(ProjectRolePermissionCollections.MESSAGES)) {
+                permissionMapClient
+                        .addPath(
+                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                                AccessPermissionFlag.NO_ACCESS);
+            } else {
+                permissionMapClient
+                        .addPath(
+                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                                AccessPermissionFlag.READ_ONLY);
+            }
+        }
+        projectRoleService.savePermission(projectid, clientRoleId,
+                permissionMapClient, record.getSaccountid());
 
-		PermissionMap permissionMapConsultant = new PermissionMap();
-		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+        // add consultant role to project
+        LOG.debug("Add consultant role to project {}", record.getName());
+        ProjectRole consultantRole = createProjectRole(projectid,
+                record.getSaccountid(), "Consultant",
+                "Default role for consultant");
+        int consultantRoleId = projectRoleService.saveWithSession(
+                consultantRole, username);
 
-			String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+        PermissionMap permissionMapConsultant = new PermissionMap();
+        for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
 
-			if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-					|| permissionName
-							.equals(ProjectRolePermissionCollections.ROLES)) {
-				permissionMapConsultant
-						.addPath(
-								ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-								AccessPermissionFlag.READ_ONLY);
-			} else {
-				permissionMapConsultant
-						.addPath(
-								ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-								AccessPermissionFlag.ACCESS);
-			}
-		}
-		projectRoleService.savePermission(projectid, consultantRoleId,
-				permissionMapConsultant, record.getSaccountid());
+            String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
-		// add admin role to project
-		LOG.debug("Add admin role to project {}", record.getName());
-		ProjectRole adminRole = createProjectRole(projectid,
-				record.getSaccountid(), "Admin", "Default role for admin");
-		int adminRoleId = projectRoleService.saveWithSession(adminRole,
-				username);
+            if (permissionName.equals(ProjectRolePermissionCollections.USERS)
+                    || permissionName
+                    .equals(ProjectRolePermissionCollections.ROLES)) {
+                permissionMapConsultant
+                        .addPath(
+                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                                AccessPermissionFlag.READ_ONLY);
+            } else {
+                permissionMapConsultant
+                        .addPath(
+                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                                AccessPermissionFlag.ACCESS);
+            }
+        }
+        projectRoleService.savePermission(projectid, consultantRoleId,
+                permissionMapConsultant, record.getSaccountid());
 
-		PermissionMap permissionMapAdmin = new PermissionMap();
-		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+        // add admin role to project
+        LOG.debug("Add admin role to project {}", record.getName());
+        ProjectRole adminRole = createProjectRole(projectid,
+                record.getSaccountid(), "Admin", "Default role for admin");
+        int adminRoleId = projectRoleService.saveWithSession(adminRole,
+                username);
 
-			permissionMapAdmin.addPath(
-					ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-					AccessPermissionFlag.ACCESS);
-		}
-		projectRoleService.savePermission(projectid, adminRoleId,
-				permissionMapAdmin, record.getSaccountid());
+        PermissionMap permissionMapAdmin = new PermissionMap();
+        for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
 
-		LOG.debug("Create default task group");
-		TaskList taskList = new TaskList();
-		taskList.setProjectid(projectid);
-		taskList.setSaccountid(record.getSaccountid());
-		taskList.setStatus(StatusI18nEnum.Open.name());
-		taskList.setName("General Assignments");
-		taskListService.saveWithSession(taskList, username);
+            permissionMapAdmin.addPath(
+                    ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                    AccessPermissionFlag.ACCESS);
+        }
+        projectRoleService.savePermission(projectid, adminRoleId,
+                permissionMapAdmin, record.getSaccountid());
 
-		return projectid;
-	}
+        LOG.debug("Create default task group");
+        TaskList taskList = new TaskList();
+        taskList.setProjectid(projectid);
+        taskList.setSaccountid(record.getSaccountid());
+        taskList.setStatus(StatusI18nEnum.Open.name());
+        taskList.setName("General Assignments");
+        taskListService.saveWithSession(taskList, username);
 
-	private void assertExistProjectShortnameInAccount(String shortname,
-			int sAccountId) {
-		ProjectExample ex = new ProjectExample();
-		ex.createCriteria().andShortnameEqualTo(shortname)
-				.andSaccountidEqualTo(sAccountId);
-		if (projectMapper.countByExample(ex) > 0) {
-			throw new UserInvalidInputException(
-					"There is already project in the account has short name "
-							+ shortname);
-		}
-	}
+        return projectid;
+    }
 
-	private ProjectRole createProjectRole(int projectId, int sAccountId,
-			String roleName, String description) {
-		ProjectRole projectRole = new ProjectRole();
-		projectRole.setProjectid(projectId);
-		projectRole.setSaccountid(sAccountId);
-		projectRole.setRolename(roleName);
-		projectRole.setDescription(description);
-		return projectRole;
-	}
+    private void assertExistProjectShortnameInAccount(String shortname,
+                                                      int sAccountId) {
+        ProjectExample ex = new ProjectExample();
+        ex.createCriteria().andShortnameEqualTo(shortname)
+                .andSaccountidEqualTo(sAccountId);
+        if (projectMapper.countByExample(ex) > 0) {
+            throw new UserInvalidInputException(
+                    "There is already project in the account has short name "
+                            + shortname);
+        }
+    }
 
-	@Override
-	public SimpleProject findById(int projectId, int sAccountId) {
-		return projectMapperExt.findProjectById(projectId);
-	}
+    private ProjectRole createProjectRole(int projectId, int sAccountId,
+                                          String roleName, String description) {
+        ProjectRole projectRole = new ProjectRole();
+        projectRole.setProjectid(projectId);
+        projectRole.setSaccountid(sAccountId);
+        projectRole.setRolename(roleName);
+        projectRole.setDescription(description);
+        return projectRole;
+    }
 
-	@Override
-	public List<Integer> getProjectKeysUserInvolved(String username,
-			Integer sAccountId) {
-		ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-		searchCriteria.setInvolvedMember(new StringSearchField(username));
-		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { StatusI18nEnum.Open.name() }));
-		return projectMapperExt.getUserProjectKeys(searchCriteria);
-	}
+    @Override
+    public SimpleProject findById(int projectId, int sAccountId) {
+        return projectMapperExt.findProjectById(projectId);
+    }
 
-	@Override
-	public String getSubdomainOfProject(int projectId) {
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			return projectMapperExt.getSubdomainOfProject(projectId);
-		} else {
-			return SiteConfiguration.getSiteUrl("");
-		}
-	}
+    @Override
+    public List<Integer> getProjectKeysUserInvolved(String username,
+                                                    Integer sAccountId) {
+        ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+        searchCriteria.setInvolvedMember(new StringSearchField(username));
+        searchCriteria.setProjectStatuses(new SetSearchField<String>(
+                new String[]{StatusI18nEnum.Open.name()}));
+        return projectMapperExt.getUserProjectKeys(searchCriteria);
+    }
 
-	@Override
-	public int removeWithSession(Integer projectId, String username,
-			int accountId) {
-		// notify listener project is removed, then silently remove project in
-		// associate records
-		try {
-			Project project = findByPrimaryKey(projectId, accountId);
+    @Override
+    public String getSubdomainOfProject(int projectId) {
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            return projectMapperExt.getSubdomainOfProject(projectId);
+        } else {
+            return SiteConfiguration.getSiteUrl("");
+        }
+    }
 
-			DeleteProjectCommand projectDeleteListener = CamelProxyBuilderUtil
-					.build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT,
-							DeleteProjectCommand.class);
-			projectDeleteListener.projectRemoved(project.getSaccountid(),
-					projectId);
-		} catch (Exception e) {
-			LOG.error("Error while notify user delete", e);
-		}
-		return super.removeWithSession(projectId, username, accountId);
-	}
+    @Override
+    public int removeWithSession(Integer projectId, String username,
+                                 int accountId) {
+        // notify listener project is removed, then silently remove project in
+        // associate records
+        try {
+            Project project = findByPrimaryKey(projectId, accountId);
 
-	@Override
-	public Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId) {
-		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(sAccountId));
-		criteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { StatusI18nEnum.Open.name() }));
-		return projectMapperExt.getTotalCount(criteria);
-	}
+            DeleteProjectCommand projectDeleteListener = CamelProxyBuilderUtil
+                    .build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT,
+                            DeleteProjectCommand.class);
+            projectDeleteListener.projectRemoved(project.getSaccountid(),
+                    projectId);
+        } catch (Exception e) {
+            LOG.error("Error while notify user delete", e);
+        }
+        return super.removeWithSession(projectId, username, accountId);
+    }
 
-	@Override
-	public List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications() {
-		return projectMapperExt.findProjectRelayEmailNotifications();
-	}
+    @Override
+    public Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId) {
+        ProjectSearchCriteria criteria = new ProjectSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(sAccountId));
+        criteria.setProjectStatuses(new SetSearchField<>(
+                new String[]{StatusI18nEnum.Open.name()}));
+        return projectMapperExt.getTotalCount(criteria);
+    }
 
-	@Override
-	public List<SimpleProject> getProjectsUserInvolved(String username,
-			Integer sAccountId) {
-		return projectMapperExt.getProjectsUserInvolved(username, sAccountId);
-	}
+    @Override
+    public List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications() {
+        return projectMapperExt.findProjectRelayEmailNotifications();
+    }
+
+    @Override
+    public List<SimpleProject> getProjectsUserInvolved(String username,
+                                                       Integer sAccountId) {
+        return projectMapperExt.getProjectsUserInvolved(username, sAccountId);
+    }
 }

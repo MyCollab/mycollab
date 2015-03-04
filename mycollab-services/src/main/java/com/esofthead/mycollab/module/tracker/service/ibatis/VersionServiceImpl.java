@@ -16,14 +16,8 @@
  */
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -35,34 +29,41 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "versionname", type = ProjectTypeConstants.BUG_VERSION, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG_VERSION)
-@Watchable(type = ProjectTypeConstants.BUG_VERSION, extraTypeId = "projectid", emailHandlerBean = VersionRelayEmailNotificationAction.class)
+@Traceable(nameField = "versionname", extraFieldName = "projectid")
+@Auditable()
+@Watchable(extraTypeId = "projectid")
+@NotifyAgent(VersionRelayEmailNotificationAction.class)
 public class VersionServiceImpl extends
-		DefaultService<Integer, Version, VersionSearchCriteria> implements
-		VersionService {
+        DefaultService<Integer, Version, VersionSearchCriteria> implements
+        VersionService {
+    static {
+        ClassInfoMap.put(VersionServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_VERSION));
+    }
 
-	@Autowired
-	private VersionMapper versionMapper;
+    @Autowired
+    private VersionMapper versionMapper;
 
-	@Autowired
-	private VersionMapperExt versionMapperExt;
+    @Autowired
+    private VersionMapperExt versionMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, Version> getCrudMapper() {
-		return versionMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Version> getCrudMapper() {
+        return versionMapper;
+    }
 
-	@Override
-	public ISearchableDAO<VersionSearchCriteria> getSearchMapper() {
-		return versionMapperExt;
-	}
+    @Override
+    public ISearchableDAO<VersionSearchCriteria> getSearchMapper() {
+        return versionMapperExt;
+    }
 
-	@Override
-	public SimpleVersion findById(int versionId, int sAccountId) {
-		return versionMapperExt.findVersionById(versionId);
-	}
+    @Override
+    public SimpleVersion findById(int versionId, int sAccountId) {
+        return versionMapperExt.findVersionById(versionId);
+    }
 }

@@ -38,18 +38,34 @@ public class SimpleTask extends Task {
     private String logByAvatarId;
     private String logByFullName;
     private String logByUserTimeZone;
-    private int numComments;
+    private Integer numComments;
     private String comment;
     private String parentTaskName;
-    private int parentTaskKey;
-    private int numSubTasks;
+    private Integer parentTaskKey;
+    private Integer numSubTasks;
 
-    public int getNumComments() {
+    public Integer getNumComments() {
         return numComments;
     }
 
-    public void setNumComments(int numComments) {
+    public void setNumComments(Integer numComments) {
         this.numComments = numComments;
+    }
+
+    public Integer getParentTaskKey() {
+        return parentTaskKey;
+    }
+
+    public void setParentTaskKey(Integer parentTaskKey) {
+        this.parentTaskKey = parentTaskKey;
+    }
+
+    public Integer getNumSubTasks() {
+        return numSubTasks;
+    }
+
+    public void setNumSubTasks(Integer numSubTasks) {
+        this.numSubTasks = numSubTasks;
     }
 
     public String getProjectName() {
@@ -146,13 +162,7 @@ public class SimpleTask extends Task {
         this.parentTaskName = parentTaskName;
     }
 
-    public int getParentTaskKey() {
-        return parentTaskKey;
-    }
 
-    public void setParentTaskKey(int parentTaskKey) {
-        this.parentTaskKey = parentTaskKey;
-    }
 
     public boolean isCompleted() {
         return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() !=  null)
@@ -170,14 +180,6 @@ public class SimpleTask extends Task {
         }
 
         return false;
-    }
-
-    public int getNumSubTasks() {
-        return numSubTasks;
-    }
-
-    public void setNumSubTasks(int numSubTasks) {
-        this.numSubTasks = numSubTasks;
     }
 
     public static enum Field {

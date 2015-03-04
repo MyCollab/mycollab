@@ -80,8 +80,8 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				Integer taskid = reportParameters.getFieldValue(Task.Field.taskkey.name());
-				return ProjectLinkBuilder.generateTaskPreviewFullLink(taskid,
+				Integer taskId = reportParameters.getFieldValue(Task.Field.taskkey.name());
+				return ProjectLinkBuilder.generateTaskPreviewFullLink(taskId,
 						CurrentProjectVariables.getShortName());
 			}
 		};
@@ -162,23 +162,20 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 		LOG.debug("Build report mapper for project::component module");
 
 		Map<String, MValue> map = new HashMap<>();
-		DRIExpression<String> summaryTitleExpr = new StringExpression(
-				"componentname");
+		DRIExpression<String> summaryTitleExpr = new StringExpression("componentname");
 		DRIExpression<String> summaryHrefExpr = new AbstractSimpleExpression<String>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				Integer componentid = reportParameters.getFieldValue("id");
+				Integer componentId = reportParameters.getFieldValue("id");
 				return ProjectLinkBuilder.generateComponentPreviewFullLink(
-						CurrentProjectVariables.getProjectId(), componentid);
+						CurrentProjectVariables.getProjectId(), componentId);
 			}
 		};
-		map.put("componentname", new HyperlinkValue(summaryTitleExpr,
-				summaryHrefExpr));
+		map.put("componentname", new HyperlinkValue(summaryTitleExpr, summaryHrefExpr));
 
-		DRIExpression<String> assigneeTitleExpr = new StringExpression(
-				"userLeadFullName");
+		DRIExpression<String> assigneeTitleExpr = new StringExpression("userLeadFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -194,9 +191,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 			}
 		};
 
-		map.put("userLeadFullName", new HyperlinkValue(assigneeTitleExpr,
-				assigneeHrefExpr));
-
+		map.put("userLeadFullName", new HyperlinkValue(assigneeTitleExpr, assigneeHrefExpr));
 		return map;
 	}
 

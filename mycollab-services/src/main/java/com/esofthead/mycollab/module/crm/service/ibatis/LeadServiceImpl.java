@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.service.ibatis;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -59,12 +57,16 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.LEAD, nameField = "lastname")
-@Auditable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.LEAD)
-@Watchable(type = CrmTypeConstants.LEAD, userFieldName = "assignuser", emailHandlerBean = LeadRelayEmailNotificationAction.class)
+@Traceable(nameField = "lastname")
+@Auditable()
+@Watchable(userFieldName = "assignuser")
+@NotifyAgent(LeadRelayEmailNotificationAction.class)
 public class LeadServiceImpl extends
 		DefaultService<Integer, Lead, LeadSearchCriteria> implements
 		LeadService {
+    static  {
+        ClassInfoMap.put(LeadServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.LEAD));
+    }
 	private static final Logger LOG = LoggerFactory.getLogger(LeadServiceImpl.class);
 
 	@Autowired

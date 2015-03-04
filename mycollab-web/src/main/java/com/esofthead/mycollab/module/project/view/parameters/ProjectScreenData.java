@@ -27,14 +27,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  */
 public class ProjectScreenData {
 	public static class Goto extends ScreenData<Integer> {
-
 		public Goto(Integer params) {
 			super(params);
 		}
 	}
 
 	public static class Edit extends ScreenData<Project> {
-
 		public Edit(Project params) {
 			super(params);
 		}

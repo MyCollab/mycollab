@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.common.interceptor.aspect;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
+import com.esofthead.mycollab.common.ActivityStreamConstants;
+import com.esofthead.mycollab.common.domain.ActivityStream;
+import com.esofthead.mycollab.common.service.ActivityStreamService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -30,10 +30,9 @@ import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.ActivityStreamConstants;
-import com.esofthead.mycollab.common.domain.ActivityStream;
-import com.esofthead.mycollab.common.service.ActivityStreamService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -43,9 +42,9 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 @Aspect
 @Component
 public class TraceableAspect {
-
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TraceableAspect.class);
+
 	@Autowired
 	private ActivityStreamService activityStreamService;
 
@@ -59,7 +58,7 @@ public class TraceableAspect {
 		Traceable traceableAnnotation = cls.getAnnotation(Traceable.class);
 		if (traceableAnnotation != null) {
 			try {
-				ActivityStream activity = constructActivity(
+				ActivityStream activity = constructActivity(cls,
 						traceableAnnotation, bean, username,
 						ActivityStreamConstants.ACTION_CREATE);
 				activityStreamService.save(activity);
@@ -72,25 +71,24 @@ public class TraceableAspect {
 
 	}
 
-	static ActivityStream constructActivity(Traceable traceableAnnotation,
+	static ActivityStream constructActivity(Class<?> cls, Traceable traceableAnnotation,
 			Object bean, String username, String action)
 			throws IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException {
 
 		ActivityStream activity = new ActivityStream();
-		activity.setModule(traceableAnnotation.module());
-		activity.setType(traceableAnnotation.type());
+		activity.setModule(ClassInfoMap.getModule(cls));
+		activity.setType(ClassInfoMap.getType(cls));
 		activity.setTypeid(String.valueOf(PropertyUtils.getProperty(bean,
 				traceableAnnotation.idField())));
 		activity.setCreatedtime(new GregorianCalendar().getTime());
 		activity.setAction(action);
-		activity.setSaccountid((Integer) PropertyUtils.getProperty(bean,
-				"saccountid"));
+		activity.setSaccountid((Integer) PropertyUtils.getProperty(bean, "saccountid"));
 		activity.setCreateduser(username);
 
 		Object nameObj = PropertyUtils.getProperty(bean,
 				traceableAnnotation.nameField());
-		String nameField = "";
+		String nameField;
 		if (nameObj instanceof Date) {
 			nameField = DateTimeUtils.formatDate((Date) nameObj, "MM/dd/yyyy");
 		} else {

@@ -250,7 +250,6 @@ public class RelatedEditItemField extends CustomField<String> implements
 	}
 
 	private class RelatedItemComboBox extends ValueComboBox {
-
 		private static final long serialVersionUID = 1L;
 
 		public RelatedItemComboBox(String[] types) {

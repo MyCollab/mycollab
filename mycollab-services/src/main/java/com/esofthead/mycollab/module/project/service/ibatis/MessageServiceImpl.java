@@ -16,14 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
+import com.esofthead.mycollab.common.interceptor.aspect.NotifyAgent;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -38,6 +35,9 @@ import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriter
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -47,10 +47,15 @@ import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificati
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "title", type = ProjectTypeConstants.MESSAGE, extraFieldName = "projectid")
+@Traceable(nameField = "title", extraFieldName = "projectid")
+@NotifyAgent(MessageRelayEmailNotificationAction.class)
 public class MessageServiceImpl extends
 		DefaultService<Integer, Message, MessageSearchCriteria> implements
 		MessageService {
+
+    static {
+        ClassInfoMap.put(MessageServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MESSAGE));
+    }
 
 	@Autowired
 	private MessageMapper messageMapper;
@@ -69,8 +74,6 @@ public class MessageServiceImpl extends
 	@Override
 	public int saveWithSession(Message record, String username) {
 		int recordId = super.saveWithSession(record, username);
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, recordId), username);
 		CacheUtils.cleanCaches(record.getSaccountid(),
 				ProjectActivityStreamService.class);
 		return recordId;
@@ -78,8 +81,6 @@ public class MessageServiceImpl extends
 
 	@Override
 	public int updateWithSession(Message record, String username) {
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, record.getId()), username);
 		CacheUtils.cleanCaches(record.getSaccountid(),
 				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
@@ -90,25 +91,6 @@ public class MessageServiceImpl extends
 			int accountId) {
 		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
 		return super.removeWithSession(primaryKey, username, accountId);
-	}
-
-	private RelayEmailNotification createNotification(Message record,
-			String username, int recordId) {
-		RelayEmailNotification relayNotification = new RelayEmailNotification();
-		relayNotification.setChangeby(username);
-		relayNotification.setChangecomment("");
-		if (record.getSaccountid() != null) {
-			int sAccountId = record.getSaccountid();
-			relayNotification.setSaccountid(sAccountId);
-		}
-		relayNotification.setType(ProjectTypeConstants.MESSAGE);
-		relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
-		relayNotification
-				.setEmailhandlerbean(MessageRelayEmailNotificationAction.class
-						.getName());
-		relayNotification.setTypeid("" + recordId);
-		relayNotification.setExtratypeid(record.getProjectid());
-		return relayNotification;
 	}
 
 	@Override

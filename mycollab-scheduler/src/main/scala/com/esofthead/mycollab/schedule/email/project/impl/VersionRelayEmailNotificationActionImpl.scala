@@ -96,5 +96,4 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
     put(Version.Field.versionname, VersionI18nEnum.FORM_NAME)
     put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, VersionI18nEnum.FORM_DUE_DATE))
   }
-
 }

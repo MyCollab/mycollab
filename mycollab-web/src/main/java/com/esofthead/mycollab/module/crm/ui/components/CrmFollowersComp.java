@@ -204,8 +204,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 	private int getTotalFollowers(V bean) {
 		try {
 			MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-			criteria.setTypeId(new NumberSearchField((int) PropertyUtils
-					.getProperty(bean, "id")));
+			criteria.setTypeId(new NumberSearchField((int) PropertyUtils.getProperty(bean, "id")));
 			criteria.setType(new StringSearchField(type));
 			return monitorItemService.getTotalCount(criteria);
 		} catch (IllegalAccessException | InvocationTargetException

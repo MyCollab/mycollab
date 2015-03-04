@@ -16,14 +16,8 @@
  */
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -37,15 +31,22 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "componentname", type = ProjectTypeConstants.BUG_COMPONENT, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG_COMPONENT)
-@Watchable(type = ProjectTypeConstants.BUG_COMPONENT, userFieldName = "userlead", extraTypeId = "projectid", emailHandlerBean = ComponentRelayEmailNotificationAction.class)
+@Traceable(nameField = "componentname", extraFieldName = "projectid")
+@Auditable()
+@Watchable(userFieldName = "userlead", extraTypeId = "projectid")
+@NotifyAgent(ComponentRelayEmailNotificationAction.class)
 public class ComponentServiceImpl extends
 		DefaultService<Integer, Component, ComponentSearchCriteria> implements
 		ComponentService {
+    static {
+        ClassInfoMap.put(ComponentServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT));
+    }
 
 	@Autowired
 	private ComponentMapper componentMapper;
@@ -82,7 +83,5 @@ public class ComponentServiceImpl extends
 		} else {
 			return super.saveWithSession(record, username);
 		}
-
 	}
-
 }

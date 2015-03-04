@@ -64,7 +64,7 @@ public class ClassUtils {
 	 * @return
 	 */
 	public static Field[] getAllFields(Class<?> type) {
-		List<Field> fields = new ArrayList<Field>();
+		List<Field> fields = new ArrayList<>();
 		populateFields(type, fields);
 		return fields.toArray(new Field[0]);
 	}

@@ -32,7 +32,7 @@ public class NullViewState extends ViewState {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static class EmptyPresenter implements IPresenter {
+	public static class EmptyPresenter implements IPresenter {
 
 		private static final long serialVersionUID = 1L;
 

@@ -37,7 +37,6 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -120,8 +119,10 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
                     @Override
                     public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                         Property property = valueChangeEvent.getProperty();
-                        SimpleProjectMember member = (SimpleProjectMember)property.getValue();
-                        subcribersComp.addFollower(member.getUsername());
+                        SimpleProjectMember member = (SimpleProjectMember) property.getValue();
+                        if (member != null) {
+                            subcribersComp.addFollower(member.getUsername());
+                        }
                     }
                 });
                 return field;

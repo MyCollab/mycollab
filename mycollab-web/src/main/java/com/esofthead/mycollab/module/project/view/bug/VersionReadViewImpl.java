@@ -100,7 +100,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
                 CurrentProjectVariables.getProjectId(), true, true,
                 VersionRelayEmailNotificationAction.class);
         commentDisplay.setWidth("100%");
-        commentDisplay.setMargin(true);
 
         historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ,
                 ProjectTypeConstants.BUG_VERSION);
@@ -389,5 +388,4 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             return div.setCSSClass("column100");
         }
     }
-
 }

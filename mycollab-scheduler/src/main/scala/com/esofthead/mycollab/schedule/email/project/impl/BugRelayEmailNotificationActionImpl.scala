@@ -20,7 +20,8 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.common.{MonitorTypeConstants, NotificationType}
 import com.esofthead.mycollab.core.utils.StringUtils
-import com.esofthead.mycollab.html.{LinkUtils, FormatUtils}
+import com.esofthead.mycollab.html.FormatUtils._
+import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.domain._
 import com.esofthead.mycollab.module.project.i18n.{BugI18nEnum, OptionI18nEnum}
@@ -31,7 +32,6 @@ import com.esofthead.mycollab.module.tracker.service.BugService
 import com.esofthead.mycollab.module.user.AccountLinkGenerator
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.service.UserService
-import FormatUtils._
 import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
@@ -77,7 +77,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     val summaryLink: String = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName)
     val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
-    val avatarId:String = if (projectMember != null) projectMember.getMemberAvatarId else ""
+    val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
     val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
     val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
@@ -109,63 +109,40 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
     import scala.collection.JavaConverters._
     val notificationSettings: List[ProjectNotificationSetting] = projectNotificationService.findNotifications(notification.getProjectId, notification.getSaccountid).asScala.toList
     val activeUsers: List[SimpleUser] = projectMemberService.getActiveUsersInProject(notification.getProjectId, notification.getSaccountid).asScala.toList
-    val inListUsers: mutable.Buffer[SimpleUser] = notification.getNotifyUsers.asScala.toBuffer
-    if (notificationSettings != null) {
-      for (notificationSetting <- notificationSettings) {
-        if (NotificationType.None.name == notificationSetting.getLevel) {
-          var i: Int = inListUsers.size - 1
-          breakable {
-            while (i >= 0) {
-              val inUser: SimpleUser = inListUsers(i)
-              if (inUser.getUsername != null && inUser.getUsername == notificationSetting.getUsername) {
-                inListUsers remove i
-                break()
-              }
-              i = i - 1
+    val notifyUsers: mutable.Buffer[SimpleUser] = notification.getNotifyUsers.asScala.toBuffer
+
+    for (notificationSetting <- notificationSettings) {
+      if (NotificationType.None.name == notificationSetting.getLevel) {
+        var i: Int = notifyUsers.size - 1
+        breakable {
+          while (i >= 0) {
+            val notifyUser: SimpleUser = notifyUsers(i)
+            if (notifyUser.getUsername == notificationSetting.getUsername) {
+              notifyUsers remove i
+              break()
+            }
+            i = i - 1
+          }
+        }
+      }
+      else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
+        var isAlreadyInList: Boolean = false
+        breakable {
+          for (user <- notifyUsers) {
+            if (user.getUsername == notificationSetting.getUsername) {
+              isAlreadyInList = true
+              break()
             }
           }
         }
-        else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
-          var isAlreadyInList: Boolean = false
-          breakable {
-            for (user <- inListUsers) {
-              if (user.getUsername != null && user.getUsername == notificationSetting.getUsername) {
-                isAlreadyInList = true
-                break()
-              }
-            }
-          }
 
-          if (!isAlreadyInList) {
-            val bug: SimpleBug = bugService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-            if (bug.getAssignuser != null && (bug.getAssignuser == notificationSetting.getUsername)) {
-              breakable {
-                for (user <- activeUsers) {
-                  if (user.getUsername != null && user.getUsername == notificationSetting.getUsername) {
-                    inListUsers prepend user
-                    break()
-                  }
-                }
-              }
-            }
-          }
-        }
-        else if (NotificationType.Full.name == notificationSetting.getLevel) {
-          var isAlreadyInList: Boolean = false
-          breakable {
-            for (user <- inListUsers) {
-              if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                isAlreadyInList = true
-                break()
-              }
-            }
-          }
-
-          if (!isAlreadyInList) {
+        if (!isAlreadyInList) {
+          val bug: SimpleBug = bugService.findById(notification.getTypeid.toInt, notification.getSaccountid)
+          if (bug.getAssignuser != null && (notificationSetting.getUsername == bug.getAssignuser)) {
             breakable {
               for (user <- activeUsers) {
-                if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                  inListUsers prepend user
+                if (user.getUsername == notificationSetting.getUsername) {
+                  notifyUsers prepend user
                   break()
                 }
               }
@@ -173,8 +150,31 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
           }
         }
       }
+      else if (NotificationType.Full.name == notificationSetting.getLevel) {
+        var isAlreadyInList: Boolean = false
+        breakable {
+          for (user <- notifyUsers) {
+            if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
+              isAlreadyInList = true
+              break()
+            }
+          }
+        }
+
+        if (!isAlreadyInList) {
+          breakable {
+            for (user <- activeUsers) {
+              if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
+                notifyUsers prepend user
+                break()
+              }
+            }
+          }
+        }
+      }
     }
-    inListUsers.toList
+
+    notifyUsers.toList
   }
 
   class BugFieldNameMapper extends ItemFieldMapper {

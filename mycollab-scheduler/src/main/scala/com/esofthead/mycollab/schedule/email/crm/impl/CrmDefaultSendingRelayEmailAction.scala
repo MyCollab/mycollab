@@ -150,57 +150,60 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
 
     val notificationSettings: List[CrmNotificationSetting] = notificationService.findNotifications(notification
       .getSaccountid).asScala.toList
-    val inListUsers = notification.getNotifyUsers.asScala
+    val sendUsers = notification.getNotifyUsers.asScala
     val noteSearchCriteria: NoteSearchCriteria = new NoteSearchCriteria
     noteSearchCriteria.setType(new StringSearchField(notification.getType))
     noteSearchCriteria.setTypeid(new NumberSearchField(notification.getTypeid.toInt))
     noteSearchCriteria.setSaccountid(new NumberSearchField(notification.getSaccountid))
-    val lstNote: List[SimpleNote] = noteService.findPagableListByCriteria(new SearchRequest[NoteSearchCriteria]
+    val notes: List[SimpleNote] = noteService.findPagableListByCriteria(new SearchRequest[NoteSearchCriteria]
     (noteSearchCriteria, 0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleNote]]
-    if (lstNote != null && lstNote.nonEmpty) {
-      for (note <- lstNote) {
+
+    if (notes != null && notes.nonEmpty) {
+      for (note <- notes) {
         if (note.getCreateduser != null) {
-          val user: SimpleUser = userService.findUserByUserNameInAccount(note.getCreateduser, note.getSaccountid)
-          if (user != null && !checkExistInList(inListUsers, user)) {
-            inListUsers += user
+          if (!checkExistInList(sendUsers, note.getCreateduser)) {
+            val user: SimpleUser = userService.findUserByUserNameInAccount(note.getCreateduser, note.getSaccountid)
+            if (user != null) {
+              sendUsers += user
+            }
           }
         }
       }
     }
     {
       var i: Int = 0
-      while (i < inListUsers.size) {
+      while (i < sendUsers.size) {
         {
-          val user: SimpleUser = inListUsers(i)
+          val user: SimpleUser = sendUsers(i)
           import scala.collection.JavaConversions._
           for (notificationSetting <- notificationSettings) {
             if (user.getUsername != null && (user.getUsername == notificationSetting.getUsername)) {
               if (notificationSetting.getLevel == "None") {
-                inListUsers.remove(user)
+                sendUsers.remove(user)
                 i -= 1
               }
               else if ((notificationSetting.getLevel == "Minimal") && (`type` == MonitorTypeConstants.ADD_COMMENT_ACTION)) {
-                inListUsers.remove(user)
+                sendUsers.remove(user)
                 i -= 1
               }
             }
           }
+          i += 1;
         }
       }
     }
 
-    inListUsers.toList
+    sendUsers.toList
   }
 
   private def onInitAction(notification: SimpleRelayEmailNotification) {
     siteUrl = MailUtils.getSiteUrl(notification.getSaccountid)
   }
 
-  private def checkExistInList(users: mutable.Buffer[SimpleUser], user: SimpleUser): Boolean = {
-    for (simpleUser <- users) {
-      if (simpleUser.getUsername != null && (simpleUser.getUsername == user.getUsername) || (simpleUser.getEmail == user.getUsername)) {
+  private def checkExistInList(users: mutable.Buffer[SimpleUser], username: String): Boolean = {
+    for (tempUser <- users) {
+      if (tempUser.getUsername == username)
         true
-      }
     }
     false
   }

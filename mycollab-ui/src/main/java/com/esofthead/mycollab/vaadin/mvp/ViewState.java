@@ -38,6 +38,15 @@ public class ViewState {
 		this.params = data;
 	}
 
+    public boolean hasPresenters(Class... classes) {
+        for (Class cls : classes) {
+            if (cls.isInstance(presenter)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 	public IPresenter getPresenter() {
 		return presenter;
 	}

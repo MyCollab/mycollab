@@ -30,8 +30,6 @@ import com.esofthead.mycollab.module.crm.service.CustomerService;
 
 @Service
 @Transactional
-@Traceable(module = "Crm", type = "Customer", nameField = "lastname")
-@Auditable(module = "Crm", type = "Customer")
 public class CustomerServiceImpl extends DefaultCrudService<Integer, Customer>
         implements CustomerService {
 

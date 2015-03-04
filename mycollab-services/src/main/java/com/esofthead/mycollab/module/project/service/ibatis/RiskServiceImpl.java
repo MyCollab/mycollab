@@ -16,18 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -43,6 +34,11 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 
@@ -52,20 +48,23 @@ import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotifi
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "riskname", type = ProjectTypeConstants.RISK, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.RISK)
+@Traceable(nameField = "riskname", extraFieldName = "projectid")
+@Auditable()
+@Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
+@NotifyAgent(ProjectRiskRelayEmailNotificationAction.class)
 public class RiskServiceImpl extends
 		DefaultService<Integer, Risk, RiskSearchCriteria> implements
 		RiskService {
+
+    static {
+        ClassInfoMap.put(RiskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.RISK));
+    }
 
 	@Autowired
 	private RiskMapper riskMapper;
 
 	@Autowired
 	private RiskMapperExt riskMapperExt;
-
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@Override
 	public ICrudGenericDAO<Integer, Risk> getCrudMapper() {
@@ -85,9 +84,6 @@ public class RiskServiceImpl extends
 	@Override
 	public int saveWithSession(Risk record, String username) {
 		int recordId = super.saveWithSession(record, username);
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, recordId,
-						MonitorTypeConstants.CREATE_ACTION), username);
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class,
 				ProjectActivityStreamService.class);
@@ -96,9 +92,6 @@ public class RiskServiceImpl extends
 
 	@Override
 	public int updateWithSession(Risk record, String username) {
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, record.getId(),
-						MonitorTypeConstants.UPDATE_ACTION), username);
 		CacheUtils.cleanCaches(record.getSaccountid(),
 				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
@@ -128,22 +121,5 @@ public class RiskServiceImpl extends
 				ProjectGenericTaskService.class,
 				ProjectActivityStreamService.class);
 		super.massRemoveWithSession(primaryKeys, username, accountId);
-	}
-
-	private RelayEmailNotification createNotification(Risk record,
-			String username, int recordId, String action) {
-		RelayEmailNotification relayNotification = new RelayEmailNotification();
-		relayNotification.setChangeby(username);
-		relayNotification.setChangecomment("");
-		int sAccountId = record.getSaccountid();
-		relayNotification.setSaccountid(sAccountId);
-		relayNotification.setType(ProjectTypeConstants.RISK);
-		relayNotification.setAction(action);
-		relayNotification
-				.setEmailhandlerbean(ProjectRiskRelayEmailNotificationAction.class
-						.getName());
-		relayNotification.setTypeid("" + recordId);
-		relayNotification.setExtratypeid(record.getProjectid());
-		return relayNotification;
 	}
 }

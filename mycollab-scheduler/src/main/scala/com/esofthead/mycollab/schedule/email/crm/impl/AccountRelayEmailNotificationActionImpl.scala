@@ -142,5 +142,4 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
       }
     }
   }
-
 }

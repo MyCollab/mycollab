@@ -17,6 +17,9 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -46,20 +47,22 @@ import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailN
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.MILESTONE, nameField = "name", extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.MILESTONE)
+@Traceable(nameField = "name", extraFieldName = "projectid")
+@Auditable()
+@NotifyAgent(ProjectMilestoneRelayEmailNotificationAction.class)
 public class MilestoneServiceImpl extends
 		DefaultService<Integer, Milestone, MilestoneSearchCriteria> implements
 		MilestoneService {
+
+    static {
+        ClassInfoMap.put(MilestoneServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE));
+    }
 
 	@Autowired
 	protected MilestoneMapper milestoneMapper;
 
 	@Autowired
 	protected MilestoneMapperExt milestoneMapperExt;
-
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@Override
 	public ICrudGenericDAO<Integer, Milestone> getCrudMapper() {
@@ -79,33 +82,13 @@ public class MilestoneServiceImpl extends
 	@Override
 	public int saveWithSession(Milestone record, String username) {
 		int recordId = super.saveWithSession(record, username);
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, recordId,
-						MonitorTypeConstants.CREATE_ACTION), username);
+        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
 		return recordId;
 	}
 
 	@Override
 	public int updateWithSession(Milestone record, String username) {
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, record.getId(),
-						MonitorTypeConstants.UPDATE_ACTION), username);
+        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
 		return super.updateWithSession(record, username);
-	}
-
-	private RelayEmailNotification createNotification(Milestone record,
-			String username, int recordId, String action) {
-		RelayEmailNotification relayNotification = new RelayEmailNotification();
-		relayNotification.setChangeby(username);
-		relayNotification.setChangecomment("");
-		relayNotification.setAction(action);
-		relayNotification.setSaccountid(record.getSaccountid());
-		relayNotification.setType(ProjectTypeConstants.MILESTONE);
-		relayNotification
-				.setEmailhandlerbean(ProjectMilestoneRelayEmailNotificationAction.class
-						.getName());
-		relayNotification.setTypeid("" + recordId);
-		relayNotification.setExtratypeid(record.getProjectid());
-		return relayNotification;
 	}
 }

@@ -406,19 +406,19 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                     exportType,
                     ApplicationContextUtil
                             .getSpringBean(ProjectTaskListService.class),
-                    tasklistSearchCriteria, null), "task_list.pdf");
+                    tasklistSearchCriteria), "task_list.pdf");
         } else if (exportType.equals(ReportExportType.CSV)) {
             res = new StreamResource(new ExportTaskListStreamResource(title,
                     exportType,
                     ApplicationContextUtil
                             .getSpringBean(ProjectTaskListService.class),
-                    tasklistSearchCriteria, null), "task_list.csv");
+                    tasklistSearchCriteria), "task_list.csv");
         } else {
             res = new StreamResource(new ExportTaskListStreamResource(title,
                     exportType,
                     ApplicationContextUtil
                             .getSpringBean(ProjectTaskListService.class),
-                    tasklistSearchCriteria, null), "task_list.xls");
+                    tasklistSearchCriteria), "task_list.xls");
         }
 
         return res;

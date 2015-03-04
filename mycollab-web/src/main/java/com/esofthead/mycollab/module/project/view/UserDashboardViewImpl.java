@@ -134,8 +134,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
                 + "#project/timetracking");
         timeTrackingLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
 
-        final MHorizontalLayout headerContentBottom = new MHorizontalLayout().withMargin(false)
-                .with(followingTicketsLink, timeTrackingLink);
+        final MHorizontalLayout headerContentBottom = new MHorizontalLayout().with(followingTicketsLink, timeTrackingLink);
 
         headerContent.with(headerContentTop, headerContentBottom);
 
@@ -164,8 +163,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
         this.addComponent(contentWrapper);
         contentWrapper.addComponent(layout);
 
-        final ProjectService prjService = ApplicationContextUtil
-                .getSpringBean(ProjectService.class);
+        final ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         prjKeys = prjService.getProjectKeysUserInvolved(
                 AppContext.getUsername(), AppContext.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
@@ -174,7 +172,9 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
             displayFollowingTicketsCount();
         }
 
-        taskStatusComponent.showProjectTasksByStatus(prjKeys);
+        if (prjKeys.size() != 0) {
+            taskStatusComponent.showProjectTasksByStatus(prjKeys);
+        }
 
     }
 
@@ -190,7 +190,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
         int followingItemsCount = monitorService.getTotalCount(searchCriteria);
         followingTicketsLink
                 .setTitle(AppContext.getMessage(
-                        FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
-                        followingItemsCount));
+                        FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
     }
 }

@@ -24,8 +24,11 @@ import java.util.regex.Pattern;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 
+/**
+ * @author MyCollab Ltd.
+ * @since 1.0.0
+ */
 public class ParsingUtils {
-
 	public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -37,9 +40,8 @@ public class ParsingUtils {
 		if (emailField == null || emailField.trim().equals("")) {
 			throw new InvalidEmailException("The email is not valid!");
 		} else {
-			List<MailRecipientField> fields = new ArrayList<MailRecipientField>();
-			StringTokenizer emailTokenizer = new StringTokenizer(emailField,
-					",");
+			List<MailRecipientField> fields = new ArrayList<>();
+			StringTokenizer emailTokenizer = new StringTokenizer(emailField, ",");
 			while (emailTokenizer.hasMoreElements()) {
 				String email = emailTokenizer.nextToken().trim();
 				MailRecipientField mailField = null;
@@ -71,7 +73,6 @@ public class ParsingUtils {
 
 	public static MailRecipientField getMailRecipient(String emailField)
 			throws InvalidEmailException {
-
 		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 		Matcher matcherEmail;
 		if (emailField == null || emailField.trim().equals("")) {
@@ -103,7 +104,6 @@ public class ParsingUtils {
 	}
 
 	public static class InvalidEmailException extends Exception {
-
 		private static final long serialVersionUID = 1L;
 
 		public InvalidEmailException(String msg) {

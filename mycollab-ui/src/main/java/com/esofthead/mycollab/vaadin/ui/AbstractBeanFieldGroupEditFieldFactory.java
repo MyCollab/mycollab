@@ -51,11 +51,7 @@ import com.vaadin.ui.RichTextArea;
  */
 public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 		IBeanFieldGroupFieldFactory<B>, CommitHandler {
-
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractBeanFieldGroupEditFieldFactory.class);
 
 	protected GenericBeanForm<B> attachForm;
 	protected FieldGroup fieldGroup;
@@ -98,8 +94,6 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 				if (formField instanceof DummyCustomField) {
 					continue;
 				} else if (!(formField instanceof CompoundCustomField)) {
-					LOG.debug("Bind field: {} of form field {}",
-							field.getName(), formField);
 					fieldGroup.bind(formField, field.getName());
 				}
 			}

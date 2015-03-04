@@ -16,21 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.reporting;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.col;
-import static net.sf.dynamicreports.report.builder.DynamicReports.sbt;
-import static net.sf.dynamicreports.report.builder.DynamicReports.type;
-
-import java.util.Date;
-
-import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
-
-import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
 import com.esofthead.mycollab.reporting.GroupIteratorDataSource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.vaadin.AppContext;
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+
+import java.util.Date;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 /**
  * 
@@ -39,9 +35,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 @SuppressWarnings("serial")
-public class ExportTimeLoggingStreamResource extends
-		ExportItemsStreamResource<SimpleItemTimeLogging> {
-
+public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
 	private ItemTimeLoggingService searchService;
 	private ItemTimeLoggingSearchCriteria searchCriteria;
 
@@ -80,7 +74,5 @@ public class ExportTimeLoggingStreamResource extends
 	protected void fillReport() throws Exception {
 		reportBuilder.setDataSource(new GroupIteratorDataSource(searchService,
 				searchCriteria));
-
 	}
-
 }

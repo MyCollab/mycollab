@@ -36,7 +36,6 @@ import com.vaadin.ui.ComboBox;
  * @since 1.0
  */
 public class ProjectTaskListComboBox extends ComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")
@@ -62,5 +61,4 @@ public class ProjectTaskListComboBox extends ComboBox {
 		this.setContainerDataSource(beanItem);
 		this.setItemCaptionPropertyId("name");
 	}
-
 }

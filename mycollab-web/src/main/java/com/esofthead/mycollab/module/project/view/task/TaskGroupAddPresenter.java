@@ -27,98 +27,93 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TaskGroupAddPresenter() {
-		super(TaskGroupAddView.class);
-	}
+    public TaskGroupAddPresenter() {
+        super(TaskGroupAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<TaskList>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(
+                new EditFormHandler<TaskList>() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final TaskList item) {
-						save(item);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new TaskListEvent.GotoTaskListScreen(this,
-											null));
-						}
-					}
+                    @Override
+                    public void onSave(final TaskList item) {
+                        int tasklistId = save(item);
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState instanceof NullViewState) {
+                            EventBusFactory.getInstance().post(
+                                    new TaskListEvent.GotoRead(this,
+                                            tasklistId));
+                        }
+                    }
 
-					@Override
-					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new TaskListEvent.GotoTaskListScreen(this,
-											null));
-						}
-					}
+                    @Override
+                    public void onCancel() {
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState instanceof NullViewState) {
+                            EventBusFactory.getInstance().post(
+                                    new TaskListEvent.GotoTaskListScreen(this,
+                                            null));
+                        }
+                    }
 
-					@Override
-					public void onSaveAndNew(final TaskList item) {
-						save(item);
-						EventBusFactory.getInstance().post(
-								new TaskListEvent.GotoAdd(this, null));
-					}
-				});
-	}
+                    @Override
+                    public void onSaveAndNew(final TaskList item) {
+                        save(item);
+                        EventBusFactory.getInstance().post(
+                                new TaskListEvent.GotoAdd(this, null));
+                    }
+                });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS)) {
-			TaskContainer taskContainer = (TaskContainer) container;
-			taskContainer.removeAllComponents();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+            TaskContainer taskContainer = (TaskContainer) container;
+            taskContainer.removeAllComponents();
 
-			taskContainer.addComponent(view.getWidget());
-			TaskList taskList = (TaskList) data.getParams();
-			view.editItem(taskList);
+            taskContainer.addComponent(view.getWidget());
+            TaskList taskList = (TaskList) data.getParams();
+            view.editItem(taskList);
 
-			ProjectBreadcrumb breadCrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			if (taskList.getId() == null) {
-				breadCrumb.gotoTaskGroupAdd();
-			} else {
-				breadCrumb.gotoTaskGroupEdit(taskList);
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadCrumb = ViewManager
+                    .getCacheComponent(ProjectBreadcrumb.class);
+            if (taskList.getId() == null) {
+                breadCrumb.gotoTaskGroupAdd();
+            } else {
+                breadCrumb.gotoTaskGroupEdit(taskList);
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	public void save(TaskList item) {
-		ProjectTaskListService taskService = ApplicationContextUtil
-				.getSpringBean(ProjectTaskListService.class);
+    private int save(TaskList item) {
+        ProjectTaskListService taskService = ApplicationContextUtil
+                .getSpringBean(ProjectTaskListService.class);
 
-		item.setSaccountid(AppContext.getAccountId());
+        item.setSaccountid(AppContext.getAccountId());
 
-		if (item.getId() == null) {
-			item.setCreateduser(AppContext.getUsername());
-			taskService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			taskService.updateWithSession(item, AppContext.getUsername());
-		}
-
-	}
+        if (item.getId() == null) {
+            item.setCreateduser(AppContext.getUsername());
+            taskService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            taskService.updateWithSession(item, AppContext.getUsername());
+        }
+        return item.getId();
+    }
 }

@@ -341,12 +341,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 		public MessageSearchPanel() {
 			this.project = CurrentProjectVariables.getProject();
-		}
-
-		@Override
-		public void attach() {
-			super.attach();
-			this.createBasicSearchLayout();
+            createBasicSearchLayout();
 		}
 
         @Override

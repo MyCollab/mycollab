@@ -52,10 +52,9 @@ public class CommentRowDisplayHandler extends
 
 	@Override
 	public Component generateRow(final SimpleComment comment, int rowIndex) {
-		final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(false).withWidth
-				("100%").withStyleName("message");
+		final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message");
 
-		MVerticalLayout userBlock = new MVerticalLayout().withSpacing(true).withMargin(false).withWidth("80px");
+		MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		ClickListener gotoUser = new ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -85,7 +84,7 @@ public class CommentRowDisplayHandler extends
 		rowLayout.setStyleName("message-container");
 		rowLayout.setWidth("100%");
 
-		MHorizontalLayout messageHeader = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true,
+		MHorizontalLayout messageHeader = new MHorizontalLayout().withMargin(new MarginInfo(true,
 				true, false, true)).withWidth("100%").withStyleName("message-header");
 		messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
@@ -154,19 +153,16 @@ public class CommentRowDisplayHandler extends
 
 		List<Content> attachments = comment.getAttachments();
 		if (!CollectionUtils.isEmpty(attachments)) {
-			MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withMargin(true).withWidth
+			MVerticalLayout messageFooter = new MVerticalLayout().withSpacing(false).withWidth
 					("100%").withStyleName("message-footer");
 			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
 					attachments);
 			attachmentDisplay.setWidth("100%");
-			messageFooter.addComponent(attachmentDisplay);
-			messageFooter.setComponentAlignment(attachmentDisplay,
-					Alignment.MIDDLE_RIGHT);
+			messageFooter.with(attachmentDisplay).withAlign(attachmentDisplay, Alignment.MIDDLE_RIGHT);
 			rowLayout.addComponent(messageFooter);
 		}
 
-		layout.addComponent(rowLayout);
-		layout.setExpandRatio(rowLayout, 1.0f);
+		layout.with(rowLayout).expand(rowLayout);
 		return layout;
 	}
 

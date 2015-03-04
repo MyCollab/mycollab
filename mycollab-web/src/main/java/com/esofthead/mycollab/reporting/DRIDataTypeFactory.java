@@ -46,8 +46,7 @@ class DRIDataTypeFactory {
 		String dataType = field.getType().getName();
 
 		String dataTypeLC = dataType.toLowerCase().trim();
-		if (dataTypeLC.equals("currency")
-				|| dataType.equals(Currency.class.getName())) {
+		if (dataTypeLC.equals("currency") || dataType.equals(Currency.class.getName())) {
 			return (T) currencyType;
 		} else {
 			return type.detectType(dataType);

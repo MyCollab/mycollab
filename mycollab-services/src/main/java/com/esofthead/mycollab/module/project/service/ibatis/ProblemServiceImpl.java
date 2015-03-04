@@ -16,18 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -43,6 +34,11 @@ import com.esofthead.mycollab.module.project.service.ProjectActivityStreamServic
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 
@@ -52,11 +48,17 @@ import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNot
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "issuename", type = ProjectTypeConstants.PROBLEM, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.PROBLEM)
+@Traceable(nameField = "issuename", extraFieldName = "projectid")
+@Auditable()
+@Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
+@NotifyAgent(ProjectProblemRelayEmailNotificationAction.class)
 public class ProblemServiceImpl extends
 		DefaultService<Integer, Problem, ProblemSearchCriteria> implements
 		ProblemService {
+
+    static {
+        ClassInfoMap.put(ProblemServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROBLEM));
+    }
 
 	@Autowired
 	private ProblemMapper problemMapper;
@@ -85,9 +87,6 @@ public class ProblemServiceImpl extends
 	@Override
 	public int saveWithSession(Problem record, String username) {
 		int recordId = super.saveWithSession(record, username);
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, recordId,
-						MonitorTypeConstants.CREATE_ACTION), username);
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class,
 				ProjectActivityStreamService.class);
@@ -96,9 +95,6 @@ public class ProblemServiceImpl extends
 
 	@Override
 	public int updateWithSession(Problem record, String username) {
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, record.getId(),
-						MonitorTypeConstants.UPDATE_ACTION), username);
 		CacheUtils.cleanCaches(record.getSaccountid(),
 				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
@@ -135,22 +131,5 @@ public class ProblemServiceImpl extends
 			List<Integer> primaryKeys, int accountId) {
 		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
 		super.massUpdateWithSession(record, primaryKeys, accountId);
-	}
-
-	private RelayEmailNotification createNotification(Problem record,
-			String username, int recordId, String action) {
-		RelayEmailNotification relayNotification = new RelayEmailNotification();
-		relayNotification.setChangeby(username);
-		relayNotification.setChangecomment("");
-		int sAccountId = record.getSaccountid();
-		relayNotification.setSaccountid(sAccountId);
-		relayNotification.setType(ProjectTypeConstants.PROBLEM);
-		relayNotification.setAction(action);
-		relayNotification
-				.setEmailhandlerbean(ProjectProblemRelayEmailNotificationAction.class
-						.getName());
-		relayNotification.setTypeid("" + recordId);
-		relayNotification.setExtratypeid(record.getProjectid());
-		return relayNotification;
 	}
 }

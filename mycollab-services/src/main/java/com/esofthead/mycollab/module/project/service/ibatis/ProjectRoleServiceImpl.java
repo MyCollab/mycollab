@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,10 +46,14 @@ import com.esofthead.mycollab.security.PermissionMap;
  * 
  */
 @Service
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.PROJECT_ROLE)
+@Auditable()
 public class ProjectRoleServiceImpl extends
 		DefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria>
 		implements ProjectRoleService {
+
+    static {
+        ClassInfoMap.put(ProjectRoleServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT_ROLE));
+    }
 
 	@Autowired
 	private ProjectRoleMapper roleMapper;

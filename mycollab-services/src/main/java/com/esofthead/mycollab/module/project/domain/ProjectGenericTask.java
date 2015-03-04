@@ -149,7 +149,8 @@ public class ProjectGenericTask implements Serializable {
     }
 
     public boolean isClosed() {
-        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus());
+        return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) || com.esofthead.mycollab.module
+                .project.i18n.OptionI18nEnum.BugStatus.Resolved.name().equals(getStatus());
     }
 
     public String getProjectShortName() {

@@ -86,8 +86,8 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
         this.tableActionControls = createActionControls();
 
-        layout.with(this.tableActionControls, this.selectedItemsNumberLabel).withAlign(this.selectedItemsNumberLabel,
-                Alignment.MIDDLE_LEFT).setExpandRatio(this.selectedItemsNumberLabel, 1.0f);
+        layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel,
+                Alignment.MIDDLE_LEFT).expand(selectedItemsNumberLabel);
 
         contentLayout.with(layoutWrapper, tableItem);
 

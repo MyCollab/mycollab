@@ -44,10 +44,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
     private GridLayout layoutSearchPane;
     private CheckBox chkIsOpenBug;
 
-    @Override
-    public void attach() {
-        super.attach();
-        this.setHeight("32px");
+    public BugSimpleSearchPanel() {
         createBasicSearchLayout();
     }
 

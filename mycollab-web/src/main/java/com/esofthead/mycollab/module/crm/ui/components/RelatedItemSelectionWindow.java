@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -44,14 +45,12 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
 	protected RelatedListComp2 relatedListComp;
 	protected IPagedBeanTable<S, T> tableItem;
 	protected Set selectedItems = new HashSet();
-	protected VerticalLayout bodyContent;
+	protected MVerticalLayout bodyContent;
 
 	public RelatedItemSelectionWindow(String title, RelatedListComp2 relatedList) {
 		super(title);
 		center();
-		bodyContent = new VerticalLayout();
-		bodyContent.setMargin(true);
-		bodyContent.setSpacing(true);
+		bodyContent = new MVerticalLayout();
 		this.setContent(bodyContent);
 		this.relatedListComp = relatedList;
 		this.setModal(true);

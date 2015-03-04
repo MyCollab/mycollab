@@ -22,6 +22,7 @@ import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +32,7 @@ import java.util.Set;
  * @since 1.0
  */
 public abstract class RelatedListComp<T, S extends SearchCriteria> extends
-        VerticalLayout implements IRelatedListHandlers<T> {
+        MVerticalLayout implements IRelatedListHandlers<T> {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,8 +41,6 @@ public abstract class RelatedListComp<T, S extends SearchCriteria> extends
 
     public RelatedListComp() {
         this.setWidth("100%");
-        this.setMargin(true);
-        this.setSpacing(true);
     }
 
     @Override

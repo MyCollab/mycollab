@@ -49,6 +49,7 @@ Version 5.0.1
 
 **Improvements**
 
+* Optimize SQL query and there are some processes are 2x faster !!!
 * Add custom notifiers
 * Support default button in windows
 * Improve search result of task list
@@ -57,7 +58,8 @@ Version 5.0.1
 * User is able to select the notifiers when he creates the new bug
 * Display number of items in the search panel
 * Support tooltip for project message widget
-* Optimize SQL query and there are some processes are 2x faster !!!
+* Screen navigator works more efficiently
+* Add more strictly validation constraint to project task
 
 **Bug Fixes**
 
@@ -65,6 +67,7 @@ Version 5.0.1
 * Query project member tasks show wrong items
 * Query project roles did not work
 * Export task list to document throws exception
+* Can not sending email in several cases
 
 Version 5.0.0
 -----------------------------

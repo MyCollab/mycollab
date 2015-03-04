@@ -61,11 +61,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 					@Override
 					public void onSave(final CallWithBLOBs item) {
 						save(item);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.GotoTodoList(this, null));
-						}
+						EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, item.getId()));
 					}
 
 					@Override

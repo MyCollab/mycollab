@@ -49,8 +49,7 @@ public class HistoryViewManager {
 		List<ViewState> history = getViewState();
 		if (history.size() >= 2) {
 			ViewState viewState = history.get(history.size() - 2);
-			history.remove(history.size() - 1);
-			history.remove(history.size() - 1);
+			history.remove(history.size() - 2);
 
 			if (viewState.getPresenter().getView() instanceof IModule) {
 				return new NullViewState();

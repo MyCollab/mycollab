@@ -93,7 +93,7 @@ public class TaskDefaultFormLayoutFactory {
 
         mainSection
                 .addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.tasklistid)
+                        .fieldName(Task.Field.tasklistid).required(true)
                         .displayName(
                                 AppContext
                                         .getMessage(TaskI18nEnum.FORM_TASKGROUP))

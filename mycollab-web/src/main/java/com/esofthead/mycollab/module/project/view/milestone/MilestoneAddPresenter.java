@@ -24,103 +24,95 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectViewPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MilestoneAddPresenter() {
-		super(MilestoneAddView.class);
-	}
+    public MilestoneAddPresenter() {
+        super(MilestoneAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<Milestone>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(
+                new EditFormHandler<Milestone>() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final Milestone milestone) {
-						saveMilestone(milestone);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new MilestoneEvent.GotoList(this, null));
-						}
-					}
+                    @Override
+                    public void onSave(final Milestone milestone) {
+                        int milestoneId = saveMilestone(milestone);
+                        EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestoneId));
+                    }
 
-					@Override
-					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new MilestoneEvent.GotoList(this, null));
-						}
-					}
+                    @Override
+                    public void onCancel() {
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
+                            EventBusFactory.getInstance().post(
+                                    new MilestoneEvent.GotoList(this, null));
+                        }
+                    }
 
-					@Override
-					public void onSaveAndNew(final Milestone milestone) {
-						saveMilestone(milestone);
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoAdd(this, null));
-					}
-				});
-	}
+                    @Override
+                    public void onSaveAndNew(final Milestone milestone) {
+                        saveMilestone(milestone);
+                        EventBusFactory.getInstance().post(
+                                new MilestoneEvent.GotoAdd(this, null));
+                    }
+                });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.MILESTONES)) {
-			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
-			milestoneContainer.removeAllComponents();
-			milestoneContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.MILESTONES)) {
+            MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+            milestoneContainer.removeAllComponents();
+            milestoneContainer.addComponent(view.getWidget());
 
-			Milestone milestone = (Milestone) data.getParams();
-			view.editItem(milestone);
+            Milestone milestone = (Milestone) data.getParams();
+            view.editItem(milestone);
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			if (milestone.getId() == null) {
-				breadcrumb.gotoMilestoneAdd();
-			} else {
-				breadcrumb.gotoMilestoneEdit(milestone);
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadcrumb = ViewManager
+                    .getCacheComponent(ProjectBreadcrumb.class);
+            if (milestone.getId() == null) {
+                breadcrumb.gotoMilestoneAdd();
+            } else {
+                breadcrumb.gotoMilestoneEdit(milestone);
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	private void saveMilestone(Milestone milestone) {
-		MilestoneService milestoneService = ApplicationContextUtil
-				.getSpringBean(MilestoneService.class);
-		milestone.setProjectid(CurrentProjectVariables.getProjectId());
-		milestone.setSaccountid(AppContext.getAccountId());
+    private int saveMilestone(Milestone milestone) {
+        MilestoneService milestoneService = ApplicationContextUtil
+                .getSpringBean(MilestoneService.class);
+        milestone.setProjectid(CurrentProjectVariables.getProjectId());
+        milestone.setSaccountid(AppContext.getAccountId());
 
-		if (milestone.getId() == null) {
-			milestone.setCreateduser(AppContext.getUsername());
-			milestoneService.saveWithSession(milestone,
-					AppContext.getUsername());
-		} else {
-			milestoneService.updateWithSession(milestone,
-					AppContext.getUsername());
-		}
-
-	}
+        if (milestone.getId() == null) {
+            milestone.setCreateduser(AppContext.getUsername());
+            milestoneService.saveWithSession(milestone,
+                    AppContext.getUsername());
+        } else {
+            milestoneService.updateWithSession(milestone,
+                    AppContext.getUsername());
+        }
+        return milestone.getId();
+    }
 
 }

@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.event.ShortcutListener;
-import com.vaadin.server.FontAwesome;
-import org.apache.commons.lang3.StringUtils;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -34,11 +29,15 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TextField;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -54,12 +53,10 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
 	private ActiveUserComboBox userBox;
 	private GridLayout layoutSearchPanel;
 
-	@Override
-	public void attach() {
-		super.attach();
-		this.setHeight("32px");
-		createBasicSearchLayout();
-	}
+    public AccountSimpleSearchPanel() {
+        this.setHeight("32px");
+        createBasicSearchLayout();
+    }
 
 	private void createBasicSearchLayout() {
 		layoutSearchPanel = new GridLayout(3, 3);

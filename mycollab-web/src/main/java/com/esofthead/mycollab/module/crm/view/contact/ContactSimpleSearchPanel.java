@@ -53,12 +53,10 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
     private ValueComboBox group;
 	private GridLayout layoutSearchPane;
 
-	@Override
-	public void attach() {
-		super.attach();
-		this.setHeight("32px");
-		createBasicSearchLayout();
-	}
+	public ContactSimpleSearchPanel() {
+        this.setHeight("32px");
+        createBasicSearchLayout();
+    }
 
 	private void createBasicSearchLayout() {
 		layoutSearchPane = new GridLayout(3, 3);

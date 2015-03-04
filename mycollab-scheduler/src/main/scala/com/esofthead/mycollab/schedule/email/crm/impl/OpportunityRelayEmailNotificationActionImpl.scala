@@ -218,5 +218,4 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
       }
     }
   }
-
 }

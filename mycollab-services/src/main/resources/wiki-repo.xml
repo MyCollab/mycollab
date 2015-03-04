@@ -34,7 +34,7 @@
             class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="wiki_p_workspace" />
         </PersistenceManager>
-        
+
     </Workspace>
     <!-- Configures the versioning -->
 

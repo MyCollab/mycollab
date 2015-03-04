@@ -42,8 +42,6 @@ import com.esofthead.mycollab.module.crm.service.QuoteService;
 
 @Service
 @Transactional
-@Traceable(module = "Crm", type = "Quote", nameField = "subject")
-@Auditable(module = "Crm", type = "Quote")
 public class QuoteServiceImpl extends DefaultService<Integer, Quote, QuoteSearchCriteria> implements
         QuoteService {
 

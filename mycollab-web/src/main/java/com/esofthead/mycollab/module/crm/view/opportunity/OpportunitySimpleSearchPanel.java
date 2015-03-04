@@ -52,12 +52,9 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
 	private GridLayout layoutSearchPane;
     private ValueComboBox group;
 
-	@Override
-	public void attach() {
-		super.attach();
-		this.setHeight("32px");
-		createBasicSearchLayout();
-	}
+	public OpportunitySimpleSearchPanel() {
+        createBasicSearchLayout();
+    }
 
 	private void createBasicSearchLayout() {
 		layoutSearchPane = new GridLayout(3, 3);

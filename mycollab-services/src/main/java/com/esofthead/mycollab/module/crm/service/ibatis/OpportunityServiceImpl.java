@@ -20,15 +20,13 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -57,12 +55,17 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.OPPORTUNITY, nameField = "opportunityname")
-@Auditable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.OPPORTUNITY)
-@Watchable(type = CrmTypeConstants.OPPORTUNITY, userFieldName = "assignuser", emailHandlerBean = OpportunityRelayEmailNotificationAction.class)
+@Traceable(nameField = "opportunityname")
+@Auditable()
+@Watchable(userFieldName = "assignuser")
+@NotifyAgent(OpportunityRelayEmailNotificationAction.class)
 public class OpportunityServiceImpl extends
 		DefaultService<Integer, Opportunity, OpportunitySearchCriteria>
 		implements OpportunityService {
+
+    static {
+        ClassInfoMap.put(OpportunityServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.OPPORTUNITY));
+    }
 
 	@Autowired
 	private OpportunityMapper opportunityMapper;

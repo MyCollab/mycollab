@@ -33,8 +33,6 @@ import com.esofthead.mycollab.module.crm.service.ProductCatalogService;
 
 @Service
 @Transactional
-@Traceable(module = "Crm", type = "ProductCatalog", nameField = "productname")
-@Auditable(module = "Crm", type = "ProductCatalog")
 public class ProductCatalogServiceImpl extends
 		DefaultService<Integer, ProductCatalog, ProductCatalogSearchCriteria>
 		implements ProductCatalogService {

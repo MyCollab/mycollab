@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui.form.field;
 
+import com.vaadin.data.util.LegacyPropertyHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -61,6 +62,7 @@ public class RichTextEditField extends CustomField<String> {
 
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
+        LegacyPropertyHelper a;
 		String value = textArea.getValue();
 		value = Jsoup.clean(value, Whitelist.relaxed());
 		this.setInternalValue(value);
@@ -71,5 +73,4 @@ public class RichTextEditField extends CustomField<String> {
 	public Class<? extends String> getType() {
 		return String.class;
 	}
-
 }

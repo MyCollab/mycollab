@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import java.util.Date;
 import java.util.List;
 
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +57,18 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "forday", type = ProjectTypeConstants.STANDUP, extraFieldName = "projectid")
+@Traceable(nameField = "forday", extraFieldName = "projectid")
 public class StandupReportServiceImpl
 		extends
 		DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
 		implements StandupReportService {
+    static {
+        ClassInfoMap.put(StandupReportServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.STANDUP));
+    }
+
 	@Autowired
 	private StandupReportMapper standupReportMapper;
+
 	@Autowired
 	private StandupReportMapperExt standupReportMapperExt;
 
@@ -126,9 +133,7 @@ public class StandupReportServiceImpl
 	@Override
 	public List<SimpleUser> findUsersNotDoReportYet(int projectId, Date onDate,
 			@CacheKey Integer sAccountId) {
-
 		return standupReportMapperExt
 				.findUsersNotDoReportYet(projectId, onDate);
 	}
-
 }

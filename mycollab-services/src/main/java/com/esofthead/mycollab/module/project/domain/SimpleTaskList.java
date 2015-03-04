@@ -25,6 +25,8 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 /**
  *
  * @author MyCollab Ltd.
@@ -60,7 +62,7 @@ public class SimpleTaskList extends TaskList {
 	}
 
 	public String getOwnerFullName() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(ownerFullName)) {
+		if (isBlank(ownerFullName)) {
 			return StringUtils.extractNameFromEmail(getOwner());
 		}
 		return ownerFullName;

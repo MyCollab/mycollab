@@ -77,8 +77,7 @@ class OpportunityEditFormFieldFactory<B extends Opportunity> extends
 		} else if (propertyId.equals("description")) {
 			return new RichTextEditField();
 		} else if (propertyId.equals("assignuser")) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			return userBox;
+			return new ActiveUserComboBox();
 		}
 
 		return null;

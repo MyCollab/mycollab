@@ -33,8 +33,6 @@ import com.esofthead.mycollab.module.crm.service.ContractService;
 
 @Service
 @Transactional
-@Traceable(module = "Crm", type = "Contract", nameField = "contractname")
-@Auditable(module = "Crm", type = "Contract")
 public class ContractServiceImpl extends DefaultService<Integer, Contract, ContractSearchCriteria> implements
         ContractService {
 

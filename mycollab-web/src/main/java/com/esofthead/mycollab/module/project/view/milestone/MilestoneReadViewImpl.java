@@ -319,10 +319,10 @@ public class MilestoneReadViewImpl extends
         @Override
         public Component generateRow(ProjectGenericTask task, int rowIndex) {
             Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
-            if (task.isOverdue()) {
-                lbl.addStyleName("overdue");
-            } else if (task.isClosed()) {
+            if (task.isClosed()) {
                 lbl.addStyleName("completed");
+            } else if (task.isOverdue()) {
+                lbl.addStyleName("overdue");
             }
             return lbl;
         }
@@ -401,13 +401,12 @@ public class MilestoneReadViewImpl extends
         }
     }
 
-    private class PeopleInfoComp extends VerticalLayout {
+    private class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
-            this.setSpacing(true);
-            this.setMargin(new MarginInfo(false, false, false, true));
+            this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
                     AppContext

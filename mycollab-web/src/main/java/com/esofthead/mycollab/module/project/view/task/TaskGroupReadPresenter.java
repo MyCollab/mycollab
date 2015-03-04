@@ -17,13 +17,11 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
@@ -108,10 +106,8 @@ public class TaskGroupReadPresenter extends
 						ProjectTaskListService tasklistService = ApplicationContextUtil
 								.getSpringBean(ProjectTaskListService.class);
 						TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-						SimpleProject project = (SimpleProject) MyCollabSession
-								.getVariable("project");
 						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, project.getId()));
+								SearchField.AND, CurrentProjectVariables.getProjectId()));
 						criteria.setId(new NumberSearchField(data.getId(),
 								NumberSearchField.GREATER));
 						Integer nextId = tasklistService
@@ -130,10 +126,8 @@ public class TaskGroupReadPresenter extends
 						ProjectTaskListService tasklistService = ApplicationContextUtil
 								.getSpringBean(ProjectTaskListService.class);
 						TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-						SimpleProject project = (SimpleProject) MyCollabSession
-								.getVariable("project");
 						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, project.getId()));
+								SearchField.AND, CurrentProjectVariables.getProjectId()));
 						criteria.setId(new NumberSearchField(data.getId(),
 								NumberSearchField.LESSTHAN));
 						Integer nextId = tasklistService

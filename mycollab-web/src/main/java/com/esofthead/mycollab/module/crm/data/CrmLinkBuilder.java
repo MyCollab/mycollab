@@ -103,5 +103,4 @@ public class CrmLinkBuilder {
 		return CrmLinkGenerator.generateCallPreviewFullLink(
 				AppContext.getSiteUrl(), callId);
 	}
-
 }

@@ -42,8 +42,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  * @param <T>
  */
-public abstract class SimpleGridExportItemsStreamResource<T> extends
-		ExportItemsStreamResource<T> {
+public abstract class SimpleGridExportItemsStreamResource<T> extends ExportItemsStreamResource {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory
@@ -53,10 +52,10 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 	private RpParameterBuilder parameters;
 
 	SimpleGridExportItemsStreamResource(String reportTitle,
-			RpParameterBuilder paramters, ReportExportType outputForm,
+			RpParameterBuilder parameters, ReportExportType outputForm,
 			Class<T> classType) {
 		super(AppContext.getUserLocale(), reportTitle, outputForm);
-		this.parameters = paramters;
+		this.parameters = parameters;
 		this.classType = classType;
 	}
 

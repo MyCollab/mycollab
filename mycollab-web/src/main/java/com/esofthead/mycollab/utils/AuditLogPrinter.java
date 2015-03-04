@@ -31,7 +31,6 @@ import com.esofthead.mycollab.utils.FieldGroupFormatter.FieldDisplayHandler;
  *
  */
 public class AuditLogPrinter {
-
 	private FieldGroupFormatter groupFormatter;
 
 	public AuditLogPrinter(FieldGroupFormatter groupFormatter) {

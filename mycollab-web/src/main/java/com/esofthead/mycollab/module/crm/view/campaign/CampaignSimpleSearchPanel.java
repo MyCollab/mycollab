@@ -52,11 +52,9 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
     private ValueComboBox group;
 	private DateSelectionField dateSearchField;
 
-	@Override
-	public void attach() {
-		super.attach();
-		createBasicSearchLayout();
-	}
+	public CampaignSimpleSearchPanel() {
+        createBasicSearchLayout();
+    }
 
 	private void createBasicSearchLayout() {
 		layoutSearchPane = new GridLayout(3, 2);

@@ -16,26 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-
-import com.esofthead.mycollab.core.cache.CacheKey;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -46,159 +34,165 @@ import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.module.project.service.MilestoneService;
-import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
-import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.TASK, nameField = "taskname", extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.TASK)
-@Watchable(type = ProjectTypeConstants.TASK, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = ProjectTaskRelayEmailNotificationAction.class)
+@Traceable(nameField = "taskname", extraFieldName = "projectid")
+@Auditable()
+@Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
+@NotifyAgent(ProjectTaskRelayEmailNotificationAction.class)
 public class ProjectTaskServiceImpl extends
-		DefaultService<Integer, Task, TaskSearchCriteria> implements
-		ProjectTaskService {
+        DefaultService<Integer, Task, TaskSearchCriteria> implements
+        ProjectTaskService {
 
-	@Autowired
-	private TaskMapper taskMapper;
-	@Autowired
-	private TaskMapperExt taskMapperExt;
+    static {
+        ClassInfoMap.put(ProjectTaskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants
+                .TASK));
+    }
 
-	@Override
-	public ICrudGenericDAO<Integer, Task> getCrudMapper() {
-		return taskMapper;
-	}
+    @Autowired
+    private TaskMapper taskMapper;
+    @Autowired
+    private TaskMapperExt taskMapperExt;
 
-	@Override
-	public ISearchableDAO<TaskSearchCriteria> getSearchMapper() {
-		return taskMapperExt;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Task> getCrudMapper() {
+        return taskMapper;
+    }
 
-	@Override
-	public SimpleTask findById(int taskId, int sAccountId) {
-		return taskMapperExt.findTaskById(taskId);
-	}
+    @Override
+    public ISearchableDAO<TaskSearchCriteria> getSearchMapper() {
+        return taskMapperExt;
+    }
 
-	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
-	@Override
-	public int saveWithSession(Task record, String username) {
-		if ((record.getPercentagecomplete() != null)
-				&& (record.getPercentagecomplete() == 100)) {
-			record.setStatus(StatusI18nEnum.Closed.name());
-		} else {
-			record.setStatus(StatusI18nEnum.Open.name());
-		}
-		record.setLogby(username);
-		Lock lock = DistributionLockUtil.getLock("task-"
-				+ record.getSaccountid());
+    @Override
+    public SimpleTask findById(int taskId, int sAccountId) {
+        return taskMapperExt.findTaskById(taskId);
+    }
 
-		try {
-			if (lock.tryLock(120, TimeUnit.SECONDS)) {
-				Integer key = taskMapperExt.getMaxKey(record.getProjectid());
-				record.setTaskkey((key == null) ? 1 : (key + 1));
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    @Override
+    public int saveWithSession(Task record, String username) {
+        if ((record.getPercentagecomplete() != null)
+                && (record.getPercentagecomplete() == 100)) {
+            record.setStatus(StatusI18nEnum.Closed.name());
+        } else {
+            record.setStatus(StatusI18nEnum.Open.name());
+        }
+        record.setLogby(username);
+        Lock lock = DistributionLockUtil.getLock("task-"
+                + record.getSaccountid());
 
-				CacheUtils.cleanCaches(record.getSaccountid(),
-						ProjectService.class, ProjectGenericTaskService.class,
-						ProjectTaskListService.class,
-						ProjectActivityStreamService.class,
-						ProjectMemberService.class, MilestoneService.class);
+        try {
+            if (lock.tryLock(120, TimeUnit.SECONDS)) {
+                Integer key = taskMapperExt.getMaxKey(record.getProjectid());
+                record.setTaskkey((key == null) ? 1 : (key + 1));
 
-				return super.saveWithSession(record, username);
-			} else {
-				throw new MyCollabException("Timeout operation.");
-			}
-		} catch (InterruptedException e) {
-			throw new MyCollabException(e);
-		} finally {
-			lock.unlock();
-		}
-	}
+                CacheUtils.cleanCaches(record.getSaccountid(),
+                        ProjectService.class, ProjectGenericTaskService.class,
+                        ProjectTaskListService.class,
+                        ProjectActivityStreamService.class,
+                        ProjectMemberService.class, MilestoneService.class);
 
-	@Transactional
-	@Override
-	public int updateWithSession(Task record, String username) {
-		beforeUpdate(record);
-		return super.updateWithSession(record, username);
-	}
+                return super.saveWithSession(record, username);
+            } else {
+                throw new MyCollabException("Timeout operation.");
+            }
+        } catch (InterruptedException e) {
+            throw new MyCollabException(e);
+        } finally {
+            lock.unlock();
+        }
+    }
 
-	private void beforeUpdate(Task record) {
-		if ((record.getPercentagecomplete() != null)
-				&& (record.getPercentagecomplete() == 100)) {
-			record.setStatus(StatusI18nEnum.Closed.name());
-		} else if (record.getStatus() == null) {
-			record.setStatus(StatusI18nEnum.Open.name());
-		}
+    @Transactional
+    @Override
+    public int updateWithSession(Task record, String username) {
+        beforeUpdate(record);
+        return super.updateWithSession(record, username);
+    }
 
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectGenericTaskService.class, ProjectTaskListService.class,
-				ProjectActivityStreamService.class, ProjectMemberService.class,
-				MilestoneService.class, ItemTimeLoggingService.class);
-	}
+    private void beforeUpdate(Task record) {
+        if ((record.getPercentagecomplete() != null)
+                && (record.getPercentagecomplete() == 100)) {
+            record.setStatus(StatusI18nEnum.Closed.name());
+        } else if (record.getStatus() == null) {
+            record.setStatus(StatusI18nEnum.Open.name());
+        }
 
-	@Override
-	public int updateSelectiveWithSession(Task record, String username) {
-		beforeUpdate(record);
-		return super.updateSelectiveWithSession(record, username);
-	}
+        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+                ProjectGenericTaskService.class, ProjectTaskListService.class,
+                ProjectActivityStreamService.class, ProjectMemberService.class,
+                MilestoneService.class, ItemTimeLoggingService.class);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		int result = super.removeWithSession(primaryKey, username, accountId);
-		CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
-				ProjectService.class, ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class, MilestoneService.class,
-				ItemTimeLoggingService.class);
+    @Override
+    public int updateSelectiveWithSession(Task record, String username) {
+        beforeUpdate(record);
+        return super.updateSelectiveWithSession(record, username);
+    }
 
-		return result;
-	}
+    @Override
+    public int removeWithSession(Integer primaryKey, String username,
+                                 int accountId) {
+        int result = super.removeWithSession(primaryKey, username, accountId);
+        CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
+                ProjectService.class, ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class, MilestoneService.class,
+                ItemTimeLoggingService.class);
 
-	@Override
-	public List<GroupItem> getPrioritySummary(TaskSearchCriteria criteria) {
-		return taskMapperExt.getPrioritySummary(criteria);
-	}
+        return result;
+    }
 
-	@Override
-	public List<GroupItem> getAssignedDefectsSummary(TaskSearchCriteria criteria) {
-		return taskMapperExt.getAssignedDefectsSummary(criteria);
-	}
+    @Override
+    public List<GroupItem> getPrioritySummary(TaskSearchCriteria criteria) {
+        return taskMapperExt.getPrioritySummary(criteria);
+    }
 
-	@Override
-	public SimpleTask findByProjectAndTaskKey(int taskkey,
-			String projectShortName, int sAccountId) {
-		return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
-				sAccountId);
-	}
+    @Override
+    public List<GroupItem> getAssignedDefectsSummary(TaskSearchCriteria criteria) {
+        return taskMapperExt.getAssignedDefectsSummary(criteria);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<SimpleTask> findSubTasks(int parentTaskId, int sAccountId) {
-		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
-		searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
-		return taskMapperExt.findPagableListByCriteria(searchCriteria,
-				new RowBounds(0, Integer.MAX_VALUE));
-	}
+    @Override
+    public SimpleTask findByProjectAndTaskKey(int taskkey,
+                                              String projectShortName, int sAccountId) {
+        return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
+                sAccountId);
+    }
 
-	@Override
-	public List<SimpleTask> findSubTasksOfGroup(int taskgroupId, @CacheKey int sAccountId) {
-		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
-		searchCriteria.setTaskListId(new NumberSearchField(taskgroupId));
-		return taskMapperExt.findPagableListByCriteria(searchCriteria,
-				new RowBounds(0, Integer.MAX_VALUE));
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<SimpleTask> findSubTasks(int parentTaskId, int sAccountId) {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
+        searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
+        return taskMapperExt.findPagableListByCriteria(searchCriteria,
+                new RowBounds(0, Integer.MAX_VALUE));
+    }
+
+    @Override
+    public List<SimpleTask> findSubTasksOfGroup(int taskgroupId, @CacheKey int sAccountId) {
+        TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
+        searchCriteria.setTaskListId(new NumberSearchField(taskgroupId));
+        return taskMapperExt.findPagableListByCriteria(searchCriteria,
+                new RowBounds(0, Integer.MAX_VALUE));
+    }
 
 }

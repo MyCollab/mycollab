@@ -650,7 +650,7 @@
         s_relay_email_notification.emailHandlerBean,
         s_relay_email_notification.changeby,
         s_relay_email_notification.changeComment,
-        m_prj_message.projectid AS projectId,
+        m_tracker_component.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
         notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
@@ -659,7 +659,7 @@
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_message ON (s_relay_email_notification.type="Project-Component" AND m_prj_message.id=s_relay_email_notification.typeid))
+            JOIN m_tracker_component ON (s_relay_email_notification.type="Project-Component" AND m_tracker_component.id=s_relay_email_notification.typeid))
             
         UNION
         (SELECT s_relay_email_notification.id,
@@ -671,7 +671,7 @@
         s_relay_email_notification.emailHandlerBean,
         s_relay_email_notification.changeby,
         s_relay_email_notification.changeComment,
-        m_prj_message.projectid AS projectId,
+        m_tracker_version.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
         notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
@@ -680,7 +680,7 @@
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-            JOIN m_prj_message ON (s_relay_email_notification.type="Project-Version" AND m_prj_message.id=s_relay_email_notification.typeid))
+            JOIN m_tracker_version ON (s_relay_email_notification.type="Project-Version" AND m_tracker_version.id=s_relay_email_notification.typeid))
         ]]>
     </select>
 </mapper>

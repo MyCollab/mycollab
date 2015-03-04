@@ -91,5 +91,4 @@ public abstract class RelatedListComp2<SearchService extends ISearchableService<
 			}
 		}
 	}
-
 }

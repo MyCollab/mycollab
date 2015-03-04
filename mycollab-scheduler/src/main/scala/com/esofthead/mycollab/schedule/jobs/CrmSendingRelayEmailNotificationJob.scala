@@ -56,6 +56,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
       try {
         if (notification.getEmailhandlerbean != null) {
           emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).asInstanceOf[CrmDefaultSendingRelayEmailAction[_]]
+
           if (emailNotificationAction != null) {
             if (MonitorTypeConstants.CREATE_ACTION == notification.getAction) {
               emailNotificationAction.sendNotificationForCreateAction(notification)
@@ -66,7 +67,6 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
             else if (MonitorTypeConstants.ADD_COMMENT_ACTION == notification.getAction) {
               emailNotificationAction.sendNotificationForCommentAction(notification)
             }
-            LOG.debug("Finish process notification {}", BeanUtility.printBeanObj(notification))
           }
         }
       }

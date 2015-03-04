@@ -57,6 +57,5 @@ class EventBusFactoryImpl extends EventBusFactory {
 				SubscriberExceptionContext context) {
 			EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(SubscriberEventBusExceptionHandler.this, exception));
 		}
-
 	}
 }

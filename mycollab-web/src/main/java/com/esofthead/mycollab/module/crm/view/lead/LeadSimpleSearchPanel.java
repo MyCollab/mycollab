@@ -51,9 +51,7 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
     private ValueComboBox group;
     private GridLayout layoutSearchPane;
 
-    @Override
-    public void attach() {
-        super.attach();
+    public LeadSimpleSearchPanel() {
         this.setHeight("32px");
         createBasicSearchLayout();
     }

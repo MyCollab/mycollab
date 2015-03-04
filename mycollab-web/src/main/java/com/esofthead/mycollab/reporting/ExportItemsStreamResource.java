@@ -48,15 +48,12 @@ import com.vaadin.server.StreamResource;
  * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
- * @param <T>
+ *
  */
-public abstract class ExportItemsStreamResource<T> implements
-		StreamResource.StreamSource {
+public abstract class ExportItemsStreamResource implements StreamResource.StreamSource {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ExportItemsStreamResource.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ExportItemsStreamResource.class);
 
 	protected AbstractReportTemplate reportTemplate;
 
@@ -71,8 +68,7 @@ public abstract class ExportItemsStreamResource<T> implements
 	public ExportItemsStreamResource(Locale languageSupport,
 			String reportTitle, ReportExportType outputForm) {
 		this.language = languageSupport;
-		this.reportTemplate = ReportTemplateFactory
-				.getTemplate(languageSupport);
+		this.reportTemplate = ReportTemplateFactory.getTemplate(languageSupport);
 		this.reportTitle = reportTitle;
 		this.outputForm = outputForm;
 	}
@@ -91,7 +87,6 @@ public abstract class ExportItemsStreamResource<T> implements
 
 	@Override
 	public InputStream getStream() {
-
 		final PipedInputStream inStream = new PipedInputStream();
 		final PipedOutputStream outStream;
 
@@ -182,10 +177,4 @@ public abstract class ExportItemsStreamResource<T> implements
 
 		return reportBuilder;
 	}
-
-	public static void main(String[] args) throws Exception {
-		System.out.println(Arrays.asList(GraphicsEnvironment
-				.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
-	}
-
 }

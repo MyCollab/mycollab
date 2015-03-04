@@ -29,113 +29,103 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class AssignmentAddPresenter extends
-		CrmGenericPresenter<AssignmentAddView> {
+        CrmGenericPresenter<AssignmentAddView> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AssignmentAddPresenter() {
-		super(AssignmentAddView.class);
-	}
+    public AssignmentAddPresenter() {
+        super(AssignmentAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(new EditFormHandler<Task>() {
-			private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Task>() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void onSave(final Task item) {
-				save(item);
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.GotoTodoList(this, null));
-				}
-			}
+            @Override
+            public void onSave(final Task item) {
+                save(item);
+                EventBusFactory.getInstance().post(new ActivityEvent.TaskRead(this, item.getId()));
+            }
 
-			@Override
-			public void onCancel() {
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.GotoTodoList(this, null));
-				}
-			}
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(
+                            new ActivityEvent.GotoTodoList(this, null));
+                }
+            }
 
-			@Override
-			public void onSaveAndNew(final Task item) {
-				save(item);
-				EventBusFactory.getInstance().post(
-						new ActivityEvent.TaskAdd(this, null));
-			}
-		});
-	}
+            @Override
+            public void onSaveAndNew(final Task item) {
+                save(item);
+                EventBusFactory.getInstance().post(
+                        new ActivityEvent.TaskAdd(this, null));
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
-			CrmToolbar toolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			toolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
+            CrmToolbar toolbar = ViewManager
+                    .getCacheComponent(CrmToolbar.class);
+            toolbar.gotoItem(AppContext
+                    .getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-			Task task = null;
-			if (data.getParams() instanceof Task) {
-				task = (Task) data.getParams();
-			} else if (data.getParams() instanceof Integer) {
-				TaskService taskService = ApplicationContextUtil
-						.getSpringBean(TaskService.class);
-				task = taskService.findByPrimaryKey((Integer) data.getParams(),
-						AppContext.getAccountId());
-				if (task == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Do not support param data: "
-						+ data);
-			}
+            Task task = null;
+            if (data.getParams() instanceof Task) {
+                task = (Task) data.getParams();
+            } else if (data.getParams() instanceof Integer) {
+                TaskService taskService = ApplicationContextUtil
+                        .getSpringBean(TaskService.class);
+                task = taskService.findByPrimaryKey((Integer) data.getParams(),
+                        AppContext.getAccountId());
+                if (task == null) {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Do not support param data: "
+                        + data);
+            }
 
-			super.onGo(container, data);
-			view.editItem(task);
+            super.onGo(container, data);
+            view.editItem(task);
 
-			if (task.getId() == null) {
-				AppContext.addFragment("crm/activity/task/add/",
-						"Add Activity Task");
-			} else {
-				AppContext.addFragment("crm/activity/task/edit/"
-						+ UrlEncodeDecoder.encode(task.getId()),
-						"Edit Activity Task: " + task.getSubject());
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            if (task.getId() == null) {
+                AppContext.addFragment("crm/activity/task/add/",
+                        "Add Activity Task");
+            } else {
+                AppContext.addFragment("crm/activity/task/edit/"
+                                + UrlEncodeDecoder.encode(task.getId()),
+                        "Edit Activity Task: " + task.getSubject());
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	public void save(Task item) {
-		TaskService taskService = ApplicationContextUtil
-				.getSpringBean(TaskService.class);
+    public void save(Task item) {
+        TaskService taskService = ApplicationContextUtil
+                .getSpringBean(TaskService.class);
 
-		item.setSaccountid(AppContext.getAccountId());
-		if (item.getId() == null) {
-			taskService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			taskService.updateWithSession(item, AppContext.getUsername());
-		}
+        item.setSaccountid(AppContext.getAccountId());
+        if (item.getId() == null) {
+            taskService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            taskService.updateWithSession(item, AppContext.getUsername());
+        }
 
-	}
+    }
 }

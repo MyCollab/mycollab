@@ -16,22 +16,14 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import java.util.List;
-
-import com.esofthead.mycollab.module.crm.dao.CrmTaskMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
-import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
-import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.dao.CrmTaskMapper;
 import com.esofthead.mycollab.module.crm.dao.CrmTaskMapperExt;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.Task;
@@ -39,6 +31,11 @@ import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 
@@ -48,12 +45,17 @@ import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationActio
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.TASK, nameField = "subject")
-@Auditable(module = ModuleNameConstants.CRM, type = CrmTypeConstants.TASK)
-@Watchable(type = CrmTypeConstants.TASK, userFieldName = "assignuser", emailHandlerBean = TaskRelayEmailNotificationAction.class)
+@Traceable(nameField = "subject")
+@Auditable()
+@Watchable(userFieldName = "assignuser")
+@NotifyAgent(TaskRelayEmailNotificationAction.class)
 public class TaskServiceImpl extends
 		DefaultService<Integer, Task, TodoSearchCriteria> implements
 		TaskService {
+
+    static {
+        ClassInfoMap.put(TaskServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.TASK));
+    }
 
 	@Autowired
 	private CrmTaskMapper taskMapper;

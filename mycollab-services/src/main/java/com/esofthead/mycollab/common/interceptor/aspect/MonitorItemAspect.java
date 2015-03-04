@@ -16,8 +16,12 @@
  */
 package com.esofthead.mycollab.common.interceptor.aspect;
 
-import java.util.GregorianCalendar;
-
+import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.common.domain.MonitorItem;
+import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.service.MonitorItemService;
+import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -29,15 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.MonitorItem;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
-import com.esofthead.mycollab.common.service.MonitorItemService;
-import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.core.utils.BeanUtility;
+import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -45,77 +43,75 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 @Component
 @Configurable
 public class MonitorItemAspect {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MonitorItemAspect.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(MonitorItemAspect.class);
 
-	@Autowired
-	private MonitorItemService monitorItemService;
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
+    @Autowired
+    private MonitorItemService monitorItemService;
+    @Autowired
+    private RelayEmailNotificationService relayEmailNotificationService;
 
-	@AfterReturning("execution(public * com.esofthead.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
-	public void traceSaveActivity(JoinPoint joinPoint, Object bean,
-			String username) {
-		Advised advised = (Advised) joinPoint.getThis();
-		Class<?> cls = advised.getTargetSource().getTargetClass();
+    @AfterReturning("execution(public * com.esofthead.mycollab..service..*.saveWithSession(..)) && args(bean, username)")
+    public void traceSaveActivity(JoinPoint joinPoint, Object bean,
+                                  String username) {
+        Advised advised = (Advised) joinPoint.getThis();
+        Class<?> cls = advised.getTargetSource().getTargetClass();
+        try {
+            int sAccountId = (Integer) PropertyUtils.getProperty(bean,
+                    "saccountid");
+            int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
 
-		Watchable watchableAnnotation = cls.getAnnotation(Watchable.class);
-		if (watchableAnnotation != null) {
-			try {
-				int sAccountId = (Integer) PropertyUtils.getProperty(bean,
-						"saccountid");
+            Watchable watchableAnnotation = cls.getAnnotation(Watchable.class);
+            if (watchableAnnotation != null) {
+                Integer extraTypeId = null;
+                if (!"".equals(watchableAnnotation.extraTypeId())) {
+                    extraTypeId = (Integer) PropertyUtils.getProperty(bean,
+                            watchableAnnotation.extraTypeId());
+                }
 
-				Integer extraTypeId = null;
-				if (!"".equals(watchableAnnotation.extraTypeId())) {
-					extraTypeId = (Integer) PropertyUtils.getProperty(bean,
-							watchableAnnotation.extraTypeId());
-				}
+                MonitorItem monitorItem = new MonitorItem();
+                monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+                monitorItem.setType(ClassInfoMap.getType(cls));
+                monitorItem.setTypeid(typeId);
+                monitorItem.setExtratypeid(extraTypeId);
+                monitorItem.setUser(username);
+                monitorItem.setSaccountid(sAccountId);
 
-				MonitorItem monitorItem = new MonitorItem();
-				monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-				monitorItem.setType(watchableAnnotation.type());
-				monitorItem.setTypeid((Integer) PropertyUtils.getProperty(bean,
-						"id"));
-				monitorItem.setExtratypeid(extraTypeId);
-				monitorItem.setUser(username);
-				monitorItem.setSaccountid(sAccountId);
+                monitorItemService.saveWithSession(monitorItem, username);
+                LOG.debug("Save monitor item: "
+                        + BeanUtility.printBeanObj(monitorItem));
 
-				monitorItemService.saveWithSession(monitorItem, username);
-				LOG.debug("Save monitor item: "
-						+ BeanUtility.printBeanObj(monitorItem));
+                if (!watchableAnnotation.userFieldName().equals("")) {
+                    String moreUser = (String) PropertyUtils.getProperty(bean,
+                            watchableAnnotation.userFieldName());
+                    if (moreUser != null && !moreUser.equals(username)) {
+                        monitorItem.setId(null);
+                        monitorItem.setUser(moreUser);
+                        monitorItemService.saveWithSession(monitorItem,
+                                moreUser);
+                    }
+                }
+            }
 
-				if (!watchableAnnotation.userFieldName().equals("")) {
-					String moreUser = (String) PropertyUtils.getProperty(bean,
-							watchableAnnotation.userFieldName());
-					if (moreUser != null && !moreUser.equals(username)) {
-						monitorItem.setId(null);
-						monitorItem.setUser(moreUser);
-						monitorItemService.saveWithSession(monitorItem,
-								moreUser);
-					}
-				}
-
-				RelayEmailNotification relayNotification = new RelayEmailNotification();
-				relayNotification.setChangeby(username);
-				relayNotification.setChangecomment("");
-				relayNotification.setSaccountid(sAccountId);
-				relayNotification.setType(watchableAnnotation.type());
-				relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
-				int typeid = (Integer) PropertyUtils.getProperty(bean, "id");
-				relayNotification.setTypeid("" + typeid);
-				relayNotification.setEmailhandlerbean(watchableAnnotation
-						.emailHandlerBean().getName());
-				relayEmailNotificationService.saveWithSession(
-						relayNotification, username);
-				// Save notification item
-
-			} catch (Exception e) {
-				LOG.error(
-						"Error when save relay email notification for save action of service "
-								+ cls.getName(), e);
-			}
-		}
-
-	}
+            NotifyAgent notifyAgent = cls.getAnnotation(NotifyAgent.class);
+            if (notifyAgent != null) {
+                RelayEmailNotification relayNotification = new RelayEmailNotification();
+                relayNotification.setChangeby(username);
+                relayNotification.setChangecomment("");
+                relayNotification.setSaccountid(sAccountId);
+                relayNotification.setType(ClassInfoMap.getType(cls));
+                relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
+                relayNotification.setTypeid("" + typeId);
+                relayNotification.setEmailhandlerbean(notifyAgent.value().getName());
+                relayEmailNotificationService.saveWithSession(
+                        relayNotification, username);
+                // Save notification item
+            }
+        } catch (Exception e) {
+            LOG.error(
+                    "Error when save relay email notification for save action of service "
+                            + cls.getName(), e);
+        }
+    }
 
 }

@@ -25,7 +25,6 @@ import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.reporting.*;
@@ -47,8 +46,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -61,8 +58,7 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.*;
  * @since 1.0
  * 
  */
-public class ExportTaskListStreamResource<S extends SearchCriteria> extends
-		ExportItemsStreamResource<SimpleTaskList> {
+public class ExportTaskListStreamResource<S extends SearchCriteria> extends ExportItemsStreamResource {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = LoggerFactory
@@ -75,13 +71,12 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 
 	public ExportTaskListStreamResource(String reportTitle,
 			ReportExportType outputForm, ISearchableService<S> searchService,
-			S searchCriteria, RpParameterBuilder parameters) {
+			S searchCriteria) {
 		super(AppContext.getUserLocale(), reportTitle, outputForm);
 		this.searchCriteria = searchCriteria;
 		this.searchService = searchService;
 		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname,
 				TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
-				TaskTableFieldDef.percentagecomplete,
 				TaskTableFieldDef.assignee);
 		this.parameters = new RpParameterBuilder(fields);
 	}
@@ -91,18 +86,13 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 	protected void initReport() throws Exception {
 		SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria,
 				0, Integer.MAX_VALUE);
-		List<SimpleTaskList> taskLists = searchService
-				.findPagableListByCriteria(searchRequest);
+		List<SimpleTaskList> taskLists = searchService.findPagableListByCriteria(searchRequest);
 
 		for (SimpleTaskList taskList : taskLists) {
 			VerticalListBuilder componentBuilder = cmp.verticalList();
-			StyleBuilder style = stl
-					.style(reportTemplate.getBold12TitleStyle()).setBorder(
-							stl.penThin());
+			StyleBuilder style = stl.style(reportTemplate.getBold12TitleStyle()).setBorder(stl.penThin());
 
-			StyleBuilder styleHyperLink = stl
-					.style(reportTemplate.getBold12TitleStyle())
-					.setBorder(stl.penThin()).setUnderline(true);
+			StyleBuilder styleHyperLink = stl.style(reportTemplate.getBold12TitleStyle()).setBorder(stl.penThin()).setUnderline(true);
 
 			HorizontalListBuilder taskGroupLabel = cmp.horizontalList();
 
@@ -165,37 +155,9 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 			assigneeAndPhaseHorizontal.add(assigneeLbl).add(assignee)
 					.add(phaseLbl).add(phase);
 
-			// progress
-			LOG.debug("Progress start ----");
-			TextFieldBuilder<String> progressLbl = cmp.text("Progress :")
-					.setStyle(style).setFixedWidth(150);
-
-			DecimalFormat df = new DecimalFormat("#");
-			df.setRoundingMode(RoundingMode.HALF_EVEN);
-
-			TextFieldBuilder<String> progress = cmp
-					.text(df.format(taskList.getPercentageComplete()) + "%")
-					.setStyle(style).setFixedWidth(435);
-
-			TextFieldBuilder<String> numberTaskLbl = cmp
-					.text("Open tasks :").setStyle(style)
-					.setFixedWidth(150);
-
-			TextFieldBuilder<String> taskNumText = cmp
-					.text("(" + taskList.getNumOpenTasks() + "/"
-							+ taskList.getNumAllTasks() + ")")
-					.setFixedWidth(435).setStyle(style);
-
-			HorizontalListBuilder horizontalOfProgressAndNumberTask = cmp
-					.horizontalList();
-
-			horizontalOfProgressAndNumberTask.add(progressLbl).add(progress)
-					.add(numberTaskLbl).add(taskNumText);
-
 			// Add to Vertical List Builder -------
 			componentBuilder.add(taskGroupLabel).add(descContainer)
-					.add(assigneeAndPhaseHorizontal)
-					.add(horizontalOfProgressAndNumberTask);
+					.add(assigneeAndPhaseHorizontal);
 			SimpleTaskJasperReportBuilder subReportBuilder = new SimpleTaskJasperReportBuilder(
 					reportTemplate, taskList.getSubTasks(), parameters);
 			if (CollectionUtils.isNotEmpty(taskList.getSubTasks())) {
@@ -208,7 +170,6 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 
 	private static class SimpleTaskJasperReportBuilder {
 		private AbstractReportTemplate reportTemplate;
-		@SuppressWarnings("rawtypes")
 		private BeanDataSource dataSource;
 		private RpParameterBuilder parameters;
 
@@ -227,14 +188,12 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 			horizontalBuilder.setStyle(stl.style(
 					reportTemplate.getBoldCenteredStyle()).setBorder(
 					stl.penThin()));
-			SubreportBuilder subReport = cmp.subreport(
-					new SimpleTaskExpression()).setDataSource(dataSource);
+			SubreportBuilder subReport = cmp.subreport(new SimpleTaskExpression()).setDataSource(dataSource);
 			horizontalBuilder.add(subReport);
 			return horizontalBuilder;
 		}
 
-		private class SimpleTaskExpression extends
-				AbstractSimpleExpression<JasperReportBuilder> {
+		private class SimpleTaskExpression extends AbstractSimpleExpression<JasperReportBuilder> {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -242,7 +201,7 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 				JasperReportBuilder report = report();
 				report.setTemplate(reportTemplate.getReportTemplateBuilder());
 
-				Field[] clsFields = ClassUtils.getAllFields(Task.class);
+				Field[] clsFields = ClassUtils.getAllFields(SimpleTask.class);
 				for (Field objField : clsFields) {
 					if ("extraData".equals(objField.getName())
 							|| "selected".equals(objField.getName())) {
@@ -252,34 +211,39 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends
 					try {
 						jrType = type.detectType(objField.getType().getName());
 					} catch (DRException e) {
-						throw new MyCollabException(e);
+						throw new MyCollabException("Generate type " + objField.getName(), e);
 					}
 					report.addField(objField.getName(), jrType);
 				}
 
 				List<TableViewFieldDecorator> fields = parameters.getFields();
 
-				Map<String, MValue> lstFieldBuilder = ColumnBuilderClassMapper
-						.getListFieldBuilder(SimpleTask.class);
+				Map<String, MValue> builderFields = ColumnBuilderClassMapper.getListFieldBuilder(SimpleTask.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
 					LOG.debug("Inject renderer if any");
-					if (lstFieldBuilder != null) {
-						MValue columnFieldBuilder = lstFieldBuilder.get(field
+
+						MValue columnFieldBuilder = builderFields.get(field
 								.getField());
 						if (columnFieldBuilder != null) {
 							field.setComponentBuilder(reportTemplate
 									.buildCompBuilder(columnFieldBuilder));
-						}
-					}
-					LOG.debug("Construct component builder {} and width {}",
-							field.getField(), field.getDefaultWidth());
-					ComponentColumnBuilder columnBuilder = col.componentColumn(
-							AppContext.getMessage(field.getDescKey()),
-							field.getComponentBuilder()).setWidth(
-							field.getDefaultWidth());
+                            ComponentColumnBuilder columnBuilder = col.componentColumn(
+                                    AppContext.getMessage(field.getDescKey()),
+                                    field.getComponentBuilder()).setWidth(
+                                    field.getDefaultWidth());
 
-					report.addColumn(columnBuilder);
+                            report.addColumn(columnBuilder);
+						} else {
+                            LOG.debug("Construct component builder {} and width {}",
+                                    field.getField(), field.getDefaultWidth());
+                            ComponentColumnBuilder columnBuilder = col.componentColumn(
+                                    AppContext.getMessage(field.getDescKey()),
+                                    field.getComponentBuilder()).setWidth(
+                                    field.getDefaultWidth());
+
+                            report.addColumn(columnBuilder);
+                        }
 				}
 				return report;
 			}

@@ -51,6 +51,8 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -74,19 +76,13 @@ public class LeadConvertInfoWindow extends Window {
 		this.setResizable(false);
 		this.setModal(true);
 		this.center();
-	}
 
-	@Override
-	public void attach() {
-		setCaption(AppContext.getMessage(
-				LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(),
-				lead.getFirstname()));
-
-		super.attach();
+        setCaption(AppContext.getMessage(
+                LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(),
+                lead.getFirstname()));
 	}
 
 	public Layout initContent() {
-
 		CssLayout contentLayout = new CssLayout();
 		contentLayout.setWidth("100%");
 		contentLayout.setStyleName("lead-convert-window");
@@ -108,9 +104,7 @@ public class LeadConvertInfoWindow extends Window {
 	}
 
 	private ComponentContainer createButtonControls() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setStyleName("addNewControl");
+		final MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
 
 		Button convertButton = new Button(
 				AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
@@ -171,9 +165,7 @@ public class LeadConvertInfoWindow extends Window {
 				ContentMode.HTML);
 		layout.addComponent(shortDescription);
 
-		VerticalLayout infoLayout = new VerticalLayout();
-		infoLayout.setMargin(new MarginInfo(false, true, true, true));
-		infoLayout.setSpacing(true);
+		MVerticalLayout infoLayout = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, true));
 
 		String createAccountTxt = "Create Account: <span class='"
 				+ UIConstants.TEXT_BLUE + "'>" + lead.getAccountname()
@@ -291,9 +283,7 @@ public class LeadConvertInfoWindow extends Window {
 
 					return null;
 				}
-
 			});
 		}
 	}
-
 }

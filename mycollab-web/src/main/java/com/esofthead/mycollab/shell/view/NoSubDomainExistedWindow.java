@@ -36,14 +36,13 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	public NoSubDomainExistedWindow(final String domain) {
-		final NoSubDomainLayout contentLayout = new NoSubDomainLayout(domain);
+		NoSubDomainLayout contentLayout = new NoSubDomainLayout(domain);
 		contentLayout.setWidth("616px");
 		this.addComponent(contentLayout);
 		this.setComponentAlignment(contentLayout, Alignment.MIDDLE_CENTER);
 	}
 
 	private class NoSubDomainLayout extends CustomLayoutExt {
-
 		private static final long serialVersionUID = 1L;
 
 		public NoSubDomainLayout(final String domain) {
@@ -72,7 +71,5 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 			warningContent.setHeight("97px");
 			this.addComponent(warningContent, "warning-message");
 		}
-
 	}
-
 }

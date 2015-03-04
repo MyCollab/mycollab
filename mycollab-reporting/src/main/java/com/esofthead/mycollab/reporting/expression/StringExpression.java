@@ -25,7 +25,6 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
  * 
  */
 public class StringExpression extends AbstractFieldExpression implements MValue {
-
 	private static final long serialVersionUID = 1L;
 
 	public StringExpression(String field) {
@@ -34,6 +33,11 @@ public class StringExpression extends AbstractFieldExpression implements MValue 
 
 	@Override
 	public String evaluate(ReportParameters param) {
-		return param.getFieldValue(field).toString();
+        try {
+            return param.getFieldValue(field);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
 	}
 }

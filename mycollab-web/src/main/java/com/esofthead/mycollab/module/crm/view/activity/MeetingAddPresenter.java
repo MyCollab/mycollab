@@ -60,11 +60,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 					@Override
 					public void onSave(final MeetingWithBLOBs item) {
 						save(item);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.GotoTodoList(this, null));
-						}
+						EventBusFactory.getInstance().post(new ActivityEvent.MeetingRead(this, item.getId()));
 					}
 
 					@Override

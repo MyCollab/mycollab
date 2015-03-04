@@ -34,8 +34,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class ProjectSendingRelayEmailNotificationJob extends
-GenericQuartzJobBean {
+class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
   private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
   def executeJob(context: JobExecutionContext) {

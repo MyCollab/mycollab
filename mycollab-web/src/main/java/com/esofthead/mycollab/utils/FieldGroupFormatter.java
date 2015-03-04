@@ -43,8 +43,7 @@ import com.vaadin.ui.Label;
  *
  */
 public class FieldGroupFormatter {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(FieldGroupFormatter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FieldGroupFormatter.class);
 
 	private static Map<String, HistoryFieldFormat> defaultFieldHandlers;
 
@@ -197,10 +196,10 @@ public class FieldGroupFormatter {
 		public Component toVaadinComponent(String value) {
 			if (StringUtils.isNotBlank(value)) {
 				try {
-					Integer currencyid = Integer.parseInt(value);
+					Integer currencyId = Integer.parseInt(value);
 					CurrencyService currencyService = ApplicationContextUtil
 							.getSpringBean(CurrencyService.class);
-					Currency currency = currencyService.getCurrency(currencyid);
+					Currency currency = currencyService.getCurrency(currencyId);
 					return new Label(currency.getSymbol());
 				} catch (Exception e) {
 					LOG.error("Error while get currency id" + value, e);
@@ -264,6 +263,5 @@ public class FieldGroupFormatter {
 				return value;
 			}
 		}
-
 	}
 }

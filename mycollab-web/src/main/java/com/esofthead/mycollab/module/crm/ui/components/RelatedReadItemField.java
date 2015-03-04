@@ -144,5 +144,4 @@ public class RelatedReadItemField extends CustomField {
 	public Class<?> getType() {
 		return Object.class;
 	}
-
 }
