@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.GregorianCalendar;
 
 /**
@@ -43,11 +44,11 @@ import java.util.GregorianCalendar;
 @Component
 @Configurable
 public class MonitorItemAspect {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(MonitorItemAspect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MonitorItemAspect.class);
 
     @Autowired
     private MonitorItemService monitorItemService;
+
     @Autowired
     private RelayEmailNotificationService relayEmailNotificationService;
 
@@ -57,12 +58,11 @@ public class MonitorItemAspect {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
         try {
-            int sAccountId = (Integer) PropertyUtils.getProperty(bean,
-                    "saccountid");
-            int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
-
             Watchable watchableAnnotation = cls.getAnnotation(Watchable.class);
             if (watchableAnnotation != null) {
+                int sAccountId = (Integer) PropertyUtils.getProperty(bean,
+                        "saccountid");
+                int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
                 Integer extraTypeId = null;
                 if (!"".equals(watchableAnnotation.extraTypeId())) {
                     extraTypeId = (Integer) PropertyUtils.getProperty(bean,
@@ -95,6 +95,9 @@ public class MonitorItemAspect {
 
             NotifyAgent notifyAgent = cls.getAnnotation(NotifyAgent.class);
             if (notifyAgent != null) {
+                int sAccountId = (Integer) PropertyUtils.getProperty(bean,
+                        "saccountid");
+                int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
                 RelayEmailNotification relayNotification = new RelayEmailNotification();
                 relayNotification.setChangeby(username);
                 relayNotification.setChangecomment("");
@@ -113,5 +116,4 @@ public class MonitorItemAspect {
                             + cls.getName(), e);
         }
     }
-
 }

@@ -54,13 +54,13 @@ import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -192,7 +192,6 @@ public class TaskGroupReadViewImpl extends
                 } else if (TaskList.Field.groupindex.equalTo(propertyId)) {
                     return new SubTasksField();
                 }
-
                 return null;
             }
         };
@@ -277,8 +276,16 @@ public class TaskGroupReadViewImpl extends
         }
 
         private Div buildDivLine(SimpleTask task) {
+            Div div = new Div().setCSSClass("project-tableless");
+            div.appendChild(buildItemValue(task), buildAssigneeValue(task), buildLastUpdateTime(task));
+            return div;
+        }
+
+        private Div buildItemValue(SimpleTask task) {
+            Div div = new Div();
             String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
                     .getTaskname());
+            Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName);
             if (task.isCompleted()) {
@@ -304,23 +311,38 @@ public class TaskGroupReadViewImpl extends
                     "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
                     arg20, arg21, arg22, arg23, arg24);
             taskLink.setAttribute("onmouseover", mouseOverFunc);
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+            return div;
+        }
 
-            String avatarLink = StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16);
-            Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
-            if (StringUtils.isNotBlank(task.getAssignuser())) {
-                A avatarDiv = new A().setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables
-                        .getProjectId(), task.getAssignuser()))
-                        .appendChild(avatarImg);
-                return new Div().appendChild(avatarDiv, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
-                        "list-style-position: " +
-                        "inside;");
-            } else {
-                return new Div().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid)).setStyle("display: list-item; " +
-                        "list-style-position: " +
-                        "inside;");
+        private Div buildAssigneeValue(SimpleTask task) {
+            if (task.getAssignuser() == null) {
+                return new Div().setCSSClass("column200");
             }
+            String uid = UUID.randomUUID().toString();
+            Div div = new Div();
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+                    task.getAssignUserAvatarId(), 16));
+            A userLink = new A();
+            userLink.setId("tag" + uid);
+            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectid(),
+                    task.getAssignuser()));
+
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignuser()));
+            userLink.appendText(task.getAssignUserFullName());
+
+            div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+
+            return div.setCSSClass("column200");
+        }
+
+        private Div buildLastUpdateTime(SimpleTask task) {
+            Div div = new Div();
+            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(task.getLastupdatedtime(), AppContext.getUserLocale())));
+            return div.setCSSClass("column100");
         }
     }
 
