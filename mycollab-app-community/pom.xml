@@ -335,8 +335,8 @@
                                 </goals>
                                 <configuration>
                                     <izpackBasedir>${staging.dir}</izpackBasedir>
-                                    <installFile>${basedir}/src/izpack/install.xml</installFile>
-                                    <customPanelDirectory>${staging.dir}</customPanelDirectory>
+                                    <descriptor>${basedir}/src/izpack/install.xml</descriptor>
+                                    <installerFile>target/MyCollab-Generic-${project.version}.jar</installerFile>
                                 </configuration>
                             </execution>
                         </executions>
@@ -352,7 +352,7 @@
                     <plugin>
                         <groupId>com.akathist.maven.plugins.launch4j</groupId>
                         <artifactId>launch4j-maven-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>1.7.4</version>
                         <executions>
                             <execution>
                                 <id>l4j-clui</id>
@@ -362,7 +362,7 @@
                                 </goals>
                                 <configuration>
                                     <headerType>gui</headerType>
-                                    <jar>target/mycollab-app-community-${project.version}-standard.jar</jar>
+                                    <jar>target/MyCollab-Generic-${project.version}.jar</jar>
                                     <outfile>target/MyCollab-Installer-${project.version}.exe</outfile>
                                     <downloadUrl>http://java.com/download</downloadUrl>
                                     <classPath>
@@ -394,7 +394,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
+                        <version>1.8</version>
                         <executions>
                             <execution>
                                 <id>create-staging-area</id>
@@ -457,13 +457,13 @@
                                             classname="net.sourceforge.jarbundler.JarBundler"
                                             classpathref="maven.plugin.classpath" />
                                         <jarbundler dir="target"
-                                            name="MyCollab-${project.version}"
+                                            name="MyCollab-MacOS-${project.version}"
                                             mainclass="com.izforge.izpack.installer.Installer"
-                                            jar="target/mycollab-app-community-${project.version}-standard.jar"
+                                            jar="target/MyCollab-Generic-${project.version}.jar"
                                             copyright="©2014, MyCollab"
                                             icon="src/main/macos-resources/mycollab.icns"
                                             version="${project.version}" build="GA"
-                                            infostring="MyCollab - the stable, rich features, and high performance platform of Project Management and CRM" />
+                                            infostring="MyCollab - the stable, rich features, and high performance platform of Project Management and CRM tools" />
                                     </tasks>
                                 </configuration>
                             </execution>
