@@ -16,32 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.log4j.Logger;
-import org.vaadin.easyuploads.FileBuffer;
-import org.vaadin.easyuploads.FileFactory;
-import org.vaadin.easyuploads.MultiUpload;
-import org.vaadin.easyuploads.MultiUploadHandler;
-import org.vaadin.easyuploads.UploadField;
-
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.utils.ImageUtil;
@@ -57,367 +33,358 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.vaadin.server.StreamVariable;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.ProgressBar;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.MapUtils;
+import org.apache.log4j.Logger;
+import org.vaadin.easyuploads.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 @SuppressWarnings("unused")
 public class ProjectCommentInput extends VerticalLayout {
 
-	private static final Logger LOG = Logger
-			.getLogger(ProjectCommentInput.class.getName());
+    private static final Logger LOG = Logger
+            .getLogger(ProjectCommentInput.class.getName());
 
-	private static final long serialVersionUID = 8118887310759503892L;
+    private static final long serialVersionUID = 8118887310759503892L;
 
-	private TextArea commentInput;
+    private TextArea commentInput;
 
-	private CommentType type;
-	private String typeid;
-	private Integer extraTypeId;
-	private ReloadableComponent component;
-	private boolean isSendingEmailRelay;
-	private Class<? extends SendingRelayEmailNotificationAction> emailHandlerClass;
+    private CommentType type;
+    private String typeid;
+    private Integer extraTypeId;
+    private ReloadableComponent component;
+    private boolean isSendingEmailRelay;
+    private Class<? extends SendingRelayEmailNotificationAction> emailHandlerClass;
 
-	private FileBuffer receiver;
-	private MultiUpload uploadField;
-	private Map<String, File> fileStores;
+    private FileBuffer receiver;
+    private MultiUpload uploadField;
+    private Map<String, File> fileStores;
 
-	private ResourceService resourceService;
+    private ResourceService resourceService;
 
-	private int currentPollInterval;
+    private int currentPollInterval;
 
-	private HorizontalLayout inputWrapper;
+    private CssLayout statusWrapper;
 
-	private CssLayout statusWrapper;
+    public ProjectCommentInput(
+            final ReloadableComponent component,
+            final CommentType typeVal,
+            final Integer extraTypeIdVal,
+            final boolean cancelButtonEnable,
+            final boolean isSendingEmailRelay,
+            final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 
-	public ProjectCommentInput(
-			final ReloadableComponent component,
-			final CommentType typeVal,
-			final Integer extraTypeIdVal,
-			final boolean cancelButtonEnable,
-			final boolean isSendingEmailRelay,
-			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+        resourceService = ApplicationContextUtil
+                .getSpringBean(ResourceService.class);
 
-		resourceService = ApplicationContextUtil
-				.getSpringBean(ResourceService.class);
+        type = typeVal;
+        extraTypeId = extraTypeIdVal;
+        this.component = component;
+        this.isSendingEmailRelay = isSendingEmailRelay;
+        this.emailHandlerClass = emailHandler;
 
-		type = typeVal;
-		extraTypeId = extraTypeIdVal;
-		this.component = component;
-		this.isSendingEmailRelay = isSendingEmailRelay;
-		this.emailHandlerClass = emailHandler;
+        currentPollInterval = UI.getCurrent().getPollInterval();
+        constructUI();
+    }
 
-		currentPollInterval = UI.getCurrent().getPollInterval();
-		constructUI();
-	}
+    private void constructUI() {
+        this.setWidth("100%");
 
-	private void constructUI() {
-		this.setWidth("100%");
+        statusWrapper = new CssLayout();
+        statusWrapper.setWidth("100%");
+        statusWrapper.setStyleName("upload-status-wrap");
+        this.addComponent(statusWrapper);
 
-		statusWrapper = new CssLayout();
-		statusWrapper.setWidth("100%");
-		statusWrapper.setStyleName("upload-status-wrap");
-		this.addComponent(statusWrapper);
+        MHorizontalLayout inputWrapper = new MHorizontalLayout().withWidth("100%").withStyleName("comment-box");
+        inputWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		inputWrapper = new HorizontalLayout();
-		inputWrapper.setWidth("100%");
-		inputWrapper.setStyleName("comment-box");
-		inputWrapper.setSpacing(true);
-		inputWrapper.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        this.prepareUploadField();
 
-		this.prepareUploadField();
+        inputWrapper.addComponent(uploadField);
 
-		inputWrapper.addComponent(uploadField);
+        commentInput = new TextArea();
+        commentInput.setInputPrompt(AppContext
+                .getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
+        commentInput.setSizeFull();
 
-		commentInput = new TextArea();
-		commentInput.setInputPrompt(AppContext
-				.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
-		commentInput.setSizeFull();
-		inputWrapper.addComponent(commentInput);
-		inputWrapper.setExpandRatio(commentInput, 1.0f);
+        Button postBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
+        postBtn.setStyleName("submit-btn");
+        postBtn.setWidthUndefined();
+        postBtn.addClickListener(new Button.ClickListener() {
 
-		Button postBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
-		postBtn.setStyleName("submit-btn");
-		postBtn.setWidthUndefined();
-		postBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = 6687918902751556313L;
 
-			private static final long serialVersionUID = 6687918902751556313L;
+            @Override
+            public void buttonClick(Button.ClickEvent arg0) {
+                final CommentWithBLOBs comment = new CommentWithBLOBs();
+                comment.setComment(commentInput.getValue());
+                comment.setCreatedtime(new GregorianCalendar().getTime());
+                comment.setCreateduser(AppContext.getUsername());
+                comment.setSaccountid(AppContext.getAccountId());
+                comment.setType(type.toString());
+                comment.setTypeid("" + typeid);
+                comment.setExtratypeid(extraTypeId);
 
-			@Override
-			public void buttonClick(Button.ClickEvent arg0) {
-				final Comment comment = new Comment();
-				comment.setComment(commentInput.getValue());
-				comment.setCreatedtime(new GregorianCalendar().getTime());
-				comment.setCreateduser(AppContext.getUsername());
-				comment.setSaccountid(AppContext.getAccountId());
-				comment.setType(type.toString());
-				comment.setTypeid("" + typeid);
-				comment.setExtratypeid(extraTypeId);
+                final CommentService commentService = ApplicationContextUtil
+                        .getSpringBean(CommentService.class);
+                int commentId = commentService.saveWithSession(comment,
+                        AppContext.getUsername(), isSendingEmailRelay,
+                        emailHandlerClass);
 
-				final CommentService commentService = ApplicationContextUtil
-						.getSpringBean(CommentService.class);
-				int commentId = commentService.saveWithSession(comment,
-						AppContext.getUsername(), isSendingEmailRelay,
-						emailHandlerClass);
+                String attachmentPath = AttachmentUtils
+                        .getProjectEntityCommentAttachmentPath(type,
+                                AppContext.getAccountId(),
+                                CurrentProjectVariables.getProjectId(), typeid,
+                                commentId);
+                if (!"".equals(attachmentPath)) {
+                    saveContentsToRepo(attachmentPath);
+                }
 
-				String attachmentPath = AttachmentUtils
-						.getProjectEntityCommentAttachmentPath(type,
-								AppContext.getAccountId(),
-								CurrentProjectVariables.getProjectId(), typeid,
-								commentId);
-				if (!"".equals(attachmentPath)) {
-					saveContentsToRepo(attachmentPath);
-				}
+                // save success, clear comment area and load list
+                // comments again
+                commentInput.setValue("");
+                statusWrapper.removeAllComponents();
+                component.reload();
+            }
 
-				// save success, clear comment area and load list
-				// comments again
-				commentInput.setValue("");
-				statusWrapper.removeAllComponents();
-				component.reload();
-			}
+        });
+        inputWrapper.with(commentInput, postBtn).expand(commentInput);
+        this.addComponent(inputWrapper);
+    }
 
-		});
-		inputWrapper.addComponent(postBtn);
-		this.addComponent(inputWrapper);
-	}
+    private void prepareUploadField() {
+        receiver = createReceiver();
 
-	private void prepareUploadField() {
-		receiver = createReceiver();
+        uploadField = new MultiUpload();
+        uploadField.setButtonCaption("");
+        uploadField.setImmediate(true);
 
-		uploadField = new MultiUpload();
-		uploadField.setButtonCaption("");
-		uploadField.setImmediate(true);
+        MultiUploadHandler handler = new MultiUploadHandler() {
+            private LinkedList<ProgressBar> indicators;
 
-		MultiUploadHandler handler = new MultiUploadHandler() {
-			private LinkedList<ProgressBar> indicators;
+            @Override
+            public void streamingStarted(
+                    StreamVariable.StreamingStartEvent event) {
+            }
 
-			@Override
-			public void streamingStarted(
-					StreamVariable.StreamingStartEvent event) {
-			}
+            @Override
+            public void streamingFinished(StreamVariable.StreamingEndEvent event) {
+                String fileName = event.getFileName();
+                int index = fileName.lastIndexOf(".");
+                if (index > 0) {
+                    String fileExt = fileName.substring(index + 1,
+                            fileName.length());
+                    fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
+                            + System.currentTimeMillis() + "." + fileExt;
+                }
 
-			@Override
-			public void streamingFinished(StreamVariable.StreamingEndEvent event) {
-				String fileName = event.getFileName();
-				int index = fileName.lastIndexOf(".");
-				if (index > 0) {
-					String fileExt = fileName.substring(index + 1,
-							fileName.length());
-					fileName = MobileAttachmentUtils.ATTACHMENT_NAME_PREFIX
-							+ System.currentTimeMillis() + "." + fileExt;
-				}
+                if (!indicators.isEmpty()) {
+                    statusWrapper.replaceComponent(indicators.remove(0),
+                            createAttachmentRow(fileName));
+                }
 
-				if (!indicators.isEmpty()) {
-					statusWrapper.replaceComponent(indicators.remove(0),
-							createAttachmentRow(fileName));
-				}
+                if (indicators.size() == 0) {
+                    UI.getCurrent().setPollInterval(currentPollInterval);
+                }
 
-				if (indicators.size() == 0) {
-					UI.getCurrent().setPollInterval(currentPollInterval);
-				}
+                File file = receiver.getFile();
 
-				File file = receiver.getFile();
+                receiveFile(file, fileName, event.getMimeType(),
+                        event.getBytesReceived());
+                receiver.setValue(null);
+            }
 
-				receiveFile(file, fileName, event.getMimeType(),
-						event.getBytesReceived());
-				receiver.setValue(null);
-			}
+            @Override
+            public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
+                if (!indicators.isEmpty()) {
+                    Label uploadResult = new Label("Upload failed! File: "
+                            + event.getFileName());
+                    uploadResult.setStyleName("upload-status");
+                    statusWrapper.replaceComponent(indicators.remove(0),
+                            uploadResult);
+                }
+            }
 
-			@Override
-			public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
-				if (!indicators.isEmpty()) {
-					Label uploadResult = new Label("Upload failed! File: "
-							+ event.getFileName());
-					uploadResult.setStyleName("upload-status");
-					statusWrapper.replaceComponent(indicators.remove(0),
-							uploadResult);
-				}
-			}
+            @Override
+            public void onProgress(StreamVariable.StreamingProgressEvent event) {
+                long readBytes = event.getBytesReceived();
+                long contentLength = event.getContentLength();
+                float f = (float) readBytes / (float) contentLength;
+                indicators.get(0).setValue(f);
+            }
 
-			@Override
-			public void onProgress(StreamVariable.StreamingProgressEvent event) {
-				long readBytes = event.getBytesReceived();
-				long contentLength = event.getContentLength();
-				float f = (float) readBytes / (float) contentLength;
-				indicators.get(0).setValue(f);
-			}
+            @Override
+            public OutputStream getOutputStream() {
+                MultiUpload.FileDetail next = uploadField.getPendingFileNames()
+                        .iterator().next();
+                return receiver.receiveUpload(next.getFileName(),
+                        next.getMimeType());
+            }
 
-			@Override
-			public OutputStream getOutputStream() {
-				MultiUpload.FileDetail next = uploadField.getPendingFileNames()
-						.iterator().next();
-				return receiver.receiveUpload(next.getFileName(),
-						next.getMimeType());
-			}
+            @Override
+            public void filesQueued(
+                    Collection<MultiUpload.FileDetail> pendingFileNames) {
+                UI.getCurrent().setPollInterval(500);
+                if (indicators == null) {
+                    indicators = new LinkedList<>();
+                }
+                for (MultiUpload.FileDetail f : pendingFileNames) {
+                    ProgressBar pi = new ProgressBar();
+                    pi.setValue(0f);
+                    pi.setStyleName("upload-progress");
+                    pi.setWidth("100%");
+                    statusWrapper.addComponent(pi);
+                    pi.setEnabled(true);
+                    pi.setVisible(true);
+                    indicators.add(pi);
+                }
+            }
 
-			@Override
-			public void filesQueued(
-					Collection<MultiUpload.FileDetail> pendingFileNames) {
-				UI.getCurrent().setPollInterval(500);
-				if (indicators == null) {
-					indicators = new LinkedList<ProgressBar>();
-				}
-				for (MultiUpload.FileDetail f : pendingFileNames) {
-					ProgressBar pi = new ProgressBar();
-					pi.setValue(0f);
-					pi.setStyleName("upload-progress");
-					pi.setWidth("100%");
-					statusWrapper.addComponent(pi);
-					pi.setEnabled(true);
-					pi.setVisible(true);
-					indicators.add(pi);
-				}
-			}
+            @Override
+            public boolean isInterrupted() {
+                return false;
+            }
+        };
+        uploadField.setHandler(handler);
+    }
 
-			@Override
-			public boolean isInterrupted() {
-				return false;
-			}
-		};
-		uploadField.setHandler(handler);
-	}
+    private Component createAttachmentRow(String fileName) {
+        final HorizontalLayout uploadSucceedLayout = new HorizontalLayout();
+        uploadSucceedLayout.setWidth("100%");
+        Label uploadResult = new Label(fileName);
+        uploadResult.setWidth("100%");
+        uploadSucceedLayout.addComponent(uploadResult);
+        uploadSucceedLayout.setExpandRatio(uploadResult, 1.0f);
 
-	private Component createAttachmentRow(String fileName) {
-		final HorizontalLayout uploadSucceedLayout = new HorizontalLayout();
-		uploadSucceedLayout.setWidth("100%");
-		Label uploadResult = new Label(fileName);
-		uploadResult.setWidth("100%");
-		uploadSucceedLayout.addComponent(uploadResult);
-		uploadSucceedLayout.setExpandRatio(uploadResult, 1.0f);
+        Button removeAttachment = new Button(
+                "<span aria-hidden=\"true\" data-icon=\""
+                        + IconConstants.DELETE + "\"></span>",
+                new Button.ClickListener() {
 
-		Button removeAttachment = new Button(
-				"<span aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.DELETE + "\"></span>",
-				new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        statusWrapper.removeComponent(uploadSucceedLayout);
+                    }
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						statusWrapper.removeComponent(uploadSucceedLayout);
-					}
+                });
+        removeAttachment.setHtmlContentAllowed(true);
+        removeAttachment.setStyleName("link");
+        uploadSucceedLayout.addComponent(removeAttachment);
+        uploadSucceedLayout.setStyleName("upload-succeed-layout");
+        uploadSucceedLayout.setSpacing(true);
+        return uploadSucceedLayout;
+    }
 
-				});
-		removeAttachment.setHtmlContentAllowed(true);
-		removeAttachment.setStyleName("link");
-		uploadSucceedLayout.addComponent(removeAttachment);
-		uploadSucceedLayout.setStyleName("upload-succeed-layout");
-		uploadSucceedLayout.setSpacing(true);
-		return uploadSucceedLayout;
-	}
+    private void saveContentsToRepo(String attachmentPath) {
+        if (MapUtils.isNotEmpty(fileStores)) {
+            for (String fileName : fileStores.keySet()) {
+                try {
+                    String fileExt = "";
+                    int index = fileName.lastIndexOf(".");
+                    if (index > 0) {
+                        fileExt = fileName.substring(index + 1,
+                                fileName.length());
+                    }
 
-	private void saveContentsToRepo(String attachmentPath) {
-		if (MapUtils.isNotEmpty(fileStores)) {
-			for (String fileName : fileStores.keySet()) {
-				try {
-					String fileExt = "";
-					int index = fileName.lastIndexOf(".");
-					if (index > 0) {
-						fileExt = fileName.substring(index + 1,
-								fileName.length());
-					}
+                    if ("jpg".equalsIgnoreCase(fileExt)
+                            || "png".equalsIgnoreCase(fileExt)) {
+                        try {
+                            BufferedImage bufferedImage = ImageIO
+                                    .read(fileStores.get(fileName));
 
-					if ("jpg".equalsIgnoreCase(fileExt)
-							|| "png".equalsIgnoreCase(fileExt)) {
-						try {
-							BufferedImage bufferedImage = ImageIO
-									.read(fileStores.get(fileName));
+                            int imgHeight = bufferedImage.getHeight();
+                            int imgWidth = bufferedImage.getWidth();
 
-							int imgHeight = bufferedImage.getHeight();
-							int imgWidth = bufferedImage.getWidth();
+                            BufferedImage scaledImage;
 
-							BufferedImage scaledImage = null;
+                            float scale;
+                            float destWidth = 974;
+                            float destHeight = 718;
 
-							float scale;
-							float destWidth = 974;
-							float destHeight = 718;
+                            float scaleX = Math.min(destHeight / imgHeight, 1);
+                            float scaleY = Math.min(destWidth / imgWidth, 1);
+                            scale = Math.min(scaleX, scaleY);
+                            scaledImage = ImageUtil.scaleImage(bufferedImage,
+                                    scale);
 
-							float scaleX = Math.min(destHeight / imgHeight, 1);
-							float scaleY = Math.min(destWidth / imgWidth, 1);
-							scale = Math.min(scaleX, scaleY);
-							scaledImage = ImageUtil.scaleImage(bufferedImage,
-									scale);
+                            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                            ImageIO.write(scaledImage, fileExt, outStream);
 
-							ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-							ImageIO.write(scaledImage, fileExt, outStream);
+                            resourceService.saveContent(
+                                    MobileAttachmentUtils.constructContent(
+                                            fileName, attachmentPath),
+                                    AppContext.getUsername(),
+                                    new ByteArrayInputStream(outStream
+                                            .toByteArray()), AppContext
+                                            .getAccountId());
+                        } catch (IOException e) {
+                            LOG.error("Error in upload file", e);
+                            resourceService.saveContent(
+                                    MobileAttachmentUtils.constructContent(
+                                            fileName, attachmentPath),
+                                    AppContext.getUsername(),
+                                    new FileInputStream(fileStores
+                                            .get(fileName)), AppContext
+                                            .getAccountId());
+                        }
+                    } else {
+                        resourceService.saveContent(MobileAttachmentUtils
+                                        .constructContent(fileName, attachmentPath),
+                                AppContext.getUsername(), new FileInputStream(
+                                        fileStores.get(fileName)), AppContext
+                                        .getAccountId());
+                    }
 
-							resourceService.saveContent(
-									MobileAttachmentUtils.constructContent(
-											fileName, attachmentPath),
-									AppContext.getUsername(),
-									new ByteArrayInputStream(outStream
-											.toByteArray()), AppContext
-											.getAccountId());
-						} catch (IOException e) {
-							LOG.error("Error in upload file", e);
-							resourceService.saveContent(
-									MobileAttachmentUtils.constructContent(
-											fileName, attachmentPath),
-									AppContext.getUsername(),
-									new FileInputStream(fileStores
-											.get(fileName)), AppContext
-											.getAccountId());
-						}
-					} else {
-						resourceService.saveContent(MobileAttachmentUtils
-								.constructContent(fileName, attachmentPath),
-								AppContext.getUsername(), new FileInputStream(
-										fileStores.get(fileName)), AppContext
-										.getAccountId());
-					}
+                } catch (FileNotFoundException e) {
+                    LOG.error("Error when attach content in UI", e);
+                }
+            }
+        }
+    }
 
-				} catch (FileNotFoundException e) {
-					LOG.error("Error when attach content in UI", e);
-				}
-			}
-		}
-	}
+    protected FileBuffer createReceiver() {
+        FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
+            private static final long serialVersionUID = 1L;
 
-	protected FileBuffer createReceiver() {
-		FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public FileFactory getFileFactory() {
+                return new TempFileFactory();
+            }
+        };
+        receiver.setDeleteFiles(false);
+        return receiver;
+    }
 
-			@Override
-			public FileFactory getFileFactory() {
-				return new TempFileFactory();
-			}
-		};
-		receiver.setDeleteFiles(false);
-		return receiver;
-	}
+    public void setTypeAndId(final String typeid) {
+        this.typeid = typeid;
+    }
 
-	public void setTypeAndId(final String typeid) {
-		this.typeid = typeid;
-	}
-
-	public void receiveFile(File file, String fileName, String mimeType,
-			long length) {
-		if (fileStores == null) {
-			fileStores = new HashMap<String, File>();
-		}
-		if (fileStores.containsKey(fileName)) {
-			NotificationUtil.showWarningNotification("File " + fileName
-					+ " is already existed.");
-		} else {
-			LOG.debug("Store file " + fileName + " in path "
-					+ file.getAbsolutePath() + " is exist: " + file.exists());
-			fileStores.put(fileName, file);
-		}
-	}
+    public void receiveFile(File file, String fileName, String mimeType,
+                            long length) {
+        if (fileStores == null) {
+            fileStores = new HashMap<>();
+        }
+        if (fileStores.containsKey(fileName)) {
+            NotificationUtil.showWarningNotification("File " + fileName
+                    + " is already existed.");
+        } else {
+            LOG.debug("Store file " + fileName + " in path "
+                    + file.getAbsolutePath() + " is exist: " + file.exists());
+            fileStores.put(fileName, file);
+        }
+    }
 
 }

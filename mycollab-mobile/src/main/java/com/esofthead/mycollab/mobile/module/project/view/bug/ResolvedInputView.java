@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -40,11 +38,9 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.*;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -98,7 +94,7 @@ class ResolvedInputView extends AbstractMobilePageView {
 									.getValue();
 							if (commentValue != null
 									&& !commentValue.trim().equals("")) {
-								final Comment comment = new Comment();
+								final CommentWithBLOBs comment = new CommentWithBLOBs();
 								comment.setComment(commentValue);
 								comment.setCreatedtime(new GregorianCalendar()
 										.getTime());
@@ -129,7 +125,6 @@ class ResolvedInputView extends AbstractMobilePageView {
 	}
 
 	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
 		private static final long serialVersionUID = 1L;
 		private TextArea commentArea;
 
@@ -145,7 +140,6 @@ class ResolvedInputView extends AbstractMobilePageView {
 		}
 
 		class FormLayoutFactory implements IFormLayoutFactory {
-
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 
@@ -181,7 +175,6 @@ class ResolvedInputView extends AbstractMobilePageView {
 
 		private class EditFormFieldFactory extends
 				AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
-
 			private static final long serialVersionUID = 1L;
 
 			public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {

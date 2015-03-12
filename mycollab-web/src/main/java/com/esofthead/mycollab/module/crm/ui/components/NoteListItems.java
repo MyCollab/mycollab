@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.domain.RelayEmailNotificationWithBLOBs;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -123,7 +123,7 @@ public class NoteListItems extends VerticalLayout {
 	}
 
 	private void initUI() {
-		noteWrapper = new MVerticalLayout().withSpacing(true).withMargin(new MarginInfo(true, true, false, true))
+		noteWrapper = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true))
 				.withWidth("100%").withStyleName("note-view");
 
 		this.addComponent(noteWrapper);
@@ -186,10 +186,7 @@ public class NoteListItems extends VerticalLayout {
 		}
 
 		private Component constructNoteHeader(final SimpleNote note) {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setStyleName("message");
-			layout.setSpacing(true);
-			layout.setWidth("100%");
+			final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message");
 
 			VerticalLayout userBlock = new VerticalLayout();
 			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
@@ -324,9 +321,7 @@ public class NoteListItems extends VerticalLayout {
 				rowLayout.addComponent(attachmentDisplayComponent);
 			}
 
-			layout.addComponent(rowLayout);
-
-			layout.setExpandRatio(rowLayout, 1.0f);
+			layout.with(rowLayout).expand(rowLayout);
 			return layout;
 		}
 
@@ -433,32 +428,22 @@ public class NoteListItems extends VerticalLayout {
 						public void buttonClick(final ClickEvent event) {
 							final Note note = new Note();
 							note.setCreateduser(AppContext.getUsername());
-							note.setNote(Jsoup.clean(noteArea.getValue(),
-									Whitelist.relaxed()));
+							note.setNote(Jsoup.clean(noteArea.getValue(), Whitelist.relaxed()));
 							note.setSaccountid(AppContext.getAccountId());
 							note.setSubject("");
 							note.setType(type);
 							note.setTypeid(typeId);
-							note.setCreatedtime(new GregorianCalendar()
-									.getTime());
-							note.setLastupdatedtime(new GregorianCalendar()
-									.getTime());
-							final int noteid = noteService.saveWithSession(
+							note.setCreatedtime(new GregorianCalendar().getTime());
+							note.setLastupdatedtime(new GregorianCalendar().getTime());
+							final int noteId = noteService.saveWithSession(
 									note, AppContext.getUsername());
 
-							// Save Relay Email -- having time must refact to
-							// Aop
-							// ------------------------------------------------------
-							RelayEmailNotification relayNotification = new RelayEmailNotification();
-							relayNotification.setChangeby(AppContext
-									.getUsername());
-							relayNotification.setChangecomment(noteArea
-									.getValue());
-							relayNotification.setSaccountid(AppContext
-									.getAccountId());
+							RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
+							relayNotification.setChangeby(AppContext.getUsername());
+							relayNotification.setChangecomment(noteArea.getValue());
+							relayNotification.setSaccountid(AppContext.getAccountId());
 							relayNotification.setType(type);
-							relayNotification
-									.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+							relayNotification.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
 							relayNotification.setTypeid("" + typeId);
 
 							if (type.equals(CrmTypeConstants.ACCOUNT)) {
@@ -508,7 +493,7 @@ public class NoteListItems extends VerticalLayout {
 
 							String attachmentPath = AttachmentUtils
 									.getCrmNoteAttachmentPath(
-											AppContext.getAccountId(), noteid);
+											AppContext.getAccountId(), noteId);
 							attachments.saveContentsToRepo(attachmentPath);
 							displayNotes();
 							addCreateBtn();

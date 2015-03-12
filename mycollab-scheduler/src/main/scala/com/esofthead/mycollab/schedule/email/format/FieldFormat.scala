@@ -36,5 +36,4 @@ var isColSpan: Boolean) {
     type Type = Value
     val DEFAULT, DATE, DATE_TIME, CURRENCY = Value
   }
-
 }

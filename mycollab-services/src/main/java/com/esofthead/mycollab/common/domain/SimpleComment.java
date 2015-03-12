@@ -35,12 +35,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class SimpleComment extends Comment {
-
+public class SimpleComment extends CommentWithBLOBs {
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SimpleComment.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleComment.class);
 
 	private String ownerAvatarId;
 	private String ownerFullName;

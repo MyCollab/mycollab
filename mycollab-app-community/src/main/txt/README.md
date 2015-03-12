@@ -41,6 +41,27 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 5.0.2
+-----------------------------
+
+**Library Upgrades**
+
+* Upgrade Vaadin to 7.4.1
+* Upgrade other libraries
+
+**Improvements**
+
+* Add help message for project views
+
+**Bug Fixes**
+
+* Template select the default locale if the user locale is not existed
+* The activity stream service throws exception when saving project page in several special cases
+* Export project page include the title in the document
+* Saving comment may throw exception in several cases
+* Email notification for the created item does not display the detail of information
+
+
 Version 5.0.1
 -----------------------------
 **Library Upgrades**

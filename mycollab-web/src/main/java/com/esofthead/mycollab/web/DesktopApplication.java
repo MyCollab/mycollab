@@ -30,11 +30,13 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.shell.view.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.shell.view.ShellUrlResolver;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
@@ -75,6 +77,10 @@ public class DesktopApplication extends MyCollabUI {
 
     @Override
     protected void init(VaadinRequest request) {
+        GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
+                (GoogleAnalyticsService.class);
+        googleAnalyticsService.registerUI(this);
+
         LOG.debug("Init mycollab application {} associate with session {}",
                 this.toString(), VaadinSession.getCurrent());
         LOG.debug("Register default error handler");

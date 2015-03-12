@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -133,7 +133,7 @@ public class AssignTaskGroupWindow extends Window {
 											.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {
-										Comment comment = new Comment();
+                                        CommentWithBLOBs comment = new CommentWithBLOBs();
 										comment.setComment(commentArea
 												.getValue());
 										comment.setCreatedtime(new GregorianCalendar()

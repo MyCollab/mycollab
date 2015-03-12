@@ -32,35 +32,35 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 public abstract class ProjectListNoItemView extends AbstractPageView {
     public ProjectListNoItemView() {
-        MVerticalLayout layout = new MVerticalLayout();
+        MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
         layout.addStyleName("case-noitem");
         layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
         Label image = new Label(viewIcon().getHtml(), ContentMode.HTML);
         image.setSizeUndefined();
-        layout.with(image).withAlign(image, Alignment.TOP_CENTER);
 
         Label title = new Label(viewTitle());
         title.addStyleName("h2");
         title.setSizeUndefined();
-        layout.with(title).withAlign(title, Alignment.TOP_CENTER);
 
-        Label body = new Label(viewHint());
-        body.setWidthUndefined();
-        layout.addComponent(body);
+        Label body = new Label(String.format("<div style=\"text-align:center\">%s</div>",
+                viewHint()), ContentMode.HTML);
+        body.setWidth("600px");
 
-        Button createBugBtn = new Button(
-                actionMessage(), actionListener());
-        createBugBtn.setEnabled(hasPermission());
+        MHorizontalLayout links = createControlButtons();
+
+        layout.with(image, title, body, links);
+        this.with(layout).withAlign(layout, Alignment.TOP_CENTER);
+    }
+
+    protected MHorizontalLayout createControlButtons() {
+        Button createItemBtn = new Button(actionMessage(), actionListener());
+        createItemBtn.setEnabled(hasPermission());
+        createItemBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
         MHorizontalLayout links = new MHorizontalLayout();
-
-        links.addComponent(createBugBtn);
-        createBugBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-
-        layout.addComponent(links);
-        this.addComponent(layout);
-        this.setComponentAlignment(layout, Alignment.TOP_CENTER);
+        links.addComponent(createItemBtn);
+        return links;
     }
 
     abstract protected FontAwesome viewIcon();

@@ -18,16 +18,8 @@
 package com.esofthead.mycollab.module.project.service.ibatis;
 
 import com.esofthead.mycollab.cache.CacheUtils;
-import com.esofthead.mycollab.common.interceptor.aspect.*;
-import com.esofthead.mycollab.module.project.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
-import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -38,7 +30,11 @@ import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 

@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.domain.RelayEmailNotificationWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -33,27 +31,15 @@ import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.NoteService;
-import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -142,7 +128,7 @@ public class NotesList extends AbstractMobilePageView {
 				// Save Relay Email -- having time must refact to
 				// Aop
 				// ------------------------------------------------------
-				RelayEmailNotification relayNotification = new RelayEmailNotification();
+				RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
 				relayNotification.setChangeby(AppContext.getUsername());
 				relayNotification.setChangecomment(noteInput.getValue());
 				relayNotification.setSaccountid(AppContext.getAccountId());

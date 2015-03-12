@@ -32,13 +32,12 @@
  */
 package com.esofthead.mycollab.community.module.file.service;
 
-import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 import com.esofthead.mycollab.module.file.service.impl.FileRawContentServiceImpl;
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.springframework.stereotype.Service;
 
 /**
  * Factory spring bean to solve resolution of MyCollab raw content service
