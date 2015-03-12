@@ -18,7 +18,7 @@ package com.esofthead.mycollab.common.interceptor.aspect;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.MonitorItem;
-import com.esofthead.mycollab.common.domain.RelayEmailNotificationWithBLOBs;
+import com.esofthead.mycollab.common.domain.RelayEmailNotification;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.GregorianCalendar;
 
 /**
@@ -97,7 +98,7 @@ public class MonitorItemAspect {
                 int sAccountId = (Integer) PropertyUtils.getProperty(bean,
                         "saccountid");
                 int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
-                RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
+                RelayEmailNotification relayNotification = new RelayEmailNotification();
                 relayNotification.setChangeby(username);
                 relayNotification.setChangecomment("");
                 relayNotification.setSaccountid(sAccountId);

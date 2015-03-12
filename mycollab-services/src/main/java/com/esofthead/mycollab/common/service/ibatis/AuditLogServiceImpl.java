@@ -87,7 +87,7 @@ public class AuditLogServiceImpl extends
 					String oldProp = getValue(PropertyUtils.getProperty(oldObj,
 							fieldName));
 
-					Object newPropVal;
+					Object newPropVal = null;
 					try {
 						newPropVal = PropertyUtils.getProperty(newObj,
 								fieldName);
@@ -128,7 +128,8 @@ public class AuditLogServiceImpl extends
 		static private String formatDateW3C(Date date) {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 			String text = df.format(date);
-			return text.substring(0, 22) + ":" + text.substring(22);
+			String result = text.substring(0, 22) + ":" + text.substring(22);
+			return result;
 		}
 	}
 

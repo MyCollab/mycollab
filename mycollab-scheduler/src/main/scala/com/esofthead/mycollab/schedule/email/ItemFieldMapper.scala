@@ -23,27 +23,21 @@ import com.esofthead.mycollab.schedule.email.format.{DefaultFieldFormat, FieldFo
  * @since 4.6.0
  */
 class ItemFieldMapper {
-  private val fieldNameMap: java.util.Map[String, FieldFormat] = new java.util.LinkedHashMap[String,
-    FieldFormat]()
+  private val fieldNameMap: scala.collection.mutable.Map[String, FieldFormat] = scala.collection.mutable.Map[String, FieldFormat]()
 
   def put(fieldName: Enum[_], displayName: Enum[_]) {
-    fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName))
+    fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName))
   }
 
   def put(fieldName: Enum[_], displayName: Enum[_], isColSpan: Boolean) {
-    fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
+    fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
   }
 
   def put(fieldName: Enum[_], format: FieldFormat) {
-    fieldNameMap.put(fieldName.name, format)
+    fieldNameMap += (fieldName.name -> format)
   }
 
+  def hasField(fieldName: String): Boolean = fieldNameMap contains fieldName
 
-  def keySet(): java.util.Set[String] = {
-    fieldNameMap.keySet;
-  }
-
-  def hasField(fieldName: String): Boolean = fieldNameMap.containsKey(fieldName)
-
-  def getFieldLabel(fieldName: String): FieldFormat = fieldNameMap.get(fieldName)
+  def getFieldLabel(fieldName: String): FieldFormat = fieldNameMap(fieldName)
 }

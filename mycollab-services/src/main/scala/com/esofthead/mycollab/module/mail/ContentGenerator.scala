@@ -87,7 +87,7 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
       if (defaultLocale == null) {
         throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale)
       }
-      reader = LocalizationHelper.templateReader(templateFilePath, defaultLocale)
+      reader = LocalizationHelper.templateReader(templateFilePath, currentLocale)
       if (reader == null) {
         throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale + " and default locale " + defaultLocale)
       }

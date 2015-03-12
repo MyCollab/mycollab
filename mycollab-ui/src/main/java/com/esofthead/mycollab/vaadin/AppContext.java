@@ -28,7 +28,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import com.esofthead.mycollab.core.SessionExpireException;
-import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,9 +110,6 @@ public class AppContext implements Serializable {
 
 	private Locale userLocale = Locale.US;
 
-    private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
-            (GoogleAnalyticsService.class);
-
 	public AppContext() {
 		MyCollabSession.putVariable("context", this);
 	}
@@ -149,7 +145,9 @@ public class AppContext implements Serializable {
 			pref.setLastmodulevisit(moduleName);
 			prefService.updateWithSession(pref, AppContext.getUsername());
 		} catch (Exception e) {
-			LOG.error("There is error when try to update user preference for last module visit", e);
+			LOG.error(
+					"There is error when try to update user preference for last module visit",
+					e);
 		}
 	}
 
@@ -561,6 +559,5 @@ public class AppContext implements Serializable {
 		Page.getCurrent().setUriFragment(fragement, false);
 		Page.getCurrent().setTitle(
 				StringUtils.trim(windowTitle, 150) + " [MyCollab]");
-        googleAnalyticsService.trackPageView(fragement);
 	}
 }

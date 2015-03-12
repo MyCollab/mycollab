@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
+import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -36,9 +38,11 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.*;
-
-import java.util.GregorianCalendar;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.TextArea;
 
 /**
  * 
@@ -87,7 +91,7 @@ class ApproveInputView extends AbstractMobilePageView {
 									.getValue();
 							if (commentValue != null
 									&& !commentValue.trim().equals("")) {
-								final CommentWithBLOBs comment = new CommentWithBLOBs();
+								final Comment comment = new Comment();
 								comment.setComment(editForm.commentArea
 										.getValue());
 								comment.setCreatedtime(new GregorianCalendar()

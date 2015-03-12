@@ -16,18 +16,19 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.GregorianCalendar;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.domain.ActivityStreamWithBLOBs;
+import com.esofthead.mycollab.common.domain.ActivityStream;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.GregorianCalendar;
 
 @Service
 public class ProjectPageServiceImpl implements ProjectPageService {
@@ -43,7 +44,7 @@ public class ProjectPageServiceImpl implements ProjectPageService {
 			Integer accountId) {
 		pageService.savePage(page, createdUser);
 
-		ActivityStreamWithBLOBs activityStream = new ActivityStreamWithBLOBs();
+		ActivityStream activityStream = new ActivityStream();
 		activityStream.setAction(ActivityStreamConstants.ACTION_CREATE);
 		activityStream.setCreateduser(createdUser);
 		activityStream.setCreatedtime(new GregorianCalendar().getTime());
@@ -60,4 +61,5 @@ public class ProjectPageServiceImpl implements ProjectPageService {
 	public Page getPage(String path, String requestedUser) {
 		return pageService.getPage(path, requestedUser);
 	}
+
 }

@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
+import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -51,6 +51,7 @@ import java.util.GregorianCalendar;
 class ApproveInputWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	private final SimpleBug bug;
+	private final EditForm editForm;
 	private final IBugCallbackStatusComp callbackForm;
 
 	ApproveInputWindow(final IBugCallbackStatusComp callbackForm,
@@ -63,9 +64,9 @@ class ApproveInputWindow extends Window {
 
 		MVerticalLayout contentLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false))
 				.withWidth("750px");
-        EditForm editForm = new EditForm();
-		editForm.setBean(bug);
-		contentLayout.addComponent(editForm);
+		this.editForm = new EditForm();
+		this.editForm.setBean(bug);
+		contentLayout.addComponent(this.editForm);
 		this.setContent(contentLayout);
 		this.center();
 	}
@@ -126,7 +127,7 @@ class ApproveInputWindow extends Window {
 									final String commentValue = EditForm.this.commentArea
 											.getValue();
 									if (StringUtils.isNotBlank(commentValue)) {
-										final CommentWithBLOBs comment = new CommentWithBLOBs();
+										final Comment comment = new Comment();
 										comment.setComment(Jsoup.clean(
 												commentArea.getValue(),
 												Whitelist.relaxed()));

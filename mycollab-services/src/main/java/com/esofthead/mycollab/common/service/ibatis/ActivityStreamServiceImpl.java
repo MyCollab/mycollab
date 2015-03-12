@@ -16,16 +16,17 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.esofthead.mycollab.common.dao.ActivityStreamMapper;
 import com.esofthead.mycollab.common.dao.ActivityStreamMapperExt;
-import com.esofthead.mycollab.common.domain.ActivityStreamWithBLOBs;
+import com.esofthead.mycollab.common.domain.ActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -35,7 +36,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ActivityStreamServiceImpl extends
-		DefaultService<Integer, ActivityStreamWithBLOBs, ActivityStreamSearchCriteria>
+		DefaultService<Integer, ActivityStream, ActivityStreamSearchCriteria>
 		implements ActivityStreamService {
 
 	@Autowired
@@ -45,7 +46,7 @@ public class ActivityStreamServiceImpl extends
 	protected ActivityStreamMapperExt activityStreamMapperExt;
 
 	@Override
-	public ICrudGenericDAO<Integer, ActivityStreamWithBLOBs> getCrudMapper() {
+	public ICrudGenericDAO<Integer, ActivityStream> getCrudMapper() {
 		return activityStreamMapper;
 	}
 
@@ -55,7 +56,7 @@ public class ActivityStreamServiceImpl extends
 	}
 
 	@Override
-	public Integer save(ActivityStreamWithBLOBs activityStream) {
+	public Integer save(ActivityStream activityStream) {
 		activityStreamMapper.insertAndReturnKey(activityStream);
 		return activityStream.getId();
 	}
