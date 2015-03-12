@@ -269,10 +269,6 @@ public final class MainView extends AbstractPageView {
                 .withMargin(new MarginInfo(false, true, false, false));
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        final Label accountNameLabel = new Label(AppContext.getSubDomain());
-        accountNameLabel.setStyleName("subdomain");
-        accountLayout.addComponent(accountNameLabel);
-
         // display trial box if user in trial mode
         SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
         if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
@@ -329,6 +325,10 @@ public final class MainView extends AbstractPageView {
                 }
             }
         }
+
+        final Label accountNameLabel = new Label(AppContext.getSubDomain());
+        accountNameLabel.setStyleName("subdomain");
+        accountLayout.addComponent(accountNameLabel);
 
         NotificationButton notificationButton = new NotificationButton();
         accountLayout.addComponent(notificationButton);

@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -127,7 +127,7 @@ class AssignBugWindow extends Window {
 									final String commentValue = EditForm.this.commentArea
 											.getValue();
 									if (StringUtils.isNotBlank(commentValue)) {
-										final Comment comment = new Comment();
+										final CommentWithBLOBs comment = new CommentWithBLOBs();
 										comment.setComment(Jsoup.clean(
 												commentValue,
 												Whitelist.relaxed()));

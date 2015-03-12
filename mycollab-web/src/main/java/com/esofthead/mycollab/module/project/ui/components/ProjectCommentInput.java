@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -28,11 +28,17 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
+import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.vaadin.easyuploads.MultiFileUploadExt;
@@ -141,7 +147,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
-						final Comment comment = new Comment();
+						final CommentWithBLOBs comment = new CommentWithBLOBs();
 						comment.setComment(Jsoup.clean(commentArea.getValue(),
 								Whitelist.relaxed()));
 						comment.setCreatedtime(new GregorianCalendar()

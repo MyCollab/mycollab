@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.common.service;
 
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -29,10 +29,9 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
  * @since 1.0
  * 
  */
-public interface CommentService extends
-		IDefaultService<Integer, Comment, CommentSearchCriteria> {
+public interface CommentService extends IDefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> {
 	@CacheEvict
-	int saveWithSession(@CacheKey Comment record, String username,
+	int saveWithSession(@CacheKey CommentWithBLOBs record, String username,
 			boolean isSendingEmail,
 			Class<? extends SendingRelayEmailNotificationAction> emailHandler);
 }

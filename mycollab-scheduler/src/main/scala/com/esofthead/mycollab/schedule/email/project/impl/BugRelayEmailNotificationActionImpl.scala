@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum
 import com.esofthead.mycollab.common.{MonitorTypeConstants, NotificationType}
 import com.esofthead.mycollab.core.utils.StringUtils
 import com.esofthead.mycollab.html.FormatUtils._
-import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
+import com.esofthead.mycollab.html.LinkUtils
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.domain._
 import com.esofthead.mycollab.module.project.i18n.{BugI18nEnum, OptionI18nEnum}
@@ -53,7 +53,6 @@ import scala.util.control.Breaks._
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[SimpleBug] with BugRelayEmailNotificationAction {
-
   private val LOG = LoggerFactory.getLogger(classOf[BugRelayEmailNotificationActionImpl])
 
   @Autowired var bugService: BugService = _
@@ -297,5 +296,4 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
         value
     }
   }
-
 }

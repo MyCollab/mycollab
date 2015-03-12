@@ -49,8 +49,6 @@ import scala.util.control.Breaks._
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAction[SimpleTask] with ProjectTaskRelayEmailNotificationAction {
-
-
   private val LOG = LoggerFactory.getLogger(classOf[ProjectTaskRelayEmailNotificationActionImpl])
 
   @Autowired var projectTaskService: ProjectTaskService = _

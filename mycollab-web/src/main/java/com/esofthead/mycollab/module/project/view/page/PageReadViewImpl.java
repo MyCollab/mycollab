@@ -77,7 +77,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     private static final long serialVersionUID = 1L;
     private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
-            + "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
+            + "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body><h1>%s</h1><br/>%s" +
+            "</body></html>";
 
     private static final Logger LOG = LoggerFactory
             .getLogger(PageReadViewImpl.class);
@@ -91,8 +92,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     private PageVersion selectedVersion;
 
     private PageService pageService;
-
-    private Button exportPdfBtn;
 
     public PageReadViewImpl() {
         super(new MHorizontalLayout().withMargin(true));
@@ -173,7 +172,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
                                 | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
                         ProjectRolePermissionCollections.PAGES);
 
-        exportPdfBtn = new Button(
+        Button exportPdfBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
                 FontAwesome.EXTERNAL_LINK);
         exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -205,7 +204,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
             DocumentException {
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(String.format(XHTML_PAGE,
-                beanItem.getSubject(), beanItem.getContent()));
+                beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
         renderer.layout();
 
         File file = File.createTempFile(beanItem.getSubject(), "pdf");
@@ -266,7 +265,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
                 layout.addComponent(field);
             }
         }
-
     }
 
     private class PageInfoComp extends MVerticalLayout {

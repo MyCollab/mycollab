@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -136,7 +136,7 @@ class WontFixExplainWindow extends Window {
 
 										// Save comment
 
-										final Comment comment = new Comment();
+										final CommentWithBLOBs comment = new CommentWithBLOBs();
 										comment.setComment(commentValue);
 										comment.setCreatedtime(new GregorianCalendar()
 												.getTime());

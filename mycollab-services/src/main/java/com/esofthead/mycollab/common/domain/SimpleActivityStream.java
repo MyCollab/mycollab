@@ -16,49 +16,44 @@
  */
 package com.esofthead.mycollab.common.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
-public class SimpleActivityStream extends ActivityStream {
+public class SimpleActivityStream extends ActivityStreamWithBLOBs {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String createdUserAvatarId;
-	private String createdUserFullName;
-	private SimpleAuditLog assoAuditLog;
+    private String createdUserAvatarId;
+    private String createdUserFullName;
+    private SimpleAuditLog assoAuditLog;
 
-	public String getCreatedUserAvatarId() {
-		return createdUserAvatarId;
-	}
+    public String getCreatedUserAvatarId() {
+        return createdUserAvatarId;
+    }
 
-	public void setCreatedUserAvatarId(String createdUserAvatarId) {
-		this.createdUserAvatarId = createdUserAvatarId;
-	}
+    public void setCreatedUserAvatarId(String createdUserAvatarId) {
+        this.createdUserAvatarId = createdUserAvatarId;
+    }
 
-	public String getCreatedUserFullName() {
-		if (createdUserFullName == null
-				|| createdUserFullName.trim().equals("")) {
-			String displayName = getCreateduser();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
-		}
-		return createdUserFullName;
-	}
+    public String getCreatedUserFullName() {
+        if (StringUtils.isBlank(createdUserFullName)) {
+            return com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(getCreateduser());
+        }
+        return createdUserFullName;
+    }
 
-	public void setCreatedUserFullName(String createdUserFullName) {
-		this.createdUserFullName = createdUserFullName;
-	}
+    public void setCreatedUserFullName(String createdUserFullName) {
+        this.createdUserFullName = createdUserFullName;
+    }
 
-	public SimpleAuditLog getAssoAuditLog() {
-		return assoAuditLog;
-	}
+    public SimpleAuditLog getAssoAuditLog() {
+        return assoAuditLog;
+    }
 
-	public void setAssoAuditLog(SimpleAuditLog assoAuditLog) {
-		this.assoAuditLog = assoAuditLog;
-	}
+    public void setAssoAuditLog(SimpleAuditLog assoAuditLog) {
+        this.assoAuditLog = assoAuditLog;
+    }
 }

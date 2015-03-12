@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-import java.util.List;
-
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+
+import java.util.List;
 
 /**
  * 
@@ -26,7 +27,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  * @since 1.0
  * 
  */
-public class SimpleRelayEmailNotification extends RelayEmailNotification {
+public class SimpleRelayEmailNotification extends RelayEmailNotificationWithBLOBs {
 	private static final long serialVersionUID = 1L;
 
 	private String changeByUserFullName;
@@ -36,11 +37,7 @@ public class SimpleRelayEmailNotification extends RelayEmailNotification {
 	public String getChangeByUserFullName() {
 		if (changeByUserFullName == null
 				|| changeByUserFullName.trim().equals("")) {
-			String displayName = getChangeby();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return StringUtils.extractNameFromEmail(getChangeby());
 		}
 		return changeByUserFullName;
 	}

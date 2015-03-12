@@ -60,7 +60,6 @@ import java.util.Arrays;
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugListViewImpl extends AbstractPageView implements BugListView {
-
     private static final long serialVersionUID = 1L;
     private final BugSearchPanel bugSearchPanel;
     private BugTableDisplay tableItem;
@@ -122,14 +121,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
         bugSearchPanel.addHeaderRight(customizeViewBtn);
 
-        PopupButton exportButtonControl = new PopupButton();
+        final PopupButton exportButtonControl = new PopupButton();
         exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
         exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
         exportButtonControl.setDescription(AppContext
                 .getMessage(FileI18nEnum.EXPORT_FILE));
         bugSearchPanel.addHeaderRight(exportButtonControl);
 
-        VerticalLayout popupButtonsControl = new VerticalLayout();
+        final VerticalLayout popupButtonsControl = new VerticalLayout();
         exportButtonControl.setContent(popupButtonsControl);
 
         Button exportPdfBtn = new Button(
@@ -230,7 +229,12 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                     }
                 });
         csvFileDownloader.extend(exportCsvBtn);
-
+        exportCsvBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+               exportButtonControl.setPopupVisible(false);
+            }
+        });
         exportCsvBtn.setIcon(FontAwesome.FILE_TEXT_O);
         exportCsvBtn.setStyleName("link");
         popupButtonsControl.addComponent(exportCsvBtn);

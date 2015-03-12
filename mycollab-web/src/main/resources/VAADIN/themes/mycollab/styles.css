@@ -264,7 +264,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .v-vertical.case-noitem .v-icon {
-	font-size: 48px;
+	font-size: 64px;
 }
 
 .warning-icon .v-icon {
@@ -324,6 +324,23 @@ table {
 .v-sa .mycollab .v-tooltip {
 	outline: none;
 	border-color: #CFCFCF;
+}
+
+@font-face {
+	font-family: FontAwesome;
+	src: url(../base/fonts/fontawesome-webfont.eot);
+	src: url(../base/fonts/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(../base/fonts/fontawesome-webfont.woff) format("woff"), url(../base/fonts/fontawesome-webfont.ttf) format("truetype"), url(../base/fonts/fontawesome-webfont.svg) format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+.FontAwesome {
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
 }
 
 .v-widget {
@@ -5991,23 +6008,6 @@ td.v-inline-datefield-calendarpanel-nextyear {
 	margin-right: 0;
 }
 
-@font-face {
-	font-family: FontAwesome;
-	src: url(../base/fonts/fontawesome-webfont.eot);
-	src: url(../base/fonts/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(../base/fonts/fontawesome-webfont.woff) format("woff"), url(../base/fonts/fontawesome-webfont.ttf) format("truetype"), url(../base/fonts/fontawesome-webfont.svg) format("svg");
-	font-weight: normal;
-	font-style: normal;
-}
-
-.FontAwesome {
-	font-family: FontAwesome;
-	font-style: normal;
-	font-weight: normal;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	display: inline-block;
-}
-
 .xbreadcrumbs {
 	background-color: transparent !important;
 }
@@ -7067,7 +7067,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .v-vertical.case-noitem .v-icon {
-	font-size: 48px;
+	font-size: 64px;
 }
 
 .warning-icon .v-icon {

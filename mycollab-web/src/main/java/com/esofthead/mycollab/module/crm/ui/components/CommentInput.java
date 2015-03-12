@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -91,7 +91,7 @@ public class CommentInput extends VerticalLayout {
 
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
-						final Comment comment = new Comment();
+						final CommentWithBLOBs comment = new CommentWithBLOBs();
 						comment.setComment(Jsoup.clean(commentArea.getValue(),
 								Whitelist.relaxed()));
 						comment.setCreatedtime(new GregorianCalendar()

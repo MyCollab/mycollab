@@ -20,10 +20,7 @@ package com.esofthead.mycollab.common.interceptor.aspect;
 import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.common.domain.ActivityStream;
-import com.esofthead.mycollab.common.domain.AuditLog;
-import com.esofthead.mycollab.common.domain.MonitorItem;
-import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.domain.*;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.common.service.MonitorItemService;
@@ -119,7 +116,7 @@ public class AuditLogAspect {
         Integer activityStreamId = null;
         if (traceableAnnotation != null) {
             try {
-                ActivityStream activity = TraceableAspect.constructActivity(cls,
+                ActivityStreamWithBLOBs activity = TraceableAspect.constructActivity(cls,
                         traceableAnnotation, bean, username,
                         ActivityStreamConstants.ACTION_UPDATE);
                 activityStreamId = activityStreamService.save(activity);
@@ -175,7 +172,7 @@ public class AuditLogAspect {
                 int typeId = (Integer) PropertyUtils.getProperty(bean,
                         "id");
                 // Save notification email
-                RelayEmailNotification relayNotification = new RelayEmailNotification();
+                RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
                 relayNotification.setChangeby(username);
                 relayNotification.setChangecomment("");
                 relayNotification.setSaccountid(sAccountId);

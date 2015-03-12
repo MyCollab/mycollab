@@ -16,18 +16,9 @@
  */
 package com.esofthead.mycollab.mobile;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
-
-import java.util.Collection;
-
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.IgnoreException;
 import com.esofthead.mycollab.core.SessionExpireException;
-import com.vaadin.server.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.shell.ShellController;
@@ -36,11 +27,14 @@ import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.mobile.ui.MobileHistoryViewManager;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -50,6 +44,7 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.Page;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.VaadinRequest;
@@ -57,6 +52,12 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
 
 /**
  * 
@@ -78,6 +79,9 @@ public class MobileApplication extends MyCollabUI {
 
 	@Override
 	protected void init(VaadinRequest request) {
+        GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
+                (GoogleAnalyticsService.class);
+        googleAnalyticsService.registerUI(this);
 		LOG.debug("Init mycollab mobile application {}", this.toString());
 
 		VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {

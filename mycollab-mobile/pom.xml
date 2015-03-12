@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>parent-community</artifactId>
-        <version>5.0.1</version>
+        <version>5.0.2</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,19 +16,19 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.0.1</version>
+            <version>5.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services</artifactId>
-            <version>5.0.1</version>
+            <version>5.0.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-ui</artifactId>
-            <version>5.0.1</version>
+            <version>5.0.2</version>
         </dependency>
 
         <dependency>
@@ -41,12 +41,6 @@
             <groupId>com.esofthead.vaadin</groupId>
             <artifactId>navigationbar-quickmenu</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.vaadin.addon</groupId>
-            <artifactId>easyuploads</artifactId>
-            <version>7.3.4</version>
         </dependency>
     </dependencies>
     <!-- <build> <plugins> <plugin> <groupId>org.jasig.maven</groupId> <artifactId>sass-maven-plugin</artifactId> 
