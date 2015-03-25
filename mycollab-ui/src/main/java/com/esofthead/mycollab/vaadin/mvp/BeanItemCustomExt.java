@@ -44,7 +44,7 @@ public class BeanItemCustomExt<T> extends BeanItem<T> {
 	private static Set<String> customFieldNames;
 
 	static {
-		customFieldNames = new HashSet<String>();
+		customFieldNames = new HashSet<>();
 		Class<FormCustomFieldValueWithBLOBs> customFormCls = FormCustomFieldValueWithBLOBs.class;
 		for (Class cls = customFormCls; cls != null; cls = cls.getSuperclass()) {
 			Field[] declaredFields = cls.getDeclaredFields();

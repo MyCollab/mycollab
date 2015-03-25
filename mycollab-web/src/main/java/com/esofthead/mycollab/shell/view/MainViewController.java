@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.view.CrmModuleScreenData;
 import com.esofthead.mycollab.module.file.view.FileModuleScreenData;
 import com.esofthead.mycollab.module.file.view.IFileModulePresenter;
 import com.esofthead.mycollab.module.project.view.ProjectModulePresenter;
-import com.esofthead.mycollab.module.project.view.ProjectModuleScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectModuleScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModulePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModuleScreenData;
 import com.esofthead.mycollab.shell.events.ShellEvent;

@@ -49,7 +49,6 @@ public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
 	private BooleanSearchField isBillable;
 
 	public static RangeDateSearchField getCurrentRangeDateOfWeekSearchField() {
-
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 

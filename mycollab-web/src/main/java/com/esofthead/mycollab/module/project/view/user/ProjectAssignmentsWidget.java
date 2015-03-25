@@ -56,13 +56,12 @@ import java.util.UUID;
  * @since 4.1
  */
 public class ProjectAssignmentsWidget extends MVerticalLayout {
-
     private static final long serialVersionUID = 1L;
 
     private  ProjectGenericTaskSearchCriteria searchCriteria;
 
     private Label titleLbl;
-    private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
+    private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
     public ProjectAssignmentsWidget() {
         withSpacing(false).withMargin(false);
@@ -151,8 +150,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             if (dueDate != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE,
-                        DateTimeUtils.getPrettyDateValue(dueDate,
-                                AppContext.getUserLocale()))));
+                        AppContext.formatPrettyTime(dueDate))));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
@@ -232,5 +230,4 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             return div;
         }
     }
-
 }

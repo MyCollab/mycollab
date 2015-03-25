@@ -33,10 +33,7 @@ import com.esofthead.mycollab.module.project.view.bug.components.VersionListSele
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
-import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
@@ -116,17 +113,17 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             basicSearchBody.with(nameLbl).withAlign(nameLbl,
                     Alignment.MIDDLE_LEFT);
 
-            this.nameField = new TextField();
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            nameField.addShortcutListener(new ShortcutListener("BugSearchName", ShortcutAction.KeyCode.ENTER, null) {
-                @Override
-                public void handleAction(Object o, Object o1) {
-                    callSearchAction();
-                }
-            });
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("BugSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameLbl, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(
+            myItemCheckbox = new CheckBox(
                     AppContext
                             .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);

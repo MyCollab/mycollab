@@ -77,8 +77,7 @@ public class TaskGroupReadViewImpl extends
         AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(TaskGroupReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TaskGroupReadViewImpl.class);
 
     private CommentDisplay commentList;
 
@@ -341,7 +340,7 @@ public class TaskGroupReadViewImpl extends
 
         private Div buildLastUpdateTime(SimpleTask task) {
             Div div = new Div();
-            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(task.getLastupdatedtime(), AppContext.getUserLocale())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastupdatedtime())));
             return div.setCSSClass("column100");
         }
     }

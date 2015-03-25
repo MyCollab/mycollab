@@ -16,124 +16,127 @@
  */
 package com.esofthead.mycollab.module.file.view.components;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
+import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class FileDownloadWindow extends Window {
-	private static final long serialVersionUID = 1L;
-	private final Content content;
+    private static final long serialVersionUID = 1L;
+    private final Content content;
 
-	public FileDownloadWindow(final Content content) {
-		super(content.getName());
-		this.setWidth("400px");
-		this.center();
-		this.setResizable(false);
-		this.setModal(true);
+    public FileDownloadWindow(final Content content) {
+        super(content.getName());
+        this.setWidth("400px");
+        this.center();
+        this.setResizable(false);
+        this.setModal(true);
 
-		this.content = content;
-		this.constructBody();
-	}
+        this.content = content;
+        this.constructBody();
+    }
 
-	private void constructBody() {
-		final MVerticalLayout layout = new MVerticalLayout();
-		final Embedded iconEmbed = new Embedded();
-		iconEmbed.setSource(MyCollabResource
-				.newResource("icons/page_white.png"));
-		layout.with(iconEmbed).withAlign(iconEmbed, Alignment.MIDDLE_CENTER);
+    private void constructBody() {
+        final MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
+        CssLayout iconWrapper = new CssLayout();
+        final FontIconLabel iconEmbed = new FontIconLabel(FileAssetsUtil.getFileIconResource(content.getName()));
+        iconEmbed.addStyleName("icon-48px");
+        iconWrapper.addComponent(iconEmbed);
+        layout.with(iconWrapper).withAlign(iconWrapper, Alignment.MIDDLE_CENTER);
 
-		final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
-				"100%", "80px", Alignment.TOP_LEFT);
-		info.getLayout().setWidth("100%");
-		info.getLayout().setMargin(new MarginInfo(false, true, false, true));
-		info.getLayout().setSpacing(false);
+        final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
+                "100%", "100px", Alignment.TOP_LEFT);
+        info.getLayout().setWidth("100%");
+        info.getLayout().setMargin(new MarginInfo(false, true, false, true));
+        info.getLayout().setSpacing(false);
 
-		if (this.content.getDescription() != null) {
-			final Label desvalue = new Label();
-			if (!this.content.getDescription().equals("")) {
-				desvalue.setData(this.content.getDescription());
-			} else {
-				desvalue.setValue("&nbsp;");
-				desvalue.setContentMode(ContentMode.HTML);
-			}
-			info.addComponent(desvalue, "Description", 0, 0);
-		}
-		final Label author = new Label(this.content.getCreatedBy());
-		info.addComponent(author, "Created by", 0, 1);
+        if (this.content.getDescription() != null) {
+            final Label desvalue = new Label();
+            if (!this.content.getDescription().equals("")) {
+                desvalue.setData(this.content.getDescription());
+            } else {
+                desvalue.setValue("&nbsp;");
+                desvalue.setContentMode(ContentMode.HTML);
+            }
+            info.addComponent(desvalue, "Description", 0, 0);
+        }
 
-		final Label size = new Label(
-				ResourceUtils.getVolumeDisplay(this.content.getSize()));
-		info.addComponent(size, "Size", 0, 2);
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.findUserByUserNameInAccount(content.getCreatedUser(), AppContext.getAccountId());
+        if (user == null) {
+            info.addComponent(new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(), AppContext.getUserDisplayName()), "Created by", 0, 1);
+        } else {
+            info.addComponent(new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName()), "Created by", 0, 1);
+        }
 
-		final Label dateCreate = new Label(AppContext.formatDate(this.content
-				.getCreated().getTime()));
-		info.addComponent(dateCreate, "Date created", 0, 3);
 
-		layout.addComponent(info.getLayout());
+        final Label size = new Label(ResourceUtils.getVolumeDisplay(content.getSize()));
+        info.addComponent(size, "Size", 0, 2);
 
-		final MHorizontalLayout buttonControls = new MHorizontalLayout();
-		buttonControls.setSpacing(true);
-		buttonControls.setMargin(new MarginInfo(true, false, true, false));
+        final Label dateCreate = new Label(AppContext.formatDate(content.getCreated().getTime()));
+        info.addComponent(dateCreate, "Created date", 0, 3);
 
-		final Button downloadBtn = new Button("Download");
-		List<Resource> resources = new ArrayList<Resource>();
-		resources.add(content);
+        layout.addComponent(info.getLayout());
 
-		StreamResource downloadResource = StreamDownloadResourceUtil
-				.getStreamResourceSupportExtDrive(resources);
+        final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
 
-		FileDownloader fileDownloader = new FileDownloader(downloadResource);
-		fileDownloader.extend(downloadBtn);
+        final Button downloadBtn = new Button("Download");
+        List<Resource> resources = new ArrayList<>();
+        resources.add(content);
 
-		downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        StreamResource downloadResource = StreamDownloadResourceUtil
+                .getStreamResourceSupportExtDrive(resources);
 
-		buttonControls.with(downloadBtn).withAlign(downloadBtn,
-				Alignment.MIDDLE_CENTER);
+        FileDownloader fileDownloader = new FileDownloader(downloadResource);
+        fileDownloader.extend(downloadBtn);
+        downloadBtn.setIcon(FontAwesome.DOWNLOAD);
+        downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-				new ClickListener() {
-					private static final long serialVersionUID = 1L;
+        buttonControls.with(downloadBtn).withAlign(downloadBtn,
+                Alignment.MIDDLE_CENTER);
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						FileDownloadWindow.this.close();
-					}
-				});
-		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-		buttonControls.with(cancelBtn).withAlign(cancelBtn,
-				Alignment.MIDDLE_CENTER);
-		layout.with(buttonControls).withAlign(buttonControls,
-				Alignment.MIDDLE_CENTER);
-		this.setContent(layout);
-	}
+        final Button cancelBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                new ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        FileDownloadWindow.this.close();
+                    }
+                });
+        cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+        buttonControls.with(cancelBtn).withAlign(cancelBtn,
+                Alignment.MIDDLE_CENTER);
+        layout.with(buttonControls).withAlign(buttonControls,
+                Alignment.MIDDLE_CENTER);
+        this.setContent(layout);
+    }
 }

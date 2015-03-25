@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -102,8 +103,7 @@ public class ContactReadFormFieldFactory extends
 					streamSource);
 			downloaderExt.extend(vcardDownloadBtn);
 
-			vcardDownloadBtn.setIcon(MyCollabResource
-					.newResource("icons/12/vcard.png"));
+			vcardDownloadBtn.setIcon(FontAwesome.CREDIT_CARD);
 			vcardDownloadBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
 			containerField.addComponentField(vcardDownloadBtn);
 			containerField.getLayout().setComponentAlignment(vcardDownloadBtn,

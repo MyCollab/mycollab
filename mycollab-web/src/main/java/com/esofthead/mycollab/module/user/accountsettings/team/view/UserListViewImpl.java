@@ -44,6 +44,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,14 +116,9 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
 		VerticalLayout memberInfo = new VerticalLayout();
 
-		HorizontalLayout layoutButtonDelete = new HorizontalLayout();
+		MHorizontalLayout layoutButtonDelete = new MHorizontalLayout().withWidth("100%");
 		layoutButtonDelete.setVisible(AppContext
 				.canWrite(RolePermissionCollections.ACCOUNT_USER));
-		layoutButtonDelete.setWidth("100%");
-
-		Label emptylb = new Label("");
-		layoutButtonDelete.addComponent(emptylb);
-		layoutButtonDelete.setExpandRatio(emptylb, 1.0f);
 
 		Button deleteBtn = new Button();
 		deleteBtn.addClickListener(new Button.ClickListener() {
@@ -162,24 +158,22 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         });
 		deleteBtn.setIcon(FontAwesome.TRASH_O);
 		deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-		layoutButtonDelete.addComponent(deleteBtn);
+		layoutButtonDelete.with(deleteBtn).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT);
 
 		memberInfo.addComponent(layoutButtonDelete);
 
 		ButtonLink userAccountLink = new ButtonLink(member.getDisplayName());
 		userAccountLink.addClickListener(new ClickListener() {
 
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new UserEvent.GotoRead(UserListViewImpl.this, member
-								.getUsername()));
-			}
-		});
-		userAccountLink.setWidth("100%");
-		userAccountLink.setHeight("100%");
+            @Override
+            public void buttonClick(ClickEvent event) {
+                EventBusFactory.getInstance().post(
+                        new UserEvent.GotoRead(UserListViewImpl.this, member
+                                .getUsername()));
+            }
+        });
 
 		memberInfo.addComponent(userAccountLink);
 
@@ -222,16 +216,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 							waitingNotLayout.addComponent(statusEmail);
 						}
 					});
-			resendInvitationLink.setStyleName("link");
 			resendInvitationLink.addStyleName("member-email");
 			waitingNotLayout.addComponent(resendInvitationLink);
 			memberInfo.addComponent(waitingNotLayout);
 		} else if (RegisterStatusConstants.ACTIVE.equals(member
 				.getRegisterstatus())) {
 			Label lastAccessTimeLbl = new Label("Logged in "
-					+ DateTimeUtils.getPrettyDateValue(
-							member.getLastaccessedtime(),
-							AppContext.getUserLocale()));
+					+ AppContext.formatPrettyTime(member.getLastaccessedtime()));
 			lastAccessTimeLbl.addStyleName("member-email");
 			memberInfo.addComponent(lastAccessTimeLbl);
 		} else if (RegisterStatusConstants.VERIFICATING.equals(member

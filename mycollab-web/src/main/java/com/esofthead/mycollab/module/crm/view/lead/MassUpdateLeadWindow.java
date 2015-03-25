@@ -67,27 +67,15 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
-			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
+			informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+			formLayout.addComponent(informationLayout.getLayout());
 
-			this.informationLayout.getLayout().setWidth("100%");
-			this.informationLayout.getLayout().setMargin(false);
-			this.informationLayout.getLayout().setSpacing(false);
-			this.informationLayout.getLayout().addStyleName(
-					"colored-gridlayout");
-			formLayout.addComponent(this.informationLayout.getLayout());
-
-			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
+			addressLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			final Label leadMoreInfo = new Label(
 					AppContext.getMessage(LeadI18nEnum.SECTION_ADDRESS));
 			leadMoreInfo.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(leadMoreInfo);
-			this.addressLayout.getLayout().setWidth("100%");
-			this.addressLayout.getLayout().setMargin(false);
-			this.addressLayout.getLayout().setSpacing(false);
-			this.addressLayout.getLayout().addStyleName("colored-gridlayout");
-			formLayout.addComponent(this.addressLayout.getLayout());
+			formLayout.addComponent(addressLayout.getLayout());
 
 			formLayout.addComponent(buildButtonControls());
 

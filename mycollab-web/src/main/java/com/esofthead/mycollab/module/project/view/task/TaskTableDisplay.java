@@ -31,8 +31,12 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.StringUtils;
@@ -71,8 +75,7 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = TaskTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleTask task = getBeanByIndex(itemId);
 
                 CssLayout taskName = new CssLayout();
 
@@ -118,8 +121,7 @@ public class TaskTableDisplay extends
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
-                        final SimpleTask task = TaskTableDisplay.this
-                                .getBeanByIndex(itemId);
+                        final SimpleTask task = getBeanByIndex(itemId);
                         Double percomp = (task.getPercentagecomplete() == null) ? new Double(
                                 0) : task.getPercentagecomplete();
                         ProgressPercentageIndicator progress = new ProgressPercentageIndicator(
@@ -148,8 +150,7 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = TaskTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleTask task = getBeanByIndex(itemId);
                 return new Label(AppContext.formatDate(task.getDeadline()));
 
             }
@@ -161,15 +162,13 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = TaskTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleTask task = getBeanByIndex(itemId);
                 PopupButton taskSettingPopupBtn = new PopupButton();
-                taskSettingPopupBtn.setIcon(MyCollabResource
-                        .newResource("icons/16/item_settings.png"));
-                taskSettingPopupBtn.setStyleName("link");
+                taskSettingPopupBtn.setIcon(FontAwesome.COGS);
+                taskSettingPopupBtn.setStyleName("action");
                 taskSettingPopupBtn.addStyleName("noDefaultIcon");
 
-                MVerticalLayout filterBtnLayout = new MVerticalLayout().withSpacing(true).withMargin(true).withWidth("100px");
+                MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("100px");
 
                 Button editButton = new Button(AppContext
                         .getMessage(GenericI18Enum.BUTTON_EDIT),
@@ -185,7 +184,8 @@ public class TaskTableDisplay extends
                         });
                 editButton.setEnabled(CurrentProjectVariables
                         .canWrite(ProjectRolePermissionCollections.TASKS));
-                editButton.setStyleName("link");
+                editButton.setIcon(FontAwesome.EDIT);
+                editButton.setStyleName("action");
                 filterBtnLayout.addComponent(editButton);
 
                 if ((task.getPercentagecomplete() != null && task
@@ -212,7 +212,8 @@ public class TaskTableDisplay extends
                                             "closeTask"));
                                 }
                             });
-                    closeBtn.setStyleName("link");
+                    closeBtn.setIcon(FontAwesome.CHECK_CIRCLE_O);
+                    closeBtn.setStyleName("action");
                     closeBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addComponent(closeBtn);
@@ -236,7 +237,8 @@ public class TaskTableDisplay extends
                                             "reopenTask"));
                                 }
                             });
-                    reOpenBtn.setStyleName("link");
+                    reOpenBtn.setIcon(FontAwesome.UNLOCK);
+                    reOpenBtn.setStyleName("action");
                     reOpenBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addComponent(reOpenBtn);
@@ -264,7 +266,8 @@ public class TaskTableDisplay extends
                                                 "pendingTask"));
                                     }
                                 });
-                        pendingBtn.setStyleName("link");
+                        pendingBtn.setIcon(FontAwesome.HDD_O);
+                        pendingBtn.setStyleName("action");
                         pendingBtn.setEnabled(CurrentProjectVariables
                                 .canWrite(ProjectRolePermissionCollections.TASKS));
                         filterBtnLayout.addComponent(pendingBtn);
@@ -290,7 +293,8 @@ public class TaskTableDisplay extends
                                             "reopenTask"));
                                 }
                             });
-                    reOpenBtn.setStyleName("link");
+                    reOpenBtn.setIcon(FontAwesome.UNLOCK);
+                    reOpenBtn.setStyleName("action");
                     reOpenBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addComponent(reOpenBtn);
@@ -327,10 +331,8 @@ public class TaskTableDisplay extends
                                                             .getSpringBean(ProjectTaskService.class);
                                                     projectTaskService.removeWithSession(
                                                             task.getId(),
-                                                            AppContext
-                                                                    .getUsername(),
-                                                            AppContext
-                                                                    .getAccountId());
+                                                            AppContext.getUsername(),
+                                                            AppContext.getAccountId());
                                                     fireTableEvent(new TableClickEvent(
                                                             TaskTableDisplay.this,
                                                             task, "deleteTask"));
@@ -339,9 +341,9 @@ public class TaskTableDisplay extends
                                         });
                             }
                         });
-                deleteBtn.setStyleName("link");
-                deleteBtn.setEnabled(CurrentProjectVariables
-                        .canAccess(ProjectRolePermissionCollections.TASKS));
+                deleteBtn.setIcon(FontAwesome.TRASH_O);
+                deleteBtn.setStyleName("action");
+                deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addComponent(deleteBtn);
 
                 taskSettingPopupBtn.setContent(filterBtnLayout);
@@ -356,8 +358,7 @@ public class TaskTableDisplay extends
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
-                        final SimpleTask task = TaskTableDisplay.this
-                                .getBeanByIndex(itemId);
+                        final SimpleTask task = getBeanByIndex(itemId);
                         return new ProjectUserLink(task.getAssignuser(), task
                                 .getAssignUserAvatarId(), task
                                 .getAssignUserFullName());

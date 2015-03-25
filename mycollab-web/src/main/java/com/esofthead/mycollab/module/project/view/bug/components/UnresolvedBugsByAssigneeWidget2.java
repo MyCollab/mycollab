@@ -50,22 +50,22 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
     public UnresolvedBugsByAssigneeWidget2() {
         super("", new MVerticalLayout());
-        this.setContentBorder(true);
+        setContentBorder(true);
     }
 
     public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-        this.bugSearchCriteria = searchCriteria;
-        this.bodyContent.removeAllComponents();
-        final BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-        final int totalCount = bugService.getTotalCount(searchCriteria);
-        this.setTitle(AppContext
+        bugSearchCriteria = searchCriteria;
+        bodyContent.removeAllComponents();
+        BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+        int totalCount = bugService.getTotalCount(searchCriteria);
+        setTitle(AppContext
                 .getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCount + ")");
 
         final List<GroupItem> groupItems = bugService
                 .getAssignedDefectsSummary(searchCriteria);
         if (!groupItems.isEmpty()) {
-            for (final GroupItem item : groupItems) {
-                final MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
+            for (GroupItem item : groupItems) {
+                MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
 
                 String assignUser = item.getGroupid();
                 String assignUserFullName = item.getGroupid() == null ? AppContext
@@ -76,14 +76,14 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
                     assignUserFullName = StringUtils
                             .extractNameFromEmail(assignUser);
                 }
-                final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
+                BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
                         item.getExtraValue(), assignUserFullName);
                 assigneeLayout.addComponent(userLbl);
-                final ProgressBarIndicator indicator = new ProgressBarIndicator(
+                ProgressBarIndicator indicator = new ProgressBarIndicator(
                         totalCount, totalCount - item.getValue(), false);
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
-                this.bodyContent.addComponent(assigneeLayout);
+                bodyContent.addComponent(assigneeLayout);
             }
 
         }
@@ -99,12 +99,12 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
+                    bugSearchCriteria
                             .setAssignuser(new StringSearchField(
                                     SearchField.AND, assignee));
                     final BugFilterParameter param = new BugFilterParameter(
                             "Unresolved Bugs of " + assigneeFullName,
-                            UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
+                            bugSearchCriteria);
                     EventBusFactory.getInstance().post(
                             new BugEvent.GotoList(this,
                                     new BugScreenData.Search(param)));

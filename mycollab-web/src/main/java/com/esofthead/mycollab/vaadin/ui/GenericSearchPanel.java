@@ -93,22 +93,6 @@ public abstract class GenericSearchPanel<S extends SearchCriteria> extends Custo
 			this.searchPanel.notifySearchHandler(searchCriteria);
 		}
 
-		public TextField createSeachSupportTextField(final TextField textField,
-				final String keyField) {
-			textField.addShortcutListener(new ShortcutListener(keyField,
-					ShortcutAction.KeyCode.ENTER, null) {
-				@Override
-				public void handleAction(final Object sender,
-						final Object target) {
-					if (target == textField) {
-						SearchLayout.this.callSearchAction();
-					}
-				}
-
-			});
-			return textField;
-		}
-
 		abstract protected S fillUpSearchCriteria();
 
 		abstract protected void addHeaderRight(Component c);

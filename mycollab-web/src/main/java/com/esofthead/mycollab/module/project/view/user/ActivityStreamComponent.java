@@ -68,7 +68,7 @@ public class ActivityStreamComponent extends CssLayout {
 
     public void showFeeds(final List<Integer> prjKeys) {
         this.removeAllComponents();
-        this.addComponent(this.activityStreamList);
+        this.addComponent(activityStreamList);
 
         final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
@@ -87,19 +87,19 @@ public class ActivityStreamComponent extends CssLayout {
 
         @Override
         public void doSearch() {
-            this.totalCount = this.projectActivityStreamService
-                    .getTotalActivityStream(this.searchRequest
+            totalCount = projectActivityStreamService
+                    .getTotalActivityStream(searchRequest
                             .getSearchCriteria());
-            this.totalPage = (this.totalCount - 1) / this.searchRequest.getNumberOfItems() + 1;
-            if (this.searchRequest.getCurrentPage() > this.totalPage) {
-                this.searchRequest.setCurrentPage(this.totalPage);
+            totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
+            if (searchRequest.getCurrentPage() > totalPage) {
+                searchRequest.setCurrentPage(totalPage);
             }
 
             if (totalPage > 1) {
                 if (this.controlBarWrapper != null) {
-                    this.removeComponent(this.controlBarWrapper);
+                    this.removeComponent(controlBarWrapper);
                 }
-                this.addComponent(this.createPageControls());
+                addComponent(createPageControls());
             } else {
                 if (getComponentCount() == 2) {
                     removeComponent(getComponent(1));

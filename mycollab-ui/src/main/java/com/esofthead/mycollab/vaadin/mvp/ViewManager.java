@@ -85,6 +85,5 @@ public class ViewManager {
 			throw new MyCollabException(
 					"Can not create view instance of class: " + viewClass, e);
 		}
-
 	}
 }

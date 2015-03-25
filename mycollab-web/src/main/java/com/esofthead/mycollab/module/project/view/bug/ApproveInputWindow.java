@@ -90,12 +90,7 @@ class ApproveInputWindow extends Window {
 			@Override
 			public ComponentContainer getLayout() {
 				final VerticalLayout layout = new VerticalLayout();
-				this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-						"167px", Alignment.TOP_LEFT);
-				this.informationLayout.getLayout().setWidth("100%");
-				this.informationLayout.getLayout().setMargin(false);
-				this.informationLayout.getLayout().addStyleName(
-						"colored-gridlayout");
+				this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 
 				layout.addComponent(this.informationLayout.getLayout());
 

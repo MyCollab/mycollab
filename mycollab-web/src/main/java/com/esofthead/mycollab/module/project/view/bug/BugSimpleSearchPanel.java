@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -110,13 +111,13 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
     }
 
     private void addTextFieldSearch() {
-        textValueField = new TextField();
-        textValueField.addShortcutListener(new ShortcutListener("BugSearchField", ShortcutAction.KeyCode.ENTER, null) {
-            @Override
-            public void handleAction(Object o, Object o1) {
-                doSearch();
-            }
-        });
+        textValueField = ShortcutExtension.installShortcutAction(new TextField(),
+                new ShortcutListener("BugSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
+                    @Override
+                    public void handleAction(Object o, Object o1) {
+                        doSearch();
+                    }
+                });
         textValueField.setWidth("300px");
         layoutSearchPane.addComponent(textValueField, 0, 0);
         layoutSearchPane.setComponentAlignment(textValueField,

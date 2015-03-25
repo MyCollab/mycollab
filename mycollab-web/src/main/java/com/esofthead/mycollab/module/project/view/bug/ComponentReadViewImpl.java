@@ -26,7 +26,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -395,7 +394,7 @@ public class ComponentReadViewImpl extends
 
         private Div buildLastUpdateTime(SimpleBug bug) {
             Div div = new Div();
-            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(bug.getLastupdatedtime(), AppContext.getUserLocale())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime())));
             return div.setCSSClass("column100");
         }
     }

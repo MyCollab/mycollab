@@ -25,7 +25,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.mobile.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
@@ -36,8 +35,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.GregorianCalendar;
 
@@ -208,32 +210,26 @@ public class NotesList extends AbstractMobilePageView {
 					.createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
 							note.getCreateUserFullName()));
 
-			final VerticalLayout rowLayout = new VerticalLayout();
-			rowLayout.setStyleName("message-container");
-			rowLayout.setSpacing(true);
-			rowLayout.setWidth("100%");
+			final MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withWidth("100%").withStyleName("message-container");
 			rowLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-			final HorizontalLayout messageHeader = new HorizontalLayout();
-			messageHeader.setStyleName("message-header");
-			messageHeader.setWidth("100%");
-
+			final MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header").withWidth
+                    ("100%");
 			final Label username = new Label(note.getCreateUserFullName());
 			username.setStyleName("user-name");
 			username.setWidth("100%");
-			messageHeader.addComponent(username);
-			messageHeader.setExpandRatio(username, 1.0f);
+
 
 			final Label timePostLbl = new Label(
 					DateTimeUtils.getPrettyDateValue(note.getCreatedtime(),
 							AppContext.getUserLocale()));
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
-			messageHeader.addComponent(timePostLbl);
+            messageHeader.with(username, timePostLbl).expand(username);
 
 			rowLayout.addComponent(messageHeader);
 
-			final Label messageContent = new UrlDetectableLabel(note.getNote());
+			final SafeHtmlLabel messageContent = new SafeHtmlLabel(note.getNote());
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
 			rowLayout.setExpandRatio(messageContent, 1.0f);

@@ -45,12 +45,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 		organizationHeader.setStyleName("h2");
 		layout.addComponent(organizationHeader);
 
-		this.informationLayout = new GridFormLayoutHelper(1, 2, "100%",
-				"167px", Alignment.TOP_LEFT);
-		this.informationLayout.getLayout().setWidth("100%");
-		this.informationLayout.getLayout().setMargin(false);
-		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
-
+		this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 2);
 		layout.addComponent(this.informationLayout.getLayout());
 		return layout;
 	}

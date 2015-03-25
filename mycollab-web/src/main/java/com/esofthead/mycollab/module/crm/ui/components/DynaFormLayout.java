@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.form.service.MasterFormService;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
@@ -32,11 +26,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -109,22 +104,13 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			}
 
 			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2,
-						section.getFieldCount(), "100%", "167px",
-						Alignment.TOP_LEFT);
+				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, section.getFieldCount());
 			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2,
-						(section.getFieldCount() + 3) / 2, "100%", "167px",
-						Alignment.TOP_LEFT);
+				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, (section.getFieldCount() + 3) / 2);
 			} else {
 				throw new MyCollabException(
 						"Does not support attachForm layout except 1 or 2 columns");
 			}
-
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setMargin(false);
-			gridLayout.getLayout().setSpacing(false);
-			gridLayout.getLayout().addStyleName("colored-gridlayout");
 			layout.addComponent(gridLayout.getLayout());
 
 			sectionMappings.put(section, gridLayout);

@@ -17,16 +17,15 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.commons.collections.CollectionUtils;
@@ -50,7 +49,6 @@ import java.util.Map;
  */
 public class AttachmentPanel extends VerticalLayout implements
         AttachmentUploadComponent {
-
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(AttachmentPanel.class);
     private Map<String, File> fileStores;
@@ -70,7 +68,7 @@ public class AttachmentPanel extends VerticalLayout implements
     }
 
     private void displayFileName(final String fileName) {
-        final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout();
+        final MHorizontalLayout fileAttachmentLayout = new MHorizontalLayout().withWidth("100%");
         Button removeBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -90,9 +88,11 @@ public class AttachmentPanel extends VerticalLayout implements
         removeBtn.setIcon(FontAwesome.TRASH_O);
         removeBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-        Label fileIcon = new Label(getFileIconResource(fileName).getHtml(), ContentMode.HTML);
+        FontIconLabel fileIcon = new FontIconLabel(FileAssetsUtil.getFileIconResource(fileName));
+        CssLayout wrapper = new CssLayout();
+        wrapper.addComponent(fileIcon);
         Label fileLbl = new Label(fileName);
-        fileAttachmentLayout.with(fileIcon, fileLbl, removeBtn).withAlign(fileLbl, Alignment.MIDDLE_CENTER);
+        fileAttachmentLayout.with(wrapper, fileLbl, removeBtn).expand(fileLbl);
         this.addComponent(fileAttachmentLayout);
     }
 
@@ -183,7 +183,7 @@ public class AttachmentPanel extends VerticalLayout implements
         return content;
     }
 
-    public List<File> getListFile() {
+    public List<File> files() {
         List<File> listFile = null;
         if (MapUtils.isNotEmpty(fileStores)) {
             listFile = new ArrayList<>();
@@ -220,20 +220,5 @@ public class AttachmentPanel extends VerticalLayout implements
             fileStores.put(fileName, file);
             displayFileName(fileName);
         }
-    }
-
-    private static FontAwesome getFileIconResource(String fileName) {
-        String mimeType = MimeTypesUtil.detectMimeType(fileName);
-        if (MimeTypesUtil.isImage(mimeType)) {
-            return FontAwesome.FILE_IMAGE_O;
-        } else if (MimeTypesUtil.isAudio(mimeType)) {
-            return FontAwesome.FILE_AUDIO_O;
-        } else if (MimeTypesUtil.isVideo(mimeType)) {
-            return FontAwesome.FILE_VIDEO_O;
-        } else if (MimeTypesUtil.isText(mimeType)) {
-            return FontAwesome.FILE_TEXT_O;
-        }
-
-        return FontAwesome.FILE_O;
     }
 }

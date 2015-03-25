@@ -19,12 +19,14 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper.TimezoneExt;
 import com.vaadin.data.Property;
+import com.vaadin.data.Validator;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,9 +111,23 @@ public class TimeZoneSelectionField extends CustomField<String> {
 		return null;
 	}
 
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        String value = (String) newDataSource.getValue();
+        if (value != null) {
+
+        }
+        super.setPropertyDataSource(newDataSource);
+    }
+
+    @Override
+    public void commit() throws SourceException, Validator.InvalidValueException {
+
+        super.commit();
+    }
+
 	@Override
 	public Class<String> getType() {
 		return String.class;
 	}
-
 }

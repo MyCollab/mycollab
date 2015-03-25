@@ -53,7 +53,7 @@ public class ModuleHelper {
 
 	public static boolean isCurrentFileModule() {
 		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof IFileModule);
+		return (module != null) && (module.getClass().isAssignableFrom(IFileModule.class));
 	}
 
 	public static boolean isCurrentAccountModule() {

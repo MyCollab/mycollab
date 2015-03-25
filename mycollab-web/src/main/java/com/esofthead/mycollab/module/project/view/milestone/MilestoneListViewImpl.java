@@ -88,19 +88,17 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
 		for (final SimpleMilestone milestone : milestones) {
+            ComponentContainer componentContainer = constructMilestoneBox(milestone);
 			if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
-				this.inProgressContainer.addComponent(this
-						.constructMilestoneBox(milestone));
+				inProgressContainer.addComponent(componentContainer);
                 totalInprogressMilestones++;
 			} else if (MilestoneStatus.Future.name().equals(
 					milestone.getStatus())) {
-				this.futureContainer.addComponent(this
-						.constructMilestoneBox(milestone));
+				futureContainer.addComponent(componentContainer);
                 totalFutureMilestones++;
 			} else if (MilestoneStatus.Closed.name().equals(
 					milestone.getStatus())) {
-				this.closeContainer.addComponent(this
-						.constructMilestoneBox(milestone));
+				closeContainer.addComponent(componentContainer);
                 totalClosedMilestones++;
 			}
 		}

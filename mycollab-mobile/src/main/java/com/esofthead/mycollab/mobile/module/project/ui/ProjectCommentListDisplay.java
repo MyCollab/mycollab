@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import java.util.List;
 
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.esofthead.mycollab.mobile.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
@@ -151,7 +151,7 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 			metadataRow.addComponent(commentTimePost);
 			rightCol.addComponent(metadataRow);
 
-			Label commentContent = new UrlDetectableLabel(comment.getComment());
+			Label commentContent = new SafeHtmlLabel(comment.getComment());
 			commentContent.setStyleName("comment-content");
 			rightCol.addComponent(commentContent);
 

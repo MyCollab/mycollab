@@ -27,6 +27,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -89,9 +90,7 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 
 		@Override
 		protected Component initContent() {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
+			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 			final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
 			prefixSelect.setValue(attachForm.getBean().getPrefix());
@@ -126,6 +125,5 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 		public Class<? extends Contact> getType() {
 			return Contact.class;
 		}
-
 	}
 }

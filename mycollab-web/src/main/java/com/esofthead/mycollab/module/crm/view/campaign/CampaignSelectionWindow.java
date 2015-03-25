@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -40,7 +38,6 @@ import java.util.Arrays;
  * 
  */
 public class CampaignSelectionWindow extends Window {
-
 	private static final long serialVersionUID = 1L;
 	private CampaignTableDisplay tableItem;
 	private FieldSelection<CampaignWithBLOBs> fieldSelection;
@@ -55,12 +52,7 @@ public class CampaignSelectionWindow extends Window {
 	}
 
 	public void show() {
-        CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		MVerticalLayout layout = new MVerticalLayout();
-
 		createCampaignList();
 		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
 		campaignSimpleSearchPanel
@@ -74,8 +66,7 @@ public class CampaignSelectionWindow extends Window {
                 });
 		layout.with(campaignSimpleSearchPanel, tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
+		tableItem.setSearchCriteria(new CampaignSearchCriteria());
 		center();
 	}
 
@@ -99,7 +90,7 @@ public class CampaignSelectionWindow extends Window {
 						final SimpleCampaign campaign = tableItem
 								.getBeanByIndex(itemId);
 
-						ButtonLink campaingLink = new ButtonLink(campaign
+						ButtonLink campaignLink = new ButtonLink(campaign
 								.getCampaignname(), new Button.ClickListener() {
 
 							@Override
@@ -109,10 +100,10 @@ public class CampaignSelectionWindow extends Window {
 								CampaignSelectionWindow.this.close();
 							}
 						});
-                        campaingLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
+                        campaignLink.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
                                 AppContext.getUserLocale(), campaign,
                                 AppContext.getSiteUrl(), AppContext.getTimezone()));
-                        return campaingLink;
+                        return campaignLink;
 					}
 				});
 	}

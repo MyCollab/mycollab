@@ -196,7 +196,6 @@ public class ProfileReadViewImpl extends AbstractPageView implements
     }
 
     private class PreviewForm extends AdvancedPreviewBeanForm<User> {
-
         private static final long serialVersionUID = 1L;
 
         private User user;

@@ -43,16 +43,16 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 
 	public AbstractEditItemComp() {
 		super();
-		this.editForm = new AdvancedEditBeanForm<>();
-		this.addComponent(this.editForm);
+		editForm = new AdvancedEditBeanForm<>();
+		addComponent(editForm);
 	}
 
 	@Override
 	public void editItem(final B item) {
-		this.beanItem = item;
-		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-		this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-		this.editForm.setBean(item);
+		beanItem = item;
+		editForm.setFormLayoutFactory(new FormLayoutFactory());
+		editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+		editForm.setBean(item);
 	}
 
 	@Override

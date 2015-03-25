@@ -27,10 +27,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
@@ -101,16 +98,16 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         public ComponentContainer constructBody() {
             final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true).with(new Label("Name"));
 
-            this.nameField = new TextField();
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            this.nameField.addShortcutListener(new ShortcutListener("RoleSearchName", ShortcutAction.KeyCode.ENTER,
-                    null) {
-                @Override
-                public void handleAction(Object o, Object o1) {
-                    callSearchAction();
-                }
-            });
-            basicSearchBody.addComponent(this.nameField);
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("RoleSearchName", ShortcutAction.KeyCode.ENTER,
+                            null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            basicSearchBody.addComponent(nameField);
 
             final Button searchBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));

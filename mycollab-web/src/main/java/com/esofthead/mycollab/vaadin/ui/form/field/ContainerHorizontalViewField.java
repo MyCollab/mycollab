@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui.form.field;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -30,13 +31,7 @@ import com.vaadin.ui.HorizontalLayout;
 public class ContainerHorizontalViewField extends CustomField {
 	private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout layout;
-
-	public ContainerHorizontalViewField() {
-		layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-	}
+	private MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
 	public void addComponentField(final Component component) {
 		layout.addComponent(component);

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.FontAwesome;
@@ -57,8 +56,7 @@ public class DateInfoComp extends MVerticalLayout {
 					"createdtime");
 			Label createdDateLbl = new Label(AppContext.getMessage(
 					CrmCommonI18nEnum.ITEM_CREATED_DATE,
-					DateTimeUtils.getPrettyDateValue(createdDate,
-							AppContext.getUserLocale())));
+					AppContext.formatPrettyTime(createdDate)));
 			createdDateLbl.setDescription(AppContext
                     .formatDateTime(createdDate));
 
@@ -66,8 +64,7 @@ public class DateInfoComp extends MVerticalLayout {
 					"lastupdatedtime");
 			Label updatedDateLbl = new Label(AppContext.getMessage(
 					CrmCommonI18nEnum.ITEM_UPDATED_DATE,
-					DateTimeUtils.getPrettyDateValue(updatedDate,
-							AppContext.getUserLocale())));
+					AppContext.formatPrettyTime(updatedDate)));
 			updatedDateLbl.setDescription(AppContext
 					.formatDateTime(updatedDate));
 

@@ -174,10 +174,7 @@ public class UserLink extends Button {
 			Label lastAccessTimeTitle = new Label("Last access time");
 			lastAccessTimeTitle.setWidth("120px");
 			lastAccessTimeLayout.addComponent(lastAccessTimeTitle);
-			Label lastAccessTimeLabel = new Label(
-					DateTimeUtils.getPrettyDateValue(
-							user.getLastaccessedtime(),
-							AppContext.getUserLocale()));
+			Label lastAccessTimeLabel = new Label(AppContext.formatPrettyTime(user.getLastaccessedtime()));
 			lastAccessTimeLayout.addComponent(lastAccessTimeLabel);
 			mainUserInfoLayout.addComponent(lastAccessTimeLayout);
 

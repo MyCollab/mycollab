@@ -114,6 +114,5 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 			projectService.updateWithSession(project, AppContext.getUsername());
 			MyCollabSession.putVariable(CURRENT_PROJECT, project);
 		}
-
 	}
 }

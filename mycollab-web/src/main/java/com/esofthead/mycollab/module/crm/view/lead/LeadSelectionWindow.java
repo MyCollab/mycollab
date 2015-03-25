@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
@@ -38,9 +36,7 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class LeadSelectionWindow extends Window {
-
     private static final long serialVersionUID = 1L;
-    private LeadSearchCriteria searchCriteria;
     private LeadTableDisplay tableItem;
     private FieldSelection<Lead> fieldSelection;
 
@@ -53,10 +49,6 @@ public class LeadSelectionWindow extends Window {
     }
 
     public void show() {
-        searchCriteria = new LeadSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-
         MVerticalLayout layout = new MVerticalLayout();
 
         createLeadList();
@@ -74,7 +66,7 @@ public class LeadSelectionWindow extends Window {
         layout.with(leadSimpleSearchPanel, tableItem);
         this.setContent(layout);
 
-        tableItem.setSearchCriteria(searchCriteria);
+        tableItem.setSearchCriteria(new LeadSearchCriteria());
         center();
     }
 

@@ -44,10 +44,8 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property;
@@ -254,7 +252,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 	@Override
 	public void disableActionControls() {
 		this.tableActionControls.setVisible(false);
-		this.selectOptionButton.setSelectedChecbox(false);
+		this.selectOptionButton.setSelectedCheckbox(false);
 		this.selectedItemsNumberLabel.setValue("");
 	}
 

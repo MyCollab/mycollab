@@ -41,6 +41,27 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 5.0.3
+-----------------------------
+
+**Library Upgrades**
+
+* Upgrade Vaadin to 7.4.2
+* Upgrade other libraries
+
+**Improvements**
+
+* Easier to navigate among projects
+* Add search of generic assignments to project
+* Revise and bug fixes the file module
+* Support tooltip for multi select component
+
+**Bug Fixes**
+
+* Edit project member throws exception
+* Display bug context menu properly according to coordination of mouse
+* Can not change the project information
+
 Version 5.0.2
 -----------------------------
 
@@ -509,10 +530,6 @@ Version 3.0.0
 * Schedule runner can not send reports in some cases
 * Display activities throws exception in some cases
 * Invite member does not send when first name is null
-* Do not display tooltip of lead and contact if firstname is null
+* Do not display tooltip of lead and contact if first name is null
 * Can not save search result in CRM module
 * Fix spelling mistakes
-
-Well known issues
-=================
-Calendar view display badly on IE9 at the first time

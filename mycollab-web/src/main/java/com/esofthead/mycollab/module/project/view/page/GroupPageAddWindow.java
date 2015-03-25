@@ -98,13 +98,7 @@ class GroupPageAddWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = new GridFormLayoutHelper(2, 2,
-                        "100%", "167px", Alignment.TOP_LEFT);
-                this.informationLayout.getLayout().setWidth("100%");
-                this.informationLayout.getLayout().setMargin(false);
-                this.informationLayout.getLayout().addStyleName(
-                        "colored-gridlayout");
-
+                this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
                 layout.addComponent(this.informationLayout.getLayout());
 
                 final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true,

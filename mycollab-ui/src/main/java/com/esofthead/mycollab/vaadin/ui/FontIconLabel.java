@@ -25,6 +25,7 @@ import com.vaadin.ui.Label;
  * @since 5.0.0
  */
 public class FontIconLabel extends Label {
+
     public FontIconLabel(FontAwesome icon) {
         super(icon.getHtml(), ContentMode.HTML);
     }

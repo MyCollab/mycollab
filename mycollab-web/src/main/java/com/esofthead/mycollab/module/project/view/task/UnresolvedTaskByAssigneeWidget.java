@@ -94,7 +94,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
                         false);
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
-                this.bodyContent.addComponent(assigneeLayout);
+                bodyContent.addComponent(assigneeLayout);
             }
         }
     }

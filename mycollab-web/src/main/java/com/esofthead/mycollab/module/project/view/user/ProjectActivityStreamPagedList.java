@@ -248,7 +248,7 @@ public class ProjectActivityStreamPagedList extends
             yearLbl.setStyleName("year-lbl");
             yearLbl.setWidthUndefined();
             yearLbl.setHeight("49px");
-            this.listContainer.addComponent(yearLbl);
+            listContainer.addComponent(yearLbl);
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
@@ -256,9 +256,7 @@ public class ProjectActivityStreamPagedList extends
                 AppContext.getUserDayMonthFormat()));
         dateLbl.setSizeUndefined();
         dateLbl.setStyleName("date-lbl");
-        blockWrapper.addComponent(dateLbl);
-        blockWrapper.addComponent(currentBlock);
-        blockWrapper.setExpandRatio(currentBlock, 1.0f);
+        blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);
 
         this.listContainer.addComponent(blockWrapper);
     }
@@ -307,9 +305,9 @@ public class ProjectActivityStreamPagedList extends
         controlBtns.addButton(prevBtn);
         controlBtns.addButton(nextBtn);
 
-        this.controlBarWrapper.addComponent(controlBtns);
+        controlBarWrapper.addComponent(controlBtns);
 
-        return this.controlBarWrapper;
+        return controlBarWrapper;
     }
 
     @Override
@@ -321,5 +319,4 @@ public class ProjectActivityStreamPagedList extends
     protected List<ProjectActivityStream> queryCurrentData() {
         return null;
     }
-
 }

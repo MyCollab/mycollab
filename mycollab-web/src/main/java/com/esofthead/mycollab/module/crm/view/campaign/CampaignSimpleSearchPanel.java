@@ -22,10 +22,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ShortcutAction;
@@ -39,64 +36,62 @@ import com.vaadin.ui.TextField;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearchCriteria> {
-	private CampaignSearchCriteria searchCriteria;
-	private TextField textValueField;
-	private GridLayout layoutSearchPane;
+    private CampaignSearchCriteria searchCriteria;
+    private TextField textValueField;
+    private GridLayout layoutSearchPane;
     private ValueComboBox group;
-	private DateSelectionField dateSearchField;
+    private DateSelectionField dateSearchField;
 
-	public CampaignSimpleSearchPanel() {
+    public CampaignSimpleSearchPanel() {
         createBasicSearchLayout();
     }
 
-	private void createBasicSearchLayout() {
-		layoutSearchPane = new GridLayout(3, 2);
-		layoutSearchPane.setSpacing(true);
+    private void createBasicSearchLayout() {
+        layoutSearchPane = new GridLayout(3, 2);
+        layoutSearchPane.setSpacing(true);
 
-		group = new ValueComboBox(false, "Campaign Name", "Start Date", "End Date");
-		group.select("Campaign Name");
-		group.setImmediate(true);
-		group.addValueChangeListener(new Property.ValueChangeListener() {
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				removeComponents();
-				String searchType = (String) group.getValue();
-				if (searchType.equals("Campaign Name")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Start Date")) {
-					addDateFieldSearch();
-				} else if (searchType.equals("End Date")) {
-					addDateFieldSearch();
-				}
-			}
-		});
+        group = new ValueComboBox(false, "Campaign Name", "Start Date", "End Date");
+        group.select("Campaign Name");
+        group.setImmediate(true);
+        group.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                removeComponents();
+                String searchType = (String) group.getValue();
+                if (searchType.equals("Campaign Name")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Start Date")) {
+                    addDateFieldSearch();
+                } else if (searchType.equals("End Date")) {
+                    addDateFieldSearch();
+                }
+            }
+        });
 
-		layoutSearchPane.addComponent(group, 1, 0);
-		layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
-		addTextFieldSearch();
+        layoutSearchPane.addComponent(group, 1, 0);
+        layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+        addTextFieldSearch();
 
-		Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(FontAwesome.SEARCH);
-		searchBtn.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				doSearch();
-			}
-		});
-		layoutSearchPane.addComponent(searchBtn, 2, 0);
-		layoutSearchPane.setComponentAlignment(searchBtn,
-				Alignment.MIDDLE_CENTER);
-		this.setCompositionRoot(layoutSearchPane);
-	}
+        Button searchBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setIcon(FontAwesome.SEARCH);
+        searchBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                doSearch();
+            }
+        });
+        layoutSearchPane.addComponent(searchBtn, 2, 0);
+        layoutSearchPane.setComponentAlignment(searchBtn,
+                Alignment.MIDDLE_CENTER);
+        this.setCompositionRoot(layoutSearchPane);
+    }
 
     private void doSearch() {
         searchCriteria = new CampaignSearchCriteria();
@@ -119,33 +114,33 @@ public class CampaignSimpleSearchPanel extends GenericSearchPanel<CampaignSearch
         notifySearchHandler(searchCriteria);
     }
 
-	private void addTextFieldSearch() {
-		textValueField = new TextField();
-        textValueField.addShortcutListener(new ShortcutListener("CampaignSearchField", ShortcutAction.KeyCode.ENTER,
-                null) {
-            @Override
-            public void handleAction(Object o, Object o1) {
-                doSearch();
-            }
-        });
-		layoutSearchPane.addComponent(textValueField, 0, 0);
-		layoutSearchPane.setComponentAlignment(textValueField,
-				Alignment.MIDDLE_CENTER);
-	}
+    private void addTextFieldSearch() {
+        textValueField = ShortcutExtension.installShortcutAction(new TextField(),
+                new ShortcutListener("CampaignSearchField", ShortcutAction.KeyCode.ENTER,
+                        null) {
+                    @Override
+                    public void handleAction(Object o, Object o1) {
+                        doSearch();
+                    }
+                });
+        layoutSearchPane.addComponent(textValueField, 0, 0);
+        layoutSearchPane.setComponentAlignment(textValueField,
+                Alignment.MIDDLE_CENTER);
+    }
 
-	private void addDateFieldSearch() {
-		dateSearchField = new DateSelectionField();
-		dateSearchField.setDateFormat(AppContext.getUserDateFormat());
-		layoutSearchPane.addComponent(dateSearchField, 0, 0);
-		layoutSearchPane.setComponentAlignment(dateSearchField,
-				Alignment.MIDDLE_CENTER);
-	}
+    private void addDateFieldSearch() {
+        dateSearchField = new DateSelectionField();
+        dateSearchField.setDateFormat(AppContext.getUserDateFormat());
+        layoutSearchPane.addComponent(dateSearchField, 0, 0);
+        layoutSearchPane.setComponentAlignment(dateSearchField,
+                Alignment.MIDDLE_CENTER);
+    }
 
-	private void removeComponents() {
-		layoutSearchPane.removeComponent(0, 0);
-		textValueField = null;
-		dateSearchField = null;
-	}
+    private void removeComponents() {
+        layoutSearchPane.removeComponent(0, 0);
+        textValueField = null;
+        dateSearchField = null;
+    }
 
     @Override
     public void setTotalCountNumber(int totalCountNumber) {

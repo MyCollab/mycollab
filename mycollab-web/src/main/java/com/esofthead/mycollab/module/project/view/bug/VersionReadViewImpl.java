@@ -24,7 +24,6 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -384,7 +383,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
         private Div buildLastUpdateTime(SimpleBug bug) {
             Div div = new Div();
-            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(bug.getLastupdatedtime(), AppContext.getUserLocale())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime())));
             return div.setCSSClass("column100");
         }
     }

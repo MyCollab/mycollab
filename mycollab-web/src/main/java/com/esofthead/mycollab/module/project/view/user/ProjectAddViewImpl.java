@@ -41,40 +41,36 @@ public class ProjectAddViewImpl extends AbstractPageView implements
     private final AdvancedEditBeanForm<Project> editForm;
 
     public ProjectAddViewImpl() {
-        this.editForm = new AdvancedEditBeanForm<>();
-        this.addComponent(this.editForm);
-        this.setMargin(true);
+        editForm = new AdvancedEditBeanForm<>();
+        addComponent(editForm);
     }
 
     @Override
     public HasEditFormHandlers<Project> getEditFormHandlers() {
-        return this.editForm;
+        return editForm;
     }
 
     @Override
     public void editItem(final Project item) {
         this.project = item;
-        this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-        this.editForm
-                .setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
-        this.editForm.setBean(this.project);
+        editForm.setFormLayoutFactory(new FormLayoutFactory());
+        editForm.setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
+        editForm.setBean(project);
     }
 
     class FormLayoutFactory extends ProjectFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         public FormLayoutFactory() {
-            super(
-                    (ProjectAddViewImpl.this.project.getId() == null) ? AppContext
-                            .getMessage(ProjectI18nEnum.VIEW_NEW_TITLE)
-                            : ProjectAddViewImpl.this.project.getName());
+            super((project.getId() == null) ? AppContext
+                            .getMessage(ProjectI18nEnum.VIEW_NEW_TITLE) : project.getName());
         }
 
         private Layout createButtonControls() {
             final HorizontalLayout controlPanel = new HorizontalLayout();
             final Layout controlButtons;
 
-            if (ProjectAddViewImpl.this.project.getId() == null) {
+            if (project.getId() == null) {
                 controlButtons = (new EditFormControlsGenerator<>(
                         editForm)).createButtonControls();
             } else {
@@ -83,8 +79,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
             }
             controlButtons.setSizeUndefined();
             controlPanel.addComponent(controlButtons);
-            controlPanel
-                    .setWidthUndefined();
+            controlPanel.setWidthUndefined();
             controlPanel.setComponentAlignment(controlButtons,
                     Alignment.MIDDLE_CENTER);
 
@@ -120,9 +115,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements
                 final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                 projectCombo.setRequired(true);
                 projectCombo.setRequiredError("Please enter a project status");
-                if (ProjectAddViewImpl.this.project.getProjectstatus() == null) {
-                    ProjectAddViewImpl.this.project
-                            .setProjectstatus(StatusI18nEnum.Open.name());
+                if (project.getProjectstatus() == null) {
+                    project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
                 return projectCombo;
             } else if (propertyId.equals("shortname")) {
@@ -154,6 +148,6 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 
     @Override
     public Project getItem() {
-        return this.project;
+        return project;
     }
 }

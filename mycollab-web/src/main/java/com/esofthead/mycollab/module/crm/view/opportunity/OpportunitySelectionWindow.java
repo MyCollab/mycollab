@@ -51,10 +51,6 @@ public class OpportunitySelectionWindow extends Window {
     }
 
     public void show() {
-        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-
         MVerticalLayout layout = new MVerticalLayout();
 
         createOpportunityList();
@@ -71,7 +67,7 @@ public class OpportunitySelectionWindow extends Window {
         layout.with(opportunitySimpleSearchPanel, tableItem);
         this.setContent(layout);
 
-        tableItem.setSearchCriteria(searchCriteria);
+        tableItem.setSearchCriteria(new OpportunitySearchCriteria());
         center();
     }
 

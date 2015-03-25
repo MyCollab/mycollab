@@ -49,8 +49,4 @@ public class MyCollabUIProvider extends UIProvider {
             throw new MyCollabException(e);
         }
     }
-
-    private boolean isBelowIE10Browser(String agent) {
-        return false;
-    }
 }

@@ -18,33 +18,40 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public class BugRowDisplayHandler extends
-        BeanList.RowDisplayHandler<SimpleBug>{
+public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> {
     @Override
     public Component generateRow(SimpleBug bug, int rowIndex) {
-        MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
+        MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%");
         final LabelLink defectLink = new LabelLink("["
                 + CurrentProjectVariables.getProject().getShortname() + "-"
                 + bug.getBugkey() + "]: " + bug.getSummary(),
@@ -68,28 +75,26 @@ public class BugRowDisplayHandler extends
         descInfo.setWidth("100%");
         rowContent.addComponent(descInfo);
 
-        final Label dateInfo = new Label(AppContext.getMessage(
+        Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
+        Text lastUpdatedTimeTxt = new Text(AppContext.getMessage(
                 DayI18nEnum.LAST_UPDATED_ON,
                 AppContext.formatPrettyTime(bug.getLastupdatedtime())));
-        dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-        rowContent.addComponent(dateInfo);
 
-        final HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
-        hLayoutAssigneeInfo.setSpacing(true);
-        final Label assignee = new Label(
-                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
-        assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-        hLayoutAssigneeInfo.addComponent(assignee);
-        hLayoutAssigneeInfo.setComponentAlignment(assignee,
-                Alignment.MIDDLE_CENTER);
+        Text assigneeTxt = new Text(" - " + AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
+        if (StringUtils.isBlank(bug.getAssignuser())) {
+            footer.appendChild(lastUpdatedTimeTxt, assigneeTxt, new Text("None"));
+        } else {
+            String uid = UUID.randomUUID().toString();
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(bug
+                    .getProjectid(), bug.getAssignuser())).appendText(bug.getAssignuserFullName());
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
 
-        final ProjectUserLink userLink = new ProjectUserLink(
-                bug.getAssignuser(), bug.getAssignUserAvatarId(),
-                bug.getAssignuserFullName(), false, true);
-        hLayoutAssigneeInfo.addComponent(userLink);
-        hLayoutAssigneeInfo.setComponentAlignment(userLink,
-                Alignment.MIDDLE_CENTER);
-        rowContent.addComponent(hLayoutAssigneeInfo);
+            footer.appendChild(lastUpdatedTimeTxt, assigneeTxt, userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
+                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        }
+
+        rowContent.addComponent(new Label(footer.write(), ContentMode.HTML));
 
         rowContent.setStyleName(UIConstants.WIDGET_ROW);
         if ((rowIndex + 1) % 2 != 0) {

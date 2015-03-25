@@ -68,9 +68,6 @@ public class TaskSearchCriteria extends SearchCriteria {
 	public static Param p_actualenddate = new DateParam("task-actualenddate",
 			TaskI18nEnum.FORM_ACTUAL_END_DATE, "m_prj_task", "actualEndDate");
 
-	public static Param p_deadline = new DateParam("task-deadline",
-			TaskI18nEnum.FORM_DEADLINE, "m_prj_task", "deadline");
-
 	private NumberSearchField projectid;
 	private NumberSearchField taskListId;
 	private NumberSearchField parentTaskId;

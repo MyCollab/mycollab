@@ -16,15 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
@@ -32,11 +23,11 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * 
@@ -118,8 +109,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			}
 
 			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2, 1, "100%", "167px",
-						Alignment.TOP_LEFT);
+				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
 
 				for (int j = 0; j < section.getFieldCount(); j++) {
 					AbstractDynaField dynaField = section.getField(j);
@@ -133,8 +123,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 					}
 				}
 			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2, 1, "100%", "167px",
-						Alignment.TOP_LEFT);
+				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
 				int columnIndex = 0;
 				for (int j = 0; j < section.getFieldCount(); j++) {
 					AbstractDynaField dynaField = section.getField(j);
@@ -172,10 +161,6 @@ public class DynaFormLayout implements IFormLayoutFactory {
 						"Does not support attachForm layout except 1 or 2 columns");
 			}
 
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setMargin(false);
-			gridLayout.getLayout().setSpacing(false);
-			gridLayout.getLayout().addStyleName("colored-gridlayout");
 			layout.addComponent(gridLayout.getLayout());
 
 			sectionMappings.put(section, gridLayout);

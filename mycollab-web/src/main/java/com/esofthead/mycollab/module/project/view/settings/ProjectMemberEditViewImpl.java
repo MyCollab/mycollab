@@ -137,13 +137,8 @@ public class ProjectMemberEditViewImpl extends
 			organizationHeader.setStyleName("h2");
 			permissionsPanel.addComponent(organizationHeader);
 
-			projectFormHelper = new GridFormLayoutHelper(
-					2,
-					ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-					"100%", "167px", Alignment.TOP_LEFT);
-			projectFormHelper.getLayout().setWidth("100%");
-			projectFormHelper.getLayout().setMargin(false);
-			projectFormHelper.getLayout().addStyleName("colored-gridlayout");
+			projectFormHelper =  GridFormLayoutHelper.defaultFormLayoutHelper(2,
+					ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
 
 			permissionsPanel.addComponent(projectFormHelper.getLayout());
 			layout.addComponent(permissionsPanel);

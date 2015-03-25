@@ -17,14 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.server.FontAwesome;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.tokenfield.TokenField;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -45,293 +37,280 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.tokenfield.TokenField;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractPageView implements
-		ProjectMemberInviteView {
+        ProjectMemberInviteView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<String> inviteEmails;
-	private Integer roleId = 0;
-	private ProjectRoleComboBox roleComboBox;
-	private TextArea messageArea;
-	private GridFormLayoutHelper projectFormHelper;
+    private List<String> inviteEmails;
+    private Integer roleId = 0;
+    private ProjectRoleComboBox roleComboBox;
+    private TextArea messageArea;
+    private GridFormLayoutHelper projectFormHelper;
 
-	public ProjectMemberInviteViewImpl() {
-		super();
-	}
+    public ProjectMemberInviteViewImpl() {
+        super();
+    }
 
-	@Override
-	public void display() {
-		inviteEmails = new ArrayList<>();
-		roleId = 0;
+    @Override
+    public void display() {
+        inviteEmails = new ArrayList<>();
+        roleId = 0;
 
-		initContent();
-	}
+        initContent();
+    }
 
-	private void initContent() {
-		this.removeAllComponents();
+    private void initContent() {
+        this.removeAllComponents();
 
-		this.roleComboBox = new ProjectRoleComboBox();
-		this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = 1L;
+        this.roleComboBox = new ProjectRoleComboBox();
+        this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				Integer roleId = (Integer) roleComboBox.getValue();
-				displayRolePermission(roleId);
-			}
-		});
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                Integer roleId = (Integer) roleComboBox.getValue();
+                displayRolePermission(roleId);
+            }
+        });
 
-		final AddViewLayout userAddLayout = new AddViewLayout(
-				AppContext
-						.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
+        final AddViewLayout userAddLayout = new AddViewLayout(
+                AppContext
+                        .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
                 FontAwesome.USER);
 
-		userAddLayout.addHeaderRight(createButtonControls());
+        userAddLayout.addHeaderRight(createButtonControls());
 
-		GridFormLayoutHelper informationLayout = new GridFormLayoutHelper(1, 3,
-				"100%", "167px", Alignment.TOP_LEFT);
-		informationLayout.getLayout().setWidth("100%");
-		informationLayout.getLayout().setMargin(false);
-		informationLayout.getLayout().addStyleName("colored-gridlayout");
+        GridFormLayoutHelper informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
-		final MHorizontalLayout lo = new MHorizontalLayout();
-		InviteUserTokenField inviteUserTokenField = new InviteUserTokenField(lo);
-		informationLayout.addComponent(inviteUserTokenField, AppContext
-				.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
-		informationLayout.addComponent(roleComboBox,
-				AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
+        final MHorizontalLayout lo = new MHorizontalLayout();
+        InviteUserTokenField inviteUserTokenField = new InviteUserTokenField(lo);
+        informationLayout.addComponent(inviteUserTokenField, AppContext
+                .getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
+        informationLayout.addComponent(roleComboBox,
+                AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
-		messageArea = new TextArea();
-		messageArea
-				.setValue(AppContext
-						.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
-		informationLayout
-				.addComponent(messageArea, AppContext
-						.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
+        messageArea = new TextArea();
+        messageArea
+                .setValue(AppContext
+                        .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
+        informationLayout
+                .addComponent(messageArea, AppContext
+                        .getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
-		userAddLayout.addBody(informationLayout.getLayout());
-		userAddLayout.addBottomControls(createBottomPanel());
-		this.addComponent(userAddLayout);
-	}
+        userAddLayout.addBody(informationLayout.getLayout());
+        userAddLayout.addBottomControls(createBottomPanel());
+        this.addComponent(userAddLayout);
+    }
 
-	private Layout createButtonControls() {
-		final MHorizontalLayout controlButtons = new MHorizontalLayout();
+    private Layout createButtonControls() {
+        final MHorizontalLayout controlButtons = new MHorizontalLayout();
 
-		Button inviteBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button inviteBtn = new Button(
+                AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						roleId = (Integer) roleComboBox.getValue();
-						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
-								ProjectMemberInviteViewImpl.this,
-								new InviteProjectMembers(inviteEmails, roleId,
-										messageArea.getValue())));
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        roleId = (Integer) roleComboBox.getValue();
+                        ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
+                                ProjectMemberInviteViewImpl.this,
+                                new InviteProjectMembers(inviteEmails, roleId,
+                                        messageArea.getValue())));
 
-					}
-				});
-		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlButtons.addComponent(inviteBtn);
+                    }
+                });
+        inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        controlButtons.addComponent(inviteBtn);
 
-		Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance()
-									.post(new ProjectMemberEvent.GotoList(this,
-											null));
-						}
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        ViewState viewState = HistoryViewManager.back();
+                        if (viewState instanceof NullViewState) {
+                            EventBusFactory.getInstance()
+                                    .post(new ProjectMemberEvent.GotoList(this,
+                                            null));
+                        }
 
-					}
-				});
-		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-		controlButtons.addComponent(cancelBtn);
+                    }
+                });
+        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        controlButtons.addComponent(cancelBtn);
 
-		controlButtons.setSizeUndefined();
-		return controlButtons;
-	}
+        controlButtons.setSizeUndefined();
+        return controlButtons;
+    }
 
-	private Layout createBottomPanel() {
-		VerticalLayout permissionsPanel = new VerticalLayout();
-		final Label organizationHeader = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-		organizationHeader.setStyleName("h2");
-		permissionsPanel.addComponent(organizationHeader);
+    private Layout createBottomPanel() {
+        VerticalLayout permissionsPanel = new VerticalLayout();
+        final Label organizationHeader = new Label(
+                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+        organizationHeader.setStyleName("h2");
+        permissionsPanel.addComponent(organizationHeader);
 
-		projectFormHelper = new GridFormLayoutHelper(2,
-				ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-				"100%", "167px", Alignment.TOP_LEFT);
-		projectFormHelper.getLayout().setWidth("100%");
-		projectFormHelper.getLayout().setMargin(false);
-		projectFormHelper.getLayout().addStyleName("colored-gridlayout");
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
+                ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
+        permissionsPanel.addComponent(projectFormHelper.getLayout());
 
-		permissionsPanel.addComponent(projectFormHelper.getLayout());
+        roleId = (Integer) roleComboBox.getValue();
+        displayRolePermission(roleId);
 
-		roleId = (Integer) roleComboBox.getValue();
-		displayRolePermission(roleId);
+        return permissionsPanel;
+    }
 
-		return permissionsPanel;
-	}
+    private void displayRolePermission(Integer roleId) {
+        projectFormHelper.getLayout().removeAllComponents();
+        if (roleId != null && roleId > 0) {
+            ProjectRoleService roleService = ApplicationContextUtil
+                    .getSpringBean(ProjectRoleService.class);
+            SimpleProjectRole role = roleService.findById(roleId,
+                    AppContext.getAccountId());
+            if (role != null) {
+                final PermissionMap permissionMap = role.getPermissionMap();
+                for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    projectFormHelper.addComponent(
+                            new Label(AppContext.getPermissionCaptionValue(
+                                    permissionMap, permissionPath)), AppContext
+                                    .getMessage(RolePermissionI18nEnum
+                                            .valueOf(permissionPath)), 0, i);
+                }
+            }
+        } else {
+            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                projectFormHelper.addComponent(
+                        new Label(AppContext
+                                .getMessage(SecurityI18nEnum.ACCESS)),
+                        permissionPath, 0, i);
+            }
+        }
 
-	private void displayRolePermission(Integer roleId) {
-		projectFormHelper.getLayout().removeAllComponents();
-		if (roleId != null && roleId > 0) {
-			ProjectRoleService roleService = ApplicationContextUtil
-					.getSpringBean(ProjectRoleService.class);
-			SimpleProjectRole role = roleService.findById(roleId,
-					AppContext.getAccountId());
-			if (role != null) {
-				final PermissionMap permissionMap = role.getPermissionMap();
-				for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-					final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-					projectFormHelper.addComponent(
-							new Label(AppContext.getPermissionCaptionValue(
-									permissionMap, permissionPath)), AppContext
-									.getMessage(RolePermissionI18nEnum
-											.valueOf(permissionPath)), 0, i);
-				}
-			}
-		} else {
-			for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-				final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-				projectFormHelper.addComponent(
-						new Label(AppContext
-								.getMessage(SecurityI18nEnum.ACCESS)),
-						permissionPath, 0, i);
-			}
-		}
+    }
 
-	}
+    private class InviteUserTokenField extends TokenField {
+        private static final long serialVersionUID = 1L;
 
-	private class InviteUserTokenField extends TokenField {
-		private static final long serialVersionUID = 1L;
+        private Button newButton;
 
-		private Button newButton;
+        public InviteUserTokenField(Layout container) {
+            super(container);
+            this.setInputPrompt(AppContext
+                    .getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
+            this.setWidth("100%");
+            this.setInputWidth("100%");
+            this.setFilteringMode(FilteringMode.CONTAINS);
+            this.setRememberNewTokens(true);
 
-		public InviteUserTokenField(Layout container) {
-			super(container);
-			this.setInputPrompt(AppContext
-					.getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
-			this.setWidth("100%");
-			this.setInputWidth("100%");
-			this.setFilteringMode(FilteringMode.CONTAINS);
-			this.setRememberNewTokens(true);
+            final ProjectMemberService prjMemberService = ApplicationContextUtil
+                    .getSpringBean(ProjectMemberService.class);
+            final List<SimpleUser> users = prjMemberService
+                    .getUsersNotInProject(
+                            CurrentProjectVariables.getProjectId(),
+                            AppContext.getAccountId());
 
-			final ProjectMemberService prjMemberService = ApplicationContextUtil
-					.getSpringBean(ProjectMemberService.class);
-			final List<SimpleUser> users = prjMemberService
-					.getUsersNotInProject(
-							CurrentProjectVariables.getProjectId(),
-							AppContext.getAccountId());
+            this.setTokenCaptionMode(ItemCaptionMode.EXPLICIT);
+            for (SimpleUser user : users) {
+                this.cb.addItem(user);
+                this.cb.setItemCaption(user, user.getDisplayName());
+                this.cb.setItemIcon(
+                        user,
+                        UserAvatarControlFactory.createAvatarResource(
+                                user.getAvatarid(), 16));
+            }
+        }
 
-			this.setTokenCaptionMode(ItemCaptionMode.EXPLICIT);
-			for (SimpleUser user : users) {
-				this.cb.addItem(user);
-				this.cb.setItemCaption(user, user.getDisplayName());
-				this.cb.setItemIcon(
-						user,
-						UserAvatarControlFactory.createAvatarResource(
-								user.getAvatarid(), 16));
-			}
-		}
+        @Override
+        protected void configureTokenButton(Object tokenId, Button button) {
+            super.configureTokenButton(tokenId, button);
+            this.newButton = button;
+        }
 
-		@Override
-		protected void configureTokenButton(Object tokenId, Button button) {
-			super.configureTokenButton(tokenId, button);
-			this.newButton = button;
-		}
+        @Override
+        protected void setInternalValue(Object newValue) {
+            super.setInternalValue(newValue);
 
-		@Override
-		protected void setInternalValue(Object newValue) {
-			super.setInternalValue(newValue);
+            if (((HorizontalLayout) layout).getComponentIndex(newButton) != -1) {
+                ((HorizontalLayout) layout).setExpandRatio(newButton, 0);
+            }
+        }
 
-			if (((HorizontalLayout) layout).getComponentIndex(newButton) != -1) {
-				((HorizontalLayout) layout).setExpandRatio(newButton, 0);
-			}
-		}
+        @Override
+        protected void onTokenInput(Object tokenId) {
+            String invitedEmail;
 
-		@Override
-		protected void onTokenInput(Object tokenId) {
-			String invitedEmail;
+            if (tokenId instanceof SimpleUser) {
+                invitedEmail = ((SimpleUser) tokenId).getEmail();
+            } else if (tokenId instanceof String) {
+                invitedEmail = (String) tokenId;
+            } else {
+                throw new MyCollabException("Do not support token field "
+                        + tokenId);
+            }
 
-			if (tokenId instanceof SimpleUser) {
-				invitedEmail = ((SimpleUser) tokenId).getEmail();
-			} else if (tokenId instanceof String) {
-				invitedEmail = (String) tokenId;
-			} else {
-				throw new MyCollabException("Do not support token field "
-						+ tokenId);
-			}
+            if (StringUtils.isValidEmail(invitedEmail)) {
+                if (!inviteEmails.contains(invitedEmail)) {
+                    inviteEmails.add(invitedEmail);
+                    super.onTokenInput(tokenId);
+                    this.setInputPrompt(null);
+                }
+            } else {
+                NotificationUtil.showErrorNotification(AppContext
+                        .getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
+            }
 
-			if (StringUtils.isValidEmail(invitedEmail)) {
-				if (!inviteEmails.contains(invitedEmail)) {
-					inviteEmails.add(invitedEmail);
-					super.onTokenInput(tokenId);
-					this.setInputPrompt(null);
-				}
-			} else {
-				NotificationUtil.showErrorNotification(AppContext
-						.getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
-			}
+        }
 
-		}
+        @Override
+        protected void onTokenClick(final Object tokenId) {
+            onTokenDelete(tokenId);
+        }
 
-		@Override
-		protected void onTokenClick(final Object tokenId) {
-			onTokenDelete(tokenId);
-		}
+        @Override
+        protected void onTokenDelete(Object tokenId) {
+            String invitedEmail;
 
-		@Override
-		protected void onTokenDelete(Object tokenId) {
-			String invitedEmail;
+            if (tokenId instanceof SimpleUser) {
+                invitedEmail = ((SimpleUser) tokenId).getEmail();
+            } else if (tokenId instanceof String) {
+                invitedEmail = (String) tokenId;
+            } else {
+                throw new MyCollabException("Do not support token field "
+                        + tokenId);
+            }
 
-			if (tokenId instanceof SimpleUser) {
-				invitedEmail = ((SimpleUser) tokenId).getEmail();
-			} else if (tokenId instanceof String) {
-				invitedEmail = (String) tokenId;
-			} else {
-				throw new MyCollabException("Do not support token field "
-						+ tokenId);
-			}
-
-			inviteEmails.remove(invitedEmail);
-			if (inviteEmails.size() == 0) {
-				this.setInputPrompt(AppContext
-						.getMessage(ProjectMemberI18nEnum.ERROR_EMPTY_EMAILS_OF_USERS_TO_INVITE_MESSAGE));
-			}
-			super.onTokenClick(tokenId);
-		}
-	}
+            inviteEmails.remove(invitedEmail);
+            if (inviteEmails.size() == 0) {
+                this.setInputPrompt(AppContext
+                        .getMessage(ProjectMemberI18nEnum.ERROR_EMPTY_EMAILS_OF_USERS_TO_INVITE_MESSAGE));
+            }
+            super.onTokenClick(tokenId);
+        }
+    }
 }

@@ -36,17 +36,14 @@ public class PageActionChain {
 
 	public PageActionChain(ScreenData... pageActionArr) {
 		chains.addAll(Arrays.asList(pageActionArr));
-		LOG.debug("Chain size: " + this + "---" + chains.size());
 	}
 
 	public PageActionChain add(ScreenData pageAction) {
 		chains.add(pageAction);
-		LOG.debug("Chain size: " + this + "---" + chains.size());
 		return this;
 	}
 
 	public ScreenData pop() {
-		LOG.debug("Pop pageActionChain " + this + "---" + chains.size());
 		if (chains.size() > 0) {
 			ScreenData pageAction = chains.get(0);
 			chains.remove(0);

@@ -39,7 +39,6 @@ package com.esofthead.mycollab.vaadin.ui;
  * 
  */
 public class PrefixNameComboBox extends ValueComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	public PrefixNameComboBox() {

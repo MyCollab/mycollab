@@ -16,23 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
-import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
-import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
-import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter;
-import com.esofthead.mycollab.module.project.view.page.PagePresenter;
-import com.esofthead.mycollab.module.project.view.parameters.*;
-import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter;
-import com.esofthead.mycollab.module.project.view.risk.IRiskPresenter;
-import com.esofthead.mycollab.module.project.view.settings.UserSettingPresenter;
-import com.esofthead.mycollab.module.project.view.standup.IStandupPresenter;
-import com.esofthead.mycollab.module.project.view.task.TaskPresenter;
-import com.esofthead.mycollab.module.project.view.time.ITimeTrackingPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -61,12 +48,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
     public void onGo(ComponentContainer container, ScreenData<?> data) {
         ProjectModule prjContainer = (ProjectModule) container;
         prjContainer.removeAllComponents();
-        prjContainer.addComponent(view);
-        prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
-
-        if (data == null) {
-            // do nothing
-        }
+        prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
         if (data.getParams() instanceof Integer) {
             ProjectService projectService = ApplicationContextUtil
                     .getSpringBean(ProjectService.class);
@@ -103,69 +85,13 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
                                  PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
 
-        IPresenter<?> presenter;
-
-        if (ClassUtils.instanceOf(pageAction, MilestoneScreenData.Read.class,
-                MilestoneScreenData.Search.class,
-                MilestoneScreenData.Add.class, MilestoneScreenData.Edit.class)) {
-            presenter = PresenterResolver
-                    .getPresenter(MilestonePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                MessageScreenData.Read.class, MessageScreenData.Search.class)) {
-            presenter = PresenterResolver.getPresenter(MessagePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                PageScreenData.Search.class, PageScreenData.Add.class,
-                PageScreenData.Read.class, PageScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(PagePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                ProblemScreenData.Read.class, ProblemScreenData.Search.class,
-                ProblemScreenData.Add.class, ProblemScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(IProblemPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, RiskScreenData.Read.class,
-                RiskScreenData.Search.class, RiskScreenData.Add.class,
-                RiskScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(IRiskPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, TaskScreenData.Add.class, TaskScreenData.Read.class,
-                TaskScreenData.Edit.class, TaskGroupScreenData.GotoDashboard.class,
-                TaskGroupScreenData.Read.class, TaskGroupScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(TaskPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, BugScreenData.Read.class,
-                BugScreenData.GotoDashboard.class, BugScreenData.Add.class,
-                BugScreenData.Edit.class, BugScreenData.Search.class,
-                ComponentScreenData.Read.class, ComponentScreenData.Add.class,
-                ComponentScreenData.Edit.class,
-                ComponentScreenData.Search.class, VersionScreenData.Read.class,
-                VersionScreenData.Search.class, VersionScreenData.Add.class,
-                VersionScreenData.Edit.class)) {
-            presenter = PresenterResolver.getPresenter(TrackerPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                StandupScreenData.Search.class, StandupScreenData.Add.class)) {
-            presenter = PresenterResolver.getPresenter(IStandupPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                ProjectMemberScreenData.Search.class,
-                ProjectMemberScreenData.Read.class,
-                ProjectMemberScreenData.Add.class,
-                ProjectMemberScreenData.InviteProjectMembers.class,
-                ProjectRoleScreenData.Search.class,
-                ProjectRoleScreenData.Add.class,
-                ProjectRoleScreenData.Read.class,
-                ProjectSettingScreenData.ViewSettings.class)) {
-            presenter = PresenterResolver
-                    .getPresenter(UserSettingPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                TimeTrackingScreenData.Search.class)) {
-            presenter = PresenterResolver
-                    .getPresenter(ITimeTrackingPresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction,
-                FileScreenData.GotoDashboard.class)) {
-            presenter = PresenterResolver.getPresenter(IFilePresenter.class);
-        } else if (ClassUtils.instanceOf(pageAction, ProjectScreenData.GotoTagList.class)) {
-            presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
+        Class<? extends IPresenter> presenterCls = ProjectPresenterDataMapper.presenter(pageAction);
+        if (presenterCls != null) {
+            IPresenter<?> presenter = PresenterResolver.getPresenter(presenterCls);
+            presenter.handleChain(view, pageActionChain);
         } else {
             throw new UnsupportedOperationException(
                     "Not support page action chain " + pageAction);
         }
-
-        presenter.handleChain(view, pageActionChain);
     }
 }

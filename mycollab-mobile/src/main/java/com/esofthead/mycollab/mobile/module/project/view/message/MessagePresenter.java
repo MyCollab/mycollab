@@ -39,7 +39,6 @@ import com.vaadin.ui.UI;
  *
  */
 public class MessagePresenter extends AbstractPresenter<MessageContainer> {
-
 	private static final long serialVersionUID = 2423914044838645060L;
 
 	public MessagePresenter() {
@@ -70,7 +69,7 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
 				presenter.go(container, data);
 			} else if (data == null) {
 				MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-				searchCriteria.setProjectids(new SetSearchField<Integer>(
+				searchCriteria.setProjectids(new SetSearchField<>(
 						CurrentProjectVariables.getProjectId()));
 				MessageListPresenter presenter = PresenterResolver
 						.getPresenter(MessageListPresenter.class);

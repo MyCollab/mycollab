@@ -105,6 +105,12 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
         this.select(0);
     }
 
+    public void gotoSearchProjectItems() {
+        this.select(0);
+        this.addLink(new Button("Search"));
+        AppContext.addFragment(ProjectLinkGenerator.generateProjectLink(project.getId()), "Search");
+    }
+
     public void gotoMessageList() {
         this.select(0);
         this.addLink(new Button(AppContext

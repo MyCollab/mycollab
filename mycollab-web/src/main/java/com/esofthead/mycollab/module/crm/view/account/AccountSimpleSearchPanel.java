@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -40,32 +41,30 @@ import com.vaadin.ui.TextField;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCriteria> {
-	private AccountSearchCriteria searchCriteria;
-	private TextField textValueField;
+    private AccountSearchCriteria searchCriteria;
+    private TextField textValueField;
     private ValueComboBox group;
-	private ActiveUserComboBox userBox;
-	private GridLayout layoutSearchPanel;
+    private ActiveUserComboBox userBox;
+    private GridLayout layoutSearchPanel;
 
     public AccountSimpleSearchPanel() {
         this.setHeight("32px");
         createBasicSearchLayout();
     }
 
-	private void createBasicSearchLayout() {
-		layoutSearchPanel = new GridLayout(3, 3);
-		layoutSearchPanel.setSpacing(true);
-		group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
-		group.select("Name");
-		group.setImmediate(true);
-		group.addValueChangeListener(new Property.ValueChangeListener() {
+    private void createBasicSearchLayout() {
+        layoutSearchPanel = new GridLayout(3, 3);
+        layoutSearchPanel.setSpacing(true);
+        group = new ValueComboBox(false, "Name", "Email", "Website", "Phone",
+                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group.select("Name");
+        group.setImmediate(true);
+        group.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 removeComponents();
@@ -85,27 +84,27 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
             }
         });
 
-		layoutSearchPanel.addComponent(group, 1, 0);
-		layoutSearchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+        layoutSearchPanel.addComponent(group, 1, 0);
+        layoutSearchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
 
-		addTextFieldSearch();
+        addTextFieldSearch();
 
-		Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(FontAwesome.SEARCH);
+        Button searchBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.setDescription("Search");
 
-		searchBtn.addClickListener(new Button.ClickListener() {
+        searchBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 doSearch();
             }
         });
-		layoutSearchPanel.addComponent(searchBtn, 2, 0);
-		layoutSearchPanel.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
-		this.setCompositionRoot(layoutSearchPanel);
-	}
+        layoutSearchPanel.addComponent(searchBtn, 2, 0);
+        layoutSearchPanel.setComponentAlignment(searchBtn, Alignment.MIDDLE_CENTER);
+        this.setCompositionRoot(layoutSearchPanel);
+    }
 
     private void doSearch() {
         searchCriteria = new AccountSearchCriteria();
@@ -150,31 +149,30 @@ public class AccountSimpleSearchPanel extends GenericSearchPanel<AccountSearchCr
         notifySearchHandler(searchCriteria);
     }
 
-	private void addTextFieldSearch() {
-		textValueField = new TextField();
-        textValueField.addShortcutListener(new ShortcutListener("AccountSearchName", ShortcutAction.KeyCode.ENTER,
-                null) {
-            @Override
-            public void handleAction(Object o, Object o1) {
-                doSearch();
-            }
-        });
-		layoutSearchPanel.addComponent(textValueField, 0, 0);
-		layoutSearchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
-	}
+    private void addTextFieldSearch() {
+        textValueField = ShortcutExtension.installShortcutAction(new TextField(),
+                new ShortcutListener("AccountSearchName", ShortcutAction.KeyCode.ENTER, null) {
+                    @Override
+                    public void handleAction(Object o, Object o1) {
+                        doSearch();
+                    }
+                });
+        layoutSearchPanel.addComponent(textValueField, 0, 0);
+        layoutSearchPanel.setComponentAlignment(textValueField, Alignment.MIDDLE_CENTER);
+    }
 
-	private void addUserListSelectField() {
-		userBox = new ActiveUserComboBox();
-		userBox.setImmediate(true);
-		layoutSearchPanel.addComponent(userBox, 0, 0);
-		layoutSearchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
-	}
+    private void addUserListSelectField() {
+        userBox = new ActiveUserComboBox();
+        userBox.setImmediate(true);
+        layoutSearchPanel.addComponent(userBox, 0, 0);
+        layoutSearchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+    }
 
-	private void removeComponents() {
-		layoutSearchPanel.removeComponent(0, 0);
-		userBox = null;
-		textValueField = null;
-	}
+    private void removeComponents() {
+        layoutSearchPanel.removeComponent(0, 0);
+        userBox = null;
+        textValueField = null;
+    }
 
     @Override
     public void setTotalCountNumber(int totalCountNumber) {

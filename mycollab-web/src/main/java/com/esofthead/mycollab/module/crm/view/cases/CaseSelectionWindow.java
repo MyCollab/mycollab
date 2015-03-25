@@ -36,7 +36,6 @@ import java.util.Arrays;
  */
 @SuppressWarnings("rawtypes")
 public class CaseSelectionWindow extends Window {
-
     private static final long serialVersionUID = 1L;
     private CaseTableDisplay tableItem;
     private FieldSelection fieldSelection;
@@ -50,10 +49,7 @@ public class CaseSelectionWindow extends Window {
     }
 
     public void show() {
-        CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-
         MVerticalLayout layout = new MVerticalLayout();
-
         createCaseList();
         CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
         caseSimpleSearchPanel
@@ -69,7 +65,7 @@ public class CaseSelectionWindow extends Window {
         layout.addComponent(tableItem);
         this.setContent(layout);
 
-        tableItem.setSearchCriteria(searchCriteria);
+        tableItem.setSearchCriteria(new CaseSearchCriteria());
         center();
     }
 

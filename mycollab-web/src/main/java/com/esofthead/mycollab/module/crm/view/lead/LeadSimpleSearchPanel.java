@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -134,13 +135,13 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
     }
 
     private void addTextFieldSearch() {
-        textValueField = new TextField();
-        textValueField.addShortcutListener(new ShortcutListener("LeadSearchField", ShortcutAction.KeyCode.ENTER, null) {
-            @Override
-            public void handleAction(Object o, Object o1) {
-                doSearch();
-            }
-        });
+        textValueField = ShortcutExtension.installShortcutAction(new TextField(),
+                new ShortcutListener("LeadSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
+                    @Override
+                    public void handleAction(Object o, Object o1) {
+                        doSearch();
+                    }
+                });
         layoutSearchPane.addComponent(textValueField, 0, 0);
         layoutSearchPane.setComponentAlignment(textValueField,
                 Alignment.MIDDLE_CENTER);

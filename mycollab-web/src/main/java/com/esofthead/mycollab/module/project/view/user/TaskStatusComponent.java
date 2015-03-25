@@ -167,8 +167,7 @@ public class TaskStatusComponent extends MVerticalLayout {
             if (dueDate != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE,
-                        DateTimeUtils.getPrettyDateValue(dueDate,
-                                AppContext.getUserLocale()))));
+                        AppContext.formatPrettyTime(dueDate))));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
@@ -181,8 +180,7 @@ public class TaskStatusComponent extends MVerticalLayout {
 
             content.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
 
-            layout.addComponent(content);
-            layout.setExpandRatio(content, 1.0f);
+            layout.with(content).expand(content);
             return layout;
         }
 

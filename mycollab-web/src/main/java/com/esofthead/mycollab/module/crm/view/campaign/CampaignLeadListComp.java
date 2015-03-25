@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -40,6 +41,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -137,12 +139,11 @@ public class CampaignLeadListComp extends
 			beanBlock.setWidth("350px");
 
 			VerticalLayout blockContent = new VerticalLayout();
-			HorizontalLayout blockTop = new HorizontalLayout();
-			blockTop.setSpacing(true);
+			MHorizontalLayout blockTop = new MHorizontalLayout();
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image leadAvatar = new Image(null,
-					MyCollabResource.newResource("icons/48/crm/lead.png"));
+            FontIconLabel leadAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+            leadAvatar.addStyleName("icon-48px");
 			iconWrap.addComponent(leadAvatar);
 			blockTop.addComponent(iconWrap);
 

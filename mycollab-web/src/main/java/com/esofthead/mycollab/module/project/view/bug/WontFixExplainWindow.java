@@ -93,13 +93,7 @@ class WontFixExplainWindow extends Window {
 			@Override
 			public ComponentContainer getLayout() {
 				final VerticalLayout layout = new VerticalLayout();
-				this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-						"167px", Alignment.TOP_LEFT);
-				this.informationLayout.getLayout().setWidth("100%");
-				this.informationLayout.getLayout().setMargin(false);
-				this.informationLayout.getLayout().addStyleName(
-						"colored-gridlayout");
-
+				this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 				layout.addComponent(this.informationLayout.getLayout());
 
 				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
@@ -117,8 +111,7 @@ class WontFixExplainWindow extends Window {
 											.setStatus(BugStatus.Resolved
 													.name());
 
-									final String commentValue = EditForm.this.commentArea
-											.getValue();
+									final String commentValue = commentArea.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {
 										final BugRelatedItemService bugRelatedItemService = ApplicationContextUtil

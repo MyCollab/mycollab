@@ -144,9 +144,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 
 					Date changeDate = DateTimeUtils
 							.convertDateByFormatW3C(strDate);
-					Label lbDate = new Label("changed "
-							+ DateTimeUtils.getPrettyDateValue(changeDate,
-									AppContext.getUserLocale()));
+					Label lbDate = new Label("changed " + AppContext.formatPrettyTime(changeDate));
 					lbDate.setDescription(AppContext.formatDateTime(changeDate));
 					header.with(lbDate).withAlign(lbDate, Alignment.MIDDLE_LEFT).expand(lbDate);
 					gridLayout.addComponent(header, 0, 0, 2, 0);

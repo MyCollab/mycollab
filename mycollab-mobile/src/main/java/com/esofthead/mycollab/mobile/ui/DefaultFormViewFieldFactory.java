@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -222,9 +223,7 @@ public class DefaultFormViewFieldFactory {
 				lbl.setWidth("100%");
 				return lbl;
 			} else {
-				final Label link = new Label(StringUtils.formatRichText(url),
-						ContentMode.HTML);
-				return link;
+				return new SafeHtmlLabel(url);
 			}
 		}
 	}

@@ -347,7 +347,7 @@ public class BugTableDisplay extends
 
 	private void displayContextMenuItem(ContextMenu contextMenu, SimpleBug bug,
 			int locx, int locy) {
-		contextMenu.open(locx - 25, locx);
+		contextMenu.open(locx - 25, locy);
 		contextMenu.removeAllItems();
 
 		contextMenu.addItem("Edit").setData(new MenuItemData("action", "edit"));

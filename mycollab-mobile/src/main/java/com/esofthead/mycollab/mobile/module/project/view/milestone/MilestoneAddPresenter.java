@@ -88,7 +88,6 @@ public class MilestoneAddPresenter extends
 					.getCurrent().getContent()).getNavigationMenu();
 			projectModuleMenu.selectButton(AppContext
 					.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
-
 			SimpleMilestone milestone = (SimpleMilestone) data.getParams();
 			view.editItem(milestone);
 			super.onGo(container, data);

@@ -33,191 +33,186 @@ import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class ProjectRoleReadViewImpl extends VerticalLayout implements
-		ProjectRoleReadView {
+        ProjectRoleReadView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SimpleProjectRole beanItem;
-	private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
-	private ReadViewLayout previewLayout;
-	private Label headerText;
-	private MHorizontalLayout header;
+    private SimpleProjectRole beanItem;
+    private AdvancedPreviewBeanForm<SimpleProjectRole> previewForm;
+    private ReadViewLayout previewLayout;
+    private Label headerText;
+    private MHorizontalLayout header;
 
-	private GridFormLayoutHelper projectFormHelper;
+    private GridFormLayoutHelper projectFormHelper;
 
-	public ProjectRoleReadViewImpl() {
-		this.headerText = new Label();
+    public ProjectRoleReadViewImpl() {
+        this.headerText = new Label();
         headerText.setCaption(AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE));
         headerText.setIcon(FontAwesome.USERS);
-        headerText.addStyleName("header-text");
+        headerText.addStyleName("headerName");
 
-		this.headerText.setSizeUndefined();
-		this.addComponent(constructHeader());
+        this.headerText.setSizeUndefined();
+        this.addComponent(constructHeader());
 
-		previewForm = initPreviewForm();
-		ComponentContainer actionControls = createButtonControls();
-		if (actionControls != null) {
-			actionControls.addStyleName("control-buttons");
-		}
+        previewForm = initPreviewForm();
+        ComponentContainer actionControls = createButtonControls();
+        if (actionControls != null) {
+            actionControls.addStyleName("control-buttons");
+        }
 
-		addHeaderRightContent(actionControls);
+        addHeaderRightContent(actionControls);
 
-		CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");
+        CssLayout contentWrapper = new CssLayout();
+        contentWrapper.setStyleName("content-wrapper");
 
-		previewLayout = new DefaultReadViewLayout("");
+        previewLayout = new DefaultReadViewLayout("");
 
-		contentWrapper.addComponent(previewLayout);
+        contentWrapper.addComponent(previewLayout);
 
-		previewLayout.addBody(previewForm);
+        previewLayout.addBody(previewForm);
 
-		this.addComponent(contentWrapper);
-	}
+        this.addComponent(contentWrapper);
+    }
 
-	protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleProjectRole>() {
-			private static final long serialVersionUID = 1L;
+    protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<SimpleProjectRole>() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void showHistory() {
-				final ProjectRoleHistoryLogWindow historyLog = new ProjectRoleHistoryLogWindow(
-						ModuleNameConstants.PRJ,
-						ProjectTypeConstants.PROJECT_ROLE);
-				historyLog.loadHistory(previewForm.getBean().getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
-	}
+            @Override
+            public void showHistory() {
+                final ProjectRoleHistoryLogWindow historyLog = new ProjectRoleHistoryLogWindow(
+                        ModuleNameConstants.PRJ,
+                        ProjectTypeConstants.PROJECT_ROLE);
+                historyLog.loadHistory(previewForm.getBean().getId());
+                UI.getCurrent().addWindow(historyLog);
+            }
+        };
+    }
 
-	protected ComponentContainer createButtonControls() {
-		return (new ProjectPreviewFormControlsGenerator<>(
-				previewForm))
-				.createButtonControls(ProjectRolePermissionCollections.ROLES);
-	}
+    protected ComponentContainer createButtonControls() {
+        return (new ProjectPreviewFormControlsGenerator<>(
+                previewForm))
+                .createButtonControls(ProjectRolePermissionCollections.ROLES);
+    }
 
-	protected ComponentContainer createBottomPanel() {
-		VerticalLayout permissionsPanel = new VerticalLayout();
-		final Label organizationHeader = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-		organizationHeader.setStyleName("h2");
-		permissionsPanel.addComponent(organizationHeader);
+    protected ComponentContainer createBottomPanel() {
+        VerticalLayout permissionsPanel = new VerticalLayout();
+        final Label organizationHeader = new Label(
+                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+        organizationHeader.setStyleName("h2");
+        permissionsPanel.addComponent(organizationHeader);
 
-		projectFormHelper = new GridFormLayoutHelper(2,
-				ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-				"100%", "167px", Alignment.TOP_LEFT);
-		projectFormHelper.getLayout().setWidth("100%");
-		projectFormHelper.getLayout().setMargin(false);
-		projectFormHelper.getLayout().addStyleName("colored-gridlayout");
+        projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
+                ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
 
-		permissionsPanel.addComponent(projectFormHelper.getLayout());
+        permissionsPanel.addComponent(projectFormHelper.getLayout());
 
-		return permissionsPanel;
-	}
+        return permissionsPanel;
+    }
 
-	protected void onPreviewItem() {
-		projectFormHelper.getLayout().removeAllComponents();
+    protected void onPreviewItem() {
+        projectFormHelper.getLayout().removeAllComponents();
 
-		final PermissionMap permissionMap = beanItem.getPermissionMap();
-		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-			final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-			projectFormHelper.addComponent(
-					new Label(AppContext.getPermissionCaptionValue(
-							permissionMap,
-							RolePermissionI18nEnum.valueOf(permissionPath)
-									.name())), AppContext
-							.getMessage(RolePermissionI18nEnum
-									.valueOf(permissionPath)), 0, i);
-		}
+        final PermissionMap permissionMap = beanItem.getPermissionMap();
+        for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+            final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            projectFormHelper.addComponent(
+                    new Label(AppContext.getPermissionCaptionValue(
+                            permissionMap,
+                            RolePermissionI18nEnum.valueOf(permissionPath)
+                                    .name())), AppContext
+                            .getMessage(RolePermissionI18nEnum
+                                    .valueOf(permissionPath)), 0, i);
+        }
 
-	}
+    }
 
-	protected String initFormTitle() {
-		return beanItem.getRolename();
-	}
+    protected String initFormTitle() {
+        return beanItem.getRolename();
+    }
 
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ProjectRoleFormLayoutFactory();
-	}
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new ProjectRoleFormLayoutFactory();
+    }
 
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole> initBeanFormFieldFactory() {
-		return new AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole>(
-				previewForm) {
-			private static final long serialVersionUID = 1L;
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole> initBeanFormFieldFactory() {
+        return new AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole>(
+                previewForm) {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Field<?> onCreateField(Object propertyId) {
-				return null;
-			}
-		};
-	}
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                return null;
+            }
+        };
+    }
 
-	@Override
-	public SimpleProjectRole getItem() {
-		return beanItem;
-	}
+    @Override
+    public SimpleProjectRole getItem() {
+        return beanItem;
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleProjectRole> getPreviewFormHandlers() {
-		return previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleProjectRole> getPreviewFormHandlers() {
+        return previewForm;
+    }
 
-	private void initLayout() {
-		ComponentContainer bottomPanel = createBottomPanel();
-		if (bottomPanel != null) {
-			previewLayout.addBottomControls(bottomPanel);
-		}
-	}
+    private void initLayout() {
+        ComponentContainer bottomPanel = createBottomPanel();
+        if (bottomPanel != null) {
+            previewLayout.addBottomControls(bottomPanel);
+        }
+    }
 
-	private ComponentContainer constructHeader() {
-		header = new MHorizontalLayout().withStyleName("hdr-view")
-				.withWidth("100%").withSpacing(true).withMargin(true);
+    private ComponentContainer constructHeader() {
+        header = new MHorizontalLayout().withStyleName("hdr-view")
+                .withWidth("100%").withSpacing(true).withMargin(true);
 
-		this.headerText.setStyleName("header-text");
+        this.headerText.setStyleName("header-text");
 
-		header.with(headerText).alignAll(Alignment.MIDDLE_LEFT)
-				.expand(headerText);
+        header.with(headerText).alignAll(Alignment.MIDDLE_LEFT)
+                .expand(headerText);
 
-		return header;
-	}
+        return header;
+    }
 
-	public void addHeaderRightContent(Component c) {
-		header.addComponent(c);
-	}
+    public void addHeaderRightContent(Component c) {
+        header.addComponent(c);
+    }
 
-	public void previewItem(final SimpleProjectRole item) {
-		this.beanItem = item;
-		initLayout();
-		previewLayout.setTitle(initFormTitle());
+    public void previewItem(final SimpleProjectRole item) {
+        this.beanItem = item;
+        initLayout();
+        previewLayout.setTitle(initFormTitle());
 
-		previewForm.setFormLayoutFactory(initFormLayoutFactory());
-		previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-		previewForm.setBean(item);
+        previewForm.setFormLayoutFactory(initFormLayoutFactory());
+        previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+        previewForm.setBean(item);
 
-		onPreviewItem();
-	}
+        onPreviewItem();
+    }
 
-	public SimpleProjectRole getBeanItem() {
-		return beanItem;
-	}
+    public SimpleProjectRole getBeanItem() {
+        return beanItem;
+    }
 
-	public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
-		return previewForm;
-	}
+    public AdvancedPreviewBeanForm<SimpleProjectRole> getPreviewForm() {
+        return previewForm;
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public void addViewListener(ViewListener listener) {
+    @Override
+    public void addViewListener(ViewListener listener) {
 
-	}
+    }
 
 }

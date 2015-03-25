@@ -71,6 +71,9 @@ public class ProjectDashboardPresenter extends
         } else if (data instanceof ProjectScreenData.GotoTagList) {
             TagListPresenter presenter = PresenterResolver.getPresenter(TagListPresenter.class);
             presenter.go(view, data);
+        } else if (data instanceof ProjectScreenData.SearchItem) {
+            ProjectSearchItemPresenter presenter = PresenterResolver.getPresenter(ProjectSearchItemPresenter.class);
+            presenter.go(view, data);
         } else {
             if (CurrentProjectVariables
                     .canRead(ProjectRolePermissionCollections.PROJECT)) {

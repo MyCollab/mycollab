@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -44,12 +43,7 @@ public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
 		organizationHeader.setStyleName("h2");
 		layout.addComponent(organizationHeader);
 
-		this.informationLayout = new GridFormLayoutHelper(2, 2, "100%",
-				"167px", Alignment.TOP_LEFT);
-		this.informationLayout.getLayout().setWidth("100%");
-		this.informationLayout.getLayout().setMargin(false);
-		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
-
+		this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
 		layout.addComponent(this.informationLayout.getLayout());
 		return layout;
 	}

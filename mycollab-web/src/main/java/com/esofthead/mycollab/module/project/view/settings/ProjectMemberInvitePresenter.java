@@ -63,7 +63,7 @@ public class ProjectMemberInvitePresenter extends
 						.getData();
 				ProjectMemberService projectMemberService = ApplicationContextUtil
 						.getSpringBean(ProjectMemberService.class);
-				List<String> inviteEmails = inviteMembers.getInviteEmails();
+				List<String> inviteEmails = inviteMembers.getEmails();
 				if (CollectionUtils.isNotEmpty(inviteEmails)) {
 					projectMemberService.inviteProjectMembers(
 							inviteEmails.toArray(new String[0]),

@@ -41,171 +41,164 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class AssignTaskWindow extends Window {
-	private static final long serialVersionUID = 1L;
-	private final Task task;
-	private final EditForm editForm;
+    private static final long serialVersionUID = 1L;
+    private final Task task;
+    private final EditForm editForm;
 
-	public AssignTaskWindow(Task task) {
-		super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE,
-				task.getTaskname()));
+    public AssignTaskWindow(Task task) {
+        super(AppContext.getMessage(TaskI18nEnum.DIALOG_ASSIGN_TASK_TITLE,
+                task.getTaskname()));
 
-		MVerticalLayout contentLayout = new MVerticalLayout()
-				.withMargin(new MarginInfo(false, false, true, false));
+        MVerticalLayout contentLayout = new MVerticalLayout()
+                .withMargin(new MarginInfo(false, false, true, false));
 
-		this.task = task;
-		this.setWidth("750px");
-		this.setResizable(false);
-		this.setModal(true);
-		editForm = new EditForm();
-		contentLayout.addComponent(editForm);
-		editForm.setBean(task);
+        this.task = task;
+        this.setWidth("750px");
+        this.setResizable(false);
+        this.setModal(true);
+        editForm = new EditForm();
+        contentLayout.addComponent(editForm);
+        editForm.setBean(task);
 
-		this.setContent(contentLayout);
+        this.setContent(contentLayout);
 
-		center();
-	}
+        center();
+    }
 
-	private class EditForm extends AdvancedEditBeanForm<Task> {
+    private class EditForm extends AdvancedEditBeanForm<Task> {
+        private static final long serialVersionUID = 1L;
+        private RichTextArea commentArea;
 
-		private static final long serialVersionUID = 1L;
-		private RichTextArea commentArea;
+        @Override
+        public void setBean(Task newDataSource) {
+            this.setFormLayoutFactory(new FormLayoutFactory());
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
+            super.setBean(newDataSource);
+        }
 
-		@Override
-		public void setBean(Task newDataSource) {
-			this.setFormLayoutFactory(new FormLayoutFactory());
-			this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
-			super.setBean(newDataSource);
-		}
+        class FormLayoutFactory implements IFormLayoutFactory {
+            private static final long serialVersionUID = 1L;
+            private GridFormLayoutHelper informationLayout;
 
-		class FormLayoutFactory implements IFormLayoutFactory {
-			private static final long serialVersionUID = 1L;
-			private GridFormLayoutHelper informationLayout;
+            @Override
+            public ComponentContainer getLayout() {
+                VerticalLayout layout = new VerticalLayout();
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
 
-			@Override
-			public ComponentContainer getLayout() {
-				VerticalLayout layout = new VerticalLayout();
-				this.informationLayout = new GridFormLayoutHelper(2, 2, "100%",
-						"167px", Alignment.TOP_LEFT);
-				this.informationLayout.getLayout().setWidth("100%");
-				this.informationLayout.getLayout().setMargin(false);
-				this.informationLayout.getLayout().addStyleName(
-						"colored-gridlayout");
+                layout.addComponent(informationLayout.getLayout());
 
-				layout.addComponent(informationLayout.getLayout());
+                MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+                layout.addComponent(controlsBtn);
 
-				MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-				layout.addComponent(controlsBtn);
+                Button cancelBtn = new Button(
+                        AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                        new Button.ClickListener() {
+                            private static final long serialVersionUID = 1L;
 
-				Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
+                            @Override
+                            public void buttonClick(Button.ClickEvent event) {
+                                AssignTaskWindow.this.close();
+                            }
+                        });
+                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								AssignTaskWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                Button approveBtn = new Button(
+                        AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
+                        new Button.ClickListener() {
+                            private static final long serialVersionUID = 1L;
 
-				Button approveBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
+                            @Override
+                            public void buttonClick(Button.ClickEvent event) {
+                                if (EditForm.this.validateForm()) {
+                                    // Save task status and assignee
+                                    ProjectTaskService taskService = ApplicationContextUtil
+                                            .getSpringBean(ProjectTaskService.class);
+                                    taskService.updateWithSession(task,
+                                            AppContext.getUsername());
 
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								if (EditForm.this.validateForm()) {
-									// Save task status and assignee
-									ProjectTaskService taskService = ApplicationContextUtil
-											.getSpringBean(ProjectTaskService.class);
-									taskService.updateWithSession(task,
-											AppContext.getUsername());
-
-									// Save comment
-									String commentValue = commentArea
-											.getValue();
-									if (commentValue != null
-											&& !commentValue.trim().equals("")) {
+                                    // Save comment
+                                    String commentValue = commentArea
+                                            .getValue();
+                                    if (commentValue != null
+                                            && !commentValue.trim().equals("")) {
                                         CommentWithBLOBs comment = new CommentWithBLOBs();
-										comment.setComment(commentArea
-												.getValue());
-										comment.setCreatedtime(new GregorianCalendar()
-												.getTime());
-										comment.setCreateduser(AppContext
-												.getUsername());
-										comment.setSaccountid(AppContext
-												.getAccountId());
-										comment.setType(CommentType.PRJ_TASK
-												.toString());
-										comment.setTypeid("" + task.getId());
-										comment.setExtratypeid(CurrentProjectVariables
-												.getProjectId());
+                                        comment.setComment(commentArea
+                                                .getValue());
+                                        comment.setCreatedtime(new GregorianCalendar()
+                                                .getTime());
+                                        comment.setCreateduser(AppContext
+                                                .getUsername());
+                                        comment.setSaccountid(AppContext
+                                                .getAccountId());
+                                        comment.setType(CommentType.PRJ_TASK
+                                                .toString());
+                                        comment.setTypeid("" + task.getId());
+                                        comment.setExtratypeid(CurrentProjectVariables
+                                                .getProjectId());
 
-										CommentService commentService = ApplicationContextUtil
-												.getSpringBean(CommentService.class);
-										commentService.saveWithSession(comment,
-												AppContext.getUsername());
-									}
+                                        CommentService commentService = ApplicationContextUtil
+                                                .getSpringBean(CommentService.class);
+                                        commentService.saveWithSession(comment,
+                                                AppContext.getUsername());
+                                    }
 
-									AssignTaskWindow.this.close();
-									EventBusFactory.getInstance().post(
-											new TaskEvent.GotoRead(this, task
-													.getId()));
-								}
-							}
-						});
+                                    AssignTaskWindow.this.close();
+                                    EventBusFactory.getInstance().post(
+                                            new TaskEvent.GotoRead(this, task
+                                                    .getId()));
+                                }
+                            }
+                        });
                 approveBtn.setIcon(FontAwesome.SHARE);
-				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
                 controlsBtn.with(approveBtn, cancelBtn).alignAll(Alignment.MIDDLE_RIGHT);
 
-				layout.setComponentAlignment(controlsBtn,
-						Alignment.MIDDLE_RIGHT);
+                layout.setComponentAlignment(controlsBtn,
+                        Alignment.MIDDLE_RIGHT);
 
-				return layout;
-			}
+                return layout;
+            }
 
-			@Override
-			public void attachField(Object propertyId, Field<?> field) {
-				if (Task.Field.assignuser.equalTo(propertyId)) {
-					informationLayout
-							.addComponent(field, AppContext
-									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-									0, 0);
-				} else if (propertyId.equals("comment")) {
-					informationLayout.addComponent(field,
-							AppContext.getMessage(TaskI18nEnum.FORM_COMMENT),
-							0, 1, 2, "100%", Alignment.MIDDLE_LEFT);
-				}
-			}
-		}
+            @Override
+            public void attachField(Object propertyId, Field<?> field) {
+                if (Task.Field.assignuser.equalTo(propertyId)) {
+                    informationLayout
+                            .addComponent(field, AppContext
+                                            .getMessage(GenericI18Enum.FORM_ASSIGNEE),
+                                    0, 0);
+                } else if (propertyId.equals("comment")) {
+                    informationLayout.addComponent(field,
+                            AppContext.getMessage(TaskI18nEnum.FORM_COMMENT),
+                            0, 1, 2, "100%", Alignment.MIDDLE_LEFT);
+                }
+            }
+        }
 
-		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<Task> {
-			private static final long serialVersionUID = 1L;
+        private class EditFormFieldFactory extends
+                AbstractBeanFieldGroupEditFieldFactory<Task> {
+            private static final long serialVersionUID = 1L;
 
-			public EditFormFieldFactory(GenericBeanForm<Task> form) {
-				super(form);
-			}
+            public EditFormFieldFactory(GenericBeanForm<Task> form) {
+                super(form);
+            }
 
-			@Override
-			protected Field<?> onCreateField(Object propertyId) {
-				if (propertyId.equals("assignuser")) {
-					return new ProjectMemberSelectionField();
-				} else if (propertyId.equals("comment")) {
-					commentArea = new RichTextArea();
-					commentArea.setNullRepresentation("");
-					return commentArea;
-				}
-				return null;
-			}
-		}
-	}
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                if (propertyId.equals("assignuser")) {
+                    return new ProjectMemberSelectionField();
+                } else if (propertyId.equals("comment")) {
+                    commentArea = new RichTextArea();
+                    commentArea.setNullRepresentation("");
+                    return commentArea;
+                }
+                return null;
+            }
+        }
+    }
 }

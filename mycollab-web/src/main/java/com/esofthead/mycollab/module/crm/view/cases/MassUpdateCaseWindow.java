@@ -67,14 +67,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
-			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
-
-			this.informationLayout.getLayout().setWidth("100%");
-			this.informationLayout.getLayout().setMargin(false);
-			this.informationLayout.getLayout().setSpacing(false);
-			this.informationLayout.getLayout().addStyleName(
-					"colored-gridlayout");
+			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			formLayout.addComponent(this.informationLayout.getLayout());
 
 			formLayout.addComponent(buildButtonControls());

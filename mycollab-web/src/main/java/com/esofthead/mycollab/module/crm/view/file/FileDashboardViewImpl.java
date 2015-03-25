@@ -24,26 +24,23 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.shared.ui.MarginInfo;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class FileDashboardViewImpl extends AbstractPageView implements
-		FileDashboardView {
-	private static final long serialVersionUID = 1L;
+        FileDashboardView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public void displayFiles() {
-		this.setWidth("100%");
-		this.setMargin(new MarginInfo(false, true, false, true));
-		String rootPath = String.format("%d/.crm", AppContext.getAccountId());
-		FileDashboardComponent dashboardComponent = new FileDashboardComponent(
-				rootPath);
-		dashboardComponent.setWidth("100%");
-		this.addComponent(dashboardComponent);
+    @Override
+    public void displayFiles() {
+        this.withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
+        String rootPath = String.format("%d/.crm", AppContext.getAccountId());
+        FileDashboardComponent dashboardComponent = new FileDashboardComponent(
+                rootPath);
+        dashboardComponent.setWidth("100%");
+        this.addComponent(dashboardComponent);
 
-		dashboardComponent.displayResources();
-	}
+        dashboardComponent.displayResources();
+    }
 }

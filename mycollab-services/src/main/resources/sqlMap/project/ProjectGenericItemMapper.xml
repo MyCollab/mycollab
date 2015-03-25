@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectGenericItemMapper">
+    <resultMap id="BaseResultMap"
+               type="com.esofthead.mycollab.module.project.domain.ProjectGenericItem">
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="typeId" jdbcType="VARCHAR" property="typeId"/>
+        <result column="createdUser" jdbcType="VARCHAR" property="createdUser"/>
+        <result column="createdUserAvatarId" jdbcType="VARCHAR" property="createdUserAvatarId"/>
+        <result column="createdUserDisplayName" jdbcType="VARCHAR" property="createdUserDisplayName"/>
+        <result column="createdTime" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="projectName" jdbcType="VARCHAR" property="projectName"/>
+        <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName"/>
+        <result column="projectId" jdbcType="INTEGER" property="projectId"/>
+        <result column="extraTypeId" jdbcType="INTEGER" property="extraTypeId"/>
+    </resultMap>
+
+    <sql id="queryTaskSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_task.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_task.taskname LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_task.notes LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryTaskGroupSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_task_list.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_task_list.name LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_task_list.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryMessageSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_message.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_message.title LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_message.message LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+    <sql id="queryMilestoneSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_milestone.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_milestone.name LIKE '%${searchCriteria.txtValue.value}%' OR m_prj_milestone.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryBugSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_tracker_bug.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_tracker_bug.summary LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_tracker_bug.environment LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_tracker_bug.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryComponentSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_tracker_component.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_tracker_component.componentname LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_tracker_component.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryVersionSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_tracker_version.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_tracker_version.versionname LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_tracker_version.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryRiskSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_risk.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_risk.riskname LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_risk.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="queryProblemSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+
+        #ifnotnull($searchCriteria.prjKeys)
+            m_prj_problem.projectid IN
+            #repeat(${searchCriteria.prjKeys.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
+        #end
+        #ifnotnull($searchCriteria.txtValue)
+            ${searchCriteria.txtValue.operation} (m_prj_problem.issuename LIKE '%${searchCriteria.txtValue.value}%'
+                OR m_prj_problem.description LIKE '%${searchCriteria.txtValue.value}%')
+        #end
+        ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+        ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        lastUpdatedTime DESC
+    </sql>
+
+    <sql id="selectTaskItem">
+        SELECT 'Project-Task' AS type, m_prj_task.taskkey AS typeId, s_user.username AS createdUser, s_user.avatarId AS
+        createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_task.createdTime, m_prj_task.lastUpdatedTime, m_prj_task.taskname AS summary, m_prj_task.notes
+        AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, m_prj_task.id AS extraTypeId
+        FROM m_prj_task
+        LEFT OUTER JOIN s_user ON (m_prj_task.logBy = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_task.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectTaskGroupItem">
+        SELECT 'Project-TaskList' AS type, m_prj_task_list.id AS typeId, s_user.username AS createdUser, s_user.avatarId
+        AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_task_list.createdTime, m_prj_task_list.lastUpdatedTime, m_prj_task_list.name AS summary,
+        m_prj_task_list.description AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_prj_task_list
+        LEFT OUTER JOIN s_user ON (m_prj_task_list.createduser = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_task_list.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectMessageItem">
+        SELECT 'Project-Message' AS type, m_prj_message.id AS typeId, s_user.username AS createdUser, s_user.avatarId
+        AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_message.createdTime, m_prj_message.lastUpdatedTime, m_prj_message.title AS summary,
+        m_prj_message.message AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_prj_message
+        LEFT OUTER JOIN s_user ON (m_prj_message.posteduser = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_message.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectMilestoneItem">
+        SELECT 'Project-Milestone' AS type, m_prj_milestone.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId
+        AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_milestone.createdTime, m_prj_milestone.lastUpdatedTime, m_prj_milestone.name AS summary,
+        m_prj_milestone.description AS description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_prj_milestone
+        LEFT OUTER JOIN s_user ON (m_prj_milestone.createduser = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectBugItem">
+        SELECT 'Project-Bug' AS type, m_tracker_bug.bugkey AS typeId, s_user.username AS createdUser, s_user.avatarId
+        AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_tracker_bug.createdTime, m_tracker_bug.lastUpdatedTime, m_tracker_bug.summary,
+        m_tracker_bug.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, m_tracker_bug.id AS extraTypeId
+        FROM m_tracker_bug
+        LEFT OUTER JOIN s_user ON (m_tracker_bug.logby = s_user.username)
+        INNER JOIN m_prj_project ON (m_tracker_bug.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectComponentItem">
+        SELECT 'Project-Component' AS type, m_tracker_component.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_tracker_component.createdTime, m_tracker_component.lastUpdatedTime, m_tracker_component.componentname AS
+        summary,
+        m_tracker_component.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_tracker_component
+        LEFT OUTER JOIN s_user ON (m_tracker_component.createdUser = s_user.username)
+        INNER JOIN m_prj_project ON (m_tracker_component.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectVersionItem">
+        SELECT 'Project-Version' AS type, m_tracker_version.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_tracker_version.createdTime, m_tracker_version.lastUpdatedTime, m_tracker_version.versionname AS summary,
+        m_tracker_version.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_tracker_version
+        LEFT OUTER JOIN s_user ON (m_tracker_version.createdUser = s_user.username)
+        INNER JOIN m_prj_project ON (m_tracker_version.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectRiskItem">
+        SELECT 'Project-Risk' AS type, m_prj_risk.id AS typeId, s_user.username AS createdUser, s_user.avatarId AS
+        createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_risk.createdTime, m_prj_risk.lastUpdatedTime, m_prj_risk.riskname AS summary,
+        m_prj_risk.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_prj_risk
+        LEFT OUTER JOIN s_user ON (m_prj_risk.raisedbyuser = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_risk.projectid = m_prj_project.id)
+    </sql>
+
+    <sql id="selectProblemItem">
+        SELECT 'Project-Problem' AS type, m_prj_problem.id AS typeId, s_user.username AS createdUser,
+        s_user.avatarId AS createdUserAvatarId,
+        concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS createdUserDisplayName,
+        m_prj_problem.createdTime, m_prj_problem.lastUpdatedTime, m_prj_problem.issuename AS summary,
+        m_prj_problem.description, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        m_prj_project.shortname AS projectShortName, NULL AS extraTypeId
+        FROM m_prj_problem
+        LEFT OUTER JOIN s_user ON (m_prj_problem.raisedbyuser = s_user.username)
+        INNER JOIN m_prj_project ON (m_prj_problem.projectid = m_prj_project.id)
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="ProjectGenericItemSearchCriteria"
+            resultMap="BaseResultMap" lang="velocity">
+        (
+        <include refid="selectTaskItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTaskSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectTaskGroupItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTaskGroupSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectMessageItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryMessageSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectMilestoneItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryMilestoneSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectBugItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryBugSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectVersionItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryVersionSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectComponentItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryComponentSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectRiskItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryRiskSearchCriteria"/>
+        #end
+        #end
+        )
+        UNION
+        (
+        <include refid="selectProblemItem"/>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryProblemSearchCriteria"/>
+        #end
+        #end
+        )
+        <include refid="orderStatement"/>
+    </select>
+
+    <select id="getTotalCountFromTask" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_task
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTaskSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromTaskGroup" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_task_list
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTaskGroupSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromMessage" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_message
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryMessageSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromMilestone" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_milestone
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryMilestoneSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromBug" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_tracker_bug
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryBugSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromComponent" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_tracker_component
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryComponentSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromVersion" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_tracker_version
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryVersionSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromRisk" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_risk
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryRiskSearchCriteria" />
+        #end
+        #end
+    </select>
+    <select id="getTotalCountFromProblem" parameterType="ProjectGenericItemSearchCriteria"
+            resultType="int" lang="velocity">
+        SELECT count(*) as totalCount
+        FROM m_prj_problem
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryProblemSearchCriteria" />
+        #end
+        #end
+    </select>
+</mapper>

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.vaadin.server.FontAwesome;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
@@ -176,7 +177,7 @@ public class FeedbackWindow extends Window {
 				if (!email.equals("") && !subject.equals("")) {
 					ExtMailService systemMailService = ApplicationContextUtil
 							.getSpringBean(ExtMailService.class);
-					List<File> listFile = attachments.getListFile();
+					List<File> listFile = attachments.files();
 					List<EmailAttachementSource> emailAttachmentSource = null;
 
 					if (CollectionUtils.isNotEmpty(listFile)) {
@@ -206,6 +207,7 @@ public class FeedbackWindow extends Window {
 				}
 			}
 		});
+        sendBtn.setIcon(FontAwesome.SEND);
 		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(sendBtn);
 		controlsLayout.setComponentAlignment(sendBtn, Alignment.MIDDLE_RIGHT);

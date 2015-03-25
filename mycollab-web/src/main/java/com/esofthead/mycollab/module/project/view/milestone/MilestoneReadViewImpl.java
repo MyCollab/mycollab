@@ -108,7 +108,7 @@ public class MilestoneReadViewImpl extends
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<>(
-                this.previewForm);
+                previewForm);
         return controlsGenerator
                 .createButtonControls(ProjectRolePermissionCollections.MILESTONES);
     }
@@ -146,7 +146,7 @@ public class MilestoneReadViewImpl extends
 
     @Override
     protected void onPreviewItem() {
-        this.commentListComp.loadComments("" + this.beanItem.getId());
+        this.commentListComp.loadComments("" + beanItem.getId());
 
         historyListComp.loadHistory(beanItem.getId());
 
@@ -209,8 +209,7 @@ public class MilestoneReadViewImpl extends
                 String milestoneStatus = AppContext.getMessage(
                         MilestoneStatus.class, beanItem.getStatus());
                 FontAwesome statusIcon = ProjectAssetsUtil.getPhaseIcon(beanItem.getStatus());
-                DefaultViewField field = new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML);
-                return field;
+                return new DefaultViewField(statusIcon.getHtml() + " " + milestoneStatus, ContentMode.HTML);
             } else if (Milestone.Field.id.equalTo(propertyId)) {
                 ContainerViewField containerField = new ContainerViewField();
                 containerField.addComponentField(new AssignmentsComp());
@@ -396,7 +395,7 @@ public class MilestoneReadViewImpl extends
 
         private Div buildLastUpdateTime(ProjectGenericTask task) {
             Div div = new Div();
-            div.appendChild(new Text(DateTimeUtils.getPrettyDateValue(task.getLastUpdatedTime(), AppContext.getUserLocale())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastUpdatedTime())));
             return div.setCSSClass("column100");
         }
     }

@@ -36,6 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -71,7 +72,7 @@ public class TaskGroupDisplayWidget extends
         private static final long serialVersionUID = 1L;
 
         private TaskSearchCriteria searchCriteria;
-        private final SimpleTaskList taskList;
+        private SimpleTaskList taskList;
         private PopupButton taskListActionControl;
         private TaskDisplayComponent taskDisplayComponent;
 
@@ -94,7 +95,7 @@ public class TaskGroupDisplayWidget extends
             searchCriteria = new TaskSearchCriteria();
             searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables
                     .getProjectId()));
-            searchCriteria.setTaskListId(new NumberSearchField(this.taskList.getId()));
+            searchCriteria.setTaskListId(new NumberSearchField(taskList.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
 
             final MHorizontalLayout headerElement = new MHorizontalLayout().withMargin(false);
@@ -140,17 +141,17 @@ public class TaskGroupDisplayWidget extends
             });
             headerElement.with(activeTasksFilterBtn, pendingTasksFilterBtn, archievedTasksFilterBtn);
 
-            this.taskListActionControl = new PopupButton();
-            this.taskListActionControl.addStyleName("popuplistindicator");
+            taskListActionControl = new PopupButton();
+            taskListActionControl.addStyleName("popuplistindicator");
             taskListActionControl.setWidthUndefined();
 
             headerElement.with(taskListActionControl);
 
             this.addHeaderElement(headerElement);
 
-            final MVerticalLayout actionBtnLayout = new MVerticalLayout().withWidth("200px");
+            MVerticalLayout actionBtnLayout = new MVerticalLayout().withWidth("200px");
 
-            this.taskListActionControl.setContent(actionBtnLayout);
+            taskListActionControl.setContent(actionBtnLayout);
 
             final Button readBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
@@ -167,6 +168,7 @@ public class TaskGroupDisplayWidget extends
                                             TaskListDepot.this.taskList.getId()));
                         }
                     });
+            readBtn.setIcon(FontAwesome.HACKER_NEWS);
             readBtn.setEnabled(CurrentProjectVariables
                     .canRead(ProjectRolePermissionCollections.TASKS));
             readBtn.setStyleName("link");
@@ -189,6 +191,7 @@ public class TaskGroupDisplayWidget extends
             editBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
             editBtn.setStyleName("link");
+            editBtn.setIcon(FontAwesome.EDIT);
             actionBtnLayout.addComponent(editBtn);
 
             Enum actionEnum = (taskList.isArchieved()) ? GenericI18Enum.BUTTON_REOPEN : GenericI18Enum.BUTTON_CLOSE;
@@ -220,6 +223,7 @@ public class TaskGroupDisplayWidget extends
 
                         }
                     });
+            toogleBtn.setIcon(FontAwesome.TOGGLE_UP);
             toogleBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
             toogleBtn.setStyleName("link");
@@ -277,6 +281,7 @@ public class TaskGroupDisplayWidget extends
                                     });
                         }
                     });
+            deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.setEnabled(CurrentProjectVariables
                     .canAccess(ProjectRolePermissionCollections.TASKS));
             deleteBtn.setStyleName("link");

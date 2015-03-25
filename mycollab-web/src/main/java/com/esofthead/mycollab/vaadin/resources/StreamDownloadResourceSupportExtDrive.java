@@ -46,35 +46,32 @@ import com.vaadin.server.StreamResource;
  * @since 1.0
  * 
  */
-public class StreamDownloadResourceSupportExtDrive implements
-		StreamResource.StreamSource {
+public class StreamDownloadResourceSupportExtDrive implements StreamResource.StreamSource {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(StreamDownloadResourceSupportExtDrive.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StreamDownloadResourceSupportExtDrive.class);
 
-	private Collection<Resource> lstResource;
+	private Collection<Resource> resources;
 
 	private ResourceService resourceService;
 
-	public StreamDownloadResourceSupportExtDrive(Collection<Resource> lstRes) {
-		this.lstResource = lstRes;
-		resourceService = ApplicationContextUtil
-				.getSpringBean(ResourceService.class);
+	public StreamDownloadResourceSupportExtDrive(Collection<Resource> resources) {
+		this.resources = resources;
+		resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
 	}
 
 	@Override
 	public InputStream getStream() {
-		if (lstResource.size() == 1) {
-			Resource res = lstResource.iterator().next();
+		if (resources.size() == 1) {
+			Resource res = resources.iterator().next();
 			if (res.isExternalResource()) {
 				ExternalResourceService service = ResourceUtils
 						.getExternalResourceService(ResourceUtils.getType(res));
 				return service.download(ResourceUtils.getExternalDrive(res),
 						res.getPath());
 			} else {
-				return resourceService.getContentStream(res.getPath());
-			}
+                return resourceService.getContentStream(res.getPath());
+            }
 		}
 
 		final PipedInputStream inStream = new PipedInputStream();
@@ -92,9 +89,8 @@ public class StreamDownloadResourceSupportExtDrive implements
 			@Override
 			public void run() {
 				try {
-					ZipOutputStream zipOutStream = new ZipOutputStream(
-							outStream);
-					zipResource(zipOutStream, lstResource);
+					ZipOutputStream zipOutStream = new ZipOutputStream(outStream);
+					zipResource(zipOutStream, resources);
 					zipOutStream.close();
 					outStream.close();
 				} catch (Exception e) {
@@ -108,8 +104,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 		return inStream;
 	}
 
-	private void zipResource(ZipOutputStream zipOutputStream,
-			Collection<Resource> lstRes) {
+	private void zipResource(ZipOutputStream zipOutputStream, Collection<Resource> lstRes) {
 		try {
 			List<Resource> recurrResources;
 			for (Resource currentResource : lstRes) {
@@ -153,8 +148,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 	private void addFileToZip(String path, Content res, ZipOutputStream zip)
 			throws Exception {
 		byte[] buf = new byte[1024];
-		int len = -1;
-		InputStream contentStream = null;
+		InputStream contentStream;
 		if (!res.isExternalResource()) {
 			contentStream = resourceService.getContentStream(res.getPath());
 		} else {
@@ -168,14 +162,15 @@ public class StreamDownloadResourceSupportExtDrive implements
 		else
 			path += "/" + res.getName();
 		zip.putNextEntry(new ZipEntry(path));
-		while ((len = contentStream.read(buf)) > 0) {
-			zip.write(buf, 0, len);
+        int byteLength;
+		while ((byteLength = contentStream.read(buf)) > 0) {
+			zip.write(buf, 0, byteLength);
 		}
 	}
 
 	private void addFolderToZip(String path, Resource res, ZipOutputStream zip)
 			throws Exception {
-		List<Resource> lstResource = null;
+		List<Resource> lstResource;
 		if (ResourceUtils.getType(res) == ResourceType.MyCollab) {
 			lstResource = resourceService.getResources(res.getPath());
 		} else {
@@ -200,5 +195,4 @@ public class StreamDownloadResourceSupportExtDrive implements
 			}
 		}
 	}
-
 }

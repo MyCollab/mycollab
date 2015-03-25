@@ -32,10 +32,8 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
@@ -43,8 +41,11 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -106,8 +107,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
-		controlBtns.addComponent(backBtn);
-		controlBtns.setExpandRatio(backBtn, 1.0f);
+		controlBtns.with(backBtn).withAlign(backBtn, Alignment.MIDDLE_LEFT);
 
 		Button exportBtn = new Button("Export", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -141,7 +141,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		exportExcelBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportExcelBtn);
 
-		controlBtns.addComponent(exportButtonControl);
+		controlBtns.with(exportButtonControl).withAlign(exportButtonControl, Alignment.MIDDLE_RIGHT);
 
 		searchPanel = new FollowingTicketSearchPanel();
 		contentWrapper.addComponent(searchPanel);

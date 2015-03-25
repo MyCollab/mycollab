@@ -108,14 +108,9 @@ public class TaskGroupAddWindow extends Window {
 				taskListAddLayout.setMargin(false);
 				taskListAddLayout.setWidth("100%");
 
-				this.informationLayout = new GridFormLayoutHelper(2, 3, "100%",
-						"167px", Alignment.TOP_LEFT);
+				this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
 
 				final VerticalLayout bodyLayout = new VerticalLayout();
-				this.informationLayout.getLayout().setMargin(false);
-				this.informationLayout.getLayout().setWidth("100%");
-				this.informationLayout.getLayout().addStyleName(
-						"colored-gridlayout");
 				bodyLayout.addComponent(this.informationLayout.getLayout());
 
 				taskListAddLayout.addComponent(bodyLayout);

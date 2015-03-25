@@ -45,6 +45,7 @@ import com.esofthead.mycollab.vaadin.events.*;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
@@ -442,14 +443,14 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         MVerticalLayout basicSearchBody = new MVerticalLayout().withMargin(new MarginInfo(true, false, true, false));
         basicSearchBody.addStyleName(UIConstants.BORDER_BOX_2);
 
-        nameField = new TextField();
+        nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                new ShortcutListener("EnterSearchKey", ShortcutAction.KeyCode.ENTER, null) {
+                    @Override
+                    public void handleAction(Object o, Object o1) {
+                        doSearch();
+                    }
+                });
         nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-        nameField.addShortcutListener(new ShortcutListener("EnterSearchKey", ShortcutAction.KeyCode.ENTER, null) {
-            @Override
-            public void handleAction(Object o, Object o1) {
-                doSearch();
-            }
-        });
         basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
         MHorizontalLayout control = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));

@@ -18,6 +18,8 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
@@ -27,98 +29,97 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.view.bug.BugDisplayWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import java.util.UUID;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class DueBugWidget extends BugDisplayWidget {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DueBugWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true,
-				DueBugRowDisplayHandler.class);
-	}
+    public DueBugWidget() {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true,
+                DueBugRowDisplayHandler.class);
+    }
 
-	@Override
-	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter("Due Bugs", searchCriteria);
-	}
+    @Override
+    protected BugFilterParameter constructMoreDisplayFilter() {
+        return new BugFilterParameter("Due Bugs", searchCriteria);
+    }
 
-	public static class DueBugRowDisplayHandler extends
-			BeanList.RowDisplayHandler<SimpleBug> {
-		private static final long serialVersionUID = 1L;
+    public static class DueBugRowDisplayHandler extends
+            BeanList.RowDisplayHandler<SimpleBug> {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public Component generateRow(final SimpleBug bug, final int rowIndex) {
-			MVerticalLayout rowContent = new MVerticalLayout().withSpacing(false).withWidth("100%");
-			final LabelLink defectLink = new LabelLink("["
-					+ CurrentProjectVariables.getProject().getShortname() + "-"
-					+ bug.getBugkey() + "]: " + bug.getSummary(),
-					ProjectLinkBuilder.generateBugPreviewFullLink(
-							bug.getBugkey(), bug.getProjectShortName()));
+        @Override
+        public Component generateRow(final SimpleBug bug, final int rowIndex) {
+            MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%");
+            final LabelLink defectLink = new LabelLink("["
+                    + CurrentProjectVariables.getProject().getShortname() + "-"
+                    + bug.getBugkey() + "]: " + bug.getSummary(),
+                    ProjectLinkBuilder.generateBugPreviewFullLink(
+                            bug.getBugkey(), bug.getProjectShortName()));
             defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
-			defectLink.setWidth("100%");
-			defectLink.setDescription(ProjectTooltipGenerator
-					.generateToolTipBug(AppContext.getUserLocale(), bug,
-							AppContext.getSiteUrl(), AppContext.getTimezone()));
+            defectLink.setWidth("100%");
+            defectLink.setDescription(ProjectTooltipGenerator
+                    .generateToolTipBug(AppContext.getUserLocale(), bug,
+                            AppContext.getSiteUrl(), AppContext.getTimezone()));
 
-			if (bug.isOverdue()) {
-				defectLink.addStyleName(UIConstants.LINK_OVERDUE);
-			}
+            if (bug.isOverdue()) {
+                defectLink.addStyleName(UIConstants.LINK_OVERDUE);
+            }
 
-			rowContent.addComponent(defectLink);
+            rowContent.addComponent(defectLink);
 
-			final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
-					bug.getDescription());
-			descInfo.setWidth("100%");
-			rowContent.addComponent(descInfo);
+            final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
+                    bug.getDescription());
+            descInfo.setWidth("100%");
+            rowContent.addComponent(descInfo);
 
-			String bugInfo = String.format("%s: %s. %s: %s",
-					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
-					AppContext.formatDate(bug.getDuedate()),
-					AppContext.getMessage(BugI18nEnum.FORM_STATUS),
-					AppContext.getMessage(BugStatus.class, bug.getStatus()));
-			final Label dateInfo = new Label(bugInfo);
-			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-			rowContent.addComponent(dateInfo);
+            String bugInfo = String.format("%s: %s - %s: %s - %s: ",
+                    AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
+                    AppContext.formatPrettyTime(bug.getDuedate()),
+                    AppContext.getMessage(BugI18nEnum.FORM_STATUS),
+                    AppContext.getMessage(BugStatus.class, bug.getStatus()), AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+            Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
+            Text bugInfoTxt = new Text(bugInfo);
+            if (StringUtils.isBlank(bug.getAssignuser())) {
+                footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"));
+            } else {
+                String uid = UUID.randomUUID().toString();
+                Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
+                A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(bug
+                        .getProjectid(), bug.getAssignuser())).appendText(bug.getAssignuserFullName());
+                userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
+                footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), userAvatar, DivLessFormatter.EMPTY_SPACE()
+                        , userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+            }
 
-			final HorizontalLayout hLayoutDateInfo = new HorizontalLayout();
-			hLayoutDateInfo.setSpacing(true);
-			final Label lbAssignee = new Label(
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
-			lbAssignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-			hLayoutDateInfo.addComponent(lbAssignee);
-			hLayoutDateInfo.setComponentAlignment(lbAssignee,
-					Alignment.MIDDLE_CENTER);
-
-			final ProjectUserLink userLink = new ProjectUserLink(
-					bug.getAssignuser(), bug.getAssignUserAvatarId(),
-					bug.getAssignuserFullName(), false, true);
-			hLayoutDateInfo.addComponent(userLink);
-			hLayoutDateInfo.setComponentAlignment(userLink,
-					Alignment.MIDDLE_CENTER);
-
-			rowContent.addComponent(hLayoutDateInfo);
-			rowContent.setStyleName(UIConstants.WIDGET_ROW);
-			if ((rowIndex + 1) % 2 != 0) {
+            rowContent.add(new Label(footer.write(), ContentMode.HTML));
+            rowContent.setStyleName(UIConstants.WIDGET_ROW);
+            if ((rowIndex + 1) % 2 != 0) {
                 rowContent.addStyleName("odd");
-			}
+            }
 
-			return rowContent;
-		}
-	}
+            return rowContent;
+        }
+    }
 }

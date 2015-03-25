@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.SearchTextField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -45,6 +46,8 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectPagedList projectList;
 
     private Label titleLbl;
+    private Enum currentTitleMsg;
+    private ProjectSearchCriteria searchCriteria;
 
     public MyProjectListComponent() {
         withSpacing(false).withMargin(false);
@@ -55,6 +58,14 @@ public class MyProjectListComponent extends MVerticalLayout {
         header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(
                 ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
+
+        final SearchTextField searchTextField = new SearchTextField() {
+            @Override
+            public void doSearch(String value) {
+                searchCriteria.setProjectName(new StringSearchField(value));
+                displayResults();
+            }
+        };
 
         final PopupButton projectsPopup = new PopupButton("");
         projectsPopup.addStyleName("popuplistindicator");
@@ -110,8 +121,9 @@ public class MyProjectListComponent extends MVerticalLayout {
         filterBtnLayout.addComponent(archiveProjectsBtn);
         projectsPopup.setContent(filterBtnLayout);
 
-        header.with(titleLbl, projectsPopup).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign(projectsPopup,
-                Alignment.MIDDLE_RIGHT).expand(titleLbl);
+        header.with(titleLbl, searchTextField, projectsPopup).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
+                (searchTextField, Alignment.MIDDLE_RIGHT)
+                .withAlign(projectsPopup, Alignment.MIDDLE_RIGHT).expand(titleLbl);
 
         this.projectList = new ProjectPagedList();
         this.with(header, projectList);
@@ -122,56 +134,51 @@ public class MyProjectListComponent extends MVerticalLayout {
     }
 
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
-        final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-        searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
-        return searchCriteria;
+        return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
-        final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-        searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
-        searchCriteria.setProjectStatuses(new SetSearchField<>(
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(
                 new String[]{StatusI18nEnum.Open.name()}));
-        return searchCriteria;
+        return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
-        final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-        searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
-        searchCriteria.setProjectStatuses(new SetSearchField<>(
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(
                 new String[]{StatusI18nEnum.Archived.name()}));
-        return searchCriteria;
+        return prjSearchCriteria;
+    }
+
+    private void displayResults() {
+        projectList.setSearchCriteria(searchCriteria);
+        int totalCount = projectList.getTotalCount();
+        titleLbl.setValue(AppContext.getMessage(currentTitleMsg, totalCount));
     }
 
     private void displayAllProjects() {
-        final ProjectSearchCriteria searchCriteria = getAllProjectsSearchCriteria();
-        this.projectList.setSearchCriteria(searchCriteria);
-
-        int totalCount = this.projectList.getTotalCount();
-        titleLbl.setValue(AppContext.getMessage(
-                ProjectCommonI18nEnum.WIDGET_ALL_PROJECTS_TITLE, totalCount));
+        searchCriteria = getAllProjectsSearchCriteria();
+        currentTitleMsg = ProjectCommonI18nEnum.WIDGET_ALL_PROJECTS_TITLE;
+        displayResults();
     }
 
     private void displayActiveProjects() {
-        final ProjectSearchCriteria searchCriteria = getActiveProjectsSearchCriteria();
-        this.projectList.setSearchCriteria(searchCriteria);
-
-        int totalCount = this.projectList.getTotalCount();
-        titleLbl.setValue(AppContext.getMessage(
-                ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, totalCount));
+        searchCriteria = getActiveProjectsSearchCriteria();
+        currentTitleMsg = ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE;
+        displayResults();
     }
 
     private void displayArchiveProjects() {
-        ProjectSearchCriteria searchCriteria = getArchivedProjectsSearchCriteria();
-        this.projectList.setSearchCriteria(searchCriteria);
-
-        int totalCount = this.projectList.getTotalCount();
-        titleLbl.setValue(AppContext
-                .getMessage(
-                        ProjectCommonI18nEnum.WIDGET_ARCHIVE_PROJECTS_TITLE,
-                        totalCount));
+        searchCriteria = getArchivedProjectsSearchCriteria();
+        currentTitleMsg = ProjectCommonI18nEnum.WIDGET_ARCHIVE_PROJECTS_TITLE;
+        displayResults();
     }
 }

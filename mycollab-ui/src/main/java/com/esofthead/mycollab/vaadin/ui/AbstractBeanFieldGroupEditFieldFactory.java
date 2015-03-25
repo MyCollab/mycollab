@@ -20,6 +20,7 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Path;
 import javax.validation.Validator;
 
 import org.slf4j.Logger;
@@ -161,10 +162,10 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 			for (@SuppressWarnings("rawtypes")
 			ConstraintViolation violation : violations) {
 				errorMsg.append(violation.getMessage()).append("<br/>");
-
-				if (violation.getPropertyPath() != null
-						&& !violation.getPropertyPath().toString().equals("")) {
-					fieldGroup.getField(violation.getPropertyPath().toString())
+                Path propertyPath = violation.getPropertyPath();
+				if (propertyPath != null
+						&& !propertyPath.toString().equals("")) {
+					fieldGroup.getField(propertyPath.toString())
 							.addStyleName("errorField");
 				} else {
 					Annotation validateAnno = violation

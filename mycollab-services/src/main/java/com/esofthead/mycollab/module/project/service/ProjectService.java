@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -25,6 +23,8 @@ import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+
+import java.util.List;
 
 /**
  * 

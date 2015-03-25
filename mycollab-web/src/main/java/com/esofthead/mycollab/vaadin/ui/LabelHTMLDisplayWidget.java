@@ -23,69 +23,70 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class LabelHTMLDisplayWidget extends HorizontalLayout {
-	private final LabelStringGenerator menuLinkGenerator = new BugDescriptionLinkLabelStringGenerator();
-	private final Label lbDes;
-	private boolean hasShowLess;
-	private final String description;
-	private static int NUM_CUT = 100;
+    private static int NUM_CUT = 100;
+    private static final LabelStringGenerator menuLinkGenerator = new BugDescriptionLinkLabelStringGenerator();
+    private Label lbDes;
+    private boolean hasShowLess;
+    private String description;
 
-	public LabelHTMLDisplayWidget(String content) {
-		description = content;
 
-		String contentLabel = menuLinkGenerator.handleText(content);
-		lbDes = new Label(description, ContentMode.HTML);
-		if (contentLabel != null && contentLabel.length() > NUM_CUT) {
-			hasShowLess = true;
+    public LabelHTMLDisplayWidget(String content) {
+        description = content;
+        if (StringUtils.isBlank(description)) {
+            addComponent(new Label("<<No Description>>"));
+            return;
+        }
+        String contentLabel = menuLinkGenerator.handleText(content);
+        lbDes = new Label(description, ContentMode.HTML);
+        if (contentLabel != null && contentLabel.length() > NUM_CUT) {
+            hasShowLess = true;
 
-			contentLabel += " " + FontAwesome.PLUS_SQUARE.getHtml();
-			lbDes.setValue(contentLabel);
-			lbDes.addStyleName(UIConstants.LABEL_CLICKABLE);
-		}
+            contentLabel += " " + FontAwesome.PLUS_SQUARE.getHtml();
+            lbDes.setValue(contentLabel);
+            lbDes.addStyleName(UIConstants.LABEL_CLICKABLE);
+        }
 
-		lbDes.setDescription(description);
-		this.addComponent(lbDes);
-		this.addLayoutClickListener(new LayoutClickListener() {
+        lbDes.setDescription(description);
+        addComponent(lbDes);
+        addLayoutClickListener(new LayoutClickListener() {
 
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
-				if (event.getClickedComponent() instanceof Label) {
-					if (description != null && description.length() > NUM_CUT) {
-						if (hasShowLess) {
-							lbDes.setValue(description + " " + FontAwesome.MINUS_SQUARE.getHtml());
-						} else {
-							lbDes.setValue(menuLinkGenerator
-									.handleText(description)
-									+ " "
-									+ FontAwesome.PLUS_SQUARE.getHtml());
-						}
-						lbDes.setContentMode(ContentMode.HTML);
-						hasShowLess = !hasShowLess;
-					}
-				}
-			}
-		});
-	}
+            @Override
+            public void layoutClick(LayoutClickEvent event) {
+                if (event.getClickedComponent() instanceof Label) {
+                    if (description != null && description.length() > NUM_CUT) {
+                        if (hasShowLess) {
+                            lbDes.setValue(description + " " + FontAwesome.MINUS_SQUARE.getHtml());
+                        } else {
+                            lbDes.setValue(menuLinkGenerator
+                                    .handleText(description)
+                                    + " "
+                                    + FontAwesome.PLUS_SQUARE.getHtml());
+                        }
+                        lbDes.setContentMode(ContentMode.HTML);
+                        hasShowLess = !hasShowLess;
+                    }
+                }
+            }
+        });
+    }
 
-	private static class BugDescriptionLinkLabelStringGenerator implements
-			LabelStringGenerator {
+    private static class BugDescriptionLinkLabelStringGenerator implements
+            LabelStringGenerator {
 
-		@Override
-		public String handleText(String value) {
-			if (value != null && value.length() > NUM_CUT) {
-				return value.substring(0, NUM_CUT) + "...";
-			}
-			return value;
-		}
-
-	}
-
+        @Override
+        public String handleText(String value) {
+            if (value != null && value.length() > NUM_CUT) {
+                return value.substring(0, NUM_CUT) + "...";
+            }
+            return value;
+        }
+    }
 }

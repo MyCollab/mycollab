@@ -84,14 +84,13 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 
         contentWrapper.addStyleName("member-preview");
 
-        this.addHeaderRightContent(createButtonControls());
         previewForm = initPreviewForm();
         previewForm.setWidth("100%");
         previewForm.setStyleName("member-preview-form");
 
         bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
                 .withWidth("100%");
-
+        this.addHeaderRightContent(createButtonControls());
         this.with(previewForm, bottomLayout);
     }
 
@@ -268,9 +267,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             } else if (RegisterStatusConstants.ACTIVE.equals(beanItem
                     .getStatus())) {
                 Label lastAccessTimeLbl = new Label("Logged in "
-                        + DateTimeUtils.getPrettyDateValue(
-                        beanItem.getLastAccessTime(),
-                        AppContext.getUserLocale()));
+                        + AppContext.formatPrettyTime(beanItem.getLastAccessTime()));
                 lastAccessTimeLbl.addStyleName("member-email");
                 memberInfo.addComponent(lastAccessTimeLbl);
             } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem
@@ -447,8 +444,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             if (dueDate != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE,
-                        DateTimeUtils.getPrettyDateValue(dueDate,
-                                AppContext.getUserLocale()))));
+                        AppContext.formatPrettyTime(dueDate))));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE, "Undefined")));

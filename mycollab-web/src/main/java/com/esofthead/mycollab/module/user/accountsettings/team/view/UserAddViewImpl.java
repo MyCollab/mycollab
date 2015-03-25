@@ -33,6 +33,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -139,11 +140,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         private Layout createBottomPanel() {
-            final HorizontalLayout controlPanel = new HorizontalLayout();
-            controlPanel.setMargin(true);
-            controlPanel.setStyleName("more-info");
-            controlPanel.setHeight("40px");
-            controlPanel.setWidth("100%");
+            final MHorizontalLayout controlPanel = new MHorizontalLayout().withStyleName("more-info").withHeight
+                    ("40px").withWidth("100%");
             Button moreInfoBtn = new Button("More information...",
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -154,9 +152,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                         }
                     });
             moreInfoBtn.addStyleName(UIConstants.THEME_LINK);
-            controlPanel.addComponent(moreInfoBtn);
-            controlPanel.setComponentAlignment(moreInfoBtn,
-                    Alignment.MIDDLE_LEFT);
+            controlPanel.with(moreInfoBtn).withAlign(moreInfoBtn, Alignment.MIDDLE_LEFT);
             return controlPanel;
         }
 
@@ -169,13 +165,11 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 basicInformationLayout.addComponent(field,
                         AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 0);
             }
-
         }
 
     }
 
-    private class BasicEditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
+    private class BasicEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
         private static final long serialVersionUID = 1L;
 
         public BasicEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
@@ -200,7 +194,6 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
     }
 
     private class AdvancedFormLayoutFactory implements IFormLayoutFactory {
-
         private static final long serialVersionUID = 1L;
         private UserInformationLayout userInformationLayout;
 

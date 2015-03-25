@@ -68,27 +68,15 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 			informationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(informationHeader);
 
-			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
-
-			this.informationLayout.getLayout().setWidth("100%");
-			this.informationLayout.getLayout().setMargin(false);
-			this.informationLayout.getLayout().setSpacing(false);
-			this.informationLayout.getLayout().addStyleName(
-					"colored-gridlayout");
+			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			formLayout.addComponent(this.informationLayout.getLayout());
 
-			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
+			this.addressLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			final Label addressHeader = new Label(
 					AppContext
 							.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION));
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);
-			this.addressLayout.getLayout().setWidth("100%");
-			this.addressLayout.getLayout().setMargin(false);
-			this.addressLayout.getLayout().setSpacing(false);
-			this.addressLayout.getLayout().addStyleName("colored-gridlayout");
 			formLayout.addComponent(this.addressLayout.getLayout());
 
 			formLayout.addComponent(buildButtonControls());

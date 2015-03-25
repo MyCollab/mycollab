@@ -44,16 +44,13 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ProjectMemberHistoryFieldFormat implements HistoryFieldFormat {
-
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ProjectMemberHistoryFieldFormat.class);
 
 	@Override
 	public Component toVaadinComponent(String value) {
-		String html = ProjectLinkBuilder.generateProjectMemberHtmlLink(value,
-				CurrentProjectVariables.getProjectId());
-		return (value != null) ? new Label(html, ContentMode.HTML) : new Label(
-				"");
+		String html = ProjectLinkBuilder.generateProjectMemberHtmlLink(CurrentProjectVariables.getProjectId(), value);
+		return (value != null) ? new Label(html, ContentMode.HTML) : new Label("");
 	}
 
 	@Override

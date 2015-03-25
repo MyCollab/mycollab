@@ -246,9 +246,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
             memberInfo.addComponent(waitingNotLayout);
         } else if (RegisterStatusConstants.ACTIVE.equals(member.getStatus())) {
             Label lastAccessTimeLbl = new Label("Logged in "
-                    + DateTimeUtils.getPrettyDateValue(
-                    member.getLastAccessTime(),
-                    AppContext.getUserLocale()));
+                    + AppContext.formatPrettyTime(member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName("member-email");
             memberInfo.addComponent(lastAccessTimeLbl);
         } else if (RegisterStatusConstants.VERIFICATING.equals(member

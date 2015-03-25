@@ -58,13 +58,4 @@ public class ViewState {
 	public ComponentContainer getContainer() {
 		return container;
 	}
-
-	@Override
-	public String toString() {
-		StringBuffer result = new StringBuffer();
-		result.append("PageView State:").append("\n");
-		result.append("   IPresenter: " + presenter).append("\n");
-		result.append("   Params: " + ((params != null) ? params : "null"));
-		return result.toString();
-	}
 }

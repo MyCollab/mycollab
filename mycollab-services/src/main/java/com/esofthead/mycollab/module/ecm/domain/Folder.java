@@ -26,7 +26,7 @@ import java.util.List;
  *
  */
 public class Folder extends Resource {
-	private List<Folder> childs = new ArrayList<Folder>();
+	private List<Folder> childs = new ArrayList<>();
 
 	public Folder() {
 		super();

@@ -23,11 +23,12 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
-import com.esofthead.mycollab.module.ecm.domain.*;
+import com.esofthead.mycollab.module.ecm.domain.Content;
+import com.esofthead.mycollab.module.ecm.domain.Folder;
+import com.esofthead.mycollab.module.ecm.domain.Resource;
 import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
 import com.esofthead.mycollab.module.ecm.esb.EcmEndPoints;
 import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;
-import com.esofthead.mycollab.module.ecm.service.ContentActivityLogService;
 import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
@@ -47,17 +48,13 @@ import java.util.List;
 
 @Service(value = "resourceService")
 public class ResourceServiceImpl implements ResourceService {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ResourceServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
 	@Autowired
 	private ContentJcrDao contentJcrDao;
 
 	@Autowired
 	private RawContentService rawContentService;
-
-	@Autowired
-	private ContentActivityLogService contentActivityLogService;
 
 	@Autowired
 	private BillingPlanCheckerService billingPlanCheckerService;
@@ -70,7 +67,7 @@ public class ResourceServiceImpl implements ResourceService {
 			return resources;
 		}
 
-		return new ArrayList<Resource>();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -92,13 +89,6 @@ public class ResourceServiceImpl implements ResourceService {
 		folder.setCreatedBy(createdBy);
 		folder.setCreated(new GregorianCalendar());
 		contentJcrDao.createFolder(folder, createdBy);
-		ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
-		ContentActivityLogAction createFolderAction = ContentActivityLogBuilder
-				.makeCreateFolder(folderPath);
-		activityLog.setCreateduser(createdBy);
-		activityLog.setBasefolderpath(baseFolderPath);
-		activityLog.setActiondesc(createFolderAction.toString());
-		contentActivityLogService.saveWithSession(activityLog, "");
 		return folder;
 	}
 
@@ -148,14 +138,6 @@ public class ResourceServiceImpl implements ResourceService {
 
 		contentJcrDao.saveContent(content, createdUser);
 
-		ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
-		ContentActivityLogAction createContentAction = ContentActivityLogBuilder
-				.makeCreateContent(contentPath);
-		activityLog.setCreateduser(createdUser);
-		activityLog.setActiondesc(createContentAction.toString());
-		activityLog.setBasefolderpath(contentPath);
-		contentActivityLogService.saveWithSession(activityLog, "");
-
 		SaveContentCommand saveContentCommand = CamelProxyBuilderUtil.build(
 				EcmEndPoints.SAVE_CONTENT_ENDPOINT, SaveContentCommand.class);
 		saveContentCommand.saveContent(content, createdUser, sAccountId);
@@ -168,31 +150,19 @@ public class ResourceServiceImpl implements ResourceService {
 		if (res == null) {
 			return;
 		}
-		ContentActivityLogAction deleteResourceAction;
-
 		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil
 				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
 						DeleteResourcesCommand.class);
 
 		if (res instanceof Folder) {
-			deleteResourceAction = ContentActivityLogBuilder
-					.makeDeleteFolder(path);
 			deleteResourcesCommand.removeResource(new String[] { path },
 					deleteUser, sAccountId);
 		} else {
-			deleteResourceAction = ContentActivityLogBuilder
-					.makeDeleteContent(path);
 			deleteResourcesCommand.removeResource(new String[] { path,
 					((Content) res).getThumbnail() }, deleteUser, sAccountId);
 		}
 
 		contentJcrDao.removeResource(path);
-
-		ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
-		activityLog.setCreateduser(deleteUser);
-		activityLog.setActiondesc(deleteResourceAction.toString());
-		activityLog.setBasefolderpath(path);
-		contentActivityLogService.saveWithSession(activityLog, "");
 
 	}
 
@@ -203,24 +173,8 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public void rename(String oldPath, String newPath, String userUpdate) {
-		Resource res = contentJcrDao.getResource(oldPath);
-		ContentActivityLogAction renameAction;
-		if (res instanceof Folder) {
-			renameAction = ContentActivityLogBuilder.makeRenameFolder(oldPath,
-					newPath);
-		} else {
-			renameAction = ContentActivityLogBuilder.makeRenameContent(oldPath,
-					newPath);
-		}
-
 		contentJcrDao.rename(oldPath, newPath);
 		rawContentService.renamePath(oldPath, newPath);
-
-		ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
-		activityLog.setCreateduser(userUpdate);
-		activityLog.setActiondesc(renameAction.toString());
-		activityLog.setBasefolderpath(newPath);
-		contentActivityLogService.saveWithSession(activityLog, "");
 	}
 
 	@Override
@@ -237,14 +191,6 @@ public class ResourceServiceImpl implements ResourceService {
 				oldPath.lastIndexOf("/") + 1, oldPath.length());
 
 		Resource oldResource = contentJcrDao.getResource(oldPath);
-		ContentActivityLogAction moveResoureAction;
-		if (oldResource instanceof Folder) {
-			moveResoureAction = ContentActivityLogBuilder.makeMoveFolder(
-					oldPath, destinationFolderPath);
-		} else {
-			moveResoureAction = ContentActivityLogBuilder.makeMoveContent(
-					oldPath, destinationFolderPath);
-		}
 
 		if ((oldResource instanceof Folder)
 				&& destinationFolderPath.contains(oldPath)) {
@@ -255,12 +201,6 @@ public class ResourceServiceImpl implements ResourceService {
 					+ oldResourceName;
 			contentJcrDao.moveResource(oldPath, destinationPath);
 			rawContentService.movePath(oldPath, destinationPath);
-
-			ContentActivityLogWithBLOBs activityLog = new ContentActivityLogWithBLOBs();
-			activityLog.setCreateduser(userMove);
-			activityLog.setActiondesc(moveResoureAction.toString());
-			activityLog.setBasefolderpath(destinationPath);
-			contentActivityLogService.saveWithSession(activityLog, "");
 		}
 	}
 

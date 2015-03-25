@@ -106,7 +106,7 @@ public class ProjectServiceImpl extends
 
     @Override
     public int updateWithSession(Project record, String username) {
-        assertExistProjectShortnameInAccount(record.getShortname(),
+        assertExistProjectShortnameInAccount(record.getId(), record.getShortname(),
                 record.getSaccountid());
         return super.updateWithSession(record, username);
     }
@@ -116,23 +116,23 @@ public class ProjectServiceImpl extends
         billingPlanCheckerService.validateAccountCanCreateMoreProject(record
                 .getSaccountid());
 
-        assertExistProjectShortnameInAccount(record.getShortname(),
+        assertExistProjectShortnameInAccount(null, record.getShortname(),
                 record.getSaccountid());
 
-        int projectid = super.saveWithSession(record, username);
+        int projectId = super.saveWithSession(record, username);
 
         // Add the first user to project
         ProjectMember projectMember = new ProjectMember();
         projectMember.setIsadmin(Boolean.TRUE);
         projectMember.setStatus(ProjectMemberStatusConstants.ACTIVE);
         projectMember.setJoindate(new GregorianCalendar().getTime());
-        projectMember.setProjectid(projectid);
+        projectMember.setProjectid(projectId);
         projectMember.setUsername(username);
         projectMember.setSaccountid(record.getSaccountid());
         projectMemberMapper.insert(projectMember);
 
         // add client role to project
-        ProjectRole clientRole = createProjectRole(projectid,
+        ProjectRole clientRole = createProjectRole(projectId,
                 record.getSaccountid(), "Client", "Default role for client");
 
         int clientRoleId = projectRoleService.saveWithSession(clientRole,
@@ -159,12 +159,12 @@ public class ProjectServiceImpl extends
                                 AccessPermissionFlag.READ_ONLY);
             }
         }
-        projectRoleService.savePermission(projectid, clientRoleId,
+        projectRoleService.savePermission(projectId, clientRoleId,
                 permissionMapClient, record.getSaccountid());
 
         // add consultant role to project
         LOG.debug("Add consultant role to project {}", record.getName());
-        ProjectRole consultantRole = createProjectRole(projectid,
+        ProjectRole consultantRole = createProjectRole(projectId,
                 record.getSaccountid(), "Consultant",
                 "Default role for consultant");
         int consultantRoleId = projectRoleService.saveWithSession(
@@ -189,12 +189,12 @@ public class ProjectServiceImpl extends
                                 AccessPermissionFlag.ACCESS);
             }
         }
-        projectRoleService.savePermission(projectid, consultantRoleId,
+        projectRoleService.savePermission(projectId, consultantRoleId,
                 permissionMapConsultant, record.getSaccountid());
 
         // add admin role to project
         LOG.debug("Add admin role to project {}", record.getName());
-        ProjectRole adminRole = createProjectRole(projectid,
+        ProjectRole adminRole = createProjectRole(projectId,
                 record.getSaccountid(), "Admin", "Default role for admin");
         int adminRoleId = projectRoleService.saveWithSession(adminRole,
                 username);
@@ -206,25 +206,29 @@ public class ProjectServiceImpl extends
                     ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
                     AccessPermissionFlag.ACCESS);
         }
-        projectRoleService.savePermission(projectid, adminRoleId,
+        projectRoleService.savePermission(projectId, adminRoleId,
                 permissionMapAdmin, record.getSaccountid());
 
         LOG.debug("Create default task group");
         TaskList taskList = new TaskList();
-        taskList.setProjectid(projectid);
+        taskList.setProjectid(projectId);
         taskList.setSaccountid(record.getSaccountid());
         taskList.setStatus(StatusI18nEnum.Open.name());
         taskList.setName("General Assignments");
         taskListService.saveWithSession(taskList, username);
 
-        return projectid;
+        return projectId;
     }
 
-    private void assertExistProjectShortnameInAccount(String shortname,
+    private void assertExistProjectShortnameInAccount(Integer projectId, String shortname,
                                                       int sAccountId) {
         ProjectExample ex = new ProjectExample();
-        ex.createCriteria().andShortnameEqualTo(shortname)
+        ProjectExample.Criteria criteria = ex.createCriteria();
+        criteria.andShortnameEqualTo(shortname)
                 .andSaccountidEqualTo(sAccountId);
+        if (projectId != null) {
+            criteria.andIdNotEqualTo(projectId);
+        }
         if (projectMapper.countByExample(ex) > 0) {
             throw new UserInvalidInputException(
                     "There is already project in the account has short name "
@@ -252,7 +256,7 @@ public class ProjectServiceImpl extends
                                                     Integer sAccountId) {
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         searchCriteria.setInvolvedMember(new StringSearchField(username));
-        searchCriteria.setProjectStatuses(new SetSearchField<String>(
+        searchCriteria.setProjectStatuses(new SetSearchField<>(
                 new String[]{StatusI18nEnum.Open.name()}));
         return projectMapperExt.getUserProjectKeys(searchCriteria);
     }

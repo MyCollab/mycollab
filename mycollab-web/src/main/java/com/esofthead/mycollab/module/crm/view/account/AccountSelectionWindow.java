@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -38,7 +36,6 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class AccountSelectionWindow extends Window {
-
     private static final long serialVersionUID = 1L;
 
     private AccountTableDisplay tableItem;
@@ -50,14 +47,9 @@ public class AccountSelectionWindow extends Window {
         this.setResizable(false);
         this.setModal(true);
         this.fieldSelection = fieldSelection;
-        this.setModal(true);
     }
 
     public void show() {
-        AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-
         MVerticalLayout layout = new MVerticalLayout();
 
         createAccountList();
@@ -76,7 +68,7 @@ public class AccountSelectionWindow extends Window {
         layout.addComponent(tableItem);
         this.setContent(layout);
 
-        tableItem.setSearchCriteria(searchCriteria);
+        tableItem.setSearchCriteria(new AccountSearchCriteria());
         center();
     }
 

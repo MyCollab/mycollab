@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -40,13 +41,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRoleSearchCriteria> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected SearchLayout<ProjectRoleSearchCriteria> createBasicSearchLayout() {
@@ -83,14 +82,14 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
     }
 
     @SuppressWarnings("rawtypes")
-	private class ProjectRoleBasicSearchLayout extends BasicSearchLayout {
+    private class ProjectRoleBasicSearchLayout extends BasicSearchLayout {
         private static final long serialVersionUID = 1L;
         private TextField nameField;
 
-		@SuppressWarnings("unchecked")
-		public ProjectRoleBasicSearchLayout() {
-			super(ProjectRoleSearchPanel.this);
-		}
+        @SuppressWarnings("unchecked")
+        public ProjectRoleBasicSearchLayout() {
+            super(ProjectRoleSearchPanel.this);
+        }
 
         @Override
         public ComponentContainer constructHeader() {
@@ -98,58 +97,57 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         }
 
         @Override
-		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
-			basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        public ComponentContainer constructBody() {
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-			basicSearchBody.addComponent(new Label("Name"));
-			this.nameField = new TextField();
-			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            this.nameField.addShortcutListener(new ShortcutListener("RoleSearchText", ShortcutAction.KeyCode.ENTER,
-                    null) {
-                @Override
-                public void handleAction(Object o, Object o1) {
-                    callSearchAction();
-                }
-            });
-			basicSearchBody.addComponent(this.nameField);
+            basicSearchBody.addComponent(new Label("Name"));
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("RoleSearchText", ShortcutAction.KeyCode.ENTER, null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            basicSearchBody.addComponent(nameField);
 
-			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button searchBtn = new Button(
+                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							callSearchAction();
-						}
-					});
-			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(FontAwesome.SEARCH);
-			basicSearchBody.addComponent(searchBtn);
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            callSearchAction();
+                        }
+                    });
+            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setIcon(FontAwesome.SEARCH);
+            basicSearchBody.addComponent(searchBtn);
 
-			final Button clearBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button clearBtn = new Button(
+                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							ProjectRoleBasicSearchLayout.this.nameField
-									.setValue("");
-						}
-					});
-			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			basicSearchBody.addComponent(clearBtn);
-			return basicSearchBody;
-		}
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            ProjectRoleBasicSearchLayout.this.nameField
+                                    .setValue("");
+                        }
+                    });
+            clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            basicSearchBody.addComponent(clearBtn);
+            return basicSearchBody;
+        }
 
-		@Override
-		protected SearchCriteria fillUpSearchCriteria() {
+        @Override
+        protected SearchCriteria fillUpSearchCriteria() {
             ProjectRoleSearchCriteria searchCriteria = new ProjectRoleSearchCriteria();
-			searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
             searchCriteria.setRolename(new StringSearchField(nameField.getValue()));
-			return searchCriteria;
-		}
-	}
+            return searchCriteria;
+        }
+    }
 }

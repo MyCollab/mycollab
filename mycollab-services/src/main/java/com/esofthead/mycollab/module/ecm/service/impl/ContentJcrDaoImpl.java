@@ -280,7 +280,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 				Node node = getNode(rootNode, path);
 				if (node != null) {
 					if (isNodeFolder(node)) {
-						List<Resource> resources = new ArrayList<Resource>();
+						List<Resource> resources = new ArrayList<>();
 						NodeIterator childNodes = node.getNodes();
 						while (childNodes.hasNext()) {
 							Node childNode = childNodes.nextNode();

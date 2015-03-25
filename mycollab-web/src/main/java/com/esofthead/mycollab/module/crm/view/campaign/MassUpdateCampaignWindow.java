@@ -70,26 +70,14 @@ public class MassUpdateCampaignWindow extends
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
-			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.TOP_LEFT);
-
-			this.informationLayout.getLayout().setWidth("100%");
-			this.informationLayout.getLayout().setMargin(false);
-			this.informationLayout.getLayout().setSpacing(false);
-			this.informationLayout.getLayout().addStyleName(
-					"colored-gridlayout");
+			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			formLayout.addComponent(this.informationLayout.getLayout());
 
-			this.campaignGoal = new GridFormLayoutHelper(2, 6, "100%", "167px",
-					Alignment.TOP_LEFT);
+			this.campaignGoal =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
 			final Label campaignMoreInfo = new Label(
 					AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL));
 			campaignMoreInfo.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(campaignMoreInfo);
-			this.campaignGoal.getLayout().setWidth("100%");
-			this.campaignGoal.getLayout().setMargin(false);
-			this.campaignGoal.getLayout().setSpacing(false);
-			this.campaignGoal.getLayout().addStyleName("colored-gridlayout");
 			formLayout.addComponent(this.campaignGoal.getLayout());
 
 			formLayout.addComponent(buildButtonControls());

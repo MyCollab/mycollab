@@ -40,7 +40,6 @@ import com.vaadin.ui.ComponentContainer;
  */
 public class MessageListPresenter extends AbstractPresenter<MessageListView>
 		implements ListCommand<MessageSearchCriteria> {
-
 	private static final long serialVersionUID = 1L;
 	private MessageSearchCriteria searchCriteria;
 

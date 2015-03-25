@@ -36,7 +36,6 @@ import java.util.Set;
  */
 public class SelectionOptionButton extends SplitButton implements
 		HasSelectionOptionHandlers {
-
 	private static final long serialVersionUID = 1L;
 	private boolean isSelectAll = false;
 	private boolean isSelected = false;
@@ -156,7 +155,7 @@ public class SelectionOptionButton extends SplitButton implements
 		}
 	}
 
-	public void setSelectedChecbox(final boolean selected) {
+	public void setSelectedCheckbox(final boolean selected) {
 		isSelected = selected;
 		final Resource icon = (selected) ? FontAwesome.CHECK_SQUARE_O : FontAwesome.SQUARE_O;
 		SelectionOptionButton.this.setIcon(icon);

@@ -119,7 +119,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
     @Override
     public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
-        return this.previewForm;
+        return previewForm;
     }
 
     @Override
@@ -277,7 +277,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
                 titleLbl = new Label(task.getTaskname());
                 titleLbl.setStyleName("headerName");
-                MHorizontalLayout wrapLayout = new MHorizontalLayout().withMargin(false).withSpacing(false).with(new
+                MHorizontalLayout wrapLayout = new MHorizontalLayout().withSpacing(false).with(new
                         Label("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", ContentMode.HTML), titleLbl);
                 header.with(parentLabel, wrapLayout);
                 this.addHeader(header);
@@ -456,6 +456,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
                     .canWrite(ProjectRolePermissionCollections.TASKS));
 
             final Label taskLink = new Label(buildTaskLink(subTask), ContentMode.HTML);
+            if (subTask.isCompleted()) {
+                taskLink.addStyleName("completed");
+            } else if (subTask.isOverdue()) {
+                taskLink.addStyleName("overdue");
+            } else if (subTask.isPending()) {
+                taskLink.addStyleName("pending");
+            }
             taskLink.addStyleName("wordWrap");
             layout.with(checkBox, taskLink).expand(taskLink);
 
@@ -467,9 +474,15 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
                     if (selectedFlag) {
                         subTask.setStatus(StatusI18nEnum.Closed.name());
                         subTask.setPercentagecomplete(100d);
+                        taskLink.removeStyleName("overdue pending");
+                        taskLink.addStyleName("completed");
                     } else {
                         subTask.setStatus(StatusI18nEnum.Open.name());
                         subTask.setPercentagecomplete(0d);
+                        taskLink.removeStyleName("overdue pending completed");
+                        if (subTask.isOverdue()) {
+                            taskLink.addStyleName("overdue");
+                        }
                     }
                     taskService.updateSelectiveWithSession(subTask, AppContext.getUsername());
                     taskLink.setValue(buildTaskLink(subTask));
@@ -483,13 +496,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
                     .getTaskname());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-            if (subTask.isCompleted()) {
-                taskLink.setCSSClass("completed");
-            } else if (subTask.isOverdue()) {
-                taskLink.setCSSClass("overdue");
-            } else if (subTask.isPending()) {
-                taskLink.setCSSClass("pending");
-            }
 
             String uid = UUID.randomUUID().toString();
             taskLink.setId("tag" + uid);
@@ -584,7 +590,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             }
 
             this.addComponent(layout);
-
         }
     }
 }

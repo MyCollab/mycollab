@@ -28,5 +28,4 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 @ViewComponent
 public class ProjectDashboardContainer extends AbstractPageView {
 	private static final long serialVersionUID = 1L;
-
 }

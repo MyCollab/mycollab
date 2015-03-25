@@ -31,9 +31,6 @@
                 value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
         </javaClientGenerator>
 
-        <table domainObjectName="ContentActivityLog" schema="mycollab"
-            tableName="m_ecm_activity_log" />
-
         <table domainObjectName="ExternalDrive" schema="mycollab"
             tableName="m_ecm_external_drive" />
 

@@ -16,265 +16,248 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.vaadin.popupbutton.PopupButtonExt;
+import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Ul;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.esofthead.vaadin.popupbutton.PopupButtonExt;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public abstract class MultiSelectComp<T> extends CustomField<T> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected TextField componentsDisplay;
-	protected PopupButtonExt componentPopupSelection;
+    private static final Logger log = LoggerFactory.getLogger(MultiSelectComp.class);
 
-	private String propertyDisplayField;
-	private String widthVal;
+    protected TextField componentsDisplay;
+    protected PopupButtonExt componentPopupSelection;
 
-	private VerticalLayout popupContent;
+    private String propertyDisplayField;
+    private String widthVal;
 
-	protected List<T> selectedItems = new ArrayList<T>();
+    private VerticalLayout popupContent;
 
-	protected List<T> items = new ArrayList<T>();
+    protected List<T> selectedItems = new ArrayList<>();
 
-	public MultiSelectComp(final String displayName) {
-		propertyDisplayField = displayName;
-		items = createData();
+    protected List<T> items = new ArrayList<>();
 
-		this.componentsDisplay = new TextField();
-		this.componentsDisplay.setNullRepresentation("");
-		this.componentsDisplay.setReadOnly(true);
-		this.componentsDisplay.addStyleName("noBorderRight");
-		this.componentsDisplay.setWidth("100%");
+    public MultiSelectComp(final String displayName) {
+        propertyDisplayField = displayName;
+        items = createData();
 
-		this.componentPopupSelection = new PopupButtonExt();
-		this.componentPopupSelection
-				.addClickListener(new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        componentsDisplay = new TextField();
+        componentsDisplay.setNullRepresentation("");
+        componentsDisplay.setReadOnly(true);
+        componentsDisplay.addStyleName("noBorderRight");
+        componentsDisplay.setWidth("100%");
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						MultiSelectComp.this.initContentPopup();
-					}
-				});
+        componentPopupSelection = new PopupButtonExt();
+        componentPopupSelection
+                .addClickListener(new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		popupContent = new VerticalLayout();
-		this.componentPopupSelection.setContent(popupContent);
-	}
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        MultiSelectComp.this.initContentPopup();
+                    }
+                });
 
-	public MultiSelectComp(final String displayName, List<T> data) {
-		this(displayName);
-		items = data;
-	}
+        popupContent = new VerticalLayout();
+        this.componentPopupSelection.setContent(popupContent);
+    }
 
-	protected List<T> createData() {
-		return null;
-	}
+    protected List<T> createData() {
+        return null;
+    }
 
-	@Override
-	protected Component initContent() {
-		final HorizontalLayout content = new HorizontalLayout();
-		content.setSpacing(false);
+    @Override
+    protected Component initContent() {
+        MHorizontalLayout content = new MHorizontalLayout().withSpacing(false).withWidth(widthVal).with
+                (componentsDisplay).withAlign
+                (componentsDisplay, Alignment.MIDDLE_LEFT);
 
-		content.addComponent(this.componentsDisplay);
-		content.setComponentAlignment(this.componentsDisplay,
-				Alignment.MIDDLE_LEFT);
+        componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
+        componentPopupSelection.setWidth("25px");
+        componentPopupSelection.setPopupPositionComponent(content);
 
-		this.componentPopupSelection.addStyleName(UIConstants.SELECT_BG);
-		this.componentPopupSelection.setWidth("25px");
-		this.componentPopupSelection.setPopupPositionComponent(content);
+        CssLayout btnWrapper = new CssLayout();
+        btnWrapper.setWidthUndefined();
+        btnWrapper.addStyleName(UIConstants.MULTI_SELECT_BG);
+        btnWrapper.addComponent(componentPopupSelection);
+        content.with(btnWrapper).expand(componentsDisplay);
+        return content;
+    }
 
-		CssLayout btnWrapper = new CssLayout();
-		btnWrapper.setWidthUndefined();
-		btnWrapper.addStyleName(UIConstants.SELECT_BG);
-		btnWrapper.addComponent(componentPopupSelection);
+    @Override
+    public void setWidth(String width) {
+        super.setWidth(width);
+        widthVal = width;
+    }
 
-		content.addComponent(btnWrapper);
-		content.setComponentAlignment(btnWrapper, Alignment.MIDDLE_LEFT);
+    public void resetComp() {
+        selectedItems.clear();
 
-		content.setWidth(widthVal);
-		content.setExpandRatio(this.componentsDisplay, 1.0f);
+        componentsDisplay.setReadOnly(false);
+        componentsDisplay.setValue("");
+        componentsDisplay.setReadOnly(true);
+    }
 
-		return content;
-	}
+    private void initContentPopup() {
+        popupContent.removeAllComponents();
+        for (final T item : items) {
 
-	@Override
-	public void setWidth(String width) {
-		super.setWidth(width);
-		widthVal = width;
-	}
+            final ItemSelectionComp<T> chkItem = buildItem(item);
 
-	public void resetComp() {
-		selectedItems.clear();
+            if (selectedItems != null) {
+                for (T selectedItem : selectedItems) {
+                    if (compareVal(item, selectedItem)) {
+                        chkItem.setInternalVal(true);
+                    }
+                }
+            }
 
-		this.componentsDisplay.setReadOnly(false);
-		this.componentsDisplay.setValue("");
-		this.componentsDisplay.setReadOnly(true);
-	}
+            popupContent.addComponent(chkItem);
+        }
 
-	private void initContentPopup() {
-		popupContent.removeAllComponents();
-		for (final T item : items) {
+        popupContent.setWidth(widthVal);
+    }
 
-			final ItemSelectionComp<T> chkItem = buildItem(item);
+    protected ItemSelectionComp<T> buildItem(final T item) {
+        String itemName = "";
+        if (propertyDisplayField != "") {
+            try {
+                itemName = (String) PropertyUtils.getProperty(item,
+                        propertyDisplayField);
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            itemName = item.toString();
+        }
 
-			if (selectedItems != null) {
-				for (T selectedItem : selectedItems) {
-					if (compareVal(item, selectedItem)) {
-						chkItem.setInternalVal(true);
-					}
-				}
-			}
+        final ItemSelectionComp<T> chkItem = new ItemSelectionComp<T>(item,
+                itemName);
+        chkItem.setImmediate(true);
 
-			popupContent.addComponent(chkItem);
-		}
+        chkItem.addValueChangeListener(new ValueChangeListener() {
+            private static final long serialVersionUID = 1L;
 
-		popupContent.setWidth(widthVal);
-	}
+            @Override
+            public void valueChange(
+                    final com.vaadin.data.Property.ValueChangeEvent event) {
+                final Boolean value = chkItem.getValue();
 
-	protected ItemSelectionComp<T> buildItem(final T item) {
-		String itemName = "";
-		if (propertyDisplayField != "") {
-			try {
-				itemName = (String) PropertyUtils.getProperty(item,
-						propertyDisplayField);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			itemName = item.toString();
-		}
+                if (value && !selectedItems.contains(item)) {
+                    selectedItems.add(item);
+                } else {
+                    selectedItems.remove(item);
+                }
 
-		final ItemSelectionComp<T> chkItem = new ItemSelectionComp<T>(item,
-				itemName);
-		chkItem.setImmediate(true);
+                displaySelectedItems();
+            }
+        });
+        return chkItem;
+    }
 
-		chkItem.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = 1L;
+    private void displaySelectedItems() {
+        componentsDisplay.setReadOnly(false);
+        componentsDisplay.setValue(getDisplaySelectedItemsString());
+        componentsDisplay.setReadOnly(true);
+        Ul ul = new Ul();
+        try {
+            for (T item : selectedItems) {
+                String objDisplayName = (String) PropertyUtils.getProperty(
+                        item, propertyDisplayField);
+                ul.appendChild(new Li().appendText(objDisplayName));
+            }
+        } catch (Exception e) {
+            log.error("Error when build tooltip", e);
+        }
+        componentsDisplay.setDescription(ul.write());
+    }
 
-			@Override
-			public void valueChange(
-					final com.vaadin.data.Property.ValueChangeEvent event) {
-				final Boolean value = chkItem.getValue();
+    public void setSelectedItems(List<T> selectedValues) {
+        selectedItems.clear();
 
-				if (value && !selectedItems.contains(item)) {
-					selectedItems.add(item);
-				} else {
-					selectedItems.remove(item);
-				}
+        if (selectedValues != null) {
+            for (T item : selectedValues) {
+                for (T oriItem : items) {
+                    if (compareVal(item, oriItem)) {
+                        selectedItems.add(oriItem);
+                    }
+                }
+            }
+        }
 
-				displaySelectedItems();
-			}
-		});
-		return chkItem;
-	}
+        displaySelectedItems();
+    }
 
-	private void displaySelectedItems() {
-		this.componentsDisplay.setReadOnly(false);
-		this.componentsDisplay.setValue(this.getDisplaySelectedItemsString());
-		this.componentsDisplay.setReadOnly(true);
-	}
+    private boolean compareVal(T value1, T value2) {
+        if (value1 == null && value2 == null) {
+            return true;
+        } else if (value1 == null || value2 == null) {
+            return false;
+        } else {
+            try {
+                Integer field1 = (Integer) PropertyUtils.getProperty(
+                        value1, "id");
+                Integer field2 = (Integer) PropertyUtils.getProperty(
+                        value2, "id");
+                return field1.equals(field2);
+            } catch (final Exception e) {
+                log.error("Error when compare value", e);
+                return false;
+            }
+        }
+    }
 
-	public void setSelectedItems(List<T> selectedValues) {
-		selectedItems.clear();
+    public List<T> getSelectedItems() {
+        return this.selectedItems;
+    }
 
-		if (selectedValues != null) {
-			for (T item : selectedValues) {
-				for (T oriItem : items) {
-					if (compareVal(item, oriItem)) {
-						selectedItems.add(oriItem);
-					}
-				}
-			}
-		}
+    protected String getDisplaySelectedItemsString() {
+        final StringBuilder str = new StringBuilder();
+        for (int i = 0; i < selectedItems.size(); i++) {
+            final Object itemObj = selectedItems.get(i);
+            try {
+                String objDisplayName = (String) PropertyUtils.getProperty(
+                        itemObj, propertyDisplayField);
+                if (i == selectedItems.size() - 1) {
+                    str.append(objDisplayName);
+                } else {
+                    str.append(objDisplayName + ", ");
+                }
+            } catch (final Exception e) {
+                throw new MyCollabException(e);
+            }
+        }
+        return str.toString();
+    }
 
-		displaySelectedItems();
-	}
+    public static class ItemSelectionComp<T> extends CheckBox {
+        private static final long serialVersionUID = 1L;
 
-	private boolean compareVal(T value1, T value2) {
-		if (value1 == null && value2 == null) {
-			return true;
-		} else if (value1 == null || value2 == null) {
-			return false;
-		} else {
-			if (this.propertyDisplayField != "") {
-				try {
-					Integer field1 = (Integer) PropertyUtils.getProperty(
-							value1, "id");
-					Integer field2 = (Integer) PropertyUtils.getProperty(
-							value2, "id");
-					return field1.equals(field2);
-				} catch (final Exception e) {
-					return false;
-				}
-			} else {
-				return value1.equals(value2);
-			}
-		}
-	}
+        @SuppressWarnings("unused")
+        private T item;
 
-	public List<T> getSelectedItems() {
-		return this.selectedItems;
-	}
+        public ItemSelectionComp(T item, String caption) {
+            super();
+            this.item = item;
+            this.setCaption(caption);
+        }
 
-	protected String getDisplaySelectedItemsString() {
-		final StringBuilder str = new StringBuilder();
-		for (int i = 0; i < this.selectedItems.size(); i++) {
-			final Object itemObj = this.selectedItems.get(i);
-
-			String objDisplayName = "";
-			if (this.propertyDisplayField != "") {
-				try {
-					objDisplayName = (String) PropertyUtils.getProperty(
-							itemObj, this.propertyDisplayField);
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				objDisplayName = (String) this.selectedItems.get(i);
-			}
-			if (i == this.selectedItems.size() - 1) {
-				str.append(objDisplayName);
-			} else {
-				str.append(objDisplayName + ", ");
-			}
-		}
-		return str.toString();
-	}
-
-	public static class ItemSelectionComp<T> extends CheckBox {
-		private static final long serialVersionUID = 1L;
-
-		@SuppressWarnings("unused")
-		private T item;
-
-		public ItemSelectionComp(T item, String caption) {
-			super();
-			this.item = item;
-			this.setCaption(caption);
-		}
-
-		void setInternalVal(Boolean val) {
-			this.setInternalValue(val);
-		}
-
-	}
-
+        void setInternalVal(Boolean val) {
+            this.setInternalValue(val);
+        }
+    }
 }

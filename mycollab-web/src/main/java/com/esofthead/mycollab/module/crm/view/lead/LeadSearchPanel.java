@@ -28,10 +28,9 @@ import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
-import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -108,18 +107,21 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout layout = new MHorizontalLayout()
-                    .withSpacing(true).withMargin(true);
+            final MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
-            this.nameField = this.createSeachSupportTextField(new TextField(),
-                    "nameFieldOfSearch");
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            layout.with(nameField)
-                    .withAlign(nameField, Alignment.MIDDLE_CENTER);
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("LeadSearchRequest", ShortcutAction.KeyCode.ENTER,
+                            null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
             this.myItemCheckbox = new CheckBox(
-                    AppContext
-                            .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+                    AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             this.myItemCheckbox.setWidth("75px");
             layout.with(myItemCheckbox).withAlign(myItemCheckbox,
                     Alignment.MIDDLE_CENTER);
@@ -169,7 +171,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-           searchCriteria
+            searchCriteria
                     .setSaccountid(new NumberSearchField(SearchField.AND,
                             AppContext.getAccountId()));
 

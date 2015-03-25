@@ -39,7 +39,6 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  *
  */
 public class DefaultMailer implements IMailer {
-
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultMailer.class);
 	private String host;
 	private String username = null;

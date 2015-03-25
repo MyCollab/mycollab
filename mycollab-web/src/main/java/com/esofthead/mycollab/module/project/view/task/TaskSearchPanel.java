@@ -40,19 +40,18 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteria> {
-	private static final long serialVersionUID = 1L;
-	protected TaskSearchCriteria searchCriteria;
+    private static final long serialVersionUID = 1L;
+    protected TaskSearchCriteria searchCriteria;
 
-	private static Param[] paramFields = new Param[] {
-			TaskSearchCriteria.p_assignee, TaskSearchCriteria.p_createtime,
-			TaskSearchCriteria.p_duedate, TaskSearchCriteria.p_lastupdatedtime,
-			TaskSearchCriteria.p_status };
+    private static Param[] paramFields = new Param[]{
+            TaskSearchCriteria.p_assignee, TaskSearchCriteria.p_createtime,
+            TaskSearchCriteria.p_duedate, TaskSearchCriteria.p_lastupdatedtime,
+            TaskSearchCriteria.p_status, TaskSearchCriteria.p_startdate, TaskSearchCriteria.p_enddate,
+            TaskSearchCriteria.p_actualstartdate, TaskSearchCriteria.p_actualenddate};
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
@@ -80,160 +79,160 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
     }
 
     @Override
-	protected SearchLayout<TaskSearchCriteria> createBasicSearchLayout() {
-		return new TaskBasicSearchLayout();
-	}
+    protected SearchLayout<TaskSearchCriteria> createBasicSearchLayout() {
+        return new TaskBasicSearchLayout();
+    }
 
-	@Override
-	protected SearchLayout<TaskSearchCriteria> createAdvancedSearchLayout() {
-		return new TaskAdvancedSearchLayout();
-	}
+    @Override
+    protected SearchLayout<TaskSearchCriteria> createAdvancedSearchLayout() {
+        return new TaskAdvancedSearchLayout();
+    }
 
-	public void setTextField(String name) {
-		if (getCompositionRoot() instanceof TaskBasicSearchLayout) {
-			((TaskBasicSearchLayout) getCompositionRoot()).setNameField(name);
-		}
-	}
+    public void setTextField(String name) {
+        if (getCompositionRoot() instanceof TaskBasicSearchLayout) {
+            ((TaskBasicSearchLayout) getCompositionRoot()).setNameField(name);
+        }
+    }
 
-	public void getAdvanceSearch() {
-		moveToAdvancedSearchLayout();
-	}
+    public void getAdvanceSearch() {
+        moveToAdvancedSearchLayout();
+    }
 
-	public void getBasicSearch() {
-		moveToBasicSearchLayout();
-	}
+    public void getBasicSearch() {
+        moveToBasicSearchLayout();
+    }
 
-	private class TaskBasicSearchLayout extends BasicSearchLayout<TaskSearchCriteria> {
-		private static final long serialVersionUID = 1L;
+    private class TaskBasicSearchLayout extends BasicSearchLayout<TaskSearchCriteria> {
+        private static final long serialVersionUID = 1L;
 
-		public TaskBasicSearchLayout() {
-			super(TaskSearchPanel.this);
-		}
+        public TaskBasicSearchLayout() {
+            super(TaskSearchPanel.this);
+        }
 
-		private TextField nameField;
-		private CheckBox myItemCheckbox;
+        private TextField nameField;
+        private CheckBox myItemCheckbox;
 
-		public void setNameField(String value) {
-			this.nameField.setValue(value);
-		}
+        public void setNameField(String value) {
+            this.nameField.setValue(value);
+        }
 
-		@Override
-		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+        @Override
+        public ComponentContainer constructBody() {
+            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-			Label nameLbl = new Label("Name:");
-			basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
+            Label nameLbl = new Label("Name:");
+            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-			this.nameField = new TextField();
-			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
+            this.nameField = new TextField();
+            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox(AppContext
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			this.myItemCheckbox.setWidth("75px");
-			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
+            this.myItemCheckbox = new CheckBox(AppContext
+                    .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox.setWidth("75px");
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-			searchBtn.setIcon(FontAwesome.SEARCH);
-			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            searchBtn.setIcon(FontAwesome.SEARCH);
+            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					callSearchAction();
-				}
-			});
-			basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    callSearchAction();
+                }
+            });
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			cancelBtn.addStyleName("cancel-button");
-			cancelBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addStyleName("cancel-button");
+            cancelBtn.addClickListener(new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					nameField.setValue("");
-				}
-			});
-			basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    nameField.setValue("");
+                }
+            });
+            basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Button advancedSearchBtn = new Button(AppContext
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button advancedSearchBtn = new Button(AppContext
+                    .getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							moveToAdvancedSearchLayout();
-						}
-					});
-			advancedSearchBtn.setStyleName("link");
+                        @Override
+                        public void buttonClick(final ClickEvent event) {
+                            moveToAdvancedSearchLayout();
+                        }
+                    });
+            advancedSearchBtn.setStyleName("link");
 
-			basicSearchBody.with(advancedSearchBtn).withAlign(
-					advancedSearchBtn, Alignment.MIDDLE_CENTER);
-			return basicSearchBody;
-		}
+            basicSearchBody.with(advancedSearchBtn).withAlign(
+                    advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            return basicSearchBody;
+        }
 
-		@Override
-		protected TaskSearchCriteria fillUpSearchCriteria() {
-			searchCriteria = new TaskSearchCriteria();
-			searchCriteria.setProjectid(new NumberSearchField(
-					CurrentProjectVariables.getProjectId()));
-			searchCriteria.setTaskName(new StringSearchField(this.nameField.getValue().trim()));
-			if (this.myItemCheckbox.getValue()) {
-				searchCriteria.setAssignUser(new StringSearchField(
-						SearchField.AND, AppContext.getUsername()));
-			} else {
-				searchCriteria.setAssignUser(null);
-			}
-			return searchCriteria;
-		}
+        @Override
+        protected TaskSearchCriteria fillUpSearchCriteria() {
+            searchCriteria = new TaskSearchCriteria();
+            searchCriteria.setProjectid(new NumberSearchField(
+                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setTaskName(new StringSearchField(this.nameField.getValue().trim()));
+            if (this.myItemCheckbox.getValue()) {
+                searchCriteria.setAssignUser(new StringSearchField(
+                        SearchField.AND, AppContext.getUsername()));
+            } else {
+                searchCriteria.setAssignUser(null);
+            }
+            return searchCriteria;
+        }
 
-		@Override
-		public ComponentContainer constructHeader() {
-			return TaskSearchPanel.this.constructHeader();
-		}
-
-	}
-
-	private class TaskAdvancedSearchLayout extends DynamicQueryParamLayout<TaskSearchCriteria> {
-		private static final long serialVersionUID = 1L;
-
-		public TaskAdvancedSearchLayout() {
-			super(TaskSearchPanel.this, ProjectTypeConstants.TASK);
-		}
-
-		@Override
-		public ComponentContainer constructHeader() {
+        @Override
+        public ComponentContainer constructHeader() {
             return TaskSearchPanel.this.constructHeader();
-		}
+        }
 
-		@Override
-		protected Class<TaskSearchCriteria> getType() {
-			return TaskSearchCriteria.class;
-		}
+    }
 
-		@Override
-		public Param[] getParamFields() {
-			return paramFields;
-		}
+    private class TaskAdvancedSearchLayout extends DynamicQueryParamLayout<TaskSearchCriteria> {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		protected Component buildSelectionComp(String fieldId) {
-			if ("task-assignuser".equals(fieldId)) {
-				return new ProjectMemberListSelect(false);
-			}
-			return null;
-		}
+        public TaskAdvancedSearchLayout() {
+            super(TaskSearchPanel.this, ProjectTypeConstants.TASK);
+        }
 
-		@Override
-		protected TaskSearchCriteria fillUpSearchCriteria() {
-			searchCriteria = super.fillUpSearchCriteria();
-			searchCriteria.setProjectid(new NumberSearchField(
-					CurrentProjectVariables.getProjectId()));
-			return searchCriteria;
-		}
-	}
+        @Override
+        public ComponentContainer constructHeader() {
+            return TaskSearchPanel.this.constructHeader();
+        }
+
+        @Override
+        protected Class<TaskSearchCriteria> getType() {
+            return TaskSearchCriteria.class;
+        }
+
+        @Override
+        public Param[] getParamFields() {
+            return paramFields;
+        }
+
+        @Override
+        protected Component buildSelectionComp(String fieldId) {
+            if ("task-assignuser".equals(fieldId)) {
+                return new ProjectMemberListSelect(false);
+            }
+            return null;
+        }
+
+        @Override
+        protected TaskSearchCriteria fillUpSearchCriteria() {
+            searchCriteria = super.fillUpSearchCriteria();
+            searchCriteria.setProjectid(new NumberSearchField(
+                    CurrentProjectVariables.getProjectId()));
+            return searchCriteria;
+        }
+    }
 }

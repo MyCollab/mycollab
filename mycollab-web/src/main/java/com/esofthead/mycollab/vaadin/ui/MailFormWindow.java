@@ -16,31 +16,21 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.vaadin.easyuploads.MultiFileUploadExt;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.mail.FileEmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.RichTextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Window;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.easyuploads.MultiFileUploadExt;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -49,11 +39,11 @@ import com.vaadin.ui.Window;
  * 
  */
 public class MailFormWindow extends Window {
-
 	private static final long serialVersionUID = 1L;
+
 	private EmailTokenField tokenFieldMailTo;
 	private EmailTokenField tokenFieldMailCc = new EmailTokenField();
-	private final EmailTokenField tokenFieldMailBcc = new EmailTokenField();
+	private EmailTokenField tokenFieldMailBcc = new EmailTokenField();
 	private GridLayout inputLayout;
 	private Layout subjectField;
 	private Layout ccField;
@@ -235,10 +225,10 @@ public class MailFormWindow extends Window {
 					ExtMailService systemMailService = ApplicationContextUtil
 							.getSpringBean(ExtMailService.class);
 
-					List<File> listFile = attachments.getListFile();
+					List<File> listFile = attachments.files();
 					List<EmailAttachementSource> emailAttachmentSource = null;
 					if (listFile != null && listFile.size() > 0) {
-						emailAttachmentSource = new ArrayList<EmailAttachementSource>();
+						emailAttachmentSource = new ArrayList<>();
 						for (File file : listFile) {
 							emailAttachmentSource
 									.add(new FileEmailAttachmentSource(file));
@@ -260,6 +250,7 @@ public class MailFormWindow extends Window {
 				}
 			}
 		});
+        sendBtn.setIcon(FontAwesome.SEND);
 		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(sendBtn);
 		controlsLayout.setComponentAlignment(sendBtn, Alignment.MIDDLE_RIGHT);
@@ -334,7 +325,6 @@ public class MailFormWindow extends Window {
 	}
 
 	private void butonLinkBccClick(ClickEvent event) {
-
 		removeAllInputField();
 
 		if (!isAddBcc) {

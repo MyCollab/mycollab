@@ -146,14 +146,8 @@ class TaskAddPopup extends CustomComponent {
 
         @Override
         public ComponentContainer getLayout() {
-            this.informationLayout = new GridFormLayoutHelper(2, 5, "100%",
-                    "180px", Alignment.TOP_LEFT);
-
             final VerticalLayout layout = new VerticalLayout();
-            this.informationLayout.getLayout().addStyleName(
-                    "colored-gridlayout");
-            this.informationLayout.getLayout().setMargin(false);
-            this.informationLayout.getLayout().setWidth("100%");
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
             layout.addComponent(this.informationLayout.getLayout());
             return layout;
         }

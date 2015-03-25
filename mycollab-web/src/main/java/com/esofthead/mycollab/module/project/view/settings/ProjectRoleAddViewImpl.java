@@ -17,9 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
@@ -30,144 +27,130 @@ import com.esofthead.mycollab.module.user.view.component.AccessPermissionComboBo
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
-		implements ProjectRoleAddView {
+        implements ProjectRoleAddView {
 
-	private static final long serialVersionUID = 1L;
-	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<>();
+    private static final long serialVersionUID = 1L;
+    private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<>();
 
-	@Override
-	protected String initFormHeader() {
-		return beanItem.getId() == null ? AppContext
-				.getMessage(ProjectRoleI18nEnum.FORM_NEW_TITLE) : AppContext
-				.getMessage(ProjectRoleI18nEnum.FORM_EDIT_TITLE);
-	}
+    @Override
+    protected String initFormHeader() {
+        return beanItem.getId() == null ? AppContext
+                .getMessage(ProjectRoleI18nEnum.FORM_NEW_TITLE) : AppContext
+                .getMessage(ProjectRoleI18nEnum.FORM_EDIT_TITLE);
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getId() == null ? null : beanItem.getRolename();
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getId() == null ? null : beanItem.getRolename();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return FontAwesome.GROUP;
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return FontAwesome.GROUP;
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm).createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<ProjectRole> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<ProjectRole> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ProjectRoleFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new ProjectRoleFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<ProjectRole> initBeanFormFieldFactory() {
-		return new AbstractBeanFieldGroupEditFieldFactory<ProjectRole>(editForm) {
-			private static final long serialVersionUID = 1L;
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<ProjectRole> initBeanFormFieldFactory() {
+        return new AbstractBeanFieldGroupEditFieldFactory<ProjectRole>(editForm) {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Field<?> onCreateField(Object propertyId) {
-				if (propertyId.equals("description")) {
-					final TextArea textArea = new TextArea();
-					textArea.setNullRepresentation("");
-					return textArea;
-				} else if (propertyId.equals("isadmin")) {
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                if (propertyId.equals("description")) {
+                    final TextArea textArea = new TextArea();
+                    textArea.setNullRepresentation("");
+                    return textArea;
+                } else if (propertyId.equals("isadmin")) {
 
-				} else if (propertyId.equals("rolename")) {
-					final TextField tf = new TextField();
-					if (isValidateForm) {
-						tf.setNullRepresentation("");
-						tf.setRequired(true);
-						tf.setRequiredError("Please enter a projectRole name");
-					}
-					return tf;
-				}
-				return null;
-			}
-		};
-	}
+                } else if (propertyId.equals("rolename")) {
+                    final TextField tf = new TextField();
+                    if (isValidateForm) {
+                        tf.setNullRepresentation("");
+                        tf.setRequired(true);
+                        tf.setRequiredError("Please enter a projectRole name");
+                    }
+                    return tf;
+                }
+                return null;
+            }
+        };
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		final VerticalLayout permissionsPanel = new VerticalLayout();
-		final Label organizationHeader = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-		organizationHeader.setStyleName("h2");
-		permissionsPanel.addComponent(organizationHeader);
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        final VerticalLayout permissionsPanel = new VerticalLayout();
+        final Label organizationHeader = new Label(
+                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+        organizationHeader.setStyleName("h2");
+        permissionsPanel.addComponent(organizationHeader);
 
-		PermissionMap perMap;
-		if (beanItem instanceof SimpleProjectRole) {
-			perMap = ((SimpleProjectRole) beanItem).getPermissionMap();
-		} else {
-			perMap = new PermissionMap();
-		}
+        PermissionMap perMap;
+        if (beanItem instanceof SimpleProjectRole) {
+            perMap = ((SimpleProjectRole) beanItem).getPermissionMap();
+        } else {
+            perMap = new PermissionMap();
+        }
 
-		final GridFormLayoutHelper permissionFormHelper = new GridFormLayoutHelper(
-				2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-				"100%", "167px", Alignment.TOP_LEFT);
+        final GridFormLayoutHelper permissionFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
+                2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length);
 
-		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-			final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-			final AccessPermissionComboBox permissionBox = new AccessPermissionComboBox();
+        for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+            final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            final AccessPermissionComboBox permissionBox = new AccessPermissionComboBox();
 
-			final Integer flag = perMap.getPermissionFlag(permissionPath);
-			permissionBox.setValue(flag);
-			permissionControlsMap.put(permissionPath, permissionBox);
-			permissionFormHelper.addComponent(permissionBox,
-					AppContext.getMessage(RolePermissionI18nEnum
-							.valueOf(permissionPath)), 0, i);
-		}
+            final Integer flag = perMap.getPermissionFlag(permissionPath);
+            permissionBox.setValue(flag);
+            permissionControlsMap.put(permissionPath, permissionBox);
+            permissionFormHelper.addComponent(permissionBox,
+                    AppContext.getMessage(RolePermissionI18nEnum
+                            .valueOf(permissionPath)), 0, i);
+        }
 
-		permissionFormHelper.getLayout().setWidth("100%");
-		permissionFormHelper.getLayout().setMargin(false);
-		permissionFormHelper.getLayout().addStyleName("colored-gridlayout");
-		permissionsPanel.addComponent(permissionFormHelper.getLayout());
+        permissionsPanel.addComponent(permissionFormHelper.getLayout());
 
-		return permissionsPanel;
-	}
+        return permissionsPanel;
+    }
 
-	@Override
-	public PermissionMap getPermissionMap() {
-		final PermissionMap permissionMap = new PermissionMap();
+    @Override
+    public PermissionMap getPermissionMap() {
+        final PermissionMap permissionMap = new PermissionMap();
 
-		for (final String permissionItem : this.permissionControlsMap.keySet()) {
-			final AccessPermissionComboBox permissionBox = this.permissionControlsMap
-					.get(permissionItem);
-			final Integer perValue = (Integer) permissionBox.getValue();
-			permissionMap.addPath(permissionItem, perValue);
-		}
-		return permissionMap;
-	}
+        for (final String permissionItem : this.permissionControlsMap.keySet()) {
+            final AccessPermissionComboBox permissionBox = this.permissionControlsMap
+                    .get(permissionItem);
+            final Integer perValue = (Integer) permissionBox.getValue();
+            permissionMap.addPath(permissionItem, perValue);
+        }
+        return permissionMap;
+    }
 
 }

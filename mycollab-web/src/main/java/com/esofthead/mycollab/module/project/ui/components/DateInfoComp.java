@@ -69,8 +69,7 @@ public class DateInfoComp extends MVerticalLayout {
 					"lastupdatedtime");
 			Label updatedDateLbl = new Label(AppContext.getMessage(
 					ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
-					DateTimeUtils.getPrettyDateValue(updatedDate,
-							AppContext.getUserLocale())));
+					AppContext.formatPrettyTime(updatedDate)));
 			updatedDateLbl.setDescription(AppContext
 					.formatDateTime(updatedDate));
 			layout.addComponent(updatedDateLbl);

@@ -104,8 +104,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
     }
 
     private void displayWorkflowControl() {
-        if (BugStatus.Open.name().equals(this.beanItem.getStatus())
-                || BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
+        if (BugStatus.Open.name().equals(beanItem.getStatus())
+                || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             final ButtonGroup navButton = new ButtonGroup();
             final Button startProgressBtn = new Button(
@@ -157,7 +157,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
             navButton.addButton(wontFixBtn);
             this.bugWorkflowControl.addComponent(navButton);
         } else if (BugStatus.InProgress.name()
-                .equals(this.beanItem.getStatus())) {
+                .equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             final ButtonGroup navButton = new ButtonGroup();
             final Button stopProgressBtn = new Button(
@@ -193,7 +193,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
             resolveBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
             navButton.addButton(resolveBtn);
             this.bugWorkflowControl.addComponent(navButton);
-        } else if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
+        } else if (BugStatus.Verified.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             final ButtonGroup navButton = new ButtonGroup();
             final Button reopenBtn = new Button(
@@ -212,7 +212,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
             navButton.addButton(reopenBtn);
 
             this.bugWorkflowControl.addComponent(navButton);
-        } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
+        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             final ButtonGroup navButton = new ButtonGroup();
             final Button reopenBtn = new Button(
@@ -245,7 +245,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
             approveNCloseBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
             navButton.addButton(approveNCloseBtn);
             this.bugWorkflowControl.addComponent(navButton);
-        } else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
+        } else if (BugStatus.Resolved.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
             final ButtonGroup navButton = new ButtonGroup();
             final Button reopenBtn = new Button(
@@ -271,7 +271,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     @Override
     public SimpleBug getItem() {
-        return this.beanItem;
+        return beanItem;
     }
 
     @Override
@@ -284,7 +284,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
     @Override
     public void refreshBugItem() {
         EventBusFactory.getInstance().post(
-                new BugEvent.GotoRead(BugReadViewImpl.this, this.beanItem
+                new BugEvent.GotoRead(BugReadViewImpl.this, beanItem
                         .getId()));
     }
 
@@ -306,20 +306,20 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
     @Override
     protected void onPreviewItem() {
         tagViewComponent.display(ProjectTypeConstants.BUG, beanItem.getId());
-        commentList.loadComments("" + this.beanItem.getId());
-        historyList.loadHistory(this.beanItem.getId());
-        bugTimeLogList.displayTime(this.beanItem);
+        commentList.loadComments("" + beanItem.getId());
+        historyList.loadHistory(beanItem.getId());
+        bugTimeLogList.displayTime(beanItem);
 
         bugFollowersList.displayFollowers(beanItem);
 
-        dateInfoComp.displayEntryDateTime(this.beanItem);
+        dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
     }
 
     @Override
     protected String initFormTitle() {
         return AppContext.getMessage(BugI18nEnum.FORM_READ_TITLE,
-                this.beanItem.getBugkey(), this.beanItem.getSummary());
+                beanItem.getBugkey(), beanItem.getSummary());
     }
 
     @Override
@@ -516,13 +516,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         @Override
         public ComponentContainer getLayout() {
             final VerticalLayout layout = new VerticalLayout();
-            layout.setMargin(false);
-            this.informationLayout = new GridFormLayoutHelper(2, 11, "100%",
-                    "167px", Alignment.TOP_LEFT);
-            this.informationLayout.getLayout().addStyleName(
-                    "colored-gridlayout");
-            this.informationLayout.getLayout().setMargin(false);
-            this.informationLayout.getLayout().setWidth("100%");
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 11);
             layout.addComponent(this.informationLayout.getLayout());
             layout.setComponentAlignment(this.informationLayout.getLayout(),
                     Alignment.BOTTOM_CENTER);

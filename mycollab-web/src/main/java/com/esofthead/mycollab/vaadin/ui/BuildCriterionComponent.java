@@ -62,12 +62,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
     public BuildCriterionComponent(Param[] paramFields, Class<S> type,
                                    String searchCategory) {
-        this.setSpacing(true);
         this.paramFields = paramFields;
         this.type = type;
         this.searchCategory = searchCategory;
 
-        MHorizontalLayout headerBox = new MHorizontalLayout().withSpacing(true)
+        MHorizontalLayout headerBox = new MHorizontalLayout()
                 .withMargin(new MarginInfo(true, false, true, true));
         headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         this.addComponent(headerBox);
@@ -75,17 +74,16 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
         Label filterLbl = new Label("&nbsp; Saved Filter: ", ContentMode.HTML);
         headerBox.with(filterLbl).withAlign(filterLbl, Alignment.MIDDLE_LEFT);
 
-        filterBox = new MHorizontalLayout().withSpacing(true);
+        filterBox = new MHorizontalLayout();
         headerBox.with(filterBox).withAlign(filterBox, Alignment.MIDDLE_LEFT);
 
         buildFilterBox(null);
 
-        this.searchContainer = new MVerticalLayout().withSpacing(true).withMargin(false);
+        this.searchContainer = new MVerticalLayout().withMargin(false);
         this.searchContainer
                 .setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        controlsBtn = new MHorizontalLayout().withSpacing(true)
-                .withMargin(true);
+        controlsBtn = new MHorizontalLayout().withMargin(true);
 
         Button addCriteriaBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA),
@@ -253,12 +251,12 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
             this.index = index;
             this.setSpacing(true);
             this.setMargin(new MarginInfo(false, true, false, true));
-            this.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            this.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             indexLbl = new Label(index + "");
+            indexLbl.setWidth("70px");
             indexLbl.addStyleName("index_lbl");
             this.addComponent(indexLbl, 0, 0);
-            this.setComponentAlignment(indexLbl, Alignment.TOP_LEFT);
 
             if (index == 1) {
                 Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
@@ -273,8 +271,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
             buildFieldSelectionBox();
 
-            valueBox = new MVerticalLayout().withSpacing(true)
-                    .withMargin(false).withWidth("200px");
+            valueBox = new MVerticalLayout().withMargin(false).withWidth("200px");
 
             deleteBtn = new Button("", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;

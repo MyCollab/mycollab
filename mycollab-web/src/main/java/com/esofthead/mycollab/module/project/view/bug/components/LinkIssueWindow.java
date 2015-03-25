@@ -26,8 +26,8 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.BugRelationService;
+import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -94,12 +94,7 @@ public class LinkIssueWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout = new GridFormLayoutHelper(1, 3, "100%",
-                        "167px", Alignment.TOP_LEFT);
-                this.informationLayout.getLayout().setWidth("100%");
-                this.informationLayout.getLayout().setMargin(false);
-                this.informationLayout.getLayout().addStyleName(
-                        "colored-gridlayout");
+                this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
                 layout.addComponent(this.informationLayout.getLayout());
 

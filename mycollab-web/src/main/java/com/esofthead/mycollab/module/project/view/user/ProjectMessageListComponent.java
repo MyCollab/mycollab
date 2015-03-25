@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -108,9 +107,8 @@ public class ProjectMessageListComponent extends MVerticalLayout {
             final CssLayout body = new CssLayout();
             body.setStyleName("activity-date");
             final Label dateLbl = new Label(AppContext.getMessage(
-                    MessageI18nEnum.OPT_FROM_TIME_ENTRY, DateTimeUtils
-                            .getPrettyDateValue(message.getPosteddate(),
-                                    AppContext.getUserLocale())));
+                    MessageI18nEnum.OPT_FROM_TIME_ENTRY, AppContext
+                            .formatPrettyTime(message.getPosteddate())));
             body.addComponent(dateLbl);
 
             layout.addComponent(body);

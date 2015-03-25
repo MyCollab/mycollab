@@ -45,10 +45,13 @@ class SendingErrorReportEmailJob extends QuartzJobBean {
         contentGenerator.putVariable("issueCol", listIssues)
         val emailConfiguration: EmailConfiguration = SiteConfiguration.getRelayEmailConfiguration
         val mailer: IMailer = if (emailConfiguration.getHost == "") new NullMailer else new DefaultMailer(emailConfiguration)
-        mailer.sendHTMLMail("mail@mycollab.com", "Error Agent", Arrays.asList(new MailRecipientField(SiteConfiguration.getSendErrorEmail, SiteConfiguration.getSendErrorEmail)), null, null, contentGenerator.generateSubjectContent("My Collab Error Report " + MyCollabVersion.getVersion), contentGenerator.generateBodyContent("templates/email/errorReport.mt"), null)
-        val ex: ReportBugIssueExample = new ReportBugIssueExample
-        ex.createCriteria.andIdGreaterThan(0)
-        mapper.deleteByExample(ex)
+        try {
+          mailer.sendHTMLMail("mail@mycollab.com", "Error Agent", Arrays.asList(new MailRecipientField(SiteConfiguration.getSendErrorEmail, SiteConfiguration.getSendErrorEmail)), null, null, contentGenerator.generateSubjectContent("My Collab Error Report " + MyCollabVersion.getVersion), contentGenerator.generateBodyContent("templates/email/errorReport.mt"), null)
+        } finally {
+          val ex: ReportBugIssueExample = new ReportBugIssueExample
+          ex.createCriteria.andIdGreaterThan(0)
+          mapper.deleteByExample(ex)
+        }
       }
     }
   }

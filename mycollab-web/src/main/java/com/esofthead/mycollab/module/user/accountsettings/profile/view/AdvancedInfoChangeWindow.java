@@ -33,115 +33,107 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 class AdvancedInfoChangeWindow extends Window {
 
-	private TextField txtWebsite = new TextField();
-	private TextField txtCompany = new TextField();
-	private CountryComboBox cboCountry = new CountryComboBox();
+    private TextField txtWebsite = new TextField();
+    private TextField txtCompany = new TextField();
+    private CountryComboBox cboCountry = new CountryComboBox();
 
-	private final User user;
+    private final User user;
 
-	AdvancedInfoChangeWindow(final User user) {
-		this.user = user;
-		this.setWidth("450px");
-		this.setResizable(false);
-		this.setModal(true);
-		this.initUI();
-		this.center();
-		this.setCaption(AppContext
-				.getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
-	}
+    AdvancedInfoChangeWindow(final User user) {
+        this.user = user;
+        this.setWidth("450px");
+        this.setResizable(false);
+        this.setModal(true);
+        this.initUI();
+        this.center();
+        this.setCaption(AppContext
+                .getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
+    }
 
-	private void initUI() {
-		final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
+    private void initUI() {
+        final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
-		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 4,
-				"100%", "150px", Alignment.TOP_LEFT);
+        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
-		passInfo.addComponent(txtWebsite,
-				AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
-		passInfo.addComponent(txtCompany,
-				AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
-		passInfo.addComponent(cboCountry,
-				AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
+        passInfo.addComponent(txtWebsite,
+                AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
+        passInfo.addComponent(txtCompany,
+                AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
+        passInfo.addComponent(cboCountry,
+                AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
-		this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
-				: this.user.getWebsite());
-		this.txtCompany.setValue(this.user.getCompany() == null ? ""
-				: this.user.getCompany());
-		this.cboCountry.setValue(this.user.getCountry() == null ? ""
-				: this.user.getCountry());
+        this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
+                : this.user.getWebsite());
+        this.txtCompany.setValue(this.user.getCompany() == null ? ""
+                : this.user.getCompany());
+        this.cboCountry.setValue(this.user.getCountry() == null ? ""
+                : this.user.getCountry());
 
-		passInfo.getLayout().setMargin(false);
-		passInfo.getLayout().setWidth("100%");
-		passInfo.getLayout().addStyleName("colored-gridlayout");
-		mainLayout.addComponent(passInfo.getLayout());
-		mainLayout.setComponentAlignment(passInfo.getLayout(),
-				Alignment.TOP_LEFT);
+        mainLayout.addComponent(passInfo.getLayout());
+        mainLayout.setComponentAlignment(passInfo.getLayout(),
+                Alignment.TOP_LEFT);
 
-		final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button cancelBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						AdvancedInfoChangeWindow.this.close();
-					}
-				});
-		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        AdvancedInfoChangeWindow.this.close();
+                    }
+                });
+        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-		final Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        final Button saveBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						changeInfo();
-					}
-				});
-		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        changeInfo();
+                    }
+                });
+        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         saveBtn.setIcon(FontAwesome.SAVE);
 
         hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
 
-		mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
+        mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-		this.setModal(true);
-		this.setContent(mainLayout);
-	}
+        this.setModal(true);
+        this.setContent(mainLayout);
+    }
 
-	private void changeInfo() {
-		this.user.setWebsite(this.txtWebsite.getValue());
-		this.user.setCompany(this.txtCompany.getValue());
-		this.user.setCountry((String) this.cboCountry.getValue());
+    private void changeInfo() {
+        this.user.setWebsite(this.txtWebsite.getValue());
+        this.user.setCompany(this.txtCompany.getValue());
+        this.user.setCountry((String) this.cboCountry.getValue());
 
-		final UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		userService.updateWithSession(this.user, AppContext.getUsername());
+        final UserService userService = ApplicationContextUtil
+                .getSpringBean(UserService.class);
+        userService.updateWithSession(this.user, AppContext.getUsername());
 
-		EventBusFactory.getInstance().post(
-				new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this,
-						null));
-		AdvancedInfoChangeWindow.this.close();
+        EventBusFactory.getInstance().post(
+                new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this,
+                        null));
+        AdvancedInfoChangeWindow.this.close();
 
-		Page.getCurrent().getJavaScript().execute("window.location.reload();");
-	}
+        Page.getCurrent().getJavaScript().execute("window.location.reload();");
+    }
 }

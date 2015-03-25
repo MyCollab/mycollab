@@ -16,30 +16,13 @@
  */
 package com.esofthead.mycollab.vaadin;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DATE_FORMAT;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DATE_TIME_DATE_FORMAT;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_DAY_MONTH_FORMAT;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_SHORT_DATE_FORMAT;
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import com.esofthead.mycollab.core.SessionExpireException;
-import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ch.qos.cal10n.IMessageConveyor;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
-import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.SessionExpireException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -59,9 +42,20 @@ import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.*;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -272,7 +266,7 @@ public class AppContext implements Serializable {
 							public void handle(UserProfileChangeEvent event) {
 								if ("avatarid".equals(event.getFieldChange())) {
 									session.setAvatarid((String) event
-											.getData());
+                                            .getData());
 								}
 							}
 						});
@@ -336,6 +330,10 @@ public class AppContext implements Serializable {
 	public static String getUserAvatarId() {
 		return getInstance().session.getAvatarid();
 	}
+
+    public static String getUserDisplayName() {
+        return getInstance().session.getDisplayName();
+    }
 
 	/**
 	 * Get preference info of current user

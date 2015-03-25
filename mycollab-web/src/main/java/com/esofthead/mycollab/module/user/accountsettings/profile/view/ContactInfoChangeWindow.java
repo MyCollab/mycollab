@@ -16,14 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import com.vaadin.server.FontAwesome;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -35,173 +27,170 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 class ContactInfoChangeWindow extends Window {
 
-	private TextField txtWorkPhone = new TextField();
-	private TextField txtHomePhone = new TextField();
-	private TextField txtFaceBook = new TextField();
-	private TextField txtTwitter = new TextField();
-	private TextField txtSkype = new TextField();
-	private final Validator validation;
+    private TextField txtWorkPhone = new TextField();
+    private TextField txtHomePhone = new TextField();
+    private TextField txtFaceBook = new TextField();
+    private TextField txtTwitter = new TextField();
+    private TextField txtSkype = new TextField();
+    private final Validator validation;
 
-	private final User user;
+    private final User user;
 
-	public ContactInfoChangeWindow(final User user) {
-		this.user = user;
-		this.setWidth("450px");
-		this.setResizable(false);
-		this.setModal(true);
-		this.validation = ApplicationContextUtil
-				.getSpringBean(LocalValidatorFactoryBean.class);
-		this.initUI();
-		this.center();
-		this.setCaption(AppContext
-				.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
-	}
+    public ContactInfoChangeWindow(final User user) {
+        this.user = user;
+        this.setWidth("450px");
+        this.setResizable(false);
+        this.setModal(true);
+        this.validation = ApplicationContextUtil
+                .getSpringBean(LocalValidatorFactoryBean.class);
+        this.initUI();
+        this.center();
+        this.setCaption(AppContext
+                .getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
+    }
 
-	private void initUI() {
-		final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
+    private void initUI() {
+        final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
-		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
-				"100%", "150px", Alignment.TOP_LEFT);
+        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
 
-		passInfo.addComponent(txtWorkPhone,
-				AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
-		passInfo.addComponent(txtHomePhone,
-				AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
-		passInfo.addComponent(txtFaceBook, "Facebook", 0, 2);
-		passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
-		passInfo.addComponent(txtSkype, "Skype", 0, 4);
+        passInfo.addComponent(txtWorkPhone,
+                AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+        passInfo.addComponent(txtHomePhone,
+                AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+        passInfo.addComponent(txtFaceBook, "Facebook", 0, 2);
+        passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
+        passInfo.addComponent(txtSkype, "Skype", 0, 4);
 
-		this.txtWorkPhone.setValue(this.user.getWorkphone() == null ? ""
-				: this.user.getWorkphone());
-		this.txtHomePhone.setValue(this.user.getHomephone() == null ? ""
-				: this.user.getHomephone());
-		this.txtFaceBook.setValue(this.user.getFacebookaccount() == null ? ""
-				: this.user.getFacebookaccount());
-		this.txtTwitter.setValue(this.user.getTwitteraccount() == null ? ""
-				: this.user.getTwitteraccount());
-		this.txtSkype.setValue(this.user.getSkypecontact() == null ? ""
-				: this.user.getSkypecontact());
+        this.txtWorkPhone.setValue(this.user.getWorkphone() == null ? ""
+                : this.user.getWorkphone());
+        this.txtHomePhone.setValue(this.user.getHomephone() == null ? ""
+                : this.user.getHomephone());
+        this.txtFaceBook.setValue(this.user.getFacebookaccount() == null ? ""
+                : this.user.getFacebookaccount());
+        this.txtTwitter.setValue(this.user.getTwitteraccount() == null ? ""
+                : this.user.getTwitteraccount());
+        this.txtSkype.setValue(this.user.getSkypecontact() == null ? ""
+                : this.user.getSkypecontact());
+        mainLayout.addComponent(passInfo.getLayout());
+        mainLayout.setComponentAlignment(passInfo.getLayout(),
+                Alignment.TOP_LEFT);
 
-		passInfo.getLayout().setMargin(false);
-		passInfo.getLayout().setWidth("100%");
-		passInfo.getLayout().addStyleName("colored-gridlayout");
-		mainLayout.addComponent(passInfo.getLayout());
-		mainLayout.setComponentAlignment(passInfo.getLayout(),
-				Alignment.TOP_LEFT);
+        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-		final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        final Button cancelBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        ContactInfoChangeWindow.this.close();
+                    }
+                });
+        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						ContactInfoChangeWindow.this.close();
-					}
-				});
-		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+        final Button saveBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-		final Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						changeUserInfo();
-					}
-				});
-		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        changeUserInfo();
+                    }
+                });
+        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         saveBtn.setIcon(FontAwesome.SAVE);
 
         hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
 
-		mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
+        mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-		this.setModal(true);
-		this.setContent(mainLayout);
-	}
+        this.setModal(true);
+        this.setContent(mainLayout);
+    }
 
-	public boolean validateForm(final Object data) {
+    public boolean validateForm(final Object data) {
 
-		final Set<ConstraintViolation<Object>> violations = this.validation
-				.validate(data);
-		if (violations.size() > 0) {
-			final StringBuilder errorMsg = new StringBuilder();
+        final Set<ConstraintViolation<Object>> violations = this.validation
+                .validate(data);
+        if (violations.size() > 0) {
+            final StringBuilder errorMsg = new StringBuilder();
 
-			for (@SuppressWarnings("rawtypes")
-			final ConstraintViolation violation : violations) {
-				errorMsg.append(violation.getMessage()).append("<br/>");
+            for (@SuppressWarnings("rawtypes")
+            final ConstraintViolation violation : violations) {
+                errorMsg.append(violation.getMessage()).append("<br/>");
 
-				if (violation.getPropertyPath() != null
-						&& !violation.getPropertyPath().toString().equals("")) {
-					if (violation.getPropertyPath().toString()
-							.equals("workphone")) {
-						this.txtWorkPhone.addStyleName("errorField");
-					}
+                if (violation.getPropertyPath() != null
+                        && !violation.getPropertyPath().toString().equals("")) {
+                    if (violation.getPropertyPath().toString()
+                            .equals("workphone")) {
+                        this.txtWorkPhone.addStyleName("errorField");
+                    }
 
-					if (violation.getPropertyPath().toString()
-							.equals("homephone")) {
-						this.txtHomePhone.addStyleName("errorField");
-					}
-				}
+                    if (violation.getPropertyPath().toString()
+                            .equals("homephone")) {
+                        this.txtHomePhone.addStyleName("errorField");
+                    }
+                }
 
-			}
+            }
 
-			NotificationUtil.showErrorNotification(errorMsg.toString());
+            NotificationUtil.showErrorNotification(errorMsg.toString());
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private void changeUserInfo() {
+    private void changeUserInfo() {
 
-		this.txtWorkPhone.removeStyleName("errorField");
-		this.txtHomePhone.removeStyleName("errorField");
+        this.txtWorkPhone.removeStyleName("errorField");
+        this.txtHomePhone.removeStyleName("errorField");
 
-		this.user.setWorkphone(this.txtWorkPhone.getValue());
-		this.user.setHomephone(this.txtHomePhone.getValue());
-		this.user.setFacebookaccount(this.txtFaceBook.getValue());
-		this.user.setTwitteraccount(this.txtTwitter.getValue());
-		this.user.setSkypecontact(this.txtSkype.getValue());
+        this.user.setWorkphone(this.txtWorkPhone.getValue());
+        this.user.setHomephone(this.txtHomePhone.getValue());
+        this.user.setFacebookaccount(this.txtFaceBook.getValue());
+        this.user.setTwitteraccount(this.txtTwitter.getValue());
+        this.user.setSkypecontact(this.txtSkype.getValue());
 
-		if (this.validateForm(this.user)) {
-			final UserService userService = ApplicationContextUtil
-					.getSpringBean(UserService.class);
-			userService.updateWithSession(this.user, AppContext.getUsername());
+        if (this.validateForm(this.user)) {
+            final UserService userService = ApplicationContextUtil
+                    .getSpringBean(UserService.class);
+            userService.updateWithSession(this.user, AppContext.getUsername());
 
-			EventBusFactory.getInstance().post(
-					new ProfileEvent.GotoProfileView(
-							ContactInfoChangeWindow.this, null));
-			ContactInfoChangeWindow.this.close();
-			Page.getCurrent().getJavaScript()
-					.execute("window.location.reload();");
-		}
+            EventBusFactory.getInstance().post(
+                    new ProfileEvent.GotoProfileView(
+                            ContactInfoChangeWindow.this, null));
+            ContactInfoChangeWindow.this.close();
+            Page.getCurrent().getJavaScript()
+                    .execute("window.location.reload();");
+        }
 
-	}
+    }
 }

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import java.util.List;
 
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentInput;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
-import com.esofthead.mycollab.mobile.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -150,7 +150,7 @@ public class MessageCommentListDisplay extends VerticalLayout implements
 			metadataRow.addComponent(commentTimePost);
 			rightCol.addComponent(metadataRow);
 
-			Label commentContent = new UrlDetectableLabel(comment.getComment());
+            SafeHtmlLabel commentContent = new SafeHtmlLabel(comment.getComment());
 			commentContent.setStyleName("comment-content");
 			rightCol.addComponent(commentContent);
 

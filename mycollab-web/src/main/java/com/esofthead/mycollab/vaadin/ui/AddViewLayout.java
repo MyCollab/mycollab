@@ -41,11 +41,11 @@ public class AddViewLayout extends CustomLayoutExt {
 
         this.viewIcon = viewIcon;
 
-        this.header = new MHorizontalLayout().withWidth("100%");
-        this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        header = new MHorizontalLayout().withWidth("100%");
+        header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        this.titleLbl = new Label("", ContentMode.HTML);
-        this.titleLbl.setStyleName("headerName");
+        titleLbl = new Label("", ContentMode.HTML);
+        titleLbl.setStyleName("headerName");
 
         if (!(viewIcon instanceof FontAwesome)) {
             Image icon = new Image(null);
@@ -53,13 +53,13 @@ public class AddViewLayout extends CustomLayoutExt {
             icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
             this.header.with(icon);
         }
-        this.header.with(titleLbl).expand(titleLbl);
+        header.with(titleLbl).expand(titleLbl);
         setHeader(viewTitle);
-        this.addComponent(this.header, "addViewHeader");
+        addComponent(header, "addViewHeader");
     }
 
     public void addBody(final ComponentContainer body) {
-        this.addComponent(body, "addViewBody");
+        addComponent(body, "addViewBody");
     }
 
     public void addBottomControls(final ComponentContainer bottomControls) {
@@ -67,19 +67,19 @@ public class AddViewLayout extends CustomLayoutExt {
     }
 
     public void addHeaderRight(final ComponentContainer headerRight) {
-        this.header.addComponent(headerRight);
+        header.addComponent(headerRight);
     }
 
     public void addTitleStyleName(final String styleName) {
-        this.titleLbl.addStyleName(styleName);
+        titleLbl.addStyleName(styleName);
     }
 
     public void setTitleStyleName(final String styleName) {
-        this.titleLbl.setStyleName(styleName);
+        titleLbl.setStyleName(styleName);
     }
 
     public void removeTitleStyleName(final String styleName) {
-        this.titleLbl.removeStyleName(styleName);
+        titleLbl.removeStyleName(styleName);
     }
 
 	/*
@@ -90,9 +90,9 @@ public class AddViewLayout extends CustomLayoutExt {
     public void setHeader(final String viewTitle) {
         if (viewIcon instanceof FontAwesome) {
             String title = ((FontAwesome) viewIcon).getHtml() + " " + viewTitle;
-            this.titleLbl.setValue(title);
+            titleLbl.setValue(title);
         } else {
-            this.titleLbl.setValue(viewTitle);
+            titleLbl.setValue(viewTitle);
         }
     }
 
@@ -102,9 +102,9 @@ public class AddViewLayout extends CustomLayoutExt {
             titleWrap.setStyleName("addViewTitle");
             titleWrap.setWidth("100%");
             titleWrap.addComponent(new Label(title));
-            this.addComponent(titleWrap, "addViewTitle");
+            addComponent(titleWrap, "addViewTitle");
         } else {
-            this.removeComponent("addViewTitle");
+            removeComponent("addViewTitle");
         }
     }
 }

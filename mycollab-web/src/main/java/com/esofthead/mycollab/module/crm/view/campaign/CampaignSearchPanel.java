@@ -31,10 +31,9 @@ import com.esofthead.mycollab.module.crm.ui.components.CrmViewHeader;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
-import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -113,13 +112,18 @@ public class CampaignSearchPanel extends DefaultGenericSearchPanel<CampaignSearc
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout()
-					.withSpacing(true).withMargin(true);
+			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-			this.nameField = this.createSeachSupportTextField(new TextField(),
-					"NameFieldOfBasicSearch");
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("LeadSearchRequest", ShortcutAction.KeyCode.ENTER,
+                            null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
 
-			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			basicSearchBody.with(nameField).withAlign(nameField,
 					Alignment.MIDDLE_CENTER);
 

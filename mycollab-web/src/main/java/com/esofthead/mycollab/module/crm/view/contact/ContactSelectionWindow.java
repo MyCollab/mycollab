@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
@@ -42,7 +40,6 @@ import java.util.Arrays;
 public class ContactSelectionWindow extends Window {
 
 	private static final long serialVersionUID = 1L;
-	private ContactSearchCriteria searchCriteria;
 	private ContactTableDisplay tableItem;
 	private FieldSelection<Contact> fieldSelection;
 
@@ -55,14 +52,7 @@ public class ContactSelectionWindow extends Window {
 	}
 
 	public void show() {
-		searchCriteria = new ContactSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		MVerticalLayout layout = new MVerticalLayout();
-
-		createContactList();
-
 		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
 		contactSimpleSearchPanel
 				.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
@@ -75,9 +65,10 @@ public class ContactSelectionWindow extends Window {
 				});
 		layout.addComponent(contactSimpleSearchPanel);
 		layout.addComponent(tableItem);
+        createContactList();
 		this.setContent(layout);
 
-		tableItem.setSearchCriteria(searchCriteria);
+		tableItem.setSearchCriteria(new ContactSearchCriteria());
 		center();
 	}
 
@@ -117,6 +108,5 @@ public class ContactSelectionWindow extends Window {
 						return b;
 					}
 				});
-
 	}
 }

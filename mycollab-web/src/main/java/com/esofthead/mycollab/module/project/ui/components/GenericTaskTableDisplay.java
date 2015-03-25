@@ -24,11 +24,12 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 
 import java.util.List;
 
@@ -38,8 +39,7 @@ import java.util.List;
  * @since 1.0
  * 
  */
-public class GenericTaskTableDisplay
-		extends
+public class GenericTaskTableDisplay extends
 		DefaultPagedBeanTable<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> {
 	private static final long serialVersionUID = 1L;
 
@@ -54,17 +54,11 @@ public class GenericTaskTableDisplay
 			@Override
 			public com.vaadin.ui.Component generateCell(final Table source,
 					final Object itemId, final Object columnId) {
-				HorizontalLayout layout = new HorizontalLayout();
 
 				final ProjectGenericTask task = GenericTaskTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				if (task.getType() != null) {
-					FontIconLabel icon = new FontIconLabel(ProjectAssetsManager.getAsset(task.getType()));
-					layout.addComponent(icon);
-					layout.setComponentAlignment(icon, Alignment.MIDDLE_CENTER);
-				}
-				final ButtonLink b = new ButtonLink(task.getName(),
+				final ButtonLink taskLink = new ButtonLink(task.getName(),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -75,11 +69,10 @@ public class GenericTaskTableDisplay
 										"name"));
 							}
 						});
-				b.setWidth("100%");
-				layout.addComponent(b);
-				layout.setExpandRatio(b, 1.0f);
-				layout.setWidth("100%");
-				return layout;
+                if (task.getType() != null) {
+                    taskLink.setIcon(ProjectAssetsManager.getAsset(task.getType()));
+                }
+				return taskLink;
 			}
 		});
 

@@ -37,9 +37,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.google.common.collect.Ordering;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -50,7 +48,6 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -116,7 +113,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         this.addComponent(headerLayout);
         initHeader();
 
-        pagesLayout = new MVerticalLayout().withStyleName("pages-list-layout");
+        pagesLayout = new MVerticalLayout().withMargin(false).withStyleName("pages-list-layout");
         this.addComponent(pagesLayout);
     }
 
@@ -291,8 +288,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         Label lastUpdateInfo = new Label(
                 AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
                         ProjectLinkBuilder.generateProjectMemberHtmlLink(
-                                resource.getCreatedUser(),
-                                CurrentProjectVariables.getProjectId()),
+                                CurrentProjectVariables.getProjectId(), resource.getCreatedUser()),
                         AppContext.formatDateTime(resource.getCreatedTime()
                                 .getTime())), ContentMode.HTML);
         lastUpdateInfo.addStyleName("last-update-info");
@@ -403,8 +399,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         Label lastUpdateInfo = new Label(AppContext.getMessage(
                 Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder
                         .generateProjectMemberHtmlLink(
-                                resource.getLastUpdatedUser(),
-                                CurrentProjectVariables.getProjectId()),
+                                CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser()),
                 AppContext.formatDateTime(resource.getLastUpdatedTime()
                         .getTime())), ContentMode.HTML);
         lastUpdateInfo.addStyleName("last-update-info");

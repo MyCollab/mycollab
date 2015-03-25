@@ -17,12 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -40,18 +36,18 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-
+import com.vaadin.ui.*;
 import fi.jasoft.dragdroplayouts.DDVerticalLayout;
 import fi.jasoft.dragdroplayouts.client.ui.LayoutDragMode;
 import fi.jasoft.dragdroplayouts.events.LayoutBoundTransferable;
 import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -63,12 +59,11 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		TaskGroupReorderView {
 	private static final long serialVersionUID = 1L;
 	private BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> taskLists;
-	private Button saveOrderBtn;
-	private final Set<SimpleTaskList> changeSet = new HashSet<SimpleTaskList>();
+	private final Set<SimpleTaskList> changeSet = new HashSet<>();
 
 	public TaskGroupReorderViewImpl() {
 		super();
-		this.setMargin(true);
+        withMargin(true);
 		constructHeader();
 	}
 
@@ -77,14 +72,10 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		headerWrapper.setWidth("100%");
 		headerWrapper.addStyleName("taskgroup-header");
 
-		HorizontalLayout header = new HorizontalLayout();
-		header.setSpacing(true);
-		header.setWidth("100%");
+		MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 		Label headerLbl = new Label("All Tasks");
 		headerLbl.setStyleName("h2");
-		header.addComponent(headerLbl);
-		header.setComponentAlignment(headerLbl, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(headerLbl, 1.0f);
+		header.with(headerLbl).withAlign(headerLbl, Alignment.MIDDLE_LEFT).expand(headerLbl);
 
 		Button backToListBtn = new Button("Back to dashboard",
 				new Button.ClickListener() {
@@ -101,7 +92,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		header.addComponent(backToListBtn);
 		header.setComponentAlignment(backToListBtn, Alignment.MIDDLE_RIGHT);
 
-		saveOrderBtn = new Button(
+		Button saveOrderBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -114,8 +105,8 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 					}
 				});
 		saveOrderBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		header.addComponent(saveOrderBtn);
-		header.setComponentAlignment(saveOrderBtn, Alignment.MIDDLE_RIGHT);
+        saveOrderBtn.setIcon(FontAwesome.SAVE);
+		header.with(saveOrderBtn).withAlign(saveOrderBtn, Alignment.MIDDLE_RIGHT);
 
 		headerWrapper.addComponent(header);
 
@@ -171,10 +162,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 			}
 		});
 
-		taskLists = new BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList>(
-				null,
-				ApplicationContextUtil
-						.getSpringBean(ProjectTaskListService.class),
+		taskLists = new BeanList<>(null, ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
 				TaskListRowDisplayHandler.class, ddLayout);
 		this.addComponent(taskLists);
 	}
@@ -182,8 +170,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 	@Override
 	public void displayTaskLists() {
 		TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
+		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 		taskLists.setSearchCriteria(criteria);
 	}
 
@@ -197,7 +184,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		}
 	}
 
-	private static class TaskListComponent extends CssLayout {
+	private static class TaskListComponent extends MVerticalLayout {
 		private static final long serialVersionUID = 1L;
 		private final SimpleTaskList taskList;
 
@@ -212,9 +199,8 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 			}
 			this.addComponent(taskName);
 			Label taskCreatedTime = new Label("Last updated on "
-					+ DateTimeUtils.getPrettyDateValue(
-							taskList.getLastupdatedtime(),
-							AppContext.getUserLocale()));
+					+ AppContext.formatPrettyTime(
+                    taskList.getLastupdatedtime()));
 			taskCreatedTime.setStyleName("created-time");
 			this.addComponent(taskCreatedTime);
 		}

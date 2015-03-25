@@ -167,7 +167,7 @@
             ${_parameter.searchCriteria.orderByField}
             ${_parameter.searchCriteria.sortDirection},
         #end
-        m_prj_task.startdate ASC, m_prj_task.enddate ASC
+        m_prj_task.createdTime ASC, m_prj_task.startdate ASC, m_prj_task.enddate ASC
         ]]>
     </sql>
 

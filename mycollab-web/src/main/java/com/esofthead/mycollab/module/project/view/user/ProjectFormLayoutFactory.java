@@ -89,12 +89,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			organizationHeader.setStyleName("h2");
 			layout.addComponent(organizationHeader);
 
-			this.informationLayout = new GridFormLayoutHelper(2, 2, "100%",
-					"167px", Alignment.TOP_LEFT);
-			this.informationLayout.getLayout().setWidth("100%");
-			this.informationLayout.getLayout().setMargin(false);
-			this.informationLayout.getLayout().addStyleName(
-					"colored-gridlayout");
+			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
 			layout.addComponent(this.informationLayout.getLayout());
 			layout.setComponentAlignment(this.informationLayout.getLayout(),
 					Alignment.BOTTOM_CENTER);
@@ -105,11 +100,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			financialHeader.setStyleName("h2");
 			layout.addComponent(financialHeader);
 
-			this.financialLayout = new GridFormLayoutHelper(2, 4, "100%",
-					"167px", Alignment.TOP_LEFT);
-			this.financialLayout.getLayout().setWidth("100%");
-			this.financialLayout.getLayout().setMargin(false);
-			this.financialLayout.getLayout().addStyleName("colored-gridlayout");
+			this.financialLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
 			layout.addComponent(this.financialLayout.getLayout());
 			layout.setComponentAlignment(this.financialLayout.getLayout(),
 					Alignment.BOTTOM_CENTER);
@@ -119,12 +110,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			descHeader.setStyleName("h2");
 			layout.addComponent(descHeader);
 
-			this.descriptionLayout = new GridFormLayoutHelper(2, 1, "100%",
-					"167px", Alignment.TOP_LEFT);
-			this.descriptionLayout.getLayout().setWidth("100%");
-			this.descriptionLayout.getLayout().setMargin(false);
-			this.descriptionLayout.getLayout().addStyleName(
-					"colored-gridlayout");
+			this.descriptionLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
 			layout.addComponent(this.descriptionLayout.getLayout());
 			layout.setComponentAlignment(this.descriptionLayout.getLayout(),
 					Alignment.BOTTOM_CENTER);

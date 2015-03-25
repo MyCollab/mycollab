@@ -63,6 +63,10 @@
         #ifnotnull($searchCriteria.saccountid)
             ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
+
+        #ifnotnull($searchCriteria.projectName)
+            ${searchCriteria.projectName.operation} m_prj_project.name LIKE '%${searchCriteria.projectName.value}%'
+        #end
         
         #ifnotnull($searchCriteria.involvedMember)
             ${searchCriteria.involvedMember.operation} 
@@ -91,6 +95,10 @@
         
         #ifnotnull($searchCriteria.saccountid)
             ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+
+        #ifnotnull($searchCriteria.projectName)
+            ${searchCriteria.projectName.operation} m_prj_project.name LIKE '%${searchCriteria.projectName.value}%'
         #end
         
         #ifnotnull($searchCriteria.involvedMember)

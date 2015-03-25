@@ -122,7 +122,6 @@ public class SplitButton extends CustomComponent {
 							"splitButtonPopupVisibilityChange",
 							SplitButtonPopupVisibilityEvent.class);
 		} catch (final java.lang.NoSuchMethodException e) {
-			// This should never happen
 			throw new java.lang.RuntimeException(
 					"Internal error finding methods in TabSheet");
 		}

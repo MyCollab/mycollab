@@ -32,7 +32,7 @@ public abstract class AbstractController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private EventBus eventBus = EventBusFactory.getInstance();
-	private List<Object> subscribers = new ArrayList<Object>();
+	private List<Object> subscribers = new ArrayList<>();
 
 	public void register(Object subscriber) {
 		eventBus.register(subscriber);

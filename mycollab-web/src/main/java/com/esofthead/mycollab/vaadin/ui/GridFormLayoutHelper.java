@@ -16,20 +16,14 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.*;
+import org.apache.commons.lang3.StringUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -71,10 +65,17 @@ public class GridFormLayoutHelper implements Serializable {
 		this.captionAlignment = captionAlignment;
 
 		this.layout = new GridLayout(2 * columns, rows);
-		this.layout.setMargin(new MarginInfo(true, false, false, false));
+		this.layout.setMargin(false);
 		this.layout.setSpacing(false);
 		this.layout.setRowExpandRatio(0, 0);
 	}
+
+    public static GridFormLayoutHelper defaultFormLayoutHelper(int columns, int rows) {
+        GridFormLayoutHelper helper = new GridFormLayoutHelper(columns, rows, "100%", "167px", Alignment.TOP_LEFT);
+        helper.getLayout().setWidth("100%");
+        helper.getLayout().addStyleName("colored-gridlayout");
+        return helper;
+    }
 
 	public void appendRow() {
 		this.layout.setRows(layout.getRows() + 1);

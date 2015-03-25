@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCrit
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.HeaderWithFontAwesome;
+import com.esofthead.mycollab.vaadin.ui.ShortcutExtension;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -107,20 +108,18 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
-            this.nameField = new TextField();
-            this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            nameField.addShortcutListener(new ShortcutListener("ComponentSearchName", ShortcutAction.KeyCode.ENTER,
-                    null) {
-                @Override
-                public void handleAction(Object o, Object o1) {
-                    callSearchAction();
-                }
-            });
+            nameField = ShortcutExtension.installShortcutAction(new TextField(),
+                    new ShortcutListener("ComponentSearchName", ShortcutAction.KeyCode.ENTER, null) {
+                        @Override
+                        public void handleAction(Object o, Object o1) {
+                            callSearchAction();
+                        }
+                    });
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(
-                    AppContext
-                            .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            myItemCheckbox = new CheckBox(
+                    AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
                     Alignment.MIDDLE_CENTER);
 
@@ -165,7 +164,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
             if (this.myItemCheckbox.getValue()) {
                 searchCriteria.setUserlead(new StringSearchField(SearchField.AND,
-                                AppContext.getUsername()));
+                        AppContext.getUsername()));
             } else {
                 searchCriteria.setUserlead(null);
             }

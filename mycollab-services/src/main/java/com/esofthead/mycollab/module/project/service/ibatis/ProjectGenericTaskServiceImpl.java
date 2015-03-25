@@ -42,7 +42,7 @@ public class ProjectGenericTaskServiceImpl extends
 		ProjectGenericTaskService {
 
 	@Autowired
-	protected ProjectGenericTaskMapper projectGenericTaskMapper;
+	private ProjectGenericTaskMapper projectGenericTaskMapper;
 
 	@Override
 	public ISearchableDAO<ProjectGenericTaskSearchCriteria> getSearchMapper() {

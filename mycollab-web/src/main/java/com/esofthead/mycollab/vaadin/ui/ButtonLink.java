@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.ui.Button;
+import org.vaadin.maddon.button.MButton;
 
 /**
  * Button link
@@ -24,11 +24,10 @@ import com.vaadin.ui.Button;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ButtonLink extends Button {
-
+public class ButtonLink extends MButton {
 	private static final long serialVersionUID = 1L;
 
-	public ButtonLink(String caption, Boolean wordWrap) {
+	private ButtonLink(String caption, Boolean wordWrap) {
 		super(caption);
 		this.setStyleName("link");
 		if (wordWrap)
