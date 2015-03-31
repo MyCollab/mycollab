@@ -38,7 +38,7 @@ public class CSVDateFormatter implements CSVFormatter<Date> {
 		else {
 			try {
 				DateFormat formatter = new SimpleDateFormat(
-						AppContext.getUserDateFormat());
+						AppContext.getUserDateFormat().getDateFormat());
 				formatter.setLenient(false);
 				return formatter.parse(value);
 			} catch (Exception e) {

@@ -44,7 +44,7 @@ public class PreviewFormControlsGenerator<B> {
 	private Button cloneBtn;
 	private SplitButton optionBtn;
 	private Button optionParentBtn;
-	private MVerticalLayout popupButtonsControl;
+	private OptionPopupContent popupButtonsControl;
 	private MHorizontalLayout editButtons;
 	private MHorizontalLayout layout;
 
@@ -69,8 +69,7 @@ public class PreviewFormControlsGenerator<B> {
 		optionBtn.setWidthUndefined();
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-		popupButtonsControl = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, true)).withWidth
-                ("100px");
+		popupButtonsControl = new OptionPopupContent().withWidth("100px");
 
 		editButtons = new MHorizontalLayout();
 
@@ -86,8 +85,7 @@ public class PreviewFormControlsGenerator<B> {
 					}
 				});
 		editBtn.setIcon(FontAwesome.EDIT);
-		editBtn.setStyleName("link");
-		popupButtonsControl.addComponent(editBtn);
+		popupButtonsControl.addOption(editBtn);
 
 		deleteBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
@@ -118,8 +116,7 @@ public class PreviewFormControlsGenerator<B> {
 					}
 				});
 		cloneBtn.setIcon(FontAwesome.ROAD);
-		cloneBtn.setStyleName("link");
-		popupButtonsControl.addComponent(cloneBtn);
+		popupButtonsControl.addOption(cloneBtn);
 
 		optionBtn.setContent(popupButtonsControl);
 		editButtons.addComponent(optionBtn);

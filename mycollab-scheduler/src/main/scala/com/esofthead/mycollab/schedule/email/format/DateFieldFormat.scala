@@ -42,7 +42,9 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
         new Span().write
       }
       else {
-        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], LocaleHelper.getDateFormatAssociateToLocale(context.getLocale), TimezoneMapper.getTimezone(context.getUser.getTimezone))).write
+        new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], LocaleHelper.getDateFormatInstance
+          (context.getLocale).getDateFormat,
+          TimezoneMapper.getTimezone(context.getUser.getTimezone))).write
       }
     }
     catch {
@@ -57,6 +59,7 @@ class DateFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldForm
       new Span().write
     }
 
-    DateTimeUtils.converToStringWithUserTimeZone(value, LocaleHelper.getDateFormatAssociateToLocale(context.getLocale), context.getTimeZone)
+    DateTimeUtils.converToStringWithUserTimeZone(value, LocaleHelper.getDateFormatInstance(context.getLocale).getDateFormat,
+      context.getTimeZone)
   }
 }

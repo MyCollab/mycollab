@@ -16,45 +16,44 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class ProjectUserLink extends LabelLink {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ProjectUserLink(final String username, String userAvatarId,
-			final String displayName) {
-		this(username, userAvatarId, displayName, true, true);
-	}
+    public ProjectUserLink(String username, String userAvatarId,
+                           String displayName) {
+        this(username, userAvatarId, displayName, true, true);
+    }
 
-	public ProjectUserLink(final String username, String userAvatarId,
-			final String displayName, boolean useWordWrap,
-			boolean isDisplayAvatar) {
+    public ProjectUserLink(String username, String userAvatarId,
+                           String displayName, boolean useWordWrap,
+                           boolean isDisplayAvatar) {
 
-		super(displayName, ProjectLinkBuilder.generateProjectMemberFullLink(
-				CurrentProjectVariables.getProjectId(), username));
+        super(displayName, ProjectLinkBuilder.generateProjectMemberFullLink(
+                CurrentProjectVariables.getProjectId(), username));
 
-		if (isDisplayAvatar && StringUtils.isNotBlank(username)) {
-			String link = StorageManager.getAvatarLink(userAvatarId, 16);
+        if (isDisplayAvatar && StringUtils.isNotBlank(username)) {
+            String link = StorageManager.getAvatarLink(userAvatarId, 16);
 
-			this.setIconLink(link);
-		}
+            this.setIconLink(link);
+        }
 
-		this.setStyleName("link");
+        this.setStyleName("link");
 
-		if (useWordWrap) {
-			this.addStyleName(UIConstants.WORD_WRAP);
-		}
-	}
+        if (useWordWrap) {
+            this.addStyleName(UIConstants.WORD_WRAP);
+        }
+    }
 }

@@ -113,11 +113,9 @@ public class CaseContactListComp extends
 						controlsBtn.setPopupVisible(false);
 					}
 				});
-		selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-		selectBtn.setStyleName("link");
-
-		VerticalLayout buttonControlsLayout = new VerticalLayout();
-		buttonControlsLayout.addComponent(selectBtn);
+		selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+		OptionPopupContent buttonControlsLayout = new OptionPopupContent();
+		buttonControlsLayout.addOption(selectBtn);
 		controlsBtn.setContent(buttonControlsLayout);
 
 		controlsBtn.setEnabled(AppContext

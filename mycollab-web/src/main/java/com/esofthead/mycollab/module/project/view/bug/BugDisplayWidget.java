@@ -63,7 +63,6 @@ public abstract class BugDisplayWidget extends Depot {
 		dataList = new BeanList<>(ApplicationContextUtil.getSpringBean(BugService.class), rowDisplayHandler);
 		bodyContent.addComponent(dataList);
 		bodyContent.setStyleName(UIConstants.BUG_LIST);
-
 	}
 
 	protected abstract BugFilterParameter constructMoreDisplayFilter();

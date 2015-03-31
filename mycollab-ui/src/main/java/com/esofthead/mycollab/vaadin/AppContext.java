@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.SessionExpireException;
+import com.esofthead.mycollab.core.format.IDateFormat;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -55,7 +56,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.*;
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.USER_TIMEZONE;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -63,502 +64,473 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.*;
  * every user, so in current thread you can use static methods of AppContext to
  * get current user without fearing it impacts to other user sessions logging in
  * MyCollab system.
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class AppContext implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(AppContext.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppContext.class);
 
-	/**
-	 * Current user LOG in to MyCollab
-	 */
-	private SimpleUser session;
+    /**
+     * Current user LOG in to MyCollab
+     */
+    private SimpleUser session;
 
-	/**
-	 * Preference information of current user log in to MyCollab
-	 */
-	private UserPreference userPreference;
+    /**
+     * Preference information of current user log in to MyCollab
+     */
+    private UserPreference userPreference;
 
-	/**
-	 * Billing information of account of current user
-	 */
-	private SimpleBillingAccount billingAccount;
+    /**
+     * Billing information of account of current user
+     */
+    private SimpleBillingAccount billingAccount;
 
-	/**
-	 * Subdomain associates with account of current user. This value is valid
-	 * only for on-demand edition
-	 */
-	private String subDomain;
+    /**
+     * Subdomain associates with account of current user. This value is valid
+     * only for on-demand edition
+     */
+    private String subDomain;
 
-	/**
-	 * id of account of current user. This value is valid only for on-demand
-	 * edition. Though other editions also use this id in all of queries but if
-	 * you have two different account ids in system may cause abnormal issues
-	 */
-	private Integer accountId = null;
+    /**
+     * id of account of current user. This value is valid only for on-demand
+     * edition. Though other editions also use this id in all of queries but if
+     * you have two different account ids in system may cause abnormal issues
+     */
+    private Integer accountId = null;
 
-	private IMessageConveyor messageHelper;
+    private IMessageConveyor messageHelper;
 
-	private Locale userLocale = Locale.US;
+    private Locale userLocale = Locale.US;
+
+    private IDateFormat dateFormat;
 
     private static GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
             (GoogleAnalyticsService.class);
 
-	public AppContext() {
-		MyCollabSession.putVariable("context", this);
-	}
+    public AppContext() {
+        MyCollabSession.putVariable("context", this);
+    }
 
-	/**
-	 * Get context of current logged in user
-	 * 
-	 * @return context of current logged in user
-	 */
-	public static AppContext getInstance() {
-		try {
-			AppContext context = (AppContext) MyCollabSession.getVariable("context");
+    /**
+     * Get context of current logged in user
+     *
+     * @return context of current logged in user
+     */
+    public static AppContext getInstance() {
+        try {
+            AppContext context = (AppContext) MyCollabSession.getVariable("context");
             if (context == null) {
                 throw new SessionExpireException("Session is expired");
             }
             return context;
-		} catch (Exception e) {
-			throw new SessionExpireException("Session is expired");
-		}
-	}
+        } catch (Exception e) {
+            throw new SessionExpireException("Session is expired");
+        }
+    }
 
-	/**
-	 * Update last module visit then the next sign in, MyCollab will lead user
-	 * to last visit module
-	 * 
-	 * @param moduleName
-	 */
-	public void updateLastModuleVisit(String moduleName) {
-		try {
-			UserPreference pref = getInstance().userPreference;
-			UserPreferenceService prefService = ApplicationContextUtil
-					.getSpringBean(UserPreferenceService.class);
-			pref.setLastmodulevisit(moduleName);
-			prefService.updateWithSession(pref, AppContext.getUsername());
-		} catch (Exception e) {
-			LOG.error("There is error when try to update user preference for last module visit", e);
-		}
-	}
+    /**
+     * Update last module visit then the next sign in, MyCollab will lead user
+     * to last visit module
+     *
+     * @param moduleName
+     */
+    public void updateLastModuleVisit(String moduleName) {
+        try {
+            UserPreference pref = getInstance().userPreference;
+            UserPreferenceService prefService = ApplicationContextUtil
+                    .getSpringBean(UserPreferenceService.class);
+            pref.setLastmodulevisit(moduleName);
+            prefService.updateWithSession(pref, AppContext.getUsername());
+        } catch (Exception e) {
+            LOG.error("There is error when try to update user preference for last module visit", e);
+        }
+    }
 
-	/**
-	 * Keep user session in server sessions
-	 * 
-	 * @param userSession
-	 *            current user
-	 * @param userPref
-	 *            current user preference
-	 * @param billingAc
-	 *            account information of current user
-	 */
-	public void setSession(SimpleUser userSession, UserPreference userPref,
-			SimpleBillingAccount billingAc) {
-		session = userSession;
-		userPreference = userPref;
-		billingAccount = billingAc;
-		setUserVariables();
-	}
+    /**
+     * Keep user session in server sessions
+     *
+     * @param userSession current user
+     * @param userPref    current user preference
+     * @param billingAc   account information of current user
+     */
+    public void setSession(SimpleUser userSession, UserPreference userPref,
+                           SimpleBillingAccount billingAc) {
+        session = userSession;
+        userPreference = userPref;
+        billingAccount = billingAc;
+        setUserVariables();
+    }
 
-	public void clearSession() {
-		session = null;
-		userPreference = null;
-		billingAccount = null;
-	}
+    public void clearSession() {
+        session = null;
+        userPreference = null;
+        billingAccount = null;
+    }
 
-	private void setUserVariables() {
-		String language = session.getLanguage();
-		userLocale = LocaleHelper.toLocale(language);
-		VaadinSession.getCurrent().setLocale(userLocale);
-		messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
-		MyCollabSession.putVariable(USER_DATE_FORMAT,
-				LocaleHelper.getDateFormatAssociateToLocale(userLocale));
-		MyCollabSession.putVariable(USER_DATE_TIME_DATE_FORMAT,
-				LocaleHelper.getDateTimeFormatAssociateToLocale(userLocale));
-		MyCollabSession.putVariable(USER_SHORT_DATE_FORMAT,
-				LocaleHelper.getShortDateFormatAssociateToLocale(userLocale));
-		MyCollabSession.putVariable(USER_DAY_MONTH_FORMAT,
-				LocaleHelper.getDayMonthFormatAssociateToLocale(userLocale));
+    private void setUserVariables() {
+        String language = session.getLanguage();
+        userLocale = LocaleHelper.toLocale(language);
+        dateFormat = LocaleHelper.getDateFormatInstance(userLocale);
+        VaadinSession.getCurrent().setLocale(userLocale);
+        messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 
-		TimeZone timezone;
-		if (session.getTimezone() == null) {
-			timezone = TimeZone.getDefault();
-		} else {
-			timezone = TimezoneMapper.getTimezone(session.getTimezone());
-		}
-		MyCollabSession.putVariable(USER_TIMEZONE, timezone);
-	}
+        TimeZone timezone;
+        if (session.getTimezone() == null) {
+            timezone = TimeZone.getDefault();
+        } else {
+            timezone = TimezoneMapper.getTimezone(session.getTimezone());
+        }
+        MyCollabSession.putVariable(USER_TIMEZONE, timezone);
+    }
 
-	public static Locale getUserLocale() {
-		return getInstance().userLocale;
-	}
+    public static Locale getUserLocale() {
+        return getInstance().userLocale;
+    }
 
-	public static String getMessage(Enum<?> key, Object... objects) {
-		try {
-			return (key != null) ? getInstance().messageHelper.getMessage(key,
-					objects) : "";
-		} catch (Exception e) {
-			return LocalizationHelper.getMessage(
-					LocalizationHelper.defaultLocale, key, objects);
-		}
-	}
+    public static IDateFormat getUserDateFormat() {
+        return getInstance().dateFormat;
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static String getMessage(Class<? extends Enum> enumCls,
-			String option, Object... objects) {
-		try {
-			if (option == null)
-				return "";
+    public static String getMessage(Enum<?> key, Object... objects) {
+        try {
+            return (key != null) ? getInstance().messageHelper.getMessage(key,
+                    objects) : "";
+        } catch (Exception e) {
+            return LocalizationHelper.getMessage(
+                    LocalizationHelper.defaultLocale, key, objects);
+        }
+    }
 
-			Enum key = Enum.valueOf(enumCls, option);
-			return getMessage(key, objects);
-		} catch (Exception e) {
-			LOG.error("Can not find resource key " + option
-					+ " and enum class " + enumCls.getName(), e);
-			return "";
-		}
-	}
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static String getMessage(Class<? extends Enum> enumCls,
+                                    String option, Object... objects) {
+        try {
+            if (option == null)
+                return "";
 
-	/**
-	 * Get current user in session
-	 * 
-	 * @return current user in session
-	 */
-	public static SimpleUser getSession() {
-		return getInstance().session;
-	}
+            Enum key = Enum.valueOf(enumCls, option);
+            return getMessage(key, objects);
+        } catch (Exception e) {
+            LOG.error("Can not find resource key " + option
+                    + " and enum class " + enumCls.getName(), e);
+            return option;
+        }
+    }
 
-	/**
-	 * Start application by query account base on <code>domain</code>
-	 * 
-	 * @param domain
-	 *            associate with current user logged in.
-	 */
-	public void initDomain(String domain) {
-		this.subDomain = domain;
-		BillingAccountService billingService = ApplicationContextUtil
-				.getSpringBean(BillingAccountService.class);
+    /**
+     * Get current user in session
+     *
+     * @return current user in session
+     */
+    public static SimpleUser getSession() {
+        return getInstance().session;
+    }
 
-		BillingAccount account = billingService.getAccountByDomain(domain);
+    /**
+     * Start application by query account base on <code>domain</code>
+     *
+     * @param domain associate with current user logged in.
+     */
+    public void initDomain(String domain) {
+        this.subDomain = domain;
+        BillingAccountService billingService = ApplicationContextUtil
+                .getSpringBean(BillingAccountService.class);
 
-		if (account == null) {
-			throw new SubDomainNotExistException(AppContext.getMessage(
-					ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
-		} else {
-			LOG.debug("Get billing account {} of subDomain {}",
-					BeanUtility.printBeanObj(account), domain);
-			accountId = account.getId();
-		}
+        BillingAccount account = billingService.getAccountByDomain(domain);
 
-		EventBusFactory
-				.getInstance()
-				.register(
-						new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-							private static final long serialVersionUID = 1L;
+        if (account == null) {
+            throw new SubDomainNotExistException(AppContext.getMessage(
+                    ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
+        } else {
+            LOG.debug("Get billing account {} of subDomain {}",
+                    BeanUtility.printBeanObj(account), domain);
+            accountId = account.getId();
+        }
 
-							@Subscribe
-							@Override
-							public void handle(UserProfileChangeEvent event) {
-								if ("avatarid".equals(event.getFieldChange())) {
-									session.setAvatarid((String) event
+        EventBusFactory
+                .getInstance()
+                .register(
+                        new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+                            private static final long serialVersionUID = 1L;
+
+                            @Subscribe
+                            @Override
+                            public void handle(UserProfileChangeEvent event) {
+                                if ("avatarid".equals(event.getFieldChange())) {
+                                    session.setAvatarid((String) event
                                             .getData());
-								}
-							}
-						});
-	}
+                                }
+                            }
+                        });
+    }
 
-	/**
-	 * Get account id of current user
-	 * 
-	 * @return account id of current user. Return 0 if can not get
-	 */
-	public static Integer getAccountId() {
-		try {
-			return getInstance().accountId;
-		} catch (Exception e) {
-			return 0;
-		}
-	}
+    /**
+     * Get account id of current user
+     *
+     * @return account id of current user. Return 0 if can not get
+     */
+    public static Integer getAccountId() {
+        try {
+            return getInstance().accountId;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-	/**
-	 * Get subDomain of current user
-	 * 
-	 * @return subDomain of current user
-	 */
-	public static String getSubDomain() {
-		return getInstance().subDomain;
-	}
+    /**
+     * Get subDomain of current user
+     *
+     * @return subDomain of current user
+     */
+    public static String getSubDomain() {
+        return getInstance().subDomain;
+    }
 
-	private String siteUrl = null;
+    private String siteUrl = null;
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getSiteUrl() {
-		if (getInstance().siteUrl == null) {
-			getInstance().siteUrl = SiteConfiguration
-					.getSiteUrl(getInstance().subDomain);
-		}
+    /**
+     * @return
+     */
+    public static String getSiteUrl() {
+        if (getInstance().siteUrl == null) {
+            getInstance().siteUrl = SiteConfiguration
+                    .getSiteUrl(getInstance().subDomain);
+        }
 
-		return getInstance().siteUrl;
-	}
+        return getInstance().siteUrl;
+    }
 
-	/**
-	 * Get username of current user
-	 * 
-	 * @return username of current user
-	 */
-	public static String getUsername() {
-		try {
-			return getInstance().session.getUsername();
-		} catch (Exception e) {
-			return "";
-		}
-	}
+    /**
+     * Get username of current user
+     *
+     * @return username of current user
+     */
+    public static String getUsername() {
+        try {
+            return getInstance().session.getUsername();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
-	/**
-	 * Get avatar id of current user
-	 * 
-	 * @return avatar id of current user
-	 */
-	public static String getUserAvatarId() {
-		return getInstance().session.getAvatarid();
-	}
+    /**
+     * Get avatar id of current user
+     *
+     * @return avatar id of current user
+     */
+    public static String getUserAvatarId() {
+        return getInstance().session.getAvatarid();
+    }
 
     public static String getUserDisplayName() {
         return getInstance().session.getDisplayName();
     }
 
-	/**
-	 * Get preference info of current user
-	 * 
-	 * @return preference info of current user
-	 */
-	public static UserPreference getUserPreference() {
-		return getInstance().userPreference;
-	}
+    /**
+     * Get preference info of current user
+     *
+     * @return preference info of current user
+     */
+    public static UserPreference getUserPreference() {
+        return getInstance().userPreference;
+    }
 
-	/**
-	 * Get billing account of current logged in user
-	 * 
-	 * @return billing account of current logged in user
-	 */
-	public static SimpleBillingAccount getBillingAccount() {
-		return getInstance().billingAccount;
-	}
+    /**
+     * Get billing account of current logged in user
+     *
+     * @return billing account of current logged in user
+     */
+    public static SimpleBillingAccount getBillingAccount() {
+        return getInstance().billingAccount;
+    }
 
-	public static boolean isBugComponentEnable() {
-		SimpleBillingAccount billingAccount = getBillingAccount();
-		return (billingAccount == null) ? false : billingAccount
-				.getBillingPlan().getHasbugenable();
-	}
+    public static boolean isBugComponentEnable() {
+        SimpleBillingAccount billingAccount = getBillingAccount();
+        return (billingAccount == null) ? false : billingAccount
+                .getBillingPlan().getHasbugenable();
+    }
 
-	public static boolean isStandupComponentEnable() {
-		SimpleBillingAccount billingAccount = getBillingAccount();
-		return (billingAccount == null) ? false : billingAccount
-				.getBillingPlan().getHasstandupmeetingenable();
-	}
+    public static boolean isStandupComponentEnable() {
+        SimpleBillingAccount billingAccount = getBillingAccount();
+        return (billingAccount == null) ? false : billingAccount
+                .getBillingPlan().getHasstandupmeetingenable();
+    }
 
-	/**
-	 * Check whether current user is admin or system
-	 * 
-	 * @return
-	 */
-	public static boolean isAdmin() {
-		Boolean isAdmin = getInstance().session.getIsAccountOwner();
+    /**
+     * Check whether current user is admin or system
+     *
+     * @return
+     */
+    public static boolean isAdmin() {
+        Boolean isAdmin = getInstance().session.getIsAccountOwner();
         return (isAdmin == null) ? Boolean.FALSE : isAdmin;
-	}
+    }
 
-	/**
-	 * 
-	 * @param permissionItem
-	 * @return
-	 */
-	public static boolean canBeYes(String permissionItem) {
-		if (isAdmin()) {
-			return true;
-		}
+    /**
+     * @param permissionItem
+     * @return
+     */
+    public static boolean canBeYes(String permissionItem) {
+        if (isAdmin()) {
+            return true;
+        }
 
-		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		return (permissionMap == null) ? false: permissionMap.canBeYes(permissionItem);
-	}
+        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
+        return (permissionMap == null) ? false : permissionMap.canBeYes(permissionItem);
+    }
 
-	/**
-	 * 
-	 * @param permissionItem
-	 * @return
-	 */
-	public static boolean canBeFalse(String permissionItem) {
-		if (isAdmin()) {
-			return true;
-		}
+    /**
+     * @param permissionItem
+     * @return
+     */
+    public static boolean canBeFalse(String permissionItem) {
+        if (isAdmin()) {
+            return true;
+        }
 
-		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		return (permissionMap == null) ? false : permissionMap.canBeFalse(permissionItem);
-	}
+        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
+        return (permissionMap == null) ? false : permissionMap.canBeFalse(permissionItem);
+    }
 
-	/**
-	 * 
-	 * @param permissionItem
-	 * @return
-	 */
-	public static boolean canRead(String permissionItem) {
-		if (isAdmin()) {
-			return true;
-		}
+    /**
+     * @param permissionItem
+     * @return
+     */
+    public static boolean canRead(String permissionItem) {
+        if (isAdmin()) {
+            return true;
+        }
 
-		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		return (permissionMap == null) ? false : permissionMap.canRead(permissionItem);
-	}
+        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
+        return (permissionMap == null) ? false : permissionMap.canRead(permissionItem);
+    }
 
-	/**
-	 * 
-	 * @param permissionItem
-	 * @return
-	 */
-	public static boolean canWrite(String permissionItem) {
-		if (isAdmin()) {
-			return true;
-		}
-		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-        return (permissionMap == null) ? false: permissionMap.canWrite(permissionItem);
-	}
+    /**
+     * @param permissionItem
+     * @return
+     */
+    public static boolean canWrite(String permissionItem) {
+        if (isAdmin()) {
+            return true;
+        }
+        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
+        return (permissionMap == null) ? false : permissionMap.canWrite(permissionItem);
+    }
 
-	/**
-	 * 
-	 * @param permissionItem
-	 * @return
-	 */
-	public static boolean canAccess(String permissionItem) {
-		if (isAdmin()) {
-			return true;
-		}
-		PermissionMap permissionMap = getInstance().session.getPermissionMaps();
-		return (permissionMap == null) ? false: permissionMap.canAccess(permissionItem);
-	}
+    /**
+     * @param permissionItem
+     * @return
+     */
+    public static boolean canAccess(String permissionItem) {
+        if (isAdmin()) {
+            return true;
+        }
+        PermissionMap permissionMap = getInstance().session.getPermissionMaps();
+        return (permissionMap == null) ? false : permissionMap.canAccess(permissionItem);
+    }
 
-	/**
-	 * Get permission map of current user
-	 * 
-	 * @return permission map of current user
-	 */
-	public static PermissionMap getPermissionMap() {
-		return getInstance().session.getPermissionMaps();
-	}
+    /**
+     * Get permission map of current user
+     *
+     * @return permission map of current user
+     */
+    public static PermissionMap getPermissionMap() {
+        return getInstance().session.getPermissionMaps();
+    }
 
-	public static String getPermissionCaptionValue(
-			final PermissionMap permissionMap, final String permissionItem) {
-		final Integer perVal = permissionMap.get(permissionItem);
-		return (perVal == null) ? getMessage(SecurityI18nEnum.NO_ACCESS):AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
-	}
+    public static String getPermissionCaptionValue(
+            final PermissionMap permissionMap, final String permissionItem) {
+        final Integer perVal = permissionMap.get(permissionItem);
+        return (perVal == null) ? getMessage(SecurityI18nEnum.NO_ACCESS) : AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
+    }
 
-	public static TimeZone getTimezone() {
-		try {
-			return (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE);
-		} catch (Exception e) {
-			return TimeZone.getDefault();
-		}
-	}
+    public static TimeZone getTimezone() {
+        try {
+            return (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE);
+        } catch (Exception e) {
+            return TimeZone.getDefault();
+        }
+    }
 
-	public static String getUserShortDateFormat() {
-		return (String) MyCollabSession.getVariable(USER_SHORT_DATE_FORMAT);
-	}
+    /**
+     * @param date
+     * @return
+     */
+    public static String formatDateTime(Date date) {
+        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateTimeFormat(),
+                (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
+    }
 
-	public static String getUserDateFormat() {
-		return (String) MyCollabSession.getVariable(USER_DATE_FORMAT);
-	}
+    /**
+     * @param date
+     * @return
+     */
+    public static String formatDate(Date date) {
+        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDateFormat(),
+                (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
+    }
 
-	public static String getUserDateTimeFormat() {
-		return (String) MyCollabSession.getVariable(USER_DATE_TIME_DATE_FORMAT);
-	}
+    /**
+     * @param date
+     * @param textIfDateIsNull
+     * @return
+     */
+    public static String formatDate(Date date, String textIfDateIsNull) {
+        if (date == null) {
+            return textIfDateIsNull;
+        } else {
+            return formatDate(date);
+        }
+    }
 
-	public static String getUserDayMonthFormat() {
-		return (String) MyCollabSession.getVariable(USER_DAY_MONTH_FORMAT);
-	}
+    public static String formatDayMonth(Date date) {
+        return DateTimeUtils.formatDate(date, AppContext.getUserDateFormat().getDayMonthFormat());
+    }
 
-	/**
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static String formatDateTime(Date date) {
-		return DateTimeUtils.formatDate(date, getUserDateTimeFormat(),
-				(TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
-	}
+    /**
+     * @param hour
+     * @return
+     */
+    public static String formatTime(double hour) {
+        long hourCount = (long) Math.floor(hour);
+        long minuteCount = (long) ((hourCount - hour) * 60);
 
-	/**
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static String formatDate(Date date) {
-		return DateTimeUtils.formatDate(date, getUserDateFormat(),
-				(TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
-	}
+        String timeFormat = getMessage(DayI18nEnum.TIME_FORMAT);
+        String[] patterns = timeFormat.split(":");
+        String output = "";
 
-	/**
-	 * 
-	 * @param date
-	 * @param textIfDateIsNull
-	 * @return
-	 */
-	public static String formatDate(Date date, String textIfDateIsNull) {
-		if (date == null) {
-			return textIfDateIsNull;
-		} else {
-			return formatDate(date);
-		}
-	}
+        String hourSuffix = getMessage(DayI18nEnum.HOUR_SUFFIX);
+        String hourPluralSuffix = getMessage(DayI18nEnum.HOUR_PLURAL_SUFFIX);
 
-	/**
-	 * 
-	 * @param hour
-	 * @return
-	 */
-	public static String formatTime(double hour) {
-		long hourCount = (long) Math.floor(hour);
-		long minuteCount = (long) ((hourCount - hour) * 60);
-
-		String timeFormat = getMessage(DayI18nEnum.TIME_FORMAT);
-		String[] patterns = timeFormat.split(":");
-		String output = "";
-
-		String hourSuffix = getMessage(DayI18nEnum.HOUR_SUFFIX);
-		String hourPluralSuffix = getMessage(DayI18nEnum.HOUR_PLURAL_SUFFIX);
-
-		String minuteSuffix = getMessage(DayI18nEnum.MINUTE_SUFFIX);
-		String minutePluralSuffix = getMessage(DayI18nEnum.MINUTE_PLURAL_SUFFIX);
-		for (String pattern : patterns) {
-			if (pattern.equals("H") && hourCount > 0) {
-				output += hourCount;
-				output += (hourCount > 1 ? hourPluralSuffix : hourSuffix);
-			} else if (pattern.equals("m") && minuteCount > 0) {
-				output += minuteCount;
-				output += (minuteCount > 1 ? minutePluralSuffix : minuteSuffix);
-			}
-		}
-		return output;
-	}
+        String minuteSuffix = getMessage(DayI18nEnum.MINUTE_SUFFIX);
+        String minutePluralSuffix = getMessage(DayI18nEnum.MINUTE_PLURAL_SUFFIX);
+        for (String pattern : patterns) {
+            if (pattern.equals("H") && hourCount > 0) {
+                output += hourCount;
+                output += (hourCount > 1 ? hourPluralSuffix : hourSuffix);
+            } else if (pattern.equals("m") && minuteCount > 0) {
+                output += minuteCount;
+                output += (minuteCount > 1 ? minutePluralSuffix : minuteSuffix);
+            }
+        }
+        return output;
+    }
 
     public static String formatPrettyTime(Date date) {
         return DateTimeUtils.getPrettyDateValue(date, getUserLocale());
     }
 
-	/**
-	 * 
-	 * @param fragement
-	 * @param windowTitle
-	 */
-	public static void addFragment(String fragement, String windowTitle) {
-		Page.getCurrent().setUriFragment(fragement, false);
-		Page.getCurrent().setTitle(
-				StringUtils.trim(windowTitle, 150) + " [MyCollab]");
+    /**
+     * @param fragement
+     * @param windowTitle
+     */
+    public static void addFragment(String fragement, String windowTitle) {
+        Page.getCurrent().setUriFragment(fragement, false);
+        Page.getCurrent().setTitle(
+                StringUtils.trim(windowTitle, 150) + " [MyCollab]");
         googleAnalyticsService.trackPageView(fragement);
-	}
+    }
 }

@@ -29,7 +29,10 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DateFieldExt;
+import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -44,364 +47,354 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.3
- *
  */
 public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected ItemTimeLoggingService itemTimeLoggingService;
-	protected V bean;
+    protected ItemTimeLoggingService itemTimeLoggingService;
+    protected V bean;
 
-	private DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> tableItem;
+    private DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> tableItem;
 
-	private MVerticalLayout content;
-	private HorizontalLayout headerPanel;
+    private MVerticalLayout content;
+    private HorizontalLayout headerPanel;
 
-	private Button btnAdd;
-	private Label totalSpentTimeLbl;
-	private NumericTextField newTimeInputField;
-	private CheckBox isBillableField;
-	private DateFieldExt forDateField;
+    private Button btnAdd;
+    private Label totalSpentTimeLbl;
+    private NumericTextField newTimeInputField;
+    private CheckBox isBillableField;
+    private DateFieldExt forDateField;
 
-	private NumericTextField remainTimeInputField;
-	private Label remainTimeLbl;
+    private NumericTextField remainTimeInputField;
+    private Label remainTimeLbl;
 
-	protected TimeLogEditWindow(final V bean) {
-		this.bean = bean;
-		this.center();
-		this.setResizable(false);
-		this.setModal(true);
-		content = new MVerticalLayout();
-		this.setContent(content);
+    protected TimeLogEditWindow(final V bean) {
+        this.bean = bean;
+        this.center();
+        this.setResizable(false);
+        this.setModal(true);
+        content = new MVerticalLayout();
+        this.setContent(content);
 
-		this.itemTimeLoggingService = ApplicationContextUtil
-				.getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = ApplicationContextUtil
+                .getSpringBean(ItemTimeLoggingService.class);
 
-		this.initUI();
-		this.loadTimeValue();
-	}
+        this.initUI();
+        this.loadTimeValue();
+    }
 
-	private void initUI() {
-		this.setWidth("900px");
+    private void initUI() {
+        this.setWidth("900px");
 
-		headerPanel = new MHorizontalLayout().withWidth("100%");
-		content.addComponent(headerPanel);
-		constructSpentTimeEntryPanel();
-		constructRemainTimeEntryPanel();
+        headerPanel = new MHorizontalLayout().withWidth("100%");
+        content.addComponent(headerPanel);
+        constructSpentTimeEntryPanel();
+        constructRemainTimeEntryPanel();
 
-		this.tableItem = new DefaultPagedBeanTable<>(
-				ApplicationContextUtil
-						.getSpringBean(ItemTimeLoggingService.class),
-				SimpleItemTimeLogging.class, Arrays.asList(
-						TimeTableFieldDef.logUser,
-						TimeTableFieldDef.logForDate,
-						TimeTableFieldDef.logValue, TimeTableFieldDef.billable,
-						new TableViewField(null, "id",
-								UIConstants.TABLE_CONTROL_WIDTH)));
+        tableItem = new DefaultPagedBeanTable<>(
+                ApplicationContextUtil
+                        .getSpringBean(ItemTimeLoggingService.class),
+                SimpleItemTimeLogging.class, Arrays.asList(
+                TimeTableFieldDef.logUser,
+                TimeTableFieldDef.logForDate,
+                TimeTableFieldDef.logValue, TimeTableFieldDef.billable,
+                new TableViewField(null, "id",
+                        UIConstants.TABLE_CONTROL_WIDTH)));
 
-		this.tableItem.addGeneratedColumn("logUserFullName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("logUserFullName",
+                new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleItemTimeLogging timeLoggingItem = TimeLogEditWindow.this.tableItem
-								.getBeanByIndex(itemId);
+                    @Override
+                    public com.vaadin.ui.Component generateCell(
+                            final Table source, final Object itemId,
+                            final Object columnId) {
+                        final SimpleItemTimeLogging timeLoggingItem = tableItem.getBeanByIndex(itemId);
 
-						return new ProjectUserLink(
-								timeLoggingItem.getLoguser(), timeLoggingItem
-										.getLogUserAvatarId(), timeLoggingItem
-										.getLogUserFullName());
+                        return new ProjectUserLink(
+                                timeLoggingItem.getLoguser(), timeLoggingItem
+                                .getLogUserAvatarId(), timeLoggingItem
+                                .getLogUserFullName());
 
-					}
-				});
+                    }
+                });
 
-		this.tableItem.addGeneratedColumn("logforday", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("logforday", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleItemTimeLogging monitorItem = TimeLogEditWindow.this.tableItem
-						.getBeanByIndex(itemId);
-				final Label l = new Label();
-				l.setValue(AppContext.formatDate(monitorItem.getLogforday()));
-				return l;
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                SimpleItemTimeLogging monitorItem = tableItem.getBeanByIndex(itemId);
+                return new Label(AppContext.formatDate(monitorItem.getLogforday()));
+            }
+        });
 
-		this.tableItem.addGeneratedColumn("logvalue", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("logvalue", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleItemTimeLogging itemTimeLogging = TimeLogEditWindow.this.tableItem
-						.getBeanByIndex(itemId);
-				final Label l = new Label();
-				l.setValue(itemTimeLogging.getLogvalue() + "");
-				return l;
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                SimpleItemTimeLogging itemTimeLogging = tableItem.getBeanByIndex(itemId);
+                return new Label(itemTimeLogging.getLogvalue() + "");
+            }
+        });
 
-		this.tableItem.addGeneratedColumn("isbillable", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("isbillable", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final SimpleItemTimeLogging monitorItem = tableItem
-						.getBeanByIndex(itemId);
-				FontIconLabel icon;
-				if (monitorItem.getIsbillable()) {
-					icon = new FontIconLabel(FontAwesome.CHECK);
-				} else {
-					icon = new FontIconLabel(FontAwesome.TIMES);
-				}
-				icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
-				return icon;
-			}
-		});
+            @Override
+            public Object generateCell(Table source, Object itemId,
+                                       Object columnId) {
+                final SimpleItemTimeLogging monitorItem = tableItem
+                        .getBeanByIndex(itemId);
+                FontIconLabel icon;
+                if (monitorItem.getIsbillable()) {
+                    icon = new FontIconLabel(FontAwesome.CHECK);
+                } else {
+                    icon = new FontIconLabel(FontAwesome.TIMES);
+                }
+                icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+                return icon;
+            }
+        });
 
-		this.tableItem.addGeneratedColumn("id", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addGeneratedColumn("id", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleItemTimeLogging itemTimeLogging = TimeLogEditWindow.this.tableItem
-						.getBeanByIndex(itemId);
-				final Button deleteBtn = new Button(null,
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        Object itemId, Object columnId) {
+                final SimpleItemTimeLogging itemTimeLogging = tableItem
+                        .getBeanByIndex(itemId);
+                final Button deleteBtn = new Button(null,
+                        new Button.ClickListener() {
+                            private static final long serialVersionUID = 1L;
 
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								TimeLogEditWindow.this.itemTimeLoggingService
-										.removeWithSession(
-												itemTimeLogging.getId(),
-												AppContext.getUsername(),
-												AppContext.getAccountId());
-								TimeLogEditWindow.this.loadTimeValue();
-							}
-						});
-				deleteBtn.setIcon(FontAwesome.TRASH_O);
+                            @Override
+                            public void buttonClick(final ClickEvent event) {
+                                TimeLogEditWindow.this.itemTimeLoggingService
+                                        .removeWithSession(
+                                                itemTimeLogging.getId(),
+                                                AppContext.getUsername(),
+                                                AppContext.getAccountId());
+                                TimeLogEditWindow.this.loadTimeValue();
+                            }
+                        });
+                deleteBtn.setIcon(FontAwesome.TRASH_O);
                 deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-				itemTimeLogging.setExtraData(deleteBtn);
+                itemTimeLogging.setExtraData(deleteBtn);
 
-				deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()
-						|| AppContext.getUsername().equals(
-								itemTimeLogging.getLoguser()));
-				return deleteBtn;
-			}
-		});
+                deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()
+                        || AppContext.getUsername().equals(
+                        itemTimeLogging.getLoguser()));
+                return deleteBtn;
+            }
+        });
 
-		this.tableItem.setWidth("100%");
-		content.addComponent(tableItem);
-	}
+        tableItem.setWidth("100%");
+        content.addComponent(tableItem);
+    }
 
-	private void constructSpentTimeEntryPanel() {
-		VerticalLayout spentTimePanel = new VerticalLayout();
-		spentTimePanel.setSpacing(true);
-		headerPanel.addComponent(spentTimePanel);
+    private void constructSpentTimeEntryPanel() {
+        VerticalLayout spentTimePanel = new VerticalLayout();
+        spentTimePanel.setSpacing(true);
+        headerPanel.addComponent(spentTimePanel);
 
-		final VerticalLayout totalLayout = new VerticalLayout();
-		totalLayout.setMargin(true);
-		totalLayout.addStyleName("boxTotal");
-		totalLayout.setWidth("100%");
-		spentTimePanel.addComponent(totalLayout);
-		final Label lbTimeInstructTotal = new Label(
-				AppContext
-						.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
-		totalLayout.addComponent(lbTimeInstructTotal);
-		this.totalSpentTimeLbl = new Label("_");
-		this.totalSpentTimeLbl.addStyleName("numberTotal");
-		totalLayout.addComponent(this.totalSpentTimeLbl);
+        final VerticalLayout totalLayout = new VerticalLayout();
+        totalLayout.setMargin(true);
+        totalLayout.addStyleName("boxTotal");
+        totalLayout.setWidth("100%");
+        spentTimePanel.addComponent(totalLayout);
+        Label lbTimeInstructTotal = new Label(
+                AppContext
+                        .getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
+        totalLayout.addComponent(lbTimeInstructTotal);
+        totalSpentTimeLbl = new Label("_");
+        totalSpentTimeLbl.addStyleName("numberTotal");
+        totalLayout.addComponent(totalSpentTimeLbl);
 
-		final MHorizontalLayout addLayout = new MHorizontalLayout();
-		addLayout.setSizeUndefined();
+        MHorizontalLayout addLayout = new MHorizontalLayout();
+        addLayout.setSizeUndefined();
         addLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		spentTimePanel.addComponent(addLayout);
+        spentTimePanel.addComponent(addLayout);
 
-		this.newTimeInputField = new NumericTextField();
-		this.newTimeInputField.setWidth("80px");
+        newTimeInputField = new NumericTextField();
+        newTimeInputField.setWidth("80px");
 
-		this.forDateField = new DateFieldExt();
-		this.forDateField.setValue(new GregorianCalendar().getTime());
+        forDateField = new DateFieldExt();
+        forDateField.setValue(new GregorianCalendar().getTime());
 
-		this.isBillableField = new CheckBox(
-				AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
-				true);
+        isBillableField = new CheckBox(
+                AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
+                true);
 
-		btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						double d = 0;
-						try {
-							d = Double.parseDouble(newTimeInputField.getValue());
-						} catch (NumberFormatException e) {
-							NotificationUtil
-									.showWarningNotification("You must enter a positive number value");
-						}
-						if (d > 0) {
-							saveTimeInvest();
-							loadTimeValue();
-							newTimeInputField.setValue("0.0");
-						}
-					}
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        double d = 0;
+                        try {
+                            d = Double.parseDouble(newTimeInputField.getValue());
+                        } catch (NumberFormatException e) {
+                            NotificationUtil
+                                    .showWarningNotification("You must enter a positive number value");
+                        }
+                        if (d > 0) {
+                            saveTimeInvest();
+                            loadTimeValue();
+                            newTimeInputField.setValue("0.0");
+                        }
+                    }
 
-				});
+                });
 
-		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
-		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnAdd.setIcon(FontAwesome.PLUS);
-        addLayout.with(this.newTimeInputField, this.forDateField, this.isBillableField, btnAdd);
-	}
+        btnAdd.setEnabled(isEnableAdd());
+        btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
+        btnAdd.setIcon(FontAwesome.PLUS);
+        addLayout.with(newTimeInputField, forDateField, isBillableField, btnAdd);
+    }
 
-	private void constructRemainTimeEntryPanel() {
-		VerticalLayout remainTimePanel = new VerticalLayout();
-		remainTimePanel.setSpacing(true);
-		this.headerPanel.addComponent(remainTimePanel);
+    private void constructRemainTimeEntryPanel() {
+        VerticalLayout remainTimePanel = new VerticalLayout();
+        remainTimePanel.setSpacing(true);
+        headerPanel.addComponent(remainTimePanel);
 
-		final VerticalLayout updateLayout = new VerticalLayout();
-		updateLayout.setMargin(true);
-		updateLayout.addStyleName("boxTotal");
-		updateLayout.setWidth("100%");
-		remainTimePanel.addComponent(updateLayout);
+        final VerticalLayout updateLayout = new VerticalLayout();
+        updateLayout.setMargin(true);
+        updateLayout.addStyleName("boxTotal");
+        updateLayout.setWidth("100%");
+        remainTimePanel.addComponent(updateLayout);
 
-		final Label lbTimeInstructTotal = new Label(
-				AppContext
-						.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
-		updateLayout.addComponent(lbTimeInstructTotal);
-		this.remainTimeLbl = new Label("_");
-		this.remainTimeLbl.addStyleName("numberTotal");
-		updateLayout.addComponent(this.remainTimeLbl);
+        final Label lbTimeInstructTotal = new Label(
+                AppContext
+                        .getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
+        updateLayout.addComponent(lbTimeInstructTotal);
+        remainTimeLbl = new Label("_");
+        remainTimeLbl.addStyleName("numberTotal");
+        updateLayout.addComponent(this.remainTimeLbl);
 
-		final MHorizontalLayout addLayout = new MHorizontalLayout();
-		addLayout.setSizeUndefined();
-		remainTimePanel.addComponent(addLayout);
+        MHorizontalLayout addLayout = new MHorizontalLayout();
+        addLayout.setSizeUndefined();
+        remainTimePanel.addComponent(addLayout);
 
-		this.remainTimeInputField = new NumericTextField();
-		this.remainTimeInputField.setWidth("80px");
-		addLayout.addComponent(this.remainTimeInputField);
-		addLayout.setComponentAlignment(this.remainTimeInputField,
-				Alignment.MIDDLE_LEFT);
+        remainTimeInputField = new NumericTextField();
+        remainTimeInputField.setWidth("80px");
+        addLayout.addComponent(remainTimeInputField);
+        addLayout.setComponentAlignment(remainTimeInputField,
+                Alignment.MIDDLE_LEFT);
 
-		btnAdd = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        btnAdd = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
 
-						try {
-							double d = 0;
-							try {
-								d = Double.parseDouble(remainTimeInputField
-										.getValue());
-							} catch (Exception e) {
-								NotificationUtil
-										.showWarningNotification("You must enter a positive number value");
-							}
-							if (d >= 0) {
-								updateTimeRemain();
-								remainTimeLbl.setValue(remainTimeInputField
-										.getValue());
-								remainTimeInputField.setValue("0.0");
-							}
-						} catch (final Exception e) {
-							remainTimeInputField.setValue("0.0");
-						}
-					}
+                        try {
+                            double d = 0;
+                            try {
+                                d = Double.parseDouble(remainTimeInputField
+                                        .getValue());
+                            } catch (Exception e) {
+                                NotificationUtil
+                                        .showWarningNotification("You must enter a positive number value");
+                            }
+                            if (d >= 0) {
+                                updateTimeRemain();
+                                remainTimeLbl.setValue(remainTimeInputField
+                                        .getValue());
+                                remainTimeInputField.setValue("0.0");
+                            }
+                        } catch (final Exception e) {
+                            remainTimeInputField.setValue("0.0");
+                        }
+                    }
 
-				});
+                });
 
-		btnAdd.setEnabled(TimeLogEditWindow.this.isEnableAdd());
-		btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
-		addLayout.addComponent(btnAdd);
-		addLayout.setComponentAlignment(btnAdd, Alignment.MIDDLE_LEFT);
-	}
+        btnAdd.setEnabled(isEnableAdd());
+        btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
+        addLayout.with(btnAdd).withAlign(btnAdd, Alignment.MIDDLE_LEFT);
+    }
 
-	public void loadTimeValue() {
-		final ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
-		tableItem.setSearchCriteria(searchCriteria);
-		setTotalTimeValue();
-		setUpdateTimeValue();
-	}
+    public void loadTimeValue() {
+        ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
+        tableItem.setSearchCriteria(searchCriteria);
+        setTotalTimeValue();
+        setUpdateTimeValue();
+    }
 
-	@SuppressWarnings("unchecked")
-	private double getTotalInvest() {
-		double total = 0;
-		final ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
-		final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		for (final SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
-			total += simpleItemTimeLogging.getLogvalue();
-		}
-		return total;
-	}
+    @SuppressWarnings("unchecked")
+    private double getTotalInvest() {
+        double total = 0;
+        ItemTimeLoggingSearchCriteria searchCriteria = getItemSearchCriteria();
+        List<SimpleItemTimeLogging> listTime = itemTimeLoggingService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        searchCriteria, 0, Integer.MAX_VALUE));
+        for (SimpleItemTimeLogging simpleItemTimeLogging : listTime) {
+            total += simpleItemTimeLogging.getLogvalue();
+        }
+        return total;
+    }
 
-	private void setUpdateTimeValue() {
-		if (getEstimateRemainTime() > -1) {
-			this.remainTimeLbl.setValue(getEstimateRemainTime() + "");
-		}
-	}
+    private void setUpdateTimeValue() {
+        if (getEstimateRemainTime() > -1) {
+            remainTimeLbl.setValue(getEstimateRemainTime() + "");
+        }
+    }
 
-	private void setTotalTimeValue() {
-		if (getTotalInvest() > 0) {
-			totalSpentTimeLbl.setValue(getTotalInvest() + "");
-		}
-	}
+    private void setTotalTimeValue() {
+        if (getTotalInvest() > 0) {
+            totalSpentTimeLbl.setValue(getTotalInvest() + "");
+        }
+    }
 
-	protected double getInvestValue() {
-		return Double.parseDouble(newTimeInputField.getValue());
-	}
+    protected double getInvestValue() {
+        return Double.parseDouble(newTimeInputField.getValue());
+    }
 
-	protected Boolean isBillableHours() {
-		return isBillableField.getValue();
-	}
+    protected Boolean isBillableHours() {
+        return isBillableField.getValue();
+    }
 
-	protected Date forLogDate() {
-		Date date = this.forDateField.getValue();
-		return (date != null) ? date : new GregorianCalendar().getTime();
-	}
+    protected Date forLogDate() {
+        Date date = this.forDateField.getValue();
+        return (date != null) ? date : new GregorianCalendar().getTime();
+    }
 
-	protected abstract void saveTimeInvest();
+    protected abstract void saveTimeInvest();
 
-	protected abstract void updateTimeRemain();
+    protected abstract void updateTimeRemain();
 
-	protected abstract ItemTimeLoggingSearchCriteria getItemSearchCriteria();
+    protected abstract ItemTimeLoggingSearchCriteria getItemSearchCriteria();
 
-	protected abstract double getEstimateRemainTime();
+    protected abstract double getEstimateRemainTime();
 
-	protected abstract boolean isEnableAdd();
+    protected abstract boolean isEnableAdd();
 
-	protected double getUpdateRemainTime() {
-		return Double.parseDouble(remainTimeInputField.getValue());
-	}
+    protected double getUpdateRemainTime() {
+        return Double.parseDouble(remainTimeInputField.getValue());
+    }
 
-	private class NumericTextField extends TextField {
-		private static final long serialVersionUID = 1L;
+    private class NumericTextField extends TextField {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		protected void setValue(final String newValue,
-				final boolean repaintIsNotNeeded) {
-			try {
-				final String d = Double.parseDouble(newValue) + "";
-				super.setValue(d, repaintIsNotNeeded);
-			} catch (final Exception e) {
-				super.setValue("0.0", repaintIsNotNeeded);
-			}
-		}
-	}
+        @Override
+        protected void setValue(final String newValue,
+                                final boolean repaintIsNotNeeded) {
+            try {
+                final String d = Double.parseDouble(newValue) + "";
+                super.setValue(d, repaintIsNotNeeded);
+            } catch (final Exception e) {
+                super.setValue("0.0", repaintIsNotNeeded);
+            }
+        }
+    }
 }

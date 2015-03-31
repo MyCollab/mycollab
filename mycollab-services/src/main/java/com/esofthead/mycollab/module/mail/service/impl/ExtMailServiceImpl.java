@@ -14,39 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.mail.service.impl;
-
-import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.mail.IMailer;
 import com.esofthead.mycollab.module.mail.DefaultMailer;
+import com.esofthead.mycollab.module.mail.IMailer;
 import com.esofthead.mycollab.module.mail.NullMailer;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import org.springframework.stereotype.Service;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @Service
 public class ExtMailServiceImpl extends AbstractMailService implements
-		ExtMailService {
+        ExtMailService {
 
-	@Override
-	protected IMailer getMailer() {
-		EmailConfiguration emailConfiguration = SiteConfiguration
-				.getRelayEmailConfiguration();
-		if (emailConfiguration.getHost().equals("")) {
-			return new NullMailer();
-		}
+    @Override
+    public boolean isMailSetupValid() {
+        EmailConfiguration emailConfiguration = SiteConfiguration
+                .getRelayEmailConfiguration();
+        return !(emailConfiguration.getHost().equals(""));
+    }
 
-		// check whether email is configured properly
+    @Override
+    protected IMailer getMailer() {
+        EmailConfiguration emailConfiguration = SiteConfiguration
+                .getRelayEmailConfiguration();
+        if (emailConfiguration.getHost().equals("")) {
+            return new NullMailer();
+        }
 
-		return new DefaultMailer(emailConfiguration);
+        return new DefaultMailer(emailConfiguration);
 
-	}
+    }
 
 }

@@ -48,9 +48,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
     public UserAddViewImpl() {
         super();
-        this.setMargin(new MarginInfo(false, true, false, true));
-        this.editUserForm = new EditUserForm();
-        this.addComponent(this.editUserForm);
+        withMargin(new MarginInfo(false, true, false, true));
+        editUserForm = new EditUserForm();
+        addComponent(editUserForm);
     }
 
     @Override
@@ -62,11 +62,11 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
     public void editItem(SimpleUser item, boolean isBasicForm) {
         this.user = item;
         this.removeAllComponents();
-        this.addComponent(this.editUserForm);
+        this.addComponent(editUserForm);
         if (isBasicForm) {
-            this.editUserForm.displayBasicForm(this.user);
+            this.editUserForm.displayBasicForm(user);
         } else {
-            this.editUserForm.displayAdvancedForm(this.user);
+            this.editUserForm.displayAdvancedForm(user);
         }
     }
 
@@ -106,21 +106,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     .getDisplayName();
             final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
-            final VerticalLayout layout = new VerticalLayout();
-            final Label organizationHeader = new Label(
-                    AppContext
-                            .getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
+            VerticalLayout layout = new VerticalLayout();
+            Label organizationHeader = new Label(
+                    AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
             organizationHeader.setStyleName("h2");
             layout.addComponent(organizationHeader);
-
-            this.basicInformationLayout = new GridFormLayoutHelper(2, 1,
-                    "100%", "167px", Alignment.TOP_LEFT);
-            this.basicInformationLayout.getLayout().setWidth("100%");
-            this.basicInformationLayout.getLayout().setMargin(false);
-            this.basicInformationLayout.getLayout().addStyleName(
-                    UIConstants.COLORED_GRIDLAYOUT);
-
-            layout.addComponent(this.basicInformationLayout.getLayout());
+            basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 1);
+            layout.addComponent(basicInformationLayout.getLayout());
 
             formAddLayout.addHeaderRight(createButtonControls());
             formAddLayout.addBody(layout);
@@ -129,18 +121,12 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         private Layout createButtonControls() {
-            final HorizontalLayout controlPanel = new HorizontalLayout();
-            final Layout controlButtons = (new EditFormControlsGenerator<>(
-                    editUserForm)).createButtonControls();
-            controlButtons.setSizeUndefined();
-            controlPanel.addComponent(controlButtons);
-            controlPanel.setComponentAlignment(controlButtons,
-                    Alignment.MIDDLE_CENTER);
-            return controlPanel;
+            return new EditFormControlsGenerator<>(
+                    editUserForm).createButtonControls();
         }
 
         private Layout createBottomPanel() {
-            final MHorizontalLayout controlPanel = new MHorizontalLayout().withStyleName("more-info").withHeight
+            MHorizontalLayout controlPanel = new MHorizontalLayout().withStyleName("more-info").withHeight
                     ("40px").withWidth("100%");
             Button moreInfoBtn = new Button("More information...",
                     new Button.ClickListener() {
@@ -181,7 +167,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             if (propertyId.equals("roleid")) {
                 return new AdminRoleSelectionField();
             } else if (propertyId.equals("email")) {
-                final TextField tf = new TextField();
+                TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
                 tf.setRequiredError("This field must be not null");
@@ -202,7 +188,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             String title = (user.getUsername() == null) ? AppContext
                     .getMessage(UserI18nEnum.VIEW_NEW_USER) : user
                     .getDisplayName();
-            final AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
+            AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
             formAddLayout.addHeaderRight(createButtonControls());
             userInformationLayout = new UserInformationLayout();
             formAddLayout.addBody(userInformationLayout.getLayout());
@@ -210,20 +196,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         private Layout createButtonControls() {
-            final HorizontalLayout controlPanel = new HorizontalLayout();
-            final Layout controlButtons = (new EditFormControlsGenerator<>(
-                    editUserForm)).createButtonControls();
-            controlButtons.setSizeUndefined();
-            controlPanel.addComponent(controlButtons);
-            controlPanel.setComponentAlignment(controlButtons,
-                    Alignment.MIDDLE_CENTER);
-            return controlPanel;
+            return new EditFormControlsGenerator<>(
+                    editUserForm).createButtonControls();
         }
 
         @Override
         public void attachField(Object propertyId, Field<?> field) {
             userInformationLayout.attachField(propertyId, field);
-
         }
     }
 
@@ -251,10 +230,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                 return new DateComboboxSelectionField();
             } else if (propertyId.equals("timezone")) {
                 TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
-                if (UserAddViewImpl.this.user.getTimezone() != null) {
+                if (user.getTimezone() != null) {
                     cboTimezone.setTimeZone(TimezoneMapper
-                            .getTimezoneExt(UserAddViewImpl.this.user
-                                    .getTimezone()));
+                            .getTimezoneExt(user.getTimezone()));
                 } else {
                     if (AppContext.getSession().getTimezone() != null) {
                         cboTimezone
@@ -273,9 +251,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                             @Override
                             public void valueChange(
                                     final Property.ValueChangeEvent event) {
-                                UserAddViewImpl.this.user
-                                        .setCountry((String) cboCountry
-                                                .getValue());
+                                user.setCountry((String) cboCountry
+                                        .getValue());
                             }
                         });
                 return cboCountry;
@@ -291,7 +268,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         public AdminRoleSelectionField() {
             roleBox = new RoleComboBox();
-            this.roleBox.addValueChangeListener(new Property.ValueChangeListener() {
+            roleBox.addValueChangeListener(new Property.ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override

@@ -31,10 +31,8 @@ public class UIConstants {
 	public static final String H2_STYLE2 = "h2-style2";
 	public static final String HEADER_VIEW = "hdr-view";
 	public static final String HEADER_TEXT = "hdr-text";
-	public static final String COLORED_GRIDLAYOUT = "colored-gridlayout";
 	public static final String CUSTOM_FIELD_COMPONENT = "customFieldComponent";
 	public static final String CUSTOM_FIELD_SECTION = "customFieldSection";
-	public static final String FORM_CONTAINER_VIEW = "form-container";
 	public static final String POPUP_WITHOUT_INDICATOR = "nonPopupIndicator";
 	public static final String TABLE_ACTION_CONTROLS = "table-actionctls";
 	public static final String THEME_GREEN_LINK = "greenbtn";
@@ -43,7 +41,6 @@ public class UIConstants {
 	public static final String THEME_RED_LINK = "redbtn";
 	public static final String THEME_BLUE_LINK = "bluebtn";
 	public static final String THEME_ORANGE_LINK = "orangebtn";
-	public static final String THEME_TRANSPARENT_LINK = "transparentbtn";
 	public static final String THEME_BROWN_LINK = "brownbtn";
 	public static final String THEME_LINK = "link";
 	public static final String THEME_NO_BORDER = "no-border";
@@ -57,7 +54,6 @@ public class UIConstants {
 	public static final String PHOTO_CROPBOX = "photo-cropbox";
 	public static final String WIDGET_ROW = "widget-row";
 	public static final String BUG_LIST = "bug-list";
-	public static final String WIDGET_ROW_METADATA = "metadata";
 	public static final String MULTI_SELECT_BG = "multiselect";
 	public static final String PROJECT_INFO = "projectinfo";
 	public static final String PROJECT_INFO_HEADER = "projectinfo-header";
@@ -76,6 +72,7 @@ public class UIConstants {
 	public static final String FULL_BORDER_TABLE = "full-border-table";
 	public static final String LAYOUT_LOG = "layout-log";
 	public static final String CONTENT_WRAPPER = "content-wrapper";
+	public static final String OPTION_POPUP_CONTENT = "optionPopupContent";
 
     public static final String BUTTON_SMALL_PADDING = "small-padding";
     public static final String BUTTON_ICON_ONLY = "button-icon-only";
@@ -87,6 +84,6 @@ public class UIConstants {
 	public static final int TABLE_X_LABEL_WIDTH = 160;
 	public static final int TABLE_EX_LABEL_WIDTH = 200;
 	public static final int TABLE_EMAIL_WIDTH = 200;
-	public static final int TABLE_DATE_WIDTH = 100;
-	public static final int TABLE_DATE_TIME_WIDTH = 140;
+	public static final int TABLE_DATE_WIDTH = 130;
+	public static final int TABLE_DATE_TIME_WIDTH = 160;
 }

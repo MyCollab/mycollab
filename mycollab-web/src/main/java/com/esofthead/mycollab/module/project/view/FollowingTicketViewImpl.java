@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
@@ -122,7 +123,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
-		VerticalLayout popupButtonsControl = new VerticalLayout();
+		OptionPopupContent popupButtonsControl = new OptionPopupContent();
 		exportButtonControl.setContent(popupButtonsControl);
 
 		Button exportPdfBtn = new Button("Pdf");
@@ -130,16 +131,14 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 				constructStreamResource(ReportExportType.PDF));
 		pdfDownloader.extend(exportPdfBtn);
 		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-		exportPdfBtn.setStyleName("link");
-		popupButtonsControl.addComponent(exportPdfBtn);
+		popupButtonsControl.addOption(exportPdfBtn);
 
 		Button exportExcelBtn = new Button("Excel");
 		FileDownloader excelDownloader = new FileDownloader(
 				constructStreamResource(ReportExportType.EXCEL));
 		excelDownloader.extend(exportExcelBtn);
 		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-		exportExcelBtn.setStyleName("link");
-		popupButtonsControl.addComponent(exportExcelBtn);
+		popupButtonsControl.addOption(exportExcelBtn);
 
 		controlBtns.with(exportButtonControl).withAlign(exportButtonControl, Alignment.MIDDLE_RIGHT);
 

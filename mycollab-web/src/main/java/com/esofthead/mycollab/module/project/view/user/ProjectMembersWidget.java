@@ -59,7 +59,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
     private DefaultBeanPagedList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> memberList;
 
     public ProjectMembersWidget() {
-        withSpacing(false).withMargin(false);
+        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
 
         MButton inviteMemberBtn = new MButton("+").withStyleName("add-project-btn").withListener(new Button.ClickListener() {
             @Override

@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.vaadin.ui;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -29,14 +24,10 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -152,7 +143,7 @@ public class UserLink extends Button {
 			Label timeLabel = new Label("Time");
 			timeLabel.setWidth("120px");
 			timeZoneLayout.addComponent(timeLabel);
-			timeZoneLayout.addComponent(new Label(TimezoneMapper.getTimezone(
+			timeZoneLayout.addComponent(new Label(TimezoneMapper.getTimezoneExt(
 					user.getTimezone()).getDisplayName()));
 			mainUserInfoLayout.addComponent(timeZoneLayout);
 

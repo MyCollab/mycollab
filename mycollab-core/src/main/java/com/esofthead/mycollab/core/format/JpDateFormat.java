@@ -43,5 +43,4 @@ public class JpDateFormat implements IDateFormat {
 	public String getDayMonthFormat() {
 		return "MM/dd";
 	}
-
 }

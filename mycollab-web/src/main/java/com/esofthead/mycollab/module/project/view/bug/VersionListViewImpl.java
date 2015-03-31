@@ -44,9 +44,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -75,7 +75,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 	}
 
 	private void generateDisplayTable() {
-		this.tableItem = new DefaultPagedBeanTable<>(
+		tableItem = new DefaultPagedBeanTable<>(
 				ApplicationContextUtil.getSpringBean(VersionService.class),
 				SimpleVersion.class,
 				new TableViewField(null, "selected",
@@ -88,14 +88,14 @@ public class VersionListViewImpl extends AbstractPageView implements
 						new TableViewField(VersionI18nEnum.FORM_DUE_DATE,
 								"duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));
 
-		this.tableItem.addGeneratedColumn("selected",
+		tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public Object generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final SimpleVersion version = VersionListViewImpl.this.tableItem
+						final SimpleVersion version = tableItem
 								.getBeanByIndex(itemId);
 						final CheckBoxDecor cb = new CheckBoxDecor("", version
 								.isSelected());
@@ -116,14 +116,14 @@ public class VersionListViewImpl extends AbstractPageView implements
 					}
 				});
 
-		this.tableItem.addGeneratedColumn("versionname",
+		tableItem.addGeneratedColumn("versionname",
 				new Table.ColumnGenerator() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public Component generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final Version bugVersion = VersionListViewImpl.this.tableItem
+						final Version bugVersion = tableItem
 								.getBeanByIndex(itemId);
 						final LabelLink b = new LabelLink(bugVersion
 								.getVersionname(), ProjectLinkBuilder
@@ -150,29 +150,22 @@ public class VersionListViewImpl extends AbstractPageView implements
 					}
 				});
 
-		this.tableItem.addGeneratedColumn("duedate",
+		tableItem.addGeneratedColumn("duedate",
 				new Table.ColumnGenerator() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public Component generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final Version bugVersion = VersionListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						Date duedate = bugVersion.getDuedate();
-						if (duedate != null) {
-							return new Label(AppContext.formatDate(duedate));
-						} else {
-							return new Label("");
-						}
+						final Version bugVersion = tableItem.getBeanByIndex(itemId);
+						return new ELabel().prettyDate(bugVersion.getDuedate());
 					}
 				});
 
-		this.tableItem.setWidth("100%");
+		tableItem.setWidth("100%");
 
-		this.versionListLayout.addComponent(this
-				.constructTableActionControls());
-		this.versionListLayout.addComponent(this.tableItem);
+		versionListLayout.addComponent(constructTableActionControls());
+		versionListLayout.addComponent(tableItem);
 	}
 
 	@Override
@@ -183,8 +176,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 	private ComponentContainer constructTableActionControls() {
 		final CssLayout layoutWrapper = new CssLayout();
 		layoutWrapper.setWidth("100%");
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
+		final MHorizontalLayout layout = new MHorizontalLayout();
 		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
 		layoutWrapper.addComponent(layout);
 

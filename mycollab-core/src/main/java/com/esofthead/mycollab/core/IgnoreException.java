@@ -22,7 +22,7 @@ package com.esofthead.mycollab.core;
  */
 public class IgnoreException extends MyCollabException {
 
-    public IgnoreException(final String message) {
+    public IgnoreException(String message) {
         super(message);
     }
 }

@@ -50,7 +50,7 @@ public class ProblemFormatter extends FieldGroupFormatter {
 		this.generateFieldDisplayHandler("impact", ProblemI18nEnum.FORM_IMPACT);
 
 		this.generateFieldDisplayHandler("datedue",
-				ProblemI18nEnum.FORM_DATE_DUE, FieldGroupFormatter.DATE_FIELD);
+				ProblemI18nEnum.FORM_DATE_DUE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 		this.generateFieldDisplayHandler("priority",
 				ProblemI18nEnum.FORM_PRIORITY);
 		this.generateFieldDisplayHandler("status", ProblemI18nEnum.FORM_STATUS,

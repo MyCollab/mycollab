@@ -26,10 +26,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
@@ -100,7 +97,7 @@ public class FileDownloadWindow extends Window {
         final Label size = new Label(ResourceUtils.getVolumeDisplay(content.getSize()));
         info.addComponent(size, "Size", 0, 2);
 
-        final Label dateCreate = new Label(AppContext.formatDate(content.getCreated().getTime()));
+        ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());
         info.addComponent(dateCreate, "Created date", 0, 3);
 
         layout.addComponent(info.getLayout());

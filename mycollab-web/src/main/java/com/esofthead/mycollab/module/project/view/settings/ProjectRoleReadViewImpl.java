@@ -171,9 +171,9 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
 
     private ComponentContainer constructHeader() {
         header = new MHorizontalLayout().withStyleName("hdr-view")
-                .withWidth("100%").withSpacing(true).withMargin(true);
+                .withWidth("100%").withMargin(true);
 
-        this.headerText.setStyleName("header-text");
+        headerText.setStyleName("header-text");
 
         header.with(headerText).alignAll(Alignment.MIDDLE_LEFT)
                 .expand(headerText);
@@ -186,7 +186,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     }
 
     public void previewItem(final SimpleProjectRole item) {
-        this.beanItem = item;
+        beanItem = item;
         initLayout();
         previewLayout.setTitle(initFormTitle());
 

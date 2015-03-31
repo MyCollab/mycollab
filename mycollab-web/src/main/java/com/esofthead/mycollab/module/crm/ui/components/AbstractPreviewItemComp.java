@@ -53,7 +53,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 	public AbstractPreviewItemComp(Resource iconResource) {
 		previewItemContainer = new CrmVerticalTabsheet(false);
 
-		this.addComponent(previewItemContainer);
+		addComponent(previewItemContainer);
 		previewItemContainer.setSizeFull();
 		previewItemContainer.setNavigatorWidth("100%");
 		previewItemContainer.setNavigatorStyleName("sidebar-menu");

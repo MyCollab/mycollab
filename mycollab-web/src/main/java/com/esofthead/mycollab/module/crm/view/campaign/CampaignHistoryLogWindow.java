@@ -41,9 +41,9 @@ public class CampaignHistoryLogWindow extends HistoryLogWindow {
 		campaignFormatter
 				.generateFieldDisplayHandler("startdate",
 						CampaignI18nEnum.FORM_START_DATE,
-						FieldGroupFormatter.DATE_FIELD);
+						FieldGroupFormatter.PRETTY_DATE_FIELD);
 		campaignFormatter.generateFieldDisplayHandler("enddate",
-				CampaignI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
+				CampaignI18nEnum.FORM_END_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 		campaignFormatter.generateFieldDisplayHandler("status",
 				CampaignI18nEnum.FORM_STATUS);
 		campaignFormatter.generateFieldDisplayHandler("type",

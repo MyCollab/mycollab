@@ -82,7 +82,6 @@ public final class MainView extends AbstractPageView {
     private static Logger LOG = LoggerFactory.getLogger(MainView.class);
 
     private CssLayout bodyLayout;
-
     private ServiceMenu serviceMenu;
 
     public MainView() {
@@ -118,6 +117,9 @@ public final class MainView extends AbstractPageView {
 
     private CustomLayout createFooter() {
         final CustomLayout footer = CustomLayoutExt.createLayout("footer");
+        footer.setStyleName("footer");
+        footer.setWidth("100%");
+        footer.setHeightUndefined();
 
         Link companyLink = new Link("eSoftHead", new ExternalResource(
                 "http://www.esofthead.com"));
@@ -132,11 +134,26 @@ public final class MainView extends AbstractPageView {
         currentYear.setSizeUndefined();
         footer.addComponent(currentYear, "current-year");
 
-        HorizontalLayout footerRight = new HorizontalLayout();
-        footerRight.setSpacing(true);
+        MHorizontalLayout footerRight = new MHorizontalLayout();
 
-        final Button sendFeedback = new Button("Feedback");
+        Link blogLink = new Link("Blog", new ExternalResource(
+                "https://www.mycollab.com/blog"));
+        blogLink.setIcon(FontAwesome.RSS);
+        blogLink.setTargetName("_blank");
+
+        Link forumLink = new Link("Q&A", new ExternalResource(
+                "https://www.mycollab.com/qa/"));
+        forumLink.setTargetName("_blank");
+        forumLink.setIcon(FontAwesome.QUESTION);
+
+        Link wikiLink = new Link("Knowledge Base", new ExternalResource(
+                "https://www.mycollab.com/help/"));
+        wikiLink.setTargetName("_blank");
+        wikiLink.setIcon(FontAwesome.UNIVERSITY);
+
+        Button sendFeedback = new Button("Feedback");
         sendFeedback.setStyleName("link");
+        sendFeedback.setIcon(FontAwesome.REPLY_ALL);
         sendFeedback.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -145,30 +162,22 @@ public final class MainView extends AbstractPageView {
                 UI.getCurrent().addWindow(new FeedbackWindow());
             }
         });
-        Link blogLink = new Link("Blog", new ExternalResource(
-                "https://www.mycollab.com/blog"));
-        blogLink.setTargetName("_blank");
 
-        Link forumLink = new Link("Forum", new ExternalResource(
-                "http://forum.mycollab.com"));
-        forumLink.setTargetName("_blank");
-
-        Link wikiLink = new Link("Knowledge Base", new ExternalResource(
-                "https://www.mycollab.com/help/"));
-        wikiLink.setTargetName("_blank");
-
-        footerRight.addComponent(blogLink);
-        footerRight.addComponent(forumLink);
-        footerRight.addComponent(wikiLink);
-        footerRight.addComponent(sendFeedback);
-
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone
+                || SiteConfiguration.getDeploymentMode() == DeploymentMode.development) {
+            Link rateUsLink = new Link("Rate us!", new ExternalResource("http://sourceforge" +
+                    ".net/projects/mycollab/reviews/new"));
+            rateUsLink.setTargetName("_blank");
+            rateUsLink.setIcon(FontAwesome.THUMBS_O_UP);
+            footerRight.with(rateUsLink);
+        }
+        footerRight.with(blogLink, forumLink, wikiLink, sendFeedback);
         footer.addComponent(footerRight, "footer-right");
         return footer;
     }
 
     private CustomLayout createTopMenu() {
-        final CustomLayout layout = CustomLayoutExt
-                .createLayout("topNavigation");
+        CustomLayout layout = CustomLayoutExt.createLayout("topNavigation");
         layout.setStyleName("topNavigation");
         layout.setHeight("40px");
         layout.setWidth("100%");
@@ -367,12 +376,11 @@ public final class MainView extends AbstractPageView {
         accountLayout.addComponent(userAvatar);
         accountLayout.setComponentAlignment(userAvatar, Alignment.MIDDLE_LEFT);
 
-        final PopupButton accountMenu = new PopupButton(AppContext.getSession()
-                .getDisplayName());
-        final VerticalLayout accLayout = new VerticalLayout();
-        accLayout.setWidth("140px");
+        final PopupButton accountMenu = new PopupButton(com.esofthead.mycollab.core.utils.StringUtils.trim(AppContext.getSession()
+                .getDisplayName(), 20, true));
+        OptionPopupContent accLayout = new OptionPopupContent().withWidth("160px");
 
-        final Button myProfileBtn = new Button(
+        Button myProfileBtn = new Button(
                 AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -386,10 +394,9 @@ public final class MainView extends AbstractPageView {
                     }
                 });
         myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
-        myProfileBtn.setStyleName("link");
-        accLayout.addComponent(myProfileBtn);
+        accLayout.addOption(myProfileBtn);
 
-        final Button myAccountBtn = new Button(
+        Button myAccountBtn = new Button(
                 AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -402,11 +409,10 @@ public final class MainView extends AbstractPageView {
                                         new String[]{"billing"}));
                     }
                 });
-        myAccountBtn.setStyleName("link");
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
-        accLayout.addComponent(myAccountBtn);
+        accLayout.addOption(myAccountBtn);
 
-        final Button userMgtBtn = new Button(
+        Button userMgtBtn = new Button(
                 AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -419,11 +425,10 @@ public final class MainView extends AbstractPageView {
                                         new String[]{"user", "list"}));
                     }
                 });
-        userMgtBtn.setStyleName("link");
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
-        accLayout.addComponent(userMgtBtn);
+        accLayout.addOption(userMgtBtn);
 
-        final Button signoutBtn = new Button(
+        Button signoutBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -435,9 +440,8 @@ public final class MainView extends AbstractPageView {
                                 new ShellEvent.LogOut(this, null));
                     }
                 });
-        signoutBtn.setStyleName("link");
         signoutBtn.setIcon(FontAwesome.SIGN_OUT);
-        accLayout.addComponent(signoutBtn);
+        accLayout.addOption(signoutBtn);
 
         accountMenu.setContent(accLayout);
         accountMenu.setStyleName("accountMenu");

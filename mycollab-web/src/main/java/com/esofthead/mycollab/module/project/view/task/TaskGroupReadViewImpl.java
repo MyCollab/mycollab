@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -340,7 +339,8 @@ public class TaskGroupReadViewImpl extends
 
         private Div buildLastUpdateTime(SimpleTask task) {
             Div div = new Div();
-            div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastupdatedtime())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastupdatedtime()))).setTitle(AppContext
+                    .formatDateTime(task.getLastupdatedtime()));
             return div.setCSSClass("column100");
         }
     }

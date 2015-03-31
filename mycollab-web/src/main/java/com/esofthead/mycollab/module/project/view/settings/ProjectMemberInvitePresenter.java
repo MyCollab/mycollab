@@ -95,7 +95,6 @@ public class ProjectMemberInvitePresenter extends
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getCacheComponent(ProjectBreadcrumb.class);
-
 			breadcrumb.gotoUserAdd();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

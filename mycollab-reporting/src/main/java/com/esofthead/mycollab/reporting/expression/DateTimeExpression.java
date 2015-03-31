@@ -43,7 +43,7 @@ public class DateTimeExpression extends AbstractFieldExpression implements
 		Locale locale = reportParameters.getLocale();
 		Date date = reportParameters.getFieldValue(field);
 		return DateTimeUtils.formatDate(date,
-				LocaleHelper.getDateTimeFormatAssociateToLocale(locale));
+				LocaleHelper.getDateFormatInstance(locale).getDateTimeFormat());
 	}
 
 }

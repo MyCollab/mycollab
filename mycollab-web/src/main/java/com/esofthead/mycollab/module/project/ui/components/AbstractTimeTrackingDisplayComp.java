@@ -43,7 +43,6 @@ import java.util.List;
  * 
  */
 public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
-
 	private static final long serialVersionUID = 1L;
 
 	protected List<TableViewField> visibleFields;

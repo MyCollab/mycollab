@@ -48,7 +48,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
@@ -252,8 +251,7 @@ public class ProjectActivityStreamPagedList extends
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));
         }
-        Label dateLbl = new Label(DateFormatUtils.format(nextDate,
-                AppContext.getUserDayMonthFormat()));
+        Label dateLbl = new Label(AppContext.formatDayMonth(nextDate));
         dateLbl.setSizeUndefined();
         dateLbl.setStyleName("date-lbl");
         blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);

@@ -46,11 +46,13 @@ public class EmailValidationServlet extends HttpServlet {
 		String smtpPort = request.getParameter("smtpPort");
 		String tls = request.getParameter("tls");
 
-		int mailServerPort = 1;
+		int mailServerPort;
 		try {
 			mailServerPort = Integer.parseInt(smtpPort);
 		} catch (Exception e) {
-
+			PrintWriter out = response.getWriter();
+			out.write("Port must be an integer value");
+			return;
 		}
 		try {
 			Email email = new SimpleEmail();

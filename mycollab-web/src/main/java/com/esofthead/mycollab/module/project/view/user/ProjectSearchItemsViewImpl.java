@@ -98,7 +98,8 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
             Div div = new Div().setStyle("width:100%").setCSSClass("footer");
             Text createdByTxt = new Text("Created by: ");
             Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(item.getLastUpdatedTime
-                    ()))).setStyle("float:right");
+                    ()))).setTitle(AppContext.formatDateTime(item.getLastUpdatedTime())).setStyle("float:right;" +
+                    "margin-right:5px");
 
             if (StringUtils.isBlank(item.getCreatedUser())) {
                 div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"), lastUpdatedOn);

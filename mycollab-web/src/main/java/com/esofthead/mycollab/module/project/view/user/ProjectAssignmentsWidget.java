@@ -23,6 +23,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -37,6 +38,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -58,13 +60,13 @@ import java.util.UUID;
 public class ProjectAssignmentsWidget extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
-    private  ProjectGenericTaskSearchCriteria searchCriteria;
+    private ProjectGenericTaskSearchCriteria searchCriteria;
 
     private Label titleLbl;
     private DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
     public ProjectAssignmentsWidget() {
-        withSpacing(false).withMargin(false);
+        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, 0));
 
         final CheckBox overdueSelection = new CheckBox("Overdue");
@@ -138,11 +140,20 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             Div itemDiv = buildItemValue(genericTask);
 
             Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
+            taskLbl.addStyleName("h2");
             if (genericTask.isOverdue()) {
-              taskLbl.addStyleName("overdue");
+                taskLbl.addStyleName("overdue");
             }
 
             layout.addComponent(taskLbl);
+
+            Label descLbl;
+            if (org.apache.commons.lang3.StringUtils.isBlank(genericTask.getDescription())) {
+                descLbl = new Label("<<No Description>>");
+            } else {
+                descLbl = new SafeHtmlLabel(StringUtils.trim(genericTask.getDescription(), 250, true));
+            }
+            layout.addComponent(descLbl);
 
             Div footerDiv = new Div().setCSSClass("activity-date");
 
@@ -150,7 +161,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             if (dueDate != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE,
-                        AppContext.formatPrettyTime(dueDate))));
+                        AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
@@ -158,7 +169,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
 
             if (genericTask.getAssignUser() != null) {
-               footerDiv.appendChild(buildAssigneeValue(genericTask));
+                footerDiv.appendChild(buildAssigneeValue(genericTask));
             }
 
             layout.addComponent(new Label(footerDiv.write(), ContentMode.HTML));
@@ -215,7 +226,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
                     task.getProjectId(),
                     task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid,  task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
             userLink.appendText(task.getAssignUserFullName());
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";

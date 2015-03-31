@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.reporting.ExportTaskListStreamResource;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -170,8 +171,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         this.taskGroupSelection = new PopupButton(
-                AppContext
-                        .getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
+                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
         this.taskGroupSelection.setEnabled(CurrentProjectVariables
                 .canRead(ProjectRolePermissionCollections.TASKS));
         this.taskGroupSelection.addStyleName("link");
@@ -181,26 +181,21 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 .withAlign(taskGroupSelection, Alignment.MIDDLE_LEFT)
                 .expand(taskGroupSelection);
 
-        final MVerticalLayout filterBtnLayout = new MVerticalLayout()
-                .withMargin(true).withSpacing(true).withWidth("200px");
+        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
         final Button allTasksFilterBtn = new Button(
-                AppContext
-                        .getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
+                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection
-                                .setPopupVisible(false);
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-                                .getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
-                        TaskGroupDisplayViewImpl.this.displayAllTaskGroups();
+                        taskGroupSelection.setPopupVisible(false);
+                        taskGroupSelection.setCaption(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
+                        displayAllTaskGroups();
                     }
                 });
-        allTasksFilterBtn.setStyleName("link");
-        filterBtnLayout.addComponent(allTasksFilterBtn);
+        filterBtnLayout.addOption(allTasksFilterBtn);
 
         final Button activeTasksFilterBtn = new Button(
                 AppContext
@@ -210,15 +205,12 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection
-                                .setPopupVisible(false);
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-                                .getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
-                        TaskGroupDisplayViewImpl.this.displayActiveTaskGroups();
+                        taskGroupSelection.setPopupVisible(false);
+                        taskGroupSelection.setCaption(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
+                        displayActiveTaskGroups();
                     }
                 });
-        activeTasksFilterBtn.setStyleName("link");
-        filterBtnLayout.addComponent(activeTasksFilterBtn);
+        filterBtnLayout.addOption(activeTasksFilterBtn);
 
         final Button archivedTasksFilterBtn = new Button(
                 AppContext
@@ -228,16 +220,12 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-                                .getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
-                        TaskGroupDisplayViewImpl.this.taskGroupSelection
-                                .setPopupVisible(false);
-                        TaskGroupDisplayViewImpl.this
-                                .displayInActiveTaskGroups();
+                        taskGroupSelection.setCaption(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
+                        taskGroupSelection.setPopupVisible(false);
+                        displayInActiveTaskGroups();
                     }
                 });
-        archivedTasksFilterBtn.setStyleName("link");
-        filterBtnLayout.addComponent(archivedTasksFilterBtn);
+        filterBtnLayout.addOption(archivedTasksFilterBtn);
 
         this.taskGroupSelection.setContent(filterBtnLayout);
 
@@ -285,9 +273,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
         exportButtonControl.setDescription("Export to file");
 
-        VerticalLayout popupButtonsControl = new VerticalLayout();
+        OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("120px");
         exportButtonControl.setContent(popupButtonsControl);
-        exportButtonControl.setWidthUndefined();
 
         Button exportPdfBtn = new Button(
                 AppContext.getMessage(FileI18nEnum.PDF));
@@ -295,8 +282,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
         exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-        exportPdfBtn.setStyleName("link");
-        popupButtonsControl.addComponent(exportPdfBtn);
+        popupButtonsControl.addOption(exportPdfBtn);
 
         Button exportExcelBtn = new Button(
                 AppContext.getMessage(FileI18nEnum.EXCEL));
@@ -304,8 +290,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
         exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-        exportExcelBtn.setStyleName("link");
-        popupButtonsControl.addComponent(exportExcelBtn);
+        popupButtonsControl.addOption(exportExcelBtn);
 
         header.with(exportButtonControl).withAlign(exportButtonControl, Alignment.MIDDLE_LEFT);
 
@@ -356,8 +341,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         viewButtons.addButton(chartDisplayBtn);
         viewButtons.setDefaultButton(advanceDisplayBtn);
 
-        mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth()
-                .withSpacing(true);
+        mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         this.taskListsWidget = new TaskGroupDisplayWidget();
 
         MVerticalLayout leftColumn = new MVerticalLayout().withMargin(

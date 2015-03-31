@@ -1005,7 +1005,7 @@ public class TimezoneMapper {
 	}
 
 	public static TimeZone getTimezone(String mycollabId) {
-		TimezoneExt timeZoneExt = null;
+		TimezoneExt timeZoneExt;
 		if (mycollabId == null || mycollabId.equals("")) {
 			timeZoneExt = timeMap.get("3");
 		} else {

@@ -29,7 +29,6 @@ import com.vaadin.ui.CustomField;
  * 
  */
 public class ProjectMemberSelectionField extends CustomField<String> {
-
 	private static final long serialVersionUID = 1L;
 
 	private ProjectMemberSelectionBox memberSelectionBox;

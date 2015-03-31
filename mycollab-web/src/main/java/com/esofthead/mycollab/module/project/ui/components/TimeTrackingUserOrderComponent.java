@@ -31,7 +31,6 @@ import com.google.common.collect.Ordering;
  * 
  */
 public class TimeTrackingUserOrderComponent extends AbstractTimeTrackingDisplayComp {
-
 	private static final long serialVersionUID = 1L;
 
 	public TimeTrackingUserOrderComponent(List<TableViewField> fields,

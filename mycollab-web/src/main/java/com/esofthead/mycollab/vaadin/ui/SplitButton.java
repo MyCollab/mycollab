@@ -16,169 +16,164 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.hene.popupbutton.PopupButton;
+
+import java.io.Serializable;
+import java.lang.reflect.Method;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class SplitButton extends CustomComponent {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Button parentButton;
+    private Button parentButton;
+    private PopupButton popupButton;
+    private boolean isPopupVisible = false;
 
-	private PopupButton popupButton;
+    public SplitButton() {
+        this(new Button());
 
-	private boolean isPopupVisible = false;
+    }
 
-	public SplitButton() {
-		this(new Button());
-
-	}
-
-	public SplitButton(Button parentButton) {
-		this.setImmediate(true);
+    public SplitButton(Button parentButton) {
+        this.setImmediate(true);
         HorizontalLayout contentLayout = new HorizontalLayout();
-		contentLayout.setStyleName("splitbutton");
-		this.parentButton = parentButton;
-		this.parentButton.addStyleName("parent-button");
-		this.parentButton.setImmediate(true);
-		this.parentButton.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+        contentLayout.setStyleName("splitbutton");
+        this.parentButton = parentButton;
+        this.parentButton.addStyleName("parent-button");
+        this.parentButton.setImmediate(true);
+        this.parentButton.addClickListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				SplitButton.this.fireEvent(new SplitButtonClickEvent(
-						SplitButton.this));
-			}
-		});
+            @Override
+            public void buttonClick(ClickEvent event) {
+                fireEvent(new SplitButtonClickEvent(
+                        SplitButton.this));
+            }
+        });
 
-		popupButton = new PopupButton();
-		popupButton.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+        popupButton = new PopupButton();
+        popupButton.addClickListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				SplitButton.this.isPopupVisible = !SplitButton.this.isPopupVisible;
-				SplitButton.this.fireEvent(new SplitButtonPopupVisibilityEvent(
-						SplitButton.this, SplitButton.this.isPopupVisible));
+            @Override
+            public void buttonClick(ClickEvent event) {
+                isPopupVisible = !isPopupVisible;
+                fireEvent(new SplitButtonPopupVisibilityEvent(
+                        SplitButton.this, isPopupVisible));
 
-			}
-		});
+            }
+        });
 
-		contentLayout.addComponent(parentButton);
-		contentLayout.addComponent(popupButton);
+        contentLayout.addComponent(parentButton);
+        contentLayout.addComponent(popupButton);
 
-		this.setCompositionRoot(contentLayout);
-	}
+        this.setCompositionRoot(contentLayout);
+    }
 
-	@Override
-	public void setCaption(String caption) {
-		parentButton.setCaption(caption);
-	}
+    @Override
+    public void setCaption(String caption) {
+        parentButton.setCaption(caption);
+    }
 
-	@Override
-	public void setIcon(Resource icon) {
-		parentButton.setIcon(icon);
-	}
+    @Override
+    public void setIcon(Resource icon) {
+        parentButton.setIcon(icon);
+    }
 
-	public void setPopupVisible(boolean isVisible) {
-		this.isPopupVisible = isVisible;
-		popupButton.setPopupVisible(isPopupVisible);
-	}
+    public void setPopupVisible(boolean isVisible) {
+        this.isPopupVisible = isVisible;
+        popupButton.setPopupVisible(isPopupVisible);
+    }
 
-	public boolean getPopupVisible() {
-		return this.isPopupVisible;
-	}
+    public boolean getPopupVisible() {
+        return this.isPopupVisible;
+    }
 
-	public void setContent(ComponentContainer content) {
-		popupButton.setContent(content);
-	}
+    public void setContent(OptionPopupContent content) {
+        popupButton.setContent(content);
+    }
 
-	private static final Method SPLIT_BUTTON_CLICK_CHANGE_METHOD;
-	private static final Method SPLIT_POPUP_VISIBLE_CHANGE_METHOD;
-	static {
-		try {
-			SPLIT_BUTTON_CLICK_CHANGE_METHOD = SplitButtonClickListener.class
-					.getDeclaredMethod("splitButtonClick",
-							SplitButtonClickEvent.class);
+    private static final Method SPLIT_BUTTON_CLICK_CHANGE_METHOD;
+    private static final Method SPLIT_POPUP_VISIBLE_CHANGE_METHOD;
 
-			SPLIT_POPUP_VISIBLE_CHANGE_METHOD = SplitButtonPopupVisibilityListener.class
-					.getDeclaredMethod(
-							"splitButtonPopupVisibilityChange",
-							SplitButtonPopupVisibilityEvent.class);
-		} catch (final java.lang.NoSuchMethodException e) {
-			throw new java.lang.RuntimeException(
-					"Internal error finding methods in TabSheet");
-		}
-	}
+    static {
+        try {
+            SPLIT_BUTTON_CLICK_CHANGE_METHOD = SplitButtonClickListener.class
+                    .getDeclaredMethod("splitButtonClick",
+                            SplitButtonClickEvent.class);
 
-	public static interface SplitButtonClickListener extends Serializable {
-		public void splitButtonClick(SplitButtonClickEvent event);
-	}
+            SPLIT_POPUP_VISIBLE_CHANGE_METHOD = SplitButtonPopupVisibilityListener.class
+                    .getDeclaredMethod(
+                            "splitButtonPopupVisibilityChange",
+                            SplitButtonPopupVisibilityEvent.class);
+        } catch (final java.lang.NoSuchMethodException e) {
+            throw new java.lang.RuntimeException(
+                    "Internal error finding methods in TabSheet");
+        }
+    }
 
-	public static class SplitButtonClickEvent extends Component.Event {
-		private static final long serialVersionUID = 1L;
+    public interface SplitButtonClickListener extends Serializable {
+        void splitButtonClick(SplitButtonClickEvent event);
+    }
 
-		public SplitButtonClickEvent(Component source) {
-			super(source);
-		}
+    public static class SplitButtonClickEvent extends Component.Event {
+        private static final long serialVersionUID = 1L;
 
-	}
+        public SplitButtonClickEvent(Component source) {
+            super(source);
+        }
 
-	public void addClickListener(SplitButtonClickListener listener) {
-		addListener(SplitButtonClickEvent.class, listener,
-				SPLIT_BUTTON_CLICK_CHANGE_METHOD);
-	}
+    }
 
-	public void addPopupVisibilityListener(
-			SplitButtonPopupVisibilityListener listener) {
-		addListener(SplitButtonPopupVisibilityEvent.class, listener,
-				SPLIT_POPUP_VISIBLE_CHANGE_METHOD);
-	}
+    public void addClickListener(SplitButtonClickListener listener) {
+        addListener(SplitButtonClickEvent.class, listener,
+                SPLIT_BUTTON_CLICK_CHANGE_METHOD);
+    }
 
-	public static interface SplitButtonPopupVisibilityListener extends
-			Serializable {
-		void splitButtonPopupVisibilityChange(
-				SplitButtonPopupVisibilityEvent event);
-	}
+    public void addPopupVisibilityListener(
+            SplitButtonPopupVisibilityListener listener) {
+        addListener(SplitButtonPopupVisibilityEvent.class, listener,
+                SPLIT_POPUP_VISIBLE_CHANGE_METHOD);
+    }
 
-	public static class SplitButtonPopupVisibilityEvent extends Component.Event {
-		private static final long serialVersionUID = 1L;
+    public interface SplitButtonPopupVisibilityListener extends
+            Serializable {
+        void splitButtonPopupVisibilityChange(
+                SplitButtonPopupVisibilityEvent event);
+    }
 
-		private boolean isVisible;
+    public static class SplitButtonPopupVisibilityEvent extends Component.Event {
+        private static final long serialVersionUID = 1L;
 
-		public SplitButtonPopupVisibilityEvent(Component source,
-				boolean isVisible) {
-			super(source);
-			this.isVisible = isVisible;
-		}
+        private boolean isVisible;
 
-		public boolean isPopupVisible() {
-			return this.isVisible;
-		}
-	}
+        public SplitButtonPopupVisibilityEvent(Component source,
+                                               boolean isVisible) {
+            super(source);
+            this.isVisible = isVisible;
+        }
 
-	@Override
-	public void addStyleName(String styleName) {
-		super.addStyleName(styleName);
+        public boolean isPopupVisible() {
+            return this.isVisible;
+        }
+    }
 
-		parentButton.addStyleName(styleName);
-		popupButton.addStyleName(styleName);
-	}
+    @Override
+    public void addStyleName(String styleName) {
+        super.addStyleName(styleName);
+
+        parentButton.addStyleName(styleName);
+        popupButton.addStyleName(styleName);
+    }
 
 }

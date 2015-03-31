@@ -47,20 +47,26 @@ Version 5.0.3
 **Library Upgrades**
 
 * Upgrade Vaadin to 7.4.2
-* Upgrade other libraries
+* Upgrade other libraries: Spring framework, Jackrabbit, SLF4J etc
 
 **Improvements**
 
 * Easier to navigate among projects
 * Add search of generic assignments to project
-* Revise and bug fixes the file module
+* Revise and do several bug fixes the file module
 * Support tooltip for multi select component
+* Display pretty time on label and detail date tooltip
+* Add description for the project generic assignment
+* Revise the invite project member view
 
 **Bug Fixes**
 
 * Edit project member throws exception
 * Display bug context menu properly according to coordination of mouse
 * Can not change the project information
+* Correct year format of contact birthday
+* Prevent the issue of can not view task or bug because the project short name is invalid
+* Do not display year in birthday combo box
 
 Version 5.0.2
 -----------------------------

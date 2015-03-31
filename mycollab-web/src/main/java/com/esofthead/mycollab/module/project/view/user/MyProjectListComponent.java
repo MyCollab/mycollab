@@ -25,7 +25,10 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.SearchTextField;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -50,10 +53,10 @@ public class MyProjectListComponent extends MVerticalLayout {
     private ProjectSearchCriteria searchCriteria;
 
     public MyProjectListComponent() {
-        withSpacing(false).withMargin(false);
+        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         this.addStyleName("myprojectlist");
 
-        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, true,
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
                 false, true)).withHeight("34px");
         header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(
@@ -68,9 +71,10 @@ public class MyProjectListComponent extends MVerticalLayout {
         };
 
         final PopupButton projectsPopup = new PopupButton("");
-        projectsPopup.addStyleName("popuplistindicator");
+        projectsPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+        projectsPopup.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-        final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
+        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
         ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
@@ -85,8 +89,7 @@ public class MyProjectListComponent extends MVerticalLayout {
                         projectsPopup.setPopupVisible(false);
                     }
                 });
-        allProjectsBtn.setStyleName("link");
-        filterBtnLayout.addComponent(allProjectsBtn);
+        filterBtnLayout.addOption(allProjectsBtn);
 
         int activeProjectsCount = projectService
                 .getTotalCount(getActiveProjectsSearchCriteria());
@@ -101,8 +104,7 @@ public class MyProjectListComponent extends MVerticalLayout {
                 projectsPopup.setPopupVisible(false);
             }
         });
-        activeProjectsBtn.setStyleName("link");
-        filterBtnLayout.addComponent(activeProjectsBtn);
+        filterBtnLayout.addOption(activeProjectsBtn);
 
         int archiveProjectsCount = projectService
                 .getTotalCount(getArchivedProjectsSearchCriteria());
@@ -117,8 +119,7 @@ public class MyProjectListComponent extends MVerticalLayout {
                 projectsPopup.setPopupVisible(false);
             }
         });
-        archiveProjectsBtn.setStyleName("link");
-        filterBtnLayout.addComponent(archiveProjectsBtn);
+        filterBtnLayout.addOption(archiveProjectsBtn);
         projectsPopup.setContent(filterBtnLayout);
 
         header.with(titleLbl, searchTextField, projectsPopup).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign

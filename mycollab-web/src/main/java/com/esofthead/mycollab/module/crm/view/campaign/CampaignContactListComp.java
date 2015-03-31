@@ -91,10 +91,9 @@ public class CampaignContactListComp extends
 						controlsBtn.setPopupVisible(false);
 					}
 				});
-		selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-		selectBtn.setStyleName("link");
-		VerticalLayout buttonControlLayout = new VerticalLayout();
-		buttonControlLayout.addComponent(selectBtn);
+		selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+		OptionPopupContent buttonControlLayout = new OptionPopupContent();
+		buttonControlLayout.addOption(selectBtn);
 		controlsBtn.setContent(buttonControlLayout);
 
 		controlsBtnWrap.addComponent(controlsBtn);

@@ -39,8 +39,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements
         FileDashboardComponent dashboardComponent = new FileDashboardComponent(
                 rootPath);
         dashboardComponent.setWidth("100%");
-        this.addComponent(dashboardComponent);
-
+        addComponent(dashboardComponent);
         dashboardComponent.displayResources();
     }
 }

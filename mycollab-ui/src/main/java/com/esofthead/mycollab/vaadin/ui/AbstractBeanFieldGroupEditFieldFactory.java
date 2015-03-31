@@ -16,17 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.lang.annotation.Annotation;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.Validator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
@@ -37,156 +26,159 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.AbstractTextField;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.*;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
+import javax.validation.Validator;
+import java.lang.annotation.Annotation;
+import java.util.Set;
 
 /**
- * 
+ *
  * @author MyCollab Ltd
  * @since 3.0
- * 
+ *
  * @param <B>
  */
 public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
-		IBeanFieldGroupFieldFactory<B>, CommitHandler {
-	private static final long serialVersionUID = 1L;
+        IBeanFieldGroupFieldFactory<B>, CommitHandler {
+    private static final long serialVersionUID = 1L;
 
-	protected GenericBeanForm<B> attachForm;
-	protected FieldGroup fieldGroup;
-	protected boolean isValidateForm;
-	private Validator validation;
+    protected GenericBeanForm<B> attachForm;
+    protected FieldGroup fieldGroup;
+    protected boolean isValidateForm;
+    private Validator validation;
 
-	public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form) {
-		this(form, true);
-	}
+    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form) {
+        this(form, true);
+    }
 
-	public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form,
-			boolean isValidateForm) {
-		this.attachForm = form;
-		this.fieldGroup = new FieldGroup();
-		this.fieldGroup.setBuffered(true);
-		this.isValidateForm = isValidateForm;
+    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form,
+                                                  boolean isValidateForm) {
+        this.attachForm = form;
+        this.fieldGroup = new FieldGroup();
+        this.fieldGroup.setBuffered(true);
+        this.isValidateForm = isValidateForm;
 
-		if (isValidateForm) {
-			this.fieldGroup.addCommitHandler(this);
-			validation = ApplicationContextUtil
-					.getSpringBean(LocalValidatorFactoryBean.class);
-		}
-	}
+        if (isValidateForm) {
+            this.fieldGroup.addCommitHandler(this);
+            validation = ApplicationContextUtil
+                    .getSpringBean(LocalValidatorFactoryBean.class);
+        }
+    }
 
-	@Override
-	public void setBean(B bean) {
-		fieldGroup.setItemDataSource(new BeanItem<>(bean));
+    @Override
+    public void setBean(B bean) {
+        fieldGroup.setItemDataSource(new BeanItem<>(bean));
 
-		Class<?> beanClass = bean.getClass();
-		java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);
-		for (java.lang.reflect.Field field : fields) {
-			Field<?> formField = onCreateField(field.getName());
-			if (formField == null) {
-				if (field.getAnnotation(NotBindable.class) != null) {
-					continue;
-				} else {
-					formField = fieldGroup.buildAndBind(field.getName());
-				}
-			} else {
-				if (formField instanceof DummyCustomField) {
-					continue;
-				} else if (!(formField instanceof CompoundCustomField)) {
-					fieldGroup.bind(formField, field.getName());
-				}
-			}
+        Class<?> beanClass = bean.getClass();
+        java.lang.reflect.Field[] fields = ClassUtils.getAllFields(beanClass);
+        for (java.lang.reflect.Field field : fields) {
+            Field<?> formField = onCreateField(field.getName());
+            if (formField == null) {
+                if (field.getAnnotation(NotBindable.class) != null) {
+                    continue;
+                } else {
+                    formField = fieldGroup.buildAndBind(field.getName());
+                }
+            } else {
+                if (formField instanceof DummyCustomField) {
+                    continue;
+                } else if (!(formField instanceof CompoundCustomField)) {
+                    fieldGroup.bind(formField, field.getName());
+                }
+            }
 
-			if (formField instanceof AbstractTextField) {
-				((AbstractTextField) formField).setNullRepresentation("");
-			} else if (formField instanceof RichTextArea) {
-				((RichTextArea) formField).setNullRepresentation("");
-			} else if (formField instanceof DateField) {
-				((DateField) formField).setTimeZone(AppContext.getTimezone());
-				((DateField) formField).setDateFormat(AppContext
-						.getUserShortDateFormat());
-			}
+            if (formField instanceof AbstractTextField) {
+                ((AbstractTextField) formField).setNullRepresentation("");
+            } else if (formField instanceof RichTextArea) {
+                ((RichTextArea) formField).setNullRepresentation("");
+            } else if (formField instanceof DateField) {
+                ((DateField) formField).setTimeZone(AppContext.getTimezone());
+                ((DateField) formField).setDateFormat(AppContext
+                        .getUserDateFormat().getShortDateFormat());
+            }
 
-			attachForm.attachField(field.getName(), formField);
-		}
-	}
+            attachForm.attachField(field.getName(), formField);
+        }
+    }
 
-	@Override
-	public void commit() {
-		try {
-			fieldGroup.commit();
-			attachForm.setValid(true);
-		} catch (CommitException e) {
-			attachForm.setValid(false);
-			NotificationUtil.showErrorNotification(e.getCause().getMessage());
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+    @Override
+    public void commit() {
+        try {
+            fieldGroup.commit();
+            attachForm.setValid(true);
+        } catch (CommitException e) {
+            attachForm.setValid(false);
+            NotificationUtil.showErrorNotification(e.getCause().getMessage());
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	@Override
-	public void preCommit(FieldGroup.CommitEvent commitEvent)
-			throws CommitException {
-		for (Object propertyId : fieldGroup.getBoundPropertyIds()) {
-			fieldGroup.getField(propertyId).removeStyleName("errorField");
-		}
-		StringBuilder errorMsg = new StringBuilder();
-		int violationCount = 0;
-		for (Field<?> f : commitEvent.getFieldBinder().getFields()) {
-			try {
-				if (f instanceof CustomField) {
-					continue;
-				}
-				f.validate();
-			} catch (com.vaadin.data.Validator.InvalidValueException e) {
-				violationCount++;
-				errorMsg.append(e.getHtmlMessage()).append("<br/>");
-				f.addStyleName("errorField");
-			}
-		}
-		if (violationCount > 0) {
-			throw new CommitException(errorMsg.toString());
-		}
-	}
+    @Override
+    public void preCommit(FieldGroup.CommitEvent commitEvent)
+            throws CommitException {
+        for (Object propertyId : fieldGroup.getBoundPropertyIds()) {
+            fieldGroup.getField(propertyId).removeStyleName("errorField");
+        }
+        StringBuilder errorMsg = new StringBuilder();
+        int violationCount = 0;
+        for (Field<?> f : commitEvent.getFieldBinder().getFields()) {
+            try {
+                if (f instanceof CustomField) {
+                    continue;
+                }
+                f.validate();
+            } catch (com.vaadin.data.Validator.InvalidValueException e) {
+                violationCount++;
+                errorMsg.append(e.getHtmlMessage()).append("<br/>");
+                f.addStyleName("errorField");
+            }
+        }
+        if (violationCount > 0) {
+            throw new CommitException(errorMsg.toString());
+        }
+    }
 
-	@Override
-	public void postCommit(FieldGroup.CommitEvent commitEvent)
-			throws CommitException {
-		Set<ConstraintViolation<B>> violations = validation.validate(attachForm
-				.getBean());
-		if (violations.size() > 0) {
-			StringBuilder errorMsg = new StringBuilder();
+    @Override
+    public void postCommit(FieldGroup.CommitEvent commitEvent)
+            throws CommitException {
+        Set<ConstraintViolation<B>> violations = validation.validate(attachForm
+                .getBean());
+        if (violations.size() > 0) {
+            StringBuilder errorMsg = new StringBuilder();
 
-			for (@SuppressWarnings("rawtypes")
-			ConstraintViolation violation : violations) {
-				errorMsg.append(violation.getMessage()).append("<br/>");
+            for (@SuppressWarnings("rawtypes")
+            ConstraintViolation violation : violations) {
+                errorMsg.append(violation.getMessage()).append("<br/>");
                 Path propertyPath = violation.getPropertyPath();
-				if (propertyPath != null
-						&& !propertyPath.toString().equals("")) {
-					fieldGroup.getField(propertyPath.toString())
-							.addStyleName("errorField");
-				} else {
-					Annotation validateAnno = violation
-							.getConstraintDescriptor().getAnnotation();
-					if (validateAnno instanceof DateComparision) {
-						String firstDateField = ((DateComparision) validateAnno)
-								.firstDateField();
-						String lastDateField = ((DateComparision) validateAnno)
-								.lastDateField();
+                if (propertyPath != null
+                        && !propertyPath.toString().equals("")) {
+                    fieldGroup.getField(propertyPath.toString())
+                            .addStyleName("errorField");
+                } else {
+                    Annotation validateAnno = violation
+                            .getConstraintDescriptor().getAnnotation();
+                    if (validateAnno instanceof DateComparision) {
+                        String firstDateField = ((DateComparision) validateAnno)
+                                .firstDateField();
+                        String lastDateField = ((DateComparision) validateAnno)
+                                .lastDateField();
 
-						fieldGroup.getField(firstDateField).addStyleName(
-								"errorField");
-						fieldGroup.getField(lastDateField).addStyleName(
-								"errorField");
-					}
-				}
+                        fieldGroup.getField(firstDateField).addStyleName(
+                                "errorField");
+                        fieldGroup.getField(lastDateField).addStyleName(
+                                "errorField");
+                    }
+                }
 
-			}
-			throw new CommitException(errorMsg.toString());
-		}
-	}
+            }
+            throw new CommitException(errorMsg.toString());
+        }
+    }
 
-	abstract protected Field<?> onCreateField(Object propertyId);
+    abstract protected Field<?> onCreateField(Object propertyId);
 }

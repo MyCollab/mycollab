@@ -43,5 +43,4 @@ public class DefaultDateFormat implements IDateFormat {
 	public String getDayMonthFormat() {
 		return "MM/dd";
 	}
-
 }

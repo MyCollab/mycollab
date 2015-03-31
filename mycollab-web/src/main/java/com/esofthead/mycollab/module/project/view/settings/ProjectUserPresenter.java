@@ -45,7 +45,7 @@ public class ProjectUserPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		view.removeAllComponents();
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter;
 
 		if (data instanceof ProjectMemberScreenData.Add) {
 			presenter = PresenterResolver

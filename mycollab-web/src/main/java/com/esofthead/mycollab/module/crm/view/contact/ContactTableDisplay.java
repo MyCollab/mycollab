@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -37,151 +35,146 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
+import java.util.List;
+
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class ContactTableDisplay
-		extends
-		DefaultPagedBeanTable<ContactService, ContactSearchCriteria, SimpleContact> {
-	private static final long serialVersionUID = 1L;
+        extends
+        DefaultPagedBeanTable<ContactService, ContactSearchCriteria, SimpleContact> {
+    private static final long serialVersionUID = 1L;
 
-	public ContactTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public ContactTableDisplay(List<TableViewField> displayColumns) {
+        this(null, displayColumns);
+    }
 
-	public ContactTableDisplay(TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		this(null, requiredColumn, displayColumns);
+    public ContactTableDisplay(TableViewField requiredColumn,
+                               List<TableViewField> displayColumns) {
+        this(null, requiredColumn, displayColumns);
 
-	}
+    }
 
-	public ContactTableDisplay(String viewId, TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(ContactService.class),
-				SimpleContact.class, viewId, requiredColumn, displayColumns);
+    public ContactTableDisplay(String viewId, TableViewField requiredColumn,
+                               List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(ContactService.class),
+                SimpleContact.class, viewId, requiredColumn, displayColumns);
 
-		addGeneratedColumn("selected", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("selected", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", contact
-						.isSelected());
-				cb.addValueChangeListener(new ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                final CheckBoxDecor cb = new CheckBoxDecor("", contact
+                        .isSelected());
+                cb.addValueChangeListener(new ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						ContactTableDisplay.this.fireSelectItemEvent(contact);
-						fireTableEvent(new TableClickEvent(
-								ContactTableDisplay.this, contact, "selected"));
+                    @Override
+                    public void valueChange(ValueChangeEvent event) {
+                        ContactTableDisplay.this.fireSelectItemEvent(contact);
+                        fireTableEvent(new TableClickEvent(
+                                ContactTableDisplay.this, contact, "selected"));
 
-					}
-				});
+                    }
+                });
 
-				contact.setExtraData(cb);
-				return cb;
-			}
-		});
+                contact.setExtraData(cb);
+                return cb;
+            }
+        });
 
-		addGeneratedColumn("contactName", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("contactName", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
+            @Override
+            public Object generateCell(final Table source, final Object itemId,
+                                       final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
 
-				LabelLink b = new LabelLink(contact.getContactName(),
-						CrmLinkBuilder.generateContactPreviewLinkFull(contact
-								.getId()));
-				b.setDescription(CrmTooltipGenerator.generateToolTipContact(
-						AppContext.getUserLocale(), contact,
-						AppContext.getSiteUrl(), AppContext.getTimezone()));
-				return b;
-			}
-		});
+                LabelLink b = new LabelLink(contact.getContactName(),
+                        CrmLinkBuilder.generateContactPreviewLinkFull(contact
+                                .getId()));
+                b.setDescription(CrmTooltipGenerator.generateToolTipContact(
+                        AppContext.getUserLocale(), contact,
+                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                return b;
+            }
+        });
 
-		addGeneratedColumn("createdtime", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("createdtime", new ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new Label(AppContext.formatDateTime(contact
-						.getCreatedtime()));
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                return new Label(AppContext.formatDateTime(contact
+                        .getCreatedtime()));
 
-			}
-		});
+            }
+        });
 
-		addGeneratedColumn("email", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("email", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new EmailLink(contact.getEmail());
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                return new EmailLink(contact.getEmail());
+            }
+        });
 
-		addGeneratedColumn("accountName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("accountName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				if (contact.getAccountName() != null) {
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                if (contact.getAccountName() != null) {
 
-					LabelLink b = new LabelLink(contact.getAccountName(),
-							CrmLinkBuilder
-									.generateAccountPreviewLinkFull(contact
-											.getAccountid()));
-					return b;
-				} else {
-					return new Label();
-				}
-			}
-		});
+                    LabelLink b = new LabelLink(contact.getAccountName(),
+                            CrmLinkBuilder
+                                    .generateAccountPreviewLinkFull(contact
+                                            .getAccountid()));
+                    return b;
+                } else {
+                    return new Label();
+                }
+            }
+        });
 
-		addGeneratedColumn("birthday", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("birthday", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new Label(AppContext.formatDate(contact.getBirthday()));
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                return new Label(AppContext.formatDate(contact.getBirthday()));
+            }
+        });
 
-		addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new UserLink(contact.getAssignuser(), contact
-						.getAssignUserAvatarId(), contact
-						.getAssignUserFullName());
-			}
-		});
+            @Override
+            public com.vaadin.ui.Component generateCell(final Table source,
+                                                        final Object itemId, final Object columnId) {
+                final SimpleContact contact = getBeanByIndex(itemId);
+                return new UserLink(contact.getAssignuser(), contact
+                        .getAssignUserAvatarId(), contact
+                        .getAssignUserFullName());
+            }
+        });
 
-		this.setWidth("100%");
-	}
+        this.setWidth("100%");
+    }
 }

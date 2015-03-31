@@ -84,13 +84,10 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
             .getLogger(PageReadViewImpl.class);
 
     private CommentDisplay commentListComp;
-
     private PageInfoComp pageInfoComp;
-
     private PageVersionSelectionBox pageVersionsSelection;
 
     private PageVersion selectedVersion;
-
     private PageService pageService;
 
     public PageReadViewImpl() {
@@ -280,16 +277,18 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
                     .withWidth("100%");
-            String createdDate = AppContext.formatDate(beanItem
+            String createdDate = AppContext.formatPrettyTime(beanItem
                     .getCreatedTime().getTime());
-            layout.addComponent(new Label(AppContext.getMessage(
-                    ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
+            layout.addComponent(new ELabel(AppContext.getMessage(
+                    ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)).withDescription(AppContext
+                    .formatDateTime(beanItem.getCreatedTime().getTime())));
 
             String createdUser = beanItem.getCreatedUser();
 
             Label createdLbl = new Label(AppContext.getMessage(
                     Page18InEnum.OPT_CREATED_USER, getMemberLink(createdUser)),
                     ContentMode.HTML);
+            createdLbl.addStyleName(UIConstants.WORD_WRAP);
             createdLbl.setSizeUndefined();
             layout.addComponent(createdLbl);
 

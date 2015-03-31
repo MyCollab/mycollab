@@ -29,49 +29,64 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class UserUrlResolver extends ProjectUrlResolver {
 
-	public UserUrlResolver() {
-		this.addSubResolver("list", new ListUrlResolver());
-		this.addSubResolver("preview", new PreviewUrlResolver());
-	}
+    public UserUrlResolver() {
+        this.addSubResolver("list", new ListUrlResolver());
+        this.addSubResolver("preview", new PreviewUrlResolver());
+        this.addSubResolver("add", new AddUrlResolver());
+    }
 
-	private static class ListUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			int projectId = new UrlTokenizer(params[0]).getInt();
+    private static class ListUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId = new UrlTokenizer(params[0]).getInt();
 
-			ProjectMemberSearchCriteria memberSearchCriteria = new ProjectMemberSearchCriteria();
-			memberSearchCriteria.setProjectId(new NumberSearchField(projectId));
-			memberSearchCriteria.setStatus(new StringSearchField(
-					ProjectMemberStatusConstants.ACTIVE));
+            ProjectMemberSearchCriteria memberSearchCriteria = new ProjectMemberSearchCriteria();
+            memberSearchCriteria.setProjectId(new NumberSearchField(projectId));
+            memberSearchCriteria.setStatus(new StringSearchField(
+                    ProjectMemberStatusConstants.ACTIVE));
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new ProjectMemberScreenData.Search(memberSearchCriteria));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new ProjectMemberScreenData.Search(memberSearchCriteria));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 
-	private static class PreviewUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			UrlTokenizer token = new UrlTokenizer(params[0]);
+    private static class PreviewUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = token.getInt();
-			String memberName = token.getString();
+            int projectId = token.getInt();
+            String memberName = token.getString();
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new ProjectMemberScreenData.Read(memberName));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new ProjectMemberScreenData.Read(memberName));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
+
+    private static class AddUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            UrlTokenizer token = new UrlTokenizer(params[0]);
+
+            int projectId = token.getInt();
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new ProjectMemberScreenData.InviteProjectMembers());
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 }

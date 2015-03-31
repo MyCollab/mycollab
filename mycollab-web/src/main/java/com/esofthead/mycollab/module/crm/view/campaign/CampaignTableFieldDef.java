@@ -28,48 +28,48 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
  * 
  */
 public interface CampaignTableFieldDef {
-	public static TableViewField selected = new TableViewField(null,
+	TableViewField selected = new TableViewField(null,
 			"selected", UIConstants.TABLE_CONTROL_WIDTH);
 
-	public static TableViewField action = new TableViewField(null, "id",
+	TableViewField action = new TableViewField(null, "id",
 			UIConstants.TABLE_ACTION_CONTROL_WIDTH);
 
-	public static TableViewField actualcost = new TableViewField(
+	TableViewField actualcost = new TableViewField(
 			CampaignI18nEnum.FORM_ACTUAL_COST, "actualcost",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
-	public static TableViewField budget = new TableViewField(
+	TableViewField budget = new TableViewField(
 			CampaignI18nEnum.FORM_BUDGET, "budget",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
-	public static TableViewField campaignname = new TableViewField(
+	TableViewField campaignname = new TableViewField(
 			CampaignI18nEnum.FORM_CAMPAIGN_NAME, "campaignname",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField status = new TableViewField(
+	TableViewField status = new TableViewField(
 			CampaignI18nEnum.FORM_STATUS, "status",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
-	public static TableViewField type = new TableViewField(
+	TableViewField type = new TableViewField(
 			CampaignI18nEnum.FORM_TYPE, "type", UIConstants.TABLE_S_LABEL_WIDTH);
 
-	public static TableViewField expectedCost = new TableViewField(
+	TableViewField expectedCost = new TableViewField(
 			CampaignI18nEnum.FORM_EXPECTED_COST, "expectedcost",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
-	public static TableViewField expectedRevenue = new TableViewField(
+	TableViewField expectedRevenue = new TableViewField(
 			CampaignI18nEnum.FORM_EXPECTED_REVENUE, "expectedrevenue",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
-	public static TableViewField endDate = new TableViewField(
+	TableViewField endDate = new TableViewField(
 			CampaignI18nEnum.FORM_END_DATE, "enddate",
 			UIConstants.TABLE_DATE_WIDTH);
 
-	public static TableViewField startDate = new TableViewField(
+	TableViewField startDate = new TableViewField(
 			CampaignI18nEnum.FORM_START_DATE, "startdate",
 			UIConstants.TABLE_DATE_WIDTH);
 
-	public static TableViewField assignUser = new TableViewField(
+	TableViewField assignUser = new TableViewField(
 			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 

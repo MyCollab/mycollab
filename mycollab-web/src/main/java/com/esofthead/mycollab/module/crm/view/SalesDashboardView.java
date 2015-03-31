@@ -24,6 +24,9 @@ import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunitySalesStage
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -81,12 +84,10 @@ public class SalesDashboardView extends Depot {
 
 	private void initUI() {
 		final PopupButton saleChartPopup = new PopupButton("");
-		saleChartPopup.addStyleName("popuplistindicator");
+		saleChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+		saleChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		final VerticalLayout filterBtnLayout = new VerticalLayout();
-		filterBtnLayout.setMargin(true);
-		filterBtnLayout.setSpacing(true);
-		filterBtnLayout.setWidth("200px");
+		final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
 		final Button btnOpportunitySales = new Button(
 				"Opportunity Sales Stage", new Button.ClickListener() {
@@ -99,8 +100,7 @@ public class SalesDashboardView extends Depot {
 						SalesDashboardView.this.displayReport();
 					}
 				});
-		btnOpportunitySales.setStyleName("link");
-		filterBtnLayout.addComponent(btnOpportunitySales);
+		filterBtnLayout.addOption(btnOpportunitySales);
 
 		final Button btnOpportunityLead = new Button("Opportunity Lead Source",
 				new Button.ClickListener() {
@@ -113,8 +113,7 @@ public class SalesDashboardView extends Depot {
 						SalesDashboardView.this.displayReport();
 					}
 				});
-		btnOpportunityLead.setStyleName("link");
-		filterBtnLayout.addComponent(btnOpportunityLead);
+		filterBtnLayout.addOption(btnOpportunityLead);
 
 		this.displayReport();
 

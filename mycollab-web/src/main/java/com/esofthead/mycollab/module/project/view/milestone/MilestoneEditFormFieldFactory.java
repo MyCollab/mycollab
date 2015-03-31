@@ -41,7 +41,6 @@ import java.util.Arrays;
  */
 public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 		AbstractBeanFieldGroupEditFieldFactory<B> {
-
 	private static final long serialVersionUID = 1L;
 
 	MilestoneEditFormFieldFactory(GenericBeanForm<B> form) {

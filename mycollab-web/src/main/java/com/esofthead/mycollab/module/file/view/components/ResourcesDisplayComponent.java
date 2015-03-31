@@ -479,7 +479,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layout.with(checkbox).withAlign(checkbox, Alignment.MIDDLE_LEFT);
 
             CssLayout resIconWrapper = new CssLayout();
-            final FontIconLabel resourceIcon;
+             FontIconLabel resourceIcon;
             if (res instanceof Folder)
                 resourceIcon = (res instanceof ExternalFolder) ? new FontIconLabel(FontAwesome.DROPBOX) : new
                         FontIconLabel(FontAwesome.FOLDER);
@@ -660,7 +660,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         resources, new Predicate<Resource>() {
                             @Override
                             public boolean apply(Resource input) {
-                                return (input.isSelected() == true);
+                                return input.isSelected();
                             }
                         });
                 return selectedResources;
@@ -955,11 +955,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             // defined layout here ---------------------------
             this.controlBarWrapper = new CssLayout();
-            this.controlBarWrapper.setStyleName("listControl");
             this.controlBarWrapper.setWidth("100%");
 
-            controlBar = new MHorizontalLayout().withMargin(false);
-            controlBar.setWidth("100%");
+            controlBar = new MHorizontalLayout().withMargin(false).withWidth("100%");
             this.controlBarWrapper.addComponent(controlBar);
 
             navigator = new MHorizontalLayout();

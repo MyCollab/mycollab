@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
+import org.vaadin.maddon.fields.MTextField;
 
 /**
  * 
@@ -37,7 +38,6 @@ import com.vaadin.ui.TextField;
  */
 class AccountEditFormFieldFactory<B extends Account> extends
 		AbstractBeanFieldGroupEditFieldFactory<B> {
-
 	private static final long serialVersionUID = 1L;
 
 	AccountEditFormFieldFactory(GenericBeanForm<B> form) {

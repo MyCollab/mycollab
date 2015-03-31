@@ -140,7 +140,6 @@ public class MailFormWindow extends Window {
 		mainLayout.addComponent(inputPanel);
 
 		tokenFieldMailTo = new EmailTokenField();
-		tokenFieldMailTo.setRequired(true);
 
 		inputLayout.addComponent(createTextFieldMail("To:", tokenFieldMailTo),
 				0, 0);
@@ -153,10 +152,10 @@ public class MailFormWindow extends Window {
 								mail.lastIndexOf(">"));
 						if (strMail != null
 								&& !strMail.equalsIgnoreCase("null")) {
-							tokenFieldMailTo.addToken(mail);
+
 						}
 					} else {
-						tokenFieldMailTo.addToken(mail);
+
 					}
 				}
 			}
@@ -283,7 +282,6 @@ public class MailFormWindow extends Window {
 				addFullInputFieldByOrder();
 			}
 		} else {
-			tokenFieldMailCc.removeAllRecipients();
 			btnLinkCc.setCaption("Add Cc");
 
 			if (isAddBcc) {
@@ -339,7 +337,7 @@ public class MailFormWindow extends Window {
 			}
 		} else {
 			btnLinkBcc.setCaption("Add Bcc");
-			tokenFieldMailBcc.removeAllRecipients();
+
 			if (isAddCc) {
 				inputLayout.addComponent(ccField, 0, 1);
 				inputLayout.addComponent(btnLinkCc, 1, 1);

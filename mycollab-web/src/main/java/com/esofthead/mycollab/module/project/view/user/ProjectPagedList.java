@@ -28,10 +28,7 @@ import com.esofthead.mycollab.module.project.view.parameters.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -100,9 +97,10 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             MHorizontalLayout metaInfo = new MHorizontalLayout().withWidth("100%");
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             metaInfo.addComponent(projectMember);
-            Label createdTimeLbl = new Label(" - "
+            Label createdTimeLbl = new ELabel(" - "
                     + AppContext.getMessage(ProjectI18nEnum.OPT_CREATED_ON,
-                    AppContext.formatDate(project.getCreatedtime())));
+                    AppContext.formatPrettyTime(project.getCreatedtime()))).withDescription(AppContext.formatDateTime
+                    (project.getCreatedtime()));
             createdTimeLbl.setStyleName("createdtime-lbl");
             createdTimeLbl.setSizeUndefined();
             metaInfo.with(createdTimeLbl).expand(createdTimeLbl);

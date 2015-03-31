@@ -56,8 +56,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 		this.module = module;
 		this.type = type;
 
-		logTable = new BeanList<>(
-				this,
+		logTable = new BeanList<>(this,
 				ApplicationContextUtil.getSpringBean(AuditLogService.class),
 				HistoryLogRowDisplay.class);
 
@@ -98,8 +97,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 				layout.setWidth("100%");
 				layout.setStyleName("list-row");
 
-				GridLayout gridLayout = new GridLayout(3,
-						changeItems.size() + 2);
+				GridLayout gridLayout = new GridLayout(3, changeItems.size() + 2);
 				gridLayout.setWidth("100%");
 
 				int visibleRows = 0;
@@ -142,8 +140,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 
 					header.with(userLink).withAlign(userLink, Alignment.MIDDLE_LEFT);
 
-					Date changeDate = DateTimeUtils
-							.convertDateByFormatW3C(strDate);
+					Date changeDate = DateTimeUtils.convertDateByFormatW3C(strDate);
 					Label lbDate = new Label("changed " + AppContext.formatPrettyTime(changeDate));
 					lbDate.setDescription(AppContext.formatDateTime(changeDate));
 					header.with(lbDate).withAlign(lbDate, Alignment.MIDDLE_LEFT).expand(lbDate);
@@ -182,7 +179,6 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 			} else {
 				return null;
 			}
-
 		}
 	}
 }

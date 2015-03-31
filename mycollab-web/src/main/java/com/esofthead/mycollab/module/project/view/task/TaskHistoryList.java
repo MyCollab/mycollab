@@ -44,9 +44,9 @@ public class TaskHistoryList extends HistoryLogComponent {
 		taskFormatter.generateFieldDisplayHandler("taskname",
 				TaskI18nEnum.FORM_TASK_NAME);
 		taskFormatter.generateFieldDisplayHandler("startdate",
-				TaskI18nEnum.FORM_START_DATE, FieldGroupFormatter.DATE_FIELD);
+				TaskI18nEnum.FORM_START_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("enddate",
-				TaskI18nEnum.FORM_END_DATE, FieldGroupFormatter.DATE_FIELD);
+				TaskI18nEnum.FORM_END_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("actualstartdate",
 				TaskI18nEnum.FORM_ACTUAL_START_DATE,
 				FieldGroupFormatter.DATE_FIELD);
@@ -54,7 +54,7 @@ public class TaskHistoryList extends HistoryLogComponent {
 				TaskI18nEnum.FORM_ACTUAL_END_DATE,
 				FieldGroupFormatter.DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("deadline",
-				TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.DATE_FIELD);
+				TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 		taskFormatter.generateFieldDisplayHandler("priority",
 				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(TaskPriority.class));
         taskFormatter.generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));

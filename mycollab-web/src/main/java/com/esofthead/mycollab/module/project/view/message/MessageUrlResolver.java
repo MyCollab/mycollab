@@ -44,8 +44,7 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			MessageSearchCriteria messageSearchCriteria = new MessageSearchCriteria();
-			messageSearchCriteria.setProjectids(new SetSearchField<Integer>(
-					projectId));
+			messageSearchCriteria.setProjectids(new SetSearchField<>(projectId));
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),

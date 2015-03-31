@@ -47,10 +47,10 @@ public class MilestoneHistoryLogList extends HistoryLogComponent {
                 new ProjectMemberHistoryFieldFormat());
         milestoneFormatter.generateFieldDisplayHandler("startdate",
                 MilestoneI18nEnum.FORM_START_DATE_FIELD,
-                FieldGroupFormatter.DATE_FIELD);
+                FieldGroupFormatter.PRETTY_DATE_FIELD);
         milestoneFormatter.generateFieldDisplayHandler("enddate",
                 MilestoneI18nEnum.FORM_END_DATE_FIELD,
-                FieldGroupFormatter.DATE_FIELD);
+                FieldGroupFormatter.PRETTY_DATE_FIELD);
         milestoneFormatter.generateFieldDisplayHandler(Milestone.Field.description.name(), GenericI18Enum.FORM_DESCRIPTION);
     }
 

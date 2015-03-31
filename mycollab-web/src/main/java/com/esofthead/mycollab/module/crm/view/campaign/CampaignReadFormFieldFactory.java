@@ -19,50 +19,50 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 3.0
- * 
+ *
  */
 class CampaignReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> {
-	private static final long serialVersionUID = 1L;
+        AbstractBeanFieldGroupViewFieldFactory<SimpleCampaign> {
+    private static final long serialVersionUID = 1L;
 
-	public CampaignReadFormFieldFactory(GenericBeanForm<SimpleCampaign> form) {
-		super(form);
-	}
+    public CampaignReadFormFieldFactory(GenericBeanForm<SimpleCampaign> form) {
+        super(form);
+    }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		SimpleCampaign campaign = attachForm.getBean();
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        SimpleCampaign campaign = attachForm.getBean();
 
-		if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(campaign.getAssignuser(),
-					campaign.getAssignUserAvatarId(),
-					campaign.getAssignUserFullName());
-		} else if (propertyId.equals("startdate")) {
-			return new DateViewField(campaign.getStartdate());
-		} else if (propertyId.equals("enddate")) {
-			return new DateViewField(campaign.getEnddate());
-		} else if (propertyId.equals("currencyid")) {
-			if (campaign.getCurrency() != null) {
-				return new DefaultViewField(campaign.getCurrency()
-						.getShortname());
-			} else {
-				return new DefaultViewField("");
-			}
-		} else if (propertyId.equals("description")) {
-			return new RichTextViewField(campaign.getDescription());
-		}
+        if (propertyId.equals("assignuser")) {
+            return new UserLinkViewField(campaign.getAssignuser(),
+                    campaign.getAssignUserAvatarId(),
+                    campaign.getAssignUserFullName());
+        } else if (propertyId.equals("startdate")) {
+            return new PrettyDateViewField(campaign.getStartdate());
+        } else if (propertyId.equals("enddate")) {
+            return new PrettyDateViewField(campaign.getEnddate());
+        } else if (propertyId.equals("currencyid")) {
+            if (campaign.getCurrency() != null) {
+                return new DefaultViewField(campaign.getCurrency()
+                        .getShortname());
+            } else {
+                return new DefaultViewField("");
+            }
+        } else if (propertyId.equals("description")) {
+            return new RichTextViewField(campaign.getDescription());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
 }

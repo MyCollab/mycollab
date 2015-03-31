@@ -40,6 +40,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -94,19 +95,16 @@ public class ContactOpportunityListComp
                         controlsBtn.setPopupVisible(false);
                     }
                 });
-        selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-        selectBtn.setStyleName("link");
-
-        VerticalLayout buttonControlsLayout = new VerticalLayout();
-        buttonControlsLayout.addComponent(selectBtn);
+        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
+        OptionPopupContent buttonControlsLayout = new OptionPopupContent();
+        buttonControlsLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlsLayout);
 
         controlsBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
 
         controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -140,8 +138,7 @@ public class ContactOpportunityListComp
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
@@ -225,16 +222,15 @@ public class ContactOpportunityListComp
                             .getSalesstage() : ""));
             opportunityInfo.addComponent(opportunitySaleStage);
 
-            Label opportunityExpectedCloseDate = new Label(
-                    "Expected Close Date: "
-                            + (opportunity.getExpectedcloseddate() != null ? AppContext
-                            .formatDate(opportunity
-                                    .getExpectedcloseddate()) : ""));
+            ELabel opportunityExpectedCloseDate = new ELabel(
+                    "Expected Closed Date: " +
+                            AppContext
+                                    .formatPrettyTime(opportunity
+                                            .getExpectedcloseddate())).withDescription(AppContext.formatDate(opportunity
+                    .getExpectedcloseddate()));
             opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
-            blockTop.addComponent(opportunityInfo);
-            blockTop.setExpandRatio(opportunityInfo, 1.0f);
-            blockTop.setWidth("100%");
+            blockTop.with(opportunityInfo).expand(opportunityInfo);
             blockContent.addComponent(blockTop);
 
             blockContent.setWidth("100%");

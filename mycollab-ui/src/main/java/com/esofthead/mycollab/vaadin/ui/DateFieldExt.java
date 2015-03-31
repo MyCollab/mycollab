@@ -16,33 +16,31 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.Date;
-
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.DateField;
 
+import java.util.Date;
+
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.5.4
  *
  */
 public class DateFieldExt extends DateField {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DateFieldExt() {
-		this(null);
-	}
+    public DateFieldExt() {
+        this(null);
+    }
 
-	public DateFieldExt(String caption) {
-		super(caption);
-		this.setDateFormat(AppContext.getUserDateFormat());
-		this.setTimeZone(AppContext.getTimezone());
-	}
+    public DateFieldExt(String caption) {
+        this(caption, null);
+    }
 
-	public DateFieldExt(String caption, Date value) {
-		super(caption, value);
-		this.setDateFormat(AppContext.getUserDateFormat());
-		this.setTimeZone(AppContext.getTimezone());
-	}
+    public DateFieldExt(String caption, Date value) {
+        super(caption, value);
+        this.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
+        this.setTimeZone(AppContext.getTimezone());
+    }
 }

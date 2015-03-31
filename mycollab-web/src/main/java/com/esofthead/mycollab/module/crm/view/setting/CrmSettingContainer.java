@@ -39,8 +39,7 @@ import com.vaadin.ui.TabSheet.Tab;
  * 
  */
 @ViewComponent
-public class CrmSettingContainer extends AbstractCssPageView implements
-		PageView {
+public class CrmSettingContainer extends AbstractCssPageView implements PageView {
 	private static final long serialVersionUID = 1L;
 
 	private final CrmVerticalTabsheet settingTab;

@@ -291,7 +291,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
                     }
                 }
             });
-            deleteBtn.addStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+            deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
             deleteBtn.setIcon(FontAwesome.TRASH_O);
 
             this.addComponent(fieldSelectionBox, 2, 0);

@@ -43,6 +43,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,12 +80,9 @@ public class OpportunityContactListComp
 
     @Override
     protected Component generateTopControls() {
-        HorizontalLayout controlsBtnWrap = new HorizontalLayout();
-        controlsBtnWrap.setWidth("100%");
+        MHorizontalLayout controlsBtnWrap = new MHorizontalLayout().withSpacing(false).withWidth("100%");
 
-        HorizontalLayout notesWrap = new HorizontalLayout();
-        notesWrap.setWidth("100%");
-        notesWrap.setSpacing(true);
+        MHorizontalLayout notesWrap = new MHorizontalLayout().withWidth("100%");
         Label noteLbl = new Label("Note: ");
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
@@ -103,8 +101,7 @@ public class OpportunityContactListComp
 
             noteBlock.addComponent(note);
         }
-        notesWrap.addComponent(noteBlock);
-        notesWrap.setExpandRatio(noteBlock, 1.0f);
+        notesWrap.with(noteBlock).expand(noteBlock);
 
         controlsBtnWrap.addComponent(notesWrap);
 
@@ -133,9 +130,9 @@ public class OpportunityContactListComp
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        final OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(
+                        OpportunityContactSelectionWindow contactsWindow = new OpportunityContactSelectionWindow(
                                 OpportunityContactListComp.this);
-                        final ContactSearchCriteria criteria = new ContactSearchCriteria();
+                        ContactSearchCriteria criteria = new ContactSearchCriteria();
                         criteria.setSaccountid(new NumberSearchField(AppContext
                                 .getAccountId()));
                         UI.getCurrent().addWindow(contactsWindow);
@@ -143,19 +140,16 @@ public class OpportunityContactListComp
                         controlsBtn.setPopupVisible(false);
                     }
                 });
-        selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-        selectBtn.setStyleName("link");
-        VerticalLayout buttonControlLayout = new VerticalLayout();
-        buttonControlLayout.addComponent(selectBtn);
+        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
+        OptionPopupContent buttonControlLayout = new OptionPopupContent();
+        buttonControlLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlLayout);
 
-        controlsBtnWrap.addComponent(controlsBtn);
-        controlsBtnWrap.setComponentAlignment(controlsBtn,
-                Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
-    public void displayContacts(final Opportunity opportunity) {
+    public void displayContacts(Opportunity opportunity) {
         this.opportunity = opportunity;
         loadContacts();
     }
@@ -185,8 +179,7 @@ public class OpportunityContactListComp
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             FontIconLabel contactAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
@@ -277,9 +270,7 @@ public class OpportunityContactListComp
                 beanBlock.addStyleName(colormap.get(contact.getDecisionRole()));
             }
 
-            blockTop.addComponent(contactInfo);
-            blockTop.setExpandRatio(contactInfo, 1.0f);
-            blockTop.setWidth("100%");
+            blockTop.with(contactInfo).expand(contactInfo);
             blockContent.addComponent(blockTop);
 
             blockContent.setWidth("100%");
@@ -287,7 +278,5 @@ public class OpportunityContactListComp
             beanBlock.addComponent(blockContent);
             return beanBlock;
         }
-
     }
-
 }

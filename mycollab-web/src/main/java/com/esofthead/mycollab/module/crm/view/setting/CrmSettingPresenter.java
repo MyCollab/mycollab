@@ -43,7 +43,7 @@ public class CrmSettingPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		IPresenter presenter = null;
+		IPresenter presenter;
 		CrmModule crmModule = (CrmModule) container;
 		crmModule.addView(view);
 

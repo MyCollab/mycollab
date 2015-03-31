@@ -34,15 +34,13 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,9 +76,7 @@ public class AccountCaseListComp extends
         HorizontalLayout controlsBtnWrap = new HorizontalLayout();
         controlsBtnWrap.setWidth("100%");
 
-        HorizontalLayout notesWrap = new HorizontalLayout();
-        notesWrap.setWidth("100%");
-        notesWrap.setSpacing(true);
+        MHorizontalLayout notesWrap = new MHorizontalLayout().withWidth("100%");
         Label noteLbl = new Label("Note: ");
         noteLbl.setSizeUndefined();
         noteLbl.setStyleName("list-note-lbl");
@@ -95,11 +91,9 @@ public class AccountCaseListComp extends
             note.addStyleName(colorsMap.get(CrmDataTypeFactory
                     .getCasesStatusList()[i]));
             note.setSizeUndefined();
-
             noteBlock.addComponent(note);
         }
-        notesWrap.addComponent(noteBlock);
-        notesWrap.setExpandRatio(noteBlock, 1.0f);
+        notesWrap.with(noteBlock).expand(noteBlock);
 
         controlsBtnWrap.addComponent(notesWrap);
 
@@ -237,8 +231,9 @@ public class AccountCaseListComp extends
                     ContentMode.HTML);
             caseInfo.addComponent(caseAssignUser);
 
-            Label caseCreatedTime = new Label("Created Time: "
-                    + AppContext.formatDate(oneCase.getCreatedtime()));
+            ELabel caseCreatedTime = new ELabel("Created Time: "
+                    + AppContext.formatPrettyTime(oneCase.getCreatedtime())).withDescription(AppContext
+                    .formatDateTime(oneCase.getCreatedtime()));
             caseInfo.addComponent(caseCreatedTime);
 
             blockTop.addComponent(caseInfo);

@@ -35,9 +35,7 @@ import com.vaadin.ui.Label;
  * 
  */
 public class TimeTrackingDateOrderComponent
-		extends
-			AbstractTimeTrackingDisplayComp {
-
+		extends AbstractTimeTrackingDisplayComp {
 	private static final long serialVersionUID = 1L;
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(

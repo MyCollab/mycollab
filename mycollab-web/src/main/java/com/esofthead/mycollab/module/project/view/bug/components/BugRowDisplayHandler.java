@@ -32,10 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -58,6 +55,7 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
                 ProjectLinkBuilder.generateBugPreviewFullLink(
                         bug.getBugkey(), bug.getProjectShortName()));
         defectLink.setWidth("100%");
+        defectLink.addStyleName("font-large");
         defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
         defectLink.setDescription(ProjectTooltipGenerator
                 .generateToolTipBug(AppContext.getUserLocale(), bug,
@@ -76,11 +74,12 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
         rowContent.addComponent(descInfo);
 
         Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
-        Text lastUpdatedTimeTxt = new Text(AppContext.getMessage(
+        Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(
                 DayI18nEnum.LAST_UPDATED_ON,
-                AppContext.formatPrettyTime(bug.getLastupdatedtime())));
+                AppContext.formatPrettyTime(bug.getLastupdatedtime()))).setTitle(AppContext.formatDateTime(bug
+                .getLastupdatedtime()));
 
-        Text assigneeTxt = new Text(" - " + AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
+        Text assigneeTxt = new Text("&nbsp;-&nbsp;" + AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ":&nbsp;");
         if (StringUtils.isBlank(bug.getAssignuser())) {
             footer.appendChild(lastUpdatedTimeTxt, assigneeTxt, new Text("None"));
         } else {

@@ -34,7 +34,6 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public abstract class MeetingFormLayoutFactory implements IFormLayoutFactory {
-
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private IFormLayoutFactory informationLayout;
@@ -58,7 +57,6 @@ public abstract class MeetingFormLayoutFactory implements IFormLayoutFactory {
 		body.setStyleName(UIConstants.BORDER_BOX_2);
 		body.addComponent(informationLayout.getLayout());
 		meetingLayout.addBody(body);
-		meetingLayout.setStyleName(UIConstants.THEME_NO_BORDER);
 
 		return meetingLayout;
 	}

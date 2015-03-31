@@ -34,9 +34,7 @@ import java.util.List;
  * 
  */
 public class TimeTrackingProjectOrderComponent
-		extends
-			AbstractTimeTrackingDisplayComp {
-
+		extends AbstractTimeTrackingDisplayComp {
 	private static final long serialVersionUID = 1L;
 
 	public TimeTrackingProjectOrderComponent(List<TableViewField> fields,

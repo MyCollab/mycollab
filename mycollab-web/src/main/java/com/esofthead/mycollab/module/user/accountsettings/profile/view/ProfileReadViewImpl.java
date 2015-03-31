@@ -122,7 +122,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
         basicLayout.addComponent(new Label(AppContext
                 .getMessage(UserI18nEnum.FORM_TIMEZONE)
                 + ": "
-                + TimezoneMapper.getTimezone(user.getTimezone())
+                + TimezoneMapper.getTimezoneExt(user.getTimezone())
                 .getDisplayName()));
         basicLayout
                 .addComponent(new Label(AppContext

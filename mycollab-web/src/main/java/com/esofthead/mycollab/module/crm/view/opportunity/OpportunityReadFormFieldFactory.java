@@ -60,7 +60,7 @@ public class OpportunityReadFormFieldFactory extends
 					opportunity.getAssignUserAvatarId(),
 					opportunity.getAssignUserFullName());
 		} else if (propertyId.equals("expectedcloseddate")) {
-			return new DateViewField(opportunity.getExpectedcloseddate());
+			return new PrettyDateViewField(opportunity.getExpectedcloseddate());
 		} else if (propertyId.equals("currencyid")) {
 			String currency = (opportunity.getCurrency() != null) ? opportunity
 					.getCurrency().getShortname() : "";

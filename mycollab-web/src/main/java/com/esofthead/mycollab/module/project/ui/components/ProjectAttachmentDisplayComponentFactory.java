@@ -37,13 +37,13 @@ import com.vaadin.ui.VerticalLayout;
  *
  */
 public class ProjectAttachmentDisplayComponentFactory {
-	public static Component getAttachmentDisplayComponent(int projectid,
-			AttachmentType type, int typeid) {
+	public static Component getAttachmentDisplayComponent(int projectId,
+			AttachmentType type, int typeId) {
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
 		List<Content> attachments = resourceService.getContents(AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectid, type, typeid));
+						projectId, type, typeId));
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			return new AttachmentDisplayComponent(attachments);
 		} else {

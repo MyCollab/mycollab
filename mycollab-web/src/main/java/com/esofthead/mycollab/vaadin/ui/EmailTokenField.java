@@ -16,17 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.vaadin.ui.CssLayout;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.vaadin.tokenfield.TokenField;
-
-import com.esofthead.mycollab.common.domain.MailRecipientField;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.utils.ParsingUtils;
-import com.esofthead.mycollab.utils.ParsingUtils.InvalidEmailException;
-import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -35,41 +29,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 @SuppressWarnings("serial")
-public class EmailTokenField extends TokenField {
-
-	private final List<MailRecipientField> lstMailToken = new ArrayList<MailRecipientField>();
+public class EmailTokenField extends CssLayout {
+	private final List<MailRecipientField> lstMailToken = new ArrayList<>();
 
 	public EmailTokenField() {
 		super();
-
-		this.setStyleName(TokenField.STYLE_TOKENFIELD);
-		this.setInputWidth("544px");
-		this.setRememberNewTokens(false);
-	}
-
-	@Override
-	protected void onTokenClick(Object tokenId) {
-		super.onTokenClick(tokenId);
-		int index = -1;
-		try {
-			index = getItemIndexInListToEmail(ParsingUtils
-					.getMailRecipient(tokenId.toString()));
-		} catch (InvalidEmailException e) {
-			e.printStackTrace();
-		}
-		if (index > -1) {
-			lstMailToken.remove(index);
-		}
-	}
-
-	@Override
-	public void addToken(Object tokenId) {
-		super.addToken(tokenId);
-		try {
-			lstMailToken.add(ParsingUtils.getMailRecipient(tokenId.toString()));
-		} catch (InvalidEmailException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private int getItemIndexInListToEmail(MailRecipientField item) {
@@ -83,35 +47,7 @@ public class EmailTokenField extends TokenField {
 		return -1;
 	}
 
-	@Override
-	protected void onTokenInput(Object tokenId) {
-		String[] tokens = ((String) tokenId).split(",");
-		for (int i = 0; i < tokens.length; i++) {
-			String token = tokens[i].trim();
-			if (token.length() > 0) {
-				if (StringUtils.isValidEmail(token)) {
-					super.onTokenInput(token);
-				} else {
-					NotificationUtil
-							.showWarningNotification(AppContext
-									.getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
-				}
-			}
-		}
-	}
 
-	public void setInputStyle(String styleName) {
-		cb.setStyleName(styleName);
-	}
-
-	public void removeAllRecipients() {
-
-		for (MailRecipientField recipient : lstMailToken) {
-			removeToken(recipient.getEmail());
-		}
-
-		lstMailToken.removeAll(lstMailToken);
-	}
 
 	public List<MailRecipientField> getListRecipient() {
 		return lstMailToken;

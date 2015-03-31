@@ -18,7 +18,10 @@ package com.esofthead.mycollab.module.crm.domain;
 
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
+
+import java.util.Date;
 
 /**
  * 
@@ -104,5 +107,13 @@ public class SimpleOpportunity extends Opportunity {
 
 	public void setAssignUserAvatarId(String assignUserAvatarId) {
 		this.assignUserAvatarId = assignUserAvatarId;
+	}
+
+	public boolean isOverdue() {
+		if (getExpectedcloseddate() != null) {
+			Date now = DateTimeUtils.getCurrentDateWithoutMS();
+			return (getExpectedcloseddate().before(now));
+		}
+		return false;
 	}
 }

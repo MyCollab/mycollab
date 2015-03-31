@@ -77,7 +77,6 @@ import java.util.List;
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         implements BugReadView, IBugCallbackStatusComp {
-
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(BugReadViewImpl.class);
@@ -535,9 +534,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
             if (BugWithBLOBs.Field.duedate.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getDuedate());
+                return new PrettyDateViewField(beanItem.getDuedate());
             } else if (BugWithBLOBs.Field.createdtime.equalTo(propertyId)) {
-                return new DateViewField(beanItem.getCreatedtime());
+                return new PrettyDateTimeViewField(beanItem.getCreatedtime());
             } else if (SimpleBug.Field.assignuserFullName.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(),
                         beanItem.getAssignUserAvatarId(),
@@ -606,7 +605,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                     return new DefaultViewField("");
                 }
             } else if (SimpleBug.Field.fixedVersions.equalTo(propertyId)) {
-                final List<Version> fixedVersions = beanItem.getFixedVersions();
+                 List<Version> fixedVersions = beanItem.getFixedVersions();
                 if (CollectionUtils.isNotEmpty(fixedVersions)) {
                     final ContainerViewField componentContainer = new ContainerViewField();
                     for (final Version version : beanItem.getFixedVersions()) {

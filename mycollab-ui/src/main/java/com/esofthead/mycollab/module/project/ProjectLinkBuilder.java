@@ -124,13 +124,12 @@ public class ProjectLinkBuilder {
                 prjShortName);
     }
 
-    public static String generateMessagePreviewFullLink(Integer projectId,
-                                                        Integer messageId, String prefixParam) {
+    public static String generateMessagePreviewFullLink(Integer projectId, Integer messageId) {
         if (projectId == null || messageId == null) {
             return "";
         }
         return AppContext.getSiteUrl()
-                + prefixParam
+                + GenericLinkUtils.URL_PREFIX_PARAM
                 + ProjectLinkGenerator.generateMessagePreviewLink(projectId,
                 messageId);
     }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -89,8 +88,6 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
                     final TextArea textArea = new TextArea();
                     textArea.setNullRepresentation("");
                     return textArea;
-                } else if (propertyId.equals("isadmin")) {
-
                 } else if (propertyId.equals("rolename")) {
                     final TextField tf = new TextField();
                     if (isValidateForm) {

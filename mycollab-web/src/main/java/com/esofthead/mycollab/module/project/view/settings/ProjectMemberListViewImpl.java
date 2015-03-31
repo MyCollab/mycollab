@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.*;
@@ -48,7 +46,6 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -204,8 +201,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         memberEmailLabel.setWidth("100%");
         memberInfo.addComponent(memberEmailLabel);
 
-        Label memberSinceLabel = new Label("Member since: "
-                + AppContext.formatDate(member.getJoindate()));
+        ELabel memberSinceLabel = new ELabel("Member since: "
+                + AppContext.formatPrettyTime(member.getJoindate())).withDescription(AppContext.formatDateTime(member
+                .getJoindate()));
         memberSinceLabel.addStyleName("member-email");
         memberSinceLabel.setWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
@@ -245,8 +243,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);
         } else if (RegisterStatusConstants.ACTIVE.equals(member.getStatus())) {
-            Label lastAccessTimeLbl = new Label("Logged in "
-                    + AppContext.formatPrettyTime(member.getLastAccessTime()));
+            ELabel lastAccessTimeLbl = new ELabel("Logged in "
+                    + AppContext.formatPrettyTime(member.getLastAccessTime())).withDescription(AppContext.formatDateTime
+                    (member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName("member-email");
             memberInfo.addComponent(lastAccessTimeLbl);
         } else if (RegisterStatusConstants.VERIFICATING.equals(member

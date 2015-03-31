@@ -16,137 +16,137 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import java.util.GregorianCalendar;
-import java.util.Random;
-
 import org.apache.commons.validator.EmailValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
+import java.util.GregorianCalendar;
+import java.util.Random;
+
 /**
  * Utility class to process string
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class StringUtils {
 
-	public static String trim(String input, int length) {
-		return trim(input, length, true);
-	}
+    public static String trim(String input, int length) {
+        return trim(input, length, true);
+    }
 
-	/**
-	 * 
-	 * @param input
-	 * @param length
-	 * @param withEllipsis
-	 * @return
-	 */
-	public static String trim(String input, int length, boolean withEllipsis) {
-		if (input == null) {
-			return "";
-		}
+    /**
+     *
+     * @param input
+     * @param length
+     * @param withEllipsis
+     * @return
+     */
+    public static String trim(String input, int length, boolean withEllipsis) {
+        if (input == null) {
+            return "";
+        }
 
-		if (input.length() <= length)
-			return input;
-		else if (withEllipsis)
-			return input.substring(0, length) + "...";
-		else
-			return input.substring(0, length);
-	}
+        if (input.length() <= length)
+            return input;
+        else if (withEllipsis)
+            return input.substring(0, length) + "...";
+        else
+            return input.substring(0, length);
+    }
 
-	/**
-	 * Check whether <code>text</code> is an Ascii string
-	 * 
-	 * @param text
-	 * @return
-	 */
-	public static boolean isAsciiString(String text) {
-		return text.matches("\\A\\p{ASCII}*\\z");
-	}
+    /**
+     * Check whether <code>text</code> is an Ascii string
+     *
+     * @param text
+     * @return
+     */
+    public static boolean isAsciiString(String text) {
+        return text.matches("\\A\\p{ASCII}*\\z");
+    }
 
-	/**
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static String formatRichText(String value) {
-		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
-			return "&nbsp;";
-		}
+    /**
+     *
+     * @param value
+     * @return
+     */
+    public static String formatRichText(String value) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+            return "&nbsp;";
+        }
 
-		value = Jsoup.clean(value, Whitelist.relaxed());
+        value = Jsoup.clean(value, Whitelist.relaxed());
 //		value = Emoji.replaceInText(value);
-		value = value
-				.replaceAll(
-						"(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",
-						"<a href=\"$0\">$0</a>");
-		return value;
-	}
+        value = value
+                .replaceAll(
+                        "(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",
+                        "<a href=\"$0\">$0</a>");
+        return value;
+    }
 
-	public static String trimHtmlTags(String value) {
-		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
-			return "";
-		} else {
-			String str = Jsoup.parse(value).text();
-			if (str.length() > 200) {
-				str = str.substring(0, 200);
-			}
-			return str;
-		}
-	}
+    public static String trimHtmlTags(String value) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+            return "";
+        } else {
+            String str = Jsoup.parse(value).text();
+            if (str.length() > 200) {
+                str = str.substring(0, 200);
+            }
+            return str;
+        }
+    }
 
-	public static String generateSoftUniqueId() {
-		return "" + (new GregorianCalendar().getTimeInMillis())
-				+ new Random().nextInt(10);
-	}
+    public static String generateSoftUniqueId() {
+        return "" + (new GregorianCalendar().getTimeInMillis())
+                + new Random().nextInt(10);
+    }
 
-	public static String getStrOptionalNullValue(String value) {
-		return (value == null) ? "" : value;
-	}
+    public static String getStrOptionalNullValue(String value) {
+        return (value == null) ? "" : value;
+    }
 
-	public static String extractNameFromEmail(String value) {
-		int index = (value != null) ? value.indexOf("@") : 0;
-		if (index > 0) {
-			return value.substring(0, index);
-		} else {
-			return value;
-		}
-	}
+    public static String extractNameFromEmail(String value) {
+        int index = (value != null) ? value.indexOf("@") : 0;
+        if (index > 0) {
+            return value.substring(0, index);
+        } else {
+            return value;
+        }
+    }
 
-	private static EmailValidator emailValidator = EmailValidator.getInstance();
+    private static EmailValidator emailValidator = EmailValidator.getInstance();
 
-	public static boolean isValidEmail(String value) {
-		return emailValidator.isValid(value);
-	}
+    public static boolean isValidEmail(String value) {
+        return emailValidator.isValid(value);
+    }
 
-	public static boolean isValidPhoneNumber(String value) {
-		if (value != null && !value.trim().equals("")) {
+    public static boolean isValidPhoneNumber(String value) {
+        if (value != null && !value.trim().equals("")) {
 
-			// validate phone numbers of format "1234567890"
-			if (value.matches("\\d{10}"))
-				return true;
-			// validating phone number with -, . or spaces
-			else if (value.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
-				return true;
-			// validating phone number with extension length from 3 to 5
-			else if (value.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
-				return true;
-			// validating phone number where area code is in braces ()
-			else if (value.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
-				return true;
-			// return false if nothing matches the input
-			else
-				return false;
-		} else {
-			return true;
-		}
-	}
+            // validate phone numbers of format "1234567890"
+            if (value.matches("\\d{10}"))
+                return true;
+                // validating phone number with -, . or spaces
+            else if (value.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
+                return true;
+                // validating phone number with extension length from 3 to 5
+            else if (value.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
+                return true;
+                // validating phone number where area code is in braces ()
+            else if (value.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
+                return true;
+                // return false if nothing matches the input
+            else
+                return false;
+        } else {
+            return true;
+        }
+    }
 
-	public static boolean isValidFileName(String value) {
-		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
-			return false;
-		}
-		return !value.matches(".*[^\\w -.].*");
-	}
+    public static boolean isValidFileName(String value) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+            return false;
+        }
+        return !value.matches(".*[^\\w -.].*");
+    }
 }

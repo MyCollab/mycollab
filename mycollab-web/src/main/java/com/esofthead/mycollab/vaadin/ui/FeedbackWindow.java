@@ -45,6 +45,7 @@ import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -89,7 +90,7 @@ public class FeedbackWindow extends Window {
 
 		emailNameTextField = new TextField();
 		emailNameTextField.setWidth("500px");
-		Label emailName = new Label("Your name: ");
+		Label emailName = new Label("Name: ");
 
 		mainLayout.addComponent(emailName, 0, 0);
 		mainLayout.addComponent(emailNameTextField, 1, 0);
@@ -97,7 +98,7 @@ public class FeedbackWindow extends Window {
 		emailTextField = new TextField();
 		emailTextField.setWidth("500px");
 		emailTextField.setRequired(true);
-		Label emailLbl = new Label("Your email: ");
+		Label emailLbl = new Label("Email: ");
 
 		mainLayout.addComponent(emailLbl, 0, 1);
 		mainLayout.addComponent(emailTextField, 1, 1);
@@ -114,15 +115,14 @@ public class FeedbackWindow extends Window {
 		contentArea.setImmediate(true);
 		contentArea.setWidth(500, Sizeable.Unit.PIXELS);
 		contentArea.setHeight(200, Sizeable.Unit.PIXELS);
-		Label contentLbl = new Label("Your feedback: ");
+		Label contentLbl = new Label("Message: ");
 
 		mainLayout.addComponent(contentLbl, 0, 3);
 		mainLayout.addComponent(contentArea, 1, 3);
 
 		initDefaultData();
 
-		HorizontalLayout controlsLayout = new HorizontalLayout();
-		controlsLayout.setWidth("100%");
+		MHorizontalLayout controlsLayout = new MHorizontalLayout().withWidth("100%");
 
 		final AttachmentPanel attachments = new AttachmentPanel();
 		attachments.setWidth("350px");
@@ -130,22 +130,7 @@ public class FeedbackWindow extends Window {
 		MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
 		uploadExt.addComponent(attachments);
 
-		// Panel attachedFilepanel = new Panel();
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setHeight("80px");
-		contentLayout.setStyleName("noneBorder-panel");
-		contentLayout.setSizeUndefined();
-
-		contentLayout.addComponent(uploadExt);
-
-		// attachedFilepanel.setContent(contentLayout);
-
-		controlsLayout.addComponent(contentLayout);
-		controlsLayout.setComponentAlignment(contentLayout,
-				Alignment.BOTTOM_LEFT);
-		controlsLayout.setExpandRatio(contentLayout, 1.0f);
-
-		controlsLayout.setSpacing(true);
+		controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
 		Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -160,7 +145,7 @@ public class FeedbackWindow extends Window {
 
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlsLayout.addComponent(cancelBtn);
-		controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
+		controlsLayout.setComponentAlignment(cancelBtn, Alignment.TOP_RIGHT);
 
 		Button sendBtn = new Button("Send", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -181,7 +166,7 @@ public class FeedbackWindow extends Window {
 					List<EmailAttachementSource> emailAttachmentSource = null;
 
 					if (CollectionUtils.isNotEmpty(listFile)) {
-						emailAttachmentSource = new ArrayList<EmailAttachementSource>();
+						emailAttachmentSource = new ArrayList<>();
 						for (File file : listFile) {
 							emailAttachmentSource
 									.add(new FileEmailAttachmentSource(file));
@@ -210,7 +195,7 @@ public class FeedbackWindow extends Window {
         sendBtn.setIcon(FontAwesome.SEND);
 		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(sendBtn);
-		controlsLayout.setComponentAlignment(sendBtn, Alignment.MIDDLE_RIGHT);
+		controlsLayout.setComponentAlignment(sendBtn, Alignment.TOP_RIGHT);
 		mainLayout.addComponent(controlsLayout, 0, 4, 1, 4);
 
 		this.setContent(mainLayout);

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.TableViewField;
@@ -28,21 +27,21 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
-import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.List;
 
@@ -137,9 +136,8 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = TaskTableDisplay.this
-                        .getBeanByIndex(itemId);
-                return new Label(AppContext.formatDate(task.getStartdate()));
+                final SimpleTask task = getBeanByIndex(itemId);
+                return new ELabel().prettyDate(task.getStartdate());
 
             }
         });
@@ -151,7 +149,7 @@ public class TaskTableDisplay extends
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
                 final SimpleTask task = getBeanByIndex(itemId);
-                return new Label(AppContext.formatDate(task.getDeadline()));
+                return new ELabel().prettyDate(task.getDeadline());
 
             }
         });
@@ -165,10 +163,11 @@ public class TaskTableDisplay extends
                 final SimpleTask task = getBeanByIndex(itemId);
                 PopupButton taskSettingPopupBtn = new PopupButton();
                 taskSettingPopupBtn.setIcon(FontAwesome.COGS);
-                taskSettingPopupBtn.setStyleName("action");
-                taskSettingPopupBtn.addStyleName("noDefaultIcon");
 
-                MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("100px");
+                taskSettingPopupBtn.addStyleName("noDefaultIcon");
+                taskSettingPopupBtn.addStyleName("button-icon-only");
+
+                OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
                 Button editButton = new Button(AppContext
                         .getMessage(GenericI18Enum.BUTTON_EDIT),
@@ -185,8 +184,7 @@ public class TaskTableDisplay extends
                 editButton.setEnabled(CurrentProjectVariables
                         .canWrite(ProjectRolePermissionCollections.TASKS));
                 editButton.setIcon(FontAwesome.EDIT);
-                editButton.setStyleName("action");
-                filterBtnLayout.addComponent(editButton);
+                filterBtnLayout.addOption(editButton);
 
                 if ((task.getPercentagecomplete() != null && task
                         .getPercentagecomplete() != 100)
@@ -213,10 +211,9 @@ public class TaskTableDisplay extends
                                 }
                             });
                     closeBtn.setIcon(FontAwesome.CHECK_CIRCLE_O);
-                    closeBtn.setStyleName("action");
                     closeBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
-                    filterBtnLayout.addComponent(closeBtn);
+                    filterBtnLayout.addOption(closeBtn);
                 } else {
                     Button reOpenBtn = new Button("ReOpen",
                             new Button.ClickListener() {
@@ -238,10 +235,9 @@ public class TaskTableDisplay extends
                                 }
                             });
                     reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                    reOpenBtn.setStyleName("action");
                     reOpenBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
-                    filterBtnLayout.addComponent(reOpenBtn);
+                    filterBtnLayout.addOption(reOpenBtn);
                 }
 
                 if (!"Pending".equals(task.getStatus())) {
@@ -267,10 +263,9 @@ public class TaskTableDisplay extends
                                     }
                                 });
                         pendingBtn.setIcon(FontAwesome.HDD_O);
-                        pendingBtn.setStyleName("action");
                         pendingBtn.setEnabled(CurrentProjectVariables
                                 .canWrite(ProjectRolePermissionCollections.TASKS));
-                        filterBtnLayout.addComponent(pendingBtn);
+                        filterBtnLayout.addOption(pendingBtn);
                     }
                 } else {
                     Button reOpenBtn = new Button("ReOpen",
@@ -294,10 +289,9 @@ public class TaskTableDisplay extends
                                 }
                             });
                     reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                    reOpenBtn.setStyleName("action");
                     reOpenBtn.setEnabled(CurrentProjectVariables
                             .canWrite(ProjectRolePermissionCollections.TASKS));
-                    filterBtnLayout.addComponent(reOpenBtn);
+                    filterBtnLayout.addOption(reOpenBtn);
                 }
 
                 Button deleteBtn = new Button(AppContext
@@ -342,9 +336,8 @@ public class TaskTableDisplay extends
                             }
                         });
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
-                deleteBtn.setStyleName("action");
                 deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
-                filterBtnLayout.addComponent(deleteBtn);
+                filterBtnLayout.addOption(deleteBtn);
 
                 taskSettingPopupBtn.setContent(filterBtnLayout);
                 return taskSettingPopupBtn;
@@ -358,7 +351,7 @@ public class TaskTableDisplay extends
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
-                        final SimpleTask task = getBeanByIndex(itemId);
+                        SimpleTask task = getBeanByIndex(itemId);
                         return new ProjectUserLink(task.getAssignuser(), task
                                 .getAssignUserAvatarId(), task
                                 .getAssignUserFullName());

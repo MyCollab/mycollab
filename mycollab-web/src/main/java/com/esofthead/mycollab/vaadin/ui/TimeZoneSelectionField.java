@@ -26,7 +26,6 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,44 +37,42 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class TimeZoneSelectionField extends CustomField<String> {
     private boolean isVerticalDisplay = true;
-	private ValueComboBox comboArea;
-	private ValueComboBox comboTimezone;
-	private List<String> lstLimeZoneArea = new ArrayList<>();
+	private ValueComboBox areaSelection;
+	private ValueComboBox timezoneSelection;
+	private List<String> timezoneAreas = new ArrayList<>();
 
 	public TimeZoneSelectionField(boolean isVerticalDisplay) {
         this.isVerticalDisplay = isVerticalDisplay;
-		comboArea = new ValueComboBox(false, TimezoneMapper.AREAS);
-		comboArea.addValueChangeListener(new Property.ValueChangeListener() {
+		areaSelection = new ValueComboBox(false, TimezoneMapper.AREAS);
+		areaSelection.addValueChangeListener(new Property.ValueChangeListener() {
 
-			@Override
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-				lstLimeZoneArea.clear();
-				setCboTimeZone(event.getProperty().getValue().toString().trim());
-			}
-		});
+            @Override
+            public void valueChange(
+                    com.vaadin.data.Property.ValueChangeEvent event) {
+                timezoneAreas.clear();
+                setCboTimeZone(event.getProperty().getValue().toString().trim());
+            }
+        });
 
 		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
-			if (timezone.getArea().equals(comboArea.getValue())) {
-				lstLimeZoneArea.add(timezone.getDisplayName());
+			if (timezone.getArea().equals(areaSelection.getValue())) {
+				timezoneAreas.add(timezone.getDisplayName());
 			}
 		}
 
-		String[] arrayTimezone = lstLimeZoneArea
-				.toArray(new String[lstLimeZoneArea.size()]);
-
-		comboTimezone = new ValueComboBox(false, arrayTimezone);
+		String[] arrayTimezone = timezoneAreas.toArray(new String[timezoneAreas.size()]);
+		timezoneSelection = new ValueComboBox(false, arrayTimezone);
 	}
 
 	@Override
 	protected Component initContent() {
         if (isVerticalDisplay) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(false);
-            layout.with(comboArea, comboTimezone);
+            layout.with(areaSelection, timezoneSelection);
             return layout;
         } else {
             MHorizontalLayout layout = new MHorizontalLayout();
-            layout.with(comboArea, comboTimezone);
+            layout.with(areaSelection, timezoneSelection);
             return layout;
         }
 	}
@@ -83,28 +80,28 @@ public class TimeZoneSelectionField extends CustomField<String> {
 	private void setCboTimeZone(String area) {
 		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
 			if (timezone.getArea().trim().equals(area)) {
-				lstLimeZoneArea.add(timezone.getDisplayName());
+				timezoneAreas.add(timezone.getDisplayName());
 			}
 		}
 
-		comboTimezone.removeAllItems();
-		String[] arrayTimezone = lstLimeZoneArea
-				.toArray(new String[lstLimeZoneArea.size()]);
-		comboTimezone.loadData(arrayTimezone);
+		timezoneSelection.removeAllItems();
+		String[] arrayTimezone = timezoneAreas
+				.toArray(new String[timezoneAreas.size()]);
+		timezoneSelection.loadData(arrayTimezone);
 	}
 
 	public void setTimeZone(TimezoneExt timeZone) {
 		if (timeZone != null && !timeZone.getArea().equals("")) {
-			comboArea.select(timeZone.getArea());
+			areaSelection.select(timeZone.getArea());
 			setCboTimeZone(timeZone.getArea());
-			comboTimezone.select(timeZone.getDisplayName());
+			timezoneSelection.select(timeZone.getDisplayName());
 		}
 	}
 
 	public TimezoneExt getTimeZone() {
 		for (TimezoneExt timezone : TimezoneMapper.timeMap.values()) {
 			if (timezone.getDisplayName().trim()
-					.equals(comboTimezone.getValue())) {
+					.equals(timezoneSelection.getValue())) {
 				return timezone;
 			}
 		}
@@ -122,7 +119,10 @@ public class TimeZoneSelectionField extends CustomField<String> {
 
     @Override
     public void commit() throws SourceException, Validator.InvalidValueException {
-
+        TimezoneExt timezoneExt = getTimeZone();
+        if (timezoneExt != null) {
+            setInternalValue(timezoneExt.getId());
+        }
         super.commit();
     }
 

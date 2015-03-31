@@ -44,10 +44,10 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 
 	public AbstractEditItemComp() {
 		super();
-		this.setMargin(new MarginInfo(false, true, true, true));
-		this.editForm = new AdvancedEditBeanForm<>();
-		this.editForm.addStyleName("crm-edit-form");
-		this.addComponent(this.editForm);
+		setMargin(new MarginInfo(false, true, true, true));
+		editForm = new AdvancedEditBeanForm<>();
+		editForm.addStyleName("crm-edit-form");
+		addComponent(editForm);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 
 	@Override
 	public HasEditFormHandlers<B> getEditFormHandlers() {
-		return this.editForm;
+		return editForm;
 	}
 
 	class FormLayoutFactory implements IFormLayoutFactory {
@@ -79,9 +79,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 			}
 
 			informationLayout = initFormLayoutFactory();
-
 			formAddLayout.addBody(informationLayout.getLayout());
-
 			return formAddLayout;
 		}
 

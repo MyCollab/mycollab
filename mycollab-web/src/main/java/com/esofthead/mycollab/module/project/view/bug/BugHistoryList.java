@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -33,58 +32,58 @@ import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 public class BugHistoryList extends HistoryLogComponent {
 
-	public static final FieldGroupFormatter bugFomatter;
+    public static final FieldGroupFormatter bugFomatter;
 
-	static {
-		bugFomatter = new FieldGroupFormatter();
+    static {
+        bugFomatter = new FieldGroupFormatter();
 
-		bugFomatter.generateFieldDisplayHandler("description",
-				GenericI18Enum.FORM_DESCRIPTION);
-		bugFomatter.generateFieldDisplayHandler("environment",
-				BugI18nEnum.FORM_ENVIRONMENT);
-		bugFomatter.generateFieldDisplayHandler("summary",
-				BugI18nEnum.FORM_SUMMARY);
-		bugFomatter.generateFieldDisplayHandler("status",
-				BugI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
-						BugStatus.class));
-		bugFomatter.generateFieldDisplayHandler("priority",
-				BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
-						BugPriority.class));
-		bugFomatter.generateFieldDisplayHandler("severity",
-				BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(
-						BugSeverity.class));
-		bugFomatter.generateFieldDisplayHandler("resolution",
-				BugI18nEnum.FORM_RESOLUTION, new I18nHistoryFieldFormat(
-						BugResolution.class));
-		bugFomatter.generateFieldDisplayHandler("estimateremaintime",
-				BugI18nEnum.FORM_REMAIN_ESTIMATE);
-		bugFomatter.generateFieldDisplayHandler("duedate",
-				BugI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD);
-		bugFomatter.generateFieldDisplayHandler("createdTime",
-				BugI18nEnum.FORM_CREATED_TIME, FieldGroupFormatter.DATE_FIELD);
-		bugFomatter.generateFieldDisplayHandler("loguserFullName",
-				BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
-		bugFomatter.generateFieldDisplayHandler("assignuser",
-				GenericI18Enum.FORM_ASSIGNEE,
-				new ProjectMemberHistoryFieldFormat());
-		bugFomatter.generateFieldDisplayHandler("milestoneid",
-				TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
-	}
+        bugFomatter.generateFieldDisplayHandler("description",
+                GenericI18Enum.FORM_DESCRIPTION);
+        bugFomatter.generateFieldDisplayHandler("environment",
+                BugI18nEnum.FORM_ENVIRONMENT);
+        bugFomatter.generateFieldDisplayHandler("summary",
+                BugI18nEnum.FORM_SUMMARY);
+        bugFomatter.generateFieldDisplayHandler("status",
+                BugI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
+                        BugStatus.class));
+        bugFomatter.generateFieldDisplayHandler("priority",
+                BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
+                        BugPriority.class));
+        bugFomatter.generateFieldDisplayHandler("severity",
+                BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(
+                        BugSeverity.class));
+        bugFomatter.generateFieldDisplayHandler("resolution",
+                BugI18nEnum.FORM_RESOLUTION, new I18nHistoryFieldFormat(
+                        BugResolution.class));
+        bugFomatter.generateFieldDisplayHandler("estimateremaintime",
+                BugI18nEnum.FORM_REMAIN_ESTIMATE);
+        bugFomatter.generateFieldDisplayHandler("duedate",
+                BugI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
+        bugFomatter.generateFieldDisplayHandler("createdTime",
+                BugI18nEnum.FORM_CREATED_TIME, FieldGroupFormatter.PRETTY_DATE_TIME_FIELD);
+        bugFomatter.generateFieldDisplayHandler("loguserFullName",
+                BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
+        bugFomatter.generateFieldDisplayHandler("assignuser",
+                GenericI18Enum.FORM_ASSIGNEE,
+                new ProjectMemberHistoryFieldFormat());
+        bugFomatter.generateFieldDisplayHandler("milestoneid",
+                TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
+    }
 
-	public BugHistoryList() {
-		super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
-		this.setMargin(true);
-	}
+    public BugHistoryList() {
+        super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
+        this.setMargin(true);
+    }
 
-	@Override
-	protected FieldGroupFormatter buildFormatter() {
-		return bugFomatter;
-	}
+    @Override
+    protected FieldGroupFormatter buildFormatter() {
+        return bugFomatter;
+    }
 }

@@ -5,6 +5,7 @@
 	<resultMap id="BaseResultMap"
 		type="com.esofthead.mycollab.module.project.domain.ProjectGenericTask">
 		<result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
 		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
 		<result column="assignUserFullName" jdbcType="VARCHAR"
 			property="assignUserFullName" />
@@ -214,7 +215,7 @@
 	<sql id="selectGenericTaskFromRisk">
 
     <![CDATA[
-          SELECT m_prj_risk.riskname AS name, m_prj_risk.assigntouser AS assignUser,
+          SELECT m_prj_risk.riskname AS name, m_prj_risk.description, m_prj_risk.assigntouser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_risk.datedue AS dueDate, m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName,
@@ -230,7 +231,7 @@
 	<sql id="selectGenericTaskFromProblem">
 
     <![CDATA[
-          SELECT m_prj_problem.issuename as name, m_prj_problem.assigntouser as assignUser, 
+          SELECT m_prj_problem.issuename as name, m_prj_problem.description, m_prj_problem.assigntouser as assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_problem.datedue as dueDate, m_prj_problem.projectid as projectId, m_prj_project.name AS projectName,
@@ -246,7 +247,7 @@
 	<sql id="selectGenericTaskFromBug">
 
     <![CDATA[
-          SELECT m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
+          SELECT m_tracker_bug.summary AS name, m_tracker_bug.description, m_tracker_bug.assignuser AS assignUser,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                 s_user.avatarId as assignUserAvatarId,
                 m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
@@ -262,7 +263,7 @@
 	<sql id="selectGenericTaskFromTask">
 
         <![CDATA[
-          SELECT m_prj_task.taskname AS name, m_prj_task.assignUser AS assignUser,
+          SELECT m_prj_task.taskname AS name,  m_prj_task.notes AS description, m_prj_task.assignUser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,

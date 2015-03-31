@@ -74,9 +74,9 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				int projectId = tokenizer.getInt();
 				String pagePath = tokenizer.getRemainValue();
 
-				PageService wikiService = ApplicationContextUtil
+				PageService pageService = ApplicationContextUtil
 						.getSpringBean(PageService.class);
-				Page page = wikiService.getPage(pagePath,
+				Page page = pageService.getPage(pagePath,
 						AppContext.getUsername());
 
 				if (page != null) {
@@ -106,9 +106,9 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				int projectId = tokenizer.getInt();
 				String pagePath = tokenizer.getRemainValue();
 
-				PageService wikiService = ApplicationContextUtil
+				PageService pageService = ApplicationContextUtil
 						.getSpringBean(PageService.class);
-				Page page = wikiService.getPage(pagePath,
+				Page page = pageService.getPage(pagePath,
 						AppContext.getUsername());
 
 				if (page != null) {

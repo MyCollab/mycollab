@@ -223,9 +223,7 @@ public class TimeTrackingTableDisplay
                                                                         final Object itemId, final Object columnId) {
                                 final SimpleItemTimeLogging timeLogging = TimeTrackingTableDisplay.this
                                         .getBeanByIndex(itemId);
-                                final Label l = new Label();
-                                l.setValue(AppContext.formatDate(timeLogging.getLogforday()));
-                                return l;
+                                return new Label(AppContext.formatDate(timeLogging.getLogforday()));
                             }
                         }
 

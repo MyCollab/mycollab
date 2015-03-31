@@ -14,11 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
@@ -31,259 +27,223 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
 public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private EditForm editForm;
+    private Role role;
 
-	private final EditForm editForm;
-	private Role role;
+    public RoleAddViewImpl() {
+        super();
 
-	public RoleAddViewImpl() {
-		super();
+        this.setMargin(new MarginInfo(false, true, false, true));
+        this.editForm = new EditForm();
+        this.addComponent(this.editForm);
+        this.addStyleName("accountsettings-role");
+    }
 
-		this.setMargin(new MarginInfo(false, true, false, true));
-		this.editForm = new EditForm();
-		this.addComponent(this.editForm);
-		this.addStyleName("accountsettings-role");
-	}
+    @Override
+    public void editItem(Role item) {
+        this.role = item;
+        this.editForm.setBean(this.role);
+    }
 
-	@Override
-	public void editItem(final Role item) {
-		this.role = item;
-		this.editForm.setBean(this.role);
-	}
+    @Override
+    public PermissionMap getPermissionMap() {
+        return editForm.getPermissionMap();
+    }
 
-	@Override
-	public PermissionMap getPermissionMap() {
-		return this.editForm.getPermissionMap();
-	}
+    public class EditForm extends AdvancedEditBeanForm<Role> {
+        private static final long serialVersionUID = 1L;
+        private final Map<String, KeyCaptionComboBox> permissionControlsMap = new HashMap<String, KeyCaptionComboBox>();
 
-	public class EditForm extends AdvancedEditBeanForm<Role> {
+        @Override
+        public void setBean(Role item) {
+            this.setFormLayoutFactory(new EditForm.FormLayoutFactory());
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
+            super.setBean(item);
+        }
 
-		private static final long serialVersionUID = 1L;
-		private final Map<String, KeyCaptionComboBox> permissionControlsMap = new HashMap<String, KeyCaptionComboBox>();
+        private class FormLayoutFactory extends RoleFormLayoutFactory {
+            private static final long serialVersionUID = 1L;
 
-		@Override
-		public void setBean(final Role item) {
-			this.setFormLayoutFactory(new EditForm.FormLayoutFactory());
-			this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
-			super.setBean(item);
-		}
+            public FormLayoutFactory() {
+                super("");
+            }
 
-		private class FormLayoutFactory extends RoleFormLayoutFactory {
+            @Override
+            public ComponentContainer getLayout() {
+                AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), FontAwesome.USERS);
 
-			private static final long serialVersionUID = 1L;
+                ComponentContainer topLayout = createButtonControls();
+                if (topLayout != null) {
+                    formAddLayout.addHeaderRight(topLayout);
+                }
+                formAddLayout.setTitle(initFormTitle());
 
-			public FormLayoutFactory() {
-				super("");
-			}
+                userInformationLayout = new RoleInformationLayout();
+                formAddLayout.addBody(userInformationLayout.getLayout());
 
-			@Override
-			public ComponentContainer getLayout() {
-				final AddViewLayout formAddLayout = new AddViewLayout(initFormHeader(), FontAwesome.USERS);
+                ComponentContainer bottomPanel = createBottomPanel();
+                if (bottomPanel != null) {
+                    formAddLayout.addBottomControls(bottomPanel);
+                }
 
-				final ComponentContainer topLayout = createButtonControls();
-				if (topLayout != null) {
-					formAddLayout.addHeaderRight(topLayout);
-				}
+                return formAddLayout;
+            }
 
-				formAddLayout.setTitle(initFormTitle());
+            protected String initFormHeader() {
+                return role.getId() == null ? AppContext
+                        .getMessage(RoleI18nEnum.VIEW_NEW_TITLE) : AppContext
+                        .getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
+            }
 
-				userInformationLayout = new RoleInformationLayout();
+            protected String initFormTitle() {
+                return role.getId() == null ? null : role.getRolename();
+            }
 
-				formAddLayout.addBody(userInformationLayout.getLayout());
+            private Layout createButtonControls() {
+                return new EditFormControlsGenerator<>(
+                        RoleAddViewImpl.EditForm.this).createButtonControls();
+            }
 
-				final ComponentContainer bottomPanel = createBottomPanel();
-				if (bottomPanel != null) {
-					formAddLayout.addBottomControls(bottomPanel);
-				}
+            @Override
+            protected Layout createBottomPanel() {
+                final VerticalLayout permissionsPanel = new VerticalLayout();
+                final Label organizationHeader = new Label(
+                        AppContext
+                                .getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
+                organizationHeader.setStyleName(UIConstants.H2_STYLE2);
+                permissionsPanel.addComponent(organizationHeader);
 
-				return formAddLayout;
-			}
+                PermissionMap perMap;
+                if (role instanceof SimpleRole) {
+                    perMap = ((SimpleRole) role).getPermissionMap();
+                } else {
+                    perMap = new PermissionMap();
+                }
 
-			protected String initFormHeader() {
-				return role.getId() == null ? AppContext
-						.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) : AppContext
-						.getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
-			}
+                final GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
+                        2, RolePermissionCollections.CRM_PERMISSIONS_ARR.length);
 
-			protected String initFormTitle() {
-				return role.getId() == null ? null : role.getRolename();
-			}
+                for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.length; i++) {
+                    PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR[i];
+                    KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
+                            .createPermissionSelection(permissionDefItem
+                                    .getPermissionCls());
 
-			private Layout createButtonControls() {
-				final HorizontalLayout controlPanel = new HorizontalLayout();
-				final Layout controlButtons = new EditFormControlsGenerator<Role>(
-						RoleAddViewImpl.EditForm.this).createButtonControls();
-				controlButtons.setSizeUndefined();
-				controlPanel.addComponent(controlButtons);
-				controlPanel.setComponentAlignment(controlButtons,
-						Alignment.MIDDLE_CENTER);
-				controlPanel.addStyleName("control-buttons");
-				return controlPanel;
-			}
+                    final Integer flag = perMap
+                            .getPermissionFlag(permissionDefItem.getKey());
+                    permissionBox.setValue(flag);
+                    EditForm.this.permissionControlsMap.put(
+                            permissionDefItem.getKey(), permissionBox);
+                    crmFormHelper.addComponent(permissionBox,
+                            permissionDefItem.getCaption(), 0, i);
+                }
 
-			@Override
-			protected Layout createBottomPanel() {
-				final VerticalLayout permissionsPanel = new VerticalLayout();
-				final Label organizationHeader = new Label(
-						AppContext
-								.getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
-				organizationHeader.setStyleName(UIConstants.H2_STYLE2);
-				permissionsPanel.addComponent(organizationHeader);
+                permissionsPanel
+                        .addComponent(constructGridLayout(
+                                AppContext
+                                        .getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                                perMap,
+                                RolePermissionCollections.PROJECT_PERMISSION_ARR));
+                permissionsPanel.addComponent(constructGridLayout(
+                        AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
+                        perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
+                permissionsPanel.addComponent(constructGridLayout(AppContext
+                                .getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
+                        perMap,
+                        RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+                permissionsPanel
+                        .addComponent(constructGridLayout(
+                                AppContext
+                                        .getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                                perMap,
+                                RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
-				PermissionMap perMap;
-				if (RoleAddViewImpl.this.role instanceof SimpleRole) {
-					perMap = ((SimpleRole) RoleAddViewImpl.this.role)
-							.getPermissionMap();
-				} else {
-					perMap = new PermissionMap();
-				}
+                return permissionsPanel;
+            }
+        }
 
-				final GridFormLayoutHelper crmFormHelper = new GridFormLayoutHelper(
-						2,
-						RolePermissionCollections.CRM_PERMISSIONS_ARR.length,
-						"100%", "167px", Alignment.TOP_LEFT);
-				crmFormHelper.getLayout().setMargin(false);
-				crmFormHelper.getLayout().setWidth("100%");
-				crmFormHelper.getLayout().addStyleName(
-						UIConstants.COLORED_GRIDLAYOUT);
+        private Depot constructGridLayout(String depotTitle,
+                                          PermissionMap perMap, PermissionDefItem[] defItems) {
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
+                    defItems.length);
+            Depot component = new Depot(depotTitle,
+                    formHelper.getLayout());
 
-				for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.length; i++) {
-					PermissionDefItem permissionDefItem = RolePermissionCollections.CRM_PERMISSIONS_ARR[i];
-					KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
-							.createPermissionSelection(permissionDefItem
-									.getPermissionCls());
+            for (int i = 0; i < defItems.length; i++) {
+                PermissionDefItem permissionDefItem = defItems[i];
+                KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
+                        .createPermissionSelection(permissionDefItem
+                                .getPermissionCls());
+                Integer flag = perMap.getPermissionFlag(permissionDefItem
+                        .getKey());
+                permissionBox.setValue(flag);
+                permissionControlsMap.put(
+                        permissionDefItem.getKey(), permissionBox);
+                formHelper.addComponent(permissionBox,
+                        permissionDefItem.getCaption(), 0, i);
 
-					final Integer flag = perMap
-							.getPermissionFlag(permissionDefItem.getKey());
-					permissionBox.setValue(flag);
-					EditForm.this.permissionControlsMap.put(
-							permissionDefItem.getKey(), permissionBox);
-					crmFormHelper.addComponent(permissionBox,
-							permissionDefItem.getCaption(), 0, i);
-				}
+            }
 
-				permissionsPanel
-						.addComponent(constructGridLayout(
-								AppContext
-										.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
-								perMap,
-								RolePermissionCollections.PROJECT_PERMISSION_ARR));
-				permissionsPanel.addComponent(constructGridLayout(
-						AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
-						perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
-				permissionsPanel.addComponent(constructGridLayout(AppContext
-						.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
-						perMap,
-						RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-				permissionsPanel
-						.addComponent(constructGridLayout(
-								AppContext
-										.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
-								perMap,
-								RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+            return component;
+        }
 
-				return permissionsPanel;
-			}
-		}
+        protected PermissionMap getPermissionMap() {
+            final PermissionMap permissionMap = new PermissionMap();
 
-		private Depot constructGridLayout(String depotTitle,
-				PermissionMap perMap, PermissionDefItem[] defItems) {
-			final GridFormLayoutHelper formHelper = new GridFormLayoutHelper(2,
-					defItems.length, "100%", "167px", Alignment.TOP_LEFT);
-			formHelper.getLayout().setMargin(false);
-			formHelper.getLayout().setWidth("100%");
-			formHelper.getLayout().addStyleName(UIConstants.COLORED_GRIDLAYOUT);
-			final Depot component = new Depot(depotTitle,
-					formHelper.getLayout());
+            for (String permissionItem : permissionControlsMap
+                    .keySet()) {
+                KeyCaptionComboBox permissionBox = permissionControlsMap
+                        .get(permissionItem);
+                Integer perValue = (Integer) permissionBox.getValue();
+                permissionMap.addPath(permissionItem, perValue);
+            }
+            return permissionMap;
+        }
 
-			for (int i = 0; i < defItems.length; i++) {
-				final PermissionDefItem permissionDefItem = defItems[i];
-				KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
-						.createPermissionSelection(permissionDefItem
-								.getPermissionCls());
-				final Integer flag = perMap.getPermissionFlag(permissionDefItem
-						.getKey());
-				permissionBox.setValue(flag);
-				EditForm.this.permissionControlsMap.put(
-						permissionDefItem.getKey(), permissionBox);
-				formHelper.addComponent(permissionBox,
-						permissionDefItem.getCaption(), 0, i);
+        private class EditFormFieldFactory extends
+                AbstractBeanFieldGroupEditFieldFactory<Role> {
+            private static final long serialVersionUID = 1L;
 
-			}
+            public EditFormFieldFactory(GenericBeanForm<Role> form) {
+                super(form);
+            }
 
-			return component;
-		}
+            @Override
+            protected Field<?> onCreateField(final Object propertyId) {
+                if (propertyId.equals("description")) {
+                    return new RichTextEditField();
+                } else if (propertyId.equals("rolename")) {
+                    final TextField tf = new TextField();
+                    tf.setNullRepresentation("");
+                    tf.setRequired(true);
+                    tf.setRequiredError("Please enter a role name");
+                    return tf;
 
-		protected PermissionMap getPermissionMap() {
-			final PermissionMap permissionMap = new PermissionMap();
+                }
+                return null;
+            }
+        }
+    }
 
-			for (final String permissionItem : this.permissionControlsMap
-					.keySet()) {
-				final KeyCaptionComboBox permissionBox = this.permissionControlsMap
-						.get(permissionItem);
-				final Integer perValue = (Integer) permissionBox.getValue();
-				permissionMap.addPath(permissionItem, perValue);
-			}
-			return permissionMap;
-		}
-
-		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<Role> {
-			private static final long serialVersionUID = 1L;
-
-			public EditFormFieldFactory(GenericBeanForm<Role> form) {
-				super(form);
-			}
-
-			@Override
-			protected Field<?> onCreateField(final Object propertyId) {
-				if (propertyId.equals("description")) {
-					return new RichTextEditField();
-				} else if (propertyId.equals("rolename")) {
-					final TextField tf = new TextField();
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError("Please enter a role name");
-					return tf;
-
-				}
-				return null;
-			}
-		}
-	}
-
-	@Override
-	public HasEditFormHandlers<Role> getEditFormHandlers() {
-		return this.editForm;
-	}
+    @Override
+    public HasEditFormHandlers<Role> getEditFormHandlers() {
+        return this.editForm;
+    }
 }

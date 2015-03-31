@@ -25,17 +25,13 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -68,8 +64,7 @@ public class OpportunityTableDisplay
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        Object columnId) {
-                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleOpportunity opportunity = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", opportunity
                         .isSelected());
                 cb.setImmediate(true);
@@ -95,8 +90,7 @@ public class OpportunityTableDisplay
             @Override
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
-                final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleOpportunity opportunity = getBeanByIndex(itemId);
 
                 LabelLink b = new LabelLink(opportunity.getOpportunityname(),
                         CrmLinkBuilder
@@ -106,9 +100,7 @@ public class OpportunityTableDisplay
                         || "Closed Lost".equals(opportunity.getSalesstage())) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
                 } else {
-                    if (opportunity.getExpectedcloseddate() != null
-                            && (opportunity.getExpectedcloseddate()
-                            .before(new GregorianCalendar().getTime()))) {
+                    if (opportunity.isOverdue()) {
                         b.addStyleName(UIConstants.LINK_OVERDUE);
                     }
                 }
@@ -192,12 +184,8 @@ public class OpportunityTableDisplay
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 Object itemId, Object columnId) {
-                        final SimpleOpportunity opportunity = OpportunityTableDisplay.this
-                                .getBeanByIndex(itemId);
-                        Label l = new Label();
-                        l.setValue(AppContext.formatDate(opportunity
-                                .getExpectedcloseddate()));
-                        return l;
+                        final SimpleOpportunity opportunity = getBeanByIndex(itemId);
+                        return new ELabel().prettyDate(opportunity.getExpectedcloseddate());
                     }
                 });
 

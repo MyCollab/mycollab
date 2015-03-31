@@ -38,14 +38,6 @@ public class MyCollabSession {
 
     public static final String USER_TIMEZONE = "USER_TIMEZONE";
 
-    public static final String USER_SHORT_DATE_FORMAT = "USER_SHORT_DATE_FORMAT";
-
-    public static final String USER_DATE_FORMAT = "USER_DATE_FORMAT";
-
-    public static final String USER_DATE_TIME_DATE_FORMAT = "USER_DATE_TIME_DATE_FORMAT";
-
-    public static final String USER_DAY_MONTH_FORMAT = "USER_DAY_MONTH_FORMAT";
-
     public static final String CURRENT_MODULE = "currentModule";
 
     public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";

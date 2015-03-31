@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -36,10 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -79,6 +75,7 @@ public class DueBugWidget extends BugDisplayWidget {
                             bug.getBugkey(), bug.getProjectShortName()));
             defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
             defectLink.setWidth("100%");
+            defectLink.addStyleName("font-large");
             defectLink.setDescription(ProjectTooltipGenerator
                     .generateToolTipBug(AppContext.getUserLocale(), bug,
                             AppContext.getSiteUrl(), AppContext.getTimezone()));
@@ -89,7 +86,7 @@ public class DueBugWidget extends BugDisplayWidget {
 
             rowContent.addComponent(defectLink);
 
-            final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
+            LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
                     bug.getDescription());
             descInfo.setWidth("100%");
             rowContent.addComponent(descInfo);
@@ -100,7 +97,8 @@ public class DueBugWidget extends BugDisplayWidget {
                     AppContext.getMessage(BugI18nEnum.FORM_STATUS),
                     AppContext.getMessage(BugStatus.class, bug.getStatus()), AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
             Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
-            Text bugInfoTxt = new Text(bugInfo);
+            Span bugInfoTxt = new Span().appendText(bugInfo).setTitle(AppContext.formatDate
+                    (bug.getDuedate()));
             if (StringUtils.isBlank(bug.getAssignuser())) {
                 footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"));
             } else {

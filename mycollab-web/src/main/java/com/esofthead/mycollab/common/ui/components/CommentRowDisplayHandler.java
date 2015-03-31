@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.common.ui.components;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
@@ -50,7 +49,9 @@ public class CommentRowDisplayHandler extends
 
     @Override
     public Component generateRow(final SimpleComment comment, int rowIndex) {
-        final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message");
+        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+                .withWidth("100%").withStyleName
+                ("message");
 
         MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
         userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
@@ -86,16 +87,14 @@ public class CommentRowDisplayHandler extends
                 true, false, true)).withWidth("100%").withStyleName("message-header");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label timePostLbl = new Label(AppContext.getMessage(
+        ELabel timePostLbl = new ELabel(AppContext.getMessage(
                 GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML);
-        timePostLbl.setDescription(AppContext.formatDateTime(comment
+                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(comment
                 .getCreatedtime()));
 
         timePostLbl.setSizeUndefined();
         timePostLbl.setStyleName("time-post");
-        messageHeader.addComponent(timePostLbl);
-        messageHeader.setExpandRatio(timePostLbl, 1.0f);
+        messageHeader.with(timePostLbl).expand(timePostLbl);
 
         // Message delete button
         Button msgDeleteBtn = new Button();

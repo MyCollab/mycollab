@@ -42,7 +42,7 @@ public class DateExpression extends AbstractFieldExpression implements MValue {
 		Locale locale = reportParameters.getLocale();
 		Date date = reportParameters.getFieldValue(field);
 		return DateTimeUtils.formatDate(date,
-				LocaleHelper.getDateFormatAssociateToLocale(locale));
+				LocaleHelper.getDateFormatInstance(locale).getDateFormat());
 	}
 
 }

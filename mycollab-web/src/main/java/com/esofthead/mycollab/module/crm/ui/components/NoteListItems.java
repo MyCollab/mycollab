@@ -67,8 +67,8 @@ import java.util.List;
  * @since 1.0
  */
 public class NoteListItems extends VerticalLayout {
-
     private static final long serialVersionUID = 1L;
+
     private String type;
     private Integer typeId;
     private VerticalLayout noteListContainer;
@@ -88,7 +88,7 @@ public class NoteListItems extends VerticalLayout {
         super();
         Label header = new Label(title);
         header.addStyleName("h2");
-        this.addComponent(header);
+        addComponent(header);
         noteService = ApplicationContextUtil.getSpringBean(NoteService.class);
         this.type = type;
         this.typeId = typeId;
@@ -109,9 +109,6 @@ public class NoteListItems extends VerticalLayout {
     }
 
     private void displayNotes() {
-        noteListContainer.removeAllComponents();
-        noteListContainer.addComponent(noteList);
-
         final NoteSearchCriteria searchCriteria = new NoteSearchCriteria();
         searchCriteria.setType(new StringSearchField(SearchField.AND, type));
         searchCriteria.setTypeid(new NumberSearchField(typeId));
@@ -151,11 +148,12 @@ public class NoteListItems extends VerticalLayout {
 
         noteListContainer = new VerticalLayout();
         noteWrapper.addComponent(noteListContainer);
+        noteListContainer.addComponent(noteList);
     }
 
-    public void showNotes(final String type, final int typeid) {
+    public void showNotes(final String type, final int typeId) {
         this.type = type;
-        this.typeId = typeid;
+        this.typeId = typeId;
         displayNotes();
     }
 
@@ -219,10 +217,10 @@ public class NoteListItems extends VerticalLayout {
                     true)).withWidth("100%");
             messageHeader.setStyleName("message-header");
 
-            Label timePostLbl = new Label(AppContext.getMessage(
+            ELabel timePostLbl = new ELabel(AppContext.getMessage(
                     CrmCommonI18nEnum.EXT_ADDED_NOTED, note
                             .getCreateUserFullName(), AppContext.formatPrettyTime(note.getCreatedtime())),
-                    ContentMode.HTML);
+                    ContentMode.HTML).withDescription(AppContext.formatDateTime(note.getCreatedtime()));
             timePostLbl.setSizeUndefined();
             timePostLbl.setStyleName("time-post");
             messageHeader.with(timePostLbl).expand(timePostLbl);
@@ -362,7 +360,6 @@ public class NoteListItems extends VerticalLayout {
     }
 
     private class NoteEditor extends VerticalLayout {
-
         private static final long serialVersionUID = 1L;
         private final RichTextArea noteArea;
 

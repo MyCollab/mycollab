@@ -39,102 +39,102 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class ProjectAddWindow extends Window {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final Project project;
-	private final AdvancedEditBeanForm<Project> editForm;
+    private final Project project;
+    private final AdvancedEditBeanForm<Project> editForm;
 
-	public ProjectAddWindow() {
-		this.setWidth("900px");
-		this.center();
-		this.setResizable(false);
-		this.setModal(true);
+    public ProjectAddWindow() {
+        this.setWidth("900px");
+        this.center();
+        this.setResizable(false);
+        this.setModal(true);
 
-		MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
-		this.setContent(contentLayout);
+        MVerticalLayout contentLayout = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, false, true, false));
+        setContent(contentLayout);
 
-		this.project = new Project();
-		this.editForm = new AdvancedEditBeanForm<>();
-		contentLayout.addComponent(this.editForm);
-		this.setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
+        project = new Project();
+        editForm = new AdvancedEditBeanForm<>();
+        contentLayout.addComponent(editForm);
+        setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
 
-		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
-		this.editForm.setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
-		this.editForm.setBean(this.project);
-	}
+        editForm.setFormLayoutFactory(new FormLayoutFactory());
+        editForm.setBeanFormFieldFactory(new EditFormFieldFactory(editForm));
+        editForm.setBean(project);
+    }
 
-	private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<Project> {
-		private static final long serialVersionUID = 1L;
+    private class EditFormFieldFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<Project> {
+        private static final long serialVersionUID = 1L;
 
-		public EditFormFieldFactory(GenericBeanForm<Project> form) {
-			super(form);
-		}
+        public EditFormFieldFactory(GenericBeanForm<Project> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
-			if (propertyId.equals("description")) {
-				return new RichTextEditField();
-			} else if (propertyId.equals("projectstatus")) {
-				final ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
-				projectCombo.setRequired(true);
-				projectCombo
-						.setRequiredError("Project status must be not null");
-				if (project.getProjectstatus() == null) {
-					project.setProjectstatus(StatusI18nEnum.Open.name());
-				}
-				return projectCombo;
-			} else if (propertyId.equals("shortname")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Project short name must be not null");
-				return tf;
-			} else if (propertyId.equals("name")) {
-				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Project name must be not null");
-				return tf;
-			}
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
+            if (propertyId.equals("description")) {
+                return new RichTextEditField();
+            } else if (propertyId.equals("projectstatus")) {
+                ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
+                projectCombo.setRequired(true);
+                projectCombo
+                        .setRequiredError("Project status must be not null");
+                if (project.getProjectstatus() == null) {
+                    project.setProjectstatus(StatusI18nEnum.Open.name());
+                }
+                return projectCombo;
+            } else if (propertyId.equals("shortname")) {
+                TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Project short name must be not null");
+                return tf;
+            } else if (propertyId.equals("name")) {
+                TextField tf = new TextField();
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Project name must be not null");
+                return tf;
+            }
 
-			return null;
-		}
-	}
+            return null;
+        }
+    }
 
-	class FormLayoutFactory implements IFormLayoutFactory {
-		private static final long serialVersionUID = 1L;
+    class FormLayoutFactory implements IFormLayoutFactory {
+        private static final long serialVersionUID = 1L;
 
-		private GridFormLayoutHelper informationLayout;
+        private GridFormLayoutHelper informationLayout;
 
-		@Override
-		public ComponentContainer getLayout() {
-			final VerticalLayout projectAddLayout = new VerticalLayout();
+        @Override
+        public ComponentContainer getLayout() {
+            final VerticalLayout projectAddLayout = new VerticalLayout();
 
-			this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
-			projectAddLayout.addComponent(this.informationLayout.getLayout());
+            this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
+            projectAddLayout.addComponent(this.informationLayout.getLayout());
 
-			final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
+            final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
 
-			final Button closeBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button closeBtn = new Button(
+                    AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							ProjectAddWindow.this.close();
-						}
+                        @Override
+                        public void buttonClick(final ClickEvent event) {
+                            ProjectAddWindow.this.close();
+                        }
 
-					});
-			closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
+                    });
+            closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
 
             final Button saveBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
@@ -169,53 +169,53 @@ public class ProjectAddWindow extends Window {
             saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
             buttonControls.with(saveBtn).withAlign(saveBtn, Alignment.MIDDLE_RIGHT);
 
-			projectAddLayout.addComponent(buttonControls);
-			projectAddLayout.setComponentAlignment(buttonControls,
-					Alignment.MIDDLE_RIGHT);
-			return projectAddLayout;
-		}
+            projectAddLayout.addComponent(buttonControls);
+            projectAddLayout.setComponentAlignment(buttonControls,
+                    Alignment.MIDDLE_RIGHT);
+            return projectAddLayout;
+        }
 
-		@Override
-		public void attachField(final Object propertyId, final Field<?> field) {
-			if (propertyId.equals("name")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
-			} else if (propertyId.equals("homepage")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
-						1, 0);
-			} else if (propertyId.equals("shortname")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
-						0, 1);
-			} else if (propertyId.equals("projectstatus")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
-						1);
-			} else if (propertyId.equals("planstartdate")) {
-				this.informationLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
-								0, 2);
-			} else if (propertyId.equals("planenddate")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
-			} else if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 3, 2, "100%", Alignment.MIDDLE_LEFT);
-			}
+        @Override
+        public void attachField(final Object propertyId, final Field<?> field) {
+            if (propertyId.equals("name")) {
+                this.informationLayout.addComponent(field,
+                        AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
+            } else if (propertyId.equals("homepage")) {
+                this.informationLayout.addComponent(field,
+                        AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
+                        1, 0);
+            } else if (propertyId.equals("shortname")) {
+                this.informationLayout.addComponent(field,
+                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
+                        0, 1);
+            } else if (propertyId.equals("projectstatus")) {
+                this.informationLayout.addComponent(field,
+                        AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
+                        1);
+            } else if (propertyId.equals("planstartdate")) {
+                this.informationLayout
+                        .addComponent(
+                                field,
+                                AppContext
+                                        .getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
+                                0, 2);
+            } else if (propertyId.equals("planenddate")) {
+                this.informationLayout.addComponent(field, AppContext
+                        .getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
+            } else if (propertyId.equals("description")) {
+                this.informationLayout.addComponent(field,
+                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+                        0, 3, 2, "100%", Alignment.MIDDLE_LEFT);
+            }
 
-		}
-	}
+        }
+    }
 
-	private static class ProjectStatusComboBox extends ValueComboBox {
-		private static final long serialVersionUID = 1L;
+    private static class ProjectStatusComboBox extends I18nValueComboBox {
+        private static final long serialVersionUID = 1L;
 
-		public ProjectStatusComboBox() {
-			super(false, ProjectDataTypeFactory.getProjectStatusList());
-		}
-	}
+        public ProjectStatusComboBox() {
+            super(false, StatusI18nEnum.Open, StatusI18nEnum.Closed);
+        }
+    }
 }

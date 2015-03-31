@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -161,8 +160,7 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected AbstractBeanFieldGroupViewFieldFactory<SimpleComponent> initBeanFormFieldFactory() {
-        return new AbstractBeanFieldGroupViewFieldFactory<SimpleComponent>(
-                previewForm) {
+        return new AbstractBeanFieldGroupViewFieldFactory<SimpleComponent>(previewForm) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -267,8 +265,7 @@ public class ComponentReadViewImpl extends
                     (openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment
                     .MIDDLE_LEFT).withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(chartBtn, Alignment
-                            .MIDDLE_RIGHT)
+                    .withAlign(chartBtn, Alignment.MIDDLE_RIGHT)
                     .expand(spacingLbl1);
 
             bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new
@@ -279,9 +276,8 @@ public class ComponentReadViewImpl extends
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentids(new SetSearchField<>(beanItem.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
-                    OptionI18nEnum
-                            .BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(), OptionI18nEnum.BugStatus
-                    .Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
+                    OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
+                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
             updateSearchStatus();
 
             this.with(header, bugList);
@@ -394,7 +390,8 @@ public class ComponentReadViewImpl extends
 
         private Div buildLastUpdateTime(SimpleBug bug) {
             Div div = new Div();
-            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime()))).setTitle(AppContext
+                    .formatDateTime(bug.getLastupdatedtime()));
             return div.setCSSClass("column100");
         }
     }

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -26,10 +25,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RoundNumerField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -87,16 +83,16 @@ public class ProjectInformationComponent extends VerticalLayout {
     }
 
     public void displayProjectInformation() {
-        this.project = CurrentProjectVariables.getProject();
+        project = CurrentProjectVariables.getProject();
         projectInfoHeader.removeAllComponents();
-        final Button icon = new Button(null, ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
+        Button icon = new Button(null, ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
         icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
         icon.addStyleName("icon-18px");
 
-        final Label projectName = new Label(this.project.getName());
+        Label projectName = new Label(project.getName());
         projectName.setStyleName(UIConstants.PROJECT_NAME);
         projectName.setSizeUndefined();
-        final Label projectShortName = new Label("(" + project.getShortname() + ")");
+        Label projectShortName = new Label("(" + project.getShortname() + ")");
         projectShortName.setStyleName(UIConstants.PROJECT_SHORT_NAME);
 
         projectInfoHeader.with(icon, projectName, projectShortName).expand(projectShortName);
@@ -148,7 +144,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 
                 @Override
                 public ComponentContainer getLayout() {
-                    informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+                    informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
                     return informationLayout.getLayout();
                 }
             });
@@ -197,17 +193,13 @@ public class ProjectInformationComponent extends VerticalLayout {
                         @Override
                         protected Field<?> onCreateField(Object propertyId) {
                             if (propertyId.equals("planstartdate")) {
-                                return new DefaultViewField(
-                                        AppContext.formatDate(project.getPlanstartdate()));
+                                return new PrettyDateViewField(project.getPlanstartdate());
                             } else if (propertyId.equals("planenddate")) {
-                                return new DefaultViewField(
-                                        AppContext.formatDate(project.getPlanenddate()));
+                                return new PrettyDateViewField(project.getPlanenddate());
                             } else if (propertyId.equals("actualstartdate")) {
-                                return new DefaultViewField(
-                                        AppContext.formatDate(project.getActualstartdate()));
+                                return new PrettyDateViewField(project.getActualstartdate());
                             } else if (propertyId.equals("actualenddate")) {
-                                return new DefaultViewField(
-                                        AppContext.formatDate(project.getActualenddate()));
+                                return new PrettyDateViewField(project.getActualenddate());
                             } else if (propertyId.equals("homepage")) {
                                 return new UrlLinkViewField(project.getHomepage());
                             } else if (propertyId.equals("description")) {

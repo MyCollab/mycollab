@@ -25,7 +25,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 1.0
  */
 public interface ProjectMemberInviteView extends PageView {
-
 	void display();
-
 }

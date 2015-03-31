@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.*;
-import com.vaadin.server.FontAwesome;
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -34,133 +29,125 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
+import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.event.MouseEvents;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CampaignAccountListComp extends
-		RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
-	private static final long serialVersionUID = 4624196496275152351L;
+        RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
+    private static final long serialVersionUID = 4624196496275152351L;
 
-	private CampaignWithBLOBs campaign;
+    private CampaignWithBLOBs campaign;
 
-	public CampaignAccountListComp() {
-		super(ApplicationContextUtil.getSpringBean(AccountService.class), 20);
-		this.setBlockDisplayHandler(new CampaignAccountBlockDisplay());
-	}
+    public CampaignAccountListComp() {
+        super(ApplicationContextUtil.getSpringBean(AccountService.class), 20);
+        this.setBlockDisplayHandler(new CampaignAccountBlockDisplay());
+    }
 
-	@Override
-	public void refresh() {
-		loadAccounts();
-	}
+    @Override
+    public void refresh() {
+        loadAccounts();
+    }
 
-	public void displayAccounts(CampaignWithBLOBs campaign) {
-		this.campaign = campaign;
-		loadAccounts();
-	}
+    public void displayAccounts(CampaignWithBLOBs campaign) {
+        this.campaign = campaign;
+        loadAccounts();
+    }
 
-	private void loadAccounts() {
-		AccountSearchCriteria criteria = new AccountSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign
-				.getId()));
-		this.setSearchCriteria(criteria);
-	}
+    private void loadAccounts() {
+        AccountSearchCriteria criteria = new AccountSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setCampaignId(new NumberSearchField(SearchField.AND, campaign
+                .getId()));
+        this.setSearchCriteria(criteria);
+    }
 
-	@Override
-	protected Component generateTopControls() {
-		VerticalLayout controlsBtnWrap = new VerticalLayout();
-		controlsBtnWrap.setWidth("100%");
-		final SplitButton controlsBtn = new SplitButton();
-		controlsBtn.setSizeUndefined();
-		controlsBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
-		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption(AppContext
-				.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
-		controlsBtn.setIcon(FontAwesome.PLUS);
-		controlsBtn
-				.addClickListener(new SplitButton.SplitButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected Component generateTopControls() {
+        VerticalLayout controlsBtnWrap = new VerticalLayout();
+        controlsBtnWrap.setWidth("100%");
+        final SplitButton controlsBtn = new SplitButton();
+        controlsBtn.setSizeUndefined();
+        controlsBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_ACCOUNT));
+        controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        controlsBtn.setCaption(AppContext
+                .getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
+        controlsBtn.setIcon(FontAwesome.PLUS);
+        controlsBtn
+                .addClickListener(new SplitButton.SplitButtonClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void splitButtonClick(
-							final SplitButton.SplitButtonClickEvent event) {
-						fireNewRelatedItem("");
-					}
-				});
-		final Button selectBtn = new Button("Select from existing accounts",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void splitButtonClick(
+                            final SplitButton.SplitButtonClickEvent event) {
+                        fireNewRelatedItem("");
+                    }
+                });
+        final Button selectBtn = new Button("Select from existing accounts",
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(
-								CampaignAccountListComp.this);
-						final AccountSearchCriteria criteria = new AccountSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						UI.getCurrent().addWindow(accountsWindow);
-						accountsWindow.setSearchCriteria(criteria);
-						controlsBtn.setPopupVisible(false);
-					}
-				});
-		selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-		selectBtn.setStyleName("link");
-		VerticalLayout buttonControlLayout = new VerticalLayout();
-		buttonControlLayout.addComponent(selectBtn);
-		controlsBtn.setContent(buttonControlLayout);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(
+                                CampaignAccountListComp.this);
+                        final AccountSearchCriteria criteria = new AccountSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext
+                                .getAccountId()));
+                        UI.getCurrent().addWindow(accountsWindow);
+                        accountsWindow.setSearchCriteria(criteria);
+                        controlsBtn.setPopupVisible(false);
+                    }
+                });
+        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+        OptionPopupContent buttonControlLayout = new OptionPopupContent();
+        buttonControlLayout.addOption(selectBtn);
+        controlsBtn.setContent(buttonControlLayout);
 
-		controlsBtnWrap.addComponent(controlsBtn);
-		controlsBtnWrap.setComponentAlignment(controlsBtn,
-				Alignment.MIDDLE_RIGHT);
-		return controlsBtnWrap;
-	}
+        controlsBtnWrap.addComponent(controlsBtn);
+        controlsBtnWrap.setComponentAlignment(controlsBtn,
+                Alignment.MIDDLE_RIGHT);
+        return controlsBtnWrap;
+    }
 
-	protected class CampaignAccountBlockDisplay implements
-			BlockDisplayHandler<SimpleAccount> {
+    protected class CampaignAccountBlockDisplay implements
+            BlockDisplayHandler<SimpleAccount> {
 
-		@Override
-		public Component generateBlock(final SimpleAccount account,
-				int blockIndex) {
-			CssLayout beanBlock = new CssLayout();
-			beanBlock.addStyleName("bean-block");
-			beanBlock.setWidth("350px");
+        @Override
+        public Component generateBlock(final SimpleAccount account,
+                                       int blockIndex) {
+            CssLayout beanBlock = new CssLayout();
+            beanBlock.addStyleName("bean-block");
+            beanBlock.setWidth("350px");
 
-			VerticalLayout blockContent = new VerticalLayout();
-			HorizontalLayout blockTop = new HorizontalLayout();
-			blockTop.setSpacing(true);
-			CssLayout iconWrap = new CssLayout();
-			iconWrap.setStyleName("icon-wrap");
-			FontIconLabel accountAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
-			iconWrap.addComponent(accountAvatar);
-			blockTop.addComponent(iconWrap);
+            VerticalLayout blockContent = new VerticalLayout();
+            MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
+            CssLayout iconWrap = new CssLayout();
+            iconWrap.setStyleName("icon-wrap");
+            FontIconLabel accountAvatar = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
+            iconWrap.addComponent(accountAvatar);
+            blockTop.addComponent(iconWrap);
 
-			VerticalLayout accountInfo = new VerticalLayout();
-			accountInfo.setSpacing(true);
+            VerticalLayout accountInfo = new VerticalLayout();
+            accountInfo.setSpacing(true);
 
-			MButton btnDelete = new MButton(FontAwesome.TRASH_O);
+            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
@@ -199,46 +186,44 @@ public class CampaignAccountListComp extends
                             });
                 }
             });
-			btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-			blockContent.addComponent(btnDelete);
-			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
+            blockContent.addComponent(btnDelete);
+            blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label accountName = new Label("Name: <a href='"
-					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
-							.getSubdomain())
-					+ CrmLinkGenerator.generateCrmItemLink(
-							CrmTypeConstants.ACCOUNT, account.getId()) + "'>"
-					+ account.getAccountname() + "</a>", ContentMode.HTML);
+            Label accountName = new Label("Name: <a href='"
+                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    .getSubdomain())
+                    + CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.ACCOUNT, account.getId()) + "'>"
+                    + account.getAccountname() + "</a>", ContentMode.HTML);
 
-			accountInfo.addComponent(accountName);
+            accountInfo.addComponent(accountName);
 
-			Label accountOfficePhone = new Label(
-					"Office Phone: "
-							+ (account.getPhoneoffice() != null ? account
-									.getPhoneoffice() : ""));
-			accountInfo.addComponent(accountOfficePhone);
+            Label accountOfficePhone = new Label(
+                    "Office Phone: "
+                            + (account.getPhoneoffice() != null ? account
+                            .getPhoneoffice() : ""));
+            accountInfo.addComponent(accountOfficePhone);
 
-			Label accountEmail = new Label("Email: "
-					+ (account.getEmail() != null ? "<a href='mailto:"
-							+ account.getEmail() + "'>" + account.getEmail()
-							+ "</a>" : ""), ContentMode.HTML);
-			accountInfo.addComponent(accountEmail);
+            Label accountEmail = new Label("Email: "
+                    + (account.getEmail() != null ? "<a href='mailto:"
+                    + account.getEmail() + "'>" + account.getEmail()
+                    + "</a>" : ""), ContentMode.HTML);
+            accountInfo.addComponent(accountEmail);
 
-			Label accountCity = new Label("City: "
-					+ (account.getCity() != null ? account.getCity() : ""));
-			accountInfo.addComponent(accountCity);
+            Label accountCity = new Label("City: "
+                    + (account.getCity() != null ? account.getCity() : ""));
+            accountInfo.addComponent(accountCity);
 
-			blockTop.addComponent(accountInfo);
-			blockTop.setExpandRatio(accountInfo, 1.0f);
-			blockTop.setWidth("100%");
-			blockContent.addComponent(blockTop);
+            blockTop.with(accountInfo).expand(accountInfo);
+            blockContent.addComponent(blockTop);
 
-			blockContent.setWidth("100%");
+            blockContent.setWidth("100%");
 
-			beanBlock.addComponent(blockContent);
-			return beanBlock;
-		}
+            beanBlock.addComponent(blockContent);
+            return beanBlock;
+        }
 
-	}
+    }
 }

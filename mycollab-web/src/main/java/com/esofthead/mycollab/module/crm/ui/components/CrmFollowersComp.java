@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserMultiSelectComp;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -151,7 +152,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 		MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
                 .withWidth("100%");
 
-		this.addComponent(layout);
+		addComponent(layout);
 
 		int totalFollowers = getTotalFollowers(bean);
 		followersBtn = new Button(AppContext.getMessage(
@@ -273,10 +274,8 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 
 							@Override
 							public void buttonClick(ClickEvent event) {
-
 								List<SimpleUser> members = memberSelection
 										.getSelectedItems();
-
 								for (SimpleUser member : members) {
 									CrmFollowersComp.this.followItem(
 											member.getUsername(), bean);
@@ -312,7 +311,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 									UIConstants.TABLE_EX_LABEL_WIDTH),
 							new TableViewField(
 									FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
-									"monitorDate", UIConstants.TABLE_DATE_WIDTH),
+									"monitorDate", UIConstants.TABLE_DATE_TIME_WIDTH),
 							new TableViewField(null, "id",
 									UIConstants.TABLE_CONTROL_WIDTH)));
 
@@ -339,10 +338,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 						Object itemId, Object columnId) {
 					final MonitorItem monitorItem = tableItem
 							.getBeanByIndex(itemId);
-					Label l = new Label();
-					l.setValue(AppContext.formatDate(monitorItem
-							.getMonitorDate()));
-					return l;
+					return new ELabel().prettyDateTime(monitorItem.getMonitorDate());
 				}
 			});
 

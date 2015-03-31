@@ -31,10 +31,7 @@ import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
@@ -42,7 +39,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -78,7 +74,7 @@ public class TaskGroupDisplayWidget extends
 
         private Button toogleBtn;
 
-        private TaskListDepot(final SimpleTaskList taskListParam) {
+        private TaskListDepot(SimpleTaskList taskListParam) {
             super(taskListParam.getName(), null, new TaskDisplayComponent(taskListParam, true));
 
             if (taskListParam.isArchieved()) {
@@ -98,7 +94,7 @@ public class TaskGroupDisplayWidget extends
             searchCriteria.setTaskListId(new NumberSearchField(taskList.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
 
-            final MHorizontalLayout headerElement = new MHorizontalLayout().withMargin(false);
+            MHorizontalLayout headerElement = new MHorizontalLayout();
             headerElement.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
             final CheckBox activeTasksFilterBtn = new CheckBox(AppContext.getMessage(StatusI18nEnum.Open), true);
@@ -142,14 +138,15 @@ public class TaskGroupDisplayWidget extends
             headerElement.with(activeTasksFilterBtn, pendingTasksFilterBtn, archievedTasksFilterBtn);
 
             taskListActionControl = new PopupButton();
-            taskListActionControl.addStyleName("popuplistindicator");
+            taskListActionControl.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+            taskListActionControl.addStyleName(UIConstants.BUTTON_ICON_ONLY);
             taskListActionControl.setWidthUndefined();
 
             headerElement.with(taskListActionControl);
 
             this.addHeaderElement(headerElement);
 
-            MVerticalLayout actionBtnLayout = new MVerticalLayout().withWidth("200px");
+            OptionPopupContent actionBtnLayout = new OptionPopupContent().withWidth("150px");
 
             taskListActionControl.setContent(actionBtnLayout);
 
@@ -171,8 +168,7 @@ public class TaskGroupDisplayWidget extends
             readBtn.setIcon(FontAwesome.HACKER_NEWS);
             readBtn.setEnabled(CurrentProjectVariables
                     .canRead(ProjectRolePermissionCollections.TASKS));
-            readBtn.setStyleName("link");
-            actionBtnLayout.addComponent(readBtn);
+            actionBtnLayout.addOption(readBtn);
 
             final Button editBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
@@ -190,9 +186,8 @@ public class TaskGroupDisplayWidget extends
                     });
             editBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
-            editBtn.setStyleName("link");
             editBtn.setIcon(FontAwesome.EDIT);
-            actionBtnLayout.addComponent(editBtn);
+            actionBtnLayout.addOption(editBtn);
 
             Enum actionEnum = (taskList.isArchieved()) ? GenericI18Enum.BUTTON_REOPEN : GenericI18Enum.BUTTON_CLOSE;
 
@@ -203,31 +198,23 @@ public class TaskGroupDisplayWidget extends
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            TaskListDepot.this.taskListActionControl
-                                    .setPopupVisible(false);
+                            taskListActionControl.setPopupVisible(false);
                             if (taskList.isArchieved()) {
-                                TaskListDepot.this.taskList
-                                        .setStatus(StatusI18nEnum.Open.name());
+                                taskList.setStatus(StatusI18nEnum.Open.name());
                             } else {
-                                TaskListDepot.this.taskList
-                                        .setStatus(StatusI18nEnum.Archived.name());
+                                taskList.setStatus(StatusI18nEnum.Archived.name());
                             }
 
-                            final ProjectTaskListService taskListService = ApplicationContextUtil
+                            ProjectTaskListService taskListService = ApplicationContextUtil
                                     .getSpringBean(ProjectTaskListService.class);
-                            taskListService.updateWithSession(
-                                    TaskListDepot.this.taskList,
-                                    AppContext.getUsername());
-
+                            taskListService.updateWithSession(taskList, AppContext.getUsername());
                             updateToogleButtonStatus();
-
                         }
                     });
             toogleBtn.setIcon(FontAwesome.TOGGLE_UP);
             toogleBtn.setEnabled(CurrentProjectVariables
                     .canWrite(ProjectRolePermissionCollections.TASKS));
-            toogleBtn.setStyleName("link");
-            actionBtnLayout.addComponent(toogleBtn);
+            actionBtnLayout.addOption(toogleBtn);
 
             final Button deleteBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
@@ -236,8 +223,7 @@ public class TaskGroupDisplayWidget extends
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            TaskListDepot.this.taskListActionControl
-                                    .setPopupVisible(false);
+                            taskListActionControl.setPopupVisible(false);
                             ConfirmDialogExt.show(
                                     UI.getCurrent(),
                                     AppContext.getMessage(
@@ -256,26 +242,19 @@ public class TaskGroupDisplayWidget extends
                                         public void onClose(
                                                 final ConfirmDialog dialog) {
                                             if (dialog.isConfirmed()) {
-                                                final ProjectTaskListService taskListService = ApplicationContextUtil
+                                                ProjectTaskListService taskListService = ApplicationContextUtil
                                                         .getSpringBean(ProjectTaskListService.class);
                                                 taskListService
                                                         .removeWithSession(
-                                                                TaskListDepot.this.taskList
-                                                                        .getId(),
-                                                                AppContext
-                                                                        .getUsername(),
-                                                                AppContext
-                                                                        .getAccountId());
-                                                final Component parentComp = TaskListDepot.this
-                                                        .getParent();
+                                                                taskList.getId(),
+                                                                AppContext.getUsername(),
+                                                                AppContext.getAccountId());
+                                                Component parentComp = TaskListDepot.this.getParent();
                                                 if (parentComp instanceof CssLayout) {
-                                                    ((CssLayout) parentComp)
-                                                            .removeComponent(TaskListDepot.this);
+                                                    ((CssLayout) parentComp).removeComponent(TaskListDepot.this);
                                                 } else {
-                                                    ((TaskGroupDisplayWidget) parentComp)
-                                                            .removeRow(TaskListDepot.this);
+                                                    ((TaskGroupDisplayWidget) parentComp).removeRow(TaskListDepot.this);
                                                 }
-
                                             }
                                         }
                                     });
@@ -284,9 +263,7 @@ public class TaskGroupDisplayWidget extends
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.setEnabled(CurrentProjectVariables
                     .canAccess(ProjectRolePermissionCollections.TASKS));
-            deleteBtn.setStyleName("link");
-
-            actionBtnLayout.addComponent(deleteBtn);
+            actionBtnLayout.addOption(deleteBtn);
         }
 
         private void updateToogleButtonStatus() {

@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -68,7 +69,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 			final boolean isSendingEmailRelay,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		super();
-		this.withWidth("100%").withStyleName("message");
+		this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
 
 		final SimpleUser currentUser = AppContext.getSession();
 		MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
@@ -97,11 +98,9 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		userName.addClickListener(gotoUser);
 		userBlock.addComponent(userName);
 
-		this.addComponent(userBlock);
 		MVerticalLayout textAreaWrap = new MVerticalLayout().withWidth("100%")
 				.withStyleName("message-container");
-		this.addComponent(textAreaWrap);
-		this.setExpandRatio(textAreaWrap, 1.0f);
+		this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
 		type = typeVal;
 		extraTypeId = extraTypeIdVal;
@@ -112,16 +111,14 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 		final AttachmentPanel attachments = new AttachmentPanel();
 
-		final MHorizontalLayout controlsLayout = new MHorizontalLayout().withSpacing(true).withMargin(false)
-				.withWidth("100%");
+		final MHorizontalLayout controlsLayout = new MHorizontalLayout().withWidth("100%");
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
 		uploadExt.addComponent(attachments);
 		controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
 		final Label emptySpace = new Label();
-		controlsLayout.addComponent(emptySpace);
-		controlsLayout.setExpandRatio(emptySpace, 1.0f);
+		controlsLayout.with(emptySpace).expand(emptySpace);
 
 		if (cancelButtonEnable) {
 			final Button cancelBtn = new Button(
@@ -147,7 +144,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
-						final CommentWithBLOBs comment = new CommentWithBLOBs();
+						 CommentWithBLOBs comment = new CommentWithBLOBs();
 						comment.setComment(Jsoup.clean(commentArea.getValue(),
 								Whitelist.relaxed()));
 						comment.setCreatedtime(new GregorianCalendar()
@@ -185,8 +182,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
 		newCommentBtn.setIcon(FontAwesome.SEND);
 		controlsLayout.with(newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
 
-		textAreaWrap.addComponent(commentArea);
-		textAreaWrap.addComponent(controlsLayout);
+		textAreaWrap.with(commentArea, controlsLayout);
 	}
 
 	void setTypeAndId(final String typeId) {

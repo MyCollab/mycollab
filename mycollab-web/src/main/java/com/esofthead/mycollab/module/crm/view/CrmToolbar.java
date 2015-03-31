@@ -52,9 +52,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		this.setMargin(new MarginInfo(false, true, false, true));
 		final NavigatorItemListener listener = new NavigatorItemListener();
 		final Button homeBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER),
-				listener);
+				AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER), listener);
 		homeBtn.setStyleName("link");
 		addComponent(homeBtn);
 
@@ -111,9 +109,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addComponent(caseList);
 
 		final Button activitiesList = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER),
-				listener);
+				AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER), listener);
 		final boolean isActivityEnable = AppContext
 				.canRead(RolePermissionCollections.CRM_MEETING)
 				|| AppContext.canRead(RolePermissionCollections.CRM_TASK)

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -46,10 +45,7 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -80,26 +76,17 @@ import java.util.UUID;
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         implements TaskReadView {
-
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(TaskReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TaskReadViewImpl.class);
 
     private TagViewComponent tagViewComponent;
-
     private CommentDisplay commentList;
-
     private TaskHistoryList historyList;
-
     private ProjectFollowersComp<SimpleTask> followerSheet;
-
     private DateInfoComp dateInfoComp;
-
     private TaskTimeLogSheet timesheetComp;
-
     private PeopleInfoComp peopleInfoComp;
-
     private Button quickActionStatusBtn;
 
     public TaskReadViewImpl() {
@@ -302,22 +289,22 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
         @Override
         public void clearTitleStyleName() {
-            this.titleLbl.setStyleName("headerName");
+            titleLbl.setStyleName("headerName");
         }
 
         @Override
-        public void addTitleStyleName(final String styleName) {
-            this.titleLbl.addStyleName(styleName);
+        public void addTitleStyleName(String styleName) {
+            titleLbl.addStyleName(styleName);
         }
 
         @Override
-        public void setTitleStyleName(final String styleName) {
-            this.titleLbl.setStyleName(styleName);
+        public void setTitleStyleName(String styleName) {
+            titleLbl.setStyleName(styleName);
         }
 
         @Override
-        public void removeTitleStyleName(final String styleName) {
-            this.titleLbl.removeStyleName(styleName);
+        public void removeTitleStyleName(String styleName) {
+            titleLbl.removeStyleName(styleName);
         }
 
         @Override
@@ -342,20 +329,18 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             } else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
                 return new DefaultViewField(beanItem.getTaskListName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
-                return new DefaultViewField(AppContext.formatDate(beanItem
-                        .getStartdate()));
+                return new PrettyDateViewField(beanItem.getStartdate());
             } else if (Task.Field.enddate.equalTo(propertyId)) {
-                return new DefaultViewField(AppContext.formatDate(beanItem
-                        .getEnddate()));
+                return new PrettyDateViewField(beanItem
+                        .getEnddate());
             } else if (Task.Field.actualstartdate.equalTo(propertyId)) {
-                return new DefaultViewField(AppContext.formatDate(beanItem
-                        .getActualstartdate()));
+                return new PrettyDateViewField(beanItem
+                        .getActualstartdate());
             } else if (Task.Field.actualenddate.equalTo(propertyId)) {
-                return new DefaultViewField(AppContext.formatDate(beanItem
-                        .getActualenddate()));
+                return new PrettyDateViewField(beanItem
+                        .getActualenddate());
             } else if (Task.Field.deadline.equalTo(propertyId)) {
-                return new DefaultViewField(AppContext.formatDate(beanItem
-                        .getDeadline()));
+                return new PrettyDateViewField(beanItem.getDeadline());
             } else if (Task.Field.tasklistid.equalTo(propertyId)) {
                 return new LinkViewField(beanItem.getTaskListName(),
                         ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
@@ -518,8 +503,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
             if (subTask.getDeadline() != null) {
                 Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
-                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatDate(subTask.getDeadline()))))
-                        .setStyle("color:gray; display:inline");
+                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatPrettyTime(subTask.getDeadline()))))
+                        .setStyle("color:gray; display:inline").setTitle(AppContext.formatDate(subTask.getDeadline()));
 
                 return new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, deadline,
                         DivLessFormatter.EMPTY_SPACE(),

@@ -95,7 +95,7 @@ h3 {
 											<tr>
 												<td><input id="serverAddress"/></td>
 											</tr>
-											<tr><td><h4>You can get this info from your web host. If database is installed on your local, the address will be <i>localhost</i>.</h4></td></tr>
+											<tr><td><h4>You can get this info from your web host</h4></td></tr>
 											
 										</tbody>
 									</table>
@@ -155,22 +155,23 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-								<h3 >Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file ${MYCOLLAB_HOME}/conf/mycollab.properties</h3>
+								<h3 >Configure your outgoing SMTP email address to use with the software.</h3>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
 									<table border="0" style="width:100%">
 										<tbody>
 											<tr>
-												<td ><label for="smtpUserName">Mail user name:</label></td>
+												<td ><label for="smtpUserName">User name:</label></td>
 											</tr>
 											<tr>
 												<td><input id="smtpUserName"/></td>
 											</tr>
-											<tr><td><h4>Username or account of your email service. If you use Gmail, username looks like username@gmail.com.<h4></td></tr>
+											<tr><td><h4>Username or account of your email service. If you use Gmail,
+											username is &lt;username&gt;@gmail.com.<h4></td></tr>
 											
 											<tr>
-												<td ><label for="smtpPassword">Mail password:</label></td>
+												<td ><label for="smtpPassword">Password:</label></td>
 											</tr>
 											<tr>
 												<td><input id="smtpPassword" type="password"/></td>
@@ -178,7 +179,7 @@ h3 {
 											<tr><td><h4>Password of your email account<h4></td></tr>
 										
 											<tr>
-												<td><label for="smtpHost">Outgoing server address:</label></td>
+												<td><label for="smtpHost">SMTP server name:</label></td>
 											</tr>
 											<tr>
 												<td><input id="smtpHost"/></td>
@@ -191,7 +192,8 @@ h3 {
 											<tr>
 												<td><input id="smtpPort"/></td>
 											</tr>
-											<tr><td><h4>Port info of your email service. If you use Gmail input port 465.<h4></td></tr>
+											<tr><td><h4>Port info of your email service. If you use Gmail, the port
+											is 587.<h4></td></tr>
 											
 											<tr>
 												<td style="width:30px;"><label for="tls" >Enable TLS/SSL:</label><input id="tls" type="checkbox"/></td>
@@ -214,7 +216,8 @@ h3 {
 				<hr size="1" style="margin: 1px 0 1px 0; margin-top:15px;">
 				<div id="bottom">
 				    <p>
-						<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;float:left"><span>Copyright 2014 MyCollab. All rights reserved.</span></a>
+						<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;
+						float:left"><span>Copyright 2015 MyCollab. All rights reserved.</span></a>
 				    	
 						<div style="text-align:right;">
 						<a javascrip="void(0);" href="https://www.mycollab.com/terms" style="text-decoration : none;"><span>Terms of Service</span></a> &nbsp;&nbsp;&nbsp;
@@ -236,7 +239,7 @@ h3 {
 	
 	function databaseValidate(){
 		if ($('#databaseName').val() == ""){
-			alert("Please enter database name");
+			alert("Please enter database schema name");
 			return;
 		}
 		
@@ -251,7 +254,7 @@ h3 {
 		}
 		
 		if ($('#databaseServer').val() == ""){
-			alert("Please enter database server adress");
+			alert("Please enter database server address");
 			return;
 		}
 		
@@ -282,7 +285,7 @@ h3 {
 	
 	function emailValidate(){
 		if ($('#smtpUserName').val() == ""){
-			alert("Please enter email adress");
+			alert("Please enter email address");
 			return;
 		}
 		
@@ -329,7 +332,7 @@ h3 {
 		      	 		alert(data);
 		      	 		$('#emailValidate').html('<span>Check Smtp</span>');
 		      	 	}else{
-		      	 		alert("Your SMTP connection is OK");
+		      	 		alert("Your SMTP setting is OK");
 		      	 		$('#emailValidate').html('<span>Check Smtp</span>');
 		      	 	}
 		      	 }
@@ -338,7 +341,6 @@ h3 {
 	}
 	
 	function updateInfoAction(){
-			
 		$('#requireMsg').html("").hide();
 		if ($('#sitename').val() == ""){
 			alert("Please enter site name");
@@ -366,7 +368,7 @@ h3 {
 		}
 		
 		if ($('#databaseServer').val() == ""){
-			alert("Please enter database server adress");
+			alert("Please enter database server address");
 			return;
 		}
 		$('#post').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
@@ -401,19 +403,21 @@ h3 {
 		      success: function(data){
 		      	 if(data!=null){
 		      	 	if(data.length > 0){
-		      	 		if (data == "smtpError")
+		      	 	    $('#post').html('<span>Update & Go</span>');
+                        alert(data);
+		      	 		/*if (data == "smtpError")
 		      	 		{
 		      	 			alert("Something was wrong with SMTP parameters. You should check them again or You can change your config later in mycollab.properties.");
 		      	 			$('#post').html('<span>Update & Go</span>');
 		      	 			window.location.assign("/");
 		      	 		}
 		      	 		else {
-		      	 		$('#post').html('<span>Update & Go</span>');
+		      	 		    $('#post').html('<span>Update & Go</span>');
 		      	 			alert(data);
-		      	 		}
+		      	 		}*/
 		      	 		
 		      	 	}else{
-		      	 		alert("Setup finished. Redirect to app?");
+		      	 		alert("Setup is completed successfully. Redirect to the app?");
 		      	 		$('#post').html('<span>Update & Go</span>');
 		      	 		window.location.assign("/");
 		      	 	}

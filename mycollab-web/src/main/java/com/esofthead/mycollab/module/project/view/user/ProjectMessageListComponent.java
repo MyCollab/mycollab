@@ -33,6 +33,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
@@ -58,7 +59,7 @@ public class ProjectMessageListComponent extends MVerticalLayout {
     private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
 
     public ProjectMessageListComponent() {
-        withSpacing(false).withMargin(false);
+        withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
 
         titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS));
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
@@ -104,11 +105,12 @@ public class ProjectMessageListComponent extends MVerticalLayout {
 
             layout.addComponent(header);
 
-            final CssLayout body = new CssLayout();
+            CssLayout body = new CssLayout();
             body.setStyleName("activity-date");
-            final Label dateLbl = new Label(AppContext.getMessage(
+            Label dateLbl = new ELabel(AppContext.getMessage(
                     MessageI18nEnum.OPT_FROM_TIME_ENTRY, AppContext
-                            .formatPrettyTime(message.getPosteddate())));
+                            .formatPrettyTime(message.getPosteddate()))).withDescription(AppContext.formatDateTime
+                    (message.getPosteddate()));
             body.addComponent(dateLbl);
 
             layout.addComponent(body);
@@ -138,8 +140,7 @@ public class ProjectMessageListComponent extends MVerticalLayout {
             A msgLink = new A();
             msgLink.setId("tag" + uid);
             msgLink.setHref(ProjectLinkBuilder.generateMessagePreviewFullLink(
-                    message.getProjectid(), message.getId(),
-                    GenericLinkUtils.URL_PREFIX_PARAM));
+                    message.getProjectid(), message.getId()));
             String arg17 = "'" + uid + "'";
             String arg18 = "'" + ProjectTypeConstants.MESSAGE + "'";
             String arg19 = "'" + message.getId() + "'";

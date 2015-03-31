@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -38,18 +38,23 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
+import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.tokenfield.TokenField;
+import org.vaadin.suggestfield.BeanSuggestionConverter;
+import org.vaadin.suggestfield.SuggestField;
+import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,7 +64,6 @@ import java.util.List;
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractPageView implements
         ProjectMemberInviteView {
-
     private static final long serialVersionUID = 1L;
 
     private List<String> inviteEmails;
@@ -68,15 +72,10 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
     private TextArea messageArea;
     private GridFormLayoutHelper projectFormHelper;
 
-    public ProjectMemberInviteViewImpl() {
-        super();
-    }
-
     @Override
     public void display() {
         inviteEmails = new ArrayList<>();
         roleId = 0;
-
         initContent();
     }
 
@@ -94,7 +93,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
             }
         });
 
-        final AddViewLayout userAddLayout = new AddViewLayout(
+        AddViewLayout userAddLayout = new AddViewLayout(
                 AppContext
                         .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
                 FontAwesome.USER);
@@ -103,8 +102,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
         GridFormLayoutHelper informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
-        final MHorizontalLayout lo = new MHorizontalLayout();
-        InviteUserTokenField inviteUserTokenField = new InviteUserTokenField(lo);
+        InviteUserTokenField inviteUserTokenField = new InviteUserTokenField();
         informationLayout.addComponent(inviteUserTokenField, AppContext
                 .getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
         informationLayout.addComponent(roleComboBox,
@@ -124,7 +122,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
     }
 
     private Layout createButtonControls() {
-        final MHorizontalLayout controlButtons = new MHorizontalLayout();
+        MHorizontalLayout controlButtons = new MHorizontalLayout();
 
         Button inviteBtn = new Button(
                 AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
@@ -142,6 +140,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
                     }
                 });
         inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        inviteBtn.setIcon(FontAwesome.SEND);
         controlButtons.addComponent(inviteBtn);
 
         Button cancelBtn = new Button(
@@ -214,103 +213,134 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
     }
 
-    private class InviteUserTokenField extends TokenField {
+    private class InviteUserTokenField extends CssLayout implements SuggestField.NewItemsHandler,
+            SuggestField.SuggestionHandler, SuggestField.TokenHandler {
         private static final long serialVersionUID = 1L;
 
-        private Button newButton;
+        private SuggestField suggestField;
+        private List<SimpleUser> candidateUsers;
 
-        public InviteUserTokenField(Layout container) {
-            super(container);
-            this.setInputPrompt(AppContext
-                    .getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
+        public InviteUserTokenField() {
+            super();
             this.setWidth("100%");
-            this.setInputWidth("100%");
-            this.setFilteringMode(FilteringMode.CONTAINS);
-            this.setRememberNewTokens(true);
+            this.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
+            this.addStyleName("member-token");
+            suggestField = new SuggestField();
+            suggestField.setWidth("350px");
+            suggestField.setHeight("32px");
+            suggestField.setInputPrompt(AppContext
+                    .getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
+            suggestField.setNewItemsAllowed(true);
+            suggestField.setNewItemsHandler(this);
+            suggestField.setImmediate(true);
+            suggestField.setTokenMode(true);
+            suggestField.setSuggestionHandler(this);
+            suggestField.setSuggestionConverter(new UserSuggestionConverter());
+            suggestField.setTokenHandler(this);
+            suggestField.setMinimumQueryCharacters(1);
+            suggestField.setPopupWidth(400);
 
-            final ProjectMemberService prjMemberService = ApplicationContextUtil
+            addComponent(suggestField);
+            ProjectMemberService prjMemberService = ApplicationContextUtil
                     .getSpringBean(ProjectMemberService.class);
-            final List<SimpleUser> users = prjMemberService
+            candidateUsers = prjMemberService
                     .getUsersNotInProject(
                             CurrentProjectVariables.getProjectId(),
                             AppContext.getAccountId());
-
-            this.setTokenCaptionMode(ItemCaptionMode.EXPLICIT);
-            for (SimpleUser user : users) {
-                this.cb.addItem(user);
-                this.cb.setItemCaption(user, user.getDisplayName());
-                this.cb.setItemIcon(
-                        user,
-                        UserAvatarControlFactory.createAvatarResource(
-                                user.getAvatarid(), 16));
-            }
         }
 
         @Override
-        protected void configureTokenButton(Object tokenId, Button button) {
-            super.configureTokenButton(tokenId, button);
-            this.newButton = button;
+        public Object addNewItem(String value) {
+            if (StringUtils.isValidEmail(value) && !inviteEmails.contains(value)) {
+                inviteEmails.add(value);
+                return value;
+            }
+            return null;
         }
 
         @Override
-        protected void setInternalValue(Object newValue) {
-            super.setInternalValue(newValue);
-
-            if (((HorizontalLayout) layout).getComponentIndex(newButton) != -1) {
-                ((HorizontalLayout) layout).setExpandRatio(newButton, 0);
+        public List<Object> searchItems(String query) {
+            if ("".equals(query) || query == null) {
+                return Collections.emptyList();
             }
-        }
-
-        @Override
-        protected void onTokenInput(Object tokenId) {
-            String invitedEmail;
-
-            if (tokenId instanceof SimpleUser) {
-                invitedEmail = ((SimpleUser) tokenId).getEmail();
-            } else if (tokenId instanceof String) {
-                invitedEmail = (String) tokenId;
-            } else {
-                throw new MyCollabException("Do not support token field "
-                        + tokenId);
-            }
-
-            if (StringUtils.isValidEmail(invitedEmail)) {
-                if (!inviteEmails.contains(invitedEmail)) {
-                    inviteEmails.add(invitedEmail);
-                    super.onTokenInput(tokenId);
-                    this.setInputPrompt(null);
+            List<SimpleUser> result = new ArrayList<>();
+            for (SimpleUser user : candidateUsers) {
+                if (user.getEmail().contains(query) || user.getDisplayName().contains(query)) {
+                    result.add(user);
                 }
-            } else {
-                NotificationUtil.showErrorNotification(AppContext
-                        .getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
             }
-
+            return new ArrayList<Object>(result);
         }
 
         @Override
-        protected void onTokenClick(final Object tokenId) {
-            onTokenDelete(tokenId);
+        public void handleToken(Object token) {
+            if (token != null) {
+                if (token instanceof String) {
+                    String address = (String) token;
+                    addToken(generateToken(address));
+                } else if (token instanceof SimpleUser) {
+                    SimpleUser user = (SimpleUser)token;
+                    if (!inviteEmails.contains(user.getEmail())) {
+                        addToken(generateToken(user));
+                        inviteEmails.add(user.getEmail());
+                    }
+                } else {
+                    throw new MyCollabException("Do not support token type " + token);
+                }
+            }
         }
 
-        @Override
-        protected void onTokenDelete(Object tokenId) {
-            String invitedEmail;
+        private void addToken(Component button) {
+            int index = getComponentIndex(suggestField);
+            addComponent(button, index);
+        }
 
-            if (tokenId instanceof SimpleUser) {
-                invitedEmail = ((SimpleUser) tokenId).getEmail();
-            } else if (tokenId instanceof String) {
-                invitedEmail = (String) tokenId;
-            } else {
-                throw new MyCollabException("Do not support token field "
-                        + tokenId);
+        private Component generateToken(final String email) {
+            final Button btn =new Button(email, FontAwesome.TIMES);
+            btn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    InviteUserTokenField.this.removeComponent(btn);
+                    inviteEmails.remove(email);
+                }
+            });
+            btn.addStyleName("token-field");
+            return btn;
+        }
+
+        private Component generateToken(final SimpleUser user) {
+            final Button btn =new Button("", FontAwesome.TIMES);
+            btn.setCaptionAsHtml(true);
+            btn.setCaption((new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16))).write() + " " + user
+                    .getDisplayName());
+            btn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    InviteUserTokenField.this.removeComponent(btn);
+                    inviteEmails.remove(user.getEmail());
+                }
+            });
+            btn.setStyleName("token-field");
+            return btn;
+        }
+
+        private class UserSuggestionConverter extends BeanSuggestionConverter {
+            public UserSuggestionConverter() {
+                super(SimpleUser.class, "email", "displayName", "displayName");
             }
 
-            inviteEmails.remove(invitedEmail);
-            if (inviteEmails.size() == 0) {
-                this.setInputPrompt(AppContext
-                        .getMessage(ProjectMemberI18nEnum.ERROR_EMPTY_EMAILS_OF_USERS_TO_INVITE_MESSAGE));
+            @Override
+            public Object toItem(SuggestFieldSuggestion suggestion) {
+                SimpleUser result = null;
+                for (SimpleUser bean : candidateUsers) {
+                    if (bean.getEmail().equals(suggestion.getId())) {
+                        result = bean;
+                        break;
+                    }
+                }
+                assert result != null : "This should not be happening";
+                return result;
             }
-            super.onTokenClick(tokenId);
         }
     }
 }

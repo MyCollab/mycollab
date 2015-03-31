@@ -33,10 +33,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.FontIconLabel;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -47,134 +44,134 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class AccountOpportunityListComp
-		extends
-		RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
-	private static final long serialVersionUID = -2414709814283942446L;
+        extends
+        RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+    private static final long serialVersionUID = -2414709814283942446L;
 
-	private Account account;
+    private Account account;
 
-	public static Map<String, String> colormap = new HashMap<>();
+    public static Map<String, String> colormap = new HashMap<>();
 
-	static {
-		for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-			String roleKeyName = CrmDataTypeFactory
-					.getOpportunitySalesStageList()[i];
-			if (!colormap.containsKey(roleKeyName)) {
-				colormap.put(roleKeyName,
-						AbstractBeanBlockList.getColorStyleNameList()[i]);
-			}
-		}
-	}
+    static {
+        for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
+            String roleKeyName = CrmDataTypeFactory
+                    .getOpportunitySalesStageList()[i];
+            if (!colormap.containsKey(roleKeyName)) {
+                colormap.put(roleKeyName,
+                        AbstractBeanBlockList.getColorStyleNameList()[i]);
+            }
+        }
+    }
 
-	public AccountOpportunityListComp() {
-		super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-				20);
-		this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
-	}
+    public AccountOpportunityListComp() {
+        super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
+                20);
+        this.setBlockDisplayHandler(new AccountOpportunityBlockDisplay());
+    }
 
-	@Override
-	protected Component generateTopControls() {
-		HorizontalLayout controlsBtnWrap = new HorizontalLayout();
-		controlsBtnWrap.setWidth("100%");
+    @Override
+    protected Component generateTopControls() {
+        HorizontalLayout controlsBtnWrap = new HorizontalLayout();
+        controlsBtnWrap.setWidth("100%");
 
-		HorizontalLayout notesWrap = new HorizontalLayout();
-		notesWrap.setWidth("100%");
-		notesWrap.setSpacing(true);
-		Label noteLbl = new Label("Note: ");
-		noteLbl.setSizeUndefined();
-		noteLbl.setStyleName("list-note-lbl");
-		notesWrap.addComponent(noteLbl);
+        HorizontalLayout notesWrap = new HorizontalLayout();
+        notesWrap.setWidth("100%");
+        notesWrap.setSpacing(true);
+        Label noteLbl = new Label("Note: ");
+        noteLbl.setSizeUndefined();
+        noteLbl.setStyleName("list-note-lbl");
+        notesWrap.addComponent(noteLbl);
 
-		CssLayout noteBlock = new CssLayout();
-		noteBlock.setWidth("100%");
-		noteBlock.setStyleName("list-note-block");
-		for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
-			Label note = new Label(
-					CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
-			note.setStyleName("note-label");
-			note.addStyleName(colormap.get(CrmDataTypeFactory
-					.getOpportunitySalesStageList()[i]));
-			note.setSizeUndefined();
+        CssLayout noteBlock = new CssLayout();
+        noteBlock.setWidth("100%");
+        noteBlock.setStyleName("list-note-block");
+        for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
+            Label note = new Label(
+                    CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
+            note.setStyleName("note-label");
+            note.addStyleName(colormap.get(CrmDataTypeFactory
+                    .getOpportunitySalesStageList()[i]));
+            note.setSizeUndefined();
 
-			noteBlock.addComponent(note);
-		}
-		notesWrap.addComponent(noteBlock);
-		notesWrap.setExpandRatio(noteBlock, 1.0f);
+            noteBlock.addComponent(note);
+        }
+        notesWrap.addComponent(noteBlock);
+        notesWrap.setExpandRatio(noteBlock, 1.0f);
 
-		controlsBtnWrap.addComponent(notesWrap);
+        controlsBtnWrap.addComponent(notesWrap);
 
-		controlsBtnWrap.setWidth("100%");
-		final Button createBtn = new Button(
-				AppContext
-						.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = -8101659779838108951L;
+        controlsBtnWrap.setWidth("100%");
+        final Button createBtn = new Button(
+                AppContext
+                        .getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = -8101659779838108951L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						fireNewRelatedItem("");
-					}
-				});
-		createBtn.setSizeUndefined();
-		createBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
-		createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setIcon(FontAwesome.PLUS);
+                    @Override
+                    public void buttonClick(final Button.ClickEvent event) {
+                        fireNewRelatedItem("");
+                    }
+                });
+        createBtn.setSizeUndefined();
+        createBtn.setEnabled(AppContext
+                .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        createBtn.setIcon(FontAwesome.PLUS);
 
-		controlsBtnWrap.addComponent(createBtn);
-		controlsBtnWrap
-				.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
-		return controlsBtnWrap;
-	}
+        controlsBtnWrap.addComponent(createBtn);
+        controlsBtnWrap
+                .setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        return controlsBtnWrap;
+    }
 
-	public void displayOpportunities(final Account account) {
-		this.account = account;
-		loadOpportunities();
-	}
+    public void displayOpportunities(final Account account) {
+        this.account = account;
+        loadOpportunities();
+    }
 
-	private void loadOpportunities() {
-		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, account
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+    private void loadOpportunities() {
+        final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setAccountId(new NumberSearchField(SearchField.AND, account
+                .getId()));
+        setSearchCriteria(criteria);
+    }
 
-	@Override
-	public void refresh() {
-		loadOpportunities();
-	}
+    @Override
+    public void refresh() {
+        loadOpportunities();
+    }
 
-	public class AccountOpportunityBlockDisplay implements
-			BlockDisplayHandler<SimpleOpportunity> {
+    public class AccountOpportunityBlockDisplay implements
+            BlockDisplayHandler<SimpleOpportunity> {
 
-		@Override
-		public Component generateBlock(final SimpleOpportunity opportunity,
-				int blockIndex) {
-			CssLayout beanBlock = new CssLayout();
-			beanBlock.addStyleName("bean-block");
-			beanBlock.setWidth("350px");
+        @Override
+        public Component generateBlock(final SimpleOpportunity opportunity,
+                                       int blockIndex) {
+            CssLayout beanBlock = new CssLayout();
+            beanBlock.addStyleName("bean-block");
+            beanBlock.setWidth("350px");
 
-			VerticalLayout blockContent = new VerticalLayout();
-			HorizontalLayout blockTop = new HorizontalLayout();
-			blockTop.setSpacing(true);
-			CssLayout iconWrap = new CssLayout();
-			iconWrap.setStyleName("icon-wrap");
-			FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
-			iconWrap.addComponent(opportunityIcon);
-			blockTop.addComponent(iconWrap);
+            VerticalLayout blockContent = new VerticalLayout();
+            HorizontalLayout blockTop = new HorizontalLayout();
+            blockTop.setSpacing(true);
+            CssLayout iconWrap = new CssLayout();
+            iconWrap.setStyleName("icon-wrap");
+            FontIconLabel opportunityIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
+            iconWrap.addComponent(opportunityIcon);
+            blockTop.addComponent(iconWrap);
 
-			VerticalLayout opportunityInfo = new VerticalLayout();
-			opportunityInfo.setSpacing(true);
+            VerticalLayout opportunityInfo = new VerticalLayout();
+            opportunityInfo.setSpacing(true);
 
-			MButton btnDelete = new MButton(FontAwesome.TRASH_O);
+            MButton btnDelete = new MButton(FontAwesome.TRASH_O);
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
@@ -208,60 +205,61 @@ public class AccountOpportunityListComp
                             });
                 }
             });
-			btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
+            btnDelete.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-			blockContent.addComponent(btnDelete);
-			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
+            blockContent.addComponent(btnDelete);
+            blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label opportunityName = new Label("Name: <a href='"
-					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
-							.getSubdomain())
-					+ CrmLinkGenerator.generateCrmItemLink(
-							CrmTypeConstants.OPPORTUNITY, opportunity.getId())
-					+ "'>" + opportunity.getOpportunityname() + "</a>",
-					ContentMode.HTML);
+            Label opportunityName = new Label("Name: <a href='"
+                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    .getSubdomain())
+                    + CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.OPPORTUNITY, opportunity.getId())
+                    + "'>" + opportunity.getOpportunityname() + "</a>",
+                    ContentMode.HTML);
 
-			opportunityInfo.addComponent(opportunityName);
+            opportunityInfo.addComponent(opportunityName);
 
-			Label opportunityAmount = new Label(
-					"Amount: "
-							+ (opportunity.getAmount() != null ? opportunity
-									.getAmount() : ""));
-			if (opportunity.getCurrency() != null
-					&& opportunity.getAmount() != null) {
-				opportunityAmount.setValue(opportunityAmount.getValue()
-						+ opportunity.getCurrency().getSymbol());
-			}
-			opportunityInfo.addComponent(opportunityAmount);
+            Label opportunityAmount = new Label(
+                    "Amount: "
+                            + (opportunity.getAmount() != null ? opportunity
+                            .getAmount() : ""));
+            if (opportunity.getCurrency() != null
+                    && opportunity.getAmount() != null) {
+                opportunityAmount.setValue(opportunityAmount.getValue()
+                        + opportunity.getCurrency().getSymbol());
+            }
+            opportunityInfo.addComponent(opportunityAmount);
 
-			Label opportunitySaleStage = new Label(
-					"Sale Stage: "
-							+ (opportunity.getSalesstage() != null ? opportunity
-									.getSalesstage() : ""));
-			opportunityInfo.addComponent(opportunitySaleStage);
+            Label opportunitySaleStage = new Label(
+                    "Sale Stage: "
+                            + (opportunity.getSalesstage() != null ? opportunity
+                            .getSalesstage() : ""));
+            opportunityInfo.addComponent(opportunitySaleStage);
 
-			if (opportunity.getSalesstage() != null) {
-				beanBlock
-						.addStyleName(colormap.get(opportunity.getSalesstage()));
-			}
+            if (opportunity.getSalesstage() != null) {
+                beanBlock
+                        .addStyleName(colormap.get(opportunity.getSalesstage()));
+            }
 
-			Label opportunityExpectedCloseDate = new Label(
-					"Expected Close Date: "
-							+ (opportunity.getExpectedcloseddate() != null ? AppContext
-									.formatDate(opportunity
-											.getExpectedcloseddate()) : ""));
-			opportunityInfo.addComponent(opportunityExpectedCloseDate);
+            ELabel opportunityExpectedCloseDate = new ELabel(
+                    "Expected Close Date: "
+                            + AppContext
+                            .formatPrettyTime(opportunity
+                                    .getExpectedcloseddate())).withDescription(AppContext.formatDate
+                    (opportunity.getExpectedcloseddate()));
+            opportunityInfo.addComponent(opportunityExpectedCloseDate);
 
-			blockTop.addComponent(opportunityInfo);
-			blockTop.setExpandRatio(opportunityInfo, 1.0f);
-			blockTop.setWidth("100%");
-			blockContent.addComponent(blockTop);
+            blockTop.addComponent(opportunityInfo);
+            blockTop.setExpandRatio(opportunityInfo, 1.0f);
+            blockTop.setWidth("100%");
+            blockContent.addComponent(blockTop);
 
-			blockContent.setWidth("100%");
+            blockContent.setWidth("100%");
 
-			beanBlock.addComponent(blockContent);
-			return beanBlock;
-		}
-	}
+            beanBlock.addComponent(blockContent);
+            return beanBlock;
+        }
+    }
 
 }

@@ -22,7 +22,10 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.rits.cloning.Cloner;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
@@ -94,9 +97,10 @@ public class BugChartComponent extends Depot {
 
 	private void initUI() {
 		final PopupButton bugChartPopup = new PopupButton("");
-		bugChartPopup.addStyleName("popuplistindicator");
+		bugChartPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
+		bugChartPopup.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
+		final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
 		final Button btnBugByPriority = new Button("Bugs By Priority",
 				new Button.ClickListener() {
@@ -109,8 +113,7 @@ public class BugChartComponent extends Depot {
 						displayReport();
 					}
 				});
-		btnBugByPriority.setStyleName("link");
-		filterBtnLayout.addComponent(btnBugByPriority);
+		filterBtnLayout.addOption(btnBugByPriority);
 
 		final Button btnBugByStatus = new Button("Bugs By Status",
 				new Button.ClickListener() {
@@ -123,8 +126,7 @@ public class BugChartComponent extends Depot {
 						displayReport();
 					}
 				});
-		btnBugByStatus.setStyleName("link");
-		filterBtnLayout.addComponent(btnBugByStatus);
+		filterBtnLayout.addOption(btnBugByStatus);
 
 		final Button btnBugByResolution = new Button("Bugs By Resolution",
 				new Button.ClickListener() {
@@ -137,8 +139,7 @@ public class BugChartComponent extends Depot {
 						displayReport();
 					}
 				});
-		btnBugByResolution.setStyleName("link");
-		filterBtnLayout.addComponent(btnBugByResolution);
+		filterBtnLayout.addOption(btnBugByResolution);
 
 		displayReport();
 

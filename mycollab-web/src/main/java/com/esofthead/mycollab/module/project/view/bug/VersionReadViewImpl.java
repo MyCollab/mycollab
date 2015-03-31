@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -51,7 +50,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -153,7 +152,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             @Override
             protected Field<?> onCreateField(Object propertyId) {
                 if (Version.Field.duedate.equalTo(propertyId)) {
-                    return new DateViewField(beanItem.getDuedate());
+                    return new PrettyDateViewField(beanItem.getDuedate());
                 } else if (Version.Field.id.equalTo(propertyId)) {
                     ContainerViewField containerField = new ContainerViewField();
                     containerField.addComponentField(new BugsComp());
@@ -252,25 +251,21 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1,
-                    chartBtn).withAlign
-                    (openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment
-                    .MIDDLE_LEFT).withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(chartBtn, Alignment
-                            .MIDDLE_RIGHT)
-                    .expand(spacingLbl1);
+                    chartBtn).withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(verifiedSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(chartBtn, Alignment.MIDDLE_RIGHT).expand(spacingLbl1);
 
-            bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new
-                    AssignmentRowDisplay(), 10);
+            bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new AssignmentRowDisplay(), 10);
             bugList.setControlStyle("borderlessControl");
 
             searchCriteria = new BugSearchCriteria();
             searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setVersionids(new SetSearchField<>(beanItem.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{OptionI18nEnum.BugStatus.Open.name(),
-                    OptionI18nEnum
-                            .BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(), OptionI18nEnum.BugStatus
-                    .Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
+                    OptionI18nEnum.BugStatus.InProgress.name(), OptionI18nEnum.BugStatus.ReOpened.name(),
+                    OptionI18nEnum.BugStatus.Verified.name(), OptionI18nEnum.BugStatus.Resolved.name()}));
             updateSearchStatus();
 
             this.with(header, bugList);
@@ -364,13 +359,11 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             }
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img userAvatar = new Img("", StorageManager.getAvatarLink(
-                    bug.getAssignUserAvatarId(), 16));
+            Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
             A userLink = new A();
             userLink.setId("tag" + uid);
             userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    bug.getProjectid(),
-                    bug.getAssignuser()));
+                    bug.getProjectid(), bug.getAssignuser()));
 
             userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
             userLink.appendText(bug.getAssignuserFullName());
@@ -383,7 +376,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
         private Div buildLastUpdateTime(SimpleBug bug) {
             Div div = new Div();
-            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime())));
+            div.appendChild(new Text(AppContext.formatPrettyTime(bug.getLastupdatedtime()))).setTitle(AppContext
+                    .formatDateTime(bug.getLastupdatedtime()));
             return div.setCSSClass("column100");
         }
     }

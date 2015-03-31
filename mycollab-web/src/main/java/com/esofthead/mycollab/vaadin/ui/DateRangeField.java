@@ -37,7 +37,6 @@ import com.vaadin.ui.Label;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class DateRangeField extends CustomField {
-
 	private static final long serialVersionUID = 1L;
 
 	private DateFieldExt dateStart = new DateFieldExt();

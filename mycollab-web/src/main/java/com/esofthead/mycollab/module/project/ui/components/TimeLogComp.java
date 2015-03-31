@@ -78,7 +78,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
 
 		this.addComponent(header);
 
-		MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
+		MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, false, false, true));
 
 		double billableHours = getTotalBillableHours(bean);
 		double nonBillableHours = getTotalNonBillableHours(bean);

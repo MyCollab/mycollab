@@ -96,10 +96,9 @@ public class AccountLeadListComp extends
                         controlsBtn.setPopupVisible(false);
                     }
                 });
-        selectBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_select));
-        selectBtn.setStyleName("link");
-        VerticalLayout buttonControlLayout = new VerticalLayout();
-        buttonControlLayout.addComponent(selectBtn);
+        selectBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
+        OptionPopupContent buttonControlLayout = new OptionPopupContent();
+        buttonControlLayout.addOption(selectBtn);
         controlsBtn.setContent(buttonControlLayout);
 
         controlsBtnWrap.addComponent(controlsBtn);
@@ -220,6 +219,5 @@ public class AccountLeadListComp extends
             beanBlock.addComponent(blockContent);
             return beanBlock;
         }
-
     }
 }

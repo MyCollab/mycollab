@@ -49,10 +49,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resources.LazyStreamSource;
-import com.esofthead.mycollab.vaadin.ui.PopupDateFieldExt;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
@@ -245,7 +242,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			this.fromDateField = new PopupDateFieldExt();
 			this.fromDateField.setResolution(Resolution.DAY);
-			this.fromDateField.setDateFormat(AppContext.getUserDateFormat());
+			this.fromDateField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
 			this.fromDateField.setWidth("100px");
 			selectionLayout.addComponent(this.fromDateField, 1, 0);
 
@@ -255,7 +252,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			this.toDateField = new PopupDateFieldExt();
 			this.toDateField.setResolution(Resolution.DAY);
-			this.toDateField.setDateFormat(AppContext.getUserDateFormat());
+			this.toDateField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
 			this.toDateField.setWidth("100px");
 			selectionLayout.addComponent(this.toDateField, 3, 0);
 
@@ -339,7 +336,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 			exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
 
-			VerticalLayout popupButtonsControl = new VerticalLayout();
+			OptionPopupContent popupButtonsControl = new OptionPopupContent();
 			exportButtonControl.setContent(popupButtonsControl);
 
 			Button exportPdfBtn = new Button("Pdf");
@@ -347,16 +344,14 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					constructStreamResource(ReportExportType.PDF));
 			pdfDownloader.extend(exportPdfBtn);
 			exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-			exportPdfBtn.setStyleName("link");
-			popupButtonsControl.addComponent(exportPdfBtn);
+			popupButtonsControl.addOption(exportPdfBtn);
 
 			Button exportExcelBtn = new Button("Excel");
 			FileDownloader excelDownloader = new FileDownloader(
 					constructStreamResource(ReportExportType.EXCEL));
 			excelDownloader.extend(exportExcelBtn);
 			exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-			exportExcelBtn.setStyleName("link");
-			popupButtonsControl.addComponent(exportExcelBtn);
+			popupButtonsControl.addOption(exportExcelBtn);
 
 			controlBtns.addComponent(exportButtonControl);
 			controlBtns.setComponentAlignment(exportButtonControl,

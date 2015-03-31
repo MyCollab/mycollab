@@ -75,12 +75,11 @@ class WontFixExplainWindow extends Window {
 	}
 
 	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
 		private static final long serialVersionUID = 1L;
 		private RichTextArea commentArea;
 
 		@Override
-		public void setBean(final BugWithBLOBs newDataSource) {
+		public void setBean(BugWithBLOBs newDataSource) {
 			this.setFormLayoutFactory(new FormLayoutFactory());
 			this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
 			super.setBean(newDataSource);

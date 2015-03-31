@@ -104,7 +104,7 @@ public class ContactReadFormFieldFactory extends
 			downloaderExt.extend(vcardDownloadBtn);
 
 			vcardDownloadBtn.setIcon(FontAwesome.CREDIT_CARD);
-			vcardDownloadBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+			vcardDownloadBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 			containerField.addComponentField(vcardDownloadBtn);
 			containerField.getLayout().setComponentAlignment(vcardDownloadBtn,
 					Alignment.TOP_RIGHT);

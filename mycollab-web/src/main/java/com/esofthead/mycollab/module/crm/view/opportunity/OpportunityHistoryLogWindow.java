@@ -53,7 +53,7 @@ public class OpportunityHistoryLogWindow extends HistoryLogWindow {
 				OpportunityI18nEnum.FORM_ACCOUNT_NAME);
 		opportunityFormatter.generateFieldDisplayHandler("expectedcloseddate",
 				OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE,
-				FieldGroupFormatter.DATE_FIELD);
+				FieldGroupFormatter.PRETTY_DATE_FIELD);
 		opportunityFormatter.generateFieldDisplayHandler("opportunitytype",
 				OpportunityI18nEnum.FORM_TYPE);
 		opportunityFormatter.generateFieldDisplayHandler("source",

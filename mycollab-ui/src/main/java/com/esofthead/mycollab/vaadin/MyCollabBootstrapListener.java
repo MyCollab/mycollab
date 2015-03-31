@@ -37,14 +37,14 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
 	@Override
 	public void modifyBootstrapPage(BootstrapPageResponse response) {
-//		response.getDocument().head().append(
-//				"<meta http-equiv=\"pragma\" content=\"no-cache\">");
-//		response.getDocument().head().append(
-//				"<meta http-equiv=\"cache-control\" content=\"no-cache\">");
-//		response.getDocument().head().append(
-//				"<meta http-equiv=\"cache-control\" content=\"max-age=0\">");
-//		response.getDocument().head().append(
-//				"<meta http-equiv=\"expires\" content=\"-1\">");
+		response.getDocument().head().append(
+				"<meta http-equiv=\"pragma\" content=\"no-cache\">");
+		response.getDocument().head().append(
+				"<meta http-equiv=\"cache-control\" content=\"no-cache\">");
+		response.getDocument().head().append(
+				"<meta http-equiv=\"cache-control\" content=\"max-age=0\">");
+		response.getDocument().head().append(
+				"<meta http-equiv=\"expires\" content=\"-1\">");
 
 
 		response.getDocument().head()

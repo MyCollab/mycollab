@@ -29,6 +29,8 @@ import com.esofthead.mycollab.module.mail.EmailAttachementSource;
  * 
  */
 public interface IGenericMailService extends IService {
+
+	boolean isMailSetupValid();
 	/**
 	 * 
 	 * @param fromEmail

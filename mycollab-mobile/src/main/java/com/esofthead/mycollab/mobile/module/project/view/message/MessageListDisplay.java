@@ -48,10 +48,8 @@ import com.vaadin.ui.Label;
  * @since 4.4.0
  *
  */
-public class MessageListDisplay
-		extends
+public class MessageListDisplay extends
 		DefaultPagedBeanList<MessageService, MessageSearchCriteria, SimpleMessage> {
-
 	private static final long serialVersionUID = 7625380843753142287L;
 
 	public MessageListDisplay() {

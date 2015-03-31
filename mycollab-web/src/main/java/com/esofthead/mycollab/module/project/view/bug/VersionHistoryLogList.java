@@ -45,7 +45,7 @@ public class VersionHistoryLogList extends HistoryLogComponent {
 		versionFormatter.generateFieldDisplayHandler("description",
 				GenericI18Enum.FORM_DESCRIPTION);
 		versionFormatter.generateFieldDisplayHandler("duedate",
-				VersionI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.DATE_FIELD);
+				VersionI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 	}
 
 	public VersionHistoryLogList(String module, String type) {

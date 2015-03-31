@@ -181,7 +181,6 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             final Button cancelBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-            cancelBtn.addStyleName("cancel-button");
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {

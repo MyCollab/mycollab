@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
@@ -44,6 +43,7 @@ import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
@@ -68,17 +68,17 @@ public class ActivityStreamComponent extends CssLayout {
 
     public void showFeeds(final List<Integer> prjKeys) {
         this.removeAllComponents();
-        this.addComponent(activityStreamList);
-
-        final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-        searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
-                new String[]{ModuleNameConstants.PRJ}));
-        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
-                .toArray(new Integer[prjKeys.size()])));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext
-                .getAccountId()));
-        this.activityStreamList.setSearchCriteria(searchCriteria);
-
+        if (CollectionUtils.isNotEmpty(prjKeys)) {
+            this.addComponent(activityStreamList);
+            ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+            searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
+                    new String[]{ModuleNameConstants.PRJ}));
+            searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
+                    .toArray(new Integer[prjKeys.size()])));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext
+                    .getAccountId()));
+            this.activityStreamList.setSearchCriteria(searchCriteria);
+        }
     }
 
     static class ProjectActivityStreamPagedList2 extends
@@ -88,16 +88,15 @@ public class ActivityStreamComponent extends CssLayout {
         @Override
         public void doSearch() {
             totalCount = projectActivityStreamService
-                    .getTotalActivityStream(searchRequest
-                            .getSearchCriteria());
+                    .getTotalActivityStream(searchRequest.getSearchCriteria());
             totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
             if (searchRequest.getCurrentPage() > totalPage) {
                 searchRequest.setCurrentPage(totalPage);
             }
 
             if (totalPage > 1) {
-                if (this.controlBarWrapper != null) {
-                    this.removeComponent(controlBarWrapper);
+                if (controlBarWrapper != null) {
+                    removeComponent(controlBarWrapper);
                 }
                 addComponent(createPageControls());
             } else {
@@ -106,16 +105,15 @@ public class ActivityStreamComponent extends CssLayout {
                 }
             }
 
-            final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
-                    .getProjectActivityStreams(this.searchRequest);
-            this.listContainer.removeAllComponents();
+            List<ProjectActivityStream> currentListData = projectActivityStreamService
+                    .getProjectActivityStreams(searchRequest);
+            listContainer.removeAllComponents();
 
             Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
-
             CssLayout currentFeedBlock = new CssLayout();
 
             try {
-                for (final ProjectActivityStream activityStream : currentListData) {
+                for (ProjectActivityStream activityStream : currentListData) {
                     if (ProjectTypeConstants.PAGE.equals(activityStream
                             .getType())) {
                         ProjectPageService pageService = ApplicationContextUtil
@@ -128,8 +126,7 @@ public class ActivityStreamComponent extends CssLayout {
                         }
                     }
 
-                    final Date itemCreatedDate = activityStream
-                            .getCreatedtime();
+                    Date itemCreatedDate = activityStream.getCreatedtime();
                     if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
                         currentFeedBlock = new CssLayout();
                         currentFeedBlock.setStyleName("feed-block");
@@ -163,8 +160,7 @@ public class ActivityStreamComponent extends CssLayout {
                                             assigneeValue, type, itemLink, projectLink));
                         }
 
-                    } else if (ActivityStreamConstants.ACTION_UPDATE
-                            .equals(activityStream.getAction())) {
+                    } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
                             content.append(AppContext
                                     .getMessage(
@@ -196,9 +192,8 @@ public class ActivityStreamComponent extends CssLayout {
                         }
                     }
 
-                    final Label actionLbl = new Label(content.toString(),
-                            ContentMode.HTML);
-                    final CssLayout streamWrapper = new CssLayout();
+                    Label actionLbl = new Label(content.toString(), ContentMode.HTML);
+                    CssLayout streamWrapper = new CssLayout();
                     streamWrapper.setWidth("100%");
                     streamWrapper.addStyleName("stream-wrapper");
                     streamWrapper.addComponent(actionLbl);
