@@ -84,7 +84,8 @@ public class ApplicationProperties {
 			if (myCollabResourceFile != null) {
 				properties.load(new FileInputStream(myCollabResourceFile));
 			} else {
-				throw new IllegalArgumentException("Can not file the application properties");
+				properties.load(Thread.currentThread().getContextClassLoader()
+						.getResourceAsStream(RESOURCE_PROPERTIES));
 			}
 		} catch (Exception e) {
 			throw new MyCollabException(e);
@@ -111,3 +112,4 @@ public class ApplicationProperties {
 		}
 	}
 }
+
