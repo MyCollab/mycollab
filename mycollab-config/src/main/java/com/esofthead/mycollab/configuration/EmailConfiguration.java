@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
 /**
  * Email configuration of MyCollab
  * 
@@ -24,11 +27,19 @@ package com.esofthead.mycollab.configuration;
  * 
  */
 public class EmailConfiguration {
+	@NotNull
 	private String host;
+	@NotNull
 	private String user;
+	@NotNull
 	private String password;
-	private int port;
-	private boolean isTls;
+	@Digits(integer = 6, fraction = 0)
+	private Integer port;
+	private boolean isTls = false;
+
+	public EmailConfiguration() {
+
+	}
 
 	EmailConfiguration(String host, String username, String password, int port,
 			boolean isTLS) {
@@ -51,12 +62,31 @@ public class EmailConfiguration {
 		return password;
 	}
 
-	public int getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public boolean isTls() {
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+
+	public boolean getIsTls() {
 		return isTls;
 	}
 
+	public void setIsTls(boolean isTls) {
+		this.isTls = isTls;
+	}
 }

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
@@ -47,8 +46,8 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 public class ProjectAddWindow extends Window {
     private static final long serialVersionUID = 1L;
 
-    private final Project project;
-    private final AdvancedEditBeanForm<Project> editForm;
+    private Project project;
+    private AdvancedEditBeanForm<Project> editForm;
 
     public ProjectAddWindow() {
         this.setWidth("900px");

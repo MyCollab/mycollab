@@ -88,7 +88,6 @@ public class AssetHandler extends GenericHttpServlet {
         } else {
             LOG.error("Can not find resource has path {}", path);
         }
-
     }
 
 }

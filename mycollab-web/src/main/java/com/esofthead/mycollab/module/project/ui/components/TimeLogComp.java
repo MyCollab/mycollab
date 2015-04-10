@@ -50,9 +50,9 @@ public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout 
 
 	public void displayTime(final V bean) {
 		this.removeAllComponents();
-		this.withSpacing(true).withMargin(new MarginInfo(false, false, false, true));
+		this.withMargin(new MarginInfo(false, false, false, true));
 
-		HorizontalLayout header = new MHorizontalLayout().withSpacing(true).withMargin(false);
+		HorizontalLayout header = new MHorizontalLayout();
 
 		Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
 				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);

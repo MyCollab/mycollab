@@ -211,7 +211,7 @@ public class AccountOpportunityListComp
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
             Label opportunityName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
                     .getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.OPPORTUNITY, opportunity.getId())

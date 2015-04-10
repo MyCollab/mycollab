@@ -86,8 +86,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
         final HorizontalLayout userWrapper = new HorizontalLayout();
 
-        final Label userName = new Label(AppContext.getSession()
-                .getDisplayName());
+        final Label userName = new Label(AppContext.getUser().getDisplayName());
         userName.setStyleName("h1");
         userWrapper.addComponent(userName);
 

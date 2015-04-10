@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.file.view.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.ecm.domain.*;
 import com.esofthead.mycollab.module.ecm.service.ExternalDriveService;
@@ -479,7 +479,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layout.with(checkbox).withAlign(checkbox, Alignment.MIDDLE_LEFT);
 
             CssLayout resIconWrapper = new CssLayout();
-             FontIconLabel resourceIcon;
+            FontIconLabel resourceIcon;
             if (res instanceof Folder)
                 resourceIcon = (res instanceof ExternalFolder) ? new FontIconLabel(FontAwesome.DROPBOX) : new
                         FontIconLabel(FontAwesome.FOLDER);
@@ -522,15 +522,14 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // current user is created user
             if (StringUtils.isEmpty(res.getCreatedUser())) {
                 UserLink usernameLbl = new UserLink(AppContext.getUsername(), AppContext.getUserAvatarId(),
-                        AppContext.getSession().getDisplayName(), false);
+                        AppContext.getUser().getDisplayName());
                 usernameLbl.addStyleName("grayLabel");
                 moreInfoAboutResLayout.addComponent(usernameLbl);
             } else {
                 UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
                 SimpleUser user = userService.findUserByUserNameInAccount(res.getCreatedUser(), AppContext.getAccountId());
                 if (user != null) {
-                    UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName(),
-                            false);
+                    UserLink userLink = new UserLink(user.getUsername(), user.getAvatarid(), user.getDisplayName());
                     userLink.addStyleName("grayLabel");
                     moreInfoAboutResLayout.addComponent(userLink);
                 } else {
@@ -558,7 +557,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             if (res instanceof Content) {
                 moreInfoAboutResLayout.addComponent(new Separator());
-                Label lbl = new Label(ResourceUtils.getVolumeDisplay(res.getSize()));
+                Label lbl = new Label(FileUtils.getVolumeDisplay(res.getSize()));
                 lbl.addStyleName("grayLabel");
                 moreInfoAboutResLayout.addComponent(lbl);
             }
@@ -876,9 +875,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                                 return;
                                             }
                                         }
-                                        final Content content = new Content(
-                                                baseFolder.getPath() + "/"
-                                                        + attachment.getName());
+                                        Content content = new Content(baseFolder.getPath() + "/" + attachment.getName());
                                         content.setSize(attachment.length());
                                         FileInputStream fileInputStream = new FileInputStream(
                                                 attachment);
@@ -887,15 +884,11 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                             externalResourceService
                                                     .saveContent(
                                                             ((ExternalFolder) baseFolder)
-                                                                    .getExternalDrive(),
-                                                            content,
-                                                            fileInputStream);
+                                                                    .getExternalDrive(), content, fileInputStream);
                                         } else
                                             resourceService.saveContent(
-                                                    content,
-                                                    AppContext.getUsername(),
-                                                    fileInputStream,
-                                                    AppContext.getAccountId());
+                                                    content, AppContext.getUsername(),
+                                                    fileInputStream, AppContext.getAccountId());
                                     } catch (IOException e) {
                                         throw new MyCollabException(e);
                                     }
@@ -938,7 +931,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private class ResourcePagingNavigator extends CssLayout {
         private static final long serialVersionUID = 1L;
         private int totalItem;
-        public  int pageItemNum = 15;
+        public int pageItemNum = 15;
         private int currentPage;
         private CssLayout controlBarWrapper;
         private MHorizontalLayout navigator;

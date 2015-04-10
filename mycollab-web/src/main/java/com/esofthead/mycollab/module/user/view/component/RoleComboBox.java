@@ -47,10 +47,10 @@ public class RoleComboBox extends ComboBox {
 		RoleService roleService = ApplicationContextUtil
 				.getSpringBean(RoleService.class);
 		List<SimpleRole> roleList = roleService
-				.findPagableListByCriteria(new SearchRequest<RoleSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 
-		BeanContainer<String, SimpleRole> beanItem = new BeanContainer<String, SimpleRole>(
+		BeanContainer<String, SimpleRole> beanItem = new BeanContainer<>(
 				SimpleRole.class);
 		beanItem.setBeanIdProperty("id");
 

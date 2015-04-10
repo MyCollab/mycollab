@@ -304,7 +304,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
     private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<SimpleBug> {
         @Override
-        public com.vaadin.ui.Component generateRow(SimpleBug bug, int rowIndex) {
+        public com.vaadin.ui.Component generateRow(AbstractBeanPagedList host, SimpleBug bug, int rowIndex) {
             Label lbl = new Label(buildDivLine(bug).write(), ContentMode.HTML);
             if (bug.isOverdue()) {
                 lbl.addStyleName("overdue");
@@ -325,26 +325,10 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             Div div = new Div();
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
-            A itemLink = new A();
-            itemLink.setId("tag" + uid);
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    bug.getProjectShortName(),
-                    bug.getProjectid(), ProjectTypeConstants.BUG,
-                    bug.getBugkey() + ""));
-
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + ProjectTypeConstants.BUG + "'";
-            String arg19 = "'" + bug.getId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             itemLink.appendText(String.format("[%s-%d] %s", bug.getProjectShortName(), bug.getBugkey(), bug
                     .getSummary()));
 
@@ -360,12 +344,11 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     bug.getProjectid(), bug.getAssignuser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, bug.getAssignuser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(bug.getAssignuserFullName());
 
             div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),

@@ -29,8 +29,8 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
  */
 public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
 		extends AbstractBeanPagedList<S, T> {
-
 	private static final long serialVersionUID = 1L;
+
 	private final SearchService searchService;
 
 	public DefaultBeanPagedList(SearchService searchService,

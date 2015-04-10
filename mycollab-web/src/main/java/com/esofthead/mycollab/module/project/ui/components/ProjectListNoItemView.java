@@ -17,11 +17,13 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Label;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
@@ -30,11 +32,10 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public abstract class ProjectListNoItemView extends AbstractPageView {
+public abstract class ProjectListNoItemView extends MVerticalLayout implements PageView {
     public ProjectListNoItemView() {
-        MVerticalLayout layout = new MVerticalLayout().withWidth("100%");
-        layout.addStyleName("case-noitem");
-        layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        this.withMargin(false).withStyleName("case-noitem");
+        this.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
         Label image = new Label(viewIcon().getHtml(), ContentMode.HTML);
         image.setSizeUndefined();
@@ -45,12 +46,11 @@ public abstract class ProjectListNoItemView extends AbstractPageView {
 
         Label body = new Label(String.format("<div style=\"text-align:center\">%s</div>",
                 viewHint()), ContentMode.HTML);
-        body.setWidth("600px");
+        body.setWidth("500px");
 
         MHorizontalLayout links = createControlButtons();
 
-        layout.with(image, title, body, links);
-        this.with(layout).withAlign(layout, Alignment.TOP_CENTER);
+        this.with(image, title, body, links);
     }
 
     protected MHorizontalLayout createControlButtons() {
@@ -58,9 +58,7 @@ public abstract class ProjectListNoItemView extends AbstractPageView {
         createItemBtn.setEnabled(hasPermission());
         createItemBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-        MHorizontalLayout links = new MHorizontalLayout();
-        links.addComponent(createItemBtn);
-        return links;
+        return new MHorizontalLayout().with(createItemBtn);
     }
 
     abstract protected FontAwesome viewIcon();
@@ -74,4 +72,14 @@ public abstract class ProjectListNoItemView extends AbstractPageView {
     abstract protected Button.ClickListener actionListener();
 
     abstract protected boolean hasPermission();
+
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
+
+    @Override
+    public <E> void addViewListener(ViewListener<E> listener) {
+
+    }
 }

@@ -132,8 +132,6 @@ public class DynaFormLayout implements IFormLayoutFactory {
 							if (columnIndex > 0) {
 								gridLayout.appendRow();
 							}
-							LOG.debug("Build cell {}",
-									new Object[] { dynaField.getDisplayName() });
 							gridLayout.buildCell(dynaField.getDisplayName(), 0,
 									gridLayout.getRows() - 1, 2, "100%",
 									Alignment.TOP_LEFT);
@@ -142,8 +140,6 @@ public class DynaFormLayout implements IFormLayoutFactory {
 								gridLayout.appendRow();
 							}
 						} else {
-							LOG.debug("Build cell {}",
-									new Object[] { dynaField.getDisplayName() });
 							gridLayout.buildCell(dynaField.getDisplayName(),
 									columnIndex, gridLayout.getRows() - 1);
 							columnIndex++;

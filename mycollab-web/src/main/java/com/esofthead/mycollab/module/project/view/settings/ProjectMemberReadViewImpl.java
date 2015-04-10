@@ -414,8 +414,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
         @Override
-        public Component generateRow(final ProjectGenericTask genericTask,
-                                     final int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask,
+                                     int rowIndex) {
             final CssLayout layout = new CssLayout();
             layout.setWidth("100%");
             layout.setStyleName("list-row");
@@ -460,8 +460,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-            A itemLink = new A();
-            itemLink.setId("tag" + uid);
+            A itemLink = new A().setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())
                     || ProjectTypeConstants.BUG.equals(task.getType())) {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -475,19 +474,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
                         task.getTypeId() + ""));
             }
 
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + task.getType() + "'";
-            String arg19 = "'" + task.getTypeId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             itemLink.appendText(task.getName());
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
@@ -499,13 +487,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(),
-                    task.getAssignUser()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(task.getAssignUserFullName());
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";

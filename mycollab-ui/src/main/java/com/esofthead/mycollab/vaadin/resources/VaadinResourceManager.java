@@ -37,8 +37,7 @@ public class VaadinResourceManager {
 			return new VaadinFileResource();
 		} else if (StorageManager.isS3Storage()) {
 			try {
-				Class<VaadinResource> cls = (Class<VaadinResource>) Class
-						.forName(S3_CLS);
+				Class<VaadinResource> cls = (Class<VaadinResource>) Class.forName(S3_CLS);
 				return cls.newInstance();
 			} catch (Exception e) {
 				throw new MyCollabException(

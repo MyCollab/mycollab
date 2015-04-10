@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view
 
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter
-import com.esofthead.mycollab.module.project.view.file.IFilePresenter
+import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter
 import com.esofthead.mycollab.module.project.view.page.PagePresenter
@@ -105,7 +105,7 @@ object ProjectPresenterDataMapper {
     classOf[TimeTrackingScreenData.Search] -> classOf[ITimeTrackingPresenter])
 
   val fileMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-    classOf[FileScreenData.GotoDashboard] -> classOf[IFilePresenter])
+    classOf[FileScreenData.GotoDashboard] -> classOf[FilePresenter])
 
   val projectMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
     classOf[ProjectScreenData.GotoTagList] -> classOf[ProjectDashboardPresenter],

@@ -200,7 +200,7 @@ public class AccountCaseListComp extends
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
             Label caseSubject = new Label("Subject: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
                     .getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CASE, oneCase.getId()) + "'>"
@@ -225,7 +225,7 @@ public class AccountCaseListComp extends
                     + (oneCase.getAssignuser() != null ? "<a href='"
                     + AccountLinkGenerator.generatePreviewFullUserLink(
                     SiteConfiguration.getSiteUrl(AppContext
-                            .getSession().getSubdomain()),
+                            .getUser().getSubdomain()),
                     oneCase.getAssignuser()) + "'>"
                     + oneCase.getAssignUserFullName() + "</a>" : ""),
                     ContentMode.HTML);

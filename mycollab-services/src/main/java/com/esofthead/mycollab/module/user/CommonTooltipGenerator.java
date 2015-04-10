@@ -90,7 +90,7 @@ public class CommonTooltipGenerator {
                     .appendChild(
                             new Td().setStyle("vertical-align: top;")
                                     .appendText(
-                                            TimezoneMapper.getTimezone(
+                                            TimezoneMapper.getTimezoneExt(
                                                     user.getTimezone())
                                                     .getDisplayName()));
             Tr trRow3 = new Tr().appendChild(

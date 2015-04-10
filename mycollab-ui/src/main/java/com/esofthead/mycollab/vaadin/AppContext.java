@@ -156,21 +156,12 @@ public class AppContext implements Serializable {
      * @param userPref    current user preference
      * @param billingAc   account information of current user
      */
-    public void setSession(SimpleUser userSession, UserPreference userPref,
-                           SimpleBillingAccount billingAc) {
+    public void setSessionVariables(SimpleUser userSession, UserPreference userPref,
+                                    SimpleBillingAccount billingAc) {
         session = userSession;
         userPreference = userPref;
         billingAccount = billingAc;
-        setUserVariables();
-    }
 
-    public void clearSession() {
-        session = null;
-        userPreference = null;
-        billingAccount = null;
-    }
-
-    private void setUserVariables() {
         String language = session.getLanguage();
         userLocale = LocaleHelper.toLocale(language);
         dateFormat = LocaleHelper.getDateFormatInstance(userLocale);
@@ -184,6 +175,12 @@ public class AppContext implements Serializable {
             timezone = TimezoneMapper.getTimezone(session.getTimezone());
         }
         MyCollabSession.putVariable(USER_TIMEZONE, timezone);
+    }
+
+    public void clearSessionVariables() {
+        session = null;
+        userPreference = null;
+        billingAccount = null;
     }
 
     public static Locale getUserLocale() {
@@ -225,7 +222,7 @@ public class AppContext implements Serializable {
      *
      * @return current user in session
      */
-    public static SimpleUser getSession() {
+    public static SimpleUser getUser() {
         return getInstance().session;
     }
 
@@ -250,18 +247,15 @@ public class AppContext implements Serializable {
             accountId = account.getId();
         }
 
-        EventBusFactory
-                .getInstance()
-                .register(
-                        new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+        EventBusFactory.getInstance()
+                .register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
                             private static final long serialVersionUID = 1L;
 
                             @Subscribe
                             @Override
                             public void handle(UserProfileChangeEvent event) {
                                 if ("avatarid".equals(event.getFieldChange())) {
-                                    session.setAvatarid((String) event
-                                            .getData());
+                                    session.setAvatarid((String) event.getData());
                                 }
                             }
                         });

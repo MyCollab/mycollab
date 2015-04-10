@@ -16,17 +16,15 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.html.FormatUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.hp.gagawa.java.elements.A;
@@ -35,6 +33,10 @@ import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.UUID;
 
 /**
  * 
@@ -49,21 +51,36 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public Component toVaadinComponent(String value) {
-		String html = AccountLinkBuilder.generateUserHtmlLink(value);
-		return (value != null) ? new Label(html, ContentMode.HTML) : new Label(
-				"");
+		UserService userService = ApplicationContextUtil
+				.getSpringBean(UserService.class);
+		SimpleUser user = userService.findUserByUserNameInAccount(value,
+				AppContext.getAccountId());
+		if (user != null) {
+			String uid = UUID.randomUUID().toString();
+			DivLessFormatter div = new DivLessFormatter();
+			Img userAvatar = new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16));
+			A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), user.getUsername()))
+					.appendText(user.getDisplayName());
+			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, user.getUsername()));
+			userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+			return new Label(div.write(), ContentMode.HTML);
+		} else {
+			return new Label("");
+		}
 	}
 
 	@Override
 	public String toString(String value) {
-		if (value == null || "".equals(value)) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 			return new Span().write();
 		}
 
 		try {
 			UserService userService = ApplicationContextUtil
 					.getSpringBean(UserService.class);
-			User user = userService.findUserByUserName(value);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					AppContext.getAccountId());
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
@@ -74,15 +91,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 								MailUtils.getSiteUrl(AppContext.getAccountId()),
 								user.getUsername());
 
-				String userDisplayName = user.getFirstname() + " "
-						+ user.getLastname();
-				if (userDisplayName.trim().equals("")) {
-					String displayName = user.getUsername();
-					userDisplayName = StringUtils
-							.extractNameFromEmail(displayName);
-				}
-
-				A link = FormatUtils.newA(userLink, userDisplayName);
+				A link = FormatUtils.newA(userLink, user.getDisplayName());
 				return FormatUtils.newLink(img, link).write();
 			}
 		} catch (Exception e) {
@@ -90,5 +99,4 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 		}
 		return value;
 	}
-
 }

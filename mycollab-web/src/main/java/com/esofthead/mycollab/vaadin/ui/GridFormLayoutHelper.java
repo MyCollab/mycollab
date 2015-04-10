@@ -160,7 +160,7 @@ public class GridFormLayoutHelper implements Serializable {
 		return fieldCaptionMappings.get(caption);
 	}
 
-	public void addComponentNoWrapper(final Component field,
+	public Component addComponentNoWrapper(final Component field,
 			final String caption, final int columns, final int rows) {
 		if (caption != null) {
 			final Label l = new Label(caption);
@@ -179,6 +179,7 @@ public class GridFormLayoutHelper implements Serializable {
 
 		this.layout.addComponent(field, 2 * columns + 1, rows);
 		this.layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
+		return field;
 	}
 
 	public GridLayout getLayout() {

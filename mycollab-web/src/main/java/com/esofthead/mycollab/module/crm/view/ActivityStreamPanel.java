@@ -48,6 +48,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.util.Calendar;
@@ -84,7 +85,6 @@ public class ActivityStreamPanel extends CssLayout {
 	}
 
 	static class CrmActivityStreamPagedList extends VerticalLayout {
-
 		private static final long serialVersionUID = 1L;
 
 		private final CssLayout listContainer = new CssLayout();
@@ -315,14 +315,11 @@ public class ActivityStreamPanel extends CssLayout {
 			DivLessFormatter div = new DivLessFormatter();
 			Img userAvatar = new Img("", StorageManager.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
-			A userLink = new A();
-			userLink.setId("tag" + uid);
-			userLink.setHref(AccountLinkGenerator.generatePreviewFullUserLink(
-					AppContext.getSiteUrl(), activityStream.getCreateduser()));
+			A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
+					AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(activityStream.getCreatedUserFullName());
 
-			userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, activityStream.getCreateduser()));
-			userLink.appendText(activityStream.getCreatedUserFullName());
-
+			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
+			userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
 					TooltipHelper.buildDivTooltipEnable(uid));
 
@@ -333,24 +330,11 @@ public class ActivityStreamPanel extends CssLayout {
 			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
 			Text itemImg = new Text(CrmAssetsManager.getAsset(activityStream.getType()).getHtml());
-			A itemLink = new A();
-			itemLink.setId("tag" + uid);
-			itemLink.setHref(CrmLinkGenerator.generateCrmItemLink(
-					activityStream.getType(),
-					Integer.parseInt(activityStream.getTypeid())));
+			A itemLink = new A().setId("tag" + uid).setHref(CrmLinkGenerator.generateCrmItemLink(
+					activityStream.getType(), Integer.parseInt(activityStream.getTypeid())));
 
-			String arg17 = "'" + uid + "'";
-			String arg18 = "'" + activityStream.getType() + "'";
-			String arg19 = "'" + activityStream.getTypeid() + "'";
-			String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-			String arg21 = "'" + activityStream.getSaccountid() + "'";
-			String arg22 = "'" + AppContext.getSiteUrl() + "'";
-			String arg23 = AppContext.getSession().getTimezone();
-			String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-			String onMouseOverFunc = String.format(
-					"return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
-					arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
-			itemLink.setAttribute("onmouseover", onMouseOverFunc);
+			itemLink.setAttribute("onmouseover", TooltipHelper.crmHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
+			itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 			itemLink.appendText(activityStream.getNamefield());
 
 			div.appendChild(itemImg, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
@@ -361,10 +345,7 @@ public class ActivityStreamPanel extends CssLayout {
 
 		private void feedBlocksPut(Date currentDate, Date nextDate,
 				CssLayout currentBlock) {
-			HorizontalLayout blockWrapper = new HorizontalLayout();
-			blockWrapper.setStyleName("feed-block-wrap");
-			blockWrapper.setWidth("100%");
-			blockWrapper.setSpacing(true);
+			MHorizontalLayout blockWrapper = new MHorizontalLayout().withWidth("100%").withStyleName("feed-block-wrap");
 
 			blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 			Calendar cal1 = Calendar.getInstance();
@@ -381,15 +362,12 @@ public class ActivityStreamPanel extends CssLayout {
 				yearLbl.setHeight("49px");
 				this.listContainer.addComponent(yearLbl);
 			} else {
-				blockWrapper
-						.setMargin(new MarginInfo(true, false, false, false));
+				blockWrapper.setMargin(new MarginInfo(true, false, false, false));
 			}
 			Label dateLbl = new Label(DateFormatUtils.format(nextDate, "dd/MM"));
 			dateLbl.setSizeUndefined();
 			dateLbl.setStyleName("date-lbl");
-			blockWrapper.addComponent(dateLbl);
-			blockWrapper.addComponent(currentBlock);
-			blockWrapper.setExpandRatio(currentBlock, 1.0f);
+			blockWrapper.with(dateLbl, currentBlock).expand(currentBlock);
 
 			this.listContainer.addComponent(blockWrapper);
 		}

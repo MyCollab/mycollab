@@ -42,11 +42,9 @@ import java.util.Map;
 public class DynaFormLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DynaFormLayout.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
 	private DynaForm dynaForm;
-
 	private VerticalLayout layout = new VerticalLayout();
 
 	private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();

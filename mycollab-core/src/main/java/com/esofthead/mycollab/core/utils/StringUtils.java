@@ -49,10 +49,8 @@ public class StringUtils {
 
         if (input.length() <= length)
             return input;
-        else if (withEllipsis)
-            return input.substring(0, length) + "...";
-        else
-            return input.substring(0, length);
+
+        return (withEllipsis) ? (input.substring(0, length) + "...") : (input.substring(0, length));
     }
 
     /**
@@ -76,7 +74,6 @@ public class StringUtils {
         }
 
         value = Jsoup.clean(value, Whitelist.relaxed());
-//		value = Emoji.replaceInText(value);
         value = value
                 .replaceAll(
                         "(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",

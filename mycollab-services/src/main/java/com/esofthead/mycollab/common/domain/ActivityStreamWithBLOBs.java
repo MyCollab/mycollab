@@ -88,7 +88,7 @@ public class ActivityStreamWithBLOBs extends ActivityStream {
         this.namefield = namefield;
     }
 
-    public static enum Field {
+    public enum Field {
         id,
         saccountid,
         type,

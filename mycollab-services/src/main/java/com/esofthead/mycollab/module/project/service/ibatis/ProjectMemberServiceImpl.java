@@ -17,9 +17,11 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,12 +169,13 @@ public class ProjectMemberServiceImpl extends
 	public void acceptProjectInvitationByNewUser(String email, String password,
 			Integer projectId, Integer projectRoleId, Integer sAccountId) {
 
+		Date now = new GregorianCalendar().getTime();
 		try {
 			SimpleUser simpleUser = new SimpleUser();
 			simpleUser.setAccountId(sAccountId);
 			simpleUser.setFirstname("");
-			simpleUser.setLastname("");
-			simpleUser.setRegisteredtime(new GregorianCalendar().getTime());
+			simpleUser.setLastname(StringUtils.extractNameFromEmail(email));
+			simpleUser.setRegisteredtime(now);
 			simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
 			simpleUser.setPassword(PasswordEncryptHelper
 					.encryptSaltPassword(password));
@@ -196,7 +199,7 @@ public class ProjectMemberServiceImpl extends
 		userAccount.setAccountid(sAccountId);
 		userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
 		userAccount.setIsaccountowner(false);
-		userAccount.setRegisteredtime(new GregorianCalendar().getTime());
+		userAccount.setRegisteredtime(now);
 		userAccount.setRoleid(systemGuestRoleId);
 
 		LOG.debug("Start save user account {}",
@@ -206,7 +209,7 @@ public class ProjectMemberServiceImpl extends
 		ProjectMember member = new ProjectMember();
 		member.setProjectid(projectId);
 		member.setUsername(email);
-		member.setJoindate(new GregorianCalendar().getTime());
+		member.setJoindate(now);
 		member.setSaccountid(sAccountId);
 		member.setIsadmin(false);
 		member.setStatus(RegisterStatusConstants.ACTIVE);

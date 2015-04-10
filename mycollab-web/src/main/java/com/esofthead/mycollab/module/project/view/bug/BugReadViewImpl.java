@@ -22,7 +22,10 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
-import com.esofthead.mycollab.module.project.*;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
@@ -35,6 +38,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.ui.form.ProjectFormAttachmentDisplayField;
+import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.bug.components.LinkIssueWindow;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -115,7 +119,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                         @Override
                         public void buttonClick(final ClickEvent event) {
                             beanItem.setStatus(BugStatus.InProgress.name());
-                            final BugService bugService = ApplicationContextUtil
+                             BugService bugService = ApplicationContextUtil
                                     .getSpringBean(BugService.class);
                             bugService.updateSelectiveWithSession(beanItem,
                                     AppContext.getUsername());
@@ -633,18 +637,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                 }
 
             } else if (SimpleBug.Field.milestoneName.equalTo(propertyId)) {
-                if (beanItem.getMilestoneid() != null) {
-                    return new LinkViewField(
-                            beanItem.getMilestoneName(),
-                            ProjectLinkBuilder
-                                    .generateMilestonePreviewFullLink(
-                                            beanItem.getProjectid(),
-                                            beanItem.getMilestoneid()),
-                            ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
-                } else {
-                    return new DefaultViewField("");
-                }
-
+                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "",
+                        beanItem.getMilestoneName());
             } else if (BugWithBLOBs.Field.environment.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getEnvironment());
             } else if (BugWithBLOBs.Field.description.equalTo(propertyId)) {
@@ -729,7 +723,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                 String createdUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "loguserFullName");
 
-                UserLink createdUserLink = new UserLink(createdUserName,
+                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
@@ -746,7 +740,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
                 String assignUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "assignuserFullName");
 
-                UserLink assignUserLink = new UserLink(assignUserName,
+                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
                         assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {

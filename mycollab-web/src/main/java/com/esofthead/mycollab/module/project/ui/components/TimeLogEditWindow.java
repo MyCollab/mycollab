@@ -149,14 +149,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
             @Override
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
-                final SimpleItemTimeLogging monitorItem = tableItem
+                SimpleItemTimeLogging monitorItem = tableItem
                         .getBeanByIndex(itemId);
-                FontIconLabel icon;
-                if (monitorItem.getIsbillable()) {
-                    icon = new FontIconLabel(FontAwesome.CHECK);
-                } else {
-                    icon = new FontIconLabel(FontAwesome.TIMES);
-                }
+                FontIconLabel icon = (monitorItem.getIsbillable()) ? new FontIconLabel(FontAwesome.CHECK) : new FontIconLabel(FontAwesome.TIMES);
                 icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
                 return icon;
             }
@@ -210,8 +205,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         totalLayout.setWidth("100%");
         spentTimePanel.addComponent(totalLayout);
         Label lbTimeInstructTotal = new Label(
-                AppContext
-                        .getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
+                AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
         totalLayout.addComponent(lbTimeInstructTotal);
         totalSpentTimeLbl = new Label("_");
         totalSpentTimeLbl.addStyleName("numberTotal");
@@ -277,7 +271,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         updateLayout.addComponent(lbTimeInstructTotal);
         remainTimeLbl = new Label("_");
         remainTimeLbl.addStyleName("numberTotal");
-        updateLayout.addComponent(this.remainTimeLbl);
+        updateLayout.addComponent(remainTimeLbl);
 
         MHorizontalLayout addLayout = new MHorizontalLayout();
         addLayout.setSizeUndefined();
@@ -296,7 +290,6 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-
                         try {
                             double d = 0;
                             try {
@@ -365,7 +358,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
     }
 
     protected Date forLogDate() {
-        Date date = this.forDateField.getValue();
+        Date date = forDateField.getValue();
         return (date != null) ? date : new GregorianCalendar().getTime();
     }
 

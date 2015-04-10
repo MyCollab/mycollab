@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.GenericServerRunner;
+import com.esofthead.mycollab.jetty.ServerInstance;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,8 +57,8 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 	}
 
 	class LoginForm extends CustomComponent {
-
 		private static final long serialVersionUID = 1L;
+
 		private final TextField usernameField;
 		private final PasswordField passwordField;
 		private final CheckBox rememberMe;
@@ -154,11 +155,11 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 			forgotPasswordBtn.setStyleName("link");
 			custom.addComponent(forgotPasswordBtn, "forgotLink");
 
-			if (GenericServerRunner.isFirstTimeRunner) {
+			if (ServerInstance.getInstance().isFirstTimeRunner()) {
 				LoginForm.this
 						.setComponentError(new UserError(
 								"For the first time using MyCollab, the default email/password is admin@mycollab.com/admin123. You should change email/password when you access MyCollab successfully."));
-				GenericServerRunner.isFirstTimeRunner = false;
+				ServerInstance.getInstance().setIsFirstTimeRunner(false);
 			}
 
 			this.setCompositionRoot(custom);

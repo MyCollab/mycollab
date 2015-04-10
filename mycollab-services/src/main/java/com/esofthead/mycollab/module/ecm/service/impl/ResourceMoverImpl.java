@@ -92,8 +92,8 @@ public class ResourceMoverImpl implements ResourceMover {
 		String destMovePath = destRes.getPath() + "/" + srcRes.getName();
 		String srcPath = srcRes.getPath();
 
-		InputStream in = null;
-		ExternalResourceService srcService = null;
+		InputStream in;
+		ExternalResourceService srcService;
 		if (ResourceUtils.getType(srcRes) != ResourceType.MyCollab) {
 			srcService = ResourceUtils.getExternalResourceService(ResourceUtils
 					.getType(srcRes));

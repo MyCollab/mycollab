@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.utils.InvalidPasswordException;
+import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.domain.User;

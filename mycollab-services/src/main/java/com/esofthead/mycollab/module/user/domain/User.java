@@ -770,7 +770,7 @@ public class User extends ValuedBean {
         this.status = status;
     }
 
-    public static enum Field {
+    public enum Field {
         username,
         firstname,
         middlename,

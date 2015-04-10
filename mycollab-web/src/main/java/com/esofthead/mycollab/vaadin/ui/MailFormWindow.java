@@ -219,8 +219,8 @@ public class MailFormWindow extends Window {
 							.showErrorNotification("To Email field and Subject field must be not empty! Please fulfil them before sending email.");
 					return;
 				}
-				if (AppContext.getSession().getEmail() != null
-						&& AppContext.getSession().getEmail().length() > 0) {
+				if (AppContext.getUser().getEmail() != null
+						&& AppContext.getUser().getEmail().length() > 0) {
 					ExtMailService systemMailService = ApplicationContextUtil
 							.getSpringBean(ExtMailService.class);
 
@@ -234,8 +234,8 @@ public class MailFormWindow extends Window {
 						}
 					}
 
-					systemMailService.sendHTMLMail(AppContext.getSession()
-							.getEmail(), AppContext.getSession()
+					systemMailService.sendHTMLMail(AppContext.getUser()
+							.getEmail(), AppContext.getUser()
 							.getDisplayName(), tokenFieldMailTo
 							.getListRecipient(), tokenFieldMailCc
 							.getListRecipient(), tokenFieldMailBcc

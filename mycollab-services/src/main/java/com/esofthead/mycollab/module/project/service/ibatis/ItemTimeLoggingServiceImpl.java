@@ -16,21 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -42,6 +29,18 @@ import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSear
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -59,6 +58,9 @@ public class ItemTimeLoggingServiceImpl extends
 
 	@Autowired
 	private ItemTimeLoggingMapperExt itemTimeLoggingMapperExt;
+
+	@Autowired
+	private ActivityStreamService activityStreamService;
 
 	@Override
 	public ICrudGenericDAO getCrudMapper() {

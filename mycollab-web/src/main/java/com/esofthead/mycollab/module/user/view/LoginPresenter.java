@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.view;
 
 import java.util.Date;
 
+import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,14 +73,14 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 	}
 
 	public void doLogin(String username, String password,
-			boolean isRemmeberPassword) {
+			boolean isRememberPassword) {
 		UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);
 		SimpleUser user = userService.authentication(username, password,
 				AppContext.getSubDomain(), false);
 
-		if (isRemmeberPassword) {
-			((DesktopApplication) MyCollabUI.getInstance()).rememberPassword(
+		if (isRememberPassword) {
+			((DesktopApplication) UI.getCurrent()).rememberPassword(
 					username, password);
 		}
 
@@ -100,18 +101,16 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 		LOG.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
 
-		AppContext.getInstance().setSession(user, pref, billingAccount);
+		AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
-		EventBusFactory.getInstance().post(
-				new ShellEvent.GotoMainPage(this, null));
+		EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		container.removeAllComponents();
 		container.addComponent(view.getWidget());
-
 		AppContext.addFragment("user/login", "Login Page");
 	}
 }

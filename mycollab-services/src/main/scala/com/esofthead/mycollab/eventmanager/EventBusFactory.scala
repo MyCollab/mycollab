@@ -36,12 +36,8 @@ object EventBusFactory {
     eventBusFactoryImpl = cls.newInstance
   }
   catch {
-    case e: Exception => {
-      throw new MyCollabException(e)
-    }
+    case e: Exception => throw new MyCollabException(e)
   }
 
-  def getInstance(): EventBus = {
-    eventBusFactoryImpl.getInstanceInSession
-  }
+  def getInstance(): EventBus = eventBusFactoryImpl.getInstanceInSession
 }

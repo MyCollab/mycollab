@@ -16,11 +16,9 @@
  */
 package db.migration;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +83,9 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 				.withTableName("s_user").usingColumns("username", "firstname",
 						"lastname", "email", "status", "registeredTime",
 						"password", "timezone");
+		long nowTimeValue = new GregorianCalendar().getTimeInMillis();
+		Date nowDate = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(nowTimeValue);
+		String timezoneDbId = TimezoneMapper.getTimezoneDbId(TimeZone.getDefault());
 
 		Map<String, Object> userParameters = new HashMap<>();
 		userParameters.put("username", "admin@mycollab.com");
@@ -92,11 +93,10 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		userParameters.put("lastname", "admin");
 		userParameters.put("email", "admin@mycollab.com");
 		userParameters.put("status", "Active");
-		userParameters.put("registeredTime", new Date());
+		userParameters.put("registeredTime", nowDate);
 		userParameters.put("password",
 				PasswordEncryptHelper.encryptSaltPassword("admin123"));
-		userParameters.put("timezone",
-				TimezoneMapper.getTimezoneDbId(TimeZone.getDefault()));
+		userParameters.put("timezone", timezoneDbId);
 		userJdbcInsert.execute(userParameters);
 
 		LOG.debug("Insert default user avatar");
@@ -112,7 +112,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		userAccountParameters.put("username", "admin@mycollab.com");
 		userAccountParameters.put("accountId", accountId);
 		userAccountParameters.put("isAccountOwner", Boolean.TRUE);
-		userAccountParameters.put("registeredTime", new Date());
+		userAccountParameters.put("registeredTime", nowDate);
 		userAccountParameters.put("registerStatus", "Active");
 
 		userAccountJdbcInsert.executeAndReturnKey(userAccountParameters);

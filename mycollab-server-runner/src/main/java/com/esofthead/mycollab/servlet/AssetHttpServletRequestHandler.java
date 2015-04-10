@@ -32,67 +32,46 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 
 public class AssetHttpServletRequestHandler extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AssetHttpServletRequestHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssetHttpServletRequestHandler.class);
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String path = request.getPathInfo();
-		String resourcePath = "assets" + path;
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getPathInfo();
+        String resourcePath = "assets" + path;
 
-		InputStream inputStream = AssetHttpServletRequestHandler.class
-				.getClassLoader().getResourceAsStream(resourcePath);
+        InputStream inputStream = AssetHttpServletRequestHandler.class
+                .getClassLoader().getResourceAsStream(resourcePath);
 
-		if (inputStream == null) {
-			resourcePath = "VAADIN/themes/mycollab" + path;
-			inputStream = AssetHttpServletRequestHandler.class.getClassLoader()
-					.getResourceAsStream(resourcePath);
-		}
+        if (inputStream == null) {
+            resourcePath = "VAADIN/themes/mycollab" + path;
+            inputStream = AssetHttpServletRequestHandler.class.getClassLoader()
+                    .getResourceAsStream(resourcePath);
+        }
 
-		if (inputStream != null) {
-			response.setHeader("Content-Type",
-					MimeTypesUtil.detectMimeType(path));
-			response.setHeader("Content-Length",
-					String.valueOf(inputStream.available()));
-			// response.setHeader("Content-Disposition", "inline; filename=\""
-			// + avatarFile.getName() + "\"");
+        if (inputStream != null) {
+            response.setHeader("Content-Type",
+                    MimeTypesUtil.detectMimeType(path));
+            response.setHeader("Content-Length",
+                    String.valueOf(inputStream.available()));
 
-			BufferedInputStream input = null;
-			BufferedOutputStream output = null;
-
-			try {
-				input = new BufferedInputStream(inputStream);
-				output = new BufferedOutputStream(response.getOutputStream());
-				byte[] buffer = new byte[8192];
-				int length = 0;
+            try (BufferedInputStream input = new BufferedInputStream(inputStream);
+                 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+                byte[] buffer = new byte[8192];
+				int length;
 				while ((length = input.read(buffer)) > 0) {
 					output.write(buffer, 0, length);
 				}
-			} finally {
-				if (output != null)
-					try {
-						output.close();
-					} catch (IOException logOrIgnore) {
-					}
-				if (input != null)
-					try {
-						input.close();
-					} catch (IOException logOrIgnore) {
-					}
-			}
-		} else {
-			LOG.error("Can not find resource has path {}", path);
-		}
+            }
 
-	}
-
+        } else {
+            LOG.error("Can not find resource has path {}", path);
+        }
+    }
 }

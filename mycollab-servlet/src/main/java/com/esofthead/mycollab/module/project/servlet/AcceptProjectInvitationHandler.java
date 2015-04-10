@@ -20,11 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -83,7 +79,6 @@ public class AcceptProjectInvitationHandler extends
 		String pathInfo = request.getPathInfo();
 		if (pathInfo != null) {
 			try {
-
 				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
 
 				String inviteeEmail = urlTokenizer.getString();
@@ -102,7 +97,7 @@ public class AcceptProjectInvitationHandler extends
 
 				if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
 					// print out page expire
-					Map<String, Object> context = new HashMap<String, Object>();
+					Map<String, Object> context = new HashMap<>();
 					context.put("inviterEmail", inviterEmail);
 					context.put("inviterName", inviterName);
 
@@ -146,10 +141,12 @@ public class AcceptProjectInvitationHandler extends
 		UserAccountExample example = new UserAccountExample();
 		example.createCriteria().andUsernameEqualTo(username)
 				.andAccountidEqualTo(sAccountId);
+
+		Date now = new GregorianCalendar().getTime();
 		try {
-			List<UserAccount> lst = userAccountMapper.selectByExample(example);
-			if (lst.size() > 0) {
-				for (UserAccount record : lst) {
+			List<UserAccount> users = userAccountMapper.selectByExample(example);
+			if (users.size() > 0) {
+				for (UserAccount record : users) {
 					record.setRegisterstatus(RegisterStatusConstants.ACTIVE);
 					userAccountMapper.updateByPrimaryKeySelective(record);
 				}
@@ -159,8 +156,7 @@ public class AcceptProjectInvitationHandler extends
 				userAccount.setAccountid(sAccountId);
 				userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
 				userAccount.setIsaccountowner(false);
-				userAccount.setRegisteredtime(new Date());
-
+				userAccount.setRegisteredtime(now);
 				userAccountMapper.insert(userAccount);
 			}
 			// search has in table projectMember
@@ -170,7 +166,7 @@ public class AcceptProjectInvitationHandler extends
 				ProjectMember projectMember = new ProjectMember();
 				projectMember.setProjectid(projectId);
 				projectMember.setUsername(username);
-				projectMember.setJoindate(new Date());
+				projectMember.setJoindate(now);
 				projectMember.setProjectroleid(projectRoleId);
 				projectMember.setSaccountid(sAccountId);
 				projectMember.setIsadmin(false);
@@ -182,8 +178,7 @@ public class AcceptProjectInvitationHandler extends
 				member.setProjectroleid(projectRoleId);
 				projectMemberService.updateWithSession(member, "");
 			}
-			String projectLink = ProjectLinkGenerator.generateProjectFullLink(
-					siteUrl, projectId);
+			String projectLink = ProjectLinkGenerator.generateProjectFullLink(siteUrl, projectId);
 			response.sendRedirect(projectLink);
 		} catch (Exception e) {
 			throw new MyCollabException(e);
@@ -199,7 +194,7 @@ public class AcceptProjectInvitationHandler extends
 
 		String handelCreateAccountURL = request.getContextPath() + "/"
 				+ "project/outside/createAccount/";
-		Map<String, Object> context = new HashMap<String, Object>();
+		Map<String, Object> context = new HashMap<>();
 		context.put("projectLinkURL", projectLinkURL);
 		context.put("email", email);
 		context.put("handelCreateAccountURL", handelCreateAccountURL);
@@ -208,16 +203,12 @@ public class AcceptProjectInvitationHandler extends
 		context.put("roleId", projectRoleId);
 		context.put("inviterName", inviterName);
 
-		String html = generatePageByTemplate(response.getLocale(),
-				OUTSIDE_MEMBER_WELCOME_PAGE, context);
-
-		PrintWriter out = null;
+		String html = generatePageByTemplate(response.getLocale(), OUTSIDE_MEMBER_WELCOME_PAGE, context);
 		try {
-			out = response.getWriter();
+			PrintWriter out = response.getWriter();
+			out.println(html);
 		} catch (IOException e) {
 			throw new MyCollabException(e);
 		}
-		out.println(html);
 	}
-
 }

@@ -96,7 +96,7 @@ class AssignBugWindow extends Window {
 
                 layout.addComponent(this.informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withSpacing(true).withMargin(new MarginInfo(true, true, true, false));
+                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 
                 layout.addComponent(controlsBtn);
 

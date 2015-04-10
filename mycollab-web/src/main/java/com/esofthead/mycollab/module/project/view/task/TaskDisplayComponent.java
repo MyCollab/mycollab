@@ -23,33 +23,25 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
-import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
-import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -60,7 +52,7 @@ class TaskDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
     private TaskSearchCriteria criteria;
-    private TaskTableDisplay taskDisplay;
+    private TaskListDisplay taskDisplay;
     private Button createTaskBtn;
 
     private SimpleTaskList taskList;
@@ -71,9 +63,17 @@ class TaskDisplayComponent extends CssLayout {
         this.taskList = taskList;
         this.isDisplayTaskListInfo = isDisplayTaskListInfo;
         this.setStyleName("taskdisplay-component");
-
         this.showTaskGroupInfo();
         this.setSizeFull();
+
+        //Set default search criteria
+        criteria = new TaskSearchCriteria();
+        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
+                .getProjectId()));
+        criteria.setTaskListId(new NumberSearchField(taskList.getId()));
+        criteria.setStatuses(new SetSearchField<>(SearchField.AND,
+                new String[]{StatusI18nEnum.Open.name(),
+                        StatusI18nEnum.Pending.name()}));
     }
 
     private void showTaskGroupInfo() {
@@ -101,11 +101,8 @@ class TaskDisplayComponent extends CssLayout {
                         layoutHelper.addComponent(field, AppContext
                                 .getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                     } else if ("milestoneid".equals(propertyId)) {
-                        layoutHelper.addComponent(
-                                field,
-                                AppContext
-                                        .getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
-                                1, 1);
+                        layoutHelper.addComponent(field,
+                                AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 1);
                     }
                 }
             });
@@ -117,21 +114,14 @@ class TaskDisplayComponent extends CssLayout {
                         @Override
                         protected Field<?> onCreateField(Object propertyId) {
                             if ("description".equals(propertyId)) {
-                                return new DefaultViewField(taskList
-                                        .getDescription(), ContentMode.HTML);
+                                return new DefaultViewField(taskList.getDescription(), ContentMode.HTML);
                             } else if ("owner".equals(propertyId)) {
-                                return new ProjectUserFormLinkField(taskList
-                                        .getOwner(), taskList
-                                        .getOwnerAvatarId(), taskList
-                                        .getOwnerFullName());
+                                return new ProjectUserFormLinkField(taskList.getOwner(),
+                                        taskList.getOwnerAvatarId(),
+                                        taskList.getOwnerFullName());
                             } else if ("milestoneid".equals(propertyId)) {
-                                return new LinkViewField(
-                                        taskList.getMilestoneName(),
-                                        ProjectLinkBuilder
-                                                .generateMilestonePreviewFullLink(
-                                                        taskList.getProjectid(),
-                                                        taskList.getMilestoneid()),
-                                        ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+                                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, "" + taskList.getMilestoneid(),
+                                        taskList.getMilestoneName());
                             }
 
                             return null;
@@ -142,36 +132,8 @@ class TaskDisplayComponent extends CssLayout {
             previewForm.setBean(this.taskList);
         }
 
-        this.taskDisplay = new TaskTableDisplay(TaskTableFieldDef.id,
-                Arrays.asList(TaskTableFieldDef.taskname,
-                        TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
-                        TaskTableFieldDef.assignee,
-                        TaskTableFieldDef.percentagecomplete));
+        this.taskDisplay = new TaskListDisplay();
         addComponent(taskDisplay);
-
-        taskDisplay.addTableListener(new TableClickListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void itemClick(final TableClickEvent event) {
-                SimpleTask task = (SimpleTask) event.getData();
-                if ("taskname".equals(event.getFieldName())) {
-                    EventBusFactory.getInstance().post(
-                            new TaskEvent.GotoRead(TaskDisplayComponent.this,
-                                    task.getId()));
-                } else if ("closeTask".equals(event.getFieldName())
-                        || "reopenTask".equals(event.getFieldName())
-                        || "pendingTask".equals(event.getFieldName())
-                        || "deleteTask".equals(event.getFieldName())) {
-                    TaskDisplayComponent.this.removeAllComponents();
-                    ProjectTaskListService taskListService = ApplicationContextUtil
-                            .getSpringBean(ProjectTaskListService.class);
-                    taskList = taskListService
-                            .findById(taskList.getId(), AppContext.getAccountId());
-                    showTaskGroupInfo();
-                }
-            }
-        });
 
         this.createTaskBtn = new Button(
                 AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
@@ -181,8 +143,7 @@ class TaskDisplayComponent extends CssLayout {
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         TaskDisplayComponent.this
-                                .removeComponent(TaskDisplayComponent.this.createTaskBtn
-                                        .getParent());
+                                .removeComponent(createTaskBtn.getParent());
                         TaskAddPopup taskAddView = new TaskAddPopup(
                                 TaskDisplayComponent.this, taskList);
                         TaskDisplayComponent.this.addComponent(taskAddView);
@@ -193,7 +154,7 @@ class TaskDisplayComponent extends CssLayout {
         this.createTaskBtn.setIcon(FontAwesome.PLUS);
         this.createTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-        final VerticalLayout taskGroupFooter = new VerticalLayout();
+        VerticalLayout taskGroupFooter = new VerticalLayout();
         taskGroupFooter.setMargin(true);
         taskGroupFooter.addStyleName("task-list-footer");
         taskGroupFooter.addComponent(this.createTaskBtn);
@@ -207,31 +168,17 @@ class TaskDisplayComponent extends CssLayout {
         }
     }
 
-    public void setSearchCriteria(final TaskSearchCriteria criteria) {
+    public void setSearchCriteria(TaskSearchCriteria criteria) {
         this.criteria = criteria;
-        this.displayTasks();
-
-    }
-
-    private void displayTasks() {
-        if (criteria == null) {
-            criteria = new TaskSearchCriteria();
-            criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-                    .getProjectId()));
-            criteria.setTaskListId(new NumberSearchField(taskList.getId()));
-            criteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                    new String[]{StatusI18nEnum.Open.name(),
-                            StatusI18nEnum.Pending.name()}));
-        }
-
         taskDisplay.setSearchCriteria(criteria);
     }
 
-    public void saveTaskSuccess(final SimpleTask task) {
-        this.displayTasks();
+    public void saveTaskSuccess(SimpleTask task) {
         if (!this.isDisplayTaskListInfo) {
             EventBusFactory.getInstance().post(
                     new TaskListEvent.GotoRead(this, this.taskList.getId()));
+        } else {
+            taskDisplay.setSearchCriteria(criteria);
         }
     }
 

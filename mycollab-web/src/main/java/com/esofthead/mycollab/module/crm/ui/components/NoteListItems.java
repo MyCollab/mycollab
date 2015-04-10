@@ -24,12 +24,10 @@ import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
@@ -38,8 +36,8 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.ui.components.UserBlock;
 import com.esofthead.mycollab.schedule.email.crm.*;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -79,12 +77,12 @@ public class NoteListItems extends VerticalLayout {
 
     private Button createBtn;
 
-    public NoteListItems(final String title) {
+    public NoteListItems( String title) {
         this(title, "", 0);
     }
 
-    public NoteListItems(final String title, final String type,
-                         final Integer typeId) {
+    public NoteListItems( String title,  String type,
+                          Integer typeId) {
         super();
         Label header = new Label(title);
         header.addStyleName("h2");
@@ -182,31 +180,7 @@ public class NoteListItems extends VerticalLayout {
         private Component constructNoteHeader(final SimpleNote note) {
             final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message");
 
-            VerticalLayout userBlock = new VerticalLayout();
-            userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-            userBlock.setWidth("80px");
-            userBlock.setSpacing(true);
-            ClickListener gotoUser = new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(
-                            new ProjectMemberEvent.GotoRead(this, note
-                                    .getCreateduser()));
-                }
-            };
-            Button userAvatarBtn = UserAvatarControlFactory
-                    .createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
-                            note.getCreateUserFullName());
-            userAvatarBtn.addClickListener(gotoUser);
-            userBlock.addComponent(userAvatarBtn);
-            Button userName = new Button(note.getCreateUserFullName());
-            userName.setStyleName("user-name");
-            userName.addStyleName("link");
-            userName.addStyleName(UIConstants.WORD_WRAP);
-            userName.addClickListener(gotoUser);
-            userBlock.addComponent(userName);
+            UserBlock userBlock = new UserBlock(note.getCreateduser(), note.getCreatedUserAvatarId(), note.getCreateUserFullName());
             layout.addComponent(userBlock);
 
             final CssLayout rowLayout = new CssLayout();
@@ -373,17 +347,8 @@ public class NoteListItems extends VerticalLayout {
             MHorizontalLayout commentWrap = new MHorizontalLayout().withWidth("100%");
             commentWrap.addStyleName("message");
 
-            SimpleUser currentUser = AppContext.getSession();
-            VerticalLayout userBlock = new VerticalLayout();
-            userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-            userBlock.setWidth("80px");
-            userBlock.setSpacing(true);
-            userBlock.addComponent(UserAvatarControlFactory
-                    .createUserAvatarButtonLink(currentUser.getAvatarid(),
-                            currentUser.getDisplayName()));
-            Label userName = new Label(currentUser.getDisplayName());
-            userName.setStyleName("user-name");
-            userBlock.addComponent(userName);
+            SimpleUser currentUser = AppContext.getUser();
+            UserBlock userBlock = new UserBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
 
             commentWrap.addComponent(userBlock);
             VerticalLayout textAreaWrap = new VerticalLayout();
@@ -402,9 +367,9 @@ public class NoteListItems extends VerticalLayout {
 
             editBox.addComponent(noteArea);
 
-            final MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
+             MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
 
-            final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
+             MultiFileUploadExt uploadExt = new MultiFileUploadExt(
                     attachments);
             uploadExt.addComponent(attachments);
             controls.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
@@ -491,7 +456,7 @@ public class NoteListItems extends VerticalLayout {
                     });
             saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             saveBtn.setIcon(FontAwesome.SEND);
-            controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
+
 
             final Button cancelBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
@@ -504,7 +469,9 @@ public class NoteListItems extends VerticalLayout {
                         }
                     });
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
+            controls.with(saveBtn).withAlign(saveBtn, Alignment.TOP_RIGHT);
 
             editBox.addComponent(controls);
             this.addComponent(commentWrap);

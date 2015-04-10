@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -29,6 +23,11 @@ import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.ui.UI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -69,10 +68,7 @@ public abstract class MyCollabUI extends UI {
 
 	protected String initialSubDomain = "1";
 	protected String initialUrl = "";
-
-	public static MyCollabUI getInstance() {
-		return (MyCollabUI) MyCollabSession.getVariable(CURRENT_APP);
-	}
+	private Map<String, Object> attributes = new HashMap<>();
 
 	public String getInitialUrl() {
 		return initialUrl;
@@ -91,10 +87,18 @@ public abstract class MyCollabUI extends UI {
 		}
 	}
 
+	public void setAttribute(String key, Object value) {
+		attributes.put(key, value);
+	}
+
+	public Object getAttribute(String key) {
+		return attributes.get(key);
+	}
+
 	@Override
 	public void close() {
 		LOG.debug("Application is closed. Clean all resources");
-		currentContext.clearSession();
+		currentContext.clearSessionVariables();
 		currentContext = null;
 		super.close();
 	}

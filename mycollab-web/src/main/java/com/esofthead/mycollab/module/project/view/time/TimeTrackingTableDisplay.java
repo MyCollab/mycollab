@@ -59,8 +59,7 @@ import java.util.UUID;
  * @since 1.0
  */
 public class TimeTrackingTableDisplay
-        extends
-        DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> {
+        extends DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging> {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory
@@ -170,9 +169,7 @@ public class TimeTrackingTableDisplay
 
         );
 
-        this.
-
-                addGeneratedColumn("projectName", new ColumnGenerator() {
+        this.addGeneratedColumn("projectName", new ColumnGenerator() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
@@ -191,9 +188,7 @@ public class TimeTrackingTableDisplay
 
                 );
 
-        this.
-
-                addGeneratedColumn("isbillable", new ColumnGenerator() {
+        this.addGeneratedColumn("isbillable", new ColumnGenerator() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
@@ -213,9 +208,7 @@ public class TimeTrackingTableDisplay
 
                 );
 
-        this.
-
-                addGeneratedColumn("logforday", new ColumnGenerator() {
+        this.addGeneratedColumn("logforday", new ColumnGenerator() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
@@ -229,9 +222,7 @@ public class TimeTrackingTableDisplay
 
                 );
 
-        this.
-
-                addGeneratedColumn("id", new Table.ColumnGenerator() {
+        this.addGeneratedColumn("id", new Table.ColumnGenerator() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
@@ -276,9 +267,7 @@ public class TimeTrackingTableDisplay
 
                 );
 
-        this.
-
-                setWidth("100%");
+        this.setWidth("100%");
     }
 
     private String buildItemValue(SimpleItemTimeLogging itemLogging) {
@@ -291,8 +280,7 @@ public class TimeTrackingTableDisplay
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(itemLogging
                 .getType()).getHtml());
-        A itemLink = new A();
-        itemLink.setId("tag" + uid);
+        A itemLink = new A().setId("tag" + uid);
 
         if (ProjectTypeConstants.TASK.equals(itemLogging.getType())
                 || ProjectTypeConstants.BUG.equals(itemLogging.getType())) {
@@ -307,19 +295,8 @@ public class TimeTrackingTableDisplay
                     itemLogging.getTypeid() + ""));
         }
 
-        String arg17 = "'" + uid + "'";
-        String arg18 = "'" + itemLogging.getType() + "'";
-        String arg19 = "'" + itemLogging.getTypeid() + "'";
-        String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-        String arg21 = "'" + AppContext.getAccountId() + "'";
-        String arg22 = "'" + AppContext.getSiteUrl() + "'";
-        String arg23 = AppContext.getSession().getTimezone();
-        String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-        String mouseOverFunc = String.format(
-                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                arg20, arg21, arg22, arg23, arg24);
-        itemLink.setAttribute("onmouseover", mouseOverFunc);
+        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, itemLogging.getType(), itemLogging.getTypeid() + ""));
+        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         itemLink.appendText(itemLogging.getSummary());
 
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),

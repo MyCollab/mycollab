@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.message;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -28,11 +27,11 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
-import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
+import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -49,7 +48,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -205,32 +203,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
                 messageLayout.addStyleName("important-message");
             }
 
-            MVerticalLayout userBlock = new MVerticalLayout().withWidth("80px").withMargin(false);
-            userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-            ClickListener gotoUser = new ClickListener() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(
-                            new ProjectMemberEvent.GotoRead(
-                                    MessageReadViewImpl.this, message
-                                    .getPosteduser()));
-                }
-            };
-            Button userAvatarBtn = UserAvatarControlFactory
-                    .createUserAvatarButtonLink(
-                            message.getPostedUserAvatarId(),
-                            message.getFullPostedUserName());
-            userAvatarBtn.addClickListener(gotoUser);
-            userBlock.addComponent(userAvatarBtn);
-
-            Button userName = new Button(message.getFullPostedUserName());
-            userName.setStyleName("user-name");
-            userName.addStyleName("link");
-            userName.addStyleName(UIConstants.WORD_WRAP);
-            userName.addClickListener(gotoUser);
-            userBlock.addComponent(userName);
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(), message.getFullPostedUserName());
 
             messageLayout.addComponent(userBlock);
 

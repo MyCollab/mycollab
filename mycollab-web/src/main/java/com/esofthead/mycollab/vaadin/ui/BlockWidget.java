@@ -26,11 +26,9 @@ import com.vaadin.ui.Label;
  * @since 4.4.0
  */
 public class BlockWidget extends CssLayout {
-
 	private static final long serialVersionUID = -8503014399083980294L;
 
 	private final Label title;
-
 	private final CssLayout body;
 
 	public BlockWidget() {

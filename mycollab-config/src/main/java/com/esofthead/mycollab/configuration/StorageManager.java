@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +71,11 @@ public class StorageManager {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		return instance.storageConf.getAvatarPath(userAvatarId, size);
+		if (StringUtils.isBlank(userAvatarId)) {
+			return MyCollabAssets.newResourceLink("icons/default_user_avatar_" + size + ".png");
+		} else {
+			return instance.storageConf.getAvatarPath(userAvatarId, size);
+		}
 	}
 
 	public static StorageConfiguration getConfiguration() {

@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -50,7 +51,7 @@ public class CrmContainerPresenter extends
 		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
 		if (data == null) {
 			view.goToAccounts();
-			String url = MobileApplication.getInstance().getInitialUrl();
+			String url = ((MobileApplication)UI.getCurrent()).getInitialUrl();
 			if (url != null && !url.equals("")) {
 				String[] tokens = url.split("/");
 				if (tokens.length > 1) {
@@ -58,7 +59,7 @@ public class CrmContainerPresenter extends
 							tokens.length);
 					MobileApplication.rootUrlResolver.getSubResolver("crm")
 							.handle(fragments);
-					MobileApplication.getInstance().setInitialUrl("");
+					((MobileApplication) UI.getCurrent()).setInitialUrl("");
 				}
 			}
 			return;

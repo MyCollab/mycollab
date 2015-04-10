@@ -29,9 +29,8 @@ import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
-import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
+import com.esofthead.mycollab.module.project.view.file.FilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter;
 import com.esofthead.mycollab.module.project.view.page.PagePresenter;
@@ -49,6 +48,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.SearchTextField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
@@ -79,7 +79,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     private TaskPresenter taskPresenter;
     private TrackerPresenter trackerPresenter;
     private PagePresenter pagePresenter;
-    private IFilePresenter filePresenter;
+    private FilePresenter filePresenter;
     private IProblemPresenter problemPresenter;
     private IRiskPresenter riskPresenter;
     private ITimeTrackingPresenter timePresenter;
@@ -654,7 +654,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     }
 
     private Component constructProjectFileComponent() {
-        filePresenter = PresenterResolver.getPresenter(IFilePresenter.class);
+        filePresenter = PresenterResolver.getPresenter(FilePresenter.class);
         return filePresenter.getView();
     }
 

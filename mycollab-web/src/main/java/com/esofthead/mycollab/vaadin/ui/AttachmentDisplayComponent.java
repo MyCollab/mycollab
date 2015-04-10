@@ -19,6 +19,12 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.util.List;
 
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.core.utils.FileUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
+import com.hp.gagawa.java.elements.*;
 import com.vaadin.server.FontAwesome;
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -89,7 +95,12 @@ public class AttachmentDisplayComponent extends CssLayout {
 					.getImagePreviewResource(attachment.getThumbnail(),
 							DEFAULT_SOURCE));
 		}
-		thumbnail.setDescription(docName);
+
+		Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
+		Ul ul = new Ul().appendChild(new Li().appendText("Size: " + FileUtils.getVolumeDisplay(attachment.getSize()))).setStyle("line-height:1.5em");
+		ul.appendChild(new Li().appendText("Last modified: " + AppContext.formatPrettyTime(attachment.getLastModified().getTime())));
+		contentTooltip.appendChild(ul);
+		thumbnail.setDescription(contentTooltip.write());
 		thumbnail.setWidth(UIConstants.DEFAULT_ATTACHMENT_THUMBNAIL_WIDTH);
 		thumbnailWrap.addComponent(thumbnail);
 

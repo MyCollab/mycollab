@@ -43,7 +43,7 @@ class SendingErrorReportEmailJob extends QuartzJobBean {
         .asScala.toList
       if (listIssues.nonEmpty) {
         contentGenerator.putVariable("issueCol", listIssues)
-        val emailConfiguration: EmailConfiguration = SiteConfiguration.getRelayEmailConfiguration
+        val emailConfiguration: EmailConfiguration = SiteConfiguration.getEmailConfiguration
         val mailer: IMailer = if (emailConfiguration.getHost == "") new NullMailer else new DefaultMailer(emailConfiguration)
         try {
           mailer.sendHTMLMail("mail@mycollab.com", "Error Agent", Arrays.asList(new MailRecipientField(SiteConfiguration.getSendErrorEmail, SiteConfiguration.getSendErrorEmail)), null, null, contentGenerator.generateSubjectContent("My Collab Error Report " + MyCollabVersion.getVersion), contentGenerator.generateBodyContent("templates/email/errorReport.mt"), null)

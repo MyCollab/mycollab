@@ -236,7 +236,7 @@ public class OpportunityContactListComp
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
             Label contactName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
                     .getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.CONTACT, contact.getId()) + "'>"

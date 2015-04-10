@@ -74,7 +74,7 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 				.getClass()
 				.getClassLoader()
 				.getResourceAsStream(
-						"assets/images/default_user_avatar_100.png");
+						"assets/icons/default_user_avatar_100.png");
 		BufferedImage imageBuff;
 		try {
 			imageBuff = ImageIO.read(imageResourceStream);

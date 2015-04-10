@@ -184,41 +184,32 @@ public class TaskGroupAddWindow extends Window {
 			}
 
 			private void saveTaskList() {
-				final ProjectTaskListService taskListService = ApplicationContextUtil
+				ProjectTaskListService taskListService = ApplicationContextUtil
 						.getSpringBean(ProjectTaskListService.class);
-				TaskGroupAddWindow.this.taskList.setSaccountid(AppContext
-						.getAccountId());
-				TaskGroupAddWindow.this.taskList.setCreateduser(AppContext
-						.getUsername());
-				TaskGroupAddWindow.this.taskList
-						.setCreatedtime(new GregorianCalendar().getTime());
-				TaskGroupAddWindow.this.taskList.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
-				TaskGroupAddWindow.this.taskList
-						.setProjectid(CurrentProjectVariables.getProjectId());
+				taskList.setSaccountid(AppContext.getAccountId());
+				taskList.setCreateduser(AppContext.getUsername());
+				taskList.setCreatedtime(new GregorianCalendar().getTime());
+				taskList.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
+				taskList.setProjectid(CurrentProjectVariables.getProjectId());
 
 				ProjectMemberSelectionBox prjMemberSelectionBox = projectSelectionField
 						.getWrappedComponent();
 				Object memberVal = prjMemberSelectionBox.getValue();
 				if (memberVal != null) {
 					SimpleProjectMember member = (SimpleProjectMember) memberVal;
-					TaskGroupAddWindow.this.taskList.setOwner(member
-							.getUsername());
-					TaskGroupAddWindow.this.taskList.setOwnerAvatarId(member
-							.getMemberAvatarId());
-					TaskGroupAddWindow.this.taskList.setOwnerFullName(member
-							.getDisplayName());
+					taskList.setOwner(member.getUsername());
+					taskList.setOwnerAvatarId(member.getMemberAvatarId());
+					taskList.setOwnerFullName(member.getDisplayName());
 				}
 
-				taskListService.saveWithSession(
-						TaskGroupAddWindow.this.taskList,
-						AppContext.getUsername());
+				taskListService.saveWithSession(taskList, AppContext.getUsername());
 				TaskGroupAddWindow.this.notifyToReloadTaskList();
 				TaskGroupAddWindow.this.close();
 			}
 
 			@Override
 			public void attachField(final Object propertyId,
-					final Field<?> field) {
+									final Field<?> field) {
 				if (propertyId.equals("name")) {
 					this.informationLayout.addComponent(field, AppContext
 							.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD), 0,

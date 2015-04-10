@@ -84,7 +84,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
 
     private static class ItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
-        public Component generateRow(ProjectGenericItem item, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem item, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, false))
                     .withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(item.getProjectShortName(), item
@@ -108,8 +108,8 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(item.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(item.getProjectId(), item
                         .getCreatedUser())).appendText(item.getCreatedUserDisplayName());
-                userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, item.getCreatedUser()));
-
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, item.getCreatedUser()));
+                userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
                 div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), userAvatar, DivLessFormatter.EMPTY_SPACE(),
                         userLink, TooltipHelper.buildDivTooltipEnable(uid),

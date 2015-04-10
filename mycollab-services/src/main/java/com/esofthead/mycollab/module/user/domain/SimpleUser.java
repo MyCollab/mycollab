@@ -31,6 +31,7 @@ public class SimpleUser extends User {
 	private static final long serialVersionUID = 1L;
 
 	private Integer roleid;
+	@NotBindable
 	private String roleName;
 
 	@NotBindable
@@ -116,5 +117,12 @@ public class SimpleUser extends User {
 			}
 		}
 		return false;
+	}
+
+	public enum Field {
+		roleid;
+		public boolean equalTo(Object value) {
+			return name().equals(value);
+		}
 	}
 }

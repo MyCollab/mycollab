@@ -28,7 +28,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 4.5.3
  */
 public class LinkViewField extends CustomField<String> {
-
     private static final long serialVersionUID = 1L;
 
     private String value;

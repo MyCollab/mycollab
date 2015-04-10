@@ -190,7 +190,7 @@ public class AccountLeadListComp extends
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
             Label leadName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
                     .getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.LEAD, lead.getId()) + "'>"

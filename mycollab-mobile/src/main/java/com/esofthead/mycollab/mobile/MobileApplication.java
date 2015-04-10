@@ -57,8 +57,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
-
 /**
  * 
  * @author MyCollab Ltd.
@@ -161,7 +159,6 @@ public class MobileApplication extends MyCollabUI {
 		});
 
 		initialUrl = this.getPage().getUriFragment();
-		MyCollabSession.putVariable(CURRENT_APP, this);
 		currentContext = new AppContext();
 		postSetupApp(request);
 		try {

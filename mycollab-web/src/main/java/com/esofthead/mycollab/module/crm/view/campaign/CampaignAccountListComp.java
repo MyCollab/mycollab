@@ -192,7 +192,7 @@ public class CampaignAccountListComp extends
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
             Label accountName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getSession()
+                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
                     .getSubdomain())
                     + CrmLinkGenerator.generateCrmItemLink(
                     CrmTypeConstants.ACCOUNT, account.getId()) + "'>"

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -37,7 +38,6 @@ import com.google.common.eventbus.Subscribe;
  * 
  */
 public class ShellController extends AbstractController {
-
 	private static final long serialVersionUID = 1L;
 
 	private final MainWindowContainer container;
@@ -58,9 +58,7 @@ public class ShellController extends AbstractController {
 						.getPresenter(MainViewPresenter.class);
 				MainView mainView = mainViewPresenter.getView();
 				container.setContent(mainView);
-
 				container.setStyleName("mainView");
-
 				mainViewPresenter.go(container, null);
 			}
 		});
@@ -71,7 +69,7 @@ public class ShellController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(LogOut event) {
-				((DesktopApplication) MyCollabUI.getInstance())
+				((DesktopApplication) UI.getCurrent())
 						.redirectToLoginView();
 			}
 		});

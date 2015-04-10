@@ -16,7 +16,8 @@
  */
 package com.esofthead.mycollab.html
 
-import com.esofthead.mycollab.configuration.StorageManager
+import com.esofthead.mycollab.common.UrlEncodeDecoder
+import com.esofthead.mycollab.configuration.{SiteConfiguration, StorageManager}
 import com.hp.gagawa.java.elements.Img
 
 /**
@@ -27,4 +28,8 @@ object LinkUtils {
 
   def newAvatar(avatarId:String): Img = new Img("", StorageManager.getAvatarLink(avatarId, 16)).setWidth("16")
     .setHeight("16").setStyle("display: inline-block; vertical-align: top;")
+
+  def generateUserAcceptLink(subDomain:String, accountId:Integer, username:String): String = SiteConfiguration.getSiteUrl(subDomain) + "user/confirm_invite/" + UrlEncodeDecoder.encode(accountId + "/" + username + "/" + subDomain);
+
+  def generateUserDenyLink(subDomain:String, accountId:Integer, username:String, inviterName:String, inviterEmail:String) = SiteConfiguration.getSiteUrl(subDomain) + "user/deny_invite/" + UrlEncodeDecoder.encode(accountId + "/" + username + "/" + inviterName + "/" + inviterEmail + "/" + subDomain)
 }

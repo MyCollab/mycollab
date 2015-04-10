@@ -37,11 +37,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 public class ResourceUtils {
 
-	private static long KB_SIZE = 1024;
-
-	private static long MB_SIZE = 1024 * 1024;
-
-	private static long GB_SIZE = 1024 * 1024 * 1024;
 
 	/**
 	 * 
@@ -96,20 +91,6 @@ public class ResourceUtils {
 						"Can not define sotrage name of bean "
 								+ BeanUtility.printBeanObj(resource));
 			}
-		}
-	}
-
-	public static String getVolumeDisplay(Long volume) {
-		if (volume == null) {
-			return "0 Kb";
-		} else if (volume < KB_SIZE) {
-			return volume + " Bytes";
-		} else if (volume < MB_SIZE) {
-			return Math.floor(volume / KB_SIZE) + " Kb";
-		} else if (volume < GB_SIZE) {
-			return Math.floor(volume / MB_SIZE) + " Mb";
-		} else {
-			return Math.floor(volume / GB_SIZE) + " Gb";
 		}
 	}
 }

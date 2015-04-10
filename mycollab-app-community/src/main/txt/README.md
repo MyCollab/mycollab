@@ -25,21 +25,50 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 Please have a look at MyCollab requirements
 
-* [http://community.mycollab.com/installation.html#System_Requirements](http://community.mycollab.com/installation.html#System_Requirements)
+* [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
 
 Installation
 ============
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
-2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
-3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade.html](http://community.mycollab.com/upgrade.html) will instruct steps to make your task easily
+2. Follow installation guideline at [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your task easily
 
 
 
-If you need to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/admin/configuration.html](http://community.mycollab.com/admin/configuration.html). You will finish reading and understanding in a matter of minutes.
+If you need to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/configuration/](http://community.mycollab.com/configuration/). You will finish reading and understanding in a matter of minutes.
 
 Last changelog
 ==============
+
+Version 5.0.4
+-----------------------------
+
+**Library Upgrades**
+
+* Upgrade Vaadin to 7.4.3
+* Upgrade Jetty Server version
+* Upgrade other libraries
+
+**Improvements & New Features**
+
+* Auto update the new MyCollab version
+* Ask system admin or warn users need to set up smtp setting for features which need to send email
+* The new project file module
+* Revise the application variable scopes
+* Support quick review with instant tooltip
+* Revise the task list display
+* Minor improve on page view
+* Display uploaded file size
+* Add detail information for uploaded file in tooltip
+* Display the friendly timezone name in tooltip
+
+**Bug Fixes**
+
+* The default created time of user should match with the default timezone
+* The empty list view of bug, component and version has the horizontal scrollbar
+* Fix links of MyCollab document
+
 
 Version 5.0.3
 -----------------------------

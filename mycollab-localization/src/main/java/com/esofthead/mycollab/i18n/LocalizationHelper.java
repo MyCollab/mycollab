@@ -42,8 +42,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * 
  */
 public class LocalizationHelper {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(LocalizationHelper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LocalizationHelper.class);
 
 	private static final Map<Locale, IMessageConveyor> languageMap;
 

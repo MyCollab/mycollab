@@ -16,24 +16,21 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import com.esofthead.mycollab.configuration.SharingOptions;
+import com.esofthead.mycollab.core.utils.FileUtils;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-
-import com.esofthead.mycollab.configuration.SharingOptions;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -50,21 +47,12 @@ public class SetupServlet extends HttpServlet {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		VelocityContext context = new VelocityContext();
-		Reader reader = null;
-
-		try {
-			reader = new InputStreamReader(SetupServlet.class.getClassLoader()
-					.getResourceAsStream("templates/page/SetupFresh.mt"),
-					"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(SetupServlet.class.getClassLoader()
-					.getResourceAsStream("templates/page/SetupFresh.mt"));
-		}
+		Reader reader = FileUtils.getReader("templates/page/SetupFresh.mt");
 
 		String postUrl = "/install";
 		context.put("redirectURL", postUrl);
 
-		Map<String, String> defaultUrls = new HashMap<String, String>();
+		Map<String, String> defaultUrls = new HashMap<>();
 
 		defaultUrls.put("cdn_url", "/assets/images/email/");
 		defaultUrls.put("app_url", "/");

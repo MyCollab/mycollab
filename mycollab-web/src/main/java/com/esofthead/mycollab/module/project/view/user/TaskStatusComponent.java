@@ -138,7 +138,7 @@ public class TaskStatusComponent extends MVerticalLayout {
 
     private static class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
         @Override
-        public Component generateRow(ProjectGenericTask genericTask, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
             final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(false).withWidth
                     ("100%").withStyleName("prj-list-row");
 
@@ -197,8 +197,7 @@ public class TaskStatusComponent extends MVerticalLayout {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
-            A itemLink = new A();
-            itemLink.setId("tag" + uid);
+            A itemLink = new A().setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())
                     || ProjectTypeConstants.BUG.equals(task.getType())) {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -211,20 +210,8 @@ public class TaskStatusComponent extends MVerticalLayout {
                         task.getProjectId(), task.getType(),
                         task.getTypeId() + ""));
             }
-
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + task.getType() + "'";
-            String arg19 = "'" + task.getTypeId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             itemLink.appendText(task.getName());
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
@@ -236,13 +223,11 @@ public class TaskStatusComponent extends MVerticalLayout {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(),
-                    task.getAssignUser()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(task.getAssignUserFullName());
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
@@ -265,19 +250,8 @@ public class TaskStatusComponent extends MVerticalLayout {
                             .getProjectId()));
             prjLink.setId("tag" + uid);
 
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + ProjectTypeConstants.PROJECT + "'";
-            String arg19 = "'" + task.getProjectId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return projectOverViewOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
-                    arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
-            prjLink.setAttribute("onmouseover", mouseOverFunc);
+            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT, task.getProjectId() + ""));
+            prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             prjLink.appendText(task.getProjectShortName());
 
             div.appendChild(prjLink, DivLessFormatter.EMPTY_SPACE(),

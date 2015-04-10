@@ -596,7 +596,7 @@ public class ProjectModuleController extends AbstractController {
 			storage.put(MobileApplication.LOGIN_DATA, storeVal);
 		}
 
-		AppContext.getInstance().setSession(user, pref, billingAccount);
+		AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
 		EventBusFactory.getInstance().post(

@@ -108,7 +108,8 @@ public class ProjectLinkBuilder {
                     member.getMemberAvatarId(), 16));
             A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
                     member.getUsername())).appendText(member.getDisplayName());
-            link.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, username));
+            link.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+            link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link,
                     DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
         } else {
@@ -146,7 +147,6 @@ public class ProjectLinkBuilder {
 
     public static String generateTaskPreviewFullLink(Integer taskKey,
                                                      String prjShortName) {
-
         return AppContext.getSiteUrl()
                 + GenericLinkUtils.URL_PREFIX_PARAM
                 + ProjectLinkGenerator.generateTaskPreviewLink(taskKey,
@@ -219,23 +219,25 @@ public class ProjectLinkBuilder {
         Text image = new Text(ProjectAssetsManager.getAsset(type).getHtml());
         A link = new A().setId("tag" + uid);
         link.setHref(AppContext.getSiteUrl() + generateProjectItemLink(prjShortName, projectId, type, typeId)).appendChild(new Text(summary));
-
-        String arg17 = "'" + uid + "'";
-        String arg18 = "'" + type + "'";
-        String arg19 = "'" + typeId + "'";
-        String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-        String arg21 = "'" + AppContext.getAccountId() + "'";
-        String arg22 = "'" + AppContext.getSiteUrl() + "'";
-        String arg23 = AppContext.getSession().getTimezone();
-        String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-        String mouseOverFunc = String.format(
-                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                arg20, arg21, arg22, arg23, arg24);
-        link.setAttribute("onmouseover", mouseOverFunc);
-
+        link.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, type, typeId));
+        link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         Div div = new DivLessFormatter().appendChild(image, DivLessFormatter.EMPTY_SPACE(), link, DivLessFormatter
                 .EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        return div.write();
+    }
+
+    public static String generateProjectItemLinkWithTooltip(String prjShortName,
+                                                 Integer projectId, String itemName, String type, String typeId, String extraTypeId) {
+        String uid = UUID.randomUUID().toString();
+        DivLessFormatter div = new DivLessFormatter();
+        Text img = new Text(ProjectAssetsManager.getAsset(type).getHtml());
+        A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
+                prjShortName, projectId, type, extraTypeId));
+        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, type, typeId));
+        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        itemLink.appendText(itemName);
+
+        div.appendChild(img, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         return div.write();
     }
 

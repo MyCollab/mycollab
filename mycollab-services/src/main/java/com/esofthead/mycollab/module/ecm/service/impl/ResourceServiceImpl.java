@@ -115,9 +115,8 @@ public class ResourceServiceImpl implements ResourceService {
 		rawContentService.saveContent(contentPath, refStream);
 
 		if (MimeTypesUtil.isImage(mimeType)) {
-			try {
-				InputStream newInputStream = rawContentService
-						.getContentStream(contentPath);
+			try (InputStream newInputStream = rawContentService
+					.getContentStream(contentPath)) {
 				BufferedImage image = ImageUtil
 						.generateImageThumbnail(newInputStream);
 				if (image != null) {
@@ -130,8 +129,7 @@ public class ResourceServiceImpl implements ResourceService {
 							new FileInputStream(tmpFile));
 					content.setThumbnail(thumbnailPath);
 				}
-
-			} catch (Exception e) {
+			} catch (IOException e) {
 				LOG.error("Error when generating thumbnail", e);
 			}
 		}

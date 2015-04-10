@@ -162,7 +162,7 @@ public class CommentInput extends VerticalLayout {
 		MHorizontalLayout commentWrap = new MHorizontalLayout().withWidth("100%");
 		commentWrap.addStyleName("message");
 
-		SimpleUser currentUser = AppContext.getSession();
+		SimpleUser currentUser = AppContext.getUser();
 		VerticalLayout userBlock = new VerticalLayout();
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		userBlock.setWidth("80px");

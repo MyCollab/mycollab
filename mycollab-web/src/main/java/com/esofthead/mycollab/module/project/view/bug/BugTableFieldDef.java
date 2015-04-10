@@ -60,11 +60,11 @@ public interface BugTableFieldDef {
 
 	TableViewField priority = new TableViewField(
 			BugI18nEnum.FORM_PRIORITY, "priority",
-			UIConstants.TABLE_M_LABEL_WIDTH);
+			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	TableViewField resolution = new TableViewField(
 			BugI18nEnum.FORM_RESOLUTION, "resolution",
-			UIConstants.TABLE_M_LABEL_WIDTH);
+			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	TableViewField createdTime = new TableViewField(
 			BugI18nEnum.FORM_CREATED_TIME, "createdtime",

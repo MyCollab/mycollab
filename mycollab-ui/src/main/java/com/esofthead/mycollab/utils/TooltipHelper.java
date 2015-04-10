@@ -43,17 +43,50 @@ public class TooltipHelper {
         return div1;
     }
 
-    public static String buildUserHtmlTooltip(String uid, String user) {
+    public static String userHoverJsDunction(String uid, String user) {
         String arg3 = "'" + uid + "'";
         String arg4 = "'" + user + "'";
         String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
         String arg6 = "'" + AppContext.getSiteUrl() + "'";
-        String arg7 = AppContext.getSession().getTimezone();
+        String arg7 = AppContext.getUser().getTimezone();
         String arg8 = "'" + AppContext.getAccountId() + "'";
         String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
 
         return String.format(
                 "return showUserTooltip(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
                 arg6, arg7, arg8, arg9);
+    }
+
+    public static String projectHoverJsFunction(String uid, String type, String typeId) {
+        String uidVal = "'" + uid + "'";
+        String typeVal = "'" + type + "'";
+        String typeIdVal = "'" + typeId + "'";
+        String urlVal = "'" + AppContext.getSiteUrl() + "tooltip/'";
+        String accountIdVal = "'" + AppContext.getAccountId() + "'";
+        String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
+        String timezoneVal = AppContext.getUser().getTimezone();
+        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+
+        return String.format(
+                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", uidVal, typeVal, typeIdVal,
+                urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal);
+    }
+
+    public static String crmHoverJsFunction(String uid, String type, String typeId) {
+        String uidVal = "'" + uid + "'";
+        String typeVal = "'" + type + "'";
+        String typeIdVal = "'" + typeId + "'";
+        String urlVal = "'" + AppContext.getSiteUrl() + "tooltip/'";
+        String accountIdVal = "'" + AppContext.getAccountId() + "'";
+        String siteUrlVal = "'" + AppContext.getSiteUrl() + "'";
+        String timezoneVal = AppContext.getUser().getTimezone();
+        String localeVal = "'" + AppContext.getUserLocale().toString() + "'";
+        return String.format(
+                "return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
+                uidVal, typeVal, typeIdVal, urlVal, accountIdVal, siteUrlVal, timezoneVal, localeVal);
+    }
+
+    public static String itemMouseLeaveJsFunction(String uid) {
+        return String.format("hideTooltip('%s')", uid);
     }
 }

@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
@@ -38,22 +37,21 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @since 1.0
  *
  */
-public class CommentDisplay extends MVerticalLayout implements
-        ReloadableComponent {
+public class CommentDisplay extends MVerticalLayout implements ReloadableComponent {
     private static final long serialVersionUID = 1L;
 
-    private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
+    private BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
     private CommentType type;
     private String typeId;
     private ProjectCommentInput commentBox;
 
     public CommentDisplay(
-            final CommentType type,
-            final Integer extraTypeId,
-            final boolean isDisplayCommentInput,
-            final boolean isSendingRelayEmail,
-            final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-        withMargin(new MarginInfo(true, false, true, false)).withStyleName("comment-display");
+            CommentType type,
+            Integer extraTypeId,
+            boolean isDisplayCommentInput,
+            boolean isSendingRelayEmail,
+            Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+        withMargin(new MarginInfo(true, false, true, true)).withStyleName("comment-display");
         this.type = type;
         if (isDisplayCommentInput) {
             commentBox = new ProjectCommentInput(this, type, extraTypeId,

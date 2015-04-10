@@ -83,6 +83,8 @@ public class PageListNoItemView extends ProjectListNoItemView {
                 UI.getCurrent().addWindow(new GroupPageAddWindow());
             }
         });
+        createPageGroupBtn.setEnabled(hasPermission());
+        createPageGroupBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
         MHorizontalLayout links = new MHorizontalLayout();
         links.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

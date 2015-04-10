@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC
-    "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
-    "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
+        "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
+        "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
     <!-- WS Compiler: manually edited -->
 
@@ -12,13 +12,13 @@
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
 
     <inherits
-        name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
+            name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
 
     <inherits
-        name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+            name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
     <inherits
-        name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
+            name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
 
@@ -27,7 +27,7 @@
     <inherits name="com.lexaden.breadcrumb.gwt.BreadcrumbWidgetset" />
 
     <inherits
-        name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
+            name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
 
     <inherits name="org.vaadin.easyuploads.Widgetset" />
 

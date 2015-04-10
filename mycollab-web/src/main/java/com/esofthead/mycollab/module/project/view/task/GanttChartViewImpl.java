@@ -301,33 +301,8 @@ public class GanttChartViewImpl extends AbstractPageView implements
     }
 
     private String tooltipGenerate(SimpleTask task) {
-        String uid = UUID.randomUUID().toString();
-        DivLessFormatter div = new DivLessFormatter();
-        A itemLink = new A();
-        itemLink.setId("tag" + uid);
-        itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                task.getProjectShortname(),
-                task.getProjectid(), ProjectTypeConstants.TASK,
-                task.getTaskkey() + ""));
-
-        String arg17 = "'" + uid + "'";
-        String arg18 = "'" + ProjectTypeConstants.TASK + "'";
-        String arg19 = "'" + task.getId() + "'";
-        String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-        String arg21 = "'" + AppContext.getAccountId() + "'";
-        String arg22 = "'" + AppContext.getSiteUrl() + "'";
-        String arg23 = AppContext.getSession().getTimezone();
-        String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-        String mouseOverFunc = String.format(
-                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                arg20, arg21, arg22, arg23, arg24);
-        itemLink.setAttribute("onmouseover", mouseOverFunc);
-        itemLink.appendText(task.getTaskname());
-
-        div.appendChild(itemLink, DivLessFormatter.EMPTY_SPACE(),
-                TooltipHelper.buildDivTooltipEnable(uid));
-        return div.write();
+        return ProjectLinkBuilder.generateProjectItemLinkWithTooltip(task.getProjectShortname(),
+                task.getProjectid(), task.getTaskname(), ProjectTypeConstants.TASK, task.getId() + "", task.getTaskkey() + "");
     }
 
     private Panel createControls() {

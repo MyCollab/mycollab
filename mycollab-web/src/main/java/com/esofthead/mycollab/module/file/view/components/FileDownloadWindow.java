@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.file.view.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.module.ecm.ResourceUtils;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -94,7 +94,7 @@ public class FileDownloadWindow extends Window {
         }
 
 
-        final Label size = new Label(ResourceUtils.getVolumeDisplay(content.getSize()));
+        final Label size = new Label(FileUtils.getVolumeDisplay(content.getSize()));
         info.addComponent(size, "Size", 0, 2);
 
         ELabel dateCreate = new ELabel().prettyDateTime(content.getCreated().getTime());

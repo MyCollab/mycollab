@@ -42,6 +42,7 @@ public class CrmAssetsManager {
         resources.put(CrmTypeConstants.MEETING, FontAwesome.PLANE);
         resources.put(CrmTypeConstants.CAMPAIGN, FontAwesome.TROPHY);
         resources.put(CrmTypeConstants.DETAIL, FontAwesome.LIST);
+        resources.put(CrmTypeConstants.NOTE, FontAwesome.PENCIL);
     }
 
     public static FontAwesome getAsset(String resId) {

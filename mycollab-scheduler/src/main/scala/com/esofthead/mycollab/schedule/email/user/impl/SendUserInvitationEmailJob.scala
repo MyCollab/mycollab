@@ -21,6 +21,7 @@ import java.util.Arrays
 import com.esofthead.mycollab.common.UrlEncodeDecoder
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
+import com.esofthead.mycollab.html.LinkUtils
 import com.esofthead.mycollab.i18n.LocalizationHelper
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.mail.IContentGenerator
@@ -57,11 +58,11 @@ import org.springframework.stereotype.Component
       LOG.debug("Send invitation email to user {} of subdomain {}", Array(invitation.getUsername, invitation
         .getSubdomain))
       contentGenerator.putVariable("invitation", invitation)
-      contentGenerator.putVariable("urlAccept", SiteConfiguration.getSiteUrl(invitation.getSubdomain) + "user/confirm_invite/" + UrlEncodeDecoder.encode(invitation.getAccountid + "/" + invitation.getUsername + "/" + invitation.getSubdomain))
+      contentGenerator.putVariable("urlAccept", LinkUtils.generateUserAcceptLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername))
       val inviterName: String = invitation.getInviterFullName
       val inviterMail: String = invitation.getInviteuser
       val subdomain: String = invitation.getSubdomain
-      contentGenerator.putVariable("urlDeny", SiteConfiguration.getSiteUrl(invitation.getSubdomain) + "user/deny_invite/" + UrlEncodeDecoder.encode(invitation.getAccountid + "/" + invitation.getUsername + "/" + inviterName + "/" + inviterMail + "/" + subdomain))
+      contentGenerator.putVariable("urlDeny", LinkUtils.generateUserDenyLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername, inviterName, inviterMail))
       val userName: String = if (invitation.getUsername != null) invitation.getUsername else "there"
       contentGenerator.putVariable("userName", userName)
       contentGenerator.putVariable("inviterName", inviterName)

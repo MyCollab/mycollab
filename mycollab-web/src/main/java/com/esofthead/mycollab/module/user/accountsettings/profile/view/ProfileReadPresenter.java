@@ -43,7 +43,7 @@ public class ProfileReadPresenter extends AbstractPresenter<ProfileReadView> {
 		ProfileContainer profileContainer = (ProfileContainer) container;
 		profileContainer.removeAllComponents();
 		profileContainer.addComponent(view.getWidget());
-		User currentUser = AppContext.getSession();
+		User currentUser = AppContext.getUser();
 		view.previewItem(currentUser);
 
 		AccountSettingBreadcrumb breadcrumb = ViewManager

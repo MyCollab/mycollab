@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.core.utils;
 
+import com.esofthead.mycollab.core.InvalidPasswordException;
+
 /**
  * 
  * @author MyCollab Ltd.

@@ -44,7 +44,7 @@ public class TimezoneNotification extends AbstractNotification {
 		spanEl.appendText("You haven't chosen preferred timezone. Please set it ");
 
 		A link = new A(AccountLinkGenerator.generatePreviewFullUserLink(
-				AppContext.getSiteUrl(), AppContext.getSession().getUsername()));
+				AppContext.getSiteUrl(), AppContext.getUser().getUsername()));
 		link.appendText("here");
 		spanEl.appendChild(link);
 		return new Label(FontAwesome.EXCLAMATION.getHtml() + " " + spanEl.write(), ContentMode.HTML);

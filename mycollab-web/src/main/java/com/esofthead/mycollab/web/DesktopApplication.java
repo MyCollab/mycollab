@@ -37,7 +37,6 @@ import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
@@ -54,8 +53,6 @@ import org.vaadin.dialogs.ConfirmDialog;
 import javax.servlet.http.Cookie;
 import java.util.Collection;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -63,17 +60,13 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_APP;
 @Theme("mycollab")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
 public class DesktopApplication extends MyCollabUI {
-
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(DesktopApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DesktopApplication.class);
+    public static final String NAME_COOKIE = "mycollab";
+    public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     private MainWindowContainer mainWindowContainer;
-
-    public static final String NAME_COOKIE = "mycollab";
-
-    public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     @Override
     protected void init(VaadinRequest request) {
@@ -96,7 +89,6 @@ public class DesktopApplication extends MyCollabUI {
         });
 
         initialUrl = this.getPage().getUriFragment();
-        MyCollabSession.putVariable(CURRENT_APP, this);
         currentContext = new AppContext();
         postSetupApp(request);
         try {
@@ -227,9 +219,8 @@ public class DesktopApplication extends MyCollabUI {
 
     private void clearSession() {
         if (currentContext != null) {
-            currentContext.clearSession();
+            currentContext.clearSessionVariables();
             initialUrl = "";
-            VaadinSession.getCurrent().close();
         }
     }
 

@@ -452,8 +452,6 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
             this.setImmediate(true);
             this.setLocale(Locale.US);
 
-            Date today = new Date();
-            calendar.setTime(today);
             int rollAmount = calendar.get(GregorianCalendar.DAY_OF_MONTH) - 1;
             calendar.add(GregorianCalendar.DAY_OF_MONTH, -rollAmount);
             resetTime(false);

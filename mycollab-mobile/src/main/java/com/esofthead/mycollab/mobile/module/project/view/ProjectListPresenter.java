@@ -35,50 +35,46 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public class ProjectListPresenter
-		extends
-		AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
+        extends AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
+    private static final long serialVersionUID = 35574182873793474L;
 
-	private static final long serialVersionUID = 35574182873793474L;
+    public ProjectListPresenter() {
+        super(ProjectListView.class);
+    }
 
-	public ProjectListPresenter() {
-		super(ProjectListView.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        ModuleHelper.setCurrentModule(view);
+        super.onGo(container, data);
+        doSearch((ProjectSearchCriteria) data.getParams());
+        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ModuleHelper.setCurrentModule(view);
-		super.onGo(container, data);
-		doSearch((ProjectSearchCriteria) data.getParams());
-		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);
+        ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
+        projectModuleMenu.selectButton(AppContext
+                .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
 
-		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
-		projectModuleMenu.selectButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
+        MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI
+                .getCurrent().getContent();
+        currentNavigationManager.setNavigationMenu(projectModuleMenu);
 
-		MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI
-				.getCurrent().getContent();
-		currentNavigationManager.setNavigationMenu(projectModuleMenu);
+        String url = ((MobileApplication) UI.getCurrent()).getInitialUrl();
+        if (url != null && !url.equals("")) {
+            String[] tokens = url.split("/");
+            if (tokens.length > 1) {
+                String[] fragments = Arrays.copyOfRange(tokens, 1,
+                        tokens.length);
+                MobileApplication.rootUrlResolver.getSubResolver("project")
+                        .handle(fragments);
+            }
+        } else {
+            AppContext.addFragment("project/",
+                    AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
+        }
 
-		String url = MobileApplication.getInstance().getInitialUrl();
-		if (url != null && !url.equals("")) {
-			String[] tokens = url.split("/");
-			if (tokens.length > 1) {
-				String[] fragments = Arrays.copyOfRange(tokens, 1,
-						tokens.length);
-				MobileApplication.rootUrlResolver.getSubResolver("project")
-						.handle(fragments);
-			}
-		} else {
-			AppContext.addFragment("project/",
-					AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
-		}
-		MobileApplication.getInstance().setInitialUrl("");
-
-	}
+        ((MobileApplication) UI.getCurrent()).setInitialUrl("");
+    }
 
 }

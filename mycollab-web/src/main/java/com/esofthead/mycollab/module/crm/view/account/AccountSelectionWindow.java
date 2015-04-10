@@ -57,7 +57,6 @@ public class AccountSelectionWindow extends Window {
         AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
         accountSimpleSearchPanel
                 .addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
-
                     @Override
                     public void onSearch(AccountSearchCriteria criteria) {
                         tableItem.setSearchCriteria(criteria);

@@ -76,5 +76,4 @@ public class LabelLink extends Label {
         div.getChild(1).setAttribute("href", href);
         this.setValue(div.write());
     }
-
 }

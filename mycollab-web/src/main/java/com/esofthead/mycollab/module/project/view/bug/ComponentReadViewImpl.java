@@ -34,10 +34,7 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -184,7 +181,7 @@ public class ComponentReadViewImpl extends
         ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new
                 ProjectPreviewFormControlsGenerator<>(
                 previewForm);
-        final HorizontalLayout topPanel = componentPreviewForm
+        HorizontalLayout topPanel = componentPreviewForm
                 .createButtonControls(ProjectRolePermissionCollections.COMPONENTS);
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -200,7 +197,6 @@ public class ComponentReadViewImpl extends
                     quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
-
                     ComponentReadViewImpl.this
                             .addLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
@@ -254,9 +250,7 @@ public class ComponentReadViewImpl extends
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
 
             Label spacingLbl1 = new Label("");
-
             Button chartBtn = new Button("");
-
             chartBtn.setIcon(FontAwesome.TH_LARGE);
             chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -316,7 +310,7 @@ public class ComponentReadViewImpl extends
 
     private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<SimpleBug> {
         @Override
-        public com.vaadin.ui.Component generateRow(SimpleBug bug, int rowIndex) {
+        public com.vaadin.ui.Component generateRow(AbstractBeanPagedList host, SimpleBug bug, int rowIndex) {
             Label lbl = new Label(buildDivLine(bug).write(), ContentMode.HTML);
             if (bug.isOverdue()) {
                 lbl.addStyleName("overdue");
@@ -337,26 +331,10 @@ public class ComponentReadViewImpl extends
             Div div = new Div();
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
-            A itemLink = new A();
-            itemLink.setId("tag" + uid);
-            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                    bug.getProjectShortName(),
-                    bug.getProjectid(), ProjectTypeConstants.BUG,
-                    bug.getBugkey() + ""));
-
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + ProjectTypeConstants.BUG + "'";
-            String arg19 = "'" + bug.getId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             itemLink.appendText(String.format("[%s-%d] %s", bug.getProjectShortName(), bug.getBugkey(), bug
                     .getSummary()));
 
@@ -373,13 +351,11 @@ public class ComponentReadViewImpl extends
             Div div = new Div();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(
                     bug.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    bug.getProjectid(),
-                    bug.getAssignuser()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    bug.getProjectid(), bug.getAssignuser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, bug.getAssignuser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, bug.getAssignuser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(bug.getAssignuserFullName());
 
             div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
@@ -404,8 +380,7 @@ public class ComponentReadViewImpl extends
             this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -415,8 +390,7 @@ public class ComponentReadViewImpl extends
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
                 Label createdLbl = new Label(
-                        AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                        AppContext.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
@@ -427,7 +401,7 @@ public class ComponentReadViewImpl extends
                 String createdUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "createdUserFullName");
 
-                UserLink createdUserLink = new UserLink(createdUserName,
+                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
@@ -444,12 +418,11 @@ public class ComponentReadViewImpl extends
                 String assignUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "userLeadFullName");
 
-                UserLink assignUserLink = new UserLink(assignUserName,
+                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
                         assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {
-                LOG.error("Can not build user link {} ",
-                        BeanUtility.printBeanObj(bean));
+                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
             }
 
             this.addComponent(layout);

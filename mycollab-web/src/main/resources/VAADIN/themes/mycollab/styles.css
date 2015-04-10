@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.2";
+	content: "7.4.3";
 }
 
 .v-generated-body {
@@ -317,7 +317,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .v-vertical.case-noitem {
-	border-radius: 0 0px 4px 4px;
 	box-sizing: content-box;
 }
 
@@ -6660,17 +6659,6 @@ td.v-inline-datefield-calendarpanel-nextyear {
 	margin-right: 0;
 }
 
-.v-csslayout.border-box2-color {
-	background-color: #d4dfef;
-	border-radius: 5px;
-	padding: 0px;
-	border: 1px solid #CFCFCF;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 0px;
-}
-
 .xbreadcrumbs {
 	background-color: transparent !important;
 }
@@ -7542,7 +7530,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .v-vertical.case-noitem {
-	border-radius: 0 0px 4px 4px;
 	box-sizing: content-box;
 }
 
@@ -8301,7 +8288,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .project-tableless .column200 {
 	display: table-cell;
-	width: 200px;
+	width: 160px;
 	padding: 5px;
 	padding-left: 0px;
 }
@@ -8505,7 +8492,7 @@ div.v-csslayout.followers-container .v-checkbox {
 
 .pages-list-layout .page-item-block {
 	border-top: 1px solid #C8C8C8;
-	padding: 12px 0px;
+	padding: 6px 24px 6px 0px;
 }
 
 .pages-list-layout .page-item-block .h3 .v-button-caption {
@@ -8805,6 +8792,28 @@ div.v-button.token-field:hover {
 
 .in-progress-milestones, .future-milestones {
 	border-left: 1px solid #d7d7d7;
+}
+
+.tasklist {
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-width: 0px 1px 1px 1px;
+	background-color: honeydew;
+	min-height: 33px;
+}
+
+.tasklist .taskrow {
+	border-style: solid;
+	border-color: #CFCFCF;
+	border-width: 0px 0px 1px 0px;
+}
+
+.tasklist .taskrow:last-child {
+	border-style: none;
+}
+
+.tasklist .taskrow:hover {
+	background-color: ghostwhite;
 }
 
 html {
@@ -10823,11 +10832,6 @@ td.v-tabsheet-spacertd div {
 	border-color: transparent #ff9339;
 }
 
-.message .user-name {
-	text-align: center !important;
-	color: #0061ac;
-}
-
 .message-header .post-owner {
 	color: #525252;
 }
@@ -11047,6 +11051,41 @@ div.v-lazyloadingwrapper-loading {
 	overflow-y: auto;
 	background-color: #FFF;
 	position: relative;
+}
+
+div.v-csslayout.main-body {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.v-sliderpanel-wrapper .v-sliderpanel-content {
+	background: powderblue;
+	color: gray;
+}
+
+.v-sliderpanel-wrapper .v-sliderpanel-tab {
+	background: powderblue;
+	color: gray;
+}
+
+.v-sliderpanel-wrapper .v-sliderpanel-tab .v-sliderpanel-caption {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.right-tool {
+	z-index: 9999;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+	bottom: 0px;
+	height: 200px;
 }
 
 .footer {

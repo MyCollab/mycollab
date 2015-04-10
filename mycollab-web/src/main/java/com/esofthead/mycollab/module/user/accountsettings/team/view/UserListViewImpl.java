@@ -65,10 +65,9 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                 .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
         this.removeAllComponents();
-        HorizontalLayout header = new HorizontalLayout();
-        header.setStyleName(UIConstants.HEADER_VIEW);
-        header.setWidth("100%");
-        header.setMargin(new MarginInfo(true, false, true, false));
+        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false)
+                .withMargin(new MarginInfo(true, false, true, false)).withStyleName(UIConstants.HEADER_VIEW)
+                .withWidth("100%");
         Button createBtn = new Button("Invite user",
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -84,8 +83,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
 
-        header.addComponent(createBtn);
-        header.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        header.with(createBtn).withAlign(createBtn, Alignment.MIDDLE_RIGHT);
         this.addComponent(header);
 
         CssLayout contentLayout = new CssLayout();
@@ -101,8 +99,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         memberBlock.addStyleName("member-block");
 
         VerticalLayout blockContent = new VerticalLayout();
-        HorizontalLayout blockTop = new HorizontalLayout();
-        blockTop.setSpacing(true);
+        MHorizontalLayout blockTop = new MHorizontalLayout();
         Image memberAvatar = UserAvatarControlFactory
                 .createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         blockTop.addComponent(memberAvatar);
@@ -267,9 +264,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             blockContent.addComponent(lbl);
         }
         blockContent.setWidth("100%");
-
         memberBlock.addComponent(blockContent);
-
         return memberBlock;
     }
 }

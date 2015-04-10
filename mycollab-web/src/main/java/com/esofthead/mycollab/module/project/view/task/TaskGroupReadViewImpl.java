@@ -35,10 +35,8 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.module.project.ui.components.*;
+import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -49,7 +47,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -173,13 +170,7 @@ public class TaskGroupReadViewImpl extends
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
                 if (TaskList.Field.milestoneid.equalTo(propertyId)) {
-                    return new LinkViewField(
-                            beanItem.getMilestoneName(),
-                            ProjectLinkBuilder
-                                    .generateMilestonePreviewFullLink(
-                                            beanItem.getProjectid(),
-                                            beanItem.getMilestoneid()),
-                            ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
+                    return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, beanItem.getMilestoneid() + "", beanItem.getMilestoneName());
                 } else if (TaskList.Field.owner.equalTo(propertyId)) {
                     return new ProjectUserFormLinkField(beanItem.getOwner(),
                             beanItem.getOwnerAvatarId(),
@@ -263,7 +254,7 @@ public class TaskGroupReadViewImpl extends
 
     private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<SimpleTask> {
         @Override
-        public Component generateRow(SimpleTask task, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, SimpleTask task, int rowIndex) {
             Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
             if (task.isOverdue()) {
                 lbl.addStyleName("overdue");
@@ -284,7 +275,8 @@ public class TaskGroupReadViewImpl extends
             String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
                     .getTaskname());
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml());
-            A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
+            String uid = UUID.randomUUID().toString();
+            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName);
             if (task.isCompleted()) {
                 taskLink.setCSSClass("completed");
@@ -294,21 +286,8 @@ public class TaskGroupReadViewImpl extends
                 taskLink.setCSSClass("pending");
             }
 
-            String uid = UUID.randomUUID().toString();
-            taskLink.setId("tag" + uid);
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + ProjectTypeConstants.TASK + "'";
-            String arg19 = "'" + task.getId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            taskLink.setAttribute("onmouseover", mouseOverFunc);
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
                     TooltipHelper.buildDivTooltipEnable(uid));
             return div;
@@ -322,13 +301,11 @@ public class TaskGroupReadViewImpl extends
             Div div = new Div();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(
                     task.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectid(),
-                    task.getAssignuser()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectid(), task.getAssignuser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignuser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignuser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(task.getAssignUserFullName());
 
             div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
@@ -376,7 +353,7 @@ public class TaskGroupReadViewImpl extends
                 String createdUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "createdUserFullName");
 
-                UserLink createdUserLink = new UserLink(createdUserName,
+                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
@@ -393,7 +370,7 @@ public class TaskGroupReadViewImpl extends
                 String assignUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "ownerFullName");
 
-                UserLink assignUserLink = new UserLink(assignUserName,
+                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
                         assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {

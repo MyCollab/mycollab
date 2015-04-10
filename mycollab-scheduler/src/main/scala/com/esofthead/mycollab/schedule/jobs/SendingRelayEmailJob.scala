@@ -21,7 +21,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.MyCollabException
 import com.esofthead.mycollab.core.utils.JsonDeSerializer
 import com.esofthead.mycollab.module.mail.DefaultMailer
-import com.esofthead.mycollab.module.mail.service.MailRelayService
+import com.esofthead.mycollab.module.mail.service.{ExtMailService, MailRelayService}
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailsAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import org.quartz.JobExecutionContext
@@ -34,7 +34,8 @@ import org.springframework.stereotype.Component
 import scala.collection.mutable.ListBuffer
 
 /**
- * Created by baohan on 1/6/15.
+ * @author MyCollab Ltd.
+ * @since 4.6.0
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
@@ -42,6 +43,8 @@ class SendingRelayEmailJob extends GenericQuartzJobBean {
   private val LOG = LoggerFactory.getLogger(classOf[SendingRelayEmailJob])
 
   @Autowired private val mailRelayService: MailRelayService = null
+
+  @Autowired private val extMailService:ExtMailService = null
 
   @Override
   def executeJob(context: JobExecutionContext) {
@@ -62,8 +65,7 @@ class SendingRelayEmailJob extends GenericQuartzJobBean {
             i = i + 1
           }
 
-          val mailer: DefaultMailer = new DefaultMailer(SiteConfiguration.getEmailConfiguration)
-          mailer.sendHTMLMail(relayEmail.getFromemail, relayEmail.getFromname, toMailList.toList, null, null, relayEmail
+          extMailService.sendHTMLMail(relayEmail.getFromemail, relayEmail.getFromname, toMailList.toList, null, null, relayEmail
             .getSubject, relayEmail.getBodycontent, null)
         }
         catch {

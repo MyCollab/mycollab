@@ -20,15 +20,15 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.0
- * 
+ *
  */
 public class GenericTaskTableFieldDef {
-	public static TableViewField name = new TableViewField(null, "name",
-			UIConstants.TABLE_EX_LABEL_WIDTH);
+    public static TableViewField name = new TableViewField(null, "name",
+            UIConstants.TABLE_EX_LABEL_WIDTH);
 
-	public static TableViewField assignUser = new TableViewField(null,
-			"assignUser", UIConstants.TABLE_EX_LABEL_WIDTH);
+    public static TableViewField assignUser = new TableViewField(null,
+            "assignUser", UIConstants.TABLE_EX_LABEL_WIDTH);
 }

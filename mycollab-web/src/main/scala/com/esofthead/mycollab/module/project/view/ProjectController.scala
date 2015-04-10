@@ -30,7 +30,7 @@ import com.esofthead.mycollab.module.project.domain.criteria._
 import com.esofthead.mycollab.module.project.events._
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus
 import com.esofthead.mycollab.module.project.service.StandupReportService
-import com.esofthead.mycollab.module.project.view.file.IFilePresenter
+import com.esofthead.mycollab.module.project.view.file.FilePresenter
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData.SearchItem
 import com.esofthead.mycollab.module.project.view.parameters._
@@ -462,7 +462,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
   private def bindFileEvents(): Unit = {
     this.register(new ApplicationEventListener[ProjectContentEvent.GotoDashboard] {
       @Subscribe def handle(event: ProjectContentEvent.GotoDashboard) {
-        val presenter: IFilePresenter = PresenterResolver.getPresenter(classOf[IFilePresenter])
+        val presenter: FilePresenter = PresenterResolver.getPresenter(classOf[FilePresenter])
         presenter.go(projectView, new FileScreenData.GotoDashboard)
       }
     })

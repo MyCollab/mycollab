@@ -41,6 +41,5 @@ public abstract class AbstractMailService implements IGenericMailService {
 
 		getMailer().sendHTMLMail(fromEmail, fromName, toEmail, ccEmail,
 				bccEmail, subject, html, attachments);
-
 	}
 }

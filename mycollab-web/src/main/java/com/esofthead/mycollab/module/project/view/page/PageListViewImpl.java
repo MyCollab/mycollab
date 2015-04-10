@@ -103,7 +103,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     private boolean kindSortAscend = true;
 
     public PageListViewImpl() {
-        this.setMargin(new MarginInfo(false, true, false, true));
+        this.setMargin(new MarginInfo(false, true, true, true));
 
         headerLayout = new MHorizontalLayout()
                 .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%")
@@ -198,7 +198,6 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                     }
                 });
         sortGroup.addButton(sortKindBtn);
-
         sortGroup.setDefaultButton(sortDateBtn);
 
         final Button newGroupBtn = new Button(
@@ -264,7 +263,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         iconResource.addStyleName("icon-48px");
 
         VerticalLayout block = new VerticalLayout();
-        block.setWidth("600px");
+        block.setWidth("100%");
         HorizontalLayout headerPanel = new HorizontalLayout();
         Button folderLink = new Button(resource.getName(),
                 new Button.ClickListener() {
@@ -278,19 +277,18 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
                     }
                 });
-        folderLink.addStyleName("link");
-        folderLink.addStyleName("h3");
+        folderLink.addStyleName("link h3");
         headerPanel.addComponent(folderLink);
         block.addComponent(headerPanel);
         block.addComponent(new Label(StringUtils.trimHtmlTags(resource
                 .getDescription())));
 
-        Label lastUpdateInfo = new Label(
+        Label lastUpdateInfo = new ELabel(
                 AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
                         ProjectLinkBuilder.generateProjectMemberHtmlLink(
                                 CurrentProjectVariables.getProjectId(), resource.getCreatedUser()),
-                        AppContext.formatDateTime(resource.getCreatedTime()
-                                .getTime())), ContentMode.HTML);
+                        AppContext.formatPrettyTime(resource.getCreatedTime()
+                                .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getCreatedTime().getTime()));
         lastUpdateInfo.addStyleName("last-update-info");
         block.addComponent(lastUpdateInfo);
 
@@ -372,8 +370,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         FontIconLabel iconResource = new FontIconLabel(FontAwesome.FILE_WORD_O);
         iconResource.addStyleName("icon-48px");
 
-        VerticalLayout block = new VerticalLayout();
-        block.setWidth("600px");
+        MVerticalLayout block = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
         HorizontalLayout headerPanel = new HorizontalLayout();
         Button pageLink = new Button(resource.getSubject(),
                 new Button.ClickListener() {
@@ -387,21 +384,17 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
                     }
                 });
-        pageLink.addStyleName("link");
-        pageLink.addStyleName("h3");
+        pageLink.addStyleName("link h3");
         headerPanel.addComponent(pageLink);
 
-        block.addComponent(headerPanel);
+        block.with(headerPanel, new SafeHtmlLabel(resource.getContent(), 400));
 
-        block.addComponent(new Label(StringUtils.trimHtmlTags(resource
-                .getContent())));
-
-        Label lastUpdateInfo = new Label(AppContext.getMessage(
+        Label lastUpdateInfo = new ELabel(AppContext.getMessage(
                 Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder
                         .generateProjectMemberHtmlLink(
                                 CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser()),
-                AppContext.formatDateTime(resource.getLastUpdatedTime()
-                        .getTime())), ContentMode.HTML);
+                AppContext.formatPrettyTime(resource.getLastUpdatedTime()
+                        .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
         lastUpdateInfo.addStyleName("last-update-info");
         block.addComponent(lastUpdateInfo);
 

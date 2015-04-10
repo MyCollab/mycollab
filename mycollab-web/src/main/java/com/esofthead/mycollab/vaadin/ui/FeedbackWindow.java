@@ -39,11 +39,9 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -72,12 +70,12 @@ public class FeedbackWindow extends Window {
 	}
 
 	private void initDefaultData() {
-		if (AppContext.getSession() != null) {
-			String name = AppContext.getSession().getDisplayName().equals("") ? ""
-					: AppContext.getSession().getDisplayName();
-			String email = (AppContext.getSession().getEmail() == null && AppContext
-					.getSession().getEmail().equals("")) ? "" : AppContext
-					.getSession().getEmail();
+		if (AppContext.getUser() != null) {
+			String name = AppContext.getUser().getDisplayName().equals("") ? ""
+					: AppContext.getUser().getDisplayName();
+			String email = (AppContext.getUser().getEmail() == null && AppContext
+					.getUser().getEmail().equals("")) ? "" : AppContext
+					.getUser().getEmail();
 			emailNameTextField.setValue(name);
 			emailTextField.setValue(email);
 		}

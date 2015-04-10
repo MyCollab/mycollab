@@ -39,10 +39,7 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsUtil;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
-import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
+import com.esofthead.mycollab.module.project.ui.components.*;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -141,9 +138,7 @@ public class MilestoneReadViewImpl extends
     @Override
     protected void onPreviewItem() {
         commentListComp.loadComments("" + beanItem.getId());
-
         historyListComp.loadHistory(beanItem.getId());
-
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
 
@@ -310,7 +305,7 @@ public class MilestoneReadViewImpl extends
 
     private static class AssignmentRowDisplay implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
         @Override
-        public Component generateRow(ProjectGenericTask task, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask task, int rowIndex) {
             Label lbl = new Label(buildDivLine(task).write(), ContentMode.HTML);
             if (task.isClosed()) {
                 lbl.addStyleName("completed");
@@ -331,8 +326,7 @@ public class MilestoneReadViewImpl extends
             Div div = new Div();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
 
-            A itemLink = new A();
-            itemLink.setId("tag" + uid);
+            A itemLink = new A().setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())
                     || ProjectTypeConstants.BUG.equals(task.getType())) {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -343,19 +337,8 @@ public class MilestoneReadViewImpl extends
                 throw new MyCollabException("Only support bug and task only");
             }
 
-            String arg17 = "'" + uid + "'";
-            String arg18 = "'" + task.getType() + "'";
-            String arg19 = "'" + task.getTypeId() + "'";
-            String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-            String arg21 = "'" + AppContext.getAccountId() + "'";
-            String arg22 = "'" + AppContext.getSiteUrl() + "'";
-            String arg23 = AppContext.getSession().getTimezone();
-            String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-            String mouseOverFunc = String.format(
-                    "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                    arg20, arg21, arg22, arg23, arg24);
-            itemLink.setAttribute("onmouseover", mouseOverFunc);
+            itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
+            itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             itemLink.appendText(String.format("[%s-%d] %s", task.getProjectShortName(), task.getExtraTypeId(), task
                     .getName()));
 
@@ -372,13 +355,11 @@ public class MilestoneReadViewImpl extends
             Div div = new Div();
             Img userAvatar = new Img("", StorageManager.getAvatarLink(
                     task.getAssignUserAvatarId(), 16));
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    task.getProjectId(),
-                    task.getAssignUser()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(task.getAssignUserFullName());
 
             div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
@@ -426,7 +407,7 @@ public class MilestoneReadViewImpl extends
                 String createdUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "createdUserFullName");
 
-                UserLink createdUserLink = new UserLink(createdUserName,
+                ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
@@ -443,7 +424,7 @@ public class MilestoneReadViewImpl extends
                 String assignUserDisplayName = (String) PropertyUtils
                         .getProperty(bean, "ownerFullName");
 
-                UserLink assignUserLink = new UserLink(assignUserName,
+                ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
                         assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {

@@ -43,7 +43,6 @@ public class LocalCacheManager {
 
 	static {
 		try {
-
 			InputStream configInputStream;
 			configInputStream = LocalCacheManager.class.getClassLoader()
 					.getResourceAsStream("infinispan-local.xml");

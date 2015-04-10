@@ -42,8 +42,10 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -132,9 +134,11 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
                     @Override
                     public void buttonClick(ClickEvent event) {
                         roleId = (Integer) roleComboBox.getValue();
+                        BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>)roleComboBox.getItem(roleId);
+                        String roleName = (item != null) ? item.getBean().getRolename() : "";
                         ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
                                 ProjectMemberInviteViewImpl.this,
-                                new InviteProjectMembers(inviteEmails, roleId,
+                                new InviteProjectMembers(inviteEmails, roleId, roleName,
                                         messageArea.getValue())));
 
                     }

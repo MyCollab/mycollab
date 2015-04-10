@@ -86,7 +86,7 @@ h3 {
 												<td><label for="sitename">Site name:</label></td>
 											</tr>
 											<tr>
-												<td><input id="sitename"/></td>
+												<td><input id="sitename" value="MyCollab"/></td>
 											</tr>
 																
 											<tr>
@@ -155,7 +155,7 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-								<h3 >Configure your outgoing SMTP email address to use with the software.</h3>
+								<h3 >Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file ${MYCOLLAB_HOME}/conf/mycollab.properties</h3>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
@@ -179,21 +179,20 @@ h3 {
 											<tr><td><h4>Password of your email account<h4></td></tr>
 										
 											<tr>
-												<td><label for="smtpHost">SMTP server name:</label></td>
+												<td><label for="smtpHost">Server name:</label></td>
 											</tr>
 											<tr>
 												<td><input id="smtpHost"/></td>
 											</tr>
-											<tr><td><h4>Your email service SMTP server address. If you use Gmail input address smtp.gmail.com<h4></td></tr>
+											<tr><td><h4>If you use Gmail, the value is smtp.gmail.com<h4></td></tr>
 											
 											<tr>
-												<td><label for="smtpPort">Mail server port:</label></td>
+												<td><label for="smtpPort">Port:</label></td>
 											</tr>
 											<tr>
 												<td><input id="smtpPort"/></td>
 											</tr>
-											<tr><td><h4>Port info of your email service. If you use Gmail, the port
-											is 587.<h4></td></tr>
+											<tr><td><h4>If you use Gmail, the port value is 587.<h4></td></tr>
 											
 											<tr>
 												<td style="width:30px;"><label for="tls" >Enable TLS/SSL:</label><input id="tls" type="checkbox"/></td>

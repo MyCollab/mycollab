@@ -48,7 +48,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             AbstractBeanPagedList.RowDisplayHandler<SimpleProject> {
 
         @Override
-        public Component generateRow(final SimpleProject project,
+        public Component generateRow(AbstractBeanPagedList host, final SimpleProject project,
                                      final int rowIndex) {
             final CssLayout layout = new CssLayout();
             layout.setWidth("100%");

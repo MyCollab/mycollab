@@ -48,8 +48,7 @@ import java.util.GregorianCalendar;
 @MultipartConfig(maxFileSize = 24657920, maxRequestSize = 24657920, fileSizeThreshold = 1024)
 public class FileUploadServlet extends GenericHttpServlet {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(FileUploadServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FileUploadServlet.class);
 
 	@Autowired
 	private ResourceService resourceService;
@@ -68,14 +67,10 @@ public class FileUploadServlet extends GenericHttpServlet {
 		if (fileName == null) {
 			return;
 		}
-		InputStream filecontent = null;
-		final PrintWriter writer = response.getWriter();
-
-		try {
-			filecontent = filePart.getInputStream();
-
+		PrintWriter writer = response.getWriter();
+		try (InputStream fileContent = filePart.getInputStream()) {
 			Content content = new Content(path + "/" + fileName);
-			resourceService.saveContent(content, "", filecontent, 1);
+			resourceService.saveContent(content, "", fileContent, 1);
 
 			String filePath = "";
 			StorageConfiguration storageConfiguration = StorageManager
@@ -92,7 +87,7 @@ public class FileUploadServlet extends GenericHttpServlet {
 			responseHtml = String.format(responseHtml, ckEditorFuncNum,
 					filePath, "");
 			writer.write(responseHtml);
-		} catch (FileNotFoundException fne) {
+		}catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
 					+ "trying to upload a file to a protected or nonexistent "
 					+ "location.");
@@ -100,13 +95,6 @@ public class FileUploadServlet extends GenericHttpServlet {
 
 			LOG.error("Problems during file upload. Error: {0}",
 					new Object[] { fne.getMessage() });
-		} finally {
-			if (filecontent != null) {
-				filecontent.close();
-			}
-			if (writer != null) {
-				writer.close();
-			}
 		}
 	}
 

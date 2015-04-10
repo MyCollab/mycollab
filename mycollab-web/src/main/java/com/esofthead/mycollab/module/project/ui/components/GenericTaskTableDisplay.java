@@ -16,7 +16,7 @@
  */
 /**
  * This file is part of mycollab-web.
- * <p/>
+ *
  * mycollab-web is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -26,7 +26,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * <p/>
+ *
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,7 +40,6 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ELabel;
-import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -94,7 +93,7 @@ public class GenericTaskTableDisplay extends
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
                 ProjectGenericTask task = getBeanByIndex(itemId);
-                return new UserLink(task.getAssignUser(), task
+                return new ProjectMemberLink(task.getAssignUser(), task
                         .getAssignUserAvatarId(), task.getAssignUserFullName());
             }
 

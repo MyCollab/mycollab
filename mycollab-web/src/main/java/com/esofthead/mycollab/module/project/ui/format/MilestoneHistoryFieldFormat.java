@@ -17,16 +17,13 @@
 package com.esofthead.mycollab.module.project.ui.format;
 
 import com.esofthead.mycollab.html.FormatUtils;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.hp.gagawa.java.elements.Text;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
-import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -46,7 +43,6 @@ import com.vaadin.ui.Label;
  * 
  */
 public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
-
 	private static final Logger LOG = LoggerFactory
 			.getLogger(MilestoneHistoryFieldFormat.class);
 
@@ -76,14 +72,8 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 					AppContext.getAccountId());
 
 			if (milestone != null) {
-				Text img = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE).getHtml());
-
-				String milestoneLink = ProjectLinkGenerator
-						.generateMilestonePreviewFullLink(
-								AppContext.getSiteUrl(),
-								milestone.getProjectid(), milestone.getId());
-				A link = FormatUtils.newA(milestoneLink, milestone.getName());
-				return FormatUtils.newLink(img, link).write();
+				return ProjectLinkBuilder.generateProjectItemLinkWithTooltip(CurrentProjectVariables.getShortName(),
+						milestone.getProjectid(), milestone.getName(), ProjectTypeConstants.MILESTONE, milestone.getId() + "", milestone.getId() + "");
 			}
 		} catch (Exception e) {
 			LOG.error("Error", e);

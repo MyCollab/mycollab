@@ -59,9 +59,4 @@ public class InstallUtils {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        boolean result = checkSMTPConfig("smtp.gmail.com", 587, "mail@esofthead.com", "esofthead321", true, "TLS");
-        System.out.println("RESULT: " + result);
-    }
 }

@@ -18,6 +18,8 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 
 /**
@@ -27,5 +29,14 @@ import com.vaadin.ui.Label;
 public class SafeHtmlLabel extends Label {
     public SafeHtmlLabel(String value) {
         super(StringUtils.formatRichText(value), ContentMode.HTML);
+        this.addStyleName("wordWrap");
+    }
+
+    public SafeHtmlLabel(String value, int trimCharacters) {
+        String content = StringUtils.formatRichText(value);
+        content = StringUtils.trim(content, trimCharacters);
+        this.setContentMode(ContentMode.HTML);
+        this.setValue(content);
+        this.addStyleName("wordWrap");
     }
 }

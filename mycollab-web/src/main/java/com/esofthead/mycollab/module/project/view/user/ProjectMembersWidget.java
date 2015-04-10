@@ -95,7 +95,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
             AbstractBeanPagedList.RowDisplayHandler<SimpleProjectMember> {
 
         @Override
-        public Component generateRow(final SimpleProjectMember member, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-row");
             layout.addStyleName("odd");
             layout.addComponent(new Image(null, UserAvatarControlFactory
@@ -129,18 +129,14 @@ public class ProjectMembersWidget extends MVerticalLayout {
         private String buildAssigneeValue(SimpleProjectMember member) {
             String uid = UUID.randomUUID().toString();
             Div div = new DivLessFormatter();
-            A userLink = new A();
-            userLink.setId("tag" + uid);
-            userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                    member.getProjectid(),
-                    member.getUsername()));
+            A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                    member.getProjectid(), member.getUsername()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, member.getUsername()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, member.getUsername()));
+            userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(member.getMemberFullName());
 
-            return div.appendChild(userLink,
-                    DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid)).write();
+            return div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
         }
     }
 }

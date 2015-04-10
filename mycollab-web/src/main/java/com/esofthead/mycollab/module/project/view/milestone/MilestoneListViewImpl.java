@@ -317,8 +317,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         CssLayout linkWrapper = new CssLayout();
         linkWrapper.setWidth("100%");
         linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(),
-                milestone.getOwnerAvatarId(), milestone.getOwnerFullName(),
-                false, true));
+                milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
         layoutHelper.addComponent(linkWrapper,
                 AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2,
                 Alignment.MIDDLE_LEFT);

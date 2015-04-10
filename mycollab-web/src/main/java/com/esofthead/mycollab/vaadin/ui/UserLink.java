@@ -14,167 +14,43 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+
+import java.util.UUID;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class UserLink extends Button {
-	private static final long serialVersionUID = 1L;
+public class UserLink extends Label {
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserLink.class);
-
-	public UserLink(final String username, String userAvatarId,
-			final String displayName, boolean useWordWrap) {
-		super(displayName);
-		this.addStyleName("link");
-
-		if (StringUtils.isNotEmpty(username)) {
-			this.setIcon(UserAvatarControlFactory.createAvatarResource(
-					userAvatarId, 16));
-		}
-
-		if (useWordWrap) {
-			this.addStyleName(UIConstants.WORD_WRAP);
-		}
-		this.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				UserService userService = ApplicationContextUtil
-						.getSpringBean(UserService.class);
-				SimpleUser user = userService.findUserByUserNameInAccount(
-						username, AppContext.getAccountId());
-				try {
-					UI.getCurrent().addWindow(new UserQuickPreviewWindow(user));
-				} catch (Exception e) {
-					LOG.error("Error while try to show user information window", e);
-				}
-			}
-		});
-	}
-
-	public UserLink(final String username, String userAvatarId,
-			final String displayName) {
-		this(username, userAvatarId, displayName, true);
-	}
-
-	public class UserQuickPreviewWindow extends Window {
-		private static final long serialVersionUID = 1L;
-		private SimpleUser user;
-
-		public UserQuickPreviewWindow(SimpleUser user) {
-			super("User preview");
-			this.center();
-			this.setWidth("500px");
-			this.setResizable(false);
-			this.addStyleName("user-preview-window");
-			this.user = user;
-			constructBody();
-		}
-
-		private void constructBody() {
-			MVerticalLayout layout = new MVerticalLayout();
-
-			MHorizontalLayout topLayout = new MHorizontalLayout();
-			layout.addComponent(topLayout);
-
-			// ---------define top layout
-			
-			topLayout.addComponent(new Label("View full profile at: "));
-
-			String userFullLinkStr = AccountLinkGenerator
-					.generatePreviewFullUserLink(AppContext.getSiteUrl(),
-							user.getUsername());
-			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr,
-					userFullLinkStr);
-
-			userFullLinkBtn.setWidth("370px");
-			topLayout.addComponent(userFullLinkBtn);
-			CssLayout mainBodyWapper = new CssLayout();
-			mainBodyWapper.addStyleName("border-box2-color");
-			mainBodyWapper.setSizeFull();
-
-			layout.addComponent(mainBodyWapper);
-			VerticalLayout bodyLayout = new VerticalLayout();
-			mainBodyWapper.addComponent(bodyLayout);
-			HorizontalLayout infoHorizontalWapper = new HorizontalLayout();
-			MVerticalLayout mainUserInfoLayout = new MVerticalLayout().withWidth("360px");
-			VerticalLayout userImageLayout = new VerticalLayout();
-			infoHorizontalWapper.addComponent(mainUserInfoLayout);
-			infoHorizontalWapper.addComponent(userImageLayout);
-			bodyLayout.addComponent(infoHorizontalWapper);
-
-			// Construct mainUserInfoLayout ------------------
-
-			Label userNameLbl = new Label(user.getDisplayName());
-			userNameLbl.addStyleName("h2");
-			mainUserInfoLayout.addComponent(userNameLbl);
-
-			HorizontalLayout emailLayout = new HorizontalLayout();
-			Label emailTitle = new Label("Email");
-			emailTitle.setWidth("120px");
-			emailLayout.addComponent(emailTitle);
-
-			Label emailLink = new Label("<a href=\"mailto:" + user.getEmail()
-					+ "\">" + user.getEmail() + "</a>", ContentMode.HTML);
-			emailLayout.addComponent(emailLink);
-			mainUserInfoLayout.addComponent(emailLayout);
-
-			HorizontalLayout timeZoneLayout = new HorizontalLayout();
-			Label timeLabel = new Label("Time");
-			timeLabel.setWidth("120px");
-			timeZoneLayout.addComponent(timeLabel);
-			timeZoneLayout.addComponent(new Label(TimezoneMapper.getTimezoneExt(
-					user.getTimezone()).getDisplayName()));
-			mainUserInfoLayout.addComponent(timeZoneLayout);
-
-			HorizontalLayout countryLayout = new HorizontalLayout();
-			Label countryTitle = new Label("Country");
-			countryTitle.setWidth("120px");
-			countryLayout.addComponent(countryTitle);
-			countryLayout.addComponent(new Label(user.getCountry()));
-			mainUserInfoLayout.addComponent(countryLayout);
-
-			HorizontalLayout phoneLayout = new HorizontalLayout();
-			Label phoneLbl = new Label("Phone");
-			phoneLbl.setWidth("120px");
-			phoneLayout.addComponent(phoneLbl);
-			phoneLayout.addComponent(new Label(user.getWorkphone()));
-			mainUserInfoLayout.addComponent(phoneLayout);
-
-			HorizontalLayout lastAccessTimeLayout = new HorizontalLayout();
-			Label lastAccessTimeTitle = new Label("Last access time");
-			lastAccessTimeTitle.setWidth("120px");
-			lastAccessTimeLayout.addComponent(lastAccessTimeTitle);
-			Label lastAccessTimeLabel = new Label(AppContext.formatPrettyTime(user.getLastaccessedtime()));
-			lastAccessTimeLayout.addComponent(lastAccessTimeLabel);
-			mainUserInfoLayout.addComponent(lastAccessTimeLayout);
-
-			// Construct userImageLayout ---------------------
-			Embedded embeedIcon = new Embedded("",
-					UserAvatarControlFactory.createAvatarResource(
-							user.getAvatarid(), 100));
-			userImageLayout.addComponent(embeedIcon);
-			this.setContent(layout);
-		}
-	}
+    public UserLink(String username, String userAvatarId,
+                    String displayName) {
+        if (StringUtils.isBlank(username)) {
+            return;
+        }
+        this.setContentMode(ContentMode.HTML);
+        String uid = UUID.randomUUID().toString();
+        DivLessFormatter div = new DivLessFormatter();
+        Img userAvatar = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
+        A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username))
+                .appendText(displayName);
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        this.setValue(div.write());
+    }
 }

@@ -75,11 +75,11 @@ public class UserAvatarHttpServletRequestHandler extends
 		FileStorageConfiguration fileConfiguration = (FileStorageConfiguration) StorageManager
 				.getConfiguration();
 		avatarFile = fileConfiguration.getAvatarFile(username, size);
-		InputStream avatarInputStream = null;
+		InputStream avatarInputStream;
 		if (avatarFile != null) {
 			avatarInputStream = new FileInputStream(avatarFile);
 		} else {
-			String userAvatarPath = "assets/images/default_user_avatar_" + size
+			String userAvatarPath = "assets/icon/default_user_avatar_" + size
 					+ ".png";
 			avatarInputStream = UserAvatarHttpServletRequestHandler.class
 					.getClassLoader().getResourceAsStream(userAvatarPath);
@@ -96,7 +96,7 @@ public class UserAvatarHttpServletRequestHandler extends
 			input = new BufferedInputStream(avatarInputStream);
 			output = new BufferedOutputStream(response.getOutputStream());
 			byte[] buffer = new byte[8192];
-			int length = 0;
+			int length;
 			while ((length = input.read(buffer)) > 0) {
 				output.write(buffer, 0, length);
 			}

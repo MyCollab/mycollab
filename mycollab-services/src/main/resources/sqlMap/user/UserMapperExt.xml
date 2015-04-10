@@ -108,14 +108,14 @@
     <sql id="selectUser">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.middlename, s_user.lastname, s_user.nickname, s_user.dateofbirth, 
-            s_user.email, s_user.website, s_user.registeredTime, 
+            s_user.email, s_user.website,
             s_user_preference.lastAccessedTime, s_user.company, 
             s_user.timezone, s_user.language, 
             s_user.country, s_user.workPhone, s_user.homePhone, 
             s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
             s_user.password, s_user.avatarId, s_user.status, s_account.subdomain AS subdomain,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
-            s_user_account.registerStatus
+            s_user_account.registerStatus, s_user_account.registeredTime
         FROM s_user 
                 INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
                 INNER JOIN s_account ON (s_user_account.accountId = s_account.id)

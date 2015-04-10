@@ -30,7 +30,6 @@ import com.hp.gagawa.java.elements.Text;
  * 
  */
 public class AccountLinkBuilder {
-
 	public static String generatePreviewFullUserLink(String username) {
 		return AccountLinkGenerator.generatePreviewFullUserLink(
 				AppContext.getSiteUrl(), username);
@@ -39,21 +38,5 @@ public class AccountLinkBuilder {
 	public static String generatePreviewFullRoleLink(Integer userRoleId) {
 		return AccountLinkGenerator.generatePreviewFullRoleLink(
 				AppContext.getSiteUrl(), userRoleId);
-	}
-
-	public static String generateUserHtmlLink(String username) {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		SimpleUser user = userService.findUserByUserNameInAccount(username,
-				AppContext.getAccountId());
-		if (user != null) {
-			A link = new A();
-			link.setHref(generatePreviewFullUserLink(username));
-			Text text = new Text(user.getDisplayName());
-			link.appendChild(text);
-			return link.write();
-		} else {
-			return null;
-		}
 	}
 }

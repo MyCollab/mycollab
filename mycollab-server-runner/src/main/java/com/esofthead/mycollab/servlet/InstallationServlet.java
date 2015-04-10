@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
@@ -78,6 +79,7 @@ public class InstallationServlet extends HttpServlet {
         } catch (Exception e) {
             PrintWriter out = response.getWriter();
             out.write("Cannot establish connection to database. Make sure your inputs are correct.");
+            LOG.error("Can not connect database", e);
             return;
         }
 
@@ -93,9 +95,10 @@ public class InstallationServlet extends HttpServlet {
                 smtpPassword,
                 true, enctype);
         if (!validSMTPAccount) {
-            PrintWriter out = response.getWriter();
-            out.write("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
-            return;
+//            PrintWriter out = response.getWriter();
+//            out.write("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
+//            return;
+            LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
         }
 
         templateContext.put("smtpAddress", smtpHost);
@@ -104,48 +107,40 @@ public class InstallationServlet extends HttpServlet {
         templateContext.put("smtpPassword", smtpPassword);
         templateContext.put("smtpTLSEnable", tls);
 
-        File confFolder = new File(System.getProperty("user.dir"), "conf");
-
-        if (!confFolder.exists()) {
-            confFolder = new File(System.getProperty("user.dir"),
-                    "src/main/conf");
+        File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
+        if (confFolder == null) {
+            throw new MyCollabException("The conf folder is not existed");
         }
 
-        if (!confFolder.exists()) {
-            throw new MyCollabException("Can not detect webapp base folder");
-        } else {
-            try {
-                File templateFile = new File(confFolder,
-                        "mycollab.properties.template");
-                FileReader templateReader = new FileReader(templateFile);
+        try {
+            File templateFile = new File(confFolder, "mycollab.properties.template");
+            FileReader templateReader = new FileReader(templateFile);
 
-                StringWriter writer = new StringWriter();
+            StringWriter writer = new StringWriter();
 
-                VelocityEngine engine = new VelocityEngine();
-                engine.evaluate(templateContext, writer, "log task",
-                        templateReader);
+            VelocityEngine engine = new VelocityEngine();
+            engine.evaluate(templateContext, writer, "log task",
+                    templateReader);
 
-                FileOutputStream outStream = new FileOutputStream(new File(
-                        confFolder, "mycollab.properties"));
-                outStream.write(writer.toString().getBytes());
-                outStream.flush();
-                outStream.close();
+            FileOutputStream outStream = new FileOutputStream(new File(
+                    confFolder, "mycollab.properties"));
+            outStream.write(writer.toString().getBytes());
+            outStream.flush();
+            outStream.close();
 
-                while (waitFlag == true) {
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        throw new MyCollabException(e);
-                    }
+            while (waitFlag) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new MyCollabException(e);
                 }
-
-            } catch (Exception e) {
-                LOG.error("Error while set up MyCollab", e);
-                PrintWriter out = response.getWriter();
-                out.write("Can not write setting to config file. You should contact mycollab support support@mycollab.com to solve this issue.");
-                return;
             }
-        }
 
+        } catch (Exception e) {
+            LOG.error("Error while set up MyCollab", e);
+            PrintWriter out = response.getWriter();
+            out.write("Can not write the settings to the file system. You should check our knowledge base system or contact us at support@mycollab.com to solve this issue.");
+            return;
+        }
     }
 }

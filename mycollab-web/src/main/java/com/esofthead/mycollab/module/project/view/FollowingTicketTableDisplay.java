@@ -46,8 +46,7 @@ import java.util.GregorianCalendar;
  * @since 1.0
  */
 public class FollowingTicketTableDisplay
-        extends
-        DefaultPagedBeanTable<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
+        extends DefaultPagedBeanTable<ProjectFollowingTicketService, FollowingTicketSearchCriteria, FollowingTicket> {
 
     private static final long serialVersionUID = 1L;
 

@@ -37,7 +37,6 @@ import com.vaadin.ui.ComboBox;
  * 
  */
 public class ProjectRoleComboBox extends ComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	private List<SimpleProjectRole> roleList;

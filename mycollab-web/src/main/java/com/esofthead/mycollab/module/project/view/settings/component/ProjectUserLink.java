@@ -17,11 +17,17 @@
 package com.esofthead.mycollab.module.project.view.settings.component;
 
 import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.utils.TooltipHelper;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Label;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.UUID;
 
 /**
  *
@@ -29,31 +35,23 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  *
  */
-public class ProjectUserLink extends LabelLink {
+public class ProjectUserLink extends Label {
     private static final long serialVersionUID = 1L;
 
     public ProjectUserLink(String username, String userAvatarId,
                            String displayName) {
-        this(username, userAvatarId, displayName, true, true);
-    }
-
-    public ProjectUserLink(String username, String userAvatarId,
-                           String displayName, boolean useWordWrap,
-                           boolean isDisplayAvatar) {
-
-        super(displayName, ProjectLinkBuilder.generateProjectMemberFullLink(
-                CurrentProjectVariables.getProjectId(), username));
-
-        if (isDisplayAvatar && StringUtils.isNotBlank(username)) {
-            String link = StorageManager.getAvatarLink(userAvatarId, 16);
-
-            this.setIconLink(link);
+        if (StringUtils.isBlank(username)) {
+            return;
         }
-
-        this.setStyleName("link");
-
-        if (useWordWrap) {
-            this.addStyleName(UIConstants.WORD_WRAP);
-        }
+        this.setContentMode(ContentMode.HTML);
+        DivLessFormatter div = new DivLessFormatter();
+        String uid = UUID.randomUUID().toString();
+        Img avatarLink = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
+        A memberLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                CurrentProjectVariables.getProjectId(), username)).appendText(displayName);
+        memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+        memberLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+        div.appendChild(avatarLink, DivLessFormatter.EMPTY_SPACE(), memberLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        this.setValue(div.write());
     }
 }

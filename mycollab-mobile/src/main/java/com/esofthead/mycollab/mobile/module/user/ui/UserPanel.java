@@ -82,7 +82,7 @@ public class UserPanel extends HorizontalLayout {
 	private void setUserInfo() {
 		userAvatar.setSource(UserAvatarControlFactory.createAvatarResource(
 				AppContext.getUserAvatarId(), 24));
-		userName.setCaption(AppContext.getSession().getDisplayName());
+		userName.setCaption(AppContext.getUser().getDisplayName());
 	}
 
 }

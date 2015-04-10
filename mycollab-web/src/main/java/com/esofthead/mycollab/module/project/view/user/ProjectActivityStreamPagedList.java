@@ -175,13 +175,11 @@ public class ProjectActivityStreamPagedList extends
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageManager.getAvatarLink(
                 activityStream.getCreatedUserAvatarId(), 16));
-        A userLink = new A();
-        userLink.setId("tag" + uid);
-        userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
-                activityStream.getExtratypeid(),
-                activityStream.getCreateduser()));
+        A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+                activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
-        userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, activityStream.getCreateduser()));
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
+        userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         userLink.appendText(activityStream.getCreatedUserFullName());
 
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
@@ -195,8 +193,7 @@ public class ProjectActivityStreamPagedList extends
         DivLessFormatter div = new DivLessFormatter();
         Text image = new Text(ProjectAssetsManager.getAsset(activityStream
                 .getType()).getHtml());
-        A itemLink = new A();
-        itemLink.setId("tag" + uid);
+        A itemLink = new A().setId("tag" + uid);
         if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                 || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
             itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
@@ -210,19 +207,8 @@ public class ProjectActivityStreamPagedList extends
                     activityStream.getTypeid()));
         }
 
-        String arg17 = "'" + uid + "'";
-        String arg18 = "'" + activityStream.getType() + "'";
-        String arg19 = "'" + activityStream.getTypeid() + "'";
-        String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-        String arg21 = "'" + activityStream.getSaccountid() + "'";
-        String arg22 = "'" + AppContext.getSiteUrl() + "'";
-        String arg23 = AppContext.getSession().getTimezone();
-        String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-
-        String mouseOverFunc = String.format(
-                "return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
-                arg20, arg21, arg22, arg23, arg24);
-        itemLink.setAttribute("onmouseover", mouseOverFunc);
+        itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
+        itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         itemLink.appendText(activityStream.getNamefield());
 
         div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),

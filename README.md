@@ -5,25 +5,25 @@
 
 MyCollab has bundle three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
-<table>
+<table>no
   <tr>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8643/16002088053_c0625bfc27_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm9.staticflickr.com/8643/16002088053_349a44fa8e_m.jpg" alt="Project Dashboard">
+      <a href="https://farm8.staticflickr.com/7628/16887333257_13dbb12d14_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm8.staticflickr.com/7628/16887333257_8c2e628113_m.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm8.staticflickr.com/7444/16348037810_0baef51371_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm8.staticflickr.com/7444/16348037810_4769d44661_m.jpg" alt="Bug Dashboard">
+      <a href="https://farm9.staticflickr.com/8713/16906942258_662a2e8263_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm9.staticflickr.com/8713/16906942258_4988369db6_m.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8632/16414547937_a74c207794_o.png" target="_blank" title="Task Dashboard">
-        <img src="https://farm9.staticflickr.com/8632/16414547937_1226b19ee8_m.jpg" alt="Task Dashboard">
+      <a href="https://farm8.staticflickr.com/7717/16887333327_5edda85b54_o.png" target="_blank" title="Task Dashboard">
+        <img src="https://farm8.staticflickr.com/7717/16887333327_5dcb227bdb_m.jpg" alt="Task Dashboard">
       </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,8 +31,8 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
   </tr>
   <tr>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8646/16620727611_302a26eae2_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm9.staticflickr.com/8646/16620727611_1a5f325b30_m.jpg" alt="Page Editor">
+      <a href="https://farm9.staticflickr.com/8715/17068773436_01d5f24e9d_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm9.staticflickr.com/8715/17068773436_a10b27b1e9_m.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>
@@ -111,4 +111,4 @@ Contact the MyCollab team at:
 ## History
 We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty, Solr etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we believe that there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
 
-You can try MyCollab on-demand edition on site http://www.mycollab.com
+You can try MyCollab on-demand edition on site https://www.mycollab.com

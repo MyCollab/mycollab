@@ -43,7 +43,6 @@ public abstract class MyCollabAssets {
 	}
 
 	public static class S3 extends MyCollabAssets {
-
 		private static String S3_ASSETS = "https://s3.amazonaws.com/mycollab_assets/%s";
 
 		@Override

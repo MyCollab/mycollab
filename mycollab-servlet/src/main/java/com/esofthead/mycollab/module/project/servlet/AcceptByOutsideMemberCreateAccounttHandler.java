@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.servlet;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.utils.InvalidPasswordException;
+import com.esofthead.mycollab.core.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.UserExistedException;

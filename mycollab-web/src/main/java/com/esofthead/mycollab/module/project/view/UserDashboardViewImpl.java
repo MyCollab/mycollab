@@ -145,7 +145,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
         MVerticalLayout headerContent = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
         headerContent.addStyleName("projectfeed-hdr-content");
 
-        Label headerLabel = new Label(AppContext.getSession().getDisplayName());
+        Label headerLabel = new Label(AppContext.getUser().getDisplayName());
         headerLabel.setStyleName(Reindeer.LABEL_H1);
 
         MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false,
@@ -254,7 +254,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
     private static class ItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
-        public Component generateRow(ProjectGenericItem obj, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem obj, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true))
                     .withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(obj.getProjectShortName(), obj
@@ -277,7 +277,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(obj.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(obj.getProjectId(), obj
                         .getCreatedUser())).appendText(obj.getCreatedUserDisplayName());
-                userLink.setAttribute("onmouseover", TooltipHelper.buildUserHtmlTooltip(uid, obj.getCreatedUser()));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, obj.getCreatedUser()));
+                userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 Text belongPrjTxt = new Text(" - Project: ");
                 A projectLink = new A().setHref(ProjectLinkBuilder.generateProjectFullLink(obj.getProjectId()))
                         .appendText(obj.getProjectName() + " (" + obj.getProjectShortName() + ")");

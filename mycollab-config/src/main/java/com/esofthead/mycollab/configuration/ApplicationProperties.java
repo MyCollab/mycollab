@@ -16,14 +16,14 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
-
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.properties.EncryptableProperties;
 
-import com.esofthead.mycollab.core.MyCollabException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * This file contains all constants define in system properties file
@@ -59,12 +59,6 @@ public class ApplicationProperties {
 	public static final String MAIL_IS_TLS = "mail.isTLS";
 	public static final String MAIL_NOREPLY = "mail.noreply";
 
-	public static final String RELAYMAIL_SMTPHOST = "relaymail.smtphost";
-	public static final String RELAYMAIL_PORT = "relaymail.port";
-	public static final String RELAYMAIL_USERNAME = "relaymail.username";
-	public static final String RELAYMAIL_PASSWORD = "relaymail.password";
-	public static final String RELAYMAIL_IS_TLS = "relaymail.isTLS";
-
 	public static final String ERROR_SENDTO = "error.sendTo";
 	public static final String STORAGE_SYSTEM = "storageSystem";
 
@@ -85,23 +79,20 @@ public class ApplicationProperties {
 
 		properties = new EncryptableProperties(encryptor);
 		try {
-			File myCollabResourceFile = new File(
-					System.getProperty("user.dir"), "conf/mycollab.properties");
+			File myCollabResourceFile = getAppConfigFile();
 
-			if (!myCollabResourceFile.exists()) {
-				myCollabResourceFile = new File(System.getProperty("user.dir"),
-						"src/main/conf/mycollab.properties");
-			}
-
-			if (myCollabResourceFile.exists()) {
+			if (myCollabResourceFile != null) {
 				properties.load(new FileInputStream(myCollabResourceFile));
 			} else {
-				properties.load(Thread.currentThread().getContextClassLoader()
-						.getResourceAsStream(RESOURCE_PROPERTIES));
+				throw new IllegalArgumentException("Can not file the application properties");
 			}
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
+	}
+
+	public static File getAppConfigFile() {
+		return FileUtils.getDesireFile(System.getProperty("user.dir"),"conf/mycollab.properties", "src/main/conf/mycollab.properties");
 	}
 
 	public static Properties getAppProperties() {

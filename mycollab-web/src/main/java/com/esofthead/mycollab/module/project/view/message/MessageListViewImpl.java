@@ -16,13 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.message;
 
-import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -34,12 +32,11 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
-import com.esofthead.mycollab.module.project.events.MessageEvent;
-import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
+import com.esofthead.mycollab.module.project.ui.components.ProjectMemberBlock;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
@@ -49,10 +46,9 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
@@ -61,7 +57,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
@@ -150,43 +145,18 @@ public class MessageListViewImpl extends AbstractPageView implements
 
     }
 
-    private class MessageRowDisplayHandler implements
-            RowDisplayHandler<SimpleMessage> {
+    private class MessageRowDisplayHandler implements RowDisplayHandler<SimpleMessage> {
 
         @Override
-        public Component generateRow(final SimpleMessage message,
-                                     int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, final SimpleMessage message, int rowIndex) {
             final MHorizontalLayout messageLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false,
                     true, false)).withStyleName("message").withWidth("100%");
             if (message.getIsstick() != null && message.getIsstick()) {
                 messageLayout.addStyleName("important-message");
             }
-            MVerticalLayout userBlock = new MVerticalLayout().withMargin(false).withWidth("80px");
-            userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-            ClickListener gotoUser = new ClickListener() {
-                private static final long serialVersionUID = 1L;
 
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(
-                            new ProjectMemberEvent.GotoRead(
-                                    MessageListViewImpl.this, message
-                                    .getPosteduser()));
-                }
-            };
-            Button userAvatarBtn = UserAvatarControlFactory
-                    .createUserAvatarButtonLink(
-                            message.getPostedUserAvatarId(),
-                            message.getFullPostedUserName());
-            userAvatarBtn.addClickListener(gotoUser);
-            userBlock.addComponent(userAvatarBtn);
-            Button userName = new Button(message.getFullPostedUserName());
-            userName.setStyleName("user-name");
-            userName.addStyleName("link");
-            userName.addStyleName(UIConstants.WORD_WRAP);
-            userName.addClickListener(gotoUser);
-
-            userBlock.addComponent(userName);
+            ProjectMemberBlock userBlock = new ProjectMemberBlock(message.getPosteduser(), message.getPostedUserAvatarId(),
+                    message.getFullPostedUserName());
             messageLayout.addComponent(userBlock);
 
             CssLayout rowLayout = new CssLayout();
@@ -363,13 +333,13 @@ public class MessageListViewImpl extends AbstractPageView implements
 
         public TopMessagePanel() {
             this.withWidth("100%").withStyleName("message-toppanel");
-            this.messageSearchPanel = new MessageSearchPanel();
             this.messagePanelBody = new HorizontalLayout();
-            this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-            this.messageSearchPanel.setWidth("400px");
             this.messagePanelBody.setStyleName("message-toppanel-body");
             this.messagePanelBody.setWidth("100%");
+            this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+            this.messageSearchPanel = new MessageSearchPanel();
+            this.messageSearchPanel.setWidth("400px");
             this.addComponent(this.messagePanelBody);
 
             this.createBasicLayout();
@@ -400,10 +370,9 @@ public class MessageListViewImpl extends AbstractPageView implements
             addMessageWrapper.with(titleLayout, ckEditorTextField).withAlign(titleLayout, Alignment.MIDDLE_LEFT)
                     .withAlign(ckEditorTextField, Alignment.MIDDLE_CENTER).expand(ckEditorTextField);
 
-            final MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
+            MHorizontalLayout controls = new MHorizontalLayout().withWidth("100%");
 
-            final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
-                    attachments);
+            MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
             uploadExt.addComponent(attachments);
             controls.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
@@ -411,7 +380,7 @@ public class MessageListViewImpl extends AbstractPageView implements
                     AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
             controls.with(chkIsStick).withAlign(chkIsStick, Alignment.TOP_RIGHT);
 
-            final Button cancelBtn = new Button(
+            Button cancelBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -425,7 +394,7 @@ public class MessageListViewImpl extends AbstractPageView implements
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
-            final Button saveBtn = new Button(
+             Button saveBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_POST),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -437,8 +406,7 @@ public class MessageListViewImpl extends AbstractPageView implements
                                     .getProjectId());
                             message.setPosteddate(new GregorianCalendar()
                                     .getTime());
-                            if (!titleField.getValue().trim()
-                                    .equals("")) {
+                            if (!titleField.getValue().trim().equals("")) {
                                 message.setTitle(titleField.getValue());
                                 message.setMessage(ckEditorTextField.getValue());
                                 message.setPosteduser(AppContext.getUsername());
