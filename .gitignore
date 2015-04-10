@@ -1,4 +1,5 @@
-/mycollab-ui/.cache
+*~
+mycollab-ui/.cache
 mycollab-app-community/src/main/conf/mycollab.properties
 mycollab-app-community/logs/mycollab.out
 mycollab-app-community/logs/mycollab.out.1
