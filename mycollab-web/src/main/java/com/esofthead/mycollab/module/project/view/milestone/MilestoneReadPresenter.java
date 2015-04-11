@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
@@ -173,13 +174,14 @@ public class MilestoneReadPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MILESTONES)) {
+			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+			milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
 			if (data.getParams() instanceof Integer) {
 				MilestoneService milestoneService = ApplicationContextUtil
 						.getSpringBean(MilestoneService.class);
 				SimpleMilestone milestone = milestoneService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (milestone != null) {
-					MilestoneContainer milestoneContainer = (MilestoneContainer) container;
 					milestoneContainer.removeAllComponents();
 					milestoneContainer.addComponent(view.getWidget());
 					view.previewItem(milestone);

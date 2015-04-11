@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
@@ -41,6 +42,7 @@ import com.vaadin.ui.ComponentContainer;
 public class MessageListPresenter extends AbstractPresenter<MessageListView>
 		implements ListCommand<MessageSearchCriteria> {
 	private static final long serialVersionUID = 1L;
+
 	private MessageSearchCriteria searchCriteria;
 
 	public MessageListPresenter() {
@@ -83,6 +85,7 @@ public class MessageListPresenter extends AbstractPresenter<MessageListView>
 			breadCrumb.gotoMessageList();
 
 			MessageContainer messageContainer = (MessageContainer) container;
+			messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
 			messageContainer.removeAllComponents();
 			messageContainer.addComponent(view.getWidget());
 			doSearch((MessageSearchCriteria) data.getParams());

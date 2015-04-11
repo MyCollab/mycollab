@@ -20,6 +20,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.service.ProjectPageService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
@@ -78,6 +79,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
         if (CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
+            pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
             pageContainer.addComponent(view.getWidget());
 

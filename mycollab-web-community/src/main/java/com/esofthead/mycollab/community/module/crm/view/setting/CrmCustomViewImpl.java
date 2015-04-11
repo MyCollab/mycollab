@@ -57,5 +57,4 @@ public class CrmCustomViewImpl extends NotPresentedView implements
 	public void refreshSectionLayout(DynaSection section) {
 
 	}
-
 }

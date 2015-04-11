@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
@@ -98,6 +99,7 @@ public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
 			MessageContainer messageContainer = (MessageContainer) container;
+			messageContainer.navigateToContainer(ProjectTypeConstants.MESSAGE);
 			messageContainer.removeAllComponents();
 			messageContainer.addComponent(view.getWidget());
 

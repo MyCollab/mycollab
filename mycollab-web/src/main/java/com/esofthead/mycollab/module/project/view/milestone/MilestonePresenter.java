@@ -34,7 +34,6 @@ import com.vaadin.ui.ComponentContainer;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
-
 	private static final long serialVersionUID = 1L;
 
 	public MilestonePresenter() {
@@ -70,11 +69,8 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 	}
 
 	@Override
-	public void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
-
+	public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
 		ScreenData pageAction = pageActionChain.peek();
 		onGo(container, pageAction);
 	}
-
 }

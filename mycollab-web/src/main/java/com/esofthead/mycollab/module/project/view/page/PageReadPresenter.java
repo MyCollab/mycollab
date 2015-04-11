@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -105,6 +106,7 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.PAGES)) {
 			PageContainer pageContainer = (PageContainer) container;
+			pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
 			pageContainer.removeAllComponents();
 			pageContainer.addComponent(view.getWidget());
 

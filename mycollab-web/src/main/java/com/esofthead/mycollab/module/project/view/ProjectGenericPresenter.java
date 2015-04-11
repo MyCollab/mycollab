@@ -14,19 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+package com.esofthead.mycollab.module.project.view;
 
-package com.esofthead.mycollab.module.project.view.milestone;
-
-import com.esofthead.mycollab.module.project.ui.components.TransparentContainer;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.0.4
  */
-@ViewComponent
-public class MilestoneContainer extends TransparentContainer {
-	private static final long serialVersionUID = 1L;
-
+public abstract class ProjectGenericPresenter<V extends PageView> extends AbstractPresenter<V> {
+    public ProjectGenericPresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
 }

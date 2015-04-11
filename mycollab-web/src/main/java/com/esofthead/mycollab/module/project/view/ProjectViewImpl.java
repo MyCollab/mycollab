@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
@@ -29,6 +45,7 @@ import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
+import com.esofthead.mycollab.module.project.ui.components.TransparentContainer;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.FilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
@@ -424,7 +441,11 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
     @Override
     public Component gotoSubView(String viewId) {
-        return myProjectTab.selectTab(viewId);
+        Component comp = myProjectTab.selectTab(viewId);
+        if (comp instanceof TransparentContainer) {
+            ((TransparentContainer) comp).setHost(this);
+        }
+        return comp;
     }
 
     private void buildComponents() {

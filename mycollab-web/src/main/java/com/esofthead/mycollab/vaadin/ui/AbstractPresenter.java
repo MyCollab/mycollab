@@ -41,16 +41,12 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public abstract class AbstractPresenter<V extends PageView> implements
-		IPresenter<V> {
-
+public abstract class AbstractPresenter<V extends PageView> implements IPresenter<V> {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractPresenter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
 
 	protected Class<V> viewClass;
 	protected Class<V> implClass;
-
 	protected V view;
 
 	@SuppressWarnings("unchecked")
@@ -106,15 +102,6 @@ public abstract class AbstractPresenter<V extends PageView> implements
 		LOG.debug("Go to view: " + view);
 		if (isHistoryTrack) {
 			ViewState state = new ViewState(container, this, data);
-			if (LOG.isDebugEnabled()) {
-				StringBuilder str = new StringBuilder();
-				str.append("----").append("\n");
-				str.append("Add ").append(state).append("\n");
-				str.append("to history with container ").append(container)
-						.append("\n");
-				str.append("----");
-				LOG.debug(str.toString());
-			}
 			HistoryViewManager.addHistory(state);
 		}
 
@@ -161,7 +148,6 @@ public abstract class AbstractPresenter<V extends PageView> implements
 	@Override
 	public void handleChain(ComponentContainer container,
 			PageActionChain pageActionChain) {
-
 		ScreenData pageAction = pageActionChain.pop();
 		go(container, pageAction);
 

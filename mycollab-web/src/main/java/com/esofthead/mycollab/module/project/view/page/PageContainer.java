@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.module.project.ui.components.TransparentContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
 /**
@@ -26,7 +26,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  *
  */
 @ViewComponent
-public class PageContainer extends AbstractPageView {
+public class PageContainer extends TransparentContainer {
 	private static final long serialVersionUID = 1L;
 
 }

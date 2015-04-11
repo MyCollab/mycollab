@@ -14,28 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-web.
- * <p>
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.NewUpdateNotification;
 import com.esofthead.mycollab.common.ui.components.notification.RequestUploadAvatarNotification;
+import com.esofthead.mycollab.common.ui.components.notification.SmtpSetupNotification;
 import com.esofthead.mycollab.common.ui.components.notification.TimezoneNotification;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -46,6 +31,7 @@ import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingService;
+import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
@@ -383,6 +369,13 @@ public final class MainView extends AbstractPageView {
                 }
             } catch (Exception e) {
                 LOG.error("Error when call remote api", e);
+            }
+
+            ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
+            if (!mailService.isMailSetupValid()) {
+                EventBusFactory.getInstance().post(
+                        new ShellEvent.NewNotification(this,
+                                new SmtpSetupNotification()));
             }
         }
 

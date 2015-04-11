@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
@@ -42,8 +43,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class MilestoneListPresenter
-		extends
+public class MilestoneListPresenter extends
 		ProjectGenericListPresenter<MilestoneListView, MilestoneSearchCriteria, SimpleMilestone>
 		implements ListCommand<MilestoneSearchCriteria> {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +53,7 @@ public class MilestoneListPresenter
 	public MilestoneListPresenter() {
 		super(MilestoneListView.class, MilestoneListNoItemView.class);
 
-		milestoneService = ApplicationContextUtil
-				.getSpringBean(MilestoneService.class);
+		milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
 	}
 
 	@Override
@@ -67,6 +66,7 @@ public class MilestoneListPresenter
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MILESTONES)) {
 			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+			milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
 			milestoneContainer.removeAllComponents();
 			milestoneContainer.addComponent(view.getWidget());
 
@@ -75,9 +75,8 @@ public class MilestoneListPresenter
 			if (data.getParams() == null
 					|| !(data.getParams() instanceof MilestoneSearchCriteria)) {
 				searchCriteria = new MilestoneSearchCriteria();
-				searchCriteria
-						.setProjectId(new NumberSearchField(SearchField.AND,
-								CurrentProjectVariables.getProjectId()));
+				searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
+						CurrentProjectVariables.getProjectId()));
 			} else {
 				searchCriteria = (MilestoneSearchCriteria) data.getParams();
 			}
@@ -102,9 +101,8 @@ public class MilestoneListPresenter
 	@SuppressWarnings("unchecked")
 	@Override
 	public void doSearch(MilestoneSearchCriteria searchCriteria) {
-		List<SimpleMilestone> milestones = milestoneService
-				.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
-						searchCriteria, 0, Integer.MAX_VALUE));
+		List<SimpleMilestone> milestones = milestoneService.findPagableListByCriteria(new SearchRequest<>(
+				searchCriteria, 0, Integer.MAX_VALUE));
 		view.displayMilestones(milestones);
 	}
 
@@ -118,5 +116,4 @@ public class MilestoneListPresenter
 		throw new UnsupportedOperationException(
 				"This presenter doesn't support this operation");
 	}
-
 }

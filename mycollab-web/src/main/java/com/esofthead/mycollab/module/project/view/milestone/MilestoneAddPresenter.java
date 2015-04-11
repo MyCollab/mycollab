@@ -14,12 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
@@ -38,7 +55,6 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  */
 public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
-
     private static final long serialVersionUID = 1L;
 
     public MilestoneAddPresenter() {
@@ -52,7 +68,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public void onSave(final Milestone milestone) {
+                    public void onSave(Milestone milestone) {
                         int milestoneId = saveMilestone(milestone);
                         EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, milestoneId));
                     }
@@ -67,7 +83,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
                     }
 
                     @Override
-                    public void onSaveAndNew(final Milestone milestone) {
+                    public void onSaveAndNew(Milestone milestone) {
                         saveMilestone(milestone);
                         EventBusFactory.getInstance().post(
                                 new MilestoneEvent.GotoAdd(this, null));
@@ -80,6 +96,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
         if (CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.MILESTONES)) {
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
+            milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             milestoneContainer.removeAllComponents();
             milestoneContainer.addComponent(view.getWidget());
 

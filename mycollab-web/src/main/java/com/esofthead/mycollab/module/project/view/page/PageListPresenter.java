@@ -20,6 +20,7 @@ import com.esofthead.mycollab.module.page.domain.PageResource;
 import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -51,6 +52,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
         if (CurrentProjectVariables
                 .canRead(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
+            pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
 
             String path = (String) data.getParams();

@@ -87,28 +87,28 @@ public class UserSettingViewImpl extends AbstractPageView implements
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((TabSheetDecorator) event.getTabSheet())
+						 Tab tab = ((TabSheetDecorator) event.getTabSheet())
 								.getSelectedTabInfo();
-						final String caption = tab.getCaption();
-						final SimpleProject project = CurrentProjectVariables
+						 String caption = tab.getCaption();
+						 SimpleProject project = CurrentProjectVariables
 								.getProject();
 
 						if (AppContext.getMessage(
 								ProjectCommonI18nEnum.VIEW_USERS).equals(
 								caption)) {
-							final ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+							 ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
 							criteria.setStatus(new StringSearchField(
 									ProjectMemberStatusConstants.ACTIVE));
 							UserSettingViewImpl.this.userPresenter
 									.go(UserSettingViewImpl.this,
-											new ScreenData.Search<ProjectMemberSearchCriteria>(
+											new ScreenData.Search<>(
 													criteria));
 						} else if (AppContext.getMessage(
 								ProjectCommonI18nEnum.VIEW_ROLES).equals(
 								caption)) {
-							final ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+							 ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
 							UserSettingViewImpl.this.rolePresenter.go(

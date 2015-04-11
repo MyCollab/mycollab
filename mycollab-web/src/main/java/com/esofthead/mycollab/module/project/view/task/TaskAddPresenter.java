@@ -22,6 +22,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -84,6 +85,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
         if (CurrentProjectVariables
                 .canWrite(ProjectRolePermissionCollections.TASKS)) {
             TaskContainer taskContainer = (TaskContainer) container;
+            taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
             taskContainer.addComponent(view.getWidget());
             SimpleTask task = (SimpleTask) data.getParams();
