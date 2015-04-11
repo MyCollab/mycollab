@@ -1,0 +1,2097 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Fruitful theme\n"
+"POT-Creation-Date: 2014-07-14 16:43+0200\n"
+"PO-Revision-Date: 2014-12-30 14:00+0200\n"
+"Last-Translator: \n"
+"Language-Team: Fruitful Team <fruitfulcode.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;__;_n;esc_attr_e\n"
+"X-Poedit-Basepath: \\wamp\\www\\fruitful-woocommerce-ru\\wp-content\\themes"
+"\\fruitful\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\\n;\n"
+"X-Poedit-SearchPath-0: \\wamp\\www\\fruitful-woocommerce-ru\\wp-content"
+"\\themes\\fruitful\n"
+
+#: fruitful/404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Ой! Эта страница не может быть найдена."
+
+#: fruitful/404.php:21
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"По данному адресу ничего не найдено. Может быть попробовать одну из ссылок "
+"ниже, или воспользоваться поиском?"
+
+#: fruitful/author-bio.php:16
+#, php-format
+msgid "About %s"
+msgstr "О %s"
+
+#: fruitful/author-bio.php:20
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Просмотреть все записи по %s <span class=\"meta-nav\">&rarr;</span>"
+
+#: fruitful/comments.php:33
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "%1$s комментарий к посту &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s комментария к посту &ldquo;%2$s&rdquo;"
+msgstr[2] "%1$s комментариев к посту &ldquo;%2$s&rdquo;"
+
+#: fruitful/comments.php:40 fruitful/comments.php:60
+msgid "Comment navigation"
+msgstr "Навигация по комментариям"
+
+#: fruitful/comments.php:41 fruitful/comments.php:61
+msgid "&larr; Older Comments"
+msgstr "&larr; Старые комментарии"
+
+#: fruitful/comments.php:42 fruitful/comments.php:62
+msgid "Newer Comments &rarr;"
+msgstr "Новые комментарии &rarr;"
+
+#: fruitful/comments.php:72
+msgid "Comments are closed."
+msgstr "Комментарии закрыты."
+
+#: fruitful/content-aside.php:32 fruitful/content-audio.php:33
+#: fruitful/content-gallery.php:32 fruitful/content-image.php:33
+#: fruitful/content-link.php:32 fruitful/content-quote.php:32
+#: fruitful/content-status.php:32 fruitful/content-video.php:32
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Продолжить чтение <span class=\"meta-nav\"> &rarr; </ span>"
+
+#: fruitful/content-aside.php:33 fruitful/content-audio.php:34
+#: fruitful/content-chat.php:33 fruitful/content-gallery.php:33
+#: fruitful/content-image.php:34 fruitful/content-link.php:33
+#: fruitful/content-page.php:21 fruitful/content-quote.php:33
+#: fruitful/content-single.php:33 fruitful/content-status.php:33
+#: fruitful/content-video.php:33 fruitful/content.php:54 fruitful/image.php:87
+msgid "Pages:"
+msgstr "Страницы:"
+
+#: fruitful/content-aside.php:39 fruitful/content-aside.php:46
+#: fruitful/content-audio.php:43 fruitful/content-chat.php:38
+#: fruitful/content-gallery.php:49 fruitful/content-image.php:49
+#: fruitful/content-link.php:41 fruitful/content-page.php:22
+#: fruitful/content-quote.php:43 fruitful/content-single.php:38
+#: fruitful/content-video.php:48 fruitful/content.php:65 fruitful/image.php:35
+#: fruitful/image.php:101
+msgid "Edit"
+msgstr "Редактировать"
+
+#: fruitful/content-chat.php:22 fruitful/content-quote.php:23
+#: fruitful/content.php:32 fruitful/functions.php:1040
+#, php-format
+msgid "Permalink to %s"
+msgstr "Ссылка на %s"
+
+#: fruitful/content-gallery.php:43 fruitful/content-image.php:42
+#: fruitful/content-quote.php:40 fruitful/content-video.php:41
+#: fruitful/content.php:62
+msgid "Leave a comment"
+msgstr "Оставить комментарий"
+
+#: fruitful/content-gallery.php:43 fruitful/content.php:62
+msgid "1 Comment"
+msgstr "1 Комментарий"
+
+#: fruitful/content-gallery.php:43 fruitful/content.php:62
+msgid "% Comments"
+msgstr "% Комментарии"
+
+#: fruitful/content-image.php:42 fruitful/content-quote.php:40
+#: fruitful/content-video.php:41
+msgid "One comment so far"
+msgstr "Один комментарий"
+
+#: fruitful/content-image.php:42 fruitful/content-quote.php:40
+#: fruitful/content-video.php:41
+msgid "View all % comments"
+msgstr "Посмотреть  все % комментариев"
+
+#: fruitful/content.php:53
+msgid "Read More <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Читать далее <span class=\"meta-nav\">&rarr;</span>"
+
+#: fruitful/functions.php:125
+msgid "Primary Menu"
+msgstr "Главное Меню"
+
+#: fruitful/functions.php:161
+#, php-format
+msgid "Page %s"
+msgstr "Страница %s"
+
+#: fruitful/functions.php:177
+msgid "Main Sidebar"
+msgstr "Основной сайдбар"
+
+#: fruitful/functions.php:186
+msgid "Blog Sidebar"
+msgstr "Сайдбар Блога"
+
+#: fruitful/functions.php:195
+msgid "Single Post Sidebar"
+msgstr "Сайдбар для Постов"
+
+#: fruitful/functions.php:204
+msgid "Homepage Sidebar"
+msgstr "Сайдбар для Главной Страницы"
+
+#: fruitful/functions.php:214
+msgid "Shop Page Sidebar"
+msgstr "Сайдбар Магазина"
+
+#: fruitful/functions.php:223
+msgid "Product Page Sidebar"
+msgstr "Сайдбар Продукта"
+
+#: fruitful/functions.php:454
+msgid "Please add images for slider in theme options!"
+msgstr ""
+
+#: fruitful/functions.php:933
+msgid "You may be interested in&hellip;"
+msgstr "Вас может заинтересовать &hellip;"
+
+#: fruitful/functions.php:982
+#, php-format
+msgid "%d "
+msgstr ""
+
+#: fruitful/functions.php:1009 fruitful/functions.php:1018
+msgid ", "
+msgstr ""
+
+#: fruitful/functions.php:1012
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Опубликовано в %1$s"
+
+#: fruitful/functions.php:1075
+#: fruitful/inc/theme-options/theme-options.php:140
+msgid "Fruitful Theme Options"
+msgstr "Fruitful настройки темы"
+
+#: fruitful/functions.php:1291
+msgid "Search for products"
+msgstr "Поиск товаров"
+
+#: fruitful/functions.php:1395
+#, php-format
+msgid "Category Archives: %s"
+msgstr "Категории архива:  %s"
+
+#: fruitful/functions.php:1398
+#, php-format
+msgid "Tag Archives: %s"
+msgstr "Тэги архива: %s"
+
+#: fruitful/functions.php:1402
+#, php-format
+msgid "Author Archives: %s"
+msgstr "Архивы автора: %s"
+
+#: fruitful/functions.php:1406
+#, php-format
+msgid "Daily Archives: %s"
+msgstr "Ежедневные архивы: %s"
+
+#: fruitful/functions.php:1409
+#, php-format
+msgid "Monthly Archives: %s"
+msgstr "Ежемесячные aрхивы: %s"
+
+#: fruitful/functions.php:1412
+#, php-format
+msgid "Yearly Archives: %s"
+msgstr "Ежегодные архивы: %s"
+
+#: fruitful/functions.php:1415 fruitful/sidebar-blogright.php:19
+#: fruitful/sidebar-homepage.php:19 fruitful/sidebar-page.php:19
+#: fruitful/sidebar-single-post.php:19 fruitful/sidebar.php:19
+msgid "Archives"
+msgstr "Архивы:"
+
+#: fruitful/functions.php:1528
+msgid ""
+"Attention! Fruitful theme version 2.0 got major updates. You may have a "
+"problems with display content in shortcodes, because we created this part as "
+"plugin. You need install "
+msgstr ""
+"Внимание! Fruitful тема версия 2.0 несет в себе серьезные объявления. Вы "
+"можете столкнуться с проблемами при выводе контента в шорткодах, поскольку "
+"мы перенесли этот функционал к плагинам. Вам необходимо установить плагин  "
+
+#: fruitful/functions.php:1530
+msgid " and use them."
+msgstr " и использовать его."
+
+#: fruitful/image.php:25
+#, php-format
+msgid ""
+"Published <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Link to full-"
+"size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s"
+"\" rel=\"gallery\">%7$s</a>"
+msgstr ""
+"Опубликовано <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Сыылка на "
+"изображение\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Вернутся на "
+"%7$s\" rel=\"gallery\">%7$s</a>"
+
+#: fruitful/image.php:39
+msgid "&larr; Previous"
+msgstr "&larr;  Предыдущий"
+
+#: fruitful/image.php:40
+msgid "Next &rarr;"
+msgstr "Следующий &rarr;"
+
+#: fruitful/image.php:93
+#, php-format
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Комментарий к записи"
+"\">Комментарий к записи</a> или трекбек: <a class=\"trackback-link\" href="
+"\"%s\" title=\"Трекбек URL для вашей запси\" rel=\"trackback\">Обратный URL</"
+"a>."
+
+#: fruitful/image.php:95
+#, php-format
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+"Комментарии закрыты, но вы можете оставить трекбек: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL для вашего поста\" rel=\"trackback\"> "
+"URL </ a>."
+
+#: fruitful/image.php:97
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+"Обратные ссылки закрыты, но вы можете <a class=\"comment-link\" href="
+"\"#respond\" title=\"написать комментарий\"> написать комментарий </a>."
+
+#: fruitful/image.php:99
+msgid "Both comments and trackbacks are currently closed."
+msgstr "Все комментарии и обратные ссылки в настоящее время закрыты."
+
+#: fruitful/no-results.php:15
+msgid "Nothing Found"
+msgstr "Ничего не найдено"
+
+#: fruitful/no-results.php:21
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Готовы опубликовать вашу первую запись? <a href=\"%1$s\"> Начните здесь </a>."
+
+#: fruitful/no-results.php:25
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Извините, но ничего не найдено по вашему запросу.  Пожалуйста, попробуйте "
+"еще раз с другими ключевыми словами."
+
+#: fruitful/no-results.php:30
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Кажется, мы не можем найти то, что вы ищете. Возможно, поиск может Вам "
+"помочь."
+
+#: fruitful/search.php:15
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Результаты поиска  для: %s"
+
+#: fruitful/searchform.php:11 fruitful/searchform.php:13
+msgid "Search"
+msgstr "Поиск"
+
+#: fruitful/searchform.php:12
+msgid "Type Here to Search"
+msgstr "Поиск по сайту"
+
+#: fruitful/sidebar-blogright.php:26 fruitful/sidebar-homepage.php:26
+#: fruitful/sidebar-page.php:26 fruitful/sidebar-single-post.php:26
+#: fruitful/sidebar.php:26
+msgid "Meta"
+msgstr "Цель"
+
+#: fruitful/taxonomy-post_format.php:18
+#, php-format
+msgid "%s Archives"
+msgstr "%s Архивы"
+
+#: fruitful/inc/template-tags.php:27
+msgid "Post navigation"
+msgstr "Навигация по записям"
+
+#: fruitful/inc/template-tags.php:37
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> Старые записи"
+
+#: fruitful/inc/template-tags.php:41
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Новые записи <span class=\"meta-nav\">&rarr;</span>"
+
+#: fruitful/inc/template-tags.php:66
+msgid "Pingback:"
+msgstr "Пингбэк"
+
+#: fruitful/inc/template-tags.php:66 fruitful/inc/template-tags.php:92
+msgid "(Edit)"
+msgstr "(Редактировать)"
+
+#: fruitful/inc/template-tags.php:85
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:90
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s в %2$s"
+
+#: fruitful/inc/template-tags.php:96
+msgid "Your comment is awaiting moderation."
+msgstr "Ваш комментарий ожидает модерации."
+
+#: fruitful/inc/template-tags.php:121
+#, php-format
+msgid ""
+"Posted on <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+msgstr ""
+"Опубликовано <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+
+#: fruitful/inc/template-tags.php:127
+#, php-format
+msgid "View all posts by %s"
+msgstr "Просмотреть все записи по %s"
+
+#: fruitful/inc/widgets.php:17
+msgid "News Archive"
+msgstr "Архив новостей"
+
+#: fruitful/inc/widgets.php:18
+msgid "Use this widget to list your Link posts"
+msgstr "Используйте этот виджет, чтобы вывести свои сообщения"
+
+#: fruitful/inc/widgets.php:51 fruitful/inc/widgets.php:62
+msgid "News-Archive"
+msgstr "Архив новостей"
+
+#: fruitful/inc/widgets.php:152
+msgid "Title:"
+msgstr "Название:"
+
+#: fruitful/inc/widgets.php:155
+msgid "Number of posts to show:"
+msgstr "Количество сообщений которые следует показать:"
+
+#: fruitful/inc/widgets.php:159
+msgid "Text Message:"
+msgstr "Текстовое сообщение:"
+
+#: fruitful/inc/func/fruitful-function.php:7
+msgid "Full width position"
+msgstr "На всю ширину "
+
+#: fruitful/inc/func/fruitful-function.php:11
+msgid "Centered position"
+msgstr "По центру"
+
+#: fruitful/inc/func/fruitful-function.php:22
+msgid "default"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:26
+msgid "dark"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:30
+msgid "bar"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:34
+msgid "light"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:45
+msgid "FlexSlider"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:49
+msgid "Nivo Slider"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:61
+msgid "Left"
+msgstr "Слева"
+
+#: fruitful/inc/func/fruitful-function.php:65
+msgid "Center"
+msgstr "По центру"
+
+#: fruitful/inc/func/fruitful-function.php:69
+msgid "Right"
+msgstr "Справа"
+
+#: fruitful/inc/func/fruitful-function.php:80
+#: fruitful/inc/func/fruitful-function.php:99
+msgid "Full width"
+msgstr "На всю ширину"
+
+#: fruitful/inc/func/fruitful-function.php:84
+#: fruitful/inc/func/fruitful-function.php:107
+msgid "Right sidebar"
+msgstr "Сайдбар справа"
+
+#: fruitful/inc/func/fruitful-function.php:88
+#: fruitful/inc/func/fruitful-function.php:103
+msgid "Left sidebar"
+msgstr "Сайдбар слева"
+
+#: fruitful/inc/func/fruitful-function.php:118
+msgid "2 products"
+msgstr "2 товара"
+
+#: fruitful/inc/func/fruitful-function.php:122
+msgid "3 products"
+msgstr "3 товара"
+
+#: fruitful/inc/func/fruitful-function.php:126
+msgid "4 products"
+msgstr "4 товара"
+
+#: fruitful/inc/func/fruitful-function.php:130
+msgid "5 products"
+msgstr "5 товаров"
+
+#: fruitful/inc/func/fruitful-function.php:141
+msgid "random"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:145
+msgid "sliceDownRight"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:149
+msgid "sliceDownLeft"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:153
+msgid "sliceUpRight"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:157
+msgid "sliceUpDown"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:161
+msgid "sliceUpDownLeft"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:165
+msgid "fold"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:169
+#: fruitful/inc/func/fruitful-function.php:201
+msgid "fade"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:173
+msgid "boxRandom"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:177
+msgid "boxRain"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:181
+msgid "boxRainReverse"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:185
+msgid "boxRainGrow"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:189
+msgid "boxRainGrowReverse"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:205
+msgid "slide"
+msgstr "слайд"
+
+#: fruitful/inc/func/fruitful-function.php:216
+msgid "horizontal"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:220
+msgid "vertical"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:231
+msgid "true"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:235
+msgid "false"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:247
+msgid "Arial, Helvetica, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:251
+msgid "Arial Black, Gadget, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:255
+msgid "Comic Sans MS, Textile, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:259
+msgid "Courier New, Courier, monospace"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:263
+msgid "Georgia, Times New Roman, Times, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:267
+msgid "Impact, Charcoal, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:271
+msgid "Lucida Console, Monaco, monospace"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:275
+msgid "Lucida Sans Unicode, Lucida Grande, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:279
+msgid "Palatino Linotype, Book Antiqua, Palatino, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:283
+msgid "Tahoma, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:287
+msgid "Times New Roman, Times, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:291
+msgid "Trebuchet MS, Helvetica, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:295
+msgid "Verdana, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:299
+msgid "MS Sans Serif, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:303
+msgid "MS Serif, New York, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:309
+msgid "Open Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:313
+msgid "Lobster, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:317
+msgid "Josefin Slab, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:321
+msgid "Arvo, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:325
+msgid "Lato, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:329
+msgid "Vollkorn, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:333
+msgid "Abril Fatface, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:337
+msgid "Ubuntu, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:341
+msgid "PT Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:345
+msgid "Old Standard TT, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:349
+msgid "Droid Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:360
+#: fruitful/inc/theme-options/theme-options.php:789
+msgid "Header"
+msgstr "Заголовок"
+
+#: fruitful/inc/func/fruitful-function.php:364
+#: fruitful/inc/theme-options/theme-options.php:796
+msgid "Footer"
+msgstr "Футер"
+
+#: fruitful/inc/func/fruitful-function.php:473
+msgid "Upload Image"
+msgstr "Загрузить изображение"
+
+#: fruitful/inc/func/fruitful-function.php:479
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:309
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "Remove"
+msgstr "Удалить"
+
+#: fruitful/inc/func/fruitful-function.php:497
+msgid "Link URL"
+msgstr "Ссылка"
+
+#: fruitful/inc/func/fruitful-function.php:503
+msgid "Target \"_blank\""
+msgstr "Открыть в новой вкладке"
+
+#: fruitful/inc/func/fruitful-function.php:648
+msgid "http://fruitfulcode.com"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:648
+msgid "http://wordpress.org"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:155
+msgid "Install Required Plugins"
+msgstr "Установить Необходимые Плагины"
+
+#: fruitful/inc/func/plugin-activation.php:156
+msgid "Install Plugins"
+msgstr "Установить Плагины"
+
+#: fruitful/inc/func/plugin-activation.php:157
+#: fruitful/inc/func/plugins-included.php:38
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr "Установка плагина: %s"
+
+#: fruitful/inc/func/plugin-activation.php:158
+msgid "Something went wrong."
+msgstr "Что-то пошло не так."
+
+#: fruitful/inc/func/plugin-activation.php:159
+#: fruitful/inc/func/plugins-included.php:40
+#, php-format
+msgid "Fruitful theme requires the following plugin: %1$s."
+msgstr "Fruitful Тема требует установки следующих плагинов: %1$s."
+
+#: fruitful/inc/func/plugin-activation.php:160
+#: fruitful/inc/func/plugins-included.php:41
+#, php-format
+msgid "Fruitful theme recommends the following plugin: %1$s."
+msgstr "Fruitful Тема рекоммендует установить следующие плагины: %1$s."
+
+#: fruitful/inc/func/plugin-activation.php:161
+#: fruitful/inc/func/plugins-included.php:42
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"installed."
+msgstr ""
+"К сожалению, Вы не имеете достаточных прав для установки  плагина - %s. "
+"Свяжитесь с Администратором сайта для помощи в установке плагина."
+
+#: fruitful/inc/func/plugin-activation.php:162
+#: fruitful/inc/func/plugins-included.php:43
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgstr "Требуемый плагин установлен, но не активирован: %1$s."
+
+#: fruitful/inc/func/plugin-activation.php:163
+#: fruitful/inc/func/plugins-included.php:44
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgstr "Рекомендуемый планиг установлен, но не активирован: %1$s."
+
+#: fruitful/inc/func/plugin-activation.php:164
+#: fruitful/inc/func/plugins-included.php:45
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgstr ""
+"К сожалению, Вы не имеете достаточных прав для активации плагина -  %s. "
+"Свяжитесь с Администратором сайта для помощи в активации плагина."
+
+#: fruitful/inc/func/plugin-activation.php:165
+#: fruitful/inc/func/plugins-included.php:46
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with Fruitful theme: %1$s."
+msgstr ""
+"Следующие плагины рекомендуется обновить до последней версии для "
+"максимальной совместимости с Fruitful темой: %1$s."
+
+#: fruitful/inc/func/plugin-activation.php:166
+#: fruitful/inc/func/plugins-included.php:47
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgstr ""
+"К сожалению, Вы не имеете достаточных прав для обновления плагина -  %s. "
+"Свяжитесь с Администратором сайта для помощи в обновлении плагина."
+
+#: fruitful/inc/func/plugin-activation.php:167
+#: fruitful/inc/func/plugins-included.php:48
+msgid "Begin installing plugin"
+msgstr "Начало установки плагина"
+
+#: fruitful/inc/func/plugin-activation.php:168
+msgid "Begin activating plugin"
+msgstr "Начало активации плагина"
+
+#: fruitful/inc/func/plugin-activation.php:169
+#: fruitful/inc/func/plugins-included.php:50
+msgid "Return to Required Plugins Installer"
+msgstr "Вернуться к Установщику Требуемых Плагинов"
+
+#: fruitful/inc/func/plugin-activation.php:170
+msgid "Return to the dashboard"
+msgstr "Вернуться к консоли"
+
+#: fruitful/inc/func/plugin-activation.php:171
+#: fruitful/inc/func/plugin-activation.php:1843
+#: fruitful/inc/func/plugins-included.php:51
+msgid "Plugin activated successfully."
+msgstr "Плагин активирован успешно."
+
+#: fruitful/inc/func/plugin-activation.php:172
+#: fruitful/inc/func/plugin-activation.php:1541
+msgid "The following plugin was activated successfully:"
+msgstr "Плагин был активирован успешно:"
+
+#: fruitful/inc/func/plugin-activation.php:173
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Все плагины установлены и активированы успешно.  %1$s"
+
+#: fruitful/inc/func/plugin-activation.php:174
+msgid "Dismiss this notice"
+msgstr "Скрыть это сообщение"
+
+#: fruitful/inc/func/plugin-activation.php:1088
+msgid "External Link"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1093
+msgid "Private Repository"
+msgstr "Частный Репозиторий"
+
+#: fruitful/inc/func/plugin-activation.php:1096
+msgid "Pre-Packaged"
+msgstr "Предварительно Упакованные"
+
+#: fruitful/inc/func/plugin-activation.php:1100
+msgid "WordPress Repository"
+msgstr "Wordpress Репозиторий"
+
+#: fruitful/inc/func/plugin-activation.php:1103
+msgid "Required"
+msgstr "Требуется"
+
+#: fruitful/inc/func/plugin-activation.php:1103
+msgid "Recommended"
+msgstr "Рекомендуется"
+
+#: fruitful/inc/func/plugin-activation.php:1106
+msgid "Not Installed"
+msgstr "Не установлен"
+
+#: fruitful/inc/func/plugin-activation.php:1108
+msgid "Installed But Not Activated"
+msgstr "Установлен, но не активирован"
+
+#: fruitful/inc/func/plugin-activation.php:1278
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+"Нет плагинов для установки или активации. <a href=\"%1$s\" title=\"Вернуться "
+"к Консоли\">Вернуться к Консоли</a>"
+
+#: fruitful/inc/func/plugin-activation.php:1294
+msgid "Plugin"
+msgstr "Плагин"
+
+#: fruitful/inc/func/plugin-activation.php:1295
+msgid "Source"
+msgstr "Источник"
+
+#: fruitful/inc/func/plugin-activation.php:1296
+msgid "Type"
+msgstr "Тип"
+
+#: fruitful/inc/func/plugin-activation.php:1297
+msgid "Status"
+msgstr "Статус"
+
+#: fruitful/inc/func/plugin-activation.php:1315
+msgid "Install"
+msgstr "Установить"
+
+#: fruitful/inc/func/plugin-activation.php:1316
+msgid "Activate"
+msgstr "Активировать"
+
+#: fruitful/inc/func/plugin-activation.php:1826
+msgid "Install package not available."
+msgstr "Установка пакета недоступна."
+
+#: fruitful/inc/func/plugin-activation.php:1827
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+"Скачивание установочного пакета из <span class=\"code\">%s</span>&#8230;"
+
+#: fruitful/inc/func/plugin-activation.php:1828
+msgid "Unpacking the package&#8230;"
+msgstr "Распаковка пакета&#8230;"
+
+#: fruitful/inc/func/plugin-activation.php:1829
+msgid "Installing the plugin&#8230;"
+msgstr "Установка плагина&#8230;"
+
+#: fruitful/inc/func/plugin-activation.php:1830
+msgid "Plugin install failed."
+msgstr "Установка плагина не удалась."
+
+#: fruitful/inc/func/plugin-activation.php:1831
+msgid "Plugin installed successfully."
+msgstr "Плагин установлен успешно."
+
+#: fruitful/inc/func/plugin-activation.php:1842
+msgid "Plugin activation failed."
+msgstr "Активация плагина не удалась."
+
+#: fruitful/inc/func/plugin-activation.php:1952
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+"Процесс установки и активации был начат. Этот процесс может занять некоторое "
+"время, поэтому будьте терпеливы."
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s установлен и активирован успешно."
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#: fruitful/inc/func/plugin-activation.php:1962
+msgid "Show Details"
+msgstr "Показать Детали"
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#: fruitful/inc/func/plugin-activation.php:1962
+msgid "Hide Details"
+msgstr "Скрыть Детали"
+
+#: fruitful/inc/func/plugin-activation.php:1954
+msgid "All installations and activations have been completed."
+msgstr "Все установки и активации завершены."
+
+#: fruitful/inc/func/plugin-activation.php:1955
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Установка и Активация Плагина %1$s (%2$d/%3$d)"
+
+#: fruitful/inc/func/plugin-activation.php:1959
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+"Процесс установки был начат. Этот процесс может занять некоторое время, "
+"поэтому будьте терпеливы."
+
+#: fruitful/inc/func/plugin-activation.php:1960
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "Произошла ошибка при установке %1$s: <strong>%2$s</strong>."
+
+#: fruitful/inc/func/plugin-activation.php:1961
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr "Установка %1$s не удалась."
+
+#: fruitful/inc/func/plugin-activation.php:1962
+#, php-format
+msgid "%1$s installed successfully."
+msgstr "%1$s установлен успешно."
+
+#: fruitful/inc/func/plugin-activation.php:1963
+msgid "All installations have been completed."
+msgstr "Все установки завершены."
+
+#: fruitful/inc/func/plugin-activation.php:1964
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Установка Плагина %1$s (%2$d/%3$d)"
+
+#: fruitful/inc/func/plugin-activation.php:2055
+msgid "Return to the Dashboard"
+msgstr "Вернуться к Консоли"
+
+#: fruitful/inc/func/plugins-included.php:36
+msgid "Fruitful Plugin Integration"
+msgstr "Fruitful Интеграция Плагинов"
+
+#: fruitful/inc/func/plugins-included.php:37
+msgid "Plugin Integration"
+msgstr "Интеграция Плагинов"
+
+#: fruitful/inc/func/plugins-included.php:39
+msgid "Something went wrong with the plugin API."
+msgstr "Что-то пошло не так с API плагина."
+
+#: fruitful/inc/func/plugins-included.php:49
+msgid "Activate installed plugin"
+msgstr "Активировать установленные плагины"
+
+#: fruitful/inc/func/plugins-included.php:52
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr "Все плагины установлены и активированы успешно. %s"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:34
+msgid "Slider settings"
+msgstr "Настройки слайдера"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:42
+msgid "Slider display"
+msgstr "Отображение слайдера"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:44
+msgid "Select the option to display the corresponding slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:47
+msgid "Disable slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:48
+msgid "Full width slider"
+msgstr "На всю ширину"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:49
+msgid "Boxed slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:59
+msgid "Page settings"
+msgstr "Атрибуты страницы"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:66
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:85
+#: fruitful/inc/theme-options/theme-options.php:45
+msgid "Layout"
+msgstr "Макет"
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:67
+msgid "Select a specific layout for this page."
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:78
+msgid "Post settings"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:86
+msgid "Select a specific layout for this post."
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:258
+msgid "Clear"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:259
+msgid "Default"
+msgstr "По умолчанию"
+
+#: fruitful/inc/metaboxes/init.php:260
+msgid "Select Color"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:261
+msgid "Current Color"
+msgstr "Текущий цвет"
+
+#: fruitful/inc/metaboxes/init.php:293
+msgid "Select / Deselect All"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:1187
+#: fruitful/inc/theme-options/theme-options.php:782
+#: fruitful/inc/theme-options/theme-options.php:810
+msgid "Save"
+msgstr "Сохранить"
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:47
+msgid "Please Try Again"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:131
+msgid "Remove Embed"
+msgstr "Удалить Вставку"
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:134
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_field.php:460
+msgid "Add Group"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_field.php:461
+msgid "Remove Group"
+msgstr "Удалить Группу"
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:253
+msgid "Add Row"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:619
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:653
+msgid "No terms"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:692
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:746
+msgid "Add or Upload File"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:713
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:778
+msgid "Remove Image"
+msgstr "Удалить изображение"
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "File:"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "Download"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:45
+msgid ""
+"Theme supported 2 types of html layout. Default responsive  setting which "
+"adapt for mobile devices and static page with fixed width. Uncheck arrow "
+"below if you need static website display. "
+msgstr ""
+"В теме существует 2 типа макета, который вы можете выбрать. По умолчанию "
+"включен, респонсив, который корректно отображается на мобильных устройствах. "
+"Фиксированный макет с заданной шириной можно активировать, если снять "
+"галочку ниже."
+
+#: fruitful/inc/theme-options/theme-options.php:46
+msgid "Comments"
+msgstr "Комментарии"
+
+#: fruitful/inc/theme-options/theme-options.php:46
+msgid ""
+"If you want to display comments on your post page or page, select options "
+"below."
+msgstr ""
+"Если вы хотите отобразить комментарии на странице записей или обычной "
+"странице, выберите один из вариантов."
+
+#: fruitful/inc/theme-options/theme-options.php:47
+msgid "Default theme styles"
+msgstr "Значения стилей темы по умолчанию"
+
+#: fruitful/inc/theme-options/theme-options.php:47
+msgid ""
+"Default CSS. Theme option for styling is not working, if this option enable."
+msgstr ""
+"CSS стили по умолчанию. Настройки темы (стилизация) недоступны, когда опция "
+"включена."
+
+#: fruitful/inc/theme-options/theme-options.php:48
+msgid "Front page template with latest posts"
+msgstr "Шаблон главной страницы с последними записями"
+
+#: fruitful/inc/theme-options/theme-options.php:48
+msgid "Set template for latest posts."
+msgstr "Если в настройка > Чтение > Главная страница > Последние записи"
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "Multilingual Switch in Header (WPML)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "If you wish to show Language Switch in header, select option below. "
+msgstr "Если Вы хотите отобразить корзину в заголовке выберите опцию ниже."
+
+#: fruitful/inc/theme-options/theme-options.php:52
+msgid "Reset options"
+msgstr "Восстановление значений по умолчанию"
+
+#: fruitful/inc/theme-options/theme-options.php:52
+msgid "All theme options will be reset to default. "
+msgstr "Все настройки темы будут возвращены к настройкам по умолчанию. "
+
+#: fruitful/inc/theme-options/theme-options.php:54
+msgid "Sticky  header"
+msgstr "Фиксированный заголовок"
+
+#: fruitful/inc/theme-options/theme-options.php:54
+msgid "Options relating to the website header"
+msgstr "Параметры, связанные с заголовком веб-сайта "
+
+#: fruitful/inc/theme-options/theme-options.php:55
+msgid "Background for header"
+msgstr "Фон для заголовка"
+
+#: fruitful/inc/theme-options/theme-options.php:55
+msgid ""
+"Upload image with full width for background in header area. (Supported "
+"files .png, .jpg, .gif)  "
+msgstr ""
+"Загрузите изображение для фона в области заголовка. (Поддерживаемые файлы : ."
+"png, .jpg, .gif)"
+
+#: fruitful/inc/theme-options/theme-options.php:56
+msgid "Background image size"
+msgstr "Размер фонового изображения"
+
+#: fruitful/inc/theme-options/theme-options.php:56
+msgid "Choose size for background image - full width or only for content area."
+msgstr ""
+"Выберите размер для картинки фона - на полную ширину экрана или по ширине "
+"контента."
+
+#: fruitful/inc/theme-options/theme-options.php:57
+msgid "Height for header area"
+msgstr "Высота области заголовка"
+
+#: fruitful/inc/theme-options/theme-options.php:57
+msgid "Minimum height in pixels"
+msgstr "Минимальная высота в пикселях"
+
+#: fruitful/inc/theme-options/theme-options.php:58
+msgid "Menu Position"
+msgstr "Положение Меню"
+
+#: fruitful/inc/theme-options/theme-options.php:58
+msgid "Set menu position."
+msgstr "Установить положение меню"
+
+#: fruitful/inc/theme-options/theme-options.php:60
+msgid "Background Image"
+msgstr "Фоновое изображение"
+
+#: fruitful/inc/theme-options/theme-options.php:60
+msgid ""
+"Upload your background image for site background. (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+"Добавьте фоновое изображение для сайта. (Поддерживаемые файлы: .png, .jpg, ."
+"gif)"
+
+#: fruitful/inc/theme-options/theme-options.php:61
+msgid "Background Color "
+msgstr "Цвет Фона"
+
+#: fruitful/inc/theme-options/theme-options.php:61
+msgid "Choose color for body background"
+msgstr "Выберите основной цвет"
+
+#: fruitful/inc/theme-options/theme-options.php:62
+msgid "Background color for content  "
+msgstr "Цвет фона для контента страницы"
+
+#: fruitful/inc/theme-options/theme-options.php:62
+msgid "Choose color for main content area"
+msgstr "Выберите цвет фона для основного блока контента"
+
+#: fruitful/inc/theme-options/theme-options.php:64
+msgid "Logo image"
+msgstr "Изображение логотипа сайта"
+
+#: fruitful/inc/theme-options/theme-options.php:64
+msgid ""
+"Upload logo image for your website. Size is original (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+"Загрузите логотип для Вашего сайта. Размер оригинальный (Поддерживаемые "
+"файлы : .png, .jpg, .gif)"
+
+#: fruitful/inc/theme-options/theme-options.php:66
+msgid "Favicon"
+msgstr "Миниатюра"
+
+#: fruitful/inc/theme-options/theme-options.php:66
+msgid "Upload needed image for site favicon. (Supported files .ico (16x16))"
+msgstr ""
+"Загрузить нужное изображение для favicon сайта. (Поддерживаемые файлы .ico "
+"(16x16))"
+
+#: fruitful/inc/theme-options/theme-options.php:67
+msgid "Logo Position"
+msgstr "Положение логотипа"
+
+#: fruitful/inc/theme-options/theme-options.php:67
+msgid "Set Logo Position"
+msgstr "Установить положение логотипа"
+
+#: fruitful/inc/theme-options/theme-options.php:70
+msgid "Main menu color"
+msgstr "Цвет главного меню"
+
+#: fruitful/inc/theme-options/theme-options.php:70
+msgid "Choose your colors for main menu in header"
+msgstr "Выберите Ваши цвета для меню в заголовке"
+
+#: fruitful/inc/theme-options/theme-options.php:71
+msgid "Dropdown menu color"
+msgstr "Цвет выпадающего меню"
+
+#: fruitful/inc/theme-options/theme-options.php:71
+msgid "Choose your colors for dropdown menu in header"
+msgstr "Выберите Ваши цвета для меню в заголовке"
+
+#: fruitful/inc/theme-options/theme-options.php:72
+msgid "General font color"
+msgstr "Настройки цветов шрифта"
+
+#: fruitful/inc/theme-options/theme-options.php:72
+msgid "Choose your colors for text and links"
+msgstr "Выберите Ваши цвета для текста и ссылок"
+
+#: fruitful/inc/theme-options/theme-options.php:73
+msgid "Color for lines"
+msgstr "Цвета для линий"
+
+#: fruitful/inc/theme-options/theme-options.php:73
+msgid "Choose your colors for lines and separators"
+msgstr "Выберите Ваши цвета для линий и разделителей"
+
+#: fruitful/inc/theme-options/theme-options.php:74
+msgid "Color for buttons"
+msgstr "Цвета для кнопок"
+
+#: fruitful/inc/theme-options/theme-options.php:74
+msgid "Choose your colors for buttons"
+msgstr "Выберите Ваши цвета для кнопок"
+
+#: fruitful/inc/theme-options/theme-options.php:77
+#: fruitful/inc/theme-options/theme-options.php:793
+msgid "Fonts"
+msgstr "Шрифты"
+
+#: fruitful/inc/theme-options/theme-options.php:77
+msgid "Popular web safe font collection, select and use for your needs."
+msgstr "Популярная коллекция шрифтов, выбирайте и используйте для Ваших нужд."
+
+#: fruitful/inc/theme-options/theme-options.php:79
+msgid "Headers"
+msgstr "Заголовки"
+
+#: fruitful/inc/theme-options/theme-options.php:79
+msgid "Choose font-family for all headlines."
+msgstr "Выберите название шрифта для всех заголовков."
+
+#: fruitful/inc/theme-options/theme-options.php:80
+#: fruitful/inc/theme-options/theme-options.php:494
+msgid "Menu"
+msgstr "Меню"
+
+#: fruitful/inc/theme-options/theme-options.php:80
+msgid "Choose font-family for primary menu."
+msgstr "Выберите название шрифта для главного меню."
+
+#: fruitful/inc/theme-options/theme-options.php:81
+msgid "Body"
+msgstr "Содержимое страницы"
+
+#: fruitful/inc/theme-options/theme-options.php:81
+msgid "Choose font-family for content."
+msgstr "Выберите название шрифта для контента."
+
+#: fruitful/inc/theme-options/theme-options.php:83
+msgid "Font size"
+msgstr "Размер шрифта"
+
+#: fruitful/inc/theme-options/theme-options.php:83
+msgid ""
+"Choose font size for specific html elements. Set size as number, without px."
+msgstr ""
+"Выберите размер шрифта для конкретных элементов HTML. Установить размер, "
+"число без px."
+
+#: fruitful/inc/theme-options/theme-options.php:84
+#: fruitful/inc/theme-options/theme-options.php:794
+msgid "Slider"
+msgstr "Слайдер"
+
+#: fruitful/inc/theme-options/theme-options.php:84
+msgid "Select a slider type that will be used by default."
+msgstr "Выберите слайдер, который будет использоваться по-умолчанию."
+
+#: fruitful/inc/theme-options/theme-options.php:85
+msgid "Slider Options"
+msgstr "Настройки слайдера"
+
+#: fruitful/inc/theme-options/theme-options.php:85
+msgid ""
+"Choose needed options for slider: animation type, sliding direction, speed "
+"of animations, etc"
+msgstr ""
+"Выберите нужные опции для слайдера. Тип анимации, направления скольжения, "
+"скорость анимации, и т.д."
+
+#: fruitful/inc/theme-options/theme-options.php:86
+msgid "Slides"
+msgstr "Слайды"
+
+#: fruitful/inc/theme-options/theme-options.php:86
+msgid ""
+"Add images to slider (Supported files .png, .jpg, .gif). If you want to "
+"change order, just drag and drop it. Image size for slides is original from "
+"media gallery, please upload images in same size, to get best display on "
+"page. To display slider in needed place use shortcode [fruitful_slider]. "
+"Current theme version support only one slider per website. "
+msgstr ""
+"Добавьте изображения в слайдер (Поддерживаемые файлы. PNG,. JPG,. GIF). Если "
+"вы хотите изменить порядок, просто перетащите его. Размер изображения для "
+"слайдов оригинальный из медиа галереи, пожалуйста загружайте изображения "
+"одинакового размера, для получения наилучшего отображение на странице. Чтобы "
+"отобразить слайдер в необходимом месте, используйте шорткод "
+"[fruitful_slider]. Текущая версия темы поддерживает только один слайдер на "
+"сайте."
+
+#: fruitful/inc/theme-options/theme-options.php:88
+msgid "Socials Links Position"
+msgstr "Положение социальных ссылок на странице"
+
+#: fruitful/inc/theme-options/theme-options.php:88
+msgid "Choose place where social links will be displayed."
+msgstr "Выберите место где будут располагаться социальные ссылки"
+
+#: fruitful/inc/theme-options/theme-options.php:89
+msgid "Socials Links"
+msgstr "Социальные ссылки"
+
+#: fruitful/inc/theme-options/theme-options.php:89
+msgid ""
+"Add link to your social media profiles. Icons with link will be display in "
+"header or footer."
+msgstr ""
+"Добавить ссылки на ваши профили в социальных сетях. Иконка с ссылкой "
+"автоматичски отобразиться в верхнем или нижнем колонтитуле."
+
+#: fruitful/inc/theme-options/theme-options.php:90
+msgid "Footer options"
+msgstr "Опции футера"
+
+#: fruitful/inc/theme-options/theme-options.php:90
+msgid "Replace default theme copyright information and links"
+msgstr "Заменить информацию об авторских правах и ссылки"
+
+#: fruitful/inc/theme-options/theme-options.php:92
+#: fruitful/inc/theme-options/theme-options.php:797
+msgid "Custom CSS"
+msgstr "Стили CSS"
+
+#: fruitful/inc/theme-options/theme-options.php:92
+msgid ""
+"Theme has two css files style.css and fixed-style.css which use default "
+"styles for front-end responsive and static layout. Do not edit theme default "
+"css files, use textarea editor below for overwriting all css styles."
+msgstr ""
+"Тема имеет два css файла style.css и fixed-style.css  которые устанавливают "
+"стили по-умолчанию для респонсив и статической версии. Не изменяйте файлы "
+"стилей которые заданы по-умолчанию, используйте для этого редактор стилей."
+
+#: fruitful/inc/theme-options/theme-options.php:95
+msgid "Show cart in header"
+msgstr "Показать корзину в заголовке"
+
+#: fruitful/inc/theme-options/theme-options.php:95
+msgid "If you want to display cart link in header select options below."
+msgstr "Если Вы хотите отобразить корзину в заголовке выберите опцию ниже."
+
+#: fruitful/inc/theme-options/theme-options.php:96
+msgid "Woocommerce Shop Sidebar"
+msgstr "Сайдбар Магазина "
+
+#: fruitful/inc/theme-options/theme-options.php:96
+#: fruitful/inc/theme-options/theme-options.php:97
+msgid "Show or hide sidebar"
+msgstr "Показать или спрятать сайдбар"
+
+#: fruitful/inc/theme-options/theme-options.php:97
+msgid "Woocommerce Product Sidebar"
+msgstr "Сайдбар Продукта "
+
+#: fruitful/inc/theme-options/theme-options.php:98
+msgid "Woocommerce pages products per row"
+msgstr "Количество товаров в строку на страницах Woocommerce"
+
+#: fruitful/inc/theme-options/theme-options.php:98
+msgid "Choose number of products"
+msgstr "выберите количество товаров"
+
+#: fruitful/inc/theme-options/theme-options.php:99
+msgid "Number of products on Shop pages"
+msgstr "Количество товаров на странице магазина"
+
+#: fruitful/inc/theme-options/theme-options.php:99
+msgid "Choose number of products. Write -1 for show all products on one page"
+msgstr ""
+"Выберите количество товаров. Используйте -1 чтобы показать все товары на "
+"одной странице"
+
+#: fruitful/inc/theme-options/theme-options.php:141
+#: fruitful/inc/theme-options/theme-options.php:156
+#: fruitful/inc/theme-options/theme-options.php:781
+msgid "Theme Options"
+msgstr "Настройки темы"
+
+#: fruitful/inc/theme-options/theme-options.php:177
+msgid "Dummy data"
+msgstr "Установить"
+
+#: fruitful/inc/theme-options/theme-options.php:186
+msgid "Responsive"
+msgstr "Респонсив"
+
+#: fruitful/inc/theme-options/theme-options.php:196
+msgid "Display comment on posts page"
+msgstr "Показать комментарий для записи"
+
+#: fruitful/inc/theme-options/theme-options.php:201
+msgid "Display comment on page"
+msgstr "Показать комментарий на странице"
+
+#: fruitful/inc/theme-options/theme-options.php:212
+msgid "Enabled"
+msgstr "Закрепить"
+
+#: fruitful/inc/theme-options/theme-options.php:217
+msgid "Header background-color"
+msgstr "Цвет фона верхнего колонтитула"
+
+#: fruitful/inc/theme-options/theme-options.php:228
+#: fruitful/inc/theme-options/theme-options.php:239
+#: fruitful/inc/theme-options/theme-options.php:258
+msgid "Enable"
+msgstr "Включить"
+
+#: fruitful/inc/theme-options/theme-options.php:248
+msgid "Reset Defaults"
+msgstr "Восстановить"
+
+#: fruitful/inc/theme-options/theme-options.php:299
+msgid "Copyright section"
+msgstr "Раздел копирайт"
+
+#: fruitful/inc/theme-options/theme-options.php:306
+msgid "Styles editor"
+msgstr "Редактор стилей"
+
+#: fruitful/inc/theme-options/theme-options.php:320
+msgid "Background  repeat"
+msgstr "Повторение фонового рисунка"
+
+#: fruitful/inc/theme-options/theme-options.php:438
+msgid "Width"
+msgstr "Ширина"
+
+#: fruitful/inc/theme-options/theme-options.php:440
+msgid "Height"
+msgstr "Высота"
+
+#: fruitful/inc/theme-options/theme-options.php:458
+#: fruitful/inc/theme-options/theme-options.php:469
+#: fruitful/inc/theme-options/theme-options.php:479
+msgid "Sample Font"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:488
+msgid "H1"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:489
+msgid "H2"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:490
+msgid "H3"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:491
+msgid "H4"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:492
+msgid "H5"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:493
+msgid "H6"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:495
+msgid "P"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:510
+msgid "View Options"
+msgstr "Посмотреть опции"
+
+#: fruitful/inc/theme-options/theme-options.php:513
+msgid "No Slider Select!"
+msgstr "Слайдер не выбран!"
+
+#: fruitful/inc/theme-options/theme-options.php:516
+msgid "Animation type"
+msgstr "Тип анимации"
+
+#: fruitful/inc/theme-options/theme-options.php:517
+msgid "Sliding direction, \"horizontal\" or \"vertical\""
+msgstr "Направления скольжения, \"Горизонталь \" или \"Вертикаль \""
+
+#: fruitful/inc/theme-options/theme-options.php:518
+msgid "Reverse the animation direction"
+msgstr "Обратная анимация"
+
+#: fruitful/inc/theme-options/theme-options.php:519
+msgid "Animate slider automatically"
+msgstr "Автоматическая анимация слайдов"
+
+#: fruitful/inc/theme-options/theme-options.php:520
+msgid "Set the speed of the slideshow cycling, in milliseconds"
+msgstr "Установить скорость слайд-шоу, в миллисекундах"
+
+#: fruitful/inc/theme-options/theme-options.php:521
+msgid "Set the speed of animations, in milliseconds"
+msgstr "Установить скорость анимации, в миллисекундах"
+
+#: fruitful/inc/theme-options/theme-options.php:522
+msgid "Set an initialization delay, in milliseconds"
+msgstr "Установить задержку при инициализации, в миллисекундах"
+
+#: fruitful/inc/theme-options/theme-options.php:523
+msgid "Randomize slide order"
+msgstr "Случайный порядок слайдов"
+
+#: fruitful/inc/theme-options/theme-options.php:524
+msgid "Manual control usage"
+msgstr "Ручной контроль"
+
+#: fruitful/inc/theme-options/theme-options.php:527
+msgid "Slider Skins"
+msgstr "Стили слайдера"
+
+#: fruitful/inc/theme-options/theme-options.php:528
+msgid "Effect"
+msgstr "Эффекты"
+
+#: fruitful/inc/theme-options/theme-options.php:529
+msgid "For slice animations"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:530
+msgid "For box animations (Cols)"
+msgstr "Для окна анимации (колонки)"
+
+#: fruitful/inc/theme-options/theme-options.php:531
+msgid "For box animations (Rows)"
+msgstr "Для окна анимации (строки)"
+
+#: fruitful/inc/theme-options/theme-options.php:532
+msgid "Slide transition speed"
+msgstr "Скорость смены слайдов"
+
+#: fruitful/inc/theme-options/theme-options.php:533
+msgid "How long each slide will show"
+msgstr "Временной промежуток между переключением слайдов"
+
+#: fruitful/inc/theme-options/theme-options.php:534
+msgid "Set starting Slide (0 index)"
+msgstr "Установить начальный слайд (0 index)"
+
+#: fruitful/inc/theme-options/theme-options.php:535
+msgid "Next & Prev navigation"
+msgstr "Следующая и Предыдущая навигации"
+
+#: fruitful/inc/theme-options/theme-options.php:536
+msgid "1,2,3... navigation"
+msgstr "1,2,3 … навигация"
+
+#: fruitful/inc/theme-options/theme-options.php:537
+msgid "Use thumbnails for Control Nav"
+msgstr "Использование миниатюр для \"Control Nav\""
+
+#: fruitful/inc/theme-options/theme-options.php:538
+msgid "Stop animation while hovering"
+msgstr "Остановить анимацию при наведении"
+
+#: fruitful/inc/theme-options/theme-options.php:539
+msgid "Force manual transitions"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:540
+msgid "Prev directionNav text"
+msgstr "Предыдущий  \"directionNav\" текст"
+
+#: fruitful/inc/theme-options/theme-options.php:541
+msgid "Next directionNav text"
+msgstr "Следующий \"directionNav\" текст"
+
+#: fruitful/inc/theme-options/theme-options.php:542
+msgid "Start on a random slide"
+msgstr "Случайный слайд"
+
+#: fruitful/inc/theme-options/theme-options.php:552
+#, php-format
+msgid "Slide # %1$d"
+msgstr "Слайдер # %1$d"
+
+#: fruitful/inc/theme-options/theme-options.php:572
+msgid "Collapse all"
+msgstr "Свернуть все"
+
+#: fruitful/inc/theme-options/theme-options.php:573
+msgid "Expand all"
+msgstr "Развернуть все"
+
+#: fruitful/inc/theme-options/theme-options.php:595
+msgid "Add New Slide"
+msgstr "Добваить новый слайд"
+
+#: fruitful/inc/theme-options/theme-options.php:603
+#: fruitful/inc/theme-options/theme-options.php:633
+msgid "Background color"
+msgstr "Цвет фона"
+
+#: fruitful/inc/theme-options/theme-options.php:609
+#: fruitful/inc/theme-options/theme-options.php:639
+msgid "Menu button color"
+msgstr "Цвет кнопок меню"
+
+#: fruitful/inc/theme-options/theme-options.php:615
+#: fruitful/inc/theme-options/theme-options.php:645
+#: fruitful/inc/theme-options/theme-options.php:665
+msgid "Font color"
+msgstr "Цвет шрифта"
+
+#: fruitful/inc/theme-options/theme-options.php:621
+#: fruitful/inc/theme-options/theme-options.php:651
+msgid "Font color (active and hover)"
+msgstr "Цвет шрифта (при наведении и нажатии)"
+
+#: fruitful/inc/theme-options/theme-options.php:674
+msgid "Link color"
+msgstr "Цвет ссылок"
+
+#: fruitful/inc/theme-options/theme-options.php:680
+msgid "Link color (hover)"
+msgstr "Цвет ссылок (при наведении)"
+
+#: fruitful/inc/theme-options/theme-options.php:686
+msgid "Link color (focus)"
+msgstr "Цвет ссылок (при фокусе)"
+
+#: fruitful/inc/theme-options/theme-options.php:692
+msgid "Link color (active)"
+msgstr "Цвет ссылок (при нажатии)"
+
+#: fruitful/inc/theme-options/theme-options.php:705
+msgid "Widget separator color"
+msgstr "Цвет разделителя виджета"
+
+#: fruitful/inc/theme-options/theme-options.php:712
+msgid "Blog post date color"
+msgstr "Цвет даты поста блога"
+
+#: fruitful/inc/theme-options/theme-options.php:719
+msgid "Date font color"
+msgstr "Цвет шрифта даты"
+
+#: fruitful/inc/theme-options/theme-options.php:733
+msgid "Button background color"
+msgstr "Цвет кнопок"
+
+#: fruitful/inc/theme-options/theme-options.php:740
+msgid "Button background color (hover, active, focus, current page - pagenavi)"
+msgstr ""
+"Цвет кнопок (при наведении, нажатии, фокусе, цвет текущей страницы - "
+"навигация)"
+
+#: fruitful/inc/theme-options/theme-options.php:788
+msgid "General"
+msgstr "Общие"
+
+#: fruitful/inc/theme-options/theme-options.php:790
+msgid "Background"
+msgstr "Фон"
+
+#: fruitful/inc/theme-options/theme-options.php:791
+msgid "Logo"
+msgstr "Логотип"
+
+#: fruitful/inc/theme-options/theme-options.php:792
+msgid "Colors"
+msgstr "Цвета"
+
+#: fruitful/inc/theme-options/theme-options.php:795
+msgid "Social Links"
+msgstr "Соц. сети"
+
+#: fruitful/inc/theme-options/theme-options.php:799
+msgid "Woocommerce"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:818
+msgid "Support"
+msgstr "Поддержка"
+
+#: fruitful/inc/theme-options/theme-options.php:820
+msgid "If You faced with problems or find error or bug, please"
+msgstr "Если Вы столкнулись с проблемой или нашли ошибку, пожалуйста"
+
+#: fruitful/inc/theme-options/theme-options.php:821
+msgid "submit request."
+msgstr "отправьте запрос."
+
+#: fruitful/inc/theme-options/theme-options.php:822
+msgid "On official "
+msgstr "На оффициальном"
+
+#: fruitful/inc/theme-options/theme-options.php:822
+msgid "Support forum"
+msgstr "Форуме поддержки"
+
+#: fruitful/inc/theme-options/theme-options.php:823
+msgid "You may find answers on Your questions."
+msgstr "Вы можете найти ответы на Ваши вопросы."
+
+#: fruitful/inc/theme-options/theme-options.php:827
+msgid "Additional customization"
+msgstr "Дополнительная настройка"
+
+#: fruitful/inc/theme-options/theme-options.php:829
+msgid "Our team is available for any type of WordPress development. "
+msgstr "Наша команда занимается всеми типами Wordpress разработки."
+
+#: fruitful/inc/theme-options/theme-options.php:830
+msgid "If You want customize theme or add new features, You can"
+msgstr ""
+"Если Вы желаете настроить тему или добавить новые возможности, Вы можете"
+
+#: fruitful/inc/theme-options/theme-options.php:831
+msgid "submit order"
+msgstr "оформить заказ"
+
+#: fruitful/inc/theme-options/theme-options.php:832
+msgid "on our website"
+msgstr "на нашем сайте"
+
+#: fruitful/inc/theme-options/theme-options.php:837
+msgid "Check our latest theme"
+msgstr "Попробуйте нашу новую тему"
+
+#~ msgid "Latest Posts Template"
+#~ msgstr "Шаблон Блога из Последних Постов"
+
+#~ msgid "Support developers"
+#~ msgstr "Техподдержка"
+
+#~ msgid "If you like our theme please rate it and "
+#~ msgstr "Если вам понравился наш шаблон, пожалуйста, оцените его и "
+
+#~ msgid "leave us review"
+#~ msgstr "оставьте отзыв"
+
+#~ msgid "On"
+#~ msgstr "На"
+
+#~ msgid ""
+#~ "you may find answers on your questions. With customization requests and "
+#~ "suggestion you always can "
+#~ msgstr ""
+#~ "Вы можете найти ответы на свои вопросы. С запросами дополнительной "
+#~ "настройки и кастомизации вы всегда можете "
+
+#~ msgid "contact us"
+#~ msgstr "связаться с нами"
+
+#~ msgid "by email. Please visit our website "
+#~ msgstr "по электронной почте. Пожалуйста, посетите наш сайт "
+
+#~ msgid "to know about us and our services."
+#~ msgstr "чтобы узнать больше о нас и наших услугах."
+
+#~ msgid "All posts by %s"
+#~ msgstr "Просмотреть все записи по %s"
+
+#~ msgid "Template"
+#~ msgstr "Шаблон"
+
+#~ msgid "Full width Template"
+#~ msgstr "Страница без сайдбара"
+
+#~ msgid "Right sidebar Template"
+#~ msgstr "Сайдбар справа"
+
+#~ msgid "Install Home Page"
+#~ msgstr "Установить главную страницу"
+
+#~ msgid ""
+#~ "Setup home page with dummy data, like on demo. Option can be used once."
+#~ msgstr "Установка главной страницы. Опция доступна единожды."
+
+#~ msgid "Font color for :active and :hover"
+#~ msgstr "Цвет ссылок при нажатии и наведении курсора"
+
+#~ msgid "Tagged %1$s"
+#~ msgstr "Тэги %1$s"
+
+#~ msgid "%s <span class=\"says\">says:</span>"
+#~ msgstr "%s <span class=\"says\">говорит:</span>"
+
+#~ msgid "Fruitful News Archiv"
+#~ msgstr "Fruitful Архив новостей"
+
+#~ msgid "Default theme style css"
+#~ msgstr "CSS по умолчанию"
+
+#~ msgid ""
+#~ "Default theme styles. Theme option for styling is not working, if this "
+#~ "option enable."
+#~ msgstr ""
+#~ "Стили темы по умолчанию.  Стилизация не работает, если опция включена."
+
+#~ msgid "Reset all options to default"
+#~ msgstr "Сбросить все настройки по-умолчанию"
+
+#~ msgid "Reset Button. "
+#~ msgstr "Сбросить."
+
+#~ msgid ""
+#~ "Upload your background image for header background. (Supported files ."
+#~ "png, .jpg, .gif)"
+#~ msgstr ""
+#~ "Добавьте фоновое изображение для верхнего колонтитула сайта. "
+#~ "(Поддерживаемые файлы: .png, .jpg, .gif)"
+
+#~ msgid "Set header min-height parametrs."
+#~ msgstr "Установить минимальное значение высоты заголовка страницы."
+
+#~ msgid "Upload your logo Image"
+#~ msgstr "Загрузить изображение логотипа"
+
+#~ msgid ""
+#~ "Default theme logo is just a sample. Upload logo image for your website. "
+#~ "(Supported files .png, .jpg, .gif)"
+#~ msgstr ""
+#~ "Логотип по умолчанию это пример. Загрузите изображение своего логотипа. "
+#~ "(Поддерживаемые файлы .png, .jpg, .gif)"
+
+#~ msgid "Menu css styling"
+#~ msgstr "CSS стили для меню."
+
+#~ msgid "Choose styles for main menu."
+#~ msgstr "Выберите стили для главного меню."
+
+#~ msgid "Enable default css"
+#~ msgstr "Включить стили по умолчанию"
+
+#~ msgid "Menu background-color"
+#~ msgstr "Цвет фона меню"
+
+#~ msgid "Menu button background-color"
+#~ msgstr "Цвет пункта меню"
+
+#~ msgid "Default font color"
+#~ msgstr "Цвет шрифта по умолчанию"
+
+#~ msgid "Font color for active and :hover state"
+#~ msgstr "Цвет шрифта для \"active\"  и \"hover\" состояния"
+
+#~ msgid "Theme settings will be reset to default."
+#~ msgstr "Настройки темы будут сброшены по умолчанию."
+
+#~ msgid "Contact support"
+#~ msgstr "Поддержка"
+
+#~ msgid ""
+#~ "If you faced with any problems, have a question or suggestion you always "
+#~ "can contact us with any request on our website <a href=\"http://"
+#~ "fruitfulcode.com\">fruitfulcode.com</a>"
+#~ msgstr ""
+#~ "Если вы столкнулись с любыми проблемами, есть вопрос или предложение, вы "
+#~ "всегда можете обратиться к нам с любым запросом на нашем сайте "
+#~ "fruitfulcode.com"
+
+#~ msgid "Fixed Header"
+#~ msgstr "Фиксированый хедер"
+
+#~ msgid "Gallery"
+#~ msgstr "Галлерея"
+
+#~ msgid "Add New Gallery"
+#~ msgstr "Добваить новую галлерею"
+
+#~ msgid "Edit Gallery"
+#~ msgstr "Редактировать галлерею"
+
+#~ msgid "View Gallery"
+#~ msgstr "Просмотреть галлерею"
+
+#~ msgid "New Gallery"
+#~ msgstr "Новая Галлерея"
+
+#~ msgid "Search Gallery"
+#~ msgstr "Посик галлереи"
+
+#~ msgid "Gallery not found"
+#~ msgstr "Галлерея не найдена"
+
+#~ msgid "Gallery not found in trash"
+#~ msgstr "Галерея в корзине не найдена"
+
+#~ msgid "Author"
+#~ msgstr "Автор"
+
+#~ msgid "Shortcode"
+#~ msgstr "Shortcode"
+
+#~ msgid "Date"
+#~ msgstr "Дата"
+
+#~ msgid "Add Images"
+#~ msgstr "Добавить изображение"
+
+#~ msgid "Animation Types"
+#~ msgstr "Тип анимации"
+
+#~ msgid "Animations Speed"
+#~ msgstr "Скорость анимации"
+
+#~ msgid "Rotation (99=random)"
+#~ msgstr "Вращение (99 = случайный)"
+
+#~ msgid "Paddings"
+#~ msgstr "Отступы"
+
+#~ msgid "Scale (0-1)"
+#~ msgstr "Масштаб (0-1)"
+
+#~ msgid "Content"
+#~ msgstr "Контент."
+
+#~ msgid ""
+#~ "Theme has styles by default, if you are using theme as based for "
+#~ "development and dont what overwrite default css styles, you can disable "
+#~ "our styles. "
+#~ msgstr ""
+#~ "Тема содержит стили по умолчанию, если вы используете тему для базовой "
+#~ "разработки и не хотите переписывать стили по умолчанию, вы можете и "
+#~ "отключить."
+
+#~ msgid "Most Used Categories"
+#~ msgstr "Часто используемые категории"
+
+#~ msgid "Try looking in the monthly archives. %1$s"
+#~ msgstr "Попробуйте посмотреть в ежемесячных архивах. %1$s"
+
+#~ msgid "Logo Size"
+#~ msgstr "Размер логотипа"
+
+#~ msgid ""
+#~ "Specify resolution for your logo image. Our theme will crop (timthumb) "
+#~ "your image for need size."
+#~ msgstr ""
+#~ "Укажите разрешение для вашего логотипа. Наша тема будет обрезать "
+#~ "(timthumb) ваше изображение до нужных размеров."
+
+#~ msgid "HTML Text"
+#~ msgstr "HTML текст"
+
+#~ msgid ""
+#~ "Our team can propose live consultation, web development,  web design, "
+#~ "customization of our products."
+#~ msgstr ""
+#~ "Наша команда может предложить online консультации, разработку сайтов, веб-"
+#~ "дизайн, настройку нашей продукции."
+
+#~ msgid "Menu styling"
+#~ msgstr "Стилизация меню"
+
+#~ msgid ""
+#~ "Choose styles for main menu. Add additional styles in custom css if needed"
+#~ msgstr ""
+#~ "Выберите стили для главного меню. При не обходимости добавьте "
+#~ "дополнительные стили в разделе 'Дополнительные стили'. "
+
+#~ msgid "Button background-color"
+#~ msgstr "Цвет фона кнопок"

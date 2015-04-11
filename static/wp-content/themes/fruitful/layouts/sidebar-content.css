@@ -1,0 +1,25 @@
+/*
+Theme Name: Fruitful theme
+Layout: Sidebar-Content
+*/
+
+.site-content {
+	float: right;
+	margin: 0 0 0 -25%;
+	width: 100%;
+}
+#content {
+	margin: 0 0 0 25%;
+}
+#secondary { /* Sidebar 1 */
+	float: left;
+	overflow: hidden;
+	width: 25%;
+}
+#tertiary { /* Sidebar 2 */
+	clear: left;
+}
+.site-footer {
+	clear: both;
+	width: 100%;
+}

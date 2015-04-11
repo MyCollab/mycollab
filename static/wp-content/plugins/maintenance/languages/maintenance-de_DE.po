@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: maintenance\n"
+"POT-Creation-Date: 2014-02-18 12:25+0200\n"
+"PO-Revision-Date: 2014-05-02 08:16+0100\n"
+"Last-Translator: René Maurer <rene.maurer@jamos.ch>\n"
+"Language-Team: fruitfulcode\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-KeywordsList: _;_e;__;_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: de_CH\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: /includes/admin.php:84
+msgid "Save changes"
+msgstr "Einstellungen speichern"
+
+#: /includes/functions.php:104
+msgid "General Settings"
+msgstr "Generelle Einstellungen"
+
+#: /includes/functions.php:110
+msgid "Pro version"
+msgstr "Pro Version"
+
+#: /includes/functions.php:116
+msgid "Support"
+msgstr "Support"
+
+#: /includes/functions.php:124
+msgid "Page title"
+msgstr "Seiten Titel"
+
+#: /includes/functions.php:125
+msgid "Headline"
+msgstr "Kopfzeile"
+
+#: /includes/functions.php:126
+msgid "Description"
+msgstr "Beschreibung"
+
+#: /includes/functions.php:127
+msgid "Logo"
+msgstr "Logo"
+
+#: /includes/functions.php:127
+msgid "Upload Logo"
+msgstr "logo hochladen"
+
+#: /includes/functions.php:130
+msgid "Admin bar"
+msgstr "Admin Bar"
+
+#: /includes/functions.php:130
+msgid "Show admin bar"
+msgstr "Zeige Admin Bar"
+
+#: /includes/functions.php:131
+msgid "503"
+msgstr "503"
+
+#: /includes/functions.php:131
+msgid "Service temporarily unavailable"
+msgstr "Service zurzeit nicht verfügbar"
+
+#: /includes/functions.php:132
+msgid "Google Analytics ID"
+msgstr "UA-XXXXX-X"
+
+#: /includes/functions.php:132
+msgid "UA-XXXXX-X"
+msgstr "UA-XXXXX-X"
+
+#: /includes/functions.php:133
+msgid "Blur intensity"
+msgstr "Intensität des Verwischens"
+
+#: /includes/functions.php:134
+msgid "Background blur"
+msgstr "Hintergrund Verwischen"
+
+#: /includes/functions.php:134
+msgid "Apply a blur"
+msgstr "Verwischen aktivieren"
+
+#: /includes/functions.php:135
+msgid "Login On / Off"
+msgstr "Login Ein / Aus"
+
+#: /includes/functions.php:142
+msgid "Background image"
+msgstr "Hintergrundbild"
+
+#: /includes/functions.php:142
+msgid "Upload Background"
+msgstr "Hintergrundbild hochladen"
+
+#: /includes/functions.php:148
+msgid "Background color"
+msgstr "Hintergrund Farbe"
+
+#: /includes/functions.php:149
+msgid "Font color"
+msgstr "Schrift Farbe"
+
+#: /includes/functions.php:157
+msgid "Have any questions?"
+msgstr "Hast du bestimmte Fragen?"
+
+#: /includes/functions.php:158
+#, php-format
+msgid ""
+"You may find answers to your questions at <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">support forum</a><br>You may  <a "
+"target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?subject=Maintenance "
+"plugin\">contact us</a> with customization requests and suggestions.<br> "
+"Please visit our website to learn about us and our services <a href=\"%1$s\" "
+"title=\"%2$s\">%2$s</a>"
+msgstr ""
+"Vielleicht findest du die Antworten im <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">Support Forum</a>.<br>Du kannst "
+"uns und auch mit deinem Anliegen <a target=\"_blank\" href=\"mailto:"
+"mail@fruitfulcode.com?subject=Maintenance plugin\">kontaktieren</a> <br> "
+"Bitte besuche zuerst unsere Webseite <a href=\"%1$s\" title=\"%2$s\">%2$s</"
+"a> um mehr über unsere Dienstleistungen zu erfahren "
+
+#: /includes/functions.php:169
+msgid "Extended functionality"
+msgstr "Erweiterte Funktionalitäten"
+
+#: /includes/functions.php:170
+#, php-format
+msgid ""
+"Purchase <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> version  with "
+"extended functionality. %1$s If you like our plugin please <a target=\"_blank"
+"\" href=\"http://wordpress.org/support/view/plugin-reviews/maintenance?"
+"filter=5\">rate it</a>, <a title=\"leave feedbacks\" href=\"%2$s\" target="
+"\"_blank\">leave feedbacks</a>."
+msgstr ""
+"Kaufe eine <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> Version  mit "
+"erweiterten Funktionen. %1$s Wenn du unser Plugin gut findest <a target="
+"\"_blank\" href=\"http://wordpress.org/support/view/plugin-reviews/"
+"maintenance?filter=5\">bewerte es</a> oder <a title=\"leave feedbacks\" href="
+"\"%2$s\" target=\"_blank\">hinterlasse ein Feedback</a>."
+
+#: /includes/functions.php:174
+msgid "Demo website"
+msgstr "Demo Webseite"
+
+#: /includes/functions.php:232
+msgid "Maintenance"
+msgstr "Maintenance"
+
+#: /includes/functions.php:255
+msgid "Website is under construction"
+msgstr "Die Webseite ist im Aufbau"
+
+#: /includes/functions.php:256
+msgid "Maintenance mode is on"
+msgstr "Der Wartungsmodus ist aktiv"
+
+#: /includes/functions.php:257
+msgid "Website will be available soon"
+msgstr "Die Webseite wird in Kürze wieder verfügbar sein"
+
+#: /load/functions.php:37
+msgid "Permission access denied!"
+msgstr "Zugriff verweigert!"
+
+#: /load/functions.php:45
+msgid "You entered your login are incorrect!"
+msgstr "Du hast einen falschen Benutzernamen eingegeben!"
+
+#: /load/functions.php:49
+msgid "You entered your password are incorrect!"
+msgstr "Du hast ein falsches Passwort eingegeben!"
+
+#: /load/functions.php:52
+msgid "You entered your login and password are incorrect!"
+msgstr "Dein Benutzername und Passwort ist falsch"
+
+#: /load/functions.php:223
+msgid "Username"
+msgstr "Benutzername"
+
+#: /load/functions.php:224
+msgid "Password"
+msgstr "Passwort"
+
+#: /load/functions.php:225
+msgid "Sign In"
+msgstr "Anmelden"
+
+#, fuzzy
+#~ msgid "maintenance"
+#~ msgstr "Manutenção"
+
+#~ msgid "Contact support"
+#~ msgstr "Contatar suporte"
+
+#~ msgid ""
+#~ "If you faced with any problems, have a question or suggestion you always "
+#~ "can contact us with any request on our website <a href=\"%1$s\" title="
+#~ "\"%2$s\">%2$s</a>"
+#~ msgstr ""
+#~ "Se você viu algum problem, tem alguma dúvida ou sugestão, você pode nos "
+#~ "contatar em nosso site <a href=\"%1$s\" title=\"%2$s\">%2$s</a>"
+
+#~ msgid ""
+#~ "If you like our plugin please rate it, %1$s <a title=\"leave feedback\" "
+#~ "href=\"%2$s\" target=\"_blank\">leave feedback</a> or purchase extended "
+#~ "version %1$s with more other features."
+#~ msgstr ""
+#~ "Se você gostou de nosso plugin, por-favor avalie-o, %1$s <a title=\"deixe "
+#~ "um comentário\" href=\"%2$s\" target=\"_blank\">deixe um comentário</a> "
+#~ "ou adquira a versão extendida %1$s com mais funcionalidades."
+
+#~ msgid "Purchase"
+#~ msgstr "Comprar"
+
+#~ msgid "We have time until launch"
+#~ msgstr "Осталось времени до запуска"
+
+#~ msgid "Be first of your friends who will know when the website goes live."
+#~ msgstr "Будь первым из твоих друзей, кто узнает о запуске сайта."
+
+#~ msgid "Check out our extended version of plugin with new features"
+#~ msgstr "Проверьте возможности расширенной версии плагина"
+
+#~ msgid "Your session has expired."
+#~ msgstr "Ваша сессия истекла."
+
+#~ msgid "Customer login"
+#~ msgstr "Вход для клиентов"
+
+#~ msgid "Please login to see website"
+#~ msgstr "Пожалуйста авторезируйтесь"
+
+#~ msgid "User roles"
+#~ msgstr "Роли пользователей"
+
+#~ msgid "Choose users access permissions in maintenance mode."
+#~ msgstr "Выберите права доступа пользователей в режиме обслуживания."

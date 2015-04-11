@@ -1,0 +1,4 @@
+ErrorDocument 404 "File is missing"
+RewriteEngine On
+RewriteBase /
+ 

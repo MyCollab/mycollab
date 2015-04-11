@@ -1,0 +1,4 @@
+#sortable 		{ float:left; margin-bottom: 20px;  width: 100%; }
+#sortable li  	{ float:left; position:relative; width:150px; height:150px; margin:0 27px 25px 0; padding:2px; cursor:pointer; clear:none !important;}
+#sortable .ui-SortPlaceHolder {border:2px dashed #c7c3c1; padding:0;}
+.soratble-inner  { display: block; float: left; width: 100%; }

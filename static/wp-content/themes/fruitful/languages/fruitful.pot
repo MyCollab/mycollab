@@ -1,0 +1,1863 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Fruitful theme\n"
+"POT-Creation-Date: 2014-07-31 11:49+0200\n"
+"PO-Revision-Date: 2014-07-31 11:50+0200\n"
+"Last-Translator: \n"
+"Language-Team: Fruitful Team\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;__;_x;_n;esc_attr_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: fruitful/404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: fruitful/404.php:21
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+
+#: fruitful/author-bio.php:16
+#, php-format
+msgid "About %s"
+msgstr ""
+
+#: fruitful/author-bio.php:20
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: fruitful/comments.php:33
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr ""
+
+#: fruitful/comments.php:40
+#: fruitful/comments.php:60
+msgid "Comment navigation"
+msgstr ""
+
+#: fruitful/comments.php:41
+#: fruitful/comments.php:61
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: fruitful/comments.php:42
+#: fruitful/comments.php:62
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: fruitful/comments.php:72
+msgid "Comments are closed."
+msgstr ""
+
+#: fruitful/content-aside.php:32
+#: fruitful/content-audio.php:33
+#: fruitful/content-gallery.php:32
+#: fruitful/content-image.php:33
+#: fruitful/content-link.php:32
+#: fruitful/content-quote.php:32
+#: fruitful/content-status.php:32
+#: fruitful/content-video.php:32
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: fruitful/content-aside.php:33
+#: fruitful/content-audio.php:34
+#: fruitful/content-chat.php:33
+#: fruitful/content-gallery.php:33
+#: fruitful/content-image.php:34
+#: fruitful/content-link.php:33
+#: fruitful/content-page.php:22
+#: fruitful/content-quote.php:33
+#: fruitful/content-single.php:33
+#: fruitful/content-status.php:33
+#: fruitful/content-video.php:33
+#: fruitful/content.php:54
+#: fruitful/image.php:87
+msgid "Pages:"
+msgstr ""
+
+#: fruitful/content-aside.php:39
+#: fruitful/content-aside.php:46
+#: fruitful/content-audio.php:43
+#: fruitful/content-chat.php:38
+#: fruitful/content-gallery.php:49
+#: fruitful/content-image.php:49
+#: fruitful/content-link.php:41
+#: fruitful/content-page.php:23
+#: fruitful/content-quote.php:43
+#: fruitful/content-single.php:38
+#: fruitful/content-video.php:48
+#: fruitful/content.php:65
+#: fruitful/image.php:35
+#: fruitful/image.php:101
+msgid "Edit"
+msgstr ""
+
+#: fruitful/content-chat.php:22
+#: fruitful/content-quote.php:23
+#: fruitful/content.php:32
+#: fruitful/functions.php:1056
+#, php-format
+msgid "Permalink to %s"
+msgstr ""
+
+#: fruitful/content-gallery.php:43
+#: fruitful/content-image.php:42
+#: fruitful/content-quote.php:40
+#: fruitful/content-video.php:41
+#: fruitful/content.php:62
+msgid "Leave a comment"
+msgstr ""
+
+#: fruitful/content-gallery.php:43
+#: fruitful/content.php:62
+msgid "1 Comment"
+msgstr ""
+
+#: fruitful/content-gallery.php:43
+#: fruitful/content.php:62
+msgid "% Comments"
+msgstr ""
+
+#: fruitful/content-image.php:42
+#: fruitful/content-quote.php:40
+#: fruitful/content-video.php:41
+msgid "One comment so far"
+msgstr ""
+
+#: fruitful/content-image.php:42
+#: fruitful/content-quote.php:40
+#: fruitful/content-video.php:41
+#, php-format
+msgid "View all % comments"
+msgstr ""
+
+#: fruitful/content.php:53
+msgid "Read More <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: fruitful/functions.php:71
+#: fruitful/functions.php:77
+msgid "on"
+msgstr ""
+
+#: fruitful/functions.php:124
+msgid "Primary Menu"
+msgstr ""
+
+#: fruitful/functions.php:160
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: fruitful/functions.php:176
+msgid "Main Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:185
+msgid "Blog Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:194
+msgid "Single Post Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:203
+msgid "Homepage Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:213
+msgid "Shop Page Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:222
+msgid "Product Page Sidebar"
+msgstr ""
+
+#: fruitful/functions.php:453
+msgid "Please add images for slider in theme options!"
+msgstr ""
+
+#: fruitful/functions.php:949
+msgid "You may be interested in&hellip;"
+msgstr ""
+
+#: fruitful/functions.php:998
+#, php-format
+msgid "%d "
+msgstr ""
+
+#: fruitful/functions.php:1025
+#: fruitful/functions.php:1034
+msgid ", "
+msgstr ""
+
+#: fruitful/functions.php:1028
+#, php-format
+msgid "Posted in %1$s"
+msgstr ""
+
+#: fruitful/functions.php:1050
+#, php-format
+msgid "%1$s on %2$s"
+msgstr ""
+
+#: fruitful/functions.php:1091
+#: fruitful/inc/theme-options/theme-options.php:141
+msgid "Fruitful Theme Options"
+msgstr ""
+
+#: fruitful/functions.php:1307
+msgid "Search for products"
+msgstr ""
+
+#: fruitful/functions.php:1411
+#, php-format
+msgid "Category Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1414
+#, php-format
+msgid "Tag Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1418
+#, php-format
+msgid "Author Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1422
+#, php-format
+msgid "Daily Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1425
+#, php-format
+msgid "Monthly Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1428
+#, php-format
+msgid "Yearly Archives: %s"
+msgstr ""
+
+#: fruitful/functions.php:1431
+#: fruitful/sidebar-blogright.php:19
+#: fruitful/sidebar-homepage.php:19
+#: fruitful/sidebar-page.php:19
+#: fruitful/sidebar-single-post.php:19
+#: fruitful/sidebar.php:19
+msgid "Archives"
+msgstr ""
+
+#: fruitful/functions.php:1544
+msgid ""
+"Attention! Fruitful theme version 2.0 got major updates. You may have a "
+"problems with display content in shortcodes, because we created this part as "
+"plugin. You need install "
+msgstr ""
+
+#: fruitful/functions.php:1546
+msgid " and use them."
+msgstr ""
+
+#: fruitful/image.php:25
+#, php-format
+msgid ""
+"Published <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Link to full-"
+"size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s"
+"\" rel=\"gallery\">%7$s</a>"
+msgstr ""
+
+#: fruitful/image.php:39
+msgid "&larr; Previous"
+msgstr ""
+
+#: fruitful/image.php:40
+msgid "Next &rarr;"
+msgstr ""
+
+#: fruitful/image.php:93
+#, php-format
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+
+#: fruitful/image.php:95
+#, php-format
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+
+#: fruitful/image.php:97
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+
+#: fruitful/image.php:99
+msgid "Both comments and trackbacks are currently closed."
+msgstr ""
+
+#: fruitful/no-results.php:15
+msgid "Nothing Found"
+msgstr ""
+
+#: fruitful/no-results.php:21
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: fruitful/no-results.php:25
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: fruitful/no-results.php:30
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: fruitful/search.php:15
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: fruitful/searchform.php:11
+#: fruitful/searchform.php:13
+msgid "Search"
+msgstr ""
+
+#: fruitful/searchform.php:12
+msgid "Type Here to Search"
+msgstr ""
+
+#: fruitful/sidebar-blogright.php:26
+#: fruitful/sidebar-homepage.php:26
+#: fruitful/sidebar-page.php:26
+#: fruitful/sidebar-single-post.php:26
+#: fruitful/sidebar.php:26
+msgid "Meta"
+msgstr ""
+
+#: fruitful/taxonomy-post_format.php:18
+#, php-format
+msgid "%s Archives"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:27
+msgid "Post navigation"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:31
+msgid "&larr;"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:32
+msgid "&rarr;"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:37
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:41
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:66
+msgid "Pingback:"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:66
+#: fruitful/inc/template-tags.php:92
+msgid "(Edit)"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:85
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:90
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:96
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: fruitful/inc/template-tags.php:121
+#, php-format
+msgid ""
+"Posted on <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+msgstr ""
+
+#: fruitful/inc/template-tags.php:127
+#, php-format
+msgid "View all posts by %s"
+msgstr ""
+
+#: fruitful/inc/widgets.php:17
+msgid "News Archive"
+msgstr ""
+
+#: fruitful/inc/widgets.php:18
+msgid "Use this widget to list your Link posts"
+msgstr ""
+
+#: fruitful/inc/widgets.php:51
+#: fruitful/inc/widgets.php:62
+msgid "News-Archive"
+msgstr ""
+
+#: fruitful/inc/widgets.php:152
+msgid "Title:"
+msgstr ""
+
+#: fruitful/inc/widgets.php:155
+msgid "Number of posts to show:"
+msgstr ""
+
+#: fruitful/inc/widgets.php:159
+msgid "Text Message:"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:7
+msgid "Full width position"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:11
+msgid "Centered position"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:22
+msgid "default"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:26
+msgid "dark"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:30
+msgid "bar"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:34
+msgid "light"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:45
+msgid "FlexSlider"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:49
+msgid "Nivo Slider"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:61
+msgid "Left"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:65
+msgid "Center"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:69
+msgid "Right"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:80
+#: fruitful/inc/func/fruitful-function.php:99
+msgid "Full width"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:84
+#: fruitful/inc/func/fruitful-function.php:107
+msgid "Right sidebar"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:88
+#: fruitful/inc/func/fruitful-function.php:103
+msgid "Left sidebar"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:118
+msgid "2 products"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:122
+msgid "3 products"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:126
+msgid "4 products"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:130
+msgid "5 products"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:141
+msgid "random"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:145
+msgid "sliceDownRight"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:149
+msgid "sliceDownLeft"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:153
+msgid "sliceUpRight"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:157
+msgid "sliceUpDown"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:161
+msgid "sliceUpDownLeft"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:165
+msgid "fold"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:169
+#: fruitful/inc/func/fruitful-function.php:201
+msgid "fade"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:173
+msgid "boxRandom"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:177
+msgid "boxRain"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:181
+msgid "boxRainReverse"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:185
+msgid "boxRainGrow"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:189
+msgid "boxRainGrowReverse"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:205
+msgid "slide"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:216
+msgid "horizontal"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:220
+msgid "vertical"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:231
+msgid "true"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:235
+msgid "false"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:245
+msgid "Button menu"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:249
+msgid "Select menu"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:259
+msgid "Arial, Helvetica, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:263
+msgid "Arial Black, Gadget, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:267
+msgid "Comic Sans MS, Textile, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:271
+msgid "Courier New, Courier, monospace"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:275
+msgid "Georgia, Times New Roman, Times, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:279
+msgid "Impact, Charcoal, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:283
+msgid "Lucida Console, Monaco, monospace"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:287
+msgid "Lucida Sans Unicode, Lucida Grande, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:291
+msgid "Palatino Linotype, Book Antiqua, Palatino, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:295
+msgid "Tahoma, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:299
+msgid "Times New Roman, Times, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:303
+msgid "Trebuchet MS, Helvetica, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:307
+msgid "Verdana, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:311
+msgid "MS Sans Serif, Geneva, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:315
+msgid "MS Serif, New York, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:321
+msgid "Open Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:325
+msgid "Lobster, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:329
+msgid "Josefin Slab, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:333
+msgid "Arvo, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:337
+msgid "Lato, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:341
+msgid "Vollkorn, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:345
+msgid "Abril Fatface, cursive"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:349
+msgid "Ubuntu, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:353
+msgid "PT Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:357
+msgid "Old Standard TT, serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:361
+msgid "Droid Sans, sans-serif"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:372
+#: fruitful/inc/theme-options/theme-options.php:801
+msgid "Header"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:376
+#: fruitful/inc/theme-options/theme-options.php:808
+msgid "Footer"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:485
+msgid "Upload Image"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:491
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:309
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "Remove"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:509
+msgid "Link URL"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:515
+msgid "Target \"_blank\""
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:661
+msgid "http://fruitfulcode.com"
+msgstr ""
+
+#: fruitful/inc/func/fruitful-function.php:661
+msgid "http://wordpress.org"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:155
+msgid "Install Required Plugins"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:156
+msgid "Install Plugins"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:157
+#: fruitful/inc/func/plugins-included.php:38
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:158
+msgid "Something went wrong."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:159
+#: fruitful/inc/func/plugins-included.php:40
+#, php-format
+msgid "Fruitful theme requires the following plugin: %1$s."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:160
+#: fruitful/inc/func/plugins-included.php:41
+#, php-format
+msgid "Fruitful theme recommends the following plugin: %1$s."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:161
+#: fruitful/inc/func/plugins-included.php:42
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"installed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:162
+#: fruitful/inc/func/plugins-included.php:43
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:163
+#: fruitful/inc/func/plugins-included.php:44
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:164
+#: fruitful/inc/func/plugins-included.php:45
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:165
+#: fruitful/inc/func/plugins-included.php:46
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with Fruitful theme: %1$s."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:166
+#: fruitful/inc/func/plugins-included.php:47
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:167
+#: fruitful/inc/func/plugins-included.php:48
+msgid "Begin installing plugin"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:168
+msgid "Begin activating plugin"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:169
+#: fruitful/inc/func/plugins-included.php:50
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:170
+msgid "Return to the dashboard"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:171
+#: fruitful/inc/func/plugin-activation.php:1843
+#: fruitful/inc/func/plugins-included.php:51
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:172
+#: fruitful/inc/func/plugin-activation.php:1541
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:173
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:174
+msgid "Dismiss this notice"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1088
+msgid "External Link"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1093
+msgid "Private Repository"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1096
+msgid "Pre-Packaged"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1100
+msgid "WordPress Repository"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1103
+msgid "Required"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1103
+msgid "Recommended"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1106
+msgid "Not Installed"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1108
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1278
+#, php-format
+msgid ""
+"No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the "
+"Dashboard\">Return to the Dashboard</a>"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1294
+msgid "Plugin"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1295
+msgid "Source"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1296
+msgid "Type"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1297
+msgid "Status"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1315
+msgid "Install"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1316
+msgid "Activate"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1826
+msgid "Install package not available."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1827
+#, php-format
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1828
+msgid "Unpacking the package&#8230;"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1829
+msgid "Installing the plugin&#8230;"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1830
+msgid "Plugin install failed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1831
+msgid "Plugin installed successfully."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1842
+msgid "Plugin activation failed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1952
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#: fruitful/inc/func/plugin-activation.php:1962
+msgid "Show Details"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1953
+#: fruitful/inc/func/plugin-activation.php:1962
+msgid "Hide Details"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1954
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1955
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1959
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1960
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1961
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1962
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1963
+msgid "All installations have been completed."
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:1964
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: fruitful/inc/func/plugin-activation.php:2055
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: fruitful/inc/func/plugins-included.php:36
+msgid "Fruitful Plugin Integration"
+msgstr ""
+
+#: fruitful/inc/func/plugins-included.php:37
+msgid "Plugin Integration"
+msgstr ""
+
+#: fruitful/inc/func/plugins-included.php:39
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: fruitful/inc/func/plugins-included.php:49
+msgid "Activate installed plugin"
+msgstr ""
+
+#: fruitful/inc/func/plugins-included.php:52
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:34
+msgid "Slider settings"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:42
+msgid "Slider display"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:44
+msgid "Select the option to display the corresponding slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:47
+msgid "Disable slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:48
+msgid "Full width slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:49
+msgid "Boxed slider"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:59
+msgid "Page settings"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:66
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:85
+#: fruitful/inc/theme-options/theme-options.php:45
+msgid "Layout"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:67
+msgid "Select a specific layout for this page."
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:78
+msgid "Post settings"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init-for-objestcs-mb.php:86
+msgid "Select a specific layout for this post."
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:258
+msgid "Clear"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:259
+msgid "Default"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:260
+msgid "Select Color"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:261
+msgid "Current Color"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:293
+msgid "Select / Deselect All"
+msgstr ""
+
+#: fruitful/inc/metaboxes/init.php:1187
+#: fruitful/inc/theme-options/theme-options.php:794
+#: fruitful/inc/theme-options/theme-options.php:822
+msgid "Save"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:47
+msgid "Please Try Again"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:131
+msgid "Remove Embed"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_ajax.php:134
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_field.php:460
+msgid "Add Group"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_field.php:461
+msgid "Remove Group"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:253
+msgid "Add Row"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:619
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:653
+msgid "No terms"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:692
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:746
+msgid "Add or Upload File"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:713
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:778
+msgid "Remove Image"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "File:"
+msgstr ""
+
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:724
+#: fruitful/inc/metaboxes/helpers/cmb_Meta_Box_types.php:786
+msgid "Download"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:45
+msgid ""
+"Theme supported 2 types of html layout. Default responsive  setting which "
+"adapt for mobile devices and static page with fixed width. Uncheck arrow "
+"below if you need static website display. "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:46
+msgid "Comments"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:46
+msgid ""
+"If you want to display comments on your post page or page, select options "
+"below."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:47
+msgid "Default theme styles"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:47
+msgid ""
+"Default CSS. Theme option for styling is not working, if this option enable."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:48
+msgid "Front page template with latest posts"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:48
+msgid "Settings > Reading > Front page displays > Your latest posts"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:49
+msgid "Custom wordpress pages layout"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:49
+msgid "Set template for custom pages."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "Select option below for show featured image on single post page"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "Multilingual Switch in Header (WPML)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "If you wish to show Language Switch in header, select option below. "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:50
+msgid "Show Featured image on single post"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:52
+msgid "Reset options"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:52
+msgid "All theme options will be reset to default. "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:54
+msgid "Sticky  header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:54
+msgid "Options relating to the website header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:55
+msgid "Background for header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:55
+msgid ""
+"Upload image with full width for background in header area. (Supported "
+"files .png, .jpg, .gif)  "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:56
+msgid "Background image size"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:56
+msgid "Choose size for background image - full width or only for content area."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:57
+msgid "Height for header area"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:57
+msgid "Minimum height in pixels"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:58
+msgid "Menu Position"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:58
+msgid "Set menu position."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:59
+msgid "Type of Responsive menu"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:59
+msgid "Set type of responsive menu."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:61
+msgid "Background Image"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:61
+msgid ""
+"Upload your background image for site background. (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:62
+msgid "Background Color "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:62
+msgid "Choose color for body background"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:63
+msgid "Background color for content  "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:63
+msgid "Choose color for main content area"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:65
+msgid "Logo image"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:65
+msgid ""
+"Upload logo image for your website. Size is original (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:67
+msgid "Favicon"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:67
+msgid "Upload needed image for site favicon. (Supported files .ico (16x16))"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:68
+msgid "Logo Position"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:68
+msgid "Set Logo Position"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:71
+msgid "Main menu color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:71
+msgid "Choose your colors for main menu in header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:72
+msgid "Dropdown menu color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:72
+msgid "Choose your colors for dropdown menu in header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:73
+msgid "General font color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:73
+msgid "Choose your colors for text and links"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:74
+msgid "Color for lines"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:74
+msgid "Choose your colors for lines and separators"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:75
+msgid "Color for buttons"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:75
+msgid "Choose your colors for buttons"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:78
+#: fruitful/inc/theme-options/theme-options.php:805
+msgid "Fonts"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:78
+msgid "Popular web safe font collection, select and use for your needs."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:80
+msgid "Headers"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:80
+msgid "Choose font-family for all headlines."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:81
+#: fruitful/inc/theme-options/theme-options.php:506
+msgid "Menu"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:81
+msgid "Choose font-family for primary menu."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:82
+msgid "Body"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:82
+msgid "Choose font-family for content."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:84
+msgid "Font size"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:84
+msgid ""
+"Choose font size for specific html elements. Set size as number, without px."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:85
+#: fruitful/inc/theme-options/theme-options.php:806
+msgid "Slider"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:85
+msgid "Select a slider type that will be used by default."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:86
+msgid "Slider Options"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:86
+msgid ""
+"Choose needed options for slider: animation type, sliding direction, speed "
+"of animations, etc"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:87
+msgid "Slides"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:87
+msgid ""
+"Add images to slider (Supported files .png, .jpg, .gif). If you want to "
+"change order, just drag and drop it. Image size for slides is original from "
+"media gallery, please upload images in same size, to get best display on "
+"page. To display slider in needed place use shortcode [fruitful_slider]. "
+"Current theme version support only one slider per website. "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:89
+msgid "Socials Links Position"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:89
+msgid "Choose place where social links will be displayed."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:90
+msgid "Socials Links"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:90
+msgid ""
+"Add link to your social media profiles. Icons with link will be display in "
+"header or footer."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:91
+msgid "Footer options"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:91
+msgid "Replace default theme copyright information and links"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:93
+#: fruitful/inc/theme-options/theme-options.php:809
+msgid "Custom CSS"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:93
+msgid ""
+"Theme has two css files style.css and fixed-style.css which use default "
+"styles for front-end responsive and static layout. Do not edit theme default "
+"css files, use textarea editor below for overwriting all css styles."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:96
+msgid "Show cart in header"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:96
+msgid "If you want to display cart link in header select options below."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:97
+msgid "Woocommerce Shop Sidebar"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:97
+#: fruitful/inc/theme-options/theme-options.php:98
+msgid "Show or hide sidebar"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:98
+msgid "Woocommerce Product Sidebar"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:99
+msgid "Woocommerce pages products per row"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:99
+msgid "Choose number of products"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:100
+msgid "Number of products on Shop pages"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:100
+msgid "Choose number of products. Write -1 for show all products on one page"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:142
+#: fruitful/inc/theme-options/theme-options.php:157
+#: fruitful/inc/theme-options/theme-options.php:793
+msgid "Theme Options"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:178
+msgid "Dummy data"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:187
+msgid "Responsive"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:197
+msgid "Display comment on posts page"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:202
+msgid "Display comment on page"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:213
+msgid "Enabled"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:224
+#: fruitful/inc/theme-options/theme-options.php:235
+#: fruitful/inc/theme-options/theme-options.php:254
+msgid "Enable"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:244
+msgid "Reset Defaults"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:295
+msgid "Copyright section"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:302
+msgid "Styles editor"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:316
+msgid "Background  repeat"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:330
+msgid "Header background-color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:450
+msgid "Width"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:452
+msgid "Height"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:470
+#: fruitful/inc/theme-options/theme-options.php:481
+#: fruitful/inc/theme-options/theme-options.php:491
+msgid "Sample Font"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:500
+msgid "H1"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:501
+msgid "H2"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:502
+msgid "H3"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:503
+msgid "H4"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:504
+msgid "H5"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:505
+msgid "H6"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:507
+msgid "P"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:522
+msgid "View Options"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:525
+msgid "No Slider Select!"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:528
+msgid "Animation type"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:529
+msgid "Sliding direction, \"horizontal\" or \"vertical\""
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:530
+msgid "Reverse the animation direction"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:531
+msgid "Animate slider automatically"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:532
+msgid "Set the speed of the slideshow cycling, in milliseconds"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:533
+msgid "Set the speed of animations, in milliseconds"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:534
+msgid "Set an initialization delay, in milliseconds"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:535
+msgid "Randomize slide order"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:536
+msgid "Manual control usage"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:539
+msgid "Slider Skins"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:540
+msgid "Effect"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:541
+msgid "For slice animations"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:542
+msgid "For box animations (Cols)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:543
+msgid "For box animations (Rows)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:544
+msgid "Slide transition speed"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:545
+msgid "How long each slide will show"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:546
+msgid "Set starting Slide (0 index)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:547
+msgid "Next & Prev navigation"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:548
+msgid "1,2,3... navigation"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:549
+msgid "Use thumbnails for Control Nav"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:550
+msgid "Stop animation while hovering"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:551
+msgid "Force manual transitions"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:552
+msgid "Prev directionNav text"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:553
+msgid "Next directionNav text"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:554
+msgid "Start on a random slide"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:564
+#, php-format
+msgid "Slide # %1$d"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:584
+msgid "Collapse all"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:585
+msgid "Expand all"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:607
+msgid "Add New Slide"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:615
+#: fruitful/inc/theme-options/theme-options.php:645
+msgid "Background color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:621
+#: fruitful/inc/theme-options/theme-options.php:651
+msgid "Menu button color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:627
+#: fruitful/inc/theme-options/theme-options.php:657
+#: fruitful/inc/theme-options/theme-options.php:677
+msgid "Font color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:633
+#: fruitful/inc/theme-options/theme-options.php:663
+msgid "Font color (active and hover)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:686
+msgid "Link color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:692
+msgid "Link color (hover)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:698
+msgid "Link color (focus)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:704
+msgid "Link color (active)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:717
+msgid "Widget separator color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:724
+msgid "Blog post date color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:731
+msgid "Date font color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:745
+msgid "Button background color"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:752
+msgid "Button background color (hover, active, focus, current page - pagenavi)"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:800
+msgid "General"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:802
+msgid "Background"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:803
+msgid "Logo"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:804
+msgid "Colors"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:807
+msgid "Social Links"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:811
+msgid "Woocommerce"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:830
+msgid "Support"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:832
+msgid "If You faced with problems or find error or bug, please"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:833
+msgid "submit request."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:834
+msgid "On official "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:834
+msgid "Support forum"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:835
+msgid "You may find answers on Your questions."
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:839
+msgid "Additional customization"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:841
+msgid "Our team is available for any type of WordPress development. "
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:842
+msgid "If You want customize theme or add new features, You can"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:843
+msgid "submit order"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:844
+msgid "on our website"
+msgstr ""
+
+#: fruitful/inc/theme-options/theme-options.php:849
+msgid "Check our latest theme"
+msgstr ""
+

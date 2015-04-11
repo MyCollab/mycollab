@@ -1,0 +1,35 @@
+{
+  "name": "textfill",
+  "version": "0.4.0",
+  "title": "jQuery TextFill",
+  "author": {
+    "name": "jQuery TextFill contributors",
+    "url": "https://github.com/jquery-textfill/jquery-textfill"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jquery-textfill/jquery-textfill/blob/master/COPYING"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+
+  "description": "Resizing text to fit into container.",
+  "keywords": [
+    "resize",
+    "text"
+  ],
+  "homepage": "https://github.com/jquery-textfill/jquery-textfill",
+  "docs": "https://github.com/jquery-textfill/jquery-textfill",
+  "demo": "http://jquery-textfill.github.io/jquery-textfill/index.html",
+  "bugs": "https://github.com/jquery-textfill/jquery-textfill/issues",
+  "maintainers": [
+    {
+      "name": "Yu-Jie Lin",
+      "email": "livibetter@gmail.com",
+      "url": "http://yjl.im"
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: maintenance\n"
+"POT-Creation-Date: 2014-07-08 11:10+0200\n"
+"PO-Revision-Date: 2014-10-13 09:51+0200\n"
+"Last-Translator: fruitfulcode <mail@fruitfulcode.com>\n"
+"Language-Team: fruitfulcode\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-KeywordsList: _;_e;__;_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: includes/admin.php:88
+msgid "Save changes"
+msgstr "Сохранить"
+
+#: includes/functions.php:161
+msgid "Standard Fonts"
+msgstr "Стандартные шрифты"
+
+#: includes/functions.php:168
+msgid "Google Web Fonts"
+msgstr "Google Веб Шрифт"
+
+#: includes/functions.php:187
+msgid "General Settings"
+msgstr "Общие настройки"
+
+#: includes/functions.php:188
+msgid "Custom CSS"
+msgstr "Свой CSS"
+
+#: includes/functions.php:194
+msgid "Pro version"
+msgstr "Премиум версия"
+
+#: includes/functions.php:200
+msgid "Support"
+msgstr "Поддержка"
+
+#: includes/functions.php:208
+msgid "Page title"
+msgstr "Заголовок страницы"
+
+#: includes/functions.php:209
+msgid "Headline"
+msgstr "Заголовок"
+
+#: includes/functions.php:210
+msgid "Description"
+msgstr "Описание"
+
+#: includes/functions.php:211
+msgid "Logo"
+msgstr "Логотип"
+
+#: includes/functions.php:211
+msgid "Upload Logo"
+msgstr "Загрузить логотип"
+
+#: includes/functions.php:215
+msgid "Admin bar"
+msgstr "Админ-панель"
+
+#: includes/functions.php:215
+msgid "Show admin bar"
+msgstr "Показать админ-панель"
+
+#: includes/functions.php:216
+msgid "503"
+msgstr "Ошибка 503"
+
+#: includes/functions.php:216
+msgid "Service temporarily unavailable"
+msgstr "Сервис врменно недоступен"
+
+#: includes/functions.php:222
+msgid "Google Analytics ID"
+msgstr "Google Аналитикс Идентификатор (ID)"
+
+#: includes/functions.php:222
+msgid "UA-XXXXX-X"
+msgstr "UA-XXXXX-X"
+
+#: includes/functions.php:223
+msgid "Blur intensity"
+msgstr "Интенсивность размытия"
+
+#: includes/functions.php:224
+msgid "Background blur"
+msgstr "Размытие фона"
+
+#: includes/functions.php:224
+msgid "Apply a blur"
+msgstr "Применить размытие"
+
+#: includes/functions.php:225
+msgid "Login On / Off"
+msgstr "Логин Вкл / Выкл"
+
+#: includes/functions.php:235
+msgid "CSS Code"
+msgstr "Каскадные таблицы стилей (CSS)"
+
+#: includes/functions.php:242
+msgid "Background image"
+msgstr "Фоновое изображение"
+
+#: includes/functions.php:242
+msgid "Upload Background"
+msgstr "Загрузить фон"
+
+#: includes/functions.php:248
+msgid "Background color"
+msgstr "Цвет фона"
+
+#: includes/functions.php:249
+msgid "Font color"
+msgstr "Цвет шрифта"
+
+#: includes/functions.php:256
+msgid "Font family"
+msgstr "Семейство шрифтов"
+
+#: includes/functions.php:264
+msgid "Have any questions?"
+msgstr "У вас возникли вопросы?"
+
+#: includes/functions.php:265
+#, php-format
+msgid ""
+"You may find answers to your questions at <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">support forum</a><br>You may  <a "
+"target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?subject=Maintenance "
+"plugin\">contact us</a> with customization requests and suggestions.<br> "
+"Please visit our website to learn about us and our services <a href=\"%1$s\" "
+"title=\"%2$s\">%2$s</a>"
+msgstr ""
+"Вы можете найти ответы на ваши вопросы <a target=\"_blank\" href=\"http://"
+"wordpress.org/support/plugin/maintenance\">Официальный форум поддержки</"
+"a><br> You may  <a target=\"_blank\" href=\"mailto:mail@fruitfulcode.com?"
+"subject=Maintenance plugin\">Свяжитесь с нами</a> по вопросам кастомизации и "
+"изменений<br> Посетите наш сайт, что бы узнать о нас и наших услугах и "
+"продуктах <a href=\"%1$s\" title=\"%2$s\">%2$s</a>"
+
+#: includes/functions.php:276
+msgid "Extended functionality"
+msgstr "Расширенная версия"
+
+#: includes/functions.php:277
+#, php-format
+msgid ""
+"Purchase <a href=\"http://codecanyon.net/item/maintenance-wordpress-"
+"plugin/2781350?ref=fruitfulcode\" target=\"_blank\">PRO</a> version  with "
+"extended functionality. %1$s If you like our plugin please <a target=\"_blank"
+"\" href=\"http://wordpress.org/support/view/plugin-reviews/maintenance?"
+"filter=5\">rate it</a>, <a title=\"leave feedbacks\" href=\"%2$s\" target="
+"\"_blank\">leave feedbacks</a>."
+msgstr ""
+"Купите расширенную <a href=\"http://codecanyon.net/item/maintenance-"
+"wordpress-plugin/2781350?ref=fruitfulcode\" target=\"_blank\">ПРО версию</a> "
+"с расширенным функционалом. %1$s Если вам понравился плагин, оставьте отзыв "
+"на этой странице <a target=\"_blank\" href=\"http://wordpress.org/support/"
+"view/plugin-reviews/maintenance?filter=5\">Оценить плагин</a>, <a title="
+"\"leave feedbacks\" href=\"%2$s\" target=\"_blank\">Оставить отзыв</a>."
+
+#: includes/functions.php:281
+msgid "Demo website"
+msgstr "Демо сайт"
+
+#: includes/functions.php:340
+msgid "Maintenance"
+msgstr "Режим обслуживания включен"
+
+#: includes/functions.php:363
+msgid "Website is under construction"
+msgstr "Сайт находится в стадии разработки"
+
+#: includes/functions.php:364
+msgid "Maintenance mode is on"
+msgstr "Режим обслуживания включен"
+
+#: includes/functions.php:365
+msgid "Website will be available soon"
+msgstr "Сайт скоро будет доступен "
+
+#: load/functions.php:37
+msgid "Permission access denied!"
+msgstr "Доступ запрещен!"
+
+#: load/functions.php:45
+msgid "You entered your login are incorrect!"
+msgstr "Вы ввели неверный логин! "
+
+#: load/functions.php:49
+msgid "You entered your password are incorrect!"
+msgstr "Вы ввели неверный пароль!"
+
+#: load/functions.php:52
+msgid "You entered your login and password are incorrect!"
+msgstr "Вы ввели неверный логин или пароль!"
+
+#: load/functions.php:259
+msgid "User Login"
+msgstr "Вход для пользователя"
+
+#: load/functions.php:260
+msgid "Username"
+msgstr "Логин"
+
+#: load/functions.php:261
+msgid "Password"
+msgstr "Пароль"
+
+#: load/functions.php:262
+msgid "Lost Password"
+msgstr "Потерял Пароль"
+
+#: load/functions.php:263
+msgid "Login"
+msgstr "Логин"
+
+#~ msgid "Sign In"
+#~ msgstr "Войти"
+
+#~ msgid "Contact support"
+#~ msgstr "Служба поддержки"
+
+#~ msgid ""
+#~ "If you faced with any problems, have a question or suggestion you always "
+#~ "can contact us with any request on our website <a href=\"%1$s\" title="
+#~ "\"%2$s\">%2$s</a>"
+#~ msgstr ""
+#~ "Если вы столкнулись с любыми проблемами, есть вопрос или предложение, вы "
+#~ "всегда можете обратиться к нам с любым предложением  на нашем сайте <a "
+#~ "href=\"%1$s\" title=\"%2$s\">%2$s</a>"
+
+#~ msgid ""
+#~ "If you like our plugin please rate it, %1$s <a title=\"leave feedback\" "
+#~ "href=\"%2$s\" target=\"_blank\">leave feedback</a> or purchase extended "
+#~ "version %1$s with more other features."
+#~ msgstr ""
+#~ "Если Вам нравиться наш плагин, оцените его %1$s <a title=\"оставить "
+#~ "комментарий\" href=\"%2$s\" target=\"_blank\">оставить комментарий</a> "
+#~ "или купите расширенную версию %1$s с дополнительными возможностями."
+
+#~ msgid "Purchase"
+#~ msgstr "Купить"
+
+#~ msgid "We have time until launch"
+#~ msgstr "Осталось времени до запуска"
+
+#~ msgid "Be first of your friends who will know when the website goes live."
+#~ msgstr "Будь первым из твоих друзей, кто узнает о запуске сайта."
+
+#~ msgid "Check out our extended version of plugin with new features"
+#~ msgstr "Проверьте возможности расширенной версии плагина"
+
+#~ msgid "Your session has expired."
+#~ msgstr "Ваша сессия истекла."
+
+#~ msgid "Please login to see website"
+#~ msgstr "Пожалуйста авторезируйтесь"
+
+#~ msgid "User roles"
+#~ msgstr "Роли пользователей"
+
+#~ msgid "Choose users access permissions in maintenance mode."
+#~ msgstr "Выберите права доступа пользователей в режиме обслуживания."

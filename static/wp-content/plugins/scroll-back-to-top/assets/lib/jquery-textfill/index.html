@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>jQuery Plugin: Text Fill</title>
+  <link href='http://fonts.googleapis.com/css?family=VT323|Happy+Monkey' rel='stylesheet' type='text/css'/>
+  <link href="css/index.css" rel="stylesheet" type="text/css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="jquery.textfill.js" ></script>
+  <script src="js/index.js" ></script>
+</head>
+
+<body>
+  <div>
+      <h1>Example of TextFill jQuery Plugin</h1>
+      <div>
+        <label for="dyntext">What is monkey thinking?</label>
+        <input type="text" id="dyntext" value="e=mc²"></input>
+      </div>
+      <div>
+        <label for="maxsize">Maximal font size in pixels?</label>
+        <input type="text" id="maxsize" value="0"></input>
+      </div>
+      <hr />
+      <div class="monkeythink">
+        <div class="jtextfill">
+          <span class="dyntextval">e=mc²</span>
+        </div>
+      </div>
+      <div class="computer">
+        <div class="jtextfill">
+          <span class="dyntextval">e=mc²</span>
+        </div>
+        <div class="computerglare"></div>
+      </div>
+  </div>
+</body>
+</html>

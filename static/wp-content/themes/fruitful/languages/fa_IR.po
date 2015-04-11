@@ -1,0 +1,1182 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Fruitful theme\n"
+"POT-Creation-Date: 2013-11-26 11:49+0200\n"
+"PO-Revision-Date: 2014-04-18 15:21+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: Persian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;__\n"
+"X-Poedit-Basepath: .\n"
+
+#: 404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "متاسفانه چنین صفحه ایی موجود نیست!"
+
+#: 404.php:21
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"به نظر میرسد چیزی که دنبالش هستید پیدا نمیشود . شاید جستجو بتواند کمکتان "
+"کند ."
+
+#: archive.php:22 category.php:11
+#, php-format
+msgid "Category Archives: %s"
+msgstr "بایگانی دسته ها %s"
+
+#: archive.php:25 tag.php:11
+#, php-format
+msgid "Tag Archives: %s"
+msgstr "بایگانی برچسب ها %s"
+
+#: archive.php:32
+#, php-format
+msgid "Author Archives: %s"
+msgstr "بایگانی نویسنده %s"
+
+#: archive.php:40
+#, php-format
+msgid "Daily Archives: %s"
+msgstr "بایگانی روزانه %s"
+
+#: archive.php:43
+#, php-format
+msgid "Monthly Archives: %s"
+msgstr "بایگانی ماهانه %s"
+
+#: archive.php:46
+#, php-format
+msgid "Yearly Archives: %s"
+msgstr "بایگانی سالانه %s"
+
+#: archive.php:49 sidebar-blogright.php:19 sidebar-page.php:19 sidebar.php:19
+msgid "Archives"
+msgstr "بایگانی "
+
+#: author-bio.php:16
+#, php-format
+msgid "About %s"
+msgstr "درباره %s"
+
+#: author-bio.php:20
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "دیدن تمامی نوشته ها توسط %s <span class=\"meta-nav\">&rarr;</span>"
+
+#: author.php:16
+#, php-format
+msgid "All posts by %s"
+msgstr "تمامی نوشته های %s"
+
+#: comments.php:40 comments.php:60
+msgid "Comment navigation"
+msgstr "راهبر نظرات"
+
+#: comments.php:41 comments.php:61
+msgid "&larr; Older Comments"
+msgstr "&larr; نظرات قدیمی"
+
+#: comments.php:42 comments.php:62
+msgid "Newer Comments &rarr;"
+msgstr "نظرات جدید تر &rarr;"
+
+#: comments.php:72
+msgid "Comments are closed."
+msgstr "بخش نظرات بسته شده."
+
+#: content-aside.php:32 content-audio.php:33 content-gallery.php:32
+#: content-image.php:33 content-link.php:32 content-quote.php:32
+#: content-status.php:32 content-video.php:32
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr "ادامه مطلب <span class=\"meta-nav\"> &rarr; </ span>"
+
+#: content-aside.php:33 content-audio.php:34 content-chat.php:33
+#: content-gallery.php:33 content-image.php:34 content-link.php:33
+#: content-page.php:21 content-single.php:27 content-status.php:33
+#: content-video.php:33 content.php:45 image.php:87
+msgid "Pages:"
+msgstr "برگه ها :"
+
+#: content-aside.php:45 content-chat.php:37 content-link.php:41
+#: content-page.php:22 content-quote.php:40 functions.php:704 image.php:35
+#: image.php:101
+msgid "Edit"
+msgstr "ویرایش"
+
+#: content-chat.php:22 content-quote.php:23 content.php:28 functions.php:716
+#, php-format
+msgid "Permalink to %s"
+msgstr "لینکهای پایدار %s"
+
+#: content-gallery.php:43 content-image.php:42 content-quote.php:37
+#: content-video.php:41 content.php:51
+msgid "Leave a comment"
+msgstr "نظر دهید"
+
+#: content-gallery.php:43 content.php:51
+msgid "1 Comment"
+msgstr "1 نظر"
+
+#: content-gallery.php:43 content.php:51
+msgid "% Comments"
+msgstr "% نظر"
+
+#: content-image.php:42 content-quote.php:37 content-video.php:41
+msgid "One comment so far"
+msgstr "فقط 1 نظر تا بحال"
+
+#: content-image.php:42 content-quote.php:37 content-video.php:41
+#, php-format
+msgid "View all % comments"
+msgstr ""
+
+#: content.php:44
+msgid "Read More <span class=\"meta-nav\">&rarr;</span>"
+msgstr " بیشتر بخوانید <span class=\"meta-nav\">&rarr;</span>"
+
+#: functions.php:113
+msgid "Primary Menu"
+msgstr "فهرست اصلی"
+
+#: functions.php:148
+#, php-format
+msgid "Page %s"
+msgstr "برگه %s"
+
+#: functions.php:162
+msgid "Main Sidebar"
+msgstr "سایدبار اصلی"
+
+#: functions.php:171
+msgid "Blog Right Sidebar"
+msgstr "سایدبار سمت راست بلاگ"
+
+#: functions.php:180
+msgid "Single Page Right Sidebar"
+msgstr "سایدبار سمت راست برگه یکتا"
+
+#: functions.php:687 functions.php:696
+msgid ", "
+msgstr "،"
+
+#: functions.php:690
+#, php-format
+msgid "Posted in %1$s"
+msgstr "نوشته شده در %1$s"
+
+#: functions.php:700
+#, php-format
+msgid "Tagged %1$s"
+msgstr "بر چسب %1$s"
+
+#: image.php:25
+#, php-format
+msgid ""
+"Published <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Link to full-"
+"size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s"
+"\" rel=\"gallery\">%7$s</a>"
+msgstr ""
+"منتشر شده <span class=\"entry-date\"><time class=\"entry-date\" datetime="
+"\"%1$s\" pubdate>%2$s</time></span> at <a href=\"%3$s\" title=\"Сыылка на "
+"изображение\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Вернутся на "
+"%7$s\" rel=\"gallery\">%7$s</a>"
+
+#: image.php:39
+msgid "&larr; Previous"
+msgstr "&larr;  قبلی"
+
+#: image.php:40
+msgid "Next &rarr;"
+msgstr "بعدی &rarr;"
+
+#: image.php:93
+#, php-format
+msgid ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a "
+"comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" "
+"title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+"<a class=\"comment-link\" href=\"#respond\" title=\"نظر دهید\">نظر بدهید</a> "
+"نظر بدهی و یا ترک بک دهید :<a class=\"trackback-link\" href=\"%s\" title="
+"\"لینک ترک بک برای نوشته تان\" rel=\"trackback\">لینک ترک بک</a>."
+
+#: image.php:95
+#, php-format
+msgid ""
+"Comments are closed, but you can leave a trackback: <a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback"
+"\">Trackback URL</a>."
+msgstr ""
+"بخش نظرات بسته می باشد ، اما می توانید ترک بک دهید :<a class=\"trackback-link"
+"\" href=\"%s\" title=\"Trackback URL для вашего поста\" rel=\"trackback\"> "
+"URL </ a>."
+
+#: image.php:97
+msgid ""
+"Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond"
+"\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+"ترک بک بسته است، اما می توانید  <a class=\"comment-link\" href=\"#respond\" "
+"title=\"написать комментарий\"> написать комментарий </a>."
+
+#: image.php:99
+msgid "Both comments and trackbacks are currently closed."
+msgstr "بخش نظرات و ترک بک بسته است."
+
+#: no-results.php:15
+msgid "Nothing Found"
+msgstr "چیزی یافت نشد"
+
+#: no-results.php:21
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"آیا اماده منتشرکردن اولین نوشته خود هستید ؟  <a href=\"%1$s\"> Начните здесь "
+"</a>."
+
+#: no-results.php:25
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"متاسفیم ، ولی هیچ نتیجه ای مطابق با آیتم های جستجوی شما یافت نشد . لطفا بار "
+"دیگر جستجوی خود را با کلمات دیگری بیازمایید ."
+
+#: no-results.php:30
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"بنظر می آید چیزی که می خواهید را نمی توانیم برایتان محیا کنیم ، از بخش جستجو "
+"استفاده کنید ."
+
+#: search.php:15
+#, php-format
+msgid "Search Results for: %s"
+msgstr "نتیجه جستجو برای :  %s"
+
+#: searchform.php:11
+msgid "Search"
+msgstr "جستجو"
+
+#: sidebar-blogright.php:26 sidebar-page.php:26 sidebar.php:26
+msgid "Meta"
+msgstr "متا"
+
+#: taxonomy-post_format.php:18
+#, php-format
+msgid "%s Archives"
+msgstr "%s بایگانی"
+
+#: inc/template-tags.php:27
+msgid "Post navigation"
+msgstr "راهبر نوشته ها"
+
+#: inc/template-tags.php:37
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> مطالب فدیمی"
+
+#: inc/template-tags.php:41
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr "مطالب جدیدتر <span class=\"meta-nav\">&rarr;</span>"
+
+#: inc/template-tags.php:66
+msgid "Pingback:"
+msgstr "پینگ بک :"
+
+#: inc/template-tags.php:66 inc/template-tags.php:89
+msgid "(Edit)"
+msgstr "(ویرایش)"
+
+#: inc/template-tags.php:76
+#, php-format
+msgid "%s <span class=\"says\">says:</span>"
+msgstr "%s <span class=\"says\">می گوید :</span>"
+
+#: inc/template-tags.php:79
+msgid "Your comment is awaiting moderation."
+msgstr "نظر شما منتطر تایید مدیران می باشد ."
+
+#: inc/template-tags.php:87
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s در %2$s"
+
+#: inc/template-tags.php:114
+#, php-format
+msgid ""
+"Posted on <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+msgstr ""
+"نوشته شده در <a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class="
+"\"entry-date\" datetime=\"%3$s\" pubdate>%4$s</time></a><span class=\"byline"
+"\"> by <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" "
+"title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+
+#: inc/template-tags.php:120
+#, php-format
+msgid "View all posts by %s"
+msgstr "بازدید از تمام نوشته های  %s"
+
+#: inc/widgets.php:16
+msgid "Use this widget to list your Link posts"
+msgstr "از این ابزارک برای درست کردن لینکهای خود استفاده کنید."
+
+#: inc/widgets.php:17
+msgid "Fruitful News Archiv"
+msgstr "بایگانی خبری Fruitful "
+
+#: inc/widgets.php:49
+msgid "News-Archiv"
+msgstr "بایگانی - اخبار"
+
+#: inc/widgets.php:60
+msgid "News-Archive"
+msgstr "بایگانی - اخبار"
+
+#: inc/widgets.php:150
+msgid "Title:"
+msgstr "عنوان :"
+
+#: inc/widgets.php:153
+msgid "Number of posts to show:"
+msgstr "تعداد نوشته های قابل نمایش"
+
+#: inc/widgets.php:157
+msgid "Text Message:"
+msgstr "پیغام نوشتاری : "
+
+#: inc/func/fruitful-function.php:6
+msgid "default"
+msgstr "پیش فرض"
+
+#: inc/func/fruitful-function.php:10
+msgid "dark"
+msgstr "تیره"
+
+#: inc/func/fruitful-function.php:14
+msgid "bar"
+msgstr "نوار"
+
+#: inc/func/fruitful-function.php:18
+msgid "light"
+msgstr "روشن"
+
+#: inc/func/fruitful-function.php:29
+msgid "FlexSlider"
+msgstr ""
+
+#: inc/func/fruitful-function.php:33
+msgid "Nivo Slider"
+msgstr ""
+
+#: inc/func/fruitful-function.php:45
+msgid "random"
+msgstr "تصادفی"
+
+#: inc/func/fruitful-function.php:49
+msgid "sliceDownRight"
+msgstr ""
+
+#: inc/func/fruitful-function.php:53
+msgid "sliceDownLeft"
+msgstr ""
+
+#: inc/func/fruitful-function.php:57
+msgid "sliceUpRight"
+msgstr ""
+
+#: inc/func/fruitful-function.php:61
+msgid "sliceUpDown"
+msgstr ""
+
+#: inc/func/fruitful-function.php:65
+msgid "sliceUpDownLeft"
+msgstr ""
+
+#: inc/func/fruitful-function.php:69
+msgid "fold"
+msgstr "تاشو"
+
+#: inc/func/fruitful-function.php:73 inc/func/fruitful-function.php:105
+msgid "fade"
+msgstr "محو"
+
+#: inc/func/fruitful-function.php:77
+msgid "boxRandom"
+msgstr ""
+
+#: inc/func/fruitful-function.php:81
+msgid "boxRain"
+msgstr ""
+
+#: inc/func/fruitful-function.php:85
+msgid "boxRainReverse"
+msgstr ""
+
+#: inc/func/fruitful-function.php:89
+msgid "boxRainGrow"
+msgstr ""
+
+#: inc/func/fruitful-function.php:93
+msgid "boxRainGrowReverse"
+msgstr ""
+
+#: inc/func/fruitful-function.php:109
+msgid "slide"
+msgstr "اسلاید"
+
+#: inc/func/fruitful-function.php:120
+msgid "horizontal"
+msgstr "افقی"
+
+#: inc/func/fruitful-function.php:124
+msgid "vertical"
+msgstr "عمودی"
+
+#: inc/func/fruitful-function.php:135
+msgid "true"
+msgstr "بله"
+
+#: inc/func/fruitful-function.php:139
+msgid "false"
+msgstr "خیر"
+
+#: inc/func/fruitful-function.php:151
+msgid "Arial, Helvetica, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:155
+msgid "Arial Black, Gadget, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:159
+msgid "Comic Sans MS, Textile, cursive"
+msgstr ""
+
+#: inc/func/fruitful-function.php:163
+msgid "Courier New, Courier, monospace"
+msgstr ""
+
+#: inc/func/fruitful-function.php:167
+msgid "Georgia, Times New Roman, Times, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:171
+msgid "Impact, Charcoal, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:175
+msgid "Lucida Console, Monaco, monospace"
+msgstr ""
+
+#: inc/func/fruitful-function.php:179
+msgid "Lucida Sans Unicode, Lucida Grande, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:183
+msgid "Palatino Linotype, Book Antiqua, Palatino, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:187
+msgid "Tahoma, Geneva, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:191
+msgid "Times New Roman, Times, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:195
+msgid "Trebuchet MS, Helvetica, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:199
+msgid "Verdana, Geneva, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:203
+msgid "MS Sans Serif, Geneva, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:207
+msgid "MS Serif, New York, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:213
+msgid "Open Sans, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:217
+msgid "Lobster, cursive"
+msgstr ""
+
+#: inc/func/fruitful-function.php:221
+msgid "Josefin Slab, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:225
+msgid "Arvo, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:229
+msgid "Lato, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:233
+msgid "Vollkorn, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:237
+msgid "Abril Fatface, cursive"
+msgstr ""
+
+#: inc/func/fruitful-function.php:241
+msgid "Ubuntu, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:245
+msgid "PT Sans, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:249
+msgid "Old Standard TT, serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:253
+msgid "Droid Sans, sans-serif"
+msgstr ""
+
+#: inc/func/fruitful-function.php:356
+msgid "Upload Image"
+msgstr "بارگزاری تصویر"
+
+#: inc/func/fruitful-function.php:362
+msgid "Remove"
+msgstr "حذف"
+
+#: inc/func/fruitful-function.php:380
+msgid "Link URL"
+msgstr "لینک URL"
+
+#: inc/func/fruitful-function.php:386
+msgid "Target \"_blank\""
+msgstr ""
+
+#: inc/theme-options/theme-options.php:41
+msgid "Install Home Page"
+msgstr "نصب برگه خانه "
+
+#: inc/theme-options/theme-options.php:41
+msgid "Setup home page with dummy data, like on demo. Option can be used once."
+msgstr ""
+"نصب برگه اول به صورت پیش فرض برای پوسته ، فقط یکبار قابل استفاده است . "
+
+#: inc/theme-options/theme-options.php:44
+msgid "Layout"
+msgstr "طرح"
+
+#: inc/theme-options/theme-options.php:44
+msgid ""
+"Theme supported 2 types of html layout. Default responsive  setting which "
+"adapt for mobile devices and static page with fixed width. Uncheck arrow "
+"below if you need static website display. "
+msgstr ""
+"این پوسته از 2 نوع HTML حمایت می کند . پوسته پیش فرض باهوش که برای دیده شدن "
+"در تلفن همراه به کار می رود و صفحه ثابت ، در صورت نیاز به صفحه ثابت ، تیک "
+"فلش پایین را بردارید . "
+
+#: inc/theme-options/theme-options.php:45
+msgid "Comments"
+msgstr "نظرات"
+
+#: inc/theme-options/theme-options.php:45
+msgid ""
+"If you want to display comments on your post page or page, select options "
+"below."
+msgstr ""
+"در صورت علاقه به نمایش نظرات در بخش نوشته ها این گزینه را انتخاب کنید . "
+
+#: inc/theme-options/theme-options.php:46
+msgid "Default theme style css"
+msgstr "تنظیمات پیش فرض CSS پوسته"
+
+#: inc/theme-options/theme-options.php:46
+msgid ""
+"Default theme styles. Theme option for styling is not working, if this "
+"option enable."
+msgstr ""
+"تنظیمات پیش فرض استایل پوسته . در صورت فعال بودن بخش امکانات استایل برای "
+"پوسته غیر فعال می شود."
+
+#: inc/theme-options/theme-options.php:47
+msgid "Reset all options to default"
+msgstr "برگرداندن به تنظیمات اولیه"
+
+#: inc/theme-options/theme-options.php:47
+msgid "Reset Button. "
+msgstr "دکمه بازگردانی ."
+
+#: inc/theme-options/theme-options.php:49
+msgid "Sticky  header"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:49
+msgid "Options relating to the website header"
+msgstr "تنظیمات مربوط به یربرگ سایت"
+
+#: inc/theme-options/theme-options.php:50
+msgid "Header background"
+msgstr "پس زمینه هدر"
+
+#: inc/theme-options/theme-options.php:50
+msgid ""
+"Upload your background image for header background. (Supported files .png, ."
+"jpg, .gif)"
+msgstr "بارگزاری پس زمینه دلخواه برای سربرگ ) .png, .jpg, .gif)"
+
+#: inc/theme-options/theme-options.php:51
+msgid "Header min. height"
+msgstr "حداقل ارتفاع هدر"
+
+#: inc/theme-options/theme-options.php:51
+msgid "Set header min-height parametrs."
+msgstr ""
+
+#: inc/theme-options/theme-options.php:54
+msgid "Background Image"
+msgstr "تصویر پس زمینه"
+
+#: inc/theme-options/theme-options.php:54
+msgid ""
+"Upload your background image for site background. (Supported files .png, ."
+"jpg, .gif)"
+msgstr ""
+"تصویر مورد نظر خود را جهت تغییر پس زمینه سایت بارگزاری کنید . ).png, .jpg, ."
+"gif)"
+
+#: inc/theme-options/theme-options.php:55
+msgid "Background Color "
+msgstr "رنگ پس زمینه"
+
+#: inc/theme-options/theme-options.php:55
+msgid "Choose color for body background"
+msgstr "رنگ پس زمینه بدنه"
+
+#: inc/theme-options/theme-options.php:57
+msgid "Upload your logo Image"
+msgstr "تصویر لوگو سایت"
+
+#: inc/theme-options/theme-options.php:57
+msgid ""
+"Default theme logo is just a sample. Upload logo image for your website. "
+"(Supported files .png, .jpg, .gif)"
+msgstr ""
+"تصویر پیش فرض لوگو فقط نمونه ایست برای لوگوی سایت، برای سایت خود تصویر لوگو "
+"بارگزاری کنید. (.png, .jpg, .gif)"
+
+#: inc/theme-options/theme-options.php:59
+msgid "Favicon"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:59
+msgid "Upload needed image for site favicon. (Supported files .ico (16x16))"
+msgstr "آیکون مورد علاقه خود را برای سایت بارگزاری کنید. ( .ico (16x16))"
+
+#: inc/theme-options/theme-options.php:60
+msgid "Menu css styling"
+msgstr "استایل CSS فهرست"
+
+#: inc/theme-options/theme-options.php:60
+msgid "Choose styles for main menu."
+msgstr "استایل فهرست خود را انتخاب کنید."
+
+#: inc/theme-options/theme-options.php:61
+#: inc/theme-options/theme-options.php:521
+msgid "Fonts"
+msgstr "خط"
+
+#: inc/theme-options/theme-options.php:61
+msgid "Popular web safe font collection, select and use for your needs."
+msgstr "فونتهای معروف و امن برای سایت، انتخاب و استفاده کنید."
+
+#: inc/theme-options/theme-options.php:63
+msgid "Headers"
+msgstr "هدر"
+
+#: inc/theme-options/theme-options.php:63
+msgid "Choose font-family for all headlines."
+msgstr "فونت فامیلی انتخاب کنید برای تمامی هد لاین ها"
+
+#: inc/theme-options/theme-options.php:64
+#: inc/theme-options/theme-options.php:358
+#: inc/theme-options/theme-options.php:520
+msgid "Menu"
+msgstr "فهرست"
+
+#: inc/theme-options/theme-options.php:64
+msgid "Choose font-family for primary menu."
+msgstr "مدل حط فهرست اصلی را انتخاب کنید ."
+
+#: inc/theme-options/theme-options.php:65
+msgid "Body"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:65
+msgid "Choose font-family for <body>."
+msgstr "مدل حط  را انتخاب کنید <body>."
+
+#: inc/theme-options/theme-options.php:67
+msgid "Font size"
+msgstr "اندازه خط"
+
+#: inc/theme-options/theme-options.php:67
+msgid ""
+"Choose font size for specific html elements. Set size as number, without px."
+msgstr ""
+"اندازه خط را برای HTML مورد نظر خود انتخال کنید ، اندازه را به عدد و بدون px "
+"وارد نمایید."
+
+#: inc/theme-options/theme-options.php:68
+#: inc/theme-options/theme-options.php:522
+msgid "Slider"
+msgstr "اسلایدر"
+
+#: inc/theme-options/theme-options.php:68
+msgid "Select a slider type that will be used by default."
+msgstr "مدل پیش فرض اسلایدر خود را انتخاب نمایید"
+
+#: inc/theme-options/theme-options.php:69
+msgid "Slider Options"
+msgstr "تنظیمات اسلایدر"
+
+#: inc/theme-options/theme-options.php:69
+msgid ""
+"Choose needed options for slider: animation type, sliding direction, speed "
+"of animations, etc"
+msgstr ""
+"تنظبمات مورد نظر برای اسلایدر : نوع انیمیشین ، جهت اسلاید ، سرعت اسلایدر و "
+"غیره ."
+
+#: inc/theme-options/theme-options.php:70
+msgid "Slides"
+msgstr "تصاویر اسلاید"
+
+#: inc/theme-options/theme-options.php:70
+msgid ""
+"Add images to slider (Supported files .png, .jpg, .gif). If you want to "
+"change order, just drag and drop it. Image size for slides is original from "
+"media gallery, please upload images in same size, to get best display on "
+"page. To display slider in needed place use shortcode [fruitful_slider]. "
+"Current theme version support only one slider per website. "
+msgstr "برای اسلایدر تصویر اضافه کنید . (Supported files .png, .jpg, .gif) ."
+
+#: inc/theme-options/theme-options.php:71
+msgid "Socials Links"
+msgstr "لینک شبکه های اجتماعی"
+
+#: inc/theme-options/theme-options.php:71
+msgid ""
+"Add link to your social media profiles. Icons with link will be display in "
+"footer."
+msgstr ""
+"برای شبکه های اجتماعی خود لینکها را آیکون ها را اضافه کنید . تمامی لینکها در "
+"قسمت FOOTER به نمایش در می آیند."
+
+#: inc/theme-options/theme-options.php:72
+msgid "Footer options"
+msgstr "تنظیمات پایین صفحه (footer)"
+
+#: inc/theme-options/theme-options.php:72
+msgid "Replace default theme copyright information and links."
+msgstr "تنطیمت کپی رایت و لینکهای آن"
+
+#: inc/theme-options/theme-options.php:74
+#: inc/theme-options/theme-options.php:525
+msgid "Custom CSS"
+msgstr "شخصی سازی CSS"
+
+#: inc/theme-options/theme-options.php:74
+msgid ""
+"Theme has two css files style.css and fixed-style.css which use default "
+"styles for front-end responsive and static layout. Do not edit theme default "
+"css files, use textarea editor below for overwriting all css styles."
+msgstr ""
+"این پوسته شامل دو فایل style.css و fixed-style.css می باشد که بطور پیش فرض "
+"برای ریسپانسو و استاتیک بودن صفحه اصلی سایت می باشند . این فایل ها را ویرایش "
+"نکنید . از قسمت پایین برای تعییرات لازم استفاده کنید."
+
+#: inc/theme-options/theme-options.php:114
+msgid "Fruitful Theme Options"
+msgstr "تنظیمات پوسته فرویت فول"
+
+#: inc/theme-options/theme-options.php:115
+#: inc/theme-options/theme-options.php:130
+#: inc/theme-options/theme-options.php:509
+msgid "Theme Options"
+msgstr "تنظیمات پوسته"
+
+#: inc/theme-options/theme-options.php:151
+msgid "Dummy data"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:160
+msgid "Responsive"
+msgstr "ریسپانسیو (واکنشی)"
+
+#: inc/theme-options/theme-options.php:170
+msgid "Display comment on posts page"
+msgstr "نمایش نظرات در صفحه نوشته ها"
+
+#: inc/theme-options/theme-options.php:175
+msgid "Display comment on page"
+msgstr "نمایش نظرات بر روی برگه"
+
+#: inc/theme-options/theme-options.php:186
+msgid "Enabled"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:191
+msgid "Header background-color"
+msgstr "رنگ پس زمینه هدر"
+
+#: inc/theme-options/theme-options.php:203
+msgid "Enable default css"
+msgstr "فعالسازی CSS پیش فرض"
+
+#: inc/theme-options/theme-options.php:241
+msgid "Copyright section"
+msgstr "بحش کپی رایت"
+
+#: inc/theme-options/theme-options.php:248
+msgid "Styles editor"
+msgstr "ویرایشگر استایل"
+
+#: inc/theme-options/theme-options.php:262
+msgid "Background  repeat"
+msgstr "تکرار پس زمینه"
+
+#: inc/theme-options/theme-options.php:304
+msgid "Width"
+msgstr "عرض"
+
+#: inc/theme-options/theme-options.php:306
+msgid "Height"
+msgstr "طول"
+
+#: inc/theme-options/theme-options.php:322
+#: inc/theme-options/theme-options.php:333
+#: inc/theme-options/theme-options.php:343
+msgid "Sample Font"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:352
+msgid "H1"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:353
+msgid "H2"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:354
+msgid "H3"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:355
+msgid "H4"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:356
+msgid "H5"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:357
+msgid "H6"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:359
+msgid "P"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:377
+msgid "No Slider Select!"
+msgstr "هیچ اسلایدری انتخاب نشده !"
+
+#: inc/theme-options/theme-options.php:380
+msgid "Animation type"
+msgstr "نوع انیمیشن"
+
+#: inc/theme-options/theme-options.php:381
+msgid "Sliding direction, \"horizontal\" or \"vertical\""
+msgstr "جهت حرکت اسلاید \"افقی\" یا \"عمودی \""
+
+#: inc/theme-options/theme-options.php:382
+msgid "Reverse the animation direction"
+msgstr "جهت معکوس انیمیشین"
+
+#: inc/theme-options/theme-options.php:383
+msgid "Animate slider automatically"
+msgstr "انیمیشین اتوماتیک اسلایدر"
+
+#: inc/theme-options/theme-options.php:384
+msgid "Set the speed of the slideshow cycling, in milliseconds"
+msgstr "تنظیم سرعت گردش اسلایدر (میلی ثانیه)"
+
+#: inc/theme-options/theme-options.php:385
+msgid "Set the speed of animations, in milliseconds"
+msgstr "تنظیم سرعت انیمیشین اسلایدر (میلی ثانیه)"
+
+#: inc/theme-options/theme-options.php:386
+msgid "Set an initialization delay, in milliseconds"
+msgstr "میزان تاخیر در ورود برای انیمیشن (میلی ثانیه)"
+
+#: inc/theme-options/theme-options.php:387
+msgid "Randomize slide order"
+msgstr "تغییر به صورت اتفاقی اسلایدها"
+
+#: inc/theme-options/theme-options.php:388
+msgid "Manual control usage"
+msgstr "انتخاب دستی کنترل"
+
+#: inc/theme-options/theme-options.php:391
+msgid "Slider Skins"
+msgstr "پوسته اسلایدر"
+
+#: inc/theme-options/theme-options.php:392
+msgid "Effect"
+msgstr "افکت"
+
+#: inc/theme-options/theme-options.php:393
+msgid "For slice animations"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:394
+msgid "For box animations (Cols)"
+msgstr "برای انیمشین جعبه ای (ستون)"
+
+#: inc/theme-options/theme-options.php:395
+msgid "For box animations (Rows)"
+msgstr "برای انیمشین جعبه ای (سطر)"
+
+#: inc/theme-options/theme-options.php:396
+msgid "Slide transition speed"
+msgstr "سرعت تعییز اسلاید"
+
+#: inc/theme-options/theme-options.php:397
+msgid "How long each slide will show"
+msgstr "مدت زمان نمایش هر اسلاید"
+
+#: inc/theme-options/theme-options.php:398
+msgid "Set starting Slide (0 index)"
+msgstr "اسلاید اول (شروع کننده) 0 index"
+
+#: inc/theme-options/theme-options.php:399
+msgid "Next & Prev navigation"
+msgstr "ناوبر قبلی بعدی"
+
+#: inc/theme-options/theme-options.php:400
+msgid "1,2,3... navigation"
+msgstr "ناوبر عددی (1,2,3,...)"
+
+#: inc/theme-options/theme-options.php:401
+msgid "Use thumbnails for Control Nav"
+msgstr "استفاده از عکس نمونه برای کنترل \"Control Nav\""
+
+#: inc/theme-options/theme-options.php:402
+msgid "Stop animation while hovering"
+msgstr "ثابت شدن اسلاید در صورا هاور موس"
+
+#: inc/theme-options/theme-options.php:403
+msgid "Force manual transitions"
+msgstr ""
+
+#: inc/theme-options/theme-options.php:404
+msgid "Prev directionNav text"
+msgstr "قیلی  \"directionNav\" نوشته"
+
+#: inc/theme-options/theme-options.php:405
+msgid "Next directionNav text"
+msgstr "بعدی \"directionNav\" نوشته "
+
+#: inc/theme-options/theme-options.php:406
+msgid "Start on a random slide"
+msgstr "شروع اسلاید بصورت اتفاقی"
+
+#: inc/theme-options/theme-options.php:416
+#, php-format
+msgid "Slide # %1$d"
+msgstr "اسلاید # %1$d"
+
+#: inc/theme-options/theme-options.php:436
+msgid "Collapse all"
+msgstr "نمایش همه"
+
+#: inc/theme-options/theme-options.php:437
+msgid "Expand all"
+msgstr "حمع کردن همه"
+
+#: inc/theme-options/theme-options.php:459
+msgid "Add New Slide"
+msgstr "تمام اسلایدهای جدید"
+
+#: inc/theme-options/theme-options.php:467
+msgid "Menu background-color"
+msgstr "رنگ زمینه فهرست"
+
+#: inc/theme-options/theme-options.php:472
+msgid "Menu button background-color"
+msgstr "رنگ زمینه دکمه فهرست"
+
+#: inc/theme-options/theme-options.php:477
+msgid "Default font color"
+msgstr "رنک پیش فرض خط"
+
+#: inc/theme-options/theme-options.php:482
+msgid "Font color for active and :hover state"
+msgstr "رنگ خط در حالتهای  \"فعال\"  و \"هاور \" "
+
+#: inc/theme-options/theme-options.php:516
+msgid "General Settings"
+msgstr "تنظیمات عمومی"
+
+#: inc/theme-options/theme-options.php:517
+msgid "Header"
+msgstr "هدر"
+
+#: inc/theme-options/theme-options.php:518
+msgid "Background"
+msgstr "پس رمینه"
+
+#: inc/theme-options/theme-options.php:519
+msgid "Logo"
+msgstr "لوگو"
+
+#: inc/theme-options/theme-options.php:523
+msgid "Social Links"
+msgstr "لینکهای اجتماعی"
+
+#: inc/theme-options/theme-options.php:524
+msgid "Footer"
+msgstr "پایین صفحه (footer)"
+
+#: inc/theme-options/theme-options.php:540
+msgid "Theme settings will be reset to default."
+msgstr "تنشیمات پوسته به حالت اولیه باز می گردد!"
+
+#: inc/theme-options/theme-options.php:549
+msgid "Contact support"
+msgstr "تماس با پشتیبانی"
+
+#: inc/theme-options/theme-options.php:550
+msgid ""
+"If you faced with any problems, have a question or suggestion you always can "
+"contact us with any request on our website <a href=\"http://fruitfulcode.com"
+"\">fruitfulcode.com</a>"
+msgstr ""
+"در صورت روبرو شدن با هر مسکلی یا داشتن هرگونه سوالی می توانید با ما تماس "
+"بگیرید و یا در خواست خود را بر روی سایت ما قرار دهید. <a href=\"http://"
+"amicom.ir\">گروه طراحی اهورامنش ایرانیان</a>"
+
+#~ msgid "Fixed Header"
+#~ msgstr "Фиксированый хедер"
+
+#~ msgid "Gallery"
+#~ msgstr "Галлерея"
+
+#~ msgid "Add New Gallery"
+#~ msgstr "Добваить новую галлерею"
+
+#~ msgid "Edit Gallery"
+#~ msgstr "Редактировать галлерею"
+
+#~ msgid "View Gallery"
+#~ msgstr "Просмотреть галлерею"
+
+#~ msgid "New Gallery"
+#~ msgstr "Новая Галлерея"
+
+#~ msgid "Search Gallery"
+#~ msgstr "Посик галлереи"
+
+#~ msgid "Gallery not found"
+#~ msgstr "Галлерея не найдена"
+
+#~ msgid "Gallery not found in trash"
+#~ msgstr "Галерея в корзине не найдена"
+
+#~ msgid "Author"
+#~ msgstr "Автор"
+
+#~ msgid "Shortcode"
+#~ msgstr "Shortcode"
+
+#~ msgid "Date"
+#~ msgstr "Дата"
+
+#~ msgid "Add Images"
+#~ msgstr "Добавить изображение"
+
+#~ msgid "Animation Types"
+#~ msgstr "Тип анимации"
+
+#~ msgid "Animations Speed"
+#~ msgstr "Скорость анимации"
+
+#~ msgid "Rotation (99=random)"
+#~ msgstr "Вращение (99 = случайный)"
+
+#~ msgid "Paddings"
+#~ msgstr "Отступы"
+
+#~ msgid "Scale (0-1)"
+#~ msgstr "Масштаб (0-1)"
+
+#~ msgid "Content"
+#~ msgstr "Контент."
+
+#~ msgid ""
+#~ "Theme has styles by default, if you are using theme as based for "
+#~ "development and dont what overwrite default css styles, you can disable "
+#~ "our styles. "
+#~ msgstr ""
+#~ "Тема содержит стили по умолчанию, если вы используете тему для базовой "
+#~ "разработки и не хотите переписывать стили по умолчанию, вы можете и "
+#~ "отключить."
+
+#~ msgid "Most Used Categories"
+#~ msgstr "Часто используемые категории"
+
+#~ msgid "Try looking in the monthly archives. %1$s"
+#~ msgstr "Попробуйте посмотреть в ежемесячных архивах. %1$s"
+
+#~ msgid "Logo Size"
+#~ msgstr "Размер логотипа"
+
+#~ msgid ""
+#~ "Specify resolution for your logo image. Our theme will crop (timthumb) "
+#~ "your image for need size."
+#~ msgstr ""
+#~ "Укажите разрешение для вашего логотипа. Наша тема будет обрезать "
+#~ "(timthumb) ваше изображение до нужных размеров."
+
+#~ msgid "HTML Text"
+#~ msgstr "HTML текст"
+
+#~ msgid ""
+#~ "Our team can propose live consultation, web development,  web design, "
+#~ "customization of our products."
+#~ msgstr ""
+#~ "Наша команда может предложить online консультации, разработку сайтов, веб-"
+#~ "дизайн, настройку нашей продукции."
+
+#~ msgid "Support"
+#~ msgstr "Поддержка"

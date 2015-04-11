@@ -1,0 +1,106 @@
+jQuery TextFill
+===============
+
+**[jQuery TextFill][index]** resizes text to fit into a container and makes font size as big as possible.
+
+This jQuery plugin was created by Russ Painter around May 2009, beginning with a StackOverflow [question][soq]. In very early 2012, Yu-Jie Lin helped to move the project to GitHub with version 0.1 and obtained the clearly stated open source licensing from Russ.
+
+[soq]: http://stackoverflow.com/questions/687998/auto-size-dynamic-text-to-fill-fixed-size-container
+[index]: http://jquery-textfill.github.io/jquery-textfill/index.html
+
+Usage
+-----
+
+```html
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://jquery-textfill.github.io/jquery-textfill/jquery.textfill.min.js"></script>
+```
+
+The code above uses minified version. By default options, you need to put text inside of `<span/>`:
+
+```html
+<div class='textfill' style='width:100px;height:50px;'>
+  <span>The quick brown fox jumps over the lazy dog</span>
+</div>
+```
+
+### Initialization
+
+```js
+$(selector).textfill(options);
+```
+
+For example,
+
+```html
+<script>
+$(function(){
+  $('.textfill').textfill({ maxFontPixels: 36 });
+});
+</script>
+```
+
+### Options
+
+Name | Description | Default
+--- | --- | ---
+`debug` | output debug message to console | `false`
+`minFontPixels` | minimal font size | 4
+`maxFontPixels` | sizing up the text as big as possible to this setting. For *size <= 0*, the text is sized to as big as the container can accommodate | 40
+`innerTag` | the element tag to resize, select by `$(innerTag + ':visible:first', container)` | `span`
+`success` | callback when a resizing is successful
+`fail` | callback when a resizing is failed
+`complete` | callback when all elements are done
+`widthOnly` | only resizing for width restraint, this is intentionally used with CSS `white-space: nowrap` for header tags
+`explicitWidth` | explicit width
+`explicitHeight` | explicit height
+
+Help and Support
+----------------
+
+### Reporting bug
+
+When report a bug, please reproduce the bug using [Gist][] or [jsFiddle][] as a template. Environment can be different and some may be fine, some may be not. **Please make sure you can clearly demonstrate the bug** unless the bug is super easy to spot like `a < b` should be `a <= b`.
+
+When reproduce a bug, it's important that CSS matches the page where you encounter the bug, it could be crucial that container's and innertag's styles have to be exactly the same.
+
+Please also provide enough information about your system and browser, if necessary, here is a template:
+
+    TextFill version:
+    jQuery version:
+    Font family:
+    OS/Version:
+    Browser/Version:
+
+Since TextFill 0.3.1, there is debugging option, can be enabled by `debug: true`, you can also include those messages.
+
+[Gist]: https://gist.github.com/4650697
+[jsFiddle]: http://jsfiddle.net/livibetter/3gMFG/
+
+*If you can not provide a bug reprouction, then please do not report*, I could not fix something I can't see.
+
+### Contributing
+
+You are very welcome to contribute whatever you can, but **please do not**:
+
+* Update version number.
+* Generate minified file.
+
+These tasks are for releasing, contributors should not take on them.
+
+Before you submit, make sure:
+
+* Coding style generally matches.
+* Pass all [tests][] previously have passed.
+* *Optional* Update [`README`](README.mkd) if necessary.
+* *Optional* Update [`CHANGES`](CHANGES.mkd) if worth mentioning.
+
+[tests]: http://jquery-textfill.github.io/jquery-textfill/tests.html
+
+License
+-------
+
+It is licensed under the MIT License, see [`COPYING`](COPYING) file.
+
+    Copyright (c) 2012-2013 Yu-Jie Lin
+    Copyright (c) 2009 Russ Painter
