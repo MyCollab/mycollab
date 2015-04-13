@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
-import com.zaxxer.hikari.pool.HikariPool;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,6 @@ public class MonitorServiceTest extends IntergrationServiceTest {
     @Test
     @DataSet
     public void testSaveBatchMonitor() {
-        HikariPool a;
         MonitorItem mon1 = new MonitorItem();
         mon1.setMonitorDate(new GregorianCalendar().getTime());
         mon1.setSaccountid(1);

@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.jetty;
 
-import com.esofthead.mycollab.configuration.ApplicationProperties;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**

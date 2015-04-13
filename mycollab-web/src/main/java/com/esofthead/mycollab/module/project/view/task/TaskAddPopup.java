@@ -120,7 +120,7 @@ class TaskAddPopup extends CustomComponent {
         saveBtn.setIcon(FontAwesome.SAVE);
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-        controlsLayout.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+        controlsLayout.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
 
         taskLayout.addComponent(controlsLayout);
         taskLayout

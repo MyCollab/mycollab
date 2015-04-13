@@ -52,7 +52,7 @@ public class TestDbConfiguration {
 
 	public String getJdbcUrl() {
 		return props.getProperty("db.url",
-				"jdbc:mysql://localhost/mycollab_test?autoReconnect=true");
+				"jdbc:mysql://localhost/mycollab_test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true");
 	}
 
 	public String getUsername() {
