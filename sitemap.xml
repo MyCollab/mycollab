@@ -2,43 +2,43 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>http://community.mycollab.com/</loc>
-		<lastmod>2015-03-04T08:44:54+00:00</lastmod>
+		<lastmod>2015-04-13T03:53:23+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>1</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/download/</loc>
-		<lastmod>2015-03-12T01:57:36+00:00</lastmod>
+		<lastmod>2015-04-13T03:55:07+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/release-notes/</loc>
-		<lastmod>2015-03-12T03:37:32+00:00</lastmod>
+		<lastmod>2015-04-11T14:00:21+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
-		<loc>http://community.mycollab.com/install-mycollab-on-windows/</loc>
-		<lastmod>2015-03-12T03:16:20+00:00</lastmod>
+		<loc>http://community.mycollab.com/install-on-windows/</loc>
+		<lastmod>2015-04-02T10:07:55+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/install-on-macos/</loc>
-		<lastmod>2015-03-12T03:15:19+00:00</lastmod>
+		<lastmod>2015-04-03T02:36:09+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
-		<loc>http://community.mycollab.com/install-mycollab-on-unixlinux/</loc>
-		<lastmod>2015-03-12T03:23:26+00:00</lastmod>
+		<loc>http://community.mycollab.com/install-on-unixlinux/</loc>
+		<lastmod>2015-04-02T09:58:04+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/installation-guideline/</loc>
-		<lastmod>2015-03-12T04:15:05+00:00</lastmod>
+		<lastmod>2015-03-12T06:47:52+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -56,31 +56,31 @@
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/configuration/</loc>
-		<lastmod>2015-03-12T02:18:25+00:00</lastmod>
+		<lastmod>2015-04-03T02:39:46+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/administrator-guideline/</loc>
-		<lastmod>2015-03-12T01:59:20+00:00</lastmod>
+		<lastmod>2015-03-12T06:49:21+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/development-guideline/</loc>
-		<lastmod>2015-03-12T02:23:57+00:00</lastmod>
+		<lastmod>2015-04-13T02:33:09+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/set-up-eclipse-workspace/</loc>
-		<lastmod>2015-03-12T03:31:01+00:00</lastmod>
+		<lastmod>2015-04-13T02:42:22+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
-		<loc>http://community.mycollab.com/customisation/</loc>
-		<lastmod>2015-03-12T02:32:36+00:00</lastmod>
+		<loc>http://community.mycollab.com/how-to-customize-mycollab/</loc>
+		<lastmod>2015-04-03T08:02:48+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -113,6 +113,36 @@
 		<lastmod>2015-01-29T09:22:04+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>http://community.mycollab.com/setup-intellij-projects/</loc>
+		<lastmod>2015-04-13T03:52:25+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-103447-300x78.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:34:47]]></image:caption>
+		</image:image>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-100219-222x300.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:02:19]]></image:caption>
+		</image:image>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-100257-300x172.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:02:57]]></image:caption>
+		</image:image>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-101344-300x159.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:13:44]]></image:caption>
+		</image:image>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-102408-300x170.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:24:08]]></image:caption>
+		</image:image>
+		<image:image>
+			<image:loc>http://community.mycollab.com/wp-content/uploads/2015/04/Screenshot-from-2015-04-13-104747-300x192.png</image:loc>
+			<image:caption><![CDATA[Screenshot from 2015 04 13 10:47:47]]></image:caption>
+		</image:image>
 	</url>
 </urlset>
 <!-- XML Sitemap generated by Yoast WordPress SEO -->
