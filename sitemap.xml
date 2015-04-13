@@ -2,109 +2,109 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>http://community.mycollab.com/</loc>
-		<lastmod>2015-04-13T03:53:23+00:00</lastmod>
+		<lastmod>2015-04-13T07:13:02+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>1</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/download/</loc>
-		<lastmod>2015-04-13T03:55:07+00:00</lastmod>
+		<lastmod>2015-04-13T07:10:09+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/release-notes/</loc>
-		<lastmod>2015-04-11T14:00:21+00:00</lastmod>
+		<lastmod>2015-04-13T07:14:38+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/install-on-windows/</loc>
-		<lastmod>2015-04-02T10:07:55+00:00</lastmod>
+		<lastmod>2015-04-13T07:13:53+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/install-on-macos/</loc>
-		<lastmod>2015-04-03T02:36:09+00:00</lastmod>
+		<lastmod>2015-04-13T07:13:24+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/install-on-unixlinux/</loc>
-		<lastmod>2015-04-02T09:58:04+00:00</lastmod>
+		<lastmod>2015-04-13T07:13:42+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/installation-guideline/</loc>
-		<lastmod>2015-03-12T06:47:52+00:00</lastmod>
+		<lastmod>2015-04-13T07:13:17+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/editions/</loc>
-		<lastmod>2015-03-12T02:27:22+00:00</lastmod>
+		<lastmod>2015-04-13T07:12:45+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/upgrade/</loc>
-		<lastmod>2015-03-12T03:25:54+00:00</lastmod>
+		<lastmod>2015-04-13T07:15:20+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/configuration/</loc>
-		<lastmod>2015-04-03T02:39:46+00:00</lastmod>
+		<lastmod>2015-04-13T06:57:03+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/administrator-guideline/</loc>
-		<lastmod>2015-03-12T06:49:21+00:00</lastmod>
+		<lastmod>2015-04-13T07:10:27+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/development-guideline/</loc>
-		<lastmod>2015-04-13T02:33:09+00:00</lastmod>
+		<lastmod>2015-04-13T07:12:12+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/set-up-eclipse-workspace/</loc>
-		<lastmod>2015-04-13T02:42:22+00:00</lastmod>
+		<lastmod>2015-04-13T07:14:47+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/how-to-customize-mycollab/</loc>
-		<lastmod>2015-04-03T08:02:48+00:00</lastmod>
+		<lastmod>2015-04-13T07:11:26+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/internalization-and-localization-mycollab/</loc>
-		<lastmod>2015-03-12T03:50:02+00:00</lastmod>
+		<lastmod>2015-04-13T07:14:00+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/licenses/</loc>
-		<lastmod>2015-03-12T03:39:00+00:00</lastmod>
+		<lastmod>2015-04-13T07:14:28+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/third-parties-licenses/</loc>
-		<lastmod>2015-03-12T03:29:01+00:00</lastmod>
+		<lastmod>2015-04-13T07:15:04+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/contribute/</loc>
-		<lastmod>2015-03-12T02:21:01+00:00</lastmod>
+		<lastmod>2015-04-13T07:10:48+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 	</url>
@@ -116,7 +116,7 @@
 	</url>
 	<url>
 		<loc>http://community.mycollab.com/setup-intellij-projects/</loc>
-		<lastmod>2015-04-13T03:52:25+00:00</lastmod>
+		<lastmod>2015-04-13T07:14:58+00:00</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.8</priority>
 		<image:image>
