@@ -67,12 +67,12 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Project Management
   * Online Document Editor
   * Activity stream and audit logging
-  * Time Tracking
+  * Time Tracking (partly for premium users only)
   * Gantt chart
   * Issues Management
   * Tasks and its dependencies management
   * Milestones
-  * Risk/Problem Management
+  * Risk/Problem Management (For premium users only)
   * People and Permission management
   * Support English and Japanese, more languages will be added in future
 
@@ -92,7 +92,7 @@ Please take a look at MyCollab requirements:
 If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/configuration/. You will finish reading and understanding in a matter of minutes.
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab in Eclipse http://community.mycollab.com/set-up-eclipse-workspace/
+* Setup MyCollab projects with IntelliJ http://community.mycollab.com/setup-intellij-projects/
 * How to customize MyCollab http://community.mycollab.com/how-to-customize-mycollab/
 
 ## Contact
@@ -109,6 +109,6 @@ Contact the MyCollab team at:
 
 
 ## History
-We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty, Solr etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we believe that there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
+We started development MyCollab since November 2011. MyCollab is developed mainly by Java/Scala languages with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty, Solr etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. We published a part of our product as a lite version and open source it to Github and Sourceforge, so you can audit our code or customize this lite version that meet to your business needs if needed
 
 You can try MyCollab on-demand edition on site https://www.mycollab.com
