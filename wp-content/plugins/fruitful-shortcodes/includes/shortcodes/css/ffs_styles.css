@@ -41,7 +41,7 @@
 .ffs-three-two, .ffs-three-one {
   float:left;
   margin-right:4%;
-  position:relative; 
+  position:relative;
 }
 
 .last{
@@ -66,7 +66,8 @@
 
 .info-box-row .ffs-info-box .infobox-title {
     margin: 0 0 5px;
-    font-weight:300
+    font-weight:300;
+    color: chocolate;
 }
 
 .info-box-row .ffs-info-box .infobox-text {
@@ -434,38 +435,3 @@ button.close {
 @media only screen and (max-width: 480px) {
   .fruitful_description .text{font-size:20px !important;}
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

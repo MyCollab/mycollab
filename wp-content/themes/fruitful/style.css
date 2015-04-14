@@ -38,7 +38,7 @@ body {
     text-rendering:optimizelegibility;
     color:#333333;
     overflow:hidden;
-    font-family: Open Sans, Helvetica, Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif, Open Sans;
     word-wrap: break-word;
 }
 .page-container{
@@ -2547,7 +2547,7 @@ blockquote {
 }
 
 .infobox-text {
-    font-size: 1em !important;
+    font-size: 0.9em !important;
 }
 
 .infobox-title {
@@ -2581,10 +2581,10 @@ blockquote {
 }
 
 a.extralink{
-    color:#f15a23;   
+    color:#f15a23;
 }
 a.extralink:hover{
-    color:#a5360f;   
+    color:#a5360f;
 }
 
 a:hover {
@@ -2617,7 +2617,7 @@ footer.well {
     position: relative;
     width: 960px;
     margin: 0 auto;
-    padding: 0;   
+    padding: 0;
 }
 
 .box {
@@ -2683,13 +2683,13 @@ footer.well {
         margin-left: 15% !important;
         margin-right: auto !important;
     }
-    .span2 { 
+    .span2 {
         float: left !important;
-        width: 40% !important; 
+        width: 40% !important;
     }
     .span3 {
         width: 80% !important;
-    } 
+    }
 
 }
 @media only screen and (min-width:959px) {
@@ -2701,5 +2701,3 @@ footer.well {
     }
 
 }
-
-

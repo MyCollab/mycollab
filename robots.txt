@@ -1,3 +1,5 @@
+Sitemap: http://community.mycollab.com/sitemap.xml
+User-agent: *
 Disallow: */xmlrpc.php
 Disallow: */wp-*.php
 Disallow: */trackback/
