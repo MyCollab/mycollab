@@ -322,14 +322,15 @@ public abstract class GenericServerRunner {
         String fileSeparator = System.getProperty("file.separator");
         String osExprClassFolder, osExprJarFile;
         if ("/".equals(fileSeparator)) {
-            osExprClassFolder = "\\.+/mycollab-\\S+/target/classes$";
-            osExprJarFile = "\\S+/mycollab-\\S+.jar$";
+            osExprClassFolder = ".+/mycollab-\\S+/target/classes$";
+            osExprJarFile = ".+/mycollab-\\S+.jar$";
         } else {
-            osExprClassFolder = "\\.+\\\\mycollab-\\S+\\\\target\\\\classes$";
-            osExprJarFile = "\\.+\\\\mycollab-\\S+.jar$";
+            osExprClassFolder = ".+\\\\mycollab-\\S+\\\\target\\\\classes$";
+            osExprJarFile = ".+\\\\mycollab-\\S+.jar$";
         }
 
         for (String classpath : classPaths) {
+            LOG.info("Classpath: " + classpath);
             if (classpath.matches(osExprClassFolder)) {
                 LOG.info("Load classes in path" + classpath);
                 appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
@@ -367,8 +368,7 @@ public abstract class GenericServerRunner {
         // At runtime the webapp accesses this as
         // java:comp/env/jdbc/mydatasource
         try {
-            NamingContext a;
-            LOG.debug("Init the datasource");
+            LOG.info("Init the datasource");
             org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
                     appContext, "jdbc/mycollabdatasource", buildDataSource());
         } catch (NamingException e) {
@@ -440,3 +440,4 @@ public abstract class GenericServerRunner {
         }
     }
 }
+
