@@ -16,17 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.lang3.time.DateUtils;
-
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectIconConstantsMap;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
@@ -35,17 +28,19 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.hp.gagawa.java.elements.A;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -53,10 +48,9 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.2
  */
 public class ProjectActivityStreamListDisplay
-		extends
-		AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
-
+		extends AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = 9189667863722393067L;
+
 	protected final ProjectActivityStreamService projectActivityStreamService;
 
 	public ProjectActivityStreamListDisplay() {
@@ -101,15 +95,12 @@ public class ProjectActivityStreamListDisplay
 		@Override
 		public Component generateRow(final ProjectActivityStream obj,
 				int rowIndex) {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
-			layout.setStyleName("list-item");
+			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
 			layout.addStyleName("activity-row");
 
 			Label typeIcon = new Label(
 					"<span aria-hidden=\"true\" data-icon=\""
-							+ ProjectIconConstantsMap.getIcon(obj.getType())
+							+ ProjectAssetsManager.toHexString(obj.getType())
 							+ "\"></span>");
 			typeIcon.setWidthUndefined();
 			typeIcon.setContentMode(ContentMode.HTML);

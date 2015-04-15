@@ -190,7 +190,7 @@ public class ShellController extends AbstractController {
 		if (isRememberPassword) {
 			LocalStorage storage = LocalStorage.get();
 			String storeVal = username + "$"
-					+ PasswordEncryptHelper.encyptText(password);
+					+ PasswordEncryptHelper.encryptText(password);
 			storage.put(MobileApplication.LOGIN_DATA, storeVal);
 		}
 

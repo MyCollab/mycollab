@@ -46,7 +46,7 @@ public class PasswordEncryptHelper {
 		return passwordEncryptor.encryptPassword(password);
 	}
 
-	public static String encyptText(String text) {
+	public static String encryptText(String text) {
 		return basicTextEncryptor.encrypt(text);
 	}
 

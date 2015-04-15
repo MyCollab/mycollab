@@ -21,7 +21,6 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectIconConstantsMap;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
@@ -30,6 +29,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -88,7 +88,7 @@ public class AllActivityViewImpl
 
 			Label typeIcon = new Label(
 					"<span aria-hidden=\"true\" data-icon=\""
-							+ ProjectIconConstantsMap.getIcon(obj.getType())
+							+ ProjectAssetsManager.toHexString(obj.getType())
 							+ "\"></span>");
 			typeIcon.setWidthUndefined();
 			typeIcon.setContentMode(ContentMode.HTML);
