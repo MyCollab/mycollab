@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -241,8 +241,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
     def formatField(context: MailContext[_]): String = {
       val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
       if (task.getTasklistid != null) {
-        val taskgroupIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.TASK_LIST)
-        val img: Img = FormatUtils.newImg("icon", taskgroupIconLink)
+        val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK_LIST));
         val tasklistlink: String = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(context.siteUrl, task.getProjectid,
           task.getTasklistid)
         val link: A = FormatUtils.newA(tasklistlink, task.getTaskListName)
@@ -262,8 +261,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         val tasklistService: ProjectTaskListService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskListService])
         val taskgroup: SimpleTaskList = tasklistService.findById(taskgroupId, context.getUser.getAccountId)
         if (taskgroup != null) {
-          val taskgroupIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.TASK_LIST)
-          val img: Img = FormatUtils.newImg("icon", taskgroupIconLink)
+          val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.TASK_LIST));
           val taskListLink: String = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(context.siteUrl, taskgroup
             .getProjectid, taskgroup.getId)
           val link: A = FormatUtils.newA(taskListLink, taskgroup.getName)

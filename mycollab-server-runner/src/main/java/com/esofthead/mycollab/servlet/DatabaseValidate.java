@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.servlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -36,6 +39,8 @@ import javax.servlet.http.HttpServletResponse;
 public class DatabaseValidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger LOG = LoggerFactory.getLogger(DatabaseValidate.class);
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String databaseName = request.getParameter("databaseName");
@@ -49,10 +54,11 @@ public class DatabaseValidate extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(dbUrl,
 					dbUserName, dbPassword);
-			DatabaseMetaData metaData = connection.getMetaData();
+			connection.getMetaData();
 		} catch (Exception e) {
 			PrintWriter out = response.getWriter();
 			out.write("Cannot establish connection to database. Recheck your input.");
+			LOG.warn("Can not connect database", e);
 		}
 	}
 }

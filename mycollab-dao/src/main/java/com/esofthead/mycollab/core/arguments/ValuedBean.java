@@ -25,7 +25,6 @@ import java.io.Serializable;
  * 
  */
 public class ValuedBean implements Cloneable, Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@NotBindable

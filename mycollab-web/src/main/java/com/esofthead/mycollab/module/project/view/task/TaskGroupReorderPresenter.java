@@ -31,8 +31,10 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
@@ -43,6 +45,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskGroupReorderPresenter extends
 		AbstractPresenter<TaskGroupReorderView> {
 	private static final long serialVersionUID = 1L;
@@ -53,8 +56,7 @@ public class TaskGroupReorderPresenter extends
 
 	@Override
 	protected void postInitView() {
-		EventBusFactory
-				.getInstance()
+		EventBusFactory.getInstance()
 				.register(
 						new ApplicationEventListener<TaskListEvent.SaveReoderTaskList>() {
 							private static final long serialVersionUID = 1L;

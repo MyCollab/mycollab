@@ -273,7 +273,7 @@ public final class MainView extends AbstractPageView {
 
         layout.addComponent(serviceMenu, "serviceMenu");
 
-        final MHorizontalLayout accountLayout = new MHorizontalLayout()
+        MHorizontalLayout accountLayout = new MHorizontalLayout()
                 .withMargin(new MarginInfo(false, true, false, false));
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
@@ -288,17 +288,16 @@ public final class MainView extends AbstractPageView {
             informBox.setSizeFull();
             informBox.addComponent(informLbl);
             informBox.setMargin(new MarginInfo(false, true, false, false));
-            informBox
-                    .addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                        private static final long serialVersionUID = 1L;
+            informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void layoutClick(LayoutClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.GotoUserAccountModule(this,
-                                            new String[]{"billing"}));
-                        }
-                    });
+                @Override
+                public void layoutClick(LayoutClickEvent event) {
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoUserAccountModule(this,
+                                    new String[]{"billing"}));
+                }
+            });
             accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
 
             Date createdTime = billingAccount.getCreatedtime();
@@ -331,7 +330,7 @@ public final class MainView extends AbstractPageView {
             }
         }
 
-        final Label accountNameLabel = new Label(AppContext.getSubDomain());
+        Label accountNameLabel = new Label(AppContext.getSubDomain());
         accountNameLabel.setStyleName("subdomain");
         accountLayout.addComponent(accountNameLabel);
 
@@ -435,6 +434,20 @@ public final class MainView extends AbstractPageView {
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
         accLayout.addOption(userMgtBtn);
 
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+            Button setupBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_SETUP), new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    accountMenu.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(
+                            new ShellEvent.GotoUserAccountModule(this,
+                                    new String[]{"setup"}));
+                }
+            });
+            setupBtn.setIcon(FontAwesome.WRENCH);
+            accLayout.addOption(setupBtn);
+        }
+
         Button signoutBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
                 new Button.ClickListener() {
@@ -468,19 +481,15 @@ public final class MainView extends AbstractPageView {
 
             // add listener to listen the change avatar or user information to
             // update top menu
-            EventBusFactory
-                    .getInstance()
-                    .register(
+            EventBusFactory.getInstance().register(
                             new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Subscribe
                                 @Override
                                 public void handle(UserProfileChangeEvent event) {
-                                    if ("avatarid".equals(event
-                                            .getFieldChange())) {
-                                        UserAvatarComp.this
-                                                .removeAllComponents();
+                                    if ("avatarid".equals(event.getFieldChange())) {
+                                        UserAvatarComp.this.removeAllComponents();
                                         addUserAvatar();
                                     }
                                 }
@@ -488,8 +497,7 @@ public final class MainView extends AbstractPageView {
         }
 
         private void addUserAvatar() {
-            Image userAvatar = UserAvatarControlFactory
-                    .createUserAvatarEmbeddedComponent(
+            Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
                             AppContext.getUserAvatarId(), 24);
             this.addComponent(userAvatar);
         }

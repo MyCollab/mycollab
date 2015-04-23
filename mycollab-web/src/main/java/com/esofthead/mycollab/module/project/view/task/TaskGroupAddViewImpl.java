@@ -38,7 +38,7 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 		implements TaskGroupAddView {
 	private static final long serialVersionUID = 1L;

@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.3";
+	content: "7.4.4";
 }
 
 .v-generated-body {
@@ -141,19 +141,22 @@ a.pending {
 	width: 100%;
 }
 
+.historylog-component .bean-list {
+	border-top: 1px solid #CFCFCF;
+}
+
 .list-row {
-	background-color: #FFF;
 	border-color: #CFCFCF;
 	border-width: 0px 1px 1px;
 	border-style: solid;
 	padding: 10px;
 }
 
-.list-row:nth-child(odd) {
+.list-row:nth-child(even) {
 	background-color: whitesmoke;
 }
 
-.list-row:nth-child(even) {
+.list-row:nth-child(odd) {
 	background-color: #FFF;
 }
 
@@ -389,11 +392,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: #525252;
 }
 
-.v-label.icon-18px .v-icon {
-	font-size: 18px;
-	color: #525252;
-}
-
 .optionPopupContent {
 	background-color: antiquewhite;
 	margin: -5px;
@@ -426,6 +424,11 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .optionPopupContent .action-wrap .v-disabled.v-button-action {
 	border: none;
+}
+
+.v-checkbox input[type="checkbox"]:focus {
+	border: none;
+	box-shadow: none;
 }
 
 .stickytooltip {
@@ -761,6 +764,10 @@ table {
 .v-colorpicker-area {
 	border: 1px solid silver;
 	margin: 1px auto;
+}
+
+.v-colorpicker.v-default-caption-width {
+	width: 100px;
 }
 
 .v-colorpicker-history {
@@ -7118,7 +7125,7 @@ div.v-button.bold  > .v-button-wrap, div.v-button.bold:active > .v-button-wrap, 
 .splitbutton .parent-button .v-button-wrap {
 	border-right: 1px solid #F9F9F9;
 	padding-right: 6px;
-	padding-left: 8px;
+	padding-left: 6px;
 }
 
 .v-ie .splitbutton .parent-button .v-button-wrap {
@@ -7212,15 +7219,19 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 	padding: 0px;
 }
 
-.small-padding .v-button-wrap, .small-padding:active .v-button-wrap {
+.v-button.small-padding.v-pressed .v-button-wrap, .v-button.small-padding .v-button-wrap {
 	padding: 4px 6px;
 }
 
-.small-padding.v-popupbutton .v-button-wrap {
+.v-button.small-padding.v-pressed .v-button-wrap .v-icon, .v-button.small-padding .v-button-wrap .v-icon {
+	width: 13px;
+}
+
+.v-button.small-padding.v-popupbutton .v-button-wrap {
 	padding: 4px 6px;
 }
 
-.small-padding.v-popupbutton .v-button-wrap:active {
+.v-button.small-padding.v-popupbutton .v-button-wrap:active {
 	padding: 4px 6px;
 }
 
@@ -7243,10 +7254,6 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 
 .v-button.button-icon-only .v-button-wrap .v-popup-indicator::before {
 	content: "";
-}
-
-.v-button.button-icon-only.icon-18px .v-button-wrap {
-	font-size: 18px;
 }
 
 .v-icon .black {
@@ -7354,19 +7361,22 @@ a.pending {
 	width: 100%;
 }
 
+.historylog-component .bean-list {
+	border-top: 1px solid #CFCFCF;
+}
+
 .list-row {
-	background-color: #FFF;
 	border-color: #CFCFCF;
 	border-width: 0px 1px 1px;
 	border-style: solid;
 	padding: 10px;
 }
 
-.list-row:nth-child(odd) {
+.list-row:nth-child(even) {
 	background-color: whitesmoke;
 }
 
-.list-row:nth-child(even) {
+.list-row:nth-child(odd) {
 	background-color: #FFF;
 }
 
@@ -7602,11 +7612,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: #525252;
 }
 
-.v-label.icon-18px .v-icon {
-	font-size: 18px;
-	color: #525252;
-}
-
 .optionPopupContent {
 	background-color: antiquewhite;
 	margin: -5px;
@@ -7639,6 +7644,11 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .optionPopupContent .action-wrap .v-disabled.v-button-action {
 	border: none;
+}
+
+.v-checkbox input[type="checkbox"]:focus {
+	border: none;
+	box-shadow: none;
 }
 
 .crm-module {
@@ -7766,12 +7776,16 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	background: none no-repeat 0 0 transparent;
 }
 
+.h-sidebar-menu .v-button.v-button-link:focus a, .h-sidebar-menu .v-button.v-button-link:active a {
+	color: #FFF;
+}
+
 .h-sidebar-menu .v-button.v-button-link.isSelected {
 	background-color: #FFF;
 }
 
-.h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .h-sidebar-menu .v-button.v-button-link:active .v-button-caption {
-	color: #FFF;
+.h-sidebar-menu .v-button.v-button-link.isSelected a {
+	color: #535353;
 }
 
 .h-sidebar-menu .v-button .v-button-wrap {
@@ -7865,6 +7879,179 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .comment-list-wrapper.v-margin-left {
 	padding-left: 58px;
+}
+
+.readViewLayout {
+	background-color: #FFF;
+	border-radius: 0px;
+	border: 1px solid #CFCFCF;
+}
+
+.readViewLayout .readViewHeader .headerName {
+	font-size: 18px;
+	color: #303030;
+}
+
+.readViewLayout .readViewHeader .headerNameOverdue {
+	font-size: 18px;
+	color: red;
+}
+
+.readViewLayout .h2 {
+	text-shadow: #F0F0F0 0 1px 0;
+	padding: 8px 0px 8px 18px;
+	font-size: 13px;
+	border-bottom: 1px solid #CFCFCF;
+	color: #454545;
+}
+
+.readViewLayout .v-label-h2.no-border {
+	border: none;
+}
+
+.readViewLayout .v-label-h2-no-padding {
+	text-shadow: #F0F0F0 0 1px 0;
+	padding: 0px 0px 0px 0px;
+	font-size: 13px;
+	color: #454545;
+	font-weight: bold;
+}
+
+.readViewHeader {
+	padding: 10px 5px 10px 18px;
+	background: none repeat-x left top #EEEEEE;
+	border-radius: 0px;
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.readViewBottomControls .v-verticallayout {
+	display: block;
+}
+
+.readview-layout {
+	background-color: #FFF;
+	padding: 0px;
+}
+
+.readview-layout.v-margin-left {
+	padding-left: 30px;
+}
+
+.readview-layout.v-margin-right {
+	padding-right: 30px;
+}
+
+.readview-layout .colored-gridlayout .gridform-field.v-margin-top, .readview-layout .readViewLayout .colored-gridlayout .gridform-field.v-margin-top {
+	padding-top: 8px;
+}
+
+.readview-layout .colored-gridlayout .gridform-field.v-margin-bottom, .readview-layout .readViewLayout .colored-gridlayout .gridform-field.v-margin-bottom {
+	padding-bottom: 8px;
+}
+
+.readview-layout .preview-form-wrap {
+	border: solid 1px #CFCFCF;
+}
+
+.addview-layout {
+	background-color: #f5f5f5;
+	padding: 0px;
+	border-radius: 0;
+}
+
+.addview-layout .addview-layout-body {
+	border: solid 1px #CFCFCF;
+}
+
+.control-buttons.v-margin-top {
+	padding-top: 5px;
+}
+
+.control-buttons.v-margin-right {
+	padding-right: 0;
+}
+
+.control-buttons.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.control-buttons.v-margin-left {
+	padding-left: 5px;
+}
+
+.addview-layout-body {
+	border: none;
+}
+
+.addview-layout-body .v-label.h2 {
+	padding: 8px 0px 8px 18px;
+	font-size: 13px;
+	border-bottom: 1px solid #CFCFCF;
+	color: #454545;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #EEEEEE;
+}
+
+.addview-layout-body .control-buttons {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.addview-layout-body .colored-gridlayout {
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-top {
+	padding-top: 5px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-right {
+	padding-right: 5px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-left {
+	padding-left: 18px;
+}
+
+.addview-layout-body .gridform-caption {
+	border-left: 1px solid #CFCFCF;
+	border-right: 1px solid #CFCFCF;
+}
+
+.addview-layout-body .gridform-caption.first-col {
+	border-left: none;
+}
+
+.addview-layout-body .colored-gridlayout .v-gridlayout-slot > div {
+	border-top: 1px solid #CFCFCF;
+}
+
+.addview-layout-body .colored-gridlayout .v-gridlayout-slot > div.first-row {
+	border-top: none;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-field.v-margin-top {
+	padding-top: 5px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-field.v-margin-right {
+	padding-right: 8px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-field.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.addview-layout-body .v-horizontallayout-gridform-field.v-margin-left {
+	padding-left: 10px;
 }
 
 .date-wrapper {
@@ -8073,11 +8260,11 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	padding: 0px;
 }
 
-.prj-list-row:nth-child(odd) {
+.prj-list-row:nth-child(even) {
 	background-color: whitesmoke;
 }
 
-.prj-list-row:nth-child(even) {
+.prj-list-row:nth-child(odd) {
 	background-color: #FFF;
 }
 
@@ -8209,10 +8396,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	font-weight: bold;
 	font-size: 16px;
 	color: #313131;
-}
-
-.projectinfo-header .project-shortname {
-	color: gray;
 }
 
 .projectinfo-footer.v-margin-top {
@@ -8643,37 +8826,6 @@ div.v-csslayout.followers-container .v-checkbox {
 	color: white;
 }
 
-.widget-row {
-	background-color: whitesmoke;
-	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-}
-
-.widget-row.v-margin-top {
-	padding-top: 10px;
-}
-
-.widget-row.v-margin-right {
-	padding-right: 10px;
-}
-
-.widget-row.v-margin-bottom {
-	padding-bottom: 10px;
-}
-
-.widget-row.v-margin-left {
-	padding-left: 10px;
-}
-
-.widget-row.odd {
-	background-color: #FFF;
-}
-
-.widget-row:hover {
-	background-color: ghostwhite;
-}
-
 div.v-csslayout.member-token {
 	cursor: text;
 }
@@ -8798,8 +8950,8 @@ div.v-button.token-field:hover {
 	border-style: solid;
 	border-color: #CFCFCF;
 	border-width: 0px 1px 1px 1px;
-	background-color: honeydew;
 	min-height: 33px;
+	background-color: #FFF;
 }
 
 .tasklist .taskrow {
@@ -8812,8 +8964,35 @@ div.v-button.token-field:hover {
 	border-style: none;
 }
 
+.tasklist .taskrow:nth-child(even) {
+	background-color: whitesmoke;
+}
+
+.tasklist .taskrow:nth-child(odd) {
+	background-color: #FFF;
+}
+
 .tasklist .taskrow:hover {
 	background-color: ghostwhite;
+}
+
+.task-component {
+	margin-bottom: 5px;
+	background-color: whitesmoke;
+}
+
+.task-component  > .v-csslayout-margin {
+	border: 1px solid rgba(0, 0, 0, 0.25);
+	padding-left: 5px;
+}
+
+.task-component .task-name {
+	font-weight: bold;
+}
+
+.task-component .created-time {
+	color: gray;
+	font-size: 12px;
 }
 
 html {
@@ -10297,10 +10476,6 @@ input.v-textfield-errorField {
 	border-top: none;
 }
 
-.depotComp .depotContent .taskdisplay-component {
-	padding-left: 30px;
-}
-
 .filter-task-table {
 	border-color: #CFCFCF;
 	border-style: solid;
@@ -10922,29 +11097,6 @@ td.v-tabsheet-spacertd div {
 	color: red;
 }
 
-.taskdisplay-component > .v-csslayout-margin > .v-csslayout-container > div.v-button {
-	margin-top: 10px;
-}
-
-.task-component {
-	margin-bottom: 5px;
-	background-color: whitesmoke;
-}
-
-.task-component  > .v-csslayout-margin {
-	border: 1px solid rgba(0, 0, 0, 0.25);
-	padding-left: 5px;
-}
-
-.task-component .task-name {
-	font-weight: bold;
-}
-
-.task-component .created-time {
-	color: gray;
-	font-size: 12px;
-}
-
 .v-window, .v-Notification {
 	background-color: white;
 	border-radius: 2px;
@@ -11317,210 +11469,6 @@ div.v-stylecalendar .weekdays TD {
 	box-sizing: border-box;
 }
 
-.readViewLayout {
-	background-color: #FFF;
-	border-radius: 0px;
-	border: 1px solid #CFCFCF;
-}
-
-.readViewLayout .readViewHeader .headerName {
-	font-size: 18px;
-	color: #303030;
-}
-
-.readViewLayout .readViewHeader .headerNameOverdue {
-	font-size: 18px;
-	color: red;
-}
-
-.readViewLayout .h2 {
-	text-shadow: #F0F0F0 0 1px 0;
-	padding: 8px 0px 8px 18px;
-	font-size: 13px;
-	border-bottom: 1px solid #CFCFCF;
-	color: #454545;
-}
-
-.readViewLayout .v-label-h2.no-border {
-	border: none;
-}
-
-.readViewLayout .v-label-h2-no-padding {
-	text-shadow: #F0F0F0 0 1px 0;
-	padding: 0px 0px 0px 0px;
-	font-size: 13px;
-	color: #454545;
-	font-weight: bold;
-}
-
-.readViewHeader {
-	padding: 10px 5px 10px 18px;
-	background: none repeat-x left top #EEEEEE;
-	border-radius: 0px;
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.readViewBottomControls .v-verticallayout {
-	display: block;
-}
-
-.readview-layout {
-	background-color: #FFF;
-	padding: 0px;
-}
-
-.readview-layout.v-margin-left {
-	padding-left: 30px;
-}
-
-.readview-layout.v-margin-right {
-	padding-right: 30px;
-}
-
-.readview-layout .colored-gridlayout .gridform-field.v-margin-top, .readview-layout .readViewLayout .colored-gridlayout .gridform-field.v-margin-top {
-	padding-top: 8px;
-}
-
-.readview-layout .colored-gridlayout .gridform-field.v-margin-bottom, .readview-layout .readViewLayout .colored-gridlayout .gridform-field.v-margin-bottom {
-	padding-bottom: 8px;
-}
-
-.addview-layout {
-	background-color: #f5f5f5;
-	padding: 0px;
-	border-radius: 0;
-}
-
-.control-buttons.v-margin-top {
-	padding-top: 5px;
-}
-
-.control-buttons.v-margin-right {
-	padding-right: 0;
-}
-
-.control-buttons.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.control-buttons.v-margin-left {
-	padding-left: 5px;
-}
-
-.crm-edit-form .addview-layout-body {
-	border-width: 1px 1px 0px;
-	border-color: #CFCFCF;
-	border-style: solid;
-}
-
-.addview-layout-body .preview-form {
-	border-color: #CFCFCF;
-	border-width: 1px 1px 0px;
-	border-style: solid;
-}
-
-.addview-layout-body .h2 {
-	padding: 8px 0px 8px 18px;
-	font-size: 13px;
-	border-bottom: 1px solid #CFCFCF;
-	color: #454545;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	background-color: #EEEEEE;
-}
-
-.addview-layout-body .control-buttons {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.addview-layout-body .v-gridlayout {
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-top {
-	padding-top: 5px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-right {
-	padding-right: 5px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-left {
-	padding-left: 18px;
-}
-
-.addview-layout-body .gridform-caption {
-	border-left: 1px solid #CFCFCF;
-	border-right: 1px solid #c8c8c8;
-}
-
-.addview-layout-body .gridform-caption.first-col {
-	border-left: none;
-}
-
-.addview-layout-body .v-gridlayout-slot > div {
-	border-top: 1px solid #c8c8c8;
-}
-
-.addview-layout-body .v-gridlayout-slot > div.first-row {
-	border-top: none;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-top {
-	padding-top: 5px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-right {
-	padding-right: 8px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-left {
-	padding-left: 10px;
-}
-
-.addview-layout-body .depotComp {
-	margin-top: 0px;
-}
-
-.addview-layout-body .depotComp .depotHeader, .addview-layout-body .depotComp.collapsed .depotHeader {
-	border: none;
-	padding-bottom: 0px;
-	background: none;
-}
-
-.addview-layout-body .depotComp .depotHeader .h2 {
-	color: #454545;
-	font-weight: bold;
-}
-
-.addview-layout-body .depotComp.collapsed .depotHeader .h2 {
-	border-bottom: none;
-}
-
-.addview-layout-body .depotComp .depot-title {
-	background-position: left center;
-}
-
-.addview-layout-body .depotComp .depot-title .v-csslayout-margin {
-	margin-left: 0px;
-}
-
-.note-list .depotContent, .comment-list .depotContent {
-	background-color: #e5eff0;
-}
-
 .v-richtextarea .gwt-RichTextToolbar {
 	background: none no-repeat left top whitesmoke;
 	border-bottom: 1px solid #CFCFCF;
@@ -11641,10 +11589,6 @@ div.v-stylecalendar .weekdays TD {
 
 .task-list .taskadd-popup .colored-gridlayout {
 	border: none;
-}
-
-.taskdisplay-component {
-	background-color: #FFF;
 }
 
 .v-tabsheet-content .task-list .task-list-footer {
@@ -12560,10 +12504,6 @@ div.v-ratingstars-bar {
 .v-ie .v-tabsheet-content > .v-tabsheet-tabsheetpanel > div > .v-verticallayout:after {
 	content: "";
 	display: inline-block;
-}
-
-.historylog-component .bean-list {
-	border-top: 1px solid #CFCFCF;
 }
 
 .accountsettings-role .addViewBottomControls .depotComp .depotHeader {

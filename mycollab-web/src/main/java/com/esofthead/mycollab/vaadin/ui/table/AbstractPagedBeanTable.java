@@ -27,7 +27,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -225,8 +225,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 
 	@Override
 	public int setSearchCriteria(final S searchCriteria) {
-		this.searchRequest = new SearchRequest<>(searchCriteria,
-				this.currentPage, this.displayNumItems);
+		this.searchRequest = new SearchRequest<>(searchCriteria, currentPage, displayNumItems);
 		this.doSearch();
         return this.totalCount;
 	}
@@ -284,7 +283,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		// defined layout here ---------------------------
 
 		if (this.currentPage > 1) {
-			final Button firstLink = new ButtonLink("1", new ClickListener() {
+			final Button firstLink = new ButtonLinkLegacy("1", new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -302,7 +301,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		}
 
 		if (this.currentPage > 3) {
-			final Button previous2 = new ButtonLink(
+			final Button previous2 = new ButtonLinkLegacy(
 					"" + (this.currentPage - 2), new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -316,7 +315,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			this.pageManagement.addComponent(previous2);
 		}
 		if (this.currentPage > 2) {
-			final Button previous1 = new ButtonLink(
+			final Button previous1 = new ButtonLinkLegacy(
 					"" + (this.currentPage - 1), new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -329,8 +328,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			previous1.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(previous1);
 		}
-		// Here add current ButtonLink
-		final Button current = new ButtonLink("" + this.currentPage,
+		// Here add current ButtonLinkLegacy
+		final Button current = new ButtonLinkLegacy("" + this.currentPage,
 				new ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -346,7 +345,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		this.pageManagement.addComponent(current);
 		final int range = this.totalPage - this.currentPage;
 		if (range >= 1) {
-			final Button next1 = new ButtonLink("" + (this.currentPage + 1),
+			final Button next1 = new ButtonLinkLegacy("" + (this.currentPage + 1),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -360,7 +359,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			this.pageManagement.addComponent(next1);
 		}
 		if (range >= 2) {
-			final Button next2 = new ButtonLink("" + (this.currentPage + 2),
+			final Button next2 = new ButtonLinkLegacy("" + (this.currentPage + 2),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -379,7 +378,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 			this.pageManagement.addComponent(ss2);
 		}
 		if (range >= 3) {
-			final Button last = new ButtonLink("" + this.totalPage,
+			final Button last = new ButtonLinkLegacy("" + this.totalPage,
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 

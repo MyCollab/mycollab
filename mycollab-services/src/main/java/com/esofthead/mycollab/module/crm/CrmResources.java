@@ -14,46 +14,60 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-services.
+ * <p>
+ * mycollab-services is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-services is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.crm;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.esofthead.mycollab.configuration.MyCollabAssets;
+import com.esofthead.mycollab.core.MyCollabException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class CrmResources {
-	private static final Map<String, String> resourceLinks;
+    private static Logger LOG = LoggerFactory.getLogger(CrmResources.class);
+    private static Method getResMethod;
 
-	static {
-		resourceLinks = new HashMap<>();
-		resourceLinks.put(CrmTypeConstants.ACCOUNT,
-				MyCollabAssets.newResourceLink("icons/16/crm/account.png"));
-		resourceLinks.put(CrmTypeConstants.CALL,
-				MyCollabAssets.newResourceLink("icons/16/crm/call.png"));
-		resourceLinks.put(CrmTypeConstants.CAMPAIGN,
-				MyCollabAssets.newResourceLink("icons/16/crm/campaign.png"));
-		resourceLinks.put(CrmTypeConstants.CASE,
-				MyCollabAssets.newResourceLink("icons/16/crm/case.png"));
-		resourceLinks.put(CrmTypeConstants.CONTACT,
-				MyCollabAssets.newResourceLink("icons/16/crm/contact.png"));
-		resourceLinks.put(CrmTypeConstants.LEAD,
-				MyCollabAssets.newResourceLink("icons/16/crm/lead.png"));
-		resourceLinks.put(CrmTypeConstants.MEETING,
-				MyCollabAssets.newResourceLink("icons/16/crm/meeting.png"));
-		resourceLinks.put(CrmTypeConstants.OPPORTUNITY,
-				MyCollabAssets.newResourceLink("icons/16/crm/opportunity.png"));
-		resourceLinks.put(CrmTypeConstants.TASK,
-				MyCollabAssets.newResourceLink("icons/16/crm/task.png"));
+    static {
+        try {
+            Class<?> resourceCls = Class.forName("com.esofthead.mycollab.module.crm.ui.CrmAssetsManager");
+            getResMethod = resourceCls.getMethod("toHexString", String.class);
+        } catch (Exception e) {
+            throw new MyCollabException("Can not reload resource", e);
+        }
+    }
 
-	}
-
-	public static String getResourceLink(String type) {
-		return resourceLinks.get(type);
-	}
+    public static String getFontIconHtml(String type) {
+        try {
+            String codePoint = (String) getResMethod.invoke(null, type);
+            return String.format("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">%s;</span>", codePoint);
+        } catch (Exception e) {
+            LOG.error("Can not get resource type {}", type);
+            return "";
+        }
+    }
 }

@@ -29,12 +29,12 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
+import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.*;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -54,7 +54,7 @@ import java.util.GregorianCalendar;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class VersionListViewImpl extends AbstractPageView implements
 		VersionListView {
 	private static final long serialVersionUID = 1L;
@@ -63,7 +63,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 	private SelectionOptionButton selectOptionButton;
 	private DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion> tableItem;
 	private VerticalLayout versionListLayout;
-	private DefaultMassItemActionHandlersContainer tableActionControls;
+	private DefaultMassItemActionHandlerContainer tableActionControls;
 	private Label selectedItemsNumberLabel = new Label();
 
 	public VersionListViewImpl() {
@@ -183,7 +183,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 		this.selectOptionButton = new SelectionOptionButton(this.tableItem);
 		layout.addComponent(this.selectOptionButton);
 
-		tableActionControls = new DefaultMassItemActionHandlersContainer();
+		tableActionControls = new DefaultMassItemActionHandlerContainer();
 
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
@@ -198,19 +198,19 @@ public class VersionListViewImpl extends AbstractPageView implements
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		tableActionControls.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_PDF_ACTION,
+				ReportExportType.PDF,
                 FontAwesome.FILE_PDF_O,
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
 		tableActionControls.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_EXCEL_ACTION,
+				ReportExportType.EXCEL,
                 FontAwesome.FILE_EXCEL_O,
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		tableActionControls.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_CSV_ACTION,
+				ReportExportType.CSV,
 				FontAwesome.FILE_TEXT_O,
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
@@ -242,7 +242,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 	}
 
 	@Override
-	public HasMassItemActionHandlers getPopupActionHandlers() {
+	public HasMassItemActionHandler getPopupActionHandlers() {
 		return this.tableActionControls;
 	}
 

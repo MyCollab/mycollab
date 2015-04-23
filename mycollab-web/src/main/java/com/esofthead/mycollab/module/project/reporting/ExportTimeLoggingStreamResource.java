@@ -42,7 +42,7 @@ public class ExportTimeLoggingStreamResource extends ExportItemsStreamResource {
 	public ExportTimeLoggingStreamResource(String title,
 			ReportExportType outputForm, ItemTimeLoggingService searchService,
 			ItemTimeLoggingSearchCriteria searchCriteria) {
-		super(AppContext.getUserLocale(), title, outputForm);
+		super(AppContext.getTimezone(), AppContext.getUserLocale(), title, outputForm);
 
 		this.searchService = searchService;
 		this.searchCriteria = searchCriteria;

@@ -130,7 +130,7 @@ class BasicInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
         this.setModal(true);

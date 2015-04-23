@@ -167,7 +167,7 @@
 
     <select id="getTotalHoursByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
         resultType="double" lang="velocity">
-        SELECT sum(logValue) as totalHour FROM m_prj_time_logging
+        SELECT COALESCE(sum(logValue), 0) as totalHour FROM m_prj_time_logging
 
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

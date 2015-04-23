@@ -104,7 +104,7 @@ public class FileDownloadWindow extends Window {
 
         final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
 
-        final Button downloadBtn = new Button("Download");
+        final Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
         List<Resource> resources = new ArrayList<>();
         resources.add(content);
 

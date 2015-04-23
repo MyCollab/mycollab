@@ -208,19 +208,19 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
             }
         };
 
-        ButtonLink todoBtn = new ButtonLink("New Task", listener);
+        ButtonLinkLegacy todoBtn = new ButtonLinkLegacy("New Task", listener);
         actionBtnLayout.addOption(todoBtn);
         todoBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
         todoBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_TASK));
 
-        Button callBtn = new ButtonLink("New Call", listener);
+        Button callBtn = new ButtonLinkLegacy("New Call", listener);
         actionBtnLayout.addOption(callBtn);
         callBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
         callBtn.setEnabled(AppContext
                 .canWrite(RolePermissionCollections.CRM_CALL));
 
-        ButtonLink meetingBtn = new ButtonLink("New Meeting", listener);
+        ButtonLinkLegacy meetingBtn = new ButtonLinkLegacy("New Meeting", listener);
         actionBtnLayout.addOption(meetingBtn);
         meetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
         meetingBtn.setEnabled(AppContext
@@ -857,13 +857,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                     } else if (propertyId.equals("description")) {
                         return new RichTextEditField();
                     } else if (propertyId.equals("type")) {
-                        RelatedEditItemField field = new RelatedEditItemField(
-                                new String[]{CrmTypeConstants.ACCOUNT,
-                                        CrmTypeConstants.CAMPAIGN,
-                                        CrmTypeConstants.CONTACT,
-                                        CrmTypeConstants.LEAD,
-                                        CrmTypeConstants.OPPORTUNITY,
-                                        CrmTypeConstants.CASE}, meeting);
+                        RelatedEditItemField field = new RelatedEditItemField(meeting);
                         field.setType(meeting.getType());
                         return field;
                     } else if (propertyId.equals("isrecurrence")) {

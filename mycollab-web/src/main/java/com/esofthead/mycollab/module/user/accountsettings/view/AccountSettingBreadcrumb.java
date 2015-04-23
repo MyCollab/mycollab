@@ -66,9 +66,16 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoProfile() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_PROFILE)));
-		AppContext.addFragment("account/preview", "User Profile");
+                .getMessage(AccountBreadcrumbI18nEnum.VIEW_PROFILE)));
+		AppContext.addFragment("account/preview", "Profile");
 	}
+
+    public void gotoSetup() {
+        this.select(0);
+        this.addLink(new Button(AppContext
+                .getMessage(AccountBreadcrumbI18nEnum.VIEW_SETUP)));
+        AppContext.addFragment("account/setup", "Setup");
+    }
 
 	public void gotoBillingPage() {
 		this.select(0);

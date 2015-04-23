@@ -16,13 +16,14 @@
  */
 package com.esofthead.mycollab.module.crm.view.file;
 
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -32,8 +33,8 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  *
  */
-public class FileDashboardPresenter extends
-		CrmGenericPresenter<FileDashboardView> {
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
+public class FileDashboardPresenter extends CrmGenericPresenter<FileDashboardView> {
 	private static final long serialVersionUID = 1L;
 
 	public FileDashboardPresenter() {
@@ -42,12 +43,8 @@ public class FileDashboardPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		CrmToolbar.navigateItem(CrmTypeConstants.FILE);
 		if (AppContext.canRead(RolePermissionCollections.CRM_DOCUMENT)) {
-			CrmToolbar crmToolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			crmToolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER));
-
 			super.onGo(container, data);
 			view.displayFiles();
 			AppContext.addFragment("crm/file/dashboard",

@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -56,20 +72,15 @@ class TaskDisplayComponent extends CssLayout {
     private Button createTaskBtn;
 
     private SimpleTaskList taskList;
-    private boolean isDisplayTaskListInfo;
 
-    public TaskDisplayComponent(SimpleTaskList taskList,
-                                boolean isDisplayTaskListInfo) {
+    public TaskDisplayComponent(SimpleTaskList taskList) {
         this.taskList = taskList;
-        this.isDisplayTaskListInfo = isDisplayTaskListInfo;
-        this.setStyleName("taskdisplay-component");
         this.showTaskGroupInfo();
         this.setSizeFull();
 
         //Set default search criteria
         criteria = new TaskSearchCriteria();
-        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-                .getProjectId()));
+        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         criteria.setTaskListId(new NumberSearchField(taskList.getId()));
         criteria.setStatuses(new SetSearchField<>(SearchField.AND,
                 new String[]{StatusI18nEnum.Open.name(),
@@ -77,60 +88,57 @@ class TaskDisplayComponent extends CssLayout {
     }
 
     private void showTaskGroupInfo() {
-        if (this.isDisplayTaskListInfo) {
-            AdvancedPreviewBeanForm<SimpleTaskList> previewForm = new AdvancedPreviewBeanForm<>();
-            previewForm.setWidth("100%");
-            previewForm.setFormLayoutFactory(new IFormLayoutFactory() {
-                private static final long serialVersionUID = 1L;
+        AdvancedPreviewBeanForm<SimpleTaskList> previewForm = new AdvancedPreviewBeanForm<>();
+        previewForm.setWidth("100%");
+        previewForm.setFormLayoutFactory(new IFormLayoutFactory() {
+            private static final long serialVersionUID = 1L;
 
-                private GridFormLayoutHelper layoutHelper;
+            private GridFormLayoutHelper layoutHelper;
 
-                @Override
-                public ComponentContainer getLayout() {
-                    this.layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
-                    return this.layoutHelper.getLayout();
+            @Override
+            public ComponentContainer getLayout() {
+                this.layoutHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
+                return this.layoutHelper.getLayout();
+            }
+
+            @Override
+            public void attachField(Object propertyId, Field<?> field) {
+                if ("description".equals(propertyId)) {
+                    layoutHelper.addComponent(field, AppContext
+                                    .getMessage(GenericI18Enum.FORM_DESCRIPTION),
+                            0, 0, 2, "100%");
+                } else if ("owner".equals(propertyId)) {
+                    layoutHelper.addComponent(field, AppContext
+                            .getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                } else if ("milestoneid".equals(propertyId)) {
+                    layoutHelper.addComponent(field,
+                            AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 1);
+                }
+            }
+        });
+        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(
+                previewForm) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                if ("description".equals(propertyId)) {
+                    return new DefaultViewField(taskList.getDescription(), ContentMode.HTML);
+                } else if ("owner".equals(propertyId)) {
+                    return new ProjectUserFormLinkField(taskList.getOwner(),
+                            taskList.getOwnerAvatarId(),
+                            taskList.getOwnerFullName());
+                } else if ("milestoneid".equals(propertyId)) {
+                    return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, "" + taskList.getMilestoneid(),
+                            taskList.getMilestoneName());
                 }
 
-                @Override
-                public void attachField(Object propertyId, Field<?> field) {
-                    if ("description".equals(propertyId)) {
-                        layoutHelper.addComponent(field, AppContext
-                                        .getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                                0, 0, 2, "100%");
-                    } else if ("owner".equals(propertyId)) {
-                        layoutHelper.addComponent(field, AppContext
-                                .getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
-                    } else if ("milestoneid".equals(propertyId)) {
-                        layoutHelper.addComponent(field,
-                                AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 1);
-                    }
-                }
-            });
-            previewForm
-                    .setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(
-                            previewForm) {
-                        private static final long serialVersionUID = 1L;
+                return null;
+            }
 
-                        @Override
-                        protected Field<?> onCreateField(Object propertyId) {
-                            if ("description".equals(propertyId)) {
-                                return new DefaultViewField(taskList.getDescription(), ContentMode.HTML);
-                            } else if ("owner".equals(propertyId)) {
-                                return new ProjectUserFormLinkField(taskList.getOwner(),
-                                        taskList.getOwnerAvatarId(),
-                                        taskList.getOwnerFullName());
-                            } else if ("milestoneid".equals(propertyId)) {
-                                return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, "" + taskList.getMilestoneid(),
-                                        taskList.getMilestoneName());
-                            }
-
-                            return null;
-                        }
-
-                    });
-            this.addComponent(previewForm);
-            previewForm.setBean(this.taskList);
-        }
+        });
+        this.addComponent(previewForm);
+        previewForm.setBean(this.taskList);
 
         this.taskDisplay = new TaskListDisplay();
         addComponent(taskDisplay);
@@ -174,12 +182,7 @@ class TaskDisplayComponent extends CssLayout {
     }
 
     public void saveTaskSuccess(SimpleTask task) {
-        if (!this.isDisplayTaskListInfo) {
-            EventBusFactory.getInstance().post(
-                    new TaskListEvent.GotoRead(this, this.taskList.getId()));
-        } else {
-            taskDisplay.setSearchCriteria(criteria);
-        }
+        taskDisplay.setSearchCriteria(criteria);
     }
 
     public void closeTaskAdd() {

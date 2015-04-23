@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.dao;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import org.apache.ibatis.annotations.Param;
 
 /**
  *
@@ -27,4 +28,10 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
  */
 public interface TaskListMapperExt extends ISearchableDAO<TaskListSearchCriteria>{
     SimpleTaskList findTaskListById(int taskListId);
+
+    Double getTotalBillableHours(@Param("tasklistid") int taskListId);
+
+    Double getTotalNonBillableHours(@Param("tasklistid")int taskListId);
+
+    Double getRemainHours(@Param("tasklistid")int taskListId);
 }

@@ -26,8 +26,10 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -36,8 +38,8 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskGroupDisplayPresenter
-		extends
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
+public class TaskGroupDisplayPresenter extends
 		ProjectGenericListPresenter<TaskGroupDisplayView, TaskListSearchCriteria, SimpleTaskList> {
 
 	private static final long serialVersionUID = 1L;

@@ -18,9 +18,9 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.TaskList;
@@ -222,7 +222,7 @@ class TaskAddPopup extends CustomComponent {
             String attachmentPath = AttachmentUtils
                     .getProjectEntityAttachmentPath(AppContext.getAccountId(),
                             CurrentProjectVariables.getProjectId(),
-                            AttachmentType.PROJECT_TASK_TYPE, typeid);
+                            ProjectTypeConstants.TASK, "" + typeid);
             this.attachmentPanel.saveContentsToRepo(attachmentPath);
         }
     }

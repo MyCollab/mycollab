@@ -71,7 +71,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
         headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         this.addComponent(headerBox);
 
-        Label filterLbl = new Label("&nbsp; Saved Filter: ", ContentMode.HTML);
+        Label filterLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_SAVED_FILTER));
         headerBox.with(filterLbl).withAlign(filterLbl, Alignment.MIDDLE_LEFT);
 
         filterBox = new MHorizontalLayout();

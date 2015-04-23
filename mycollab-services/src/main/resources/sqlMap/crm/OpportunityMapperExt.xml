@@ -245,7 +245,7 @@
     <select id="getPipeline" parameterType="OpportunitySearchCriteria"
         resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap" lang="velocity">
         SELECT m_crm_opportunity.salesStage AS groupid,
-        SUM(m_crm_opportunity.amount) AS value, '' AS groupname
+        COALESCE(SUM(m_crm_opportunity.amount), 0) AS value, '' AS groupname
         FROM
         m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)

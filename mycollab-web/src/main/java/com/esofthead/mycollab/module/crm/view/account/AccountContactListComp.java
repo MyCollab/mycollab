@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -154,19 +170,16 @@ public class AccountContactListComp extends
                             AppContext.getMessage(
                                     GenericI18Enum.DIALOG_DELETE_TITLE,
                                     SiteConfiguration.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final ContactService contactService = ApplicationContextUtil
+                                        ContactService contactService = ApplicationContextUtil
                                                 .getSpringBean(ContactService.class);
                                         contact.setAccountid(null);
                                         contactService.updateWithSession(
@@ -183,12 +196,9 @@ public class AccountContactListComp extends
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label contactName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CONTACT, contact.getId()) + "'>"
-                    + contact.getContactName() + "</a>", ContentMode.HTML);
+            Label contactName = new Label(String.format("Name: <a href='%s%s'>%s</a>", SiteConfiguration.getSiteUrl(AppContext.getUser()
+                    .getSubdomain()), CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CONTACT, contact.getId()), contact.getContactName()), ContentMode.HTML);
 
             contactInfo.addComponent(contactName);
 
@@ -196,15 +206,12 @@ public class AccountContactListComp extends
                     + (contact.getTitle() != null ? contact.getTitle() : ""));
             contactInfo.addComponent(contactTitle);
 
-            Label contactEmail = new Label("Email: "
-                    + (contact.getEmail() != null ? "<a href='mailto:"
-                    + contact.getEmail() + "'>" + contact.getEmail()
-                    + "</a>" : ""), ContentMode.HTML);
+            Label contactEmail = new Label(String.format("Email: %s", contact.getEmail() != null ?
+                    String.format("<a href='mailto:%s'>%s</a>", contact.getEmail(), contact.getEmail()) : ""), ContentMode.HTML);
             contactInfo.addComponent(contactEmail);
 
             Label contactOfficePhone = new Label(
-                    "Office Phone: "
-                            + (contact.getOfficephone() != null ? contact
+                    String.format("Office Phone: %s", contact.getOfficephone() != null ? contact
                             .getOfficephone() : ""));
             contactInfo.addComponent(contactOfficePhone);
 

@@ -142,14 +142,10 @@ public class TaskStatusComponent extends MVerticalLayout {
             final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(false).withWidth
                     ("100%").withStyleName("prj-list-row");
 
-            if ((rowIndex + 1) % 2 != 0) {
-                layout.addStyleName("odd");
-            }
-
             MHorizontalLayout shortPrjLayout = new MHorizontalLayout().withHeight("100%").withStyleName
                     ("widget-short-prj-name").withMargin(true);
             Label sortPrjLbl = new Label(buildProjectValue(genericTask).write(), ContentMode.HTML);
-            shortPrjLayout.with(sortPrjLbl).withAlign(sortPrjLbl, Alignment.TOP_LEFT).setExpandRatio(sortPrjLbl, 1.0f);
+            shortPrjLayout.with(sortPrjLbl).withAlign(sortPrjLbl, Alignment.TOP_LEFT).expand(sortPrjLbl);
 
             layout.addComponent(shortPrjLayout);
 

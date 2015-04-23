@@ -96,8 +96,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 			this.addCloseListener(new CloseListener() {
 				@Override
 				public void windowClose(CloseEvent e) {
-					TaskTimeLogSheet.this
-							.displayTime(TaskTimeLogEditWindow.this.bean);
+					TaskTimeLogSheet.this.displayTime(TaskTimeLogEditWindow.this.bean);
 				}
 			});
 		}
@@ -113,10 +112,8 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 			item.setProjectid(CurrentProjectVariables.getProjectId());
 			item.setLogforday(forLogDate());
 			item.setIsbillable(isBillableHours());
-
 			itemTimeLoggingService.saveWithSession(item,
 					AppContext.getUsername());
-
 		}
 
 		@Override
@@ -146,8 +143,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 
 		@Override
 		protected boolean isEnableAdd() {
-			return CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.TASKS);
+			return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS);
 		}
 	}
 

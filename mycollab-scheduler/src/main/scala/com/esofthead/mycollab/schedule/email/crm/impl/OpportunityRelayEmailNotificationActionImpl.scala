@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificati
 import com.esofthead.mycollab.schedule.email.format.{CurrencyFieldFormat, DateFieldFormat, FieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -109,8 +109,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     def formatField(context: MailContext[_]): String = {
       val simpleOpportunity: SimpleOpportunity = context.getWrappedBean.asInstanceOf[SimpleOpportunity]
       if (simpleOpportunity.getAccountid != null) {
-        val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-        val img: Img = FormatUtils.newImg("avatar", accountIconLink)
+        val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
         val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleOpportunity
           .getAccountid)
         val link: A = FormatUtils.newA(accountLink, simpleOpportunity.getAccountName)
@@ -130,8 +129,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
         val accountService: AccountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
         val account: SimpleAccount = accountService.findById(accountId, context.getUser.getAccountId)
         if (account != null) {
-          val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-          val img: Img = FormatUtils.newImg("avatar", accountIconLink)
+          val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
           val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.getId)
           val link: A = FormatUtils.newA(accountLink, account.getAccountname)
           return FormatUtils.newLink(img, link).write
@@ -149,8 +147,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
     def formatField(context: MailContext[_]): String = {
       val opportunity: SimpleOpportunity = context.getWrappedBean.asInstanceOf[SimpleOpportunity]
       if (opportunity.getCampaignid != null) {
-        val campaignIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.CAMPAIGN)
-        val img: Img = FormatUtils.newImg("icon", campaignIconLink)
+        val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CAMPAIGN))
         val campaignLink: String = CrmLinkGenerator.generateCampaignPreviewFullLink(context.siteUrl, opportunity
           .getCampaignid)
         val link: A = FormatUtils.newA(campaignLink, opportunity.getCampaignName)
@@ -170,8 +167,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
         val campaignService: CampaignService = ApplicationContextUtil.getSpringBean(classOf[CampaignService])
         val campaign: SimpleCampaign = campaignService.findById(campaignId, context.getUser.getAccountId)
         if (campaign != null) {
-          val campaignIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.CAMPAIGN)
-          val img: Img = FormatUtils.newImg("icon", campaignIconLink)
+          val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CAMPAIGN))
           val campaignLink: String = CrmLinkGenerator.generateCampaignPreviewFullLink(context.siteUrl, campaign.getId)
           val link: A = FormatUtils.newA(campaignLink, campaign.getCampaignname)
           return FormatUtils.newLink(img, link).write

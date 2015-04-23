@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.AssignmentScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.CallScreenData;
@@ -49,6 +51,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		CrmToolbar.navigateItem(CrmTypeConstants.ACTIVITY);
 		ActivityRootView activityContainer = (ActivityRootView) container;
 		ActivityContainer eventContainer = (ActivityContainer) activityContainer
 				.gotoView(AppContext

@@ -46,7 +46,7 @@ public class CommentRowDisplayHandler extends
 
     @Override
     public Component generateRow(final SimpleComment comment, int rowIndex) {
-        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
+        final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false))
                 .withWidth("100%").withStyleName("message");
 
         UserBlock memberBlock = new UserBlock(comment.getCreateduser(), comment.getOwnerAvatarId(), comment.getOwnerFullName());

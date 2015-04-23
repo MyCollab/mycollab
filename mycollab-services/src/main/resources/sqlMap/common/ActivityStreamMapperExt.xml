@@ -83,34 +83,47 @@
         
         #totalCountExpr($searchCriteria.extraFields)
         ]]>
-    </sql>    
-
-    <sql id="selectSimpleActivityStream">
-        <![CDATA[
-        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, 
-               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
-               s_activitystream.module, 
-               s_user.avatarId AS createdUserAvatarId,
-               concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as createdUserFullName,
-               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
-               m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeid AS log_typeid, m_audit_log.module AS log_module, 
-               m_audit_log.changeset AS log_changeset
-        FROM s_activitystream
-        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
-        LEFT OUTER JOIN m_comment ON (s_activitystream.sAccountId = m_comment.sAccountId AND s_activitystream.id = m_comment.typeid AND m_comment.type='Common_ActivityStream')
-        LEFT OUTER JOIN s_user AS comment_user ON (m_comment.createdUser = comment_user.username)
-        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
-        ]]>
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="ActivityStreamSearchCriteria"
         resultMap="SimpleActivityStreamResult" lang="velocity">
-        <include refid="selectSimpleActivityStream" />
+        <![CDATA[
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, s_user.avatarId AS createdUserAvatarId,
+               concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as createdUserFullName,
+               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser,
+               m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeid AS log_typeid, m_audit_log.module AS log_module,
+               m_audit_log.changeset AS log_changeset
+        FROM s_activitystream
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        ]]>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
+                AND s_activitystream.action != 'comment'
             #end
-        #end    
+        #end
+        UNION
+        <![CDATA[
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId,
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, s_user.avatarId AS createdUserAvatarId,
+               concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as createdUserFullName,
+               NULL AS log_id, NULL AS log_object_class, NULL AS log_posteddate, NULL AS log_posteduser,
+               NULL AS log_sAccountId, NULL AS log_type, NULL AS log_typeid, NULL AS log_module,
+               s_activitystream.nameField AS log_changeset
+        FROM s_activitystream
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        ]]>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+                AND s_activitystream.action = 'comment'
+            #end
+        #end
         <include refid="orderStatement" />
     </select>
 
@@ -119,7 +132,7 @@
         #ifnotnull($_parameter.searchCriteria.orderByField)
             ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
         #end
-        s_activitystream.createdTime DESC
+        createdTime DESC
     </sql>
 
     <select id="getTotalCount" parameterType="ActivityStreamSearchCriteria"

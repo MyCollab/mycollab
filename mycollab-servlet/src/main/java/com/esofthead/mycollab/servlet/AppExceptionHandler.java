@@ -89,7 +89,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate,
 				response.getLocale());
 
-		Map<String, String> defaultUrls = new HashMap<String, String>();
+		Map<String, String> defaultUrls = new HashMap<>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
@@ -110,7 +110,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
 		Reader reader = LocalizationHelper.templateReader(errorPage,
 				response.getLocale());
-		Map<String, String> defaultUrls = new HashMap<String, String>();
+		Map<String, String> defaultUrls = new HashMap<>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());

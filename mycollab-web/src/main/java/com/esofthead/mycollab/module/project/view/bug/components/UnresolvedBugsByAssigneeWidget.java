@@ -118,8 +118,7 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
             this.setStyleName("link");
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            this.setIcon(UserAvatarControlFactory.createAvatarResource(
-                    assigneeAvatarId, 16));
+            this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
             this.setDescription(assigneeFullName);
         }
     }

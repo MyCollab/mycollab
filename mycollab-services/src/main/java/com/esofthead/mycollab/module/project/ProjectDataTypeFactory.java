@@ -28,14 +28,7 @@ public class ProjectDataTypeFactory {
 	private static String[] PROJECT_TYPE_LIST = new String[] { "Unknown",
 			"Administrative", "Operative" };
 
-	private static String[] BUG_SEVERITY_LIST = new String[] { "Critical",
-			"Major", "Minor", "Trivial" };
-
 	public static String[] getProjectTypeList() {
 		return PROJECT_TYPE_LIST;
-	}
-
-	public static String[] getBugSeverityList() {
-		return BUG_SEVERITY_LIST;
 	}
 }

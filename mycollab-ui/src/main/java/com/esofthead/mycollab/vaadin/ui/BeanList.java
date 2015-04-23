@@ -63,6 +63,11 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		this(parentComponent, searchService, rowDisplayHandler, null);
 	}
 
+    public BeanList(SearchService searchService,
+                    Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
+        this(null, searchService, rowDisplayHandler);
+    }
+
 	public BeanList(Object parentComponent, SearchService searchService,
 			Class<? extends RowDisplayHandler<T>> rowDisplayHandler,
 			Layout contentLayout) {
@@ -85,11 +90,6 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 
 	public Layout getContentLayout() {
 		return this.contentLayout;
-	}
-
-	public BeanList(SearchService searchService,
-			Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
-		this(null, searchService, rowDisplayHandler);
 	}
 
 	public void setDisplayEmptyListText(boolean isDisplayEmptyListText) {
@@ -115,12 +115,9 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		try {
 			if (rowDisplayHandler.getEnclosingClass() != null
 					&& !Modifier.isStatic(rowDisplayHandler.getModifiers())) {
-
-				Constructor constructor = rowDisplayHandler
-						.getDeclaredConstructor(rowDisplayHandler
-								.getEnclosingClass());
-				rowHandler = (RowDisplayHandler<T>) constructor
-						.newInstance(parentComponent);
+				Constructor constructor = rowDisplayHandler.getDeclaredConstructor(rowDisplayHandler
+                        .getEnclosingClass());
+				rowHandler = (RowDisplayHandler<T>) constructor.newInstance(parentComponent);
 			} else {
 				rowHandler = rowDisplayHandler.newInstance();
 			}
@@ -132,8 +129,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	}
 
 	public int setSearchCriteria(S searchCriteria) {
-		SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria,
-				0, Integer.MAX_VALUE);
+		SearchRequest<S> searchRequest = new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE);
 		return setSearchRequest(searchRequest);
 	}
 
@@ -155,9 +151,8 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		try {
 			if (CollectionUtils.isEmpty(currentListData)
 					&& isDisplayEmptyListText) {
-				Label noItemLbl = new Label(
-						AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
-				final MVerticalLayout widgetFooter = new MVerticalLayout().withWidth("100%");
+				Label noItemLbl = new Label(AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
+                MVerticalLayout widgetFooter = new MVerticalLayout().withWidth("100%");
 				widgetFooter.addStyleName("widget-footer");
 				widgetFooter.with(noItemLbl).withAlign(noItemLbl, Alignment.MIDDLE_CENTER);
 				contentLayout.addComponent(widgetFooter);
@@ -165,13 +160,11 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 				int i = 0;
 				for (T item : currentListData) {
 					RowDisplayHandler<T> rowHandler = constructRowDisplayHandler();
-
 					Component row = rowHandler.generateRow(item, i);
 					if (row != null) {
 						row.setWidth("100%");
 						contentLayout.addComponent(row);
 					}
-
 					i++;
 				}
 			}

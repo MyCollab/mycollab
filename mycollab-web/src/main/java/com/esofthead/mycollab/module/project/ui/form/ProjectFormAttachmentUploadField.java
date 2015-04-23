@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.form;
 
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
@@ -41,11 +40,11 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 		attachmentPanel = new AttachmentPanel();
 	}
 
-	public void getAttachments(int projectId, AttachmentType type,
+	public void getAttachments(int projectId, String type,
 			int typeid) {
 		String attachmentPath = AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectId, type, typeid);
+						projectId, type, "" + typeid);
 		attachmentPanel.getAttachments(attachmentPath);
 	}
 
@@ -54,11 +53,11 @@ public class ProjectFormAttachmentUploadField extends CustomField {
 		return Object.class;
 	}
 
-	public void saveContentsToRepo(int projectid, AttachmentType type,
+	public void saveContentsToRepo(int projectid, String type,
 			int typeId) {
 		String attachmentPath = AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectid, type, typeId);
+						projectid, type, "" + typeId);
 		attachmentPanel.saveContentsToRepo(attachmentPath);
 	}
 

@@ -37,6 +37,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class PageAddPresenter extends AbstractPresenter<PageAddView> {
     private static final long serialVersionUID = 1L;
 

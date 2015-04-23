@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -40,7 +41,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
@@ -54,9 +54,10 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		implements LeadReadView {
 	private static final long serialVersionUID = 1L;
 
-	protected LeadCampaignListComp associateCampaignList;
-	protected ActivityRelatedItemListComp associateActivityList;
-	protected NoteListItems noteListItems;
+	private LeadCampaignListComp associateCampaignList;
+	private ActivityRelatedItemListComp associateActivityList;
+	private CrmCommentDisplay commentList;
+	private LeadHistoryLogList historyLogList;
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
@@ -68,17 +69,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleLead> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleLead>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				LeadHistoryLogWindow historyLog = new LeadHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.LEAD);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -106,12 +97,16 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
 	protected void onPreviewItem() {
-		displayNotes();
+		commentList.loadComments("" + beanItem.getId());
+		historyLogList.loadHistory(beanItem.getId());
 		displayActivities();
 		displayCampaigns();
 
@@ -129,9 +124,10 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected void initRelatedComponents() {
+		commentList = new CrmCommentDisplay(CrmTypeConstants.LEAD, LeadRelayEmailNotificationAction.class);
+		historyLogList = new LeadHistoryLogList();
+
 		associateCampaignList = new LeadCampaignListComp();
-		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 		associateActivityList = new ActivityRelatedItemListComp(true);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
@@ -170,10 +166,6 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	protected void displayCampaigns() {
 		associateCampaignList.displayCampaigns(beanItem);
-	}
-
-	protected void displayNotes() {
-		noteListItems.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
 	}
 
 	protected void displayActivities() {

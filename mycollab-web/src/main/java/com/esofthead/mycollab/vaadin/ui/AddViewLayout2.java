@@ -67,7 +67,6 @@ public class AddViewLayout2 extends VerticalLayout {
 
         body = new MVerticalLayout().withSpacing(false).withMargin(false).withStyleName("addview-layout-body");
         this.addComponent(body);
-
     }
 
     public void resetTitleStyle() {

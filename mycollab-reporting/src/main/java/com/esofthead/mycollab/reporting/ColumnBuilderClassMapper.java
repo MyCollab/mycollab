@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.reporting.expression.MValue;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 
@@ -30,7 +30,7 @@ import com.esofthead.mycollab.reporting.expression.MValue;
  */
 public class ColumnBuilderClassMapper {
 	@SuppressWarnings("rawtypes")
-	private static Map<Class, Map<String, MValue>> mapInjection = new HashMap<>();
+	private static Map<Class, Map<String, MValue>> mapInjection = new ConcurrentHashMap<>();
 
 	static {
 		ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());

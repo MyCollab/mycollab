@@ -22,9 +22,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.mvp.ListCommand;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -35,6 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.0.0
  *
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 		implements ListCommand<TaskSearchCriteria> {
 	private static final long serialVersionUID = 1L;

@@ -24,6 +24,9 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.module.crm.CrmResources;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
 import net.sf.dynamicreports.report.builder.style.ConditionalStyleBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -80,7 +83,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 	private Map<String, MValue> buildAccountMap() {
 		LOG.debug("Build report mapper for crm::account module");
 
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				SimpleAccount.Field.assignUserFullName.name());
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -121,7 +124,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 	private Map<String, MValue> buildContactMap() {
 		LOG.debug("Build report mapper for crm::contact module");
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 
 		DRIExpression<String> accountTitleExpr = new StringExpression(
 				"accountName");
@@ -130,9 +133,9 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				Integer accountid = reportParameters.getFieldValue("accountid");
+				Integer accountId = reportParameters.getFieldValue("accountid");
 				return CrmLinkGenerator.generateAccountPreviewFullLink(
-						AppContext.getSiteUrl(), accountid);
+						AppContext.getSiteUrl(), accountId);
 			}
 		};
 		map.put("accountName", new HyperlinkValue(accountTitleExpr,
@@ -152,7 +155,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 		};
 		map.put("contactName", new HyperlinkValue(contactTitleExpr,
 				contactHrefExpr));
-
+//
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -178,7 +181,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 	private Map<String, MValue> buildCampaignMap() {
 		LOG.debug("Build report mapper for crm::campaign module");
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -221,7 +224,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 	private Map<String, MValue> buildLeadMap() {
 		LOG.debug("Build report mapper for crm::lead module");
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -262,7 +265,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 	private Map<String, MValue> buildOpportunityMap() {
 		LOG.debug("Build report mapper for crm::opportunity module");
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -309,11 +312,8 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 								.getTime()))) {
 					String saleStage = reportParameters
 							.getFieldValue("salesstage");
-					if ("Closed Won".equals(saleStage)
-							|| "Closed Lost".equals(saleStage)) {
-						return false;
-					}
-					return true;
+					return !("Closed Won".equals(saleStage)
+							|| "Closed Lost".equals(saleStage));
 				}
 				return false;
 			}
@@ -325,11 +325,8 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 			@Override
 			public Boolean evaluate(ReportParameters reportParameters) {
 				String saleStage = reportParameters.getFieldValue("salesstage");
-				if ("Closed Won".equals(saleStage)
-						|| "Closed Lost".equals(saleStage)) {
-					return true;
-				}
-				return false;
+				return "Closed Won".equals(saleStage)
+						|| "Closed Lost".equals(saleStage);
 			}
 		};
 
@@ -353,7 +350,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 	private Map<String, MValue> buildCaseMap() {
 		LOG.debug("Build report mapper for crm::case module");
-		Map<String, MValue> map = new HashMap<String, MValue>();
+		Map<String, MValue> map = new HashMap<>();
 		DRIExpression<String> assigneeTitleExpr = new StringExpression(
 				"assignUserFullName");
 		DRIExpression<String> assigneeHrefExpr = new AbstractSimpleExpression<String>() {
@@ -361,8 +358,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				String assignUser = reportParameters
-						.getFieldValue("assignuser");
+				String assignUser = reportParameters.getFieldValue("assignuser");
 				if (assignUser != null) {
 					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
@@ -387,7 +383,6 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 			}
 		};
 		map.put("subject", new HyperlinkValue(caseTitleExpr, caseHrefExpr));
-
 		map.put("createdtime", new DateTimeExpression("createdtime"));
 		return map;
 	}

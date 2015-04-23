@@ -16,31 +16,17 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
-
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.ContactCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
-import com.esofthead.mycollab.module.crm.domain.SimpleCall;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
-import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
@@ -50,12 +36,17 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractRelatedListHandler;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -64,7 +55,6 @@ import com.vaadin.ui.UI;
  * 
  */
 public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public CaseReadPresenter() {
@@ -215,7 +205,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						List<ContactCase> associateContacts = new ArrayList<ContactCase>();
+						List<ContactCase> associateContacts = new ArrayList<>();
 						SimpleCase cases = view.getItem();
 						for (SimpleContact contact : items) {
 							ContactCase associateContact = new ContactCase();
@@ -240,12 +230,8 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		CrmToolbar.navigateItem(CrmTypeConstants.CASE);
 		if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
-			CrmToolbar crmToolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			crmToolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
-
 			if (data.getParams() instanceof Integer) {
 				CaseService caseService = ApplicationContextUtil
 						.getSpringBean(CaseService.class);

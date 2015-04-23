@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.contact;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -33,7 +34,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -67,7 +67,7 @@ public class ContactListPresenter
 		contactService = ApplicationContextUtil
 				.getSpringBean(ContactService.class);
 
-		view.getPopupActionHandlers().addMassItemActionHandler(
+		view.getPopupActionHandlers().setMassActionHandler(
 				new DefaultMassEditActionHandler(this) {
 
 					@Override
@@ -120,12 +120,8 @@ public class ContactListPresenter
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		CrmToolbar.navigateItem(CrmTypeConstants.CONTACT);
 		if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
-			CrmToolbar crmToolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			crmToolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
-
 			searchCriteria = (ContactSearchCriteria) data.getParams();
 			int totalCount = contactService.getTotalCount(searchCriteria);
 			if (totalCount > 0) {
@@ -147,7 +143,7 @@ public class ContactListPresenter
 		if (!isSelectAll) {
 			Collection<SimpleContact> currentDataList = view
 					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (SimpleContact item : currentDataList) {
 				if (item.isSelected()) {
 					keyList.add(item.getId());

@@ -37,8 +37,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 
 	@Override
 	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter(
-				AppContext.getMessage(BugI18nEnum.WIDGET_MY_BUGS_TITLE),
+		return new BugFilterParameter(AppContext.getMessage(BugI18nEnum.WIDGET_MY_BUGS_TITLE),
 				searchCriteria);
 	}
 }

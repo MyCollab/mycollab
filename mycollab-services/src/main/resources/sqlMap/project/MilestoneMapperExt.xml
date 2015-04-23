@@ -164,4 +164,59 @@
         #end
     </select>
 
+    <select id="getTotalBillableHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(timeValue), 0)
+        FROM
+        (
+        (SELECT m_prj_time_logging.logValue AS timeValue
+            FROM m_prj_milestone, m_prj_task_list, m_prj_task, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
+                AND m_prj_task_list.id = m_prj_task.tasklistid
+                AND m_prj_task.id = m_prj_time_logging.typeid
+                AND m_prj_time_logging.type = 'Project-Task'
+                AND m_prj_time_logging.isBillable = '1')
+        UNION
+        (SELECT m_prj_time_logging.logValue AS timeValue
+            FROM m_prj_milestone, m_tracker_bug, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id
+                AND m_tracker_bug.id = m_prj_time_logging.typeid
+                AND m_prj_time_logging.type = 'Project-Bug'
+                AND m_prj_time_logging.isBillable = '1')) AS T
+    </select>
+
+    <select id="getTotalNonBillableHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(timeValue), 0)
+        FROM
+        (
+        (SELECT m_prj_time_logging.logValue AS timeValue
+            FROM m_prj_milestone, m_prj_task_list, m_prj_task, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
+                AND m_prj_task_list.id = m_prj_task.tasklistid
+                AND m_prj_task.id = m_prj_time_logging.typeid
+                AND m_prj_time_logging.type = 'Project-Task'
+                AND m_prj_time_logging.isBillable = '0')
+        UNION
+        (SELECT m_prj_time_logging.logValue AS timeValue
+            FROM m_prj_milestone, m_tracker_bug, m_prj_time_logging
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id
+            AND m_tracker_bug.id = m_prj_time_logging.typeid
+            AND m_prj_time_logging.type = 'Project-Bug'
+            AND m_prj_time_logging.isBillable = '0')) AS T
+    </select>
+
+    <select id="getRemainHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(timeValue), 0)
+        FROM
+        ((SELECT m_prj_task.remainEstimate AS timeValue
+            FROM m_prj_milestone, m_prj_task_list, m_prj_task
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_prj_task_list.milestoneId = m_prj_milestone.id
+                AND m_prj_task_list.id = m_prj_task.tasklistid)
+        UNION
+        (SELECT m_tracker_bug.estimateRemainTime AS timeValue
+            FROM m_prj_milestone, m_tracker_bug
+            WHERE m_prj_milestone.id = @{milestoneid} AND m_tracker_bug.milestoneId = m_prj_milestone.id)) AS T
+    </select>
 </mapper>    

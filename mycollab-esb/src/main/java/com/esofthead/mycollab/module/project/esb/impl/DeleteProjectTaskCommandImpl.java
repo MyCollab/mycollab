@@ -16,17 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.domain.CommentExample;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskCommand;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
@@ -46,11 +45,10 @@ public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 
 	private void removeRelatedFiles(int accountId, int projectId, int taskId) {
 		LOG.debug("Delete files of task id {} in project {}", taskId, projectId);
-
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
-		String attachmentPath = AttachmentUtils.getProjectTaskAttachmentPath(
-				accountId, projectId, taskId);
+		String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+				ProjectTypeConstants.TASK, "" + taskId);
 		resourceService.removeResource(attachmentPath, "", accountId);
 	}
 
@@ -60,7 +58,7 @@ public class DeleteProjectTaskCommandImpl implements DeleteProjectTaskCommand {
 				.getSpringBean(CommentMapper.class);
 
 		CommentExample ex = new CommentExample();
-		ex.createCriteria().andTypeEqualTo(CommentType.PRJ_TASK.toString())
+		ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.TASK)
 				.andExtratypeidEqualTo(taskId);
 		commentMapper.deleteByExample(ex);
 	}

@@ -45,7 +45,7 @@ public class CrmSettingContainer extends AbstractCssPageView implements PageView
 	private final CrmVerticalTabsheet settingTab;
 
 	private ICrmCustomViewPresenter customViewPresenter;
-	private CrmNotifcationSettingPresenter notificationPresenter;
+	private CrmNotificationSettingPresenter notificationPresenter;
 
 	public CrmSettingContainer() {
 		this.setWidth("100%");
@@ -105,7 +105,7 @@ public class CrmSettingContainer extends AbstractCssPageView implements PageView
 
 	private Component constructNotificationSettingView() {
 		notificationPresenter = PresenterResolver
-				.getPresenter(CrmNotifcationSettingPresenter.class);
+				.getPresenter(CrmNotificationSettingPresenter.class);
 		return notificationPresenter.getView();
 	}
 

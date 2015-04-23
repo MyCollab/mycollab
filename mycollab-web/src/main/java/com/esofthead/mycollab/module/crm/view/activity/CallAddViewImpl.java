@@ -37,7 +37,6 @@ import com.vaadin.ui.*;
 @ViewComponent
 public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
         implements CallAddView {
-
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -74,7 +73,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
     private class CallEditFormFieldFactory extends
             AbstractBeanFieldGroupEditFieldFactory<CallWithBLOBs> {
-
         private static final long serialVersionUID = 1L;
 
         private CallStatusTypeField callStatusField;
@@ -110,13 +108,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
                     || propertyId.equals("calltype")) {
                 return callStatusField;
             } else if (propertyId.equals("type")) {
-                return new RelatedEditItemField(
-                        new String[]{CrmTypeConstants.ACCOUNT,
-                                CrmTypeConstants.CAMPAIGN,
-                                CrmTypeConstants.CONTACT,
-                                CrmTypeConstants.LEAD,
-                                CrmTypeConstants.OPPORTUNITY,
-                                CrmTypeConstants.CASE}, attachForm.getBean());
+                return new RelatedEditItemField(attachForm.getBean());
             } else if (propertyId.equals("typeid")) {
                 return new DummyCustomField<String>();
             } else if (propertyId.equals("startdate")) {
@@ -127,7 +119,6 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
         @SuppressWarnings("rawtypes")
         private class CallStatusTypeField extends CompoundCustomField {
-
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -47,7 +47,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
@@ -74,7 +73,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class MilestoneReadViewImpl extends
         AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
     private static final long serialVersionUID = 1L;
@@ -85,6 +84,7 @@ public class MilestoneReadViewImpl extends
     private MilestoneHistoryLogList historyListComp;
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
+    private MilestoneTimeLogComp milestoneTimeLogComp;
 
     public MilestoneReadViewImpl() {
         super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE),
@@ -107,8 +107,8 @@ public class MilestoneReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabContainer.addTab(commentListComp, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyListComp, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 
@@ -116,13 +116,13 @@ public class MilestoneReadViewImpl extends
     protected void initRelatedComponents() {
         historyListComp = new MilestoneHistoryLogList(
                 ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE);
-        commentListComp = new CommentDisplay(CommentType.PRJ_MILESTONE,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentListComp = new CommentDisplay(ProjectTypeConstants.MILESTONE,
+                CurrentProjectVariables.getProjectId(),
                 ProjectMilestoneRelayEmailNotificationAction.class);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
-
-        addToSideBar(dateInfoComp, peopleInfoComp);
+        milestoneTimeLogComp = new MilestoneTimeLogComp();
+        addToSideBar(dateInfoComp, peopleInfoComp, milestoneTimeLogComp);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class MilestoneReadViewImpl extends
         historyListComp.loadHistory(beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
-
+        milestoneTimeLogComp.displayTime(beanItem);
         if (OptionI18nEnum.StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
             addLayoutStyleName(UIConstants.LINK_COMPLETED);
         }
@@ -339,7 +339,7 @@ public class MilestoneReadViewImpl extends
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(String.format("[%s-%d] %s", task.getProjectShortName(), task.getExtraTypeId(), task
+            itemLink.appendText(String.format("[#%d] - %s", task.getExtraTypeId(), task
                     .getName()));
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
@@ -412,8 +412,7 @@ public class MilestoneReadViewImpl extends
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(
-                        AppContext
+                Label assigneeLbl = new Label(AppContext
                                 .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);

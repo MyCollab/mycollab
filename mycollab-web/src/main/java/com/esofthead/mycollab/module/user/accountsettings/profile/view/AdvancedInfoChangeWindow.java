@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -44,7 +60,6 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 @SuppressWarnings("serial")
 class AdvancedInfoChangeWindow extends Window {
-
     private TextField txtWebsite = new TextField();
     private TextField txtCompany = new TextField();
     private CountryComboBox cboCountry = new CountryComboBox();
@@ -63,9 +78,9 @@ class AdvancedInfoChangeWindow extends Window {
     }
 
     private void initUI() {
-        final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
+        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
-        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 4);
 
         passInfo.addComponent(txtWebsite,
                 AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
@@ -85,9 +100,9 @@ class AdvancedInfoChangeWindow extends Window {
         mainLayout.setComponentAlignment(passInfo.getLayout(),
                 Alignment.TOP_LEFT);
 
-        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        final Button cancelBtn = new Button(
+        Button cancelBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -99,7 +114,7 @@ class AdvancedInfoChangeWindow extends Window {
                 });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button saveBtn = new Button(
+        Button saveBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -112,7 +127,7 @@ class AdvancedInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
@@ -121,11 +136,11 @@ class AdvancedInfoChangeWindow extends Window {
     }
 
     private void changeInfo() {
-        this.user.setWebsite(this.txtWebsite.getValue());
-        this.user.setCompany(this.txtCompany.getValue());
-        this.user.setCountry((String) this.cboCountry.getValue());
+        user.setWebsite(this.txtWebsite.getValue());
+        user.setCompany(this.txtCompany.getValue());
+        user.setCountry((String) this.cboCountry.getValue());
 
-        final UserService userService = ApplicationContextUtil
+        UserService userService = ApplicationContextUtil
                 .getSpringBean(UserService.class);
         userService.updateWithSession(this.user, AppContext.getUsername());
 

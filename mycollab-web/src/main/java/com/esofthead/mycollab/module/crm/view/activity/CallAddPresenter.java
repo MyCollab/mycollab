@@ -85,11 +85,6 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CALL)) {
-			CrmToolbar toolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			toolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
-
 			CallWithBLOBs call;
 
 			if (data.getParams() instanceof Integer) {

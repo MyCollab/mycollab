@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationActio
 import com.esofthead.mycollab.schedule.email.format.{DateFieldFormat, FieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -101,8 +101,7 @@ import org.springframework.stereotype.Component
     def formatField(context: MailContext[_]): String = {
       val task: SimpleTask = context.getWrappedBean.asInstanceOf[SimpleTask]
       if (task.getContactid != null) {
-        val contactIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.CONTACT)
-        val img: Img = FormatUtils.newImg("icon", contactIconLink)
+        val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
         val contactLink: String = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, task.getContactid)
         val link: A = FormatUtils.newA(contactLink, task.getContactName)
         FormatUtils.newLink(img, link).write
@@ -121,8 +120,7 @@ import org.springframework.stereotype.Component
         val contactService: ContactService = ApplicationContextUtil.getSpringBean(classOf[ContactService])
         val contact: SimpleContact = contactService.findById(contactId, context.getUser.getAccountId)
         if (contact != null) {
-          val contactIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.CONTACT)
-          val img: Img = FormatUtils.newImg("icon", contactIconLink)
+          val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.CONTACT))
           val contactLink: String = CrmLinkGenerator.generateContactPreviewFullLink(context.siteUrl, contact.getId)
           val link: A = FormatUtils.newA(contactLink, contact.getDisplayName)
           return FormatUtils.newLink(img, link).write

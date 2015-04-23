@@ -30,7 +30,7 @@ public class OptionI18nEnum {
 
 	@BaseName("localization/crm-accounttype")
 	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
-	public static enum AccountType {
+	public enum AccountType {
 		Analyst,
 		Competitor,
 		Customer,

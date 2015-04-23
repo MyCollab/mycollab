@@ -36,7 +36,7 @@ import com.esofthead.mycollab.schedule.email.format._
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -197,8 +197,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
       if (bug.getMilestoneid == null || bug.getMilestoneName == null) {
         new Span().write
       } else {
-        val milestoneIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.MILESTONE)
-        val img: Img = newImg("icon", milestoneIconLink)
+        val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
         val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, bug.getProjectid,
           bug.getMilestoneid)
         val link: A = newA(milestoneLink, bug.getMilestoneName)
@@ -215,8 +214,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
           val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
           val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
           if (milestone != null) {
-            val milestoneIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.MILESTONE)
-            val img: Img = newImg("icon", milestoneIconLink)
+            val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
             val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
               .getProjectid, milestone.getId)
             val link: A = newA(milestoneLink, milestone.getName)

@@ -1,0 +1,49 @@
+UPDATE `s_activitystream` SET `type`='Crm-Account' WHERE `type`='Account';
+UPDATE `s_activitystream` SET `type`='Crm-Campaign' WHERE `type`='Campaign';
+UPDATE `s_activitystream` SET `type`='Crm-Contact' WHERE `type`='Contact';
+UPDATE `s_activitystream` SET `type`='Crm-Lead' WHERE `type`='Lead';
+UPDATE `s_activitystream` SET `type`='Crm-Opportunity' WHERE `type`='Opportunity';
+UPDATE `s_activitystream` SET `type`='Crm-Case' WHERE `type`='Case';
+UPDATE `s_activitystream` SET `type`='Crm-Task' WHERE `type`='Task';
+UPDATE `s_activitystream` SET `type`='Crm-Meeting' WHERE `type`='Meeting';
+UPDATE `s_activitystream` SET `type`='Crm-Call' WHERE `type`='Call';
+
+UPDATE `m_comment` SET `type`='Crm-Account' WHERE `type`='Account';
+UPDATE `m_comment` SET `type`='Crm-Campaign' WHERE `type`='Campaign';
+UPDATE `m_comment` SET `type`='Crm-Contact' WHERE `type`='Contact';
+UPDATE `m_comment` SET `type`='Crm-Lead' WHERE `type`='Lead';
+UPDATE `m_comment` SET `type`='Crm-Opportunity' WHERE `type`='Opportunity';
+UPDATE `m_comment` SET `type`='Crm-Case' WHERE `type`='Case';
+UPDATE `m_comment` SET `type`='Crm-Task' WHERE `type`='Task';
+UPDATE `m_comment` SET `type`='Crm-Meeting' WHERE `type`='Meeting';
+UPDATE `m_comment` SET `type`='Crm-Call' WHERE `type`='Call';
+
+UPDATE `m_audit_log` SET `type`='Crm-Account' WHERE `type`='Account';
+UPDATE `m_audit_log` SET `type`='Crm-Campaign' WHERE `type`='Campaign';
+UPDATE `m_audit_log` SET `type`='Crm-Contact' WHERE `type`='Contact';
+UPDATE `m_audit_log` SET `type`='Crm-Lead' WHERE `type`='Lead';
+UPDATE `m_audit_log` SET `type`='Crm-Opportunity' WHERE `type`='Opportunity';
+UPDATE `m_audit_log` SET `type`='Crm-Case' WHERE `type`='Case';
+UPDATE `m_audit_log` SET `type`='Crm-Task' WHERE `type`='Task';
+UPDATE `m_audit_log` SET `type`='Crm-Meeting' WHERE `type`='Meeting';
+UPDATE `m_audit_log` SET `type`='Crm-Call' WHERE `type`='Call';
+
+UPDATE `s_tag` SET `type`='Crm-Account' WHERE `type`='Account';
+UPDATE `s_tag` SET `type`='Crm-Campaign' WHERE `type`='Campaign';
+UPDATE `s_tag` SET `type`='Crm-Contact' WHERE `type`='Contact';
+UPDATE `s_tag` SET `type`='Crm-Lead' WHERE `type`='Lead';
+UPDATE `s_tag` SET `type`='Crm-Opportunity' WHERE `type`='Opportunity';
+UPDATE `s_tag` SET `type`='Crm-Case' WHERE `type`='Case';
+UPDATE `s_tag` SET `type`='Crm-Task' WHERE `type`='Task';
+UPDATE `s_tag` SET `type`='Crm-Meeting' WHERE `type`='Meeting';
+UPDATE `s_tag` SET `type`='Crm-Call' WHERE `type`='Call';
+
+UPDATE `s_favorite` SET `type`='Crm-Account' WHERE `type`='Account';
+UPDATE `s_favorite` SET `type`='Crm-Campaign' WHERE `type`='Campaign';
+UPDATE `s_favorite` SET `type`='Crm-Contact' WHERE `type`='Contact';
+UPDATE `s_favorite` SET `type`='Crm-Lead' WHERE `type`='Lead';
+UPDATE `s_favorite` SET `type`='Crm-Opportunity' WHERE `type`='Opportunity';
+UPDATE `s_favorite` SET `type`='Crm-Case' WHERE `type`='Case';
+UPDATE `s_favorite` SET `type`='Crm-Task' WHERE `type`='Task';
+UPDATE `s_favorite` SET `type`='Crm-Meeting' WHERE `type`='Meeting';
+UPDATE `s_favorite` SET `type`='Crm-Call' WHERE `type`='Call';

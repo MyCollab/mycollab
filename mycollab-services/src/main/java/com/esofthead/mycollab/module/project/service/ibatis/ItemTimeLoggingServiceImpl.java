@@ -24,10 +24,14 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapper;
 import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt;
+import com.esofthead.mycollab.module.project.dao.MilestoneMapperExt;
+import com.esofthead.mycollab.module.project.dao.TaskListMapperExt;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.tracker.dao.ComponentMapperExt;
+import com.esofthead.mycollab.module.tracker.dao.VersionMapperExt;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -61,6 +65,18 @@ public class ItemTimeLoggingServiceImpl extends
 
 	@Autowired
 	private ActivityStreamService activityStreamService;
+
+	@Autowired
+	private TaskListMapperExt projectTaskListMapperExt;
+
+	@Autowired
+	private MilestoneMapperExt milestoneMapperExt;
+
+	@Autowired
+	private ComponentMapperExt componentMapperExt;
+
+	@Autowired
+	private VersionMapperExt versionMapperExt;
 
 	@Override
 	public ICrudGenericDAO getCrudMapper() {
@@ -148,4 +164,63 @@ public class ItemTimeLoggingServiceImpl extends
 		CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
 	}
 
+	@Override
+	public Double getTotalBillableHoursByTaskList(int taskListId, int sAccountId) {
+		return projectTaskListMapperExt.getTotalBillableHours(taskListId);
+	}
+
+	@Override
+	public Double getTotalNonBillableHoursByTaskList(int taskListId, int sAccountId) {
+		return projectTaskListMapperExt.getTotalNonBillableHours(taskListId);
+	}
+
+	@Override
+	public Double getRemainHoursByTaskList(int taskListId, int sAccountId) {
+		return projectTaskListMapperExt.getRemainHours(taskListId);
+	}
+
+	@Override
+	public Double getTotalBillableHoursByMilestone(int milestoneId, int sAccountId) {
+		return milestoneMapperExt.getTotalBillableHours(milestoneId);
+	}
+
+	@Override
+	public Double getTotalNonBillableHoursByMilestone(int milestoneId, int sAccountId) {
+		return milestoneMapperExt.getTotalNonBillableHours(milestoneId);
+	}
+
+	@Override
+	public Double getRemainHoursByMilestone(int milestoneId, int sAccountId) {
+		return milestoneMapperExt.getRemainHours(milestoneId);
+	}
+
+	@Override
+	public Double getTotalBillableHoursByComponent(int componentId, @CacheKey int sAccountId) {
+		return componentMapperExt.getTotalBillableHours(componentId);
+	}
+
+	@Override
+	public Double getTotalNonBillableHoursByComponent(int componentId, @CacheKey int sAccountId) {
+		return componentMapperExt.getTotalNonBillableHours(componentId);
+	}
+
+	@Override
+	public Double getRemainHoursByComponent(int componentId, @CacheKey int sAccountId) {
+		return componentMapperExt.getRemainHours(componentId);
+	}
+
+	@Override
+	public Double getTotalBillableHoursByVersion(int versionId, @CacheKey int sAccountId) {
+		return versionMapperExt.getTotalBillableHours(versionId);
+	}
+
+	@Override
+	public Double getTotalNonBillableHoursByVersion(int versionId, @CacheKey int sAccountId) {
+		return versionMapperExt.getTotalNonBillableHours(versionId);
+	}
+
+	@Override
+	public Double getRemainHoursByVersion(int versionId, @CacheKey int sAccountId) {
+		return versionMapperExt.getRemainHours(versionId);
+	}
 }

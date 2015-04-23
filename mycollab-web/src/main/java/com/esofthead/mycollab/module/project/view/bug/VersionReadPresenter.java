@@ -31,8 +31,10 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -42,8 +44,8 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public VersionReadPresenter() {
@@ -101,8 +103,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 										.getProjectId()));
 						criteria.setId(new NumberSearchField(data.getId(),
 								NumberSearchField.GREATER));
-						Integer nextId = componentService
-								.getNextItemKey(criteria);
+						Integer nextId = componentService.getNextItemKey(criteria);
 						if (nextId != null) {
 							EventBusFactory.getInstance().post(
 									new BugVersionEvent.GotoRead(this, nextId));

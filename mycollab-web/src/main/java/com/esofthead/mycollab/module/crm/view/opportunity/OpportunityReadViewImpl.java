@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
@@ -34,18 +33,16 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Date;
@@ -58,16 +55,15 @@ import java.util.GregorianCalendar;
  * 
  */
 @ViewComponent
-public class OpportunityReadViewImpl extends
-		AbstractPreviewItemComp<SimpleOpportunity> implements
-		OpportunityReadView {
-
+public class OpportunityReadViewImpl extends AbstractPreviewItemComp<SimpleOpportunity>
+		implements OpportunityReadView {
 	private static final long serialVersionUID = 1L;
 
-	protected OpportunityContactListComp associateContactList;
-	protected OpportunityLeadListComp associateLeadList;
-	protected NoteListItems noteListItems;
-	protected ActivityRelatedItemListComp associateActivityList;
+	private OpportunityContactListComp associateContactList;
+	private OpportunityLeadListComp associateLeadList;
+	private CrmCommentDisplay commentList;
+	private OpportunityHistoryLogList historyLogList;
+	private ActivityRelatedItemListComp associateActivityList;
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
@@ -79,34 +75,28 @@ public class OpportunityReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleOpportunity>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				OpportunityHistoryLogWindow historyLog = new OpportunityHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.OPPORTUNITY);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new CrmPreviewFormControlsGenerator<>(
-				previewForm)
+		return new CrmPreviewFormControlsGenerator<>(previewForm)
 				.createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
 	}
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
 	protected void onPreviewItem() {
-		displayNotes();
+		historyLogList.loadHistory(beanItem.getId());
+		commentList.loadComments("" + beanItem.getId());
+
 		displayActivities();
 		displayContacts();
 		displayLeads();
@@ -137,16 +127,12 @@ public class OpportunityReadViewImpl extends
 		SimpleLead lead = leadService.findConvertedLeadOfOpportunity(
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
-			return "<h2>"
-					+ beanItem.getOpportunityname()
-					+ AppContext
-							.getMessage(
-									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
-									CrmLinkGenerator.generateCrmItemLink(
-											CrmTypeConstants.LEAD, lead.getId()),
-									lead.getLeadName()) + "</h2>";
+			return String.format("<h2>%s%s</h2>", beanItem.getOpportunityname(), AppContext
+					.getMessage(LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+							CrmAssetsManager.getAsset(CrmTypeConstants.LEAD),
+							CrmLinkGenerator.generateCrmItemLink(
+									CrmTypeConstants.LEAD, lead.getId()),
+							lead.getLeadName()));
 		} else {
 			return beanItem.getOpportunityname();
 		}
@@ -157,8 +143,9 @@ public class OpportunityReadViewImpl extends
 		associateContactList = new OpportunityContactListComp();
 		associateLeadList = new OpportunityLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+
+		commentList = new CrmCommentDisplay(CrmTypeConstants.OPPORTUNITY, OpportunityRelayEmailNotificationAction.class);
+		historyLogList = new OpportunityHistoryLogList();
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
@@ -195,10 +182,6 @@ public class OpportunityReadViewImpl extends
 	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
 		return new OpportunityReadFormFieldFactory(previewForm);
-	}
-
-	protected void displayNotes() {
-		noteListItems.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
 	}
 
 	public SimpleOpportunity getOpportunity() {

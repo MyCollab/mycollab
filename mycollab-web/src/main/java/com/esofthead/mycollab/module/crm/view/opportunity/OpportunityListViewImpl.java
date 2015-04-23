@@ -25,12 +25,13 @@ import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignImportWindow;
+import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
+import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -119,8 +120,8 @@ public class OpportunityListViewImpl extends
 	}
 
 	@Override
-	protected DefaultMassItemActionHandlersContainer createActionControls() {
-		DefaultMassItemActionHandlersContainer container = new DefaultMassItemActionHandlersContainer();
+	protected DefaultMassItemActionHandlerContainer createActionControls() {
+		DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
 		if (AppContext.canAccess(RolePermissionCollections.CRM_OPPORTUNITY)) {
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
@@ -134,19 +135,19 @@ public class OpportunityListViewImpl extends
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		container.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_PDF_ACTION,
+				ReportExportType.PDF,
                 FontAwesome.FILE_PDF_O,
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
 		container.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_EXCEL_ACTION,
+				ReportExportType.EXCEL,
                 FontAwesome.FILE_EXCEL_O,
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		container.addDownloadActionItem(
-				MassItemActionHandler.EXPORT_CSV_ACTION,
+				ReportExportType.CSV,
 				FontAwesome.FILE_TEXT_O,
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));

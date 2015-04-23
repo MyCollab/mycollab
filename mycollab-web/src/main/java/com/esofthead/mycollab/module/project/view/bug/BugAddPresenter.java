@@ -20,7 +20,6 @@ import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -49,8 +48,8 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class BugAddPresenter extends AbstractPresenter<BugAddView> {
-
     private static final long serialVersionUID = 1L;
 
     public BugAddPresenter() {
@@ -125,7 +124,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
             ProjectFormAttachmentUploadField uploadField = view
                     .getAttachUploadField();
             uploadField.saveContentsToRepo(bug.getProjectid(),
-                    AttachmentType.PROJECT_BUG_TYPE, bugId);
+                    ProjectTypeConstants.BUG, bugId);
 
             // save component
             BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
@@ -160,7 +159,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
             ProjectFormAttachmentUploadField uploadField = view
                     .getAttachUploadField();
             uploadField.saveContentsToRepo(bug.getProjectid(),
-                    AttachmentType.PROJECT_BUG_TYPE, bug.getId());
+                    ProjectTypeConstants.BUG, bug.getId());
 
             int bugId = bug.getId();
             BugRelatedItemService bugRelatedItemService = ApplicationContextUtil

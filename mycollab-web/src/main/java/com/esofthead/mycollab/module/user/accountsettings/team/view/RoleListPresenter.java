@@ -63,7 +63,7 @@ public class RoleListPresenter extends
 	protected void postInitView() {
 		super.postInitView();
 
-		view.getPopupActionHandlers().addMassItemActionHandler(
+		view.getPopupActionHandlers().setMassActionHandler(
 				new DefaultMassEditActionHandler(this) {
 					@Override
 					protected void onSelectExtra(String id) {

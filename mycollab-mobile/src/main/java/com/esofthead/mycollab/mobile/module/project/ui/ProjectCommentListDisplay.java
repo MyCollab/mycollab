@@ -16,32 +16,26 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
-import java.util.List;
-
-import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
-import org.apache.commons.collections.CollectionUtils;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
+import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -54,28 +48,27 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 	private static final long serialVersionUID = 1L;
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
-	private CommentType type;
-	private String typeid;
+	private String type;
+	private String typeId;
 	private Integer numComments;
 	private ProjectCommentInput commentBox;
 
 	public ProjectCommentListDisplay(
-			final CommentType type,
+			final String type,
 			final Integer extraTypeId,
 			final boolean isDisplayCommentInput,
-			final boolean isSendingRelayEmail,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		this.addStyleName("comment-list");
 		this.setCaption(AppContext
-				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT));
+				.getMessage(GenericI18Enum.TAB_COMMENT));
 		this.type = type;
 		if (isDisplayCommentInput) {
 			commentBox = new ProjectCommentInput(this, type, extraTypeId,
-					false, isSendingRelayEmail, emailHandler);
+					false, emailHandler);
 			this.setToolbar(commentBox);
 		}
 
-		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
+		commentList = new BeanList<>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
@@ -84,19 +77,14 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 		displayCommentList();
 	}
 
-	@Override
-	public void cancel() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
 	private void displayCommentList() {
-		if (type == null || typeid == null) {
+		if (type == null || typeId == null) {
 			return;
 		}
 
 		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 		searchCriteria.setType(new StringSearchField(type.toString()));
-		searchCriteria.setTypeid(new StringSearchField(typeid));
+		searchCriteria.setTypeid(new StringSearchField(typeId));
 		numComments = commentList.setSearchCriteria(searchCriteria);
 	}
 
@@ -105,7 +93,7 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 	}
 
 	public void loadComments(final String typeid) {
-		this.typeid = typeid;
+		this.typeId = typeid;
 		if (commentBox != null) {
 			commentBox.setTypeAndId(typeid);
 		}

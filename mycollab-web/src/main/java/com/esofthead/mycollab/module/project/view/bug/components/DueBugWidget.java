@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.bug.components;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -61,16 +60,13 @@ public class DueBugWidget extends BugDisplayWidget {
         return new BugFilterParameter("Due Bugs", searchCriteria);
     }
 
-    public static class DueBugRowDisplayHandler extends
-            BeanList.RowDisplayHandler<SimpleBug> {
+    public static class DueBugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public Component generateRow(final SimpleBug bug, final int rowIndex) {
-            MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%");
-            final LabelLink defectLink = new LabelLink("["
-                    + CurrentProjectVariables.getProject().getShortname() + "-"
-                    + bug.getBugkey() + "]: " + bug.getSummary(),
+        public Component generateRow(SimpleBug bug, int rowIndex) {
+            MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%").withStyleName("list-row");
+            LabelLink defectLink = new LabelLink(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()),
                     ProjectLinkBuilder.generateBugPreviewFullLink(
                             bug.getBugkey(), bug.getProjectShortName()));
             defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
@@ -86,8 +82,7 @@ public class DueBugWidget extends BugDisplayWidget {
 
             rowContent.addComponent(defectLink);
 
-            LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
-                    bug.getDescription());
+            LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(bug.getDescription());
             descInfo.setWidth("100%");
             rowContent.addComponent(descInfo);
 
@@ -113,11 +108,6 @@ public class DueBugWidget extends BugDisplayWidget {
             }
 
             rowContent.add(new Label(footer.write(), ContentMode.HTML));
-            rowContent.setStyleName(UIConstants.WIDGET_ROW);
-            if ((rowIndex + 1) % 2 != 0) {
-                rowContent.addStyleName("odd");
-            }
-
             return rowContent;
         }
     }

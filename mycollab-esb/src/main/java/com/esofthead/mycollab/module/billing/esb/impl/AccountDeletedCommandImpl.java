@@ -54,8 +54,4 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 		resourceService.removeResource(rootPath, "", accountId);
 		wikiService.removeResource(rootPath);
 	}
-
-	private void deleteAccountData(int accountId) {
-
-	}
 }

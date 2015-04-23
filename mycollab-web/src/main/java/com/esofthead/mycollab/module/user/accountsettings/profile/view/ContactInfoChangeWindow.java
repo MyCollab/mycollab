@@ -126,7 +126,7 @@ class ContactInfoChangeWindow extends Window {
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         saveBtn.setIcon(FontAwesome.SAVE);
 
-        hlayoutControls.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
+        hlayoutControls.with(cancelBtn, saveBtn).alignAll(Alignment.MIDDLE_CENTER);
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
@@ -135,7 +135,6 @@ class ContactInfoChangeWindow extends Window {
     }
 
     public boolean validateForm(final Object data) {
-
         final Set<ConstraintViolation<Object>> violations = this.validation
                 .validate(data);
         if (violations.size() > 0) {
@@ -157,11 +156,9 @@ class ContactInfoChangeWindow extends Window {
                         this.txtHomePhone.addStyleName("errorField");
                     }
                 }
-
             }
 
             NotificationUtil.showErrorNotification(errorMsg.toString());
-
             return false;
         }
 
@@ -169,7 +166,6 @@ class ContactInfoChangeWindow extends Window {
     }
 
     private void changeUserInfo() {
-
         this.txtWorkPhone.removeStyleName("errorField");
         this.txtHomePhone.removeStyleName("errorField");
 

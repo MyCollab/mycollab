@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.*;
@@ -68,7 +68,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class TaskGroupReadViewImpl extends
         AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
     private static final long serialVersionUID = 1L;
@@ -76,12 +76,10 @@ public class TaskGroupReadViewImpl extends
     private static final Logger LOG = LoggerFactory.getLogger(TaskGroupReadViewImpl.class);
 
     private CommentDisplay commentList;
-
     private TaskGroupHistoryLogList historyList;
-
     private DateInfoComp dateInfoComp;
-
     private PeopleInfoComp peopleInfoComp;
+    private TaskGroupTimeLogSheet timeLogSheet;
 
     public TaskGroupReadViewImpl() {
         super(AppContext
@@ -96,14 +94,15 @@ public class TaskGroupReadViewImpl extends
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(CommentType.PRJ_TASK_LIST,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentList = new CommentDisplay(ProjectTypeConstants.TASK_LIST,
+                CurrentProjectVariables.getProjectId(),
                 ProjectTaskGroupRelayEmailNotificationAction.class);
         commentList.setWidth("100%");
         historyList = new TaskGroupHistoryLogList();
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(dateInfoComp, peopleInfoComp);
+        timeLogSheet = new TaskGroupTimeLogSheet();
+        addToSideBar(dateInfoComp, peopleInfoComp, timeLogSheet);
     }
 
     @Override
@@ -113,6 +112,7 @@ public class TaskGroupReadViewImpl extends
 
         peopleInfoComp.displayEntryPeople(beanItem);
         dateInfoComp.displayEntryDateTime(beanItem);
+        timeLogSheet.displayTime(beanItem);
     }
 
     @Override
@@ -151,8 +151,8 @@ public class TaskGroupReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabContainer.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 
@@ -272,7 +272,7 @@ public class TaskGroupReadViewImpl extends
 
         private Div buildItemValue(SimpleTask task) {
             Div div = new Div();
-            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
+            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task
                     .getTaskname());
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml());
             String uid = UUID.randomUUID().toString();

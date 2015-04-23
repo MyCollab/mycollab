@@ -24,9 +24,9 @@ import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMe
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -131,7 +131,7 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 					AppContext.getUsername());
 			uploadField.saveContentsToRepo(
 					CurrentProjectVariables.getProjectId(),
-					AttachmentType.PROJECT_BUG_TYPE, bugId);
+					ProjectTypeConstants.BUG, bugId);
 		} else {
 			bugService.updateWithSession(bug, AppContext.getUsername());
 			uploadField.saveContentsToRepo();

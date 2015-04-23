@@ -62,7 +62,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 
 	@Override
 	protected AdvancedEditBeanForm<MeetingWithBLOBs> initPreviewForm() {
-		return new AdvancedEditBeanForm<MeetingWithBLOBs>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override
@@ -106,14 +106,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 			} else if (propertyId.equals("description")) {
 				return new RichTextEditField();
 			} else if (propertyId.equals("type")) {
-				RelatedEditItemField field = new RelatedEditItemField(
-						new String[] { CrmTypeConstants.ACCOUNT,
-								CrmTypeConstants.CAMPAIGN,
-								CrmTypeConstants.CONTACT,
-								CrmTypeConstants.LEAD,
-								CrmTypeConstants.OPPORTUNITY,
-								CrmTypeConstants.CASE }, attachForm.getBean());
-				return field;
+				return new RelatedEditItemField(attachForm.getBean());
 			} else if (propertyId.equals("typeid")) {
 				return new DummyCustomField<String>();
 			} else if (propertyId.equals("isrecurrence")) {

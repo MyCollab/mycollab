@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
@@ -39,7 +40,6 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  */
 public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
-
     private static final long serialVersionUID = 1L;
 
     public CaseAddPresenter() {
@@ -78,12 +78,8 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmToolbar.navigateItem(CrmTypeConstants.CASE);
         if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
-            CrmToolbar crmToolbar = ViewManager
-                    .getCacheComponent(CrmToolbar.class);
-            crmToolbar.gotoItem(AppContext
-                    .getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
-
             SimpleCase cases = null;
             if (data.getParams() instanceof SimpleCase) {
                 cases = (SimpleCase) data.getParams();

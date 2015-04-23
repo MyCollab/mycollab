@@ -34,6 +34,7 @@ public class SettingAssetsManager {
         resources.put(SettingUIConstants.BILLING, FontAwesome.CREDIT_CARD);
         resources.put(SettingUIConstants.USERS, FontAwesome.USERS);
         resources.put(SettingUIConstants.CUSTOMIZATION, FontAwesome.MAGIC);
+        resources.put(SettingUIConstants.SETUP, FontAwesome.WRENCH);
     }
 
     public static FontAwesome getAsset(String resId) {

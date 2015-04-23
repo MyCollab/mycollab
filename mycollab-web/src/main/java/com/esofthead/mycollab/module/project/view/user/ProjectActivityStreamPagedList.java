@@ -100,7 +100,7 @@ public class ProjectActivityStreamPagedList extends
         CssLayout currentFeedBlock = new CssLayout();
 
         try {
-            for (final ProjectActivityStream activityStream : currentListData) {
+            for (ProjectActivityStream activityStream : currentListData) {
                 if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
                     ProjectPageService pageService = ApplicationContextUtil
                             .getSpringBean(ProjectPageService.class);

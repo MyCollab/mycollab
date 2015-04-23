@@ -53,10 +53,8 @@ public abstract class BugDisplayWidget extends Depot {
 	private String title;
 	private boolean isDisplayTotalCount;
 
-	public BugDisplayWidget(
-			final String title,
-			boolean isDisplayTotalCount,
-			final Class<? extends RowDisplayHandler<SimpleBug>> rowDisplayHandler) {
+	public BugDisplayWidget(String title, boolean isDisplayTotalCount,
+							Class<? extends RowDisplayHandler<SimpleBug>> rowDisplayHandler) {
 		super(title, new VerticalLayout());
 		this.title = title;
 		this.isDisplayTotalCount = isDisplayTotalCount;
@@ -74,9 +72,9 @@ public abstract class BugDisplayWidget extends Depot {
 			String depotTitle = String.format("%s (%d)", title, totalCount);
 			this.setTitle(depotTitle);
 		}
-		final SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(
+		SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
-		final int displayItemsCount = dataList.setSearchRequest(searchRequest);
+		int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
 			Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
 					new Button.ClickListener() {
@@ -93,7 +91,7 @@ public abstract class BugDisplayWidget extends Depot {
 						}
 					});
 			moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			final MVerticalLayout widgetFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
+			MVerticalLayout widgetFooter = new MVerticalLayout().withSpacing(false).withWidth("100%");
 			widgetFooter.addStyleName("widget-footer");
 			widgetFooter.with(moreBtn).withAlign(moreBtn, Alignment.TOP_RIGHT);
 			bodyContent.addComponent(widgetFooter);

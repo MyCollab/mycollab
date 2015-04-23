@@ -36,6 +36,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
     private static final long serialVersionUID = 1L;
 

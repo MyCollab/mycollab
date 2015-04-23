@@ -17,13 +17,9 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import com.esofthead.mycollab.common.interceptor.aspect.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -37,6 +33,9 @@ import com.esofthead.mycollab.module.project.service.ProjectActivityStreamServic
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -49,9 +48,8 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailN
 @Traceable(nameField = "name", extraFieldName = "projectid")
 @Watchable(userFieldName = "owner", extraTypeId = "projectid")
 @NotifyAgent(ProjectTaskGroupRelayEmailNotificationAction.class)
-public class ProjectTaskListServiceImpl extends
-		DefaultService<Integer, TaskList, TaskListSearchCriteria> implements
-		ProjectTaskListService {
+public class ProjectTaskListServiceImpl extends DefaultService<Integer, TaskList, TaskListSearchCriteria>
+		implements ProjectTaskListService {
 
     static {
         ClassInfoMap.put(ProjectTaskListServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK_LIST));

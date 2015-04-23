@@ -91,7 +91,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 					if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
 						// You cant deny , User has active , go to login Page
-						Map<String, Object> context = new HashMap<String, Object>();
+						Map<String, Object> context = new HashMap<>();
 						context.put("loginURL", request.getContextPath() + "/");
 						String html = generatePageByTemplate(
 								response.getLocale(),
@@ -111,7 +111,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 								.getSiteUrl(subdomain)
 								+ "project/member/feedback/";
 
-						Map<String, Object> context = new HashMap<String, Object>();
+						Map<String, Object> context = new HashMap<>();
 						context.put("inviterEmail", inviterEmail);
 						context.put("redirectURL", redirectURL);
 						context.put("toEmail", checkUser.getEmail());
@@ -131,7 +131,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 					} else if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.DELETE)) {
 
-						Map<String, Object> context = new HashMap<String, Object>();
+						Map<String, Object> context = new HashMap<>();
 						context.put("loginURL", request.getContextPath() + "/");
 
 						String html = generatePageByTemplate(

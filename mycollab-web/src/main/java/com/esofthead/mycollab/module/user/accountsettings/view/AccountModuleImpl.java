@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.SettingCommonI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
+import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
@@ -48,16 +51,16 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * 
  */
 @ViewComponent
-public class AccountModuleImpl extends AbstractCssPageView implements
-		AccountModule {
+public class AccountModuleImpl extends AbstractCssPageView implements AccountModule {
 	private static final long serialVersionUID = 1L;
 
-	private final UserVerticalTabsheet accountTab;
+	private UserVerticalTabsheet accountTab;
 
 	private ProfilePresenter profilePresenter;
 	private UserPermissionManagementPresenter userPermissionPresenter;
 	private IBillingPresenter billingPresenter;
 	private ICustomizePresenter customizePresenter;
+    private SetupPresenter setupPresenter;
 
 	public AccountModuleImpl() {
         super(true);
@@ -66,7 +69,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		this.addStyleName("main-content-wrapper");
 		this.addStyleName("accountViewContainer");
 
-		final MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
+        MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));
         AccountSettingBreadcrumb breadcrumb = ViewManager
 				.getCacheComponent(AccountSettingBreadcrumb.class);
@@ -91,8 +94,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		introTextWrap.addComponent(generateIntroText());
 
 		this.accountTab.getNavigatorWrapper().setWidth("250px");
-		this.accountTab.getNavigatorWrapper()
-				.addComponentAsFirst(introTextWrap);
+		this.accountTab.getNavigatorWrapper().addComponentAsFirst(introTextWrap);
 
 		this.buildComponents();
 
@@ -100,32 +102,34 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 	}
 
 	private Label generateIntroText() {
-		return new Label(
-				AppContext.getMessage(SettingCommonI18nEnum.OPT_ADVER_INFO));
+		return new Label(AppContext.getMessage(SettingCommonI18nEnum.OPT_ADVER_INFO));
 	}
 
 	private void buildComponents() {
-		this.accountTab.addTab(this.constructUserInformationComponent(),
+		accountTab.addTab(constructUserInformationComponent(),
 				SettingUIConstants.PROFILE, AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE));
 
-		this.accountTab.addTab(this.constructAccountSettingsComponent(),
+		accountTab.addTab(constructAccountSettingsComponent(),
 				SettingUIConstants.BILLING, AppContext.getMessage(AdminI18nEnum.VIEW_BILLING));
 
-		this.accountTab.addTab(this.constructUserRoleComponent(),SettingUIConstants.USERS,
+		accountTab.addTab(constructUserRoleComponent(),SettingUIConstants.USERS,
 				AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
-		this.accountTab.addTab(this.constructThemeComponent(), SettingUIConstants.CUSTOMIZATION,
+		accountTab.addTab(constructThemeComponent(), SettingUIConstants.CUSTOMIZATION,
 				AppContext.getMessage(AdminI18nEnum.VIEW_CUSTOMIZE));
 
-		this.accountTab
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+            accountTab.addTab(constructSetupComponent(), SettingUIConstants.SETUP,
+                    AppContext.getMessage(AdminI18nEnum.VIEW_SETUP));
+        }
+
+		accountTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						final String tabId = ((TabImpl) tab).getTabId();
+                        Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
+                        String tabId = ((TabImpl) tab).getTabId();
 						if (SettingUIConstants.PROFILE.equals(tabId)) {
 							profilePresenter.go(AccountModuleImpl.this, null);
 						} else if (SettingUIConstants.BILLING.equals(tabId)) {
@@ -137,8 +141,9 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 						} else if (SettingUIConstants.CUSTOMIZATION.equals(tabId)) {
 							customizePresenter.go(AccountModuleImpl.this,
 									new CustomizeScreenData.ThemeCustomize());
-						}
-
+						}else if (SettingUIConstants.SETUP.equals(tabId)) {
+                            setupPresenter.go(AccountModuleImpl.this, null);
+                        }
 					}
 				});
 	}
@@ -160,6 +165,11 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 				.getPresenter(UserPermissionManagementPresenter.class);
 		return this.userPermissionPresenter.getView();
 	}
+
+    private ComponentContainer constructSetupComponent() {
+        setupPresenter = PresenterResolver.getPresenter(SetupPresenter.class);
+        return setupPresenter.getView();
+    }
 
 	private ComponentContainer constructThemeComponent() {
 		this.customizePresenter = PresenterResolver

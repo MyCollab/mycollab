@@ -16,10 +16,8 @@ import ch.qos.cal10n.util.CAL10NBundleFinderByClassloaderExt;
  *
  */
 public class MessageConveyorExt implements IMessageConveyor {
-
 	final Locale locale;
-
-	final Map<String, CAL10NBundle> cache = new ConcurrentHashMap<String, CAL10NBundle>();
+	final Map<String, CAL10NBundle> cache = new ConcurrentHashMap<>();
 
 	/**
 	 * The {@link Locale} associated with this instance.

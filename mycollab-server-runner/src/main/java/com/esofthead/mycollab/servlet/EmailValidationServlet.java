@@ -28,6 +28,8 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -37,6 +39,8 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class EmailValidationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOG = LoggerFactory.getLogger(EmailValidationServlet.class);
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -73,6 +77,7 @@ public class EmailValidationServlet extends HttpServlet {
 		} catch (EmailException e) {
 			PrintWriter out = response.getWriter();
 			out.write("Cannot establish SMTP connection. Please recheck your config.");
+			LOG.warn("Can not login to SMTP", e);
 			return;
 		}
 	}

@@ -16,12 +16,11 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -31,8 +30,8 @@ import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
  */
 public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
 		HasPreviewFormHandlers<B> {
-
 	private static final long serialVersionUID = 1L;
+
 	private Set<PreviewFormHandler<B>> handlers;
 
 	public AdvancedPreviewBeanForm() {
@@ -70,11 +69,6 @@ public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
 				handler.onAdd(bean);
 			}
 		}
-	}
-
-	public void showHistory() {
-		throw new MyCollabException(
-				"This method must be override by sub classes");
 	}
 
 	public void fireCancelForm(B bean) {

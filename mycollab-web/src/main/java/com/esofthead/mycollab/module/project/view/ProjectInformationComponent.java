@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -85,17 +86,13 @@ public class ProjectInformationComponent extends VerticalLayout {
     public void displayProjectInformation() {
         project = CurrentProjectVariables.getProject();
         projectInfoHeader.removeAllComponents();
-        Button icon = new Button(null, ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD));
-        icon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-        icon.addStyleName("icon-18px");
+        String projHeader = String.format("%s [%s] %s", ProjectAssetsManager.getAsset(ProjectTypeConstants.DASHBOARD).getHtml(),
+                project.getShortname(), project.getName());
 
-        Label projectName = new Label(project.getName());
+        Label projectName = new Label(projHeader, ContentMode.HTML);
         projectName.setStyleName(UIConstants.PROJECT_NAME);
-        projectName.setSizeUndefined();
-        Label projectShortName = new Label("(" + project.getShortname() + ")");
-        projectShortName.setStyleName(UIConstants.PROJECT_SHORT_NAME);
 
-        projectInfoHeader.with(icon, projectName, projectShortName).expand(projectShortName);
+        projectInfoHeader.with(projectName);
         prjDisplay.show();
     }
 

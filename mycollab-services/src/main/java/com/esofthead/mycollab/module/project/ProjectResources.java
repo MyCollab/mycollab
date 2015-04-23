@@ -17,12 +17,14 @@
 package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.configuration.MyCollabAssets;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Method;
 
 /**
  * 
@@ -30,8 +32,8 @@ import java.util.Map;
  * @since 1.0
  */
 public class ProjectResources {
-
-	private static final Map<String, String> resourceLinks;
+	private static Logger LOG = LoggerFactory.getLogger(ProjectResources.class);
+	private static Method getResMethod;
 
 	public static final String T_PRIORITY_HIGHT_IMG = "icons/12/priority_high.png";
 	public static final String T_PRIORITY_LOW_IMG = "icons/12/priority_low.png";
@@ -51,35 +53,22 @@ public class ProjectResources {
 	public static final String B_SEVERITY_TRIVIAL_IMG_12 = "icons/12/severity_trivial.png";
 
 	static {
-		resourceLinks = new HashMap<>();
-		resourceLinks.put(ProjectTypeConstants.PROJECT,
-				MyCollabAssets.newResourceLink("icons/16/project/project.png"));
-		resourceLinks.put(ProjectTypeConstants.MESSAGE,
-				MyCollabAssets.newResourceLink("icons/16/project/message.png"));
-		resourceLinks.put(ProjectTypeConstants.MILESTONE, MyCollabAssets
-				.newResourceLink("icons/16/project/milestone.png"));
-		resourceLinks.put(ProjectTypeConstants.PROBLEM,
-				MyCollabAssets.newResourceLink("icons/16/project/problem.png"));
-		resourceLinks.put(ProjectTypeConstants.RISK,
-				MyCollabAssets.newResourceLink("icons/16/project/risk.png"));
-		resourceLinks.put(ProjectTypeConstants.TASK,
-				MyCollabAssets.newResourceLink("icons/16/project/task.png"));
-		resourceLinks.put(ProjectTypeConstants.TASK_LIST, MyCollabAssets
-				.newResourceLink("icons/16/project/task_group.png"));
-		resourceLinks.put(ProjectTypeConstants.BUG,
-				MyCollabAssets.newResourceLink("icons/16/project/bug.png"));
-		resourceLinks.put(ProjectTypeConstants.BUG_COMPONENT, MyCollabAssets
-				.newResourceLink("icons/16/project/component.png"));
-		resourceLinks.put(ProjectTypeConstants.BUG_VERSION,
-				MyCollabAssets.newResourceLink("icons/16/project/version.png"));
-		resourceLinks.put(ProjectTypeConstants.PAGE,
-				MyCollabAssets.newResourceLink("icons/16/project/page.png"));
-		resourceLinks.put(ProjectTypeConstants.STANDUP,
-				MyCollabAssets.newResourceLink("icons/16/project/standup.png"));
+		try {
+			Class<?> resourceCls = Class.forName("com.esofthead.mycollab.module.project.ui.ProjectAssetsManager");
+			getResMethod = resourceCls.getMethod("toHexString", String.class);
+		} catch (Exception e) {
+			throw new MyCollabException("Can not reload resource", e);
+		}
 	}
 
-	public static String getResourceLink(String type) {
-		return resourceLinks.get(type);
+	public static String getFontIconHtml(String type) {
+		try {
+			String codePoint = (String) getResMethod.invoke(null, type);
+			return String.format("<span class=\"v-icon\" style=\"font-family: FontAwesome;\">%s;</span>", codePoint);
+		} catch (Exception e) {
+			LOG.error("Can not get resource type {}", type);
+			return "";
+		}
 	}
 
 	public static String getIconResourceLink12ByBugSeverity(String severity) {

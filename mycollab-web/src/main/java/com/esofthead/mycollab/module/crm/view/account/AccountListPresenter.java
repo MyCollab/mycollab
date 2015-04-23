@@ -16,13 +16,10 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -38,11 +35,14 @@ import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -50,11 +50,9 @@ import com.vaadin.ui.UI;
  * @since 2.0
  * 
  */
-public class AccountListPresenter
-		extends
+public class AccountListPresenter extends
 		CrmGenericListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount>
 		implements MassUpdateCommand<Account> {
-
 	private static final long serialVersionUID = 1L;
 
 	private AccountService accountService;
@@ -68,7 +66,7 @@ public class AccountListPresenter
 		super.postInitView();
 		accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
 
-		view.getPopupActionHandlers().addMassItemActionHandler(
+		view.getPopupActionHandlers().setMassActionHandler(
 				new DefaultMassEditActionHandler(this) {
 					@Override
 					protected Class<SimpleAccount> getReportModelClassType() {
@@ -143,12 +141,8 @@ public class AccountListPresenter
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		CrmToolbar.navigateItem(CrmTypeConstants.ACCOUNT);
 		if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
-			CrmToolbar crmToolbar = ViewManager
-					.getCacheComponent(CrmToolbar.class);
-			crmToolbar.gotoItem(AppContext
-					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
-
 			searchCriteria = (AccountSearchCriteria) data.getParams();
 			int totalCount = accountService.getTotalCount(searchCriteria);
 			if (totalCount > 0) {

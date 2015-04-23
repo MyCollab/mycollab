@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -86,7 +86,7 @@ public class LeadSelectionWindow extends Window {
                                                         final Object itemId, final Object columnId) {
                 final SimpleLead lead = tableItem.getBeanByIndex(itemId);
 
-                ButtonLink b = new ButtonLink(lead.getLeadName(),
+                ButtonLinkLegacy b = new ButtonLinkLegacy(lead.getLeadName(),
                         new Button.ClickListener() {
 
                             @Override

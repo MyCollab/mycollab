@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
-import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
@@ -30,6 +30,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAn
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -39,12 +40,8 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -79,7 +76,7 @@ public class MilestoneReadViewImpl extends
 							+ associateComments.getNumComments()
 							+ "\"></span><div class=\"screen-reader-text\">"
 							+ AppContext
-									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+									.getMessage(GenericI18Enum.TAB_COMMENT)
 							+ "</div>");
 		} else {
 			relatedComments
@@ -87,7 +84,7 @@ public class MilestoneReadViewImpl extends
 							+ IconConstants.PROJECT_MESSAGE
 							+ "\"></span><div class=\"screen-reader-text\">"
 							+ AppContext
-									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+									.getMessage(GenericI18Enum.TAB_COMMENT)
 							+ "</div>");
 		}
 	}
@@ -105,8 +102,8 @@ public class MilestoneReadViewImpl extends
 	@Override
 	protected void initRelatedComponents() {
 		associateComments = new ProjectCommentListDisplay(
-				CommentType.PRJ_MILESTONE,
-				CurrentProjectVariables.getProjectId(), true, true,
+				ProjectTypeConstants.MILESTONE,
+				CurrentProjectVariables.getProjectId(), true,
 				ProjectMilestoneRelayEmailNotificationAction.class);
 	}
 
@@ -175,7 +172,7 @@ public class MilestoneReadViewImpl extends
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+				+ AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
 				+ "</div>");
 		relatedComments.setHtmlContentAllowed(true);
 		relatedComments.addClickListener(new Button.ClickListener() {

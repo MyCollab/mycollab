@@ -159,11 +159,10 @@ public class DefaultMailer implements IMailer {
 							 List<SimpleUser> users, String subject, String html,
 							 List<EmailAttachementSource> attachment) {
 
-		List<MailRecipientField> lstRecipient = new ArrayList<MailRecipientField>();
+		List<MailRecipientField> lstRecipient = new ArrayList<>();
 		for (int i = 0; i < users.size(); i++) {
 			String mail = users.get(i).getEmail();
-			String mailName = (users.get(i).getDisplayName() == null || users
-					.get(i).getDisplayName().equals("")) ? mail : users.get(i)
+			String mailName = isValidate(users.get(i).getDisplayName()) ? mail : users.get(i)
 					.getDisplayName();
 			lstRecipient.add(new MailRecipientField(mail, mailName));
 		}

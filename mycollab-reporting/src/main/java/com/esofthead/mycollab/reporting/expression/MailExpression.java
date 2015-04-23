@@ -36,5 +36,4 @@ public class MailExpression extends AbstractFieldExpression implements MValue {
 		String stringValue = reportParameters.getFieldValue(field).toString();
 		return "mailto:" + stringValue;
 	}
-
 }

@@ -68,13 +68,13 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
             final VerticalLayout linkIconFix = new VerticalLayout();
             linkIconFix.setWidth("100%");
-            final LabelLink projectLink = new LabelLink(project.getName() + " (" + project.getShortname() + ")",
+            final LabelLink projectLink = new LabelLink(String.format("[%s] %s", project.getShortname(), project.getName()),
                     ProjectLinkBuilder.generateProjectFullLink(project.getId()));
             projectLink.addStyleName("project-name");
             linkIconFix.addComponent(projectLink);
             linkIconFix.setExpandRatio(projectLink, 1.0f);
 
-            ButtonLink projectMember = new ButtonLink(
+            ButtonLinkLegacy projectMember = new ButtonLinkLegacy(
                     project.getNumActiveMembers() + " member"
                             + (project.getNumActiveMembers() > 1 ? "s" : ""),
                     new Button.ClickListener() {
@@ -123,7 +123,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             taskStatusLbl.setStyleName("status-lbl");
             taskLblWrap.addComponent(taskStatusLbl);
 
-            final ButtonLink taskStatusBtn = new ButtonLink(
+            final ButtonLinkLegacy taskStatusBtn = new ButtonLinkLegacy(
                     project.getNumOpenTasks() + "/" + project.getNumTasks(),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -162,7 +162,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             Label bugLbl = new Label("Bugs");
             bugLbl.setStyleName("status-lbl");
             bugLblWrap.addComponent(bugLbl);
-            final ButtonLink bugStatusBtn = new ButtonLink(
+            final ButtonLinkLegacy bugStatusBtn = new ButtonLinkLegacy(
                     project.getNumOpenBugs() + "/" + project.getNumBugs(),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;

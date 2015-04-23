@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import com.esofthead.mycollab.core.MyCollabException;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @since 1.0
  * 
  */
-public class EmailConfiguration {
+public class EmailConfiguration implements Cloneable {
 	@NotNull
 	private String host;
 	@NotNull
@@ -89,4 +91,12 @@ public class EmailConfiguration {
 	public void setIsTls(boolean isTls) {
 		this.isTls = isTls;
 	}
+
+    public EmailConfiguration clone() {
+        try {
+            return (EmailConfiguration) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new MyCollabException(e);
+        }
+    }
 }

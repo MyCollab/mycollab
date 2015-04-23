@@ -14,17 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.domain.ProjectMember;
-import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -32,14 +44,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -56,18 +65,17 @@ import java.util.GregorianCalendar;
  */
 public class ProjectCommentInput extends MHorizontalLayout {
     private static final long serialVersionUID = 1L;
-    private final RichTextArea commentArea;
 
-    private CommentType type;
+    private RichTextArea commentArea;
+
+    private String type;
     private String typeId;
     private Integer extraTypeId;
 
     ProjectCommentInput(
             final ReloadableComponent component,
-            final CommentType typeVal,
+            final String typeVal,
             final Integer extraTypeIdVal,
-            final boolean cancelButtonEnable,
-            final boolean isSendingEmailRelay,
             final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         super();
         this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
@@ -89,27 +97,23 @@ public class ProjectCommentInput extends MHorizontalLayout {
         final AttachmentPanel attachments = new AttachmentPanel();
 
         final MHorizontalLayout controlsLayout = new MHorizontalLayout().withWidth("100%");
+        controlsLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 
         final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
         uploadExt.addComponent(attachments);
         controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-        if (cancelButtonEnable) {
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+        final Button cancelBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            component.cancel();
-                        }
-                    });
-            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-            controlsLayout.addComponent(cancelBtn);
-            controlsLayout.setComponentAlignment(cancelBtn,
-                    Alignment.TOP_RIGHT);
-        }
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        commentArea.setValue("");
+                    }
+                });
+        cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
         final Button newCommentBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_POST),
@@ -125,18 +129,17 @@ public class ProjectCommentInput extends MHorizontalLayout {
                                 .getTime());
                         comment.setCreateduser(AppContext.getUsername());
                         comment.setSaccountid(AppContext.getAccountId());
-                        comment.setType(type.toString());
+                        comment.setType(type);
                         comment.setTypeid("" + typeId);
                         comment.setExtratypeid(extraTypeId);
 
                         final CommentService commentService = ApplicationContextUtil
                                 .getSpringBean(CommentService.class);
                         int commentId = commentService.saveWithSession(comment,
-                                AppContext.getUsername(), isSendingEmailRelay,
-                                emailHandler);
+                                AppContext.getUsername(), emailHandler);
 
                         String attachmentPath = AttachmentUtils
-                                .getProjectEntityCommentAttachmentPath(typeVal,
+                                .getCommentAttachmentPath(typeVal,
                                         AppContext.getAccountId(),
                                         CurrentProjectVariables.getProjectId(),
                                         typeId, commentId);
@@ -154,7 +157,7 @@ public class ProjectCommentInput extends MHorizontalLayout {
                 });
         newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         newCommentBtn.setIcon(FontAwesome.SEND);
-        controlsLayout.with(newCommentBtn).withAlign(newCommentBtn, Alignment.TOP_RIGHT);
+        controlsLayout.with(cancelBtn, newCommentBtn);
         textAreaWrap.with(commentArea, controlsLayout);
     }
 

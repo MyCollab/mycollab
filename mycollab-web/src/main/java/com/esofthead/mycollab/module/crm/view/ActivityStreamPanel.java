@@ -236,14 +236,22 @@ public class ActivityStreamPanel extends CssLayout {
 				content.append(AppContext.getMessage(
 						CrmCommonI18nEnum.WIDGET_ACTIVITY_UPDATE_ACTION,
 						assigneeValue, itemType, itemValue));
+				if (activityStream.getAssoAuditLog() != null) {
+					content.append(CrmActivityStreamGenerator
+							.generatorDetailChangeOfActivity(activityStream));
+				}
 			} else if (ActivityStreamConstants.ACTION_COMMENT
 					.equals(activityStream.getAction())) {
-
-			}
-
-			if (activityStream.getAssoAuditLog() != null) {
-				content.append(CrmActivityStreamGenerator
-						.generatorDetailChangeOfActivity(activityStream));
+				content.append(AppContext
+						.getMessage(
+								CrmCommonI18nEnum.WIDGET_ACTIVITY_COMMENT_ACTION,
+								assigneeValue, itemType, itemValue));
+				if (activityStream.getAssoAuditLog() != null) {
+					content.append("<p><ul><li>\"")
+							.append(activityStream.getAssoAuditLog()
+									.getChangeset())
+							.append("\"</li></ul></p>");
+				}
 			}
 
 			final Label activityLink = new Label(content.toString(),

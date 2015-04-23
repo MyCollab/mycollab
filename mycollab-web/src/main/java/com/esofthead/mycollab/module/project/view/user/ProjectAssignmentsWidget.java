@@ -125,19 +125,13 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
         titleLbl.setValue(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_OPEN_ASSIGNMENTS_TITLE, taskList.getTotalCount()));
     }
 
-    public static class TaskRowDisplayHandler implements
-            DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+    public static class TaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask,
-                                     int rowIndex) {
-            final CssLayout layout = new CssLayout();
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
+            CssLayout layout = new CssLayout();
             layout.setWidth("100%");
             layout.setStyleName("list-row");
-
-            if ((rowIndex + 1) % 2 != 0) {
-                layout.addStyleName("odd");
-            }
 
             Div itemDiv = buildItemValue(genericTask);
 
@@ -161,8 +155,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
             Date dueDate = genericTask.getDueDate();
             if (dueDate != null) {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE,
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
                         AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(
@@ -185,15 +178,11 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             A itemLink = new A().setId("tag" + uid);
             if (ProjectTypeConstants.TASK.equals(task.getType())
                     || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getExtraTypeId() + ""));
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
             } else {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getTypeId() + ""));
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getTypeId() + ""));
             }
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
@@ -218,13 +207,9 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
 
-            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter
-                            .EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt),
-                    userAvatar, DivLessFormatter
-                            .EMPTY_SPACE(), userLink,
-                    DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
-
+            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(),
+                    DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt), userAvatar, DivLessFormatter.EMPTY_SPACE(),
+                    userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
             return div;
         }
     }

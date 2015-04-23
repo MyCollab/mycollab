@@ -54,7 +54,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent
 public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		TaskGroupReorderView {
 	private static final long serialVersionUID = 1L;

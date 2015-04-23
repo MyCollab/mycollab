@@ -518,13 +518,13 @@ public class AppContext implements Serializable {
     }
 
     /**
-     * @param fragement
+     * @param fragment
      * @param windowTitle
      */
-    public static void addFragment(String fragement, String windowTitle) {
-        Page.getCurrent().setUriFragment(fragement, false);
+    public static void addFragment(String fragment, String windowTitle) {
+        Page.getCurrent().setUriFragment(fragment, false);
         Page.getCurrent().setTitle(
-                StringUtils.trim(windowTitle, 150) + " [MyCollab]");
-        googleAnalyticsService.trackPageView(fragement);
+                String.format("%s [%s]", StringUtils.trim(windowTitle, 150), SiteConfiguration.getSiteName()));
+        googleAnalyticsService.trackPageView(fragment);
     }
 }

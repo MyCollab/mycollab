@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -27,18 +27,15 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.Date;
@@ -53,14 +50,14 @@ import java.util.GregorianCalendar;
 @ViewComponent
 public class CampaignReadViewImpl extends
 		AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
-
 	private static final long serialVersionUID = 1L;
 
-	protected CampaignAccountListComp associateAccountList;
-	protected CampaignContactListComp associateContactList;
-	protected CampaignLeadListComp associateLeadList;
-	protected ActivityRelatedItemListComp associateActivityList;
-	protected NoteListItems noteListItems;
+	private CampaignAccountListComp associateAccountList;
+	private CampaignContactListComp associateContactList;
+	private CampaignLeadListComp associateLeadList;
+	private ActivityRelatedItemListComp associateActivityList;
+	private CrmCommentDisplay commentList;
+    private CampaignHistoryLogList historyLogList;
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
@@ -72,17 +69,7 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleCampaign> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleCampaign>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				final CampaignHistoryLogWindow historyLog = new CampaignHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.CAMPAIGN);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -93,7 +80,10 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
@@ -102,8 +92,8 @@ public class CampaignReadViewImpl extends
 		associateContactList = new CampaignContactListComp();
 		associateLeadList = new CampaignLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+		commentList = new CrmCommentDisplay(CrmTypeConstants.CAMPAIGN, CampaignRelayEmailNotificationAction.class);
+		historyLogList = new CampaignHistoryLogList();
 
 		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
@@ -132,10 +122,6 @@ public class CampaignReadViewImpl extends
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
 		previewItemContainer.addTab(associateActivityList, CrmTypeConstants.ACTIVITY,
 				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
-	}
-
-	protected void displayNotes() {
-		noteListItems.showNotes(CrmTypeConstants.CAMPAIGN, beanItem.getId());
 	}
 
 	protected void displayActivities() {
@@ -170,7 +156,8 @@ public class CampaignReadViewImpl extends
 		displayAccounts();
 		displayContacts();
 		displayLeads();
-		displayNotes();
+		commentList.loadComments("" + beanItem.getId());
+		historyLogList.loadHistory(beanItem.getId());
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);

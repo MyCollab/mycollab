@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -37,9 +38,7 @@ import com.vaadin.ui.UI;
  * 
  */
 @SuppressWarnings("rawtypes")
-public abstract class DefaultMassEditActionHandler implements
-		MassItemActionHandler {
-
+public abstract class DefaultMassEditActionHandler implements MassItemActionHandler {
 	private ListSelectionPresenter presenter;
 
 	public DefaultMassEditActionHandler(ListSelectionPresenter presenter) {
@@ -51,15 +50,11 @@ public abstract class DefaultMassEditActionHandler implements
 		if (MassItemActionHandler.DELETE_ACTION.equals(id)) {
 			ConfirmDialogExt
 					.show(UI.getCurrent(),
-							AppContext.getMessage(
-									GenericI18Enum.DIALOG_DELETE_TITLE,
+							AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
 									SiteConfiguration.getSiteName()),
-							AppContext
-									.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO),
+							AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+							AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+							AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
@@ -78,75 +73,39 @@ public abstract class DefaultMassEditActionHandler implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StreamResource buildStreamResource(String id) {
-		StreamResource res = null;
-		if (MassItemActionHandler.EXPORT_CSV_ACTION.equals(id)) {
-			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.getView()).getPagedBeanTable();
-			if (presenter.isSelectAll) {
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.AllItems("",
-								new RpParameterBuilder(pagedBeanTable
-										.getDisplayColumns()),
-								ReportExportType.CSV,
-								presenter.getSearchService(),
-								presenter.searchCriteria,
-								getReportModelClassType()), "export.csv");
-			} else {
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.ListData("",
-								new RpParameterBuilder(pagedBeanTable
-										.getDisplayColumns()),
-								ReportExportType.CSV,
-								presenter.getSelectedItems(),
-								getReportModelClassType()), "export.csv");
-			}
-		} else if (MassItemActionHandler.EXPORT_PDF_ACTION.equals(id)) {
-			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.getView()).getPagedBeanTable();
-			if (presenter.isSelectAll) {
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.AllItems(
-								getReportTitle(), new RpParameterBuilder(
-										pagedBeanTable.getDisplayColumns()),
-								ReportExportType.PDF,
-								presenter.getSearchService(),
-								presenter.searchCriteria,
-								getReportModelClassType()), "export.pdf");
-			} else {
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.ListData(
-								getReportTitle(), new RpParameterBuilder(
-										pagedBeanTable.getDisplayColumns()),
-								ReportExportType.PDF,
-								presenter.getSelectedItems(),
-								getReportModelClassType()), "export.pdf");
-			}
-		} else if (MassItemActionHandler.EXPORT_EXCEL_ACTION.equals(id)) {
-			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.getView()).getPagedBeanTable();
-			if (presenter.isSelectAll) {
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.AllItems(
-								getReportTitle(), new RpParameterBuilder(
-										pagedBeanTable.getDisplayColumns()),
-								ReportExportType.EXCEL,
-								presenter.getSearchService(),
-								presenter.searchCriteria,
-								getReportModelClassType()), "export.xlsx");
-			} else {
-
-				res = new StreamResource(
-						new SimpleGridExportItemsStreamResource.ListData(
-								getReportTitle(), new RpParameterBuilder(
-										pagedBeanTable.getDisplayColumns()),
-								ReportExportType.EXCEL,
-								presenter.getSelectedItems(),
-								getReportModelClassType()), "export.xlsx");
-			}
+	public StreamResource buildStreamResource(ReportExportType exportType) {
+		String exportFileName;
+		switch (exportType) {
+			case CSV:
+				exportFileName = "export.csv"; break;
+			case PDF:
+				exportFileName = "export.pdf"; break;
+			case EXCEL:
+				exportFileName = "export.xlsx"; break;
+			default:
+				throw new MyCollabException("Do not support export type " + exportType);
 		}
 
-		return res;
+		AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
+				.getView()).getPagedBeanTable();
+		if (presenter.isSelectAll) {
+			return new StreamResource(
+					new SimpleGridExportItemsStreamResource.AllItems(
+							getReportTitle(), new RpParameterBuilder(
+							pagedBeanTable.getDisplayColumns()),
+							exportType,
+							presenter.getSearchService(),
+							presenter.searchCriteria,
+							getReportModelClassType()), exportFileName);
+		} else {
+			return new StreamResource(
+					new SimpleGridExportItemsStreamResource.ListData(
+							getReportTitle(), new RpParameterBuilder(
+							pagedBeanTable.getDisplayColumns()),
+							exportType,
+							presenter.getSelectedItems(),
+							getReportModelClassType()), exportFileName);
+		}
 	}
 
 	protected abstract void onSelectExtra(String id);

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.vaadin.desktop.ui;
  */
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
@@ -42,7 +42,7 @@ public interface ListView<S extends SearchCriteria, B> extends PageView {
 
 	HasSelectionOptionHandlers getOptionSelectionHandlers();
 
-	HasMassItemActionHandlers getPopupActionHandlers();
+	HasMassItemActionHandler getPopupActionHandlers();
 
 	HasSelectableItemHandlers<B> getSelectableItemHandlers();
 

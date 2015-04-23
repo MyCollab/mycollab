@@ -22,13 +22,5 @@ package com.esofthead.mycollab.vaadin.ui;
  * @since 1.0
  */
 public interface ReloadableComponent {
-	/**
-	 * 
-	 */
-	void cancel();
-
-	/**
-     * 
-     */
 	void reload();
 }

@@ -30,7 +30,7 @@ public class ComponentUtils {
         customizeViewBtn.setIcon(FontAwesome.ADJUST);
         customizeViewBtn.setDescription("Layout Options");
         customizeViewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-        customizeViewBtn.addStyleName("small-padding");
+        customizeViewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return customizeViewBtn;
     }
 
@@ -39,7 +39,7 @@ public class ComponentUtils {
         importBtn.setDescription("Import");
         importBtn.setIcon(FontAwesome.CLOUD_UPLOAD);
         importBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-        importBtn.addStyleName("small-padding");
+        importBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return importBtn;
     }
 }

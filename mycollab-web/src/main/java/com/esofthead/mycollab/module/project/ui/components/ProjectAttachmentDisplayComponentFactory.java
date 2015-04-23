@@ -16,19 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
 
 /**
  * 
@@ -38,12 +36,12 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class ProjectAttachmentDisplayComponentFactory {
 	public static Component getAttachmentDisplayComponent(int projectId,
-			AttachmentType type, int typeId) {
+			String type, int typeId) {
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
 		List<Content> attachments = resourceService.getContents(AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						projectId, type, typeId));
+						projectId, type, "" + typeId));
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			return new AttachmentDisplayComponent(attachments);
 		} else {

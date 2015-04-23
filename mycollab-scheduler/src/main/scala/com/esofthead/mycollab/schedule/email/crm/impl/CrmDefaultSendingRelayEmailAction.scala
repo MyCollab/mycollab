@@ -148,64 +148,12 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
   private def getListNotifyUserWithFilter(notification: SimpleRelayEmailNotification, `type`: String): List[SimpleUser] = {
     import scala.collection.JavaConverters._
 
-    val notificationSettings: List[CrmNotificationSetting] = notificationService.findNotifications(notification
-      .getSaccountid).asScala.toList
     val sendUsers = notification.getNotifyUsers.asScala
-    val noteSearchCriteria: NoteSearchCriteria = new NoteSearchCriteria
-    noteSearchCriteria.setType(new StringSearchField(notification.getType))
-    noteSearchCriteria.setTypeid(new NumberSearchField(notification.getTypeid.toInt))
-    noteSearchCriteria.setSaccountid(new NumberSearchField(notification.getSaccountid))
-    val notes: List[SimpleNote] = noteService.findPagableListByCriteria(new SearchRequest[NoteSearchCriteria]
-    (noteSearchCriteria, 0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleNote]]
-
-    if (notes != null && notes.nonEmpty) {
-      for (note <- notes) {
-        if (note.getCreateduser != null) {
-          if (!checkExistInList(sendUsers, note.getCreateduser)) {
-            val user: SimpleUser = userService.findUserByUserNameInAccount(note.getCreateduser, note.getSaccountid)
-            if (user != null) {
-              sendUsers += user
-            }
-          }
-        }
-      }
-    }
-    {
-      var i: Int = 0
-      while (i < sendUsers.size) {
-        {
-          val user: SimpleUser = sendUsers(i)
-          import scala.collection.JavaConversions._
-          for (notificationSetting <- notificationSettings) {
-            if (user.getUsername != null && (user.getUsername == notificationSetting.getUsername)) {
-              if (notificationSetting.getLevel == "None") {
-                sendUsers.remove(user)
-                i -= 1
-              }
-              else if ((notificationSetting.getLevel == "Minimal") && (`type` == MonitorTypeConstants.ADD_COMMENT_ACTION)) {
-                sendUsers.remove(user)
-                i -= 1
-              }
-            }
-          }
-          i += 1;
-        }
-      }
-    }
-
     sendUsers.toList
   }
 
   private def onInitAction(notification: SimpleRelayEmailNotification) {
     siteUrl = MailUtils.getSiteUrl(notification.getSaccountid)
-  }
-
-  private def checkExistInList(users: mutable.Buffer[SimpleUser], username: String): Boolean = {
-    for (tempUser <- users) {
-      if (tempUser.getUsername == username)
-        true
-    }
-    false
   }
 
   protected def getBeanInContext(context: MailContext[B]): B

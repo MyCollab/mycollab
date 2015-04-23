@@ -93,8 +93,7 @@ public class ProjectListComponent extends MVerticalLayout {
         MHorizontalLayout searchPanel = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
         searchPanel.with(searchField, searchBtn);
         popupHeader.with(titleLbl, searchPanel).withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign
-                (searchPanel,
-                        Alignment.MIDDLE_RIGHT);
+                (searchPanel, Alignment.MIDDLE_RIGHT);
         contentLayout.with(popupHeader, projectList);
         headerPopupButton.setContent(contentLayout);
 
@@ -129,7 +128,8 @@ public class ProjectListComponent extends MVerticalLayout {
         if (headerPopupButton.isPopupVisible()) {
             headerPopupButton.setPopupVisible(false);
         }
-        headerPopupButton.setCaption(CurrentProjectVariables.getProject().getName());
+        headerPopupButton.setCaption(String.format("[%s] %s", CurrentProjectVariables.getShortName(), CurrentProjectVariables.getProject().getName()));
+        headerPopupButton.setDescription(CurrentProjectVariables.getProject().getName());
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));

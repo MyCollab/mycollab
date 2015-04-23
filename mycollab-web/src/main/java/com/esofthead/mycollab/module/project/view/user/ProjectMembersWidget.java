@@ -97,7 +97,6 @@ public class ProjectMembersWidget extends MVerticalLayout {
         @Override
         public Component generateRow(AbstractBeanPagedList host, SimpleProjectMember member, int rowIndex) {
             MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-row");
-            layout.addStyleName("odd");
             layout.addComponent(new Image(null, UserAvatarControlFactory
                     .createAvatarResource(member.getMemberAvatarId(), 48)));
 

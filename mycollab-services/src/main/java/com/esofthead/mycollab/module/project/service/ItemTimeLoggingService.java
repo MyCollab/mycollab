@@ -31,8 +31,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSear
  * @since 1.0
  * 
  */
-public interface ItemTimeLoggingService
-		extends
+public interface ItemTimeLoggingService extends
 		IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
 
 	@Cacheable
@@ -42,4 +41,40 @@ public interface ItemTimeLoggingService
 	@CacheEvict
 	void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
 			@CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalBillableHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalNonBillableHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getRemainHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalBillableHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalNonBillableHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getRemainHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalBillableHoursByComponent(int componentId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalNonBillableHoursByComponent(int componentId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getRemainHoursByComponent(int componentId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalBillableHoursByVersion(int versionId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getTotalNonBillableHoursByVersion(int versionId, @CacheKey int sAccountId);
+
+	@Cacheable
+	Double getRemainHoursByVersion(int versionId, @CacheKey int sAccountId);
 }

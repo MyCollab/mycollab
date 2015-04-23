@@ -47,7 +47,7 @@ public class DateTimeUtils {
 
 	private static DateTimeZone utcZone = DateTimeZone.UTC;
 
-	private static Map<String, SimpleDateFormat> dateFormats = new HashMap<String, SimpleDateFormat>();
+	private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
 	/**
 	 * Trim hour-minute-second of date instance value to zero.

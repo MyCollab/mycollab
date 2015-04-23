@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
@@ -59,11 +58,10 @@ public class ProjectCommentInput extends VerticalLayout {
 
     private TextArea commentInput;
 
-    private CommentType type;
+    private String type;
     private String typeid;
     private Integer extraTypeId;
     private ReloadableComponent component;
-    private boolean isSendingEmailRelay;
     private Class<? extends SendingRelayEmailNotificationAction> emailHandlerClass;
 
     private FileBuffer receiver;
@@ -78,10 +76,9 @@ public class ProjectCommentInput extends VerticalLayout {
 
     public ProjectCommentInput(
             final ReloadableComponent component,
-            final CommentType typeVal,
+            final String typeVal,
             final Integer extraTypeIdVal,
             final boolean cancelButtonEnable,
-            final boolean isSendingEmailRelay,
             final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 
         resourceService = ApplicationContextUtil
@@ -90,7 +87,6 @@ public class ProjectCommentInput extends VerticalLayout {
         type = typeVal;
         extraTypeId = extraTypeIdVal;
         this.component = component;
-        this.isSendingEmailRelay = isSendingEmailRelay;
         this.emailHandlerClass = emailHandler;
 
         currentPollInterval = UI.getCurrent().getPollInterval();
@@ -139,11 +135,10 @@ public class ProjectCommentInput extends VerticalLayout {
                 final CommentService commentService = ApplicationContextUtil
                         .getSpringBean(CommentService.class);
                 int commentId = commentService.saveWithSession(comment,
-                        AppContext.getUsername(), isSendingEmailRelay,
-                        emailHandlerClass);
+                        AppContext.getUsername(), emailHandlerClass);
 
                 String attachmentPath = AttachmentUtils
-                        .getProjectEntityCommentAttachmentPath(type,
+                        .getCommentAttachmentPath(type,
                                 AppContext.getAccountId(),
                                 CurrentProjectVariables.getProjectId(), typeid,
                                 commentId);

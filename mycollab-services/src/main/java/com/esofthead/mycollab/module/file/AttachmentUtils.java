@@ -14,190 +14,69 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-services.
+ * <p>
+ * mycollab-services is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-services is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package com.esofthead.mycollab.module.file;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class AttachmentUtils {
-	private static final Logger LOG = LoggerFactory.getLogger(AttachmentUtils.class);
+    private static final String COMMENT_PATH = "common-comment";
 
-	public static String getCrmNoteAttachmentPath(int accountId, int noteId) {
-		return String.format("%d/crm/.attachments/%s/%d", accountId,
-				AttachmentType.CRM_NOTE_TYPE, noteId);
-	}
+    public static String getCrmEntityCommentAttachmentPath(Integer accountId, String type, String typeId, Integer commentId) {
+        return String.format("%d/crm/.attachments/%s/%s/%s/%d", accountId, type.toLowerCase(), typeId, COMMENT_PATH, commentId);
+    }
 
-	public static String getCrmNoteCommentAttachmentPath(int accountId,
-			int noteId, int commentId) {
-		return String.format("%d/crm/.attachments/%s/%d/%s/%d", accountId,
-				AttachmentType.CRM_NOTE_TYPE, noteId,
-				AttachmentType.COMMON_COMMENT, commentId);
-	}
+    public static String getProjectEntityAttachmentPath(Integer accountId, Integer projectId,
+                                                        String type, String typeId) {
+        return String.format("%d/project/%d/.attachments/%s/%s", accountId,
+                projectId, type.toLowerCase(), typeId);
+    }
 
-	public static String getProjectMessageAttachmentPath(int accountId,
-			int projectId, int messageId) {
-		return String.format("%d/project/%d/.attachments/%s/%d", accountId,
-				projectId, AttachmentType.PROJECT_MESSAGE, messageId);
-	}
+    public static String getProjectEntityCommentAttachmentPath(Integer accountId, Integer projectId,
+                                                               String type, String typeId, Integer commentId) {
+        return String.format("%d/project/%d/.attachments/%s/%s/%s/%d",
+                accountId, projectId, type.toLowerCase(), typeId, COMMENT_PATH, commentId);
+    }
 
-	public static String getProjectMessageCommentAttachmentPath(int accountId,
-			int projectId, int messageId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_MESSAGE,
-				messageId, AttachmentType.COMMON_COMMENT, commentId);
-	}
+    public static String getCommentAttachmentPath(String type, Integer accountId, Integer extraTypeId,
+                                                  String typeId, int commentId) {
 
-	public static String getProjectEntityAttachmentPath(int accountId,
-			int projectId, AttachmentType type, int typeid) {
-		return String.format("%d/project/%d/.attachments/%s/%d", accountId,
-				projectId, type.toString(), typeid);
-	}
-
-	public static String getProjectBugAttachmentPath(int accountId,
-			int projectId, int bugId) {
-		return String.format("%d/project/%d/.attachments/%s/%d", accountId,
-				projectId, AttachmentType.PROJECT_BUG_TYPE, bugId);
-	}
-
-	public static String getProjectBugCommentAttachmentPath(int accountId,
-			int projectId, int bugId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_BUG_TYPE, bugId,
-				AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectMilestoneAttachmentPath(int accountId,
-			int projectId, int milestoneId) {
-		return String.format("%d/project/%d/.attachments/%s/%d", accountId,
-				projectId, AttachmentType.PROJECT_MILESTONE, milestoneId);
-	}
-
-	public static String getProjectMilestoneCommentAttachmentPath(
-			int accountId, int projectId, int milestoneId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_MILESTONE,
-				milestoneId, AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectTaskListCommentAttachmentPath(int accountId,
-			int projectId, int tasklistId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_TASKLIST,
-				tasklistId, AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectComponentCommentAttachmentPath(
-			int accountId, int projectId, int componentId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_COMPONENT,
-				componentId, AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectVersionCommentAttachmentPath(int accountId,
-			int projectId, int versionId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_VERSION,
-				versionId, AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectPageAttachmentPath(int accountId,
-			int projectId, String taskId) {
-		return String.format("%d/project/%d/.attachments/%s/%s", accountId,
-				projectId, AttachmentType.PROJECT_PAGE, taskId);
-	}
-
-	public static String getProjectPageCommentAttachmentPath(int accountId,
-			int projectId, String pageId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%s/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_PAGE, pageId,
-				AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectTaskAttachmentPath(int accountId,
-			int projectId, int taskId) {
-		return String.format("%d/project/%d/.attachments/%s/%d", accountId,
-				projectId, AttachmentType.PROJECT_TASK_TYPE, taskId);
-	}
-
-	public static String getProjectTaskCommentAttachmentPath(int accountId,
-			int projectId, int taskId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_TASK_TYPE, taskId,
-				AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectRiskCommentAttachmentPath(int accountId,
-			int projectId, int riskId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_RISK, riskId,
-				AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectProblemCommentAttachmentPath(int accountId,
-			int projectId, int problemId, int commentId) {
-		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
-				accountId, projectId, AttachmentType.PROJECT_PROBLEM,
-				problemId, AttachmentType.COMMON_COMMENT, commentId);
-	}
-
-	public static String getProjectEntityCommentAttachmentPath(
-			CommentType type, int accountId, int projectId, String typeid,
-			int commentId) {
-		String attachmentPath = "";
-
-		if (CommentType.PRJ_BUG.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectBugCommentAttachmentPath(accountId, projectId,
-							Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_MESSAGE.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectMessageCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_MILESTONE.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectMilestoneCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_PROBLEM.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectProblemCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_RISK.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectRiskCommentAttachmentPath(accountId, projectId,
-							Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_TASK.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectTaskCommentAttachmentPath(accountId, projectId,
-							Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_TASK_LIST.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectTaskListCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_PAGE.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectPageCommentAttachmentPath(accountId, projectId,
-							typeid, commentId);
-		} else if (CommentType.PRJ_COMPONENT.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectComponentCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else if (CommentType.PRJ_VERSION.equals(type)) {
-			attachmentPath = AttachmentUtils
-					.getProjectVersionCommentAttachmentPath(accountId,
-							projectId, Integer.parseInt(typeid), commentId);
-		} else {
-			LOG.error("Do not support comment attachment path " + type);
-		}
-
-		return attachmentPath;
-
-	}
+        if (ProjectTypeConstants.BUG.equals(type) || ProjectTypeConstants.MESSAGE.equals(type) ||
+                ProjectTypeConstants.MILESTONE.equals(type) || ProjectTypeConstants.PROBLEM.equals(type)
+                || ProjectTypeConstants.RISK.equals(type) || ProjectTypeConstants.TASK.equals(type)
+                || ProjectTypeConstants.TASK_LIST.equals(type) || ProjectTypeConstants.PAGE.equals(type)
+                || ProjectTypeConstants.BUG_COMPONENT.equals(type) || ProjectTypeConstants.BUG_VERSION.equals(type)) {
+            return getProjectEntityCommentAttachmentPath(accountId, extraTypeId, type, typeId, commentId);
+        } else if (CrmTypeConstants.ACCOUNT.equals(type) || CrmTypeConstants.CONTACT.equals(type) ||
+                CrmTypeConstants.CAMPAIGN.equals(type) || CrmTypeConstants.LEAD.equals(type) ||
+                CrmTypeConstants.OPPORTUNITY.equals(type) || CrmTypeConstants.CASE.equals(type) ||
+                CrmTypeConstants.CALL.equals(type) || CrmTypeConstants.MEETING.equals(type) ||
+                CrmTypeConstants.TASK.equals(type)) {
+            return getCrmEntityCommentAttachmentPath(accountId, type, typeId, commentId);
+        } else {
+            throw new MyCollabException("Do not support comment attachment path " + type);
+        }
+    }
 }

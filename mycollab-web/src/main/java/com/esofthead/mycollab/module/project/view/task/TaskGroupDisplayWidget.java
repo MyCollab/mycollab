@@ -75,7 +75,7 @@ public class TaskGroupDisplayWidget extends
         private Button toogleBtn;
 
         private TaskListDepot(SimpleTaskList taskListParam) {
-            super(taskListParam.getName(), null, new TaskDisplayComponent(taskListParam, true));
+            super(taskListParam.getName(), null, new TaskDisplayComponent(taskListParam));
 
             if (taskListParam.isArchieved()) {
                 this.headerLbl.addStyleName(UIConstants.LINK_COMPLETED);
@@ -143,7 +143,6 @@ public class TaskGroupDisplayWidget extends
             taskListActionControl.setWidthUndefined();
 
             headerElement.with(taskListActionControl);
-
             this.addHeaderElement(headerElement);
 
             OptionPopupContent actionBtnLayout = new OptionPopupContent().withWidth("150px");
@@ -157,17 +156,13 @@ public class TaskGroupDisplayWidget extends
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            TaskListDepot.this.taskListActionControl
-                                    .setPopupVisible(false);
-                            EventBusFactory
-                                    .getInstance()
-                                    .post(new TaskListEvent.GotoRead(event,
-                                            TaskListDepot.this.taskList.getId()));
+                            taskListActionControl.setPopupVisible(false);
+                            EventBusFactory.getInstance()
+                                    .post(new TaskListEvent.GotoRead(event, taskList.getId()));
                         }
                     });
             readBtn.setIcon(FontAwesome.HACKER_NEWS);
-            readBtn.setEnabled(CurrentProjectVariables
-                    .canRead(ProjectRolePermissionCollections.TASKS));
+            readBtn.setEnabled(CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(readBtn);
 
             final Button editBtn = new Button(
@@ -177,11 +172,9 @@ public class TaskGroupDisplayWidget extends
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            TaskListDepot.this.taskListActionControl
-                                    .setPopupVisible(false);
+                            taskListActionControl.setPopupVisible(false);
                             EventBusFactory.getInstance().post(
-                                    new TaskListEvent.GotoEdit(event,
-                                            TaskListDepot.this.taskList));
+                                    new TaskListEvent.GotoEdit(event, taskList));
                         }
                     });
             editBtn.setEnabled(CurrentProjectVariables
@@ -226,15 +219,11 @@ public class TaskGroupDisplayWidget extends
                             taskListActionControl.setPopupVisible(false);
                             ConfirmDialogExt.show(
                                     UI.getCurrent(),
-                                    AppContext.getMessage(
-                                            GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                             SiteConfiguration.getSiteName()),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.BUTTON_NO),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                     new ConfirmDialog.Listener() {
                                         private static final long serialVersionUID = 1L;
 
@@ -244,8 +233,7 @@ public class TaskGroupDisplayWidget extends
                                             if (dialog.isConfirmed()) {
                                                 ProjectTaskListService taskListService = ApplicationContextUtil
                                                         .getSpringBean(ProjectTaskListService.class);
-                                                taskListService
-                                                        .removeWithSession(
+                                                taskListService.removeWithSession(
                                                                 taskList.getId(),
                                                                 AppContext.getUsername(),
                                                                 AppContext.getAccountId());
@@ -261,8 +249,7 @@ public class TaskGroupDisplayWidget extends
                         }
                     });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
-            deleteBtn.setEnabled(CurrentProjectVariables
-                    .canAccess(ProjectRolePermissionCollections.TASKS));
+            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(deleteBtn);
         }
 

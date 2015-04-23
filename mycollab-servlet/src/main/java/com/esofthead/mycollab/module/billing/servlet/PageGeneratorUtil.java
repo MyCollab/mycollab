@@ -51,7 +51,7 @@ class PageGeneratorUtil {
 
 		context.put("loginURL", loginURL);
 		context.put("username", username);
-		Map<String, String> defaultUrls = new HashMap<String, String>();
+		Map<String, String> defaultUrls = new HashMap<>();
 		SharingOptions sharingOptions = SharingOptions
 				.getDefaultSharingOptions();
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());

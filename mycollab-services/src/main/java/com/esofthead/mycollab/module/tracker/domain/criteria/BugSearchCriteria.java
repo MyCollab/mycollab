@@ -16,30 +16,17 @@
  */
 package com.esofthead.mycollab.module.tracker.domain.criteria;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.apache.ibatis.jdbc.SQL;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.DateSearchField;
-import com.esofthead.mycollab.core.arguments.NoValueSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateTimeSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.db.query.CompositionStringParam;
-import com.esofthead.mycollab.core.db.query.CustomSqlParam;
-import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.PropertyListParam;
-import com.esofthead.mycollab.core.db.query.StringListParam;
-import com.esofthead.mycollab.core.db.query.StringParam;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
+import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.db.query.*;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import org.apache.ibatis.jdbc.SQL;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * 
@@ -76,7 +63,8 @@ public class BugSearchCriteria extends SearchCriteria {
 
 	public static Param p_severity = new StringListParam("bug-severity",
 			BugI18nEnum.FORM_SEVERITY, "m_tracker_bug", "severity",
-			Arrays.asList(ProjectDataTypeFactory.getBugSeverityList()));
+			Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
+					BugSeverity.Minor.name(), BugSeverity.Trivial.name()));
 
 	public static Param p_status = new StringListParam("bug-status",
 			BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(

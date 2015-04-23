@@ -34,7 +34,7 @@ public abstract class HistoryLogWindow extends Window {
 	private final HistoryLogComponent historyLogComponent;
 
 	public HistoryLogWindow(final String module, final String type) {
-		super(AppContext.getMessage(CrmCommonI18nEnum.DIALOG_CHANGEL_LOG_TITLE));
+		super(AppContext.getMessage(CrmCommonI18nEnum.DIALOG_CHANGE_LOG_TITLE));
 
 		this.setWidth("700px");
 		this.setModal(true);

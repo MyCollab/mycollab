@@ -330,7 +330,6 @@ public abstract class GenericServerRunner {
         }
 
         for (String classpath : classPaths) {
-            LOG.info("Classpath: " + classpath);
             if (classpath.matches(osExprClassFolder)) {
                 LOG.info("Load classes in path" + classpath);
                 appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
@@ -440,4 +439,3 @@ public abstract class GenericServerRunner {
         }
     }
 }
-

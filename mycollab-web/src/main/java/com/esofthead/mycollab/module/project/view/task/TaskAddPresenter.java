@@ -44,6 +44,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
     private static final long serialVersionUID = 1L;
 
@@ -124,16 +125,16 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
             int taskId = taskService.saveWithSession(item,
                     AppContext.getUsername());
             AttachmentUploadField uploadField = view.getAttachUploadField();
-            String attachPath = AttachmentUtils.getProjectTaskAttachmentPath(
-                    AppContext.getAccountId(),
-                    CurrentProjectVariables.getProjectId(), taskId);
+            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
+                    AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),
+                    ProjectTypeConstants.TASK, "" + taskId);
             uploadField.saveContentsToRepo(attachPath);
         } else {
             taskService.updateWithSession(item, AppContext.getUsername());
             AttachmentUploadField uploadField = view.getAttachUploadField();
-            String attachPath = AttachmentUtils.getProjectTaskAttachmentPath(
-                    AppContext.getAccountId(),
-                    CurrentProjectVariables.getProjectId(), item.getId());
+            String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
+                    AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),
+                    ProjectTypeConstants.TASK, "" + item.getId());
             uploadField.saveContentsToRepo(attachPath);
         }
         return item.getId();

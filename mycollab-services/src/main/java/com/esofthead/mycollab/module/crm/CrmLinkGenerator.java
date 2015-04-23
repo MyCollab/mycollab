@@ -141,7 +141,7 @@ public class CrmLinkGenerator {
 	}
 
 	public static String generateCrmItemFullLink(String siteUrl, String type,
-			int typeid) {
-		return siteUrl + generateCrmItemLink(type, typeid);
+			int typeId) {
+		return siteUrl + generateCrmItemLink(type, typeId);
 	}
 }

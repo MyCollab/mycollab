@@ -17,11 +17,11 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
@@ -131,11 +131,8 @@ class ApproveInputWindow extends Window {
 												.getUsername());
 										comment.setSaccountid(AppContext
 												.getAccountId());
-										comment.setType(CommentType.PRJ_BUG
-												.toString());
-										comment.setTypeid(""
-												+ ApproveInputWindow.this.bug
-												.getId());
+										comment.setType(ProjectTypeConstants.BUG);
+										comment.setTypeid("" + bug.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 

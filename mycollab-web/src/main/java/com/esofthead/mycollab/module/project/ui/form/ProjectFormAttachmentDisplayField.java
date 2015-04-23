@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.form;
 
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -35,11 +34,11 @@ public class ProjectFormAttachmentDisplayField extends CustomField {
 	private static final long serialVersionUID = 1L;
 
 	private int projectid;
-	private AttachmentType type;
+	private String type;
 	private int typeid;
 
 	public ProjectFormAttachmentDisplayField(final int projectid,
-			final AttachmentType type, final int typeid) {
+			final String type, final int typeid) {
 		this.projectid = projectid;
 		this.type = type;
 		this.typeid = typeid;

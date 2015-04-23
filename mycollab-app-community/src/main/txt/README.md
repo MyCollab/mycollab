@@ -1,9 +1,9 @@
 
 About MyCollab
 ==============
-MyCollab is a Collaboration Platform of Project Management System, Customer Management and Document Management.
+MyCollab is an open source Collaboration Platform of Project Management, CRM and Document.
 
-MyCollab is licensed under the Affero GPL 3 license.
+MyCollab is licensed under the Affero GPL 3 terms.
 
 You can checkout our latest development source codes at [https://github.com/esofthead/mycollab](https://github.com/esofthead/mycollab)
 
@@ -40,6 +40,28 @@ If you need to understand more MyCollab advanced configuration settings, please 
 
 Last changelog
 ==============
+
+Version 5.0.5
+-----------------------------
+**Library Upgrades**
+
+* Upgrade Vaadin to 7.4.4
+* Upgrade other libraries
+
+**Improvements & New Features**
+
+* Revise CRM comments and history features to make it similar than project module
+* Revise the layout of CRM module
+* Display comment in CRM activity stream
+* Support font awesome in emails
+* Minor bug fixes in reporting
+* Cache reflection fields hence upgrade the app performance up to 5%
+* Add time summary for task group, milestone, component, version views
+* Allow system admin can change the SMTP setting on the fly
+
+**Bug Fixes**
+* Checkbox in Chrome, IE has the unintended border
+* Other minor CSS issues on IE, Firefox
 
 Version 5.0.4
 -----------------------------

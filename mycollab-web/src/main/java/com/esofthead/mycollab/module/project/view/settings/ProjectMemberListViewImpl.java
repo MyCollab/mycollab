@@ -217,7 +217,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
             infoStatus.addStyleName("member-email");
             waitingNotLayout.addComponent(infoStatus);
 
-            ButtonLink resendInvitationLink = new ButtonLink(
+            ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy(
                     AppContext
                             .getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION),
                     new Button.ClickListener() {

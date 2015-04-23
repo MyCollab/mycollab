@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -48,7 +47,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.hp.gagawa.java.elements.A;
@@ -74,7 +72,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class ComponentReadViewImpl extends
         AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
     private static final long serialVersionUID = 1L;
@@ -87,6 +85,7 @@ public class ComponentReadViewImpl extends
 
     private DateInfoComp dateInfoComp;
     private PeopleInfoComp peopleInfoComp;
+    private ComponentTimeLogComp componentTimeLogComp;
 
     public ComponentReadViewImpl() {
         super(AppContext.getMessage(ComponentI18nEnum.VIEW_READ_TITLE),
@@ -117,14 +116,15 @@ public class ComponentReadViewImpl extends
 
     @Override
     protected void initRelatedComponents() {
-        commentDisplay = new CommentDisplay(CommentType.PRJ_COMPONENT,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentDisplay = new CommentDisplay(ProjectTypeConstants.BUG_COMPONENT,
+                CurrentProjectVariables.getProjectId(),
                 ComponentRelayEmailNotificationAction.class);
         commentDisplay.setWidth("100%");
         historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT);
         dateInfoComp = new DateInfoComp();
         peopleInfoComp = new PeopleInfoComp();
-        addToSideBar(dateInfoComp, peopleInfoComp);
+        componentTimeLogComp = new ComponentTimeLogComp();
+        addToSideBar(dateInfoComp, peopleInfoComp, componentTimeLogComp);
     }
 
     @Override
@@ -134,6 +134,7 @@ public class ComponentReadViewImpl extends
 
         dateInfoComp.displayEntryDateTime(beanItem);
         peopleInfoComp.displayEntryPeople(beanItem);
+        componentTimeLogComp.displayTime(beanItem);
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -225,8 +226,8 @@ public class ComponentReadViewImpl extends
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentDisplay, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyLogList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabContainer.addTab(commentDisplay, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 
@@ -335,7 +336,7 @@ public class ComponentReadViewImpl extends
                     bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(String.format("[%s-%d] %s", bug.getProjectShortName(), bug.getBugkey(), bug
+            itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug
                     .getSummary()));
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),

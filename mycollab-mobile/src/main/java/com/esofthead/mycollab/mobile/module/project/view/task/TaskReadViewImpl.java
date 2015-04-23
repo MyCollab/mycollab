@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -30,23 +24,18 @@ import com.esofthead.mycollab.mobile.module.project.ui.ProjectAttachmentDisplayC
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
-import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.mobile.ui.*;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
-import com.esofthead.mycollab.mobile.ui.IconConstants;
-import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -57,15 +46,12 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -76,16 +62,12 @@ import com.vaadin.ui.VerticalLayout;
 @ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		implements TaskReadView {
-
 	private static final long serialVersionUID = 9021783098267883004L;
 
 	private Button quickActionStatusBtn;
-
 	private ProjectCommentListDisplay associateComments;
 	private Button relatedComments;
-
 	private TaskTimeLogComp taskTimeLogComp;
-
 	private ProjectAttachmentDisplayComp attachmentComp;
 
 	public TaskReadViewImpl() {
@@ -118,7 +100,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 							+ associateComments.getNumComments()
 							+ "\"></span><div class=\"screen-reader-text\">"
 							+ AppContext
-									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+									.getMessage(GenericI18Enum.TAB_COMMENT)
 							+ "</div>");
 		} else {
 			relatedComments
@@ -126,7 +108,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 							+ IconConstants.PROJECT_MESSAGE
 							+ "\"></span><div class=\"screen-reader-text\">"
 							+ AppContext
-									.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+									.getMessage(GenericI18Enum.TAB_COMMENT)
 							+ "</div>");
 		}
 
@@ -139,7 +121,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		List<Content> attachments = resourceService.getContents(AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
 						beanItem.getProjectid(),
-						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId()));
+						ProjectTypeConstants.TASK, ""+ beanItem.getId()));
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			attachmentComp = new ProjectAttachmentDisplayComp(attachments);
 			this.previewForm.addComponent(attachmentComp);
@@ -156,13 +138,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleTask>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
 	protected void initRelatedComponents() {
-		associateComments = new ProjectCommentListDisplay(CommentType.PRJ_TASK,
-				CurrentProjectVariables.getProjectId(), true, true,
+		associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.TASK,
+				CurrentProjectVariables.getProjectId(), true,
 				ProjectTaskRelayEmailNotificationAction.class);
 	}
 
@@ -239,7 +221,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
 				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+				+ AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
 				+ "</div>");
 		relatedComments.setHtmlContentAllowed(true);
 		relatedComments.addClickListener(new Button.ClickListener() {

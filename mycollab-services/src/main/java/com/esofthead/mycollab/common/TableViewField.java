@@ -28,9 +28,7 @@ public class TableViewField implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Enum<?> descKey;
-
 	private String field;
-
 	private int defaultWidth;
 
 	public TableViewField() {

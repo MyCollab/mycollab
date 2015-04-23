@@ -21,13 +21,13 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
-import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
+import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
@@ -55,7 +55,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
     protected Label selectedItemsNumberLabel = new Label();
 
     protected SelectionOptionButton selectOptionButton;
-    protected DefaultMassItemActionHandlersContainer tableActionControls;
+    protected DefaultMassItemActionHandlerContainer tableActionControls;
     protected ButtonGroup extraControlsLayout;
 
     public AbstractListItemComp() {
@@ -133,7 +133,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
     }
 
     @Override
-    public HasMassItemActionHandlers getPopupActionHandlers() {
+    public HasMassItemActionHandler getPopupActionHandlers() {
         return tableActionControls;
     }
 
@@ -153,5 +153,5 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 
     abstract protected AbstractPagedBeanTable<S, B> createBeanTable();
 
-    abstract protected DefaultMassItemActionHandlersContainer createActionControls();
+    abstract protected DefaultMassItemActionHandlerContainer createActionControls();
 }

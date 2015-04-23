@@ -86,7 +86,7 @@ public class DenyProjectInvitationHandler extends
 				SimpleProject project = projectService.findById(projectId,
 						sAccountId);
 				if (project == null) {
-					Map<String, Object> context = new HashMap<String, Object>();
+					Map<String, Object> context = new HashMap<>();
 					context.put("loginURL", request.getContextPath() + "/");
 
 					String html = generatePageByTemplate(response.getLocale(),
@@ -101,7 +101,7 @@ public class DenyProjectInvitationHandler extends
 								sAccountId);
 
 				if (projectMember != null) {
-					Map<String, Object> context = new HashMap<String, Object>();
+					Map<String, Object> context = new HashMap<>();
 					context.put("projectLinkURL", ProjectLinkGenerator
 							.generateProjectFullLink(
 									SiteConfiguration.getSiteUrl(subdomain),
@@ -115,7 +115,7 @@ public class DenyProjectInvitationHandler extends
 				} else {
 					String redirectURL = SiteConfiguration
 							.getSiteUrl(subdomain) + "project/member/feedback/";
-					Map<String, Object> context = new HashMap<String, Object>();
+					Map<String, Object> context = new HashMap<>();
 					context.put("inviterEmail", inviterEmail);
 					context.put("redirectURL", redirectURL);
 					context.put("toEmail", inviterEmail);

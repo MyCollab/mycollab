@@ -16,12 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
+import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -29,9 +30,10 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.TabSheetLazyLoadComponent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
@@ -45,7 +47,9 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		implements AssignmentReadView {
 	private static final long serialVersionUID = 1L;
 
-	protected NoteListItems noteListItems;
+	private CrmCommentDisplay commentList;
+private AssignmentHistoryLogList historyLogList;
+
 	private DateInfoComp dateInfoComp;
 	private CrmFollowersComp<SimpleTask> followersComp;
 
@@ -55,17 +59,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleTask>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				final AssignmentHistoryLogWindow historyLog = new AssignmentHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.TASK);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>() ;
 	}
 
 	@Override
@@ -76,12 +70,16 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
 	protected void onPreviewItem() {
-		displayNotes();
+		commentList.loadComments("" + beanItem.getId());
+		historyLogList.loadHistory(beanItem.getId());
 		dateInfoComp.displayEntryDateTime(beanItem);
 		followersComp.displayFollowers(beanItem);
 	}
@@ -93,8 +91,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected void initRelatedComponents() {
-		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+		commentList = new CrmCommentDisplay(CrmTypeConstants.TASK, TaskRelayEmailNotificationAction.class);
 
 		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
 
@@ -123,10 +120,6 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
 		return new AssignmentReadFormFieldFactory(previewForm);
-	}
-
-	protected void displayNotes() {
-		noteListItems.showNotes(CrmTypeConstants.TASK, beanItem.getId());
 	}
 
 	@Override

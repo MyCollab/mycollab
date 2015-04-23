@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationActio
 import com.esofthead.mycollab.schedule.email.format.FieldFormat
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -106,8 +106,7 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
     def formatField(context: MailContext[_]): String = {
       val simpleCase: SimpleCase = context.getWrappedBean.asInstanceOf[SimpleCase]
       if (simpleCase.getAccountid != null) {
-        val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-        val img: Img = FormatUtils.newImg("avatar", accountIconLink)
+        val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
         val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, simpleCase.getAccountid)
         val link: A = FormatUtils.newA(accountLink, simpleCase.getAccountName)
         FormatUtils.newLink(img, link).write
@@ -126,8 +125,7 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
         val accountService: AccountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
         val account: SimpleAccount = accountService.findById(accountId, context.getUser.getAccountId)
         if (account != null) {
-          val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-          val img: Img = FormatUtils.newImg("avatar", accountIconLink)
+          val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
           val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.getId)
           val link: A = FormatUtils.newA(accountLink, account.getAccountname)
           return FormatUtils.newLink(img, link).write

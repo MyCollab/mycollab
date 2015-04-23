@@ -31,7 +31,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
  *
  */
 public class BugPriorityComboBox extends I18nValueComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	public BugPriorityComboBox() {

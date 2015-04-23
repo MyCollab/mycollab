@@ -19,10 +19,10 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
@@ -30,7 +30,10 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.*;
+import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
+import com.esofthead.mycollab.vaadin.mvp.NullViewState;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -39,7 +42,6 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  */
 public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
-
     private static final long serialVersionUID = 1L;
 
     public CampaignAddPresenter() {
@@ -78,12 +80,8 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
         if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
-            CrmToolbar crmToolbar = ViewManager
-                    .getCacheComponent(CrmToolbar.class);
-            crmToolbar.gotoItem(AppContext
-                    .getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER));
-
             SimpleCampaign campaign = null;
             if (data.getParams() instanceof SimpleCampaign) {
                 campaign = (SimpleCampaign) data.getParams();

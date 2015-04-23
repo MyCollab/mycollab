@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
+import com.esofthead.mycollab.vaadin.ui.ELabel;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -51,13 +52,11 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActivityTableDisplay
-        extends
+public class ActivityTableDisplay extends
         DefaultPagedBeanTable<EventService, ActivitySearchCriteria, SimpleActivity> {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ActivityTableDisplay.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ActivityTableDisplay.class);
 
     public ActivityTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns);
@@ -74,8 +73,7 @@ public class ActivityTableDisplay
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        Object columnId) {
-                final SimpleActivity simpleEvent = ActivityTableDisplay.this
-                        .getBeanByIndex(itemId);
+                final SimpleActivity simpleEvent = getBeanByIndex(itemId);
                 final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent
                         .isSelected());
                 cb.setImmediate(true);
@@ -100,12 +98,9 @@ public class ActivityTableDisplay
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
-
-                final SimpleActivity event = ActivityTableDisplay.this
-                        .getBeanByIndex(itemId);
-                Label l = new Label();
-                l.setValue(AppContext.formatDateTime(event.getStartDate()));
-                return l;
+                SimpleActivity event = getBeanByIndex(itemId);
+                return new ELabel(AppContext.formatPrettyTime(event.getStartDate()))
+                        .withDescription(AppContext.formatDateTime(event.getStartDate()));
             }
         });
 
@@ -115,11 +110,9 @@ public class ActivityTableDisplay
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
-                final SimpleActivity event = ActivityTableDisplay.this
-                        .getBeanByIndex(itemId);
-                Label l = new Label();
-                l.setValue(AppContext.formatDateTime(event.getEndDate()));
-                return l;
+                SimpleActivity event = getBeanByIndex(itemId);
+                return new ELabel(AppContext.formatPrettyTime(event.getEndDate()))
+                        .withDescription(AppContext.formatDateTime(event.getEndDate()));
             }
         });
 
@@ -129,10 +122,9 @@ public class ActivityTableDisplay
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleActivity simpleEvent = ActivityTableDisplay.this
-                        .getBeanByIndex(itemId);
+                SimpleActivity simpleEvent = getBeanByIndex(itemId);
 
-                final LabelLink b = new LabelLink(
+                LabelLink b = new LabelLink(
                         simpleEvent.getSubject(),
                         CrmLinkBuilder.generateActivityPreviewLinkFull(
                                 simpleEvent.getEventType(), simpleEvent.getId()));
@@ -154,7 +146,6 @@ public class ActivityTableDisplay
     }
 
     private static String generateToolTip(SimpleActivity event) {
-
         if (CrmTypeConstants.MEETING.equals(event.getEventType())) {
             return generateToolTipMeeting(event);
         } else if (CrmTypeConstants.CALL.equals(event.getEventType())) {

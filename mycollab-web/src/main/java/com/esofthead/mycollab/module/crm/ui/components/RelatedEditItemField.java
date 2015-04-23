@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.*;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionWindow;
@@ -27,6 +29,7 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySelectionWi
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
+import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -47,10 +50,9 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 @SuppressWarnings("rawtypes")
 public class RelatedEditItemField extends CustomField<String> implements
 		FieldSelection {
-
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(RelatedEditItemField.class);
+
+	private static final Logger LOG = LoggerFactory.getLogger(RelatedEditItemField.class);
 
 	private RelatedItemComboBox relatedItemComboBox;
 	private Object bean;
@@ -59,10 +61,10 @@ public class RelatedEditItemField extends CustomField<String> implements
 	private Button browseBtn;
 	private Button clearBtn;
 
-	public RelatedEditItemField(String[] types, Object bean) {
+	public RelatedEditItemField(Object bean) {
 		this.bean = bean;
 
-		relatedItemComboBox = new RelatedItemComboBox(types);
+		relatedItemComboBox = new RelatedItemComboBox();
 		itemField = new TextField();
 		itemField.setEnabled(true);
 
@@ -72,32 +74,32 @@ public class RelatedEditItemField extends CustomField<String> implements
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 String type = (String) relatedItemComboBox.getValue();
-                if ("Account".equals(type)) {
+                if (CrmTypeConstants.ACCOUNT.equals(type)) {
                     AccountSelectionWindow accountWindow = new AccountSelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(accountWindow);
                     accountWindow.show();
-                } else if ("Campaign".equals(type)) {
+                } else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
                     CampaignSelectionWindow campaignWindow = new CampaignSelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(campaignWindow);
                     campaignWindow.show();
-                } else if ("Contact".equals(type)) {
+                } else if (CrmTypeConstants.CONTACT.equals(type)) {
                     ContactSelectionWindow contactWindow = new ContactSelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(contactWindow);
                     contactWindow.show();
-                } else if ("Lead".equals(type)) {
+                } else if (CrmTypeConstants.LEAD.equals(type)) {
                     LeadSelectionWindow leadWindow = new LeadSelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(leadWindow);
                     leadWindow.show();
-                } else if ("Opportunity".equals(type)) {
+                } else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
                     OpportunitySelectionWindow opportunityWindow = new OpportunitySelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(opportunityWindow);
                     opportunityWindow.show();
-                } else if ("Case".equals(type)) {
+                } else if (CrmTypeConstants.CASE.equals(type)) {
                     CaseSelectionWindow caseWindow = new CaseSelectionWindow(
                             RelatedEditItemField.this);
                     UI.getCurrent().addWindow(caseWindow);
@@ -159,7 +161,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 			Integer typeid = (Integer) PropertyUtils
 					.getProperty(bean, "typeid");
 			if (typeid != null) {
-				if ("Account".equals(type)) {
+				if (CrmTypeConstants.ACCOUNT.equals(type)) {
 					AccountService accountService = ApplicationContextUtil
 							.getSpringBean(AccountService.class);
 					SimpleAccount account = accountService.findById(typeid,
@@ -167,7 +169,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					if (account != null) {
 						itemField.setValue(account.getAccountname());
 					}
-				} else if ("Campaign".equals(type)) {
+				} else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
 					CampaignService campaignService = ApplicationContextUtil
 							.getSpringBean(CampaignService.class);
 					SimpleCampaign campaign = campaignService.findById(typeid,
@@ -175,7 +177,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					if (campaign != null) {
 						itemField.setValue(campaign.getCampaignname());
 					}
-				} else if ("Contact".equals(type)) {
+				} else if (CrmTypeConstants.CONTACT.equals(type)) {
 					ContactService contactService = ApplicationContextUtil
 							.getSpringBean(ContactService.class);
 					SimpleContact contact = contactService.findById(typeid,
@@ -183,7 +185,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					if (contact != null) {
 						itemField.setValue(contact.getContactName());
 					}
-				} else if ("Lead".equals(type)) {
+				} else if (CrmTypeConstants.LEAD.equals(type)) {
 					LeadService leadService = ApplicationContextUtil
 							.getSpringBean(LeadService.class);
 					SimpleLead lead = leadService.findById(typeid,
@@ -191,7 +193,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					if (lead != null) {
 						itemField.setValue(lead.getLeadName());
 					}
-				} else if ("Opportunity".equals(type)) {
+				} else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
 					OpportunityService opportunityService = ApplicationContextUtil
 							.getSpringBean(OpportunityService.class);
 					SimpleOpportunity opportunity = opportunityService
@@ -199,7 +201,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 					if (opportunity != null) {
 						itemField.setValue(opportunity.getOpportunityname());
 					}
-				} else if ("Case".equals(type)) {
+				} else if (CrmTypeConstants.CASE.equals(type)) {
 					CaseService caseService = ApplicationContextUtil
 							.getSpringBean(CaseService.class);
 					SimpleCase cases = caseService.findById(typeid,
@@ -249,14 +251,19 @@ public class RelatedEditItemField extends CustomField<String> implements
 		}
 	}
 
-	private class RelatedItemComboBox extends ValueComboBox {
+	private class RelatedItemComboBox extends KeyCaptionComboBox {
 		private static final long serialVersionUID = 1L;
 
-		public RelatedItemComboBox(String[] types) {
-			super();
+		public RelatedItemComboBox() {
+			super(true);
 			setCaption(null);
 			this.setWidth("100px");
-			this.loadData(types);
+			this.addItem(CrmTypeConstants.ACCOUNT, AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT));
+			this.addItem(CrmTypeConstants.CAMPAIGN, AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN));
+			this.addItem(CrmTypeConstants.CONTACT, AppContext.getMessage(CrmCommonI18nEnum.CONTACT));
+			this.addItem(CrmTypeConstants.LEAD, AppContext.getMessage(CrmCommonI18nEnum.LEAD));
+			this.addItem(CrmTypeConstants.OPPORTUNITY, AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY));
+			this.addItem(CrmTypeConstants.CASE, AppContext.getMessage(CrmCommonI18nEnum.CASE));
 			this.select(getNullSelectionItemId());
 		}
 	}

@@ -16,17 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.domain.CommentExample;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
@@ -51,9 +50,8 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 
 	private void removeRelatedFiles(int accountId, int projectId, int bugId) {
 		LOG.debug("Delete files of bug {} in project {}", bugId, projectId);
-
-		String attachmentPath = AttachmentUtils.getProjectBugAttachmentPath(
-				accountId, projectId, bugId);
+		String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+				ProjectTypeConstants.BUG, "" + bugId);
 		resourceService.removeResource(attachmentPath, "", accountId);
 	}
 
@@ -61,7 +59,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 		LOG.debug("Delete related comments of bug {}", bugId);
 
 		CommentExample ex = new CommentExample();
-		ex.createCriteria().andTypeEqualTo(CommentType.PRJ_BUG.toString())
+		ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.BUG)
 				.andExtratypeidEqualTo(bugId);
 		commentMapper.deleteByExample(ex);
 	}

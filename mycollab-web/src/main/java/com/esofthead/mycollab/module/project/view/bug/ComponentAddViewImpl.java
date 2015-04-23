@@ -40,10 +40,9 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 		implements ComponentAddView {
-
 	private static final long serialVersionUID = 1L;
 
 	@Override

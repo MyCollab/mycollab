@@ -26,7 +26,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 public class OptionPopupContent extends MVerticalLayout {
     public OptionPopupContent() {
-        withSpacing(false).withMargin(false).withStyleName(UIConstants.OPTION_POPUP_CONTENT).withWidth("150px");
+        withSpacing(false).withMargin(false).withStyleName(UIConstants.OPTION_POPUP_CONTENT).withWidth("200px");
     }
 
     @Override

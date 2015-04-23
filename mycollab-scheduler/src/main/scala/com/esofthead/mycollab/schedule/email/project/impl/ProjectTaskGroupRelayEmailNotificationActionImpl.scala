@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.format.{FieldFormat, WebItem}
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -140,8 +140,7 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
     def formatField(context: MailContext[_]): String = {
       val taskList: SimpleTaskList = context.wrappedBean.asInstanceOf[SimpleTaskList]
       if (taskList.getMilestoneid != null) {
-        val milestoneIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.MILESTONE)
-        val img: Img = FormatUtils.newImg("icon", milestoneIconLink)
+        val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
         val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, taskList
           .getProjectid, taskList.getMilestoneid)
         val link: A = FormatUtils.newA(milestoneLink, taskList.getMilestoneName)
@@ -161,8 +160,7 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
         val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
         val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
         if (milestone != null) {
-          val milestoneIconLink: String = ProjectResources.getResourceLink(ProjectTypeConstants.MILESTONE)
-          val img: Img = FormatUtils.newImg("icon", milestoneIconLink)
+          val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
           val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
             .getProjectid, milestone.getId)
           val link: A = FormatUtils.newA(milestoneLink, milestone.getName)

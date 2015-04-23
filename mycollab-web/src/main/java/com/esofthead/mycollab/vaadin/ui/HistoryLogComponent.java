@@ -25,7 +25,6 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.utils.FieldGroupFormatter.FieldDisplayHandler;
@@ -79,8 +78,9 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 
 		Object parentComp = this.getParent();
 		if (parentComp instanceof TabSheetLazyLoadComponent) {
-			((TabSheetLazyLoadComponent)parentComp).getTab(this).setCaption(AppContext.getMessage(ProjectCommonI18nEnum
-					.TAB_HISTORY, numHistories));
+			((TabSheetLazyLoadComponent)parentComp).getTab(this)
+					.setCaption(AppContext.getMessage(GenericI18Enum
+							.TAB_HISTORY, numHistories));
 		}
 	}
 
@@ -90,7 +90,6 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 
 		@Override
 		public Component generateRow(SimpleAuditLog log, int rowIndex) {
-
 			List<AuditChangeItem> changeItems = log.getChangeItems();
 			if (CollectionUtils.isNotEmpty(changeItems)) {
 				CssLayout layout = new CssLayout();
@@ -99,9 +98,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 
 				GridLayout gridLayout = new GridLayout(3, changeItems.size() + 2);
 				gridLayout.setWidth("100%");
-
 				int visibleRows = 0;
-
 				String strDate = "";
 
 				for (int i = 0; i < changeItems.size(); i++) {
@@ -112,9 +109,7 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 							.getFieldDisplayHandler(fieldName);
 					if (fieldDisplayHandler != null) {
 						gridLayout.addComponent(
-								new Label(AppContext
-										.getMessage(fieldDisplayHandler
-												.getDisplayName())), 0,
+								new Label(AppContext.getMessage(fieldDisplayHandler.getDisplayName())), 0,
 								visibleRows + 2);
 						gridLayout.addComponent(fieldDisplayHandler.getFormat()
 								.toVaadinComponent(item.getOldvalue()), 1,
@@ -140,35 +135,22 @@ public abstract class HistoryLogComponent extends MVerticalLayout {
 					header.with(userLink).withAlign(userLink, Alignment.MIDDLE_LEFT);
 
 					Date changeDate = DateTimeUtils.convertDateByFormatW3C(strDate);
-					Label lbDate = new Label("changed " + AppContext.formatPrettyTime(changeDate));
+					Label lbDate = new Label(String.format("changed %s", AppContext.formatPrettyTime(changeDate)));
 					lbDate.setDescription(AppContext.formatDateTime(changeDate));
 					header.with(lbDate).withAlign(lbDate, Alignment.MIDDLE_LEFT);
 					gridLayout.addComponent(header, 0, 0, 2, 0);
 
-					gridLayout
-							.addComponent(
-									new Label(
-											String.format(
-													"<div style=\"font-weight: bold;\">%s</div>",
-													AppContext
-															.getMessage(GenericI18Enum.HISTORY_FIELD)),
-											ContentMode.HTML), 0, 1);
-					gridLayout
-							.addComponent(
-									new Label(
-											String.format(
-													"<div style=\"font-weight: bold;\">%s</div>",
-													AppContext
-															.getMessage(GenericI18Enum.HISTORY_OLD_VALUE)),
-											ContentMode.HTML), 1, 1);
-					gridLayout
-							.addComponent(
-									new Label(
-											String.format(
-													"<div style=\"font-weight: bold;\">%s</div>",
-													AppContext
-															.getMessage(GenericI18Enum.HISTORY_NEW_VALUE)),
-											ContentMode.HTML), 2, 1);
+					gridLayout.addComponent(new Label(String.format(
+                            "<div style=\"font-weight: bold;\">%s</div>",
+                            AppContext.getMessage(GenericI18Enum.HISTORY_FIELD)),
+                            ContentMode.HTML), 0, 1);
+					gridLayout.addComponent(new Label(String.format(
+                            "<div style=\"font-weight: bold;\">%s</div>",
+                            AppContext.getMessage(GenericI18Enum.HISTORY_OLD_VALUE)),
+                            ContentMode.HTML), 1, 1);
+					gridLayout.addComponent(new Label(String.format("<div style=\"font-weight: bold;\">%s</div>",
+                            AppContext.getMessage(GenericI18Enum.HISTORY_NEW_VALUE)),
+                            ContentMode.HTML), 2, 1);
 
 					gridLayout.setRows(visibleRows + 2);
 					layout.addComponent(gridLayout);

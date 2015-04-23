@@ -16,17 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.domain.CommentExample;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMilestoneCommand;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteProjectMilestoneCommandImpl implements
@@ -50,12 +49,10 @@ public class DeleteProjectMilestoneCommandImpl implements
 			int milestoneId) {
 		LOG.debug("Delete files of bug {} in project {}", milestoneId,
 				projectId);
-
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
-		String attachmentPath = AttachmentUtils
-				.getProjectMilestoneAttachmentPath(accountId, projectId,
-						milestoneId);
+		String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+				ProjectTypeConstants.MILESTONE, "" + milestoneId);
 		resourceService.removeResource(attachmentPath, "", accountId);
 	}
 
@@ -66,7 +63,7 @@ public class DeleteProjectMilestoneCommandImpl implements
 
 		CommentExample ex = new CommentExample();
 		ex.createCriteria()
-				.andTypeEqualTo(CommentType.PRJ_MILESTONE.toString())
+				.andTypeEqualTo(ProjectTypeConstants.MILESTONE.toString())
 				.andExtratypeidEqualTo(milestoneId);
 		commentMapper.deleteByExample(ex);
 	}

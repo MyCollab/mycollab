@@ -105,13 +105,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 				}
 				return tf;
 			} else if (Task.Field.type.equalTo(propertyId)) {
-				return new RelatedEditItemField(
-						new String[] { CrmTypeConstants.ACCOUNT,
-								CrmTypeConstants.CAMPAIGN,
-								CrmTypeConstants.CONTACT,
-								CrmTypeConstants.LEAD,
-								CrmTypeConstants.OPPORTUNITY,
-								CrmTypeConstants.CASE }, attachForm.getBean());
+				return new RelatedEditItemField(attachForm.getBean());
 			} else if (Task.Field.typeid.equalTo(propertyId)) {
 				return new DummyCustomField<Integer>();
 			} else if (Task.Field.assignuser.equalTo(propertyId)) {

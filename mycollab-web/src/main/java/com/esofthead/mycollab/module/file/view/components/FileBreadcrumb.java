@@ -19,12 +19,14 @@ package com.esofthead.mycollab.module.file.view.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.ecm.domain.ExternalFolder;
 import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
@@ -76,7 +78,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 		this.setHeight(25, Unit.PIXELS);
 
 		this.select(0);
-		Button documentBtnLink = generateBreadcrumbLink("My Documents",
+		Button documentBtnLink = generateBreadcrumbLink(AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS),
 				new ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -40,6 +40,7 @@ public class SimpleAuditLog extends AuditLog {
 
 	public List<AuditChangeItem> getChangeItems() {
 		if (changeItems == null) {
+			System.out.println("CHANGESET: " + getChangeset() + "---" + getType());
 			changeItems = parseChangeItems();
 		}
 		if (changeItems == null) {

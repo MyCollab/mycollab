@@ -64,8 +64,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberInviteViewImpl extends AbstractPageView implements
-        ProjectMemberInviteView {
+public class ProjectMemberInviteViewImpl extends AbstractPageView implements ProjectMemberInviteView {
     private static final long serialVersionUID = 1L;
 
     private List<String> inviteEmails;
@@ -95,8 +94,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
             }
         });
 
-        AddViewLayout userAddLayout = new AddViewLayout(
-                AppContext
+        AddViewLayout userAddLayout = new AddViewLayout(AppContext
                         .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
                 FontAwesome.USER);
 
@@ -111,11 +109,9 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
                 AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
         messageArea = new TextArea();
-        messageArea
-                .setValue(AppContext
+        messageArea.setValue(AppContext
                         .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
-        informationLayout
-                .addComponent(messageArea, AppContext
+        informationLayout.addComponent(messageArea, AppContext
                         .getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
         userAddLayout.addBody(informationLayout.getLayout());
@@ -156,11 +152,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
                     public void buttonClick(ClickEvent event) {
                         ViewState viewState = HistoryViewManager.back();
                         if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectMemberEvent.GotoList(this,
-                                            null));
+                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
                         }
-
                     }
                 });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
@@ -172,7 +165,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
     private Layout createBottomPanel() {
         VerticalLayout permissionsPanel = new VerticalLayout();
-        final Label organizationHeader = new Label(
+        Label organizationHeader = new Label(
                 AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
         organizationHeader.setStyleName("h2");
         permissionsPanel.addComponent(organizationHeader);
@@ -190,31 +183,24 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
     private void displayRolePermission(Integer roleId) {
         projectFormHelper.getLayout().removeAllComponents();
         if (roleId != null && roleId > 0) {
-            ProjectRoleService roleService = ApplicationContextUtil
-                    .getSpringBean(ProjectRoleService.class);
-            SimpleProjectRole role = roleService.findById(roleId,
-                    AppContext.getAccountId());
+            ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+            SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
             if (role != null) {
-                final PermissionMap permissionMap = role.getPermissionMap();
+                PermissionMap permissionMap = role.getPermissionMap();
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                    projectFormHelper.addComponent(
-                            new Label(AppContext.getPermissionCaptionValue(
+                    String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
                                     permissionMap, permissionPath)), AppContext
-                                    .getMessage(RolePermissionI18nEnum
-                                            .valueOf(permissionPath)), 0, i);
+                                    .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-                projectFormHelper.addComponent(
-                        new Label(AppContext
-                                .getMessage(SecurityI18nEnum.ACCESS)),
-                        permissionPath, 0, i);
+                projectFormHelper.addComponent(new Label(AppContext
+                                .getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
             }
         }
-
     }
 
     private class InviteUserTokenField extends CssLayout implements SuggestField.NewItemsHandler,

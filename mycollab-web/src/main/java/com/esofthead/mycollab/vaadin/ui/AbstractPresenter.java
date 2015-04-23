@@ -16,24 +16,14 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.IPresenter;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.vaadin.ui.ComponentContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -66,25 +56,14 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 	}
 
 	private void initView() {
-		ViewComponent annotation = implClass.getAnnotation(ViewComponent.class);
-		ViewScope scope = annotation.scope();
-		if (scope == ViewScope.PROTOTYPE) {
-			constructView();
-		} else {
-			if (view == null) {
-				constructView();
+		if (view == null) {
+			try {
+				view = implClass.newInstance();
+				postInitView();
+			} catch (Exception e) {
+				LOG.error("Can not init view " + implClass, e);
 			}
 		}
-	}
-
-	private void constructView() {
-		try {
-			view = implClass.newInstance();
-			postInitView();
-		} catch (Exception e) {
-			LOG.error("Can not init view " + implClass, e);
-		}
-
 	}
 
 	protected void postInitView() {

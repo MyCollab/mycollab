@@ -22,9 +22,9 @@ import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMe
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -76,7 +76,7 @@ public class MessageAddPresenter extends
 								.getUploadField();
 						uploadField.saveContentsToRepo(
 								CurrentProjectVariables.getProjectId(),
-								AttachmentType.PROJECT_MESSAGE, bean.getId());
+								ProjectTypeConstants.MESSAGE, bean.getId());
 						EventBusFactory.getInstance().post(
 								new ShellEvent.NavigateBack(this, null));
 					}

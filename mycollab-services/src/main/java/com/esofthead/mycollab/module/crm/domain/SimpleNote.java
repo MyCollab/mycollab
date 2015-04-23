@@ -16,14 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.module.ecm.domain.Content;
-import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
-import com.esofthead.mycollab.module.file.AttachmentUtils;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleNote extends Note {
 
@@ -50,13 +47,13 @@ public class SimpleNote extends Note {
 	}
 
 	public List<Content> getAttachments() {
-		if (attachments == null) {
-			ContentJcrDao contentJcr = ApplicationContextUtil
-					.getSpringBean(ContentJcrDao.class);
-			String notePath = AttachmentUtils.getCrmNoteAttachmentPath(
-					this.getSaccountid(), this.getId());
-			attachments = contentJcr.getContents(notePath);
-		}
+//		if (attachments == null) {
+//			ContentJcrDao contentJcr = ApplicationContextUtil
+//					.getSpringBean(ContentJcrDao.class);
+//			String notePath = AttachmentUtils.getCrmNoteAttachmentPath(
+//					this.getSaccountid(), this.getId());
+//			attachments = contentJcr.getContents(notePath);
+//		}
 
 		if (attachments == null) {
 			attachments = new ArrayList<Content>();

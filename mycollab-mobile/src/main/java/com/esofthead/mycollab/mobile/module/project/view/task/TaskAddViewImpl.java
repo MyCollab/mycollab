@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
-import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -58,7 +58,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 		attachmentUploadField = new ProjectFormAttachmentUploadField();
 		if (item.getId() != null) {
 			attachmentUploadField.getAttachments(item.getProjectid(),
-					AttachmentType.PROJECT_TASK_TYPE, item.getId());
+					ProjectTypeConstants.TASK, item.getId());
 		}
 		super.editItem(item);
 		this.editForm.addComponent(attachmentUploadField);

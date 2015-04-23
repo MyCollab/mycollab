@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import static com.esofthead.mycollab.module.crm.view.account.AccountHistoryLogWindow.accountFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.AssignmentHistoryLogWindow.assignmentFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.CallHistoryLogWindow.callFormatter;
-import static com.esofthead.mycollab.module.crm.view.activity.MeetingHistoryLogWindow.meetingFormatter;
-import static com.esofthead.mycollab.module.crm.view.campaign.CampaignHistoryLogWindow.campaignFormatter;
-import static com.esofthead.mycollab.module.crm.view.cases.CaseHistoryLogWindow.caseFormatter;
-import static com.esofthead.mycollab.module.crm.view.contact.ContactHistoryLogWindow.contactFormatter;
-import static com.esofthead.mycollab.module.crm.view.lead.LeadHistoryLogWindow.leadFormatter;
-import static com.esofthead.mycollab.module.crm.view.opportunity.OpportunityHistoryLogWindow.opportunityFormatter;
+import static com.esofthead.mycollab.module.crm.view.account.AccountHistoryLogList.accountFormatter;
+import static com.esofthead.mycollab.module.crm.view.activity.AssignmentHistoryLogList.assignmentFormatter;
+import static com.esofthead.mycollab.module.crm.view.activity.CallHistoryLogList.callFormatter;
+import static com.esofthead.mycollab.module.crm.view.activity.MeetingHistoryLogList.meetingFormatter;
+import static com.esofthead.mycollab.module.crm.view.campaign.CampaignHistoryLogList.campaignFormatter;
+import static com.esofthead.mycollab.module.crm.view.cases.CaseHistoryLogList.caseFormatter;
+import static com.esofthead.mycollab.module.crm.view.contact.ContactHistoryLogList.contactFormatter;
+import static com.esofthead.mycollab.module.crm.view.lead.LeadHistoryLogList.leadFormatter;
+import static com.esofthead.mycollab.module.crm.view.opportunity.OpportunityHistoryLogList.opportunityFormatter;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -16,19 +16,16 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -67,72 +64,8 @@ public class SimpleComment extends CommentWithBLOBs {
 	public List<Content> getAttachments() {
 		try {
 			if (attachments == null) {
-				ContentJcrDao contentJcr = ApplicationContextUtil
-						.getSpringBean(ContentJcrDao.class);
-
-				String commentPath = "";
-				if (CommentType.PRJ_BUG.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectBugCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_MESSAGE.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectMessageCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_MILESTONE.toString().equals(
-						getType())) {
-					commentPath = AttachmentUtils
-							.getProjectMilestoneCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_PROBLEM.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectProblemCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_RISK.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectRiskCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_TASK.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectTaskCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_TASK_LIST.toString().equals(
-						getType())) {
-					commentPath = AttachmentUtils
-							.getProjectTaskListCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_PAGE.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectPageCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
-				} else if (CommentType.CRM_NOTE.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getCrmNoteCommentAttachmentPath(getSaccountid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_COMPONENT.toString().equals(
-						getType())) {
-					commentPath = AttachmentUtils
-							.getProjectComponentCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else if (CommentType.PRJ_VERSION.toString().equals(getType())) {
-					commentPath = AttachmentUtils
-							.getProjectVersionCommentAttachmentPath(
-									getSaccountid(), getExtratypeid(),
-									Integer.parseInt(getTypeid()), getId());
-				} else {
-					throw new MyCollabException("Do not support comment type "
-							+ getType());
-				}
-
+				ContentJcrDao contentJcr = ApplicationContextUtil.getSpringBean(ContentJcrDao.class);
+				String commentPath = AttachmentUtils.getCommentAttachmentPath(getType(), getSaccountid(), getExtratypeid(), getTypeid(), getId());
 				attachments = contentJcr.getContents(commentPath);
 			}
 		} catch (Exception e) {
@@ -142,7 +75,7 @@ public class SimpleComment extends CommentWithBLOBs {
 		}
 
 		if (attachments == null) {
-			attachments = new ArrayList<Content>();
+			attachments = new ArrayList<>();
 		}
 		return attachments;
 	}

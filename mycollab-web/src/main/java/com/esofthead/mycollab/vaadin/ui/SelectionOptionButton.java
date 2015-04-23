@@ -79,7 +79,7 @@ public class SelectionOptionButton extends SplitButton implements
 
         final OptionPopupContent selectContent = new OptionPopupContent().withWidth("150px");
 
-        selectAllBtn = new ButtonLink("", new Button.ClickListener() {
+        selectAllBtn = new ButtonLinkLegacy("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = true;
@@ -91,7 +91,7 @@ public class SelectionOptionButton extends SplitButton implements
         });
         selectContent.addOption(selectAllBtn);
 
-        selectThisPageBtn = new ButtonLink("", new Button.ClickListener() {
+        selectThisPageBtn = new ButtonLinkLegacy("", new Button.ClickListener() {
             @Override
             public void buttonClick(final ClickEvent event) {
                 isSelectAll = false;
@@ -103,7 +103,7 @@ public class SelectionOptionButton extends SplitButton implements
         });
         selectContent.addOption(selectThisPageBtn);
 
-        Button deSelectBtn = new ButtonLink("Deselect All",
+        Button deSelectBtn = new ButtonLinkLegacy("Deselect All",
                 new Button.ClickListener() {
                     @Override
                     public void buttonClick(final ClickEvent event) {

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -35,15 +35,16 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
@@ -55,12 +56,12 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 @ViewComponent
 public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		implements ContactReadView {
-
 	private static final long serialVersionUID = 1L;
 
-	protected ContactOpportunityListComp associateOpportunityList;
-	protected ActivityRelatedItemListComp associateActivityList;
-	protected NoteListItems noteListItems;
+	private ContactOpportunityListComp associateOpportunityList;
+	private ActivityRelatedItemListComp associateActivityList;
+	private CrmCommentDisplay commentList;
+    private ContactHistoryLogList historyLogList;
 
 	private DateInfoComp dateInfoComp;
 	private PeopleInfoComp peopleInfoComp;
@@ -72,22 +73,15 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleContact> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleContact>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				final ContactHistoryLogWindow historyLog = new ContactHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.CONTACT);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -99,11 +93,6 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	@Override
 	public AdvancedPreviewBeanForm<SimpleContact> getPreviewForm() {
 		return this.previewForm;
-	}
-
-	protected void displayNotes() {
-		this.noteListItems.showNotes(CrmTypeConstants.CONTACT,
-				this.beanItem.getId());
 	}
 
 	protected void displayActivities() {
@@ -126,7 +115,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 	@Override
 	protected void onPreviewItem() {
-		this.displayNotes();
+		commentList.loadComments("" + beanItem.getId());
+		historyLogList.loadHistory(beanItem.getId());
 		this.displayActivities();
 		this.displayAssociateOpportunityList();
 
@@ -150,8 +140,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 					+ AppContext
 							.getMessage(
 									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
 									CrmLinkGenerator.generateCrmItemLink(
 											CrmTypeConstants.LEAD, lead.getId()),
 									lead.getLeadName());
@@ -164,8 +153,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	protected void initRelatedComponents() {
 		this.associateOpportunityList = new ContactOpportunityListComp();
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
-		this.noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+		historyLogList = new ContactHistoryLogList();
+		commentList = new CrmCommentDisplay(CrmTypeConstants.CONTACT, ContactRelayEmailNotificationAction.class);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");

@@ -40,8 +40,7 @@ public class CrmPreviewFormControlsGenerator<T> {
     public static int CLONE_BTN_PRESENTED = 16;
     public static int PREVIOUS_BTN_PRESENTED = 32;
     public static int NEXT_BTN_PRESENTED = 64;
-    public static int HISTORY_BTN_PRESENTED = 128;
-    public static int ADD_BTN_PRESENTED = 256;
+    public static int ADD_BTN_PRESENTED = 128;
 
     private AdvancedPreviewBeanForm<T> previewForm;
     private SplitButton optionBtn;
@@ -76,8 +75,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
     public HorizontalLayout createButtonControls(final String permissionItem) {
         return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
-                | CLONE_BTN_PRESENTED | HISTORY_BTN_PRESENTED
-                | PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
+                | CLONE_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
                 | ADD_BTN_PRESENTED, permissionItem);
     }
 
@@ -167,22 +165,6 @@ public class CrmPreviewFormControlsGenerator<T> {
                     });
             cloneBtn.setIcon(FontAwesome.ROAD);
             popupButtonsControl.addOption(cloneBtn);
-        }
-
-        if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
-            Button historyBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_HISTORY),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            optionBtn.setPopupVisible(false);
-                            previewForm.showHistory();
-                        }
-                    });
-            historyBtn.setIcon(FontAwesome.HISTORY);
-            popupButtonsControl.addOption(historyBtn);
         }
 
         optionBtn.setContent(popupButtonsControl);

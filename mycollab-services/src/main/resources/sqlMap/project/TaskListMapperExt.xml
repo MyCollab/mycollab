@@ -32,7 +32,6 @@
         <result column="createdUserFullName" jdbcType="VARCHAR"
             property="createdUserFullName" />
 
-        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
 
         <collection property="subTasks" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.project.domain.SimpleTask"
@@ -122,6 +121,29 @@
         <include refid="querySearchCriteria" />
         #end
         #end
+    </select>
+
+    <select id="getTotalBillableHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+            FROM m_prj_task, m_prj_time_logging
+            WHERE m_prj_task.tasklistid = @{tasklistid} AND m_prj_time_logging.typeid = m_prj_task.id
+               AND m_prj_time_logging.type = 'Project-Task' AND m_prj_time_logging.isBillable = '1'
+    </select>
+
+    <select id="getTotalNonBillableHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_time_logging.logValue), 0)
+        FROM m_prj_task, m_prj_time_logging
+        WHERE m_prj_task.tasklistid = @{tasklistid} AND m_prj_time_logging.typeid = m_prj_task.id
+        AND m_prj_time_logging.type = 'Project-Task' AND m_prj_time_logging.isBillable = '0'
+    </select>
+
+    <select id="getRemainHours" parameterType="int"
+            resultType="double" lang="velocity">
+        SELECT COALESCE(SUM(m_prj_task.remainEstimate), 0)
+        FROM m_prj_task
+        WHERE m_prj_task.tasklistid = @{tasklistid}
     </select>
 
     <select id="findPagableListByCriteria" parameterType="TaskListSearchCriteria"

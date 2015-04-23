@@ -50,7 +50,6 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
         @Override
         public void run() {
             UI.getCurrent().access(new Runnable() {
-
                 @Override
                 public void run() {
                     try {

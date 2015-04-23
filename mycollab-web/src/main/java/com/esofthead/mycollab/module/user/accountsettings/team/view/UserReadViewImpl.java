@@ -212,11 +212,6 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             super.setBean(newDataSource);
         }
 
-        @Override
-        public void showHistory() {
-            // TODO: show user edit history
-        }
-
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 

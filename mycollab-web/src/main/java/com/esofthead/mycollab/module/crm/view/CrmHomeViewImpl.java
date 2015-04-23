@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
-
 import com.esofthead.mycollab.module.crm.view.account.AccountListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.CallListDashlet;
 import com.esofthead.mycollab.module.crm.view.activity.MeetingListDashlet;
@@ -29,10 +26,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -41,7 +39,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @SuppressWarnings("serial")
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class CrmHomeViewImpl extends AbstractLazyPageView implements
 		CrmHomeView {
 	private IOpportunityPipelineFunnelChartDashlet opportunityChartDashlet;

@@ -40,7 +40,6 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
-
 		accountContainer.gotoSubView(SettingUIConstants.PROFILE);
 
 		AbstractPresenter<?> presenter = null;

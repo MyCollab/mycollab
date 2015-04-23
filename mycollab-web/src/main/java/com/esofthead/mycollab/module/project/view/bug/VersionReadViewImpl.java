@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -29,7 +28,6 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
@@ -47,7 +45,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
@@ -70,17 +67,17 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
         implements VersionReadView {
     private static final long serialVersionUID = 1L;
 
-    private CommentDisplay commentDisplay;
-    private VersionHistoryLogList historyLogList;
-
     private Button quickActionStatusBtn;
+    private CommentDisplay commentDisplay;
 
+    private VersionHistoryLogList historyLogList;
     private DateInfoComp dateInfoComp;
+    private VersionTimeLogComp versionTimeLogComp;
 
     public VersionReadViewImpl() {
         super(AppContext.getMessage(VersionI18nEnum.VIEW_READ_TITLE),
@@ -94,8 +91,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
     @Override
     protected void initRelatedComponents() {
-        commentDisplay = new CommentDisplay(CommentType.PRJ_VERSION,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentDisplay = new CommentDisplay(ProjectTypeConstants.BUG_VERSION,
+                CurrentProjectVariables.getProjectId(),
                 VersionRelayEmailNotificationAction.class);
         commentDisplay.setWidth("100%");
 
@@ -103,7 +100,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
                 ProjectTypeConstants.BUG_VERSION);
 
         dateInfoComp = new DateInfoComp();
-        addToSideBar(dateInfoComp);
+        versionTimeLogComp = new VersionTimeLogComp();
+        addToSideBar(dateInfoComp, versionTimeLogComp);
     }
 
     @Override
@@ -111,6 +109,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
         commentDisplay.loadComments("" + beanItem.getId());
         historyLogList.loadHistory(beanItem.getId());
         dateInfoComp.displayEntryDateTime(beanItem);
+        versionTimeLogComp.displayTime(beanItem);
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -214,8 +213,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(commentDisplay, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabContainer.addTab(historyLogList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabContainer.addTab(commentDisplay, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
     }
 
@@ -329,7 +328,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
                     bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(String.format("[%s-%d] %s", bug.getProjectShortName(), bug.getBugkey(), bug
+            itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug
                     .getSummary()));
 
             div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),

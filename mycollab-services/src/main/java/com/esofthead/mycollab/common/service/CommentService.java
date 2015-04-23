@@ -32,6 +32,5 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 public interface CommentService extends IDefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> {
 	@CacheEvict
 	int saveWithSession(@CacheKey CommentWithBLOBs record, String username,
-			boolean isSendingEmail,
 			Class<? extends SendingRelayEmailNotificationAction> emailHandler);
 }

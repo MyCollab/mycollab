@@ -51,8 +51,6 @@ public class UserAvatarHttpServletRequestHandler extends
 		}
 
 		String path = request.getPathInfo();
-		File avatarFile = null;
-
 		String username = "";
 		int size = 0;
 
@@ -65,16 +63,18 @@ public class UserAvatarHttpServletRequestHandler extends
 				if (size <= 0) {
 					LOG.error("Error to get avatar", new MyCollabException(
 							"Invalid request for avatar " + path));
+					return;
 				}
 			} else {
 				LOG.error("Error to get avatar", new MyCollabException(
 						"Invalid request for avatar " + path));
+				return;
 			}
 		}
 
 		FileStorageConfiguration fileConfiguration = (FileStorageConfiguration) StorageManager
 				.getConfiguration();
-		avatarFile = fileConfiguration.getAvatarFile(username, size);
+		File avatarFile = fileConfiguration.getAvatarFile(username, size);
 		InputStream avatarInputStream;
 		if (avatarFile != null) {
 			avatarInputStream = new FileInputStream(avatarFile);
@@ -83,34 +83,24 @@ public class UserAvatarHttpServletRequestHandler extends
 					+ ".png";
 			avatarInputStream = UserAvatarHttpServletRequestHandler.class
 					.getClassLoader().getResourceAsStream(userAvatarPath);
+			if (avatarInputStream == null) {
+				LOG.error("Error to get avatar", new MyCollabException(
+						"Invalid request for avatar " + path));
+				return;
+			}
 		}
 
 		response.setHeader("Content-Type", "image/png");
 		response.setHeader("Content-Length",
 				String.valueOf(avatarInputStream.available()));
 
-		BufferedInputStream input = null;
-		BufferedOutputStream output = null;
-
-		try {
-			input = new BufferedInputStream(avatarInputStream);
-			output = new BufferedOutputStream(response.getOutputStream());
+		try (BufferedInputStream input = new BufferedInputStream(avatarInputStream);
+			 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
 			byte[] buffer = new byte[8192];
 			int length;
 			while ((length = input.read(buffer)) > 0) {
 				output.write(buffer, 0, length);
 			}
-		} finally {
-			if (output != null)
-				try {
-					output.close();
-				} catch (IOException logOrIgnore) {
-				}
-			if (input != null)
-				try {
-					input.close();
-				} catch (IOException logOrIgnore) {
-				}
 		}
 	}
 }

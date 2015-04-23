@@ -16,12 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -51,7 +49,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
 import com.vaadin.server.ExternalResource;
@@ -78,7 +75,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         implements BugReadView, IBugCallbackStatusComp {
     private static final long serialVersionUID = 1L;
@@ -293,8 +290,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(CommentType.PRJ_BUG,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentList = new CommentDisplay(ProjectTypeConstants.BUG,
+                CurrentProjectVariables.getProjectId(),
                 BugRelayEmailNotificationAction.class);
 
         historyList = new BugHistoryList();
@@ -447,8 +444,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabBugDetail = new TabSheetLazyLoadComponent();
-        tabBugDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
-        tabBugDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabBugDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabBugDetail.addTab(historyList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabBugDetail;
     }
 
@@ -552,7 +549,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
             } else if (BugWithBLOBs.Field.id.equalTo(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(
                         beanItem.getProjectid(),
-                        AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
+                        ProjectTypeConstants.BUG, beanItem.getId());
             } else if (SimpleBug.Field.components.equalTo(propertyId)) {
                 final List<Component> components = beanItem.getComponents();
                 if (CollectionUtils.isNotEmpty(components)) {

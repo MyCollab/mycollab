@@ -33,7 +33,7 @@ import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAc
 import com.esofthead.mycollab.schedule.email.format.{DateFieldFormat, EmailLinkFieldFormat, FieldFormat}
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.esofthead.mycollab.spring.ApplicationContextUtil
-import com.hp.gagawa.java.elements.{A, Img, Span}
+import com.hp.gagawa.java.elements.{Text, A, Img, Span}
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
@@ -157,8 +157,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     def formatField(context: MailContext[_]): String = {
       val contact: SimpleContact = context.getWrappedBean.asInstanceOf[SimpleContact]
       if (contact.getAccountid != null) {
-        val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-        val img: Img = FormatUtils.newImg("icon", accountIconLink)
+        val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
         val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, contact.getAccountid)
         val link: A = FormatUtils.newA(accountLink, contact.getAccountName)
         FormatUtils.newLink(img, link).write
@@ -177,8 +176,7 @@ class ContactRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
         val accountService: AccountService = ApplicationContextUtil.getSpringBean(classOf[AccountService])
         val account: SimpleAccount = accountService.findById(accountId, context.getUser.getAccountId)
         if (account != null) {
-          val accountIconLink: String = CrmResources.getResourceLink(CrmTypeConstants.ACCOUNT)
-          val img: Img = FormatUtils.newImg("icon", accountIconLink)
+          val img: Text = new Text(CrmResources.getFontIconHtml(CrmTypeConstants.ACCOUNT))
           val accountLink: String = CrmLinkGenerator.generateAccountPreviewFullLink(context.siteUrl, account.getId)
           val link: A = FormatUtils.newA(accountLink, account.getAccountname)
           return FormatUtils.newLink(img, link).write

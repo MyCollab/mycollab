@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.ErrorI18nEnum;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -33,7 +32,6 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.AttachmentUploadField;
 import com.vaadin.server.Resource;
@@ -43,7 +41,7 @@ import com.vaadin.ui.*;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
         TaskAddView {
 
@@ -136,11 +134,9 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
                 TaskAddViewImpl.this.attachmentUploadField = new AttachmentUploadField();
                 if (beanItem.getId() != null) {
                     String attachmentPath = AttachmentUtils
-                            .getProjectEntityAttachmentPath(
-                                    AppContext.getAccountId(),
+                            .getProjectEntityAttachmentPath(AppContext.getAccountId(),
                                     CurrentProjectVariables.getProjectId(),
-                                    AttachmentType.PROJECT_TASK_TYPE,
-                                    beanItem.getId());
+                                    ProjectTypeConstants.TASK, "" + beanItem.getId());
                     TaskAddViewImpl.this.attachmentUploadField
                             .getAttachments(attachmentPath);
                 }

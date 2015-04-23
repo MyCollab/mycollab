@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -91,7 +91,7 @@ public class AccountSelectionWindow extends Window {
                         final SimpleAccount account = tableItem
                                 .getBeanByIndex(itemId);
 
-                        ButtonLink accountLink = new ButtonLink(account.getAccountname(),
+                        ButtonLinkLegacy accountLink = new ButtonLinkLegacy(account.getAccountname(),
                                 new Button.ClickListener() {
 
                                     @Override

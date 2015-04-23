@@ -17,9 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
@@ -80,18 +78,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     }
 
     protected AdvancedPreviewBeanForm<SimpleProjectRole> initPreviewForm() {
-        return new AdvancedPreviewBeanForm<SimpleProjectRole>() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void showHistory() {
-                final ProjectRoleHistoryLogWindow historyLog = new ProjectRoleHistoryLogWindow(
-                        ModuleNameConstants.PRJ,
-                        ProjectTypeConstants.PROJECT_ROLE);
-                historyLog.loadHistory(previewForm.getBean().getId());
-                UI.getCurrent().addWindow(historyLog);
-            }
-        };
+        return new AdvancedPreviewBeanForm<>();
     }
 
     protected ComponentContainer createButtonControls() {

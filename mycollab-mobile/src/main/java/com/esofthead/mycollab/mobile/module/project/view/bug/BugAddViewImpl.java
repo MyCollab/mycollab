@@ -23,7 +23,7 @@ import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneComb
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
@@ -36,13 +36,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.addon.touchkit.ui.NumberField;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
@@ -74,7 +68,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 		attachmentUploadField = new ProjectFormAttachmentUploadField();
 		if (item.getId() != null) {
 			attachmentUploadField.getAttachments(item.getProjectid(),
-					AttachmentType.PROJECT_BUG_TYPE, item.getId());
+					ProjectTypeConstants.BUG, item.getId());
 		}
 		super.editItem(item);
 
@@ -92,7 +86,6 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
 	private class EditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
-
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<SimpleBug> form) {
@@ -159,7 +152,6 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 	}
 
 	public class EditFormLayoutFactory implements IFormLayoutFactory {
-
 		private static final long serialVersionUID = -9159483523170247666L;
 
 		private GridFormLayoutHelper informationLayout;
@@ -219,10 +211,6 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 						8);
-				// } else if (propertyId.equals("id")) {
-				// this.informationLayout.addComponent(field,
-				// AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
-				// 9);
 			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),

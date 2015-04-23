@@ -16,14 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -91,7 +89,7 @@ public class OpportunitySelectionWindow extends Window {
                         final SimpleOpportunity opportunity = tableItem
                                 .getBeanByIndex(itemId);
 
-                        ButtonLink b = new ButtonLink(opportunity
+                        ButtonLinkLegacy b = new ButtonLinkLegacy(opportunity
                                 .getOpportunityname(),
                                 new Button.ClickListener() {
                                     private static final long serialVersionUID = 1L;

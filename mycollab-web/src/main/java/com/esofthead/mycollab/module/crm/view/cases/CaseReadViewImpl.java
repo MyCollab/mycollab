@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -29,17 +29,15 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.CrmAssetsManager;
 import com.esofthead.mycollab.module.crm.ui.components.*;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.*;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
@@ -51,11 +49,12 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 @ViewComponent
 public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		implements CaseReadView {
-
 	private static final long serialVersionUID = 1L;
-	protected CaseContactListComp associateContactList;
-	protected NoteListItems noteListItems;
-	protected ActivityRelatedItemListComp associateActivityList;
+	private CaseContactListComp associateContactList;
+	private ActivityRelatedItemListComp associateActivityList;
+
+	private CaseHistoryLogList historyLogList;
+	private CrmCommentDisplay commentList;
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
@@ -67,17 +66,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleCase> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleCase>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				CaseHistoryLogWindow historyLog = new CaseHistoryLogWindow(
-						ModuleNameConstants.CRM, CrmTypeConstants.CASE);
-				historyLog.loadHistory(beanItem.getId());
-				UI.getCurrent().addWindow(historyLog);
-			}
-		};
+		return new AdvancedPreviewBeanForm<>() ;
 	}
 
 	@Override
@@ -88,12 +77,16 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return noteListItems;
+		TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
+		tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+		tabTaskDetail.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
+		return tabTaskDetail;
 	}
 
 	@Override
 	protected void onPreviewItem() {
-		displayNotes();
+		commentList.loadComments("" + beanItem.getId());
+		historyLogList.loadHistory(beanItem.getId());
 		displayActivities();
 		displayContacts();
 
@@ -113,8 +106,9 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	protected void initRelatedComponents() {
 		associateContactList = new CaseContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+
+		commentList = new CrmCommentDisplay(CrmTypeConstants.CASE, CaseRelayEmailNotificationAction.class);
+		historyLogList = new CaseHistoryLogList();
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		MVerticalLayout basicInfo = new MVerticalLayout().withWidth("100%").withStyleName("basic-info");
@@ -148,10 +142,6 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleCase> initBeanFormFieldFactory() {
 		return new CaseReadFormFieldFactory(previewForm);
-	}
-
-	protected void displayNotes() {
-		noteListItems.showNotes(CrmTypeConstants.CASE, beanItem.getId());
 	}
 
 	protected void displayActivities() {

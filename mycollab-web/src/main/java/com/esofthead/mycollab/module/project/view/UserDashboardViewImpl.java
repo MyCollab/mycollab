@@ -43,7 +43,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -68,9 +67,8 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
-public class UserDashboardViewImpl extends AbstractLazyPageView implements
-        UserDashboardView {
+@ViewComponent
+public class UserDashboardViewImpl extends AbstractLazyPageView implements UserDashboardView {
     private static final long serialVersionUID = 1L;
 
     private LabelLink followingTicketsLink;
@@ -126,15 +124,13 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
         MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
         header.addStyleName("projectfeed-hdr");
 
-        Button avatar = UserAvatarControlFactory
-                .createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(), 64);
+        Button avatar = UserAvatarControlFactory.createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(), 64);
         avatar.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                String userFullLinkStr = AccountLinkGenerator
-                        .generatePreviewFullUserLink(AppContext.getSiteUrl(),
+                String userFullLinkStr = AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
                                 AppContext.getUsername());
                 getUI().getPage().open(userFullLinkStr, null);
             }
@@ -148,8 +144,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
         Label headerLabel = new Label(AppContext.getUser().getDisplayName());
         headerLabel.setStyleName(Reindeer.LABEL_H1);
 
-        MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false,
-                true, false));
+        MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false));
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
@@ -229,7 +224,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
             DefaultBeanPagedList<ProjectGenericItemService, ProjectGenericItemSearchCriteria, ProjectGenericItem>
                     searchItemsTable = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericItemService.class), new
-                    ItemRowDisplayHandler());
+                    AssignmentRowDisplayHandler());
             searchItemsTable.setControlStyle("borderlessControl");
             int foundNum = searchItemsTable.setSearchCriteria(searchCriteria);
             headerLbl.setValue(String.format(headerTitle, value, foundNum));
@@ -240,48 +235,44 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
     private void displayFollowingTicketsCount() {
         // show following ticket numbers
         MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
-        searchCriteria.setUser(new StringSearchField(SearchField.AND,
-                AppContext.getUsername()));
-        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
-                .toArray(new Integer[prjKeys.size()])));
-        MonitorItemService monitorService = ApplicationContextUtil
-                .getSpringBean(MonitorItemService.class);
+        searchCriteria.setUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
+        MonitorItemService monitorService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         int followingItemsCount = monitorService.getTotalCount(searchCriteria);
-        followingTicketsLink
-                .setTitle(AppContext.getMessage(
+        followingTicketsLink.setTitle(AppContext.getMessage(
                         FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
     }
 
-    private static class ItemRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
+    private static class AssignmentRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem obj, int rowIndex) {
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem projectItem, int rowIndex) {
             MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true))
                     .withWidth("100%");
-            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(obj.getProjectShortName(), obj
-                    .getProjectId(), obj.getSummary(), obj.getType(), obj.getTypeId()), ContentMode.HTML);
+            Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(projectItem.getProjectShortName(), projectItem
+                    .getProjectId(), projectItem.getSummary(), projectItem.getType(), projectItem.getTypeId()), ContentMode.HTML);
             link.setStyleName("h2");
 
-            String desc = (StringUtils.isBlank(obj.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : obj
+            String desc = (StringUtils.isBlank(projectItem.getDescription())) ? "&lt;&lt;No description&gt;&gt;" : projectItem
                     .getDescription();
             SafeHtmlLabel descLbl = new SafeHtmlLabel(desc);
 
             Div div = new Div().setStyle("width:100%").setCSSClass("footer");
-            Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(obj.getLastUpdatedTime
-                    ()))).setTitle(AppContext.formatDateTime(obj.getLastUpdatedTime())).setStyle("float:right;" +
+            Div lastUpdatedOn = new Div().appendChild(new Text("Modified: " + AppContext.formatPrettyTime(projectItem.getLastUpdatedTime
+                    ()))).setTitle(AppContext.formatDateTime(projectItem.getLastUpdatedTime())).setStyle("float:right;" +
                     "margin-right:5px");
             Text createdByTxt = new Text("Created by: ");
-            if (StringUtils.isBlank(obj.getCreatedUser())) {
+            if (StringUtils.isBlank(projectItem.getCreatedUser())) {
                 div.appendChild(createdByTxt, new Text("None"), lastUpdatedOn);
             } else {
                 String uid = UUID.randomUUID().toString();
-                Img userAvatar = new Img("", StorageManager.getAvatarLink(obj.getCreatedUserAvatarId(), 16));
-                A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(obj.getProjectId(), obj
-                        .getCreatedUser())).appendText(obj.getCreatedUserDisplayName());
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, obj.getCreatedUser()));
+                Img userAvatar = new Img("", StorageManager.getAvatarLink(projectItem.getCreatedUserAvatarId(), 16));
+                A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(projectItem.getProjectId(), projectItem
+                        .getCreatedUser())).appendText(projectItem.getCreatedUserDisplayName());
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, projectItem.getCreatedUser()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 Text belongPrjTxt = new Text(" - Project: ");
-                A projectLink = new A().setHref(ProjectLinkBuilder.generateProjectFullLink(obj.getProjectId()))
-                        .appendText(obj.getProjectName() + " (" + obj.getProjectShortName() + ")");
+                A projectLink = new A().setHref(ProjectLinkBuilder.generateProjectFullLink(projectItem.getProjectId()))
+                        .appendText(String.format("%s (%s)", projectItem.getProjectName(), projectItem.getProjectShortName()));
 
                 div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), userAvatar, DivLessFormatter.EMPTY_SPACE(),
                         userLink, TooltipHelper.buildDivTooltipEnable(uid), DivLessFormatter.EMPTY_SPACE(), belongPrjTxt,

@@ -50,7 +50,7 @@ public class CrmSettingPresenter extends
 		if (ClassUtils.instanceOf(data,
 				NotificationSettingScreenData.Read.class)) {
 			presenter = PresenterResolver
-					.getPresenter(CrmNotifcationSettingPresenter.class);
+					.getPresenter(CrmNotificationSettingPresenter.class);
 		} else if (ClassUtils.instanceOf(data, CustomViewScreenData.Read.class)) {
 			presenter = PresenterResolver
 					.getPresenter(ICrmCustomViewPresenter.class);

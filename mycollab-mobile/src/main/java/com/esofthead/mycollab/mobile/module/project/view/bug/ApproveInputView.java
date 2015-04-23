@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
@@ -26,6 +25,7 @@ import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberS
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -94,9 +94,8 @@ class ApproveInputView extends AbstractMobilePageView {
 										.getTime());
 								comment.setCreateduser(AppContext.getUsername());
 								comment.setSaccountid(AppContext.getAccountId());
-								comment.setType(CommentType.PRJ_BUG.toString());
-								comment.setTypeid(""
-										+ ApproveInputView.this.bug.getId());
+								comment.setType(ProjectTypeConstants.BUG);
+								comment.setTypeid("" + bug.getId());
 								comment.setExtratypeid(CurrentProjectVariables
 										.getProjectId());
 

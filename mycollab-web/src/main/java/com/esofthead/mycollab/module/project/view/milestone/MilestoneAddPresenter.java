@@ -54,6 +54,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
     private static final long serialVersionUID = 1L;
 

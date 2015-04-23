@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.io.FilenameUtils;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -53,7 +55,6 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 	private AttachmentUploadComponent attachmentDisplayComponent;
 	private VerticalLayout progressBars = new VerticalLayout();
 	private CssLayout uploads = new CssLayout();
-	private String uploadButtonCaption = "Attach File(s)";
 	private MultiUpload upload;
 
 	public MultiFileUploadExt(
@@ -164,7 +165,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			}
 		};
 		upload.setHandler(handler);
-		upload.setButtonCaption(uploadButtonCaption);
+		upload.setButtonCaption(AppContext.getMessage(FileI18nEnum.ATTACH_FILES));
 		uploads.addComponent(upload);
 
 	}
@@ -261,7 +262,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 	 * A helper method to set DirectoryFileFactory with given pathname as
 	 * directory.
 	 * 
-	 * @param file
+	 * @param directoryWhereToUpload
 	 */
 	public void setRootDirectory(String directoryWhereToUpload) {
 		setFileFactory(new DirectoryFileFactory(

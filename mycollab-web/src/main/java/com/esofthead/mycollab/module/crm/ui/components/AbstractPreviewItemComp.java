@@ -77,14 +77,14 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 				});
 
 		previewLayout = new AddViewLayout2("", iconResource);
+		previewLayout.setStyleName("readview-layout");
+		previewLayout.setMargin(new MarginInfo(false, true, true, true));
 
 		previewContent = new VerticalLayout();
+		previewContent.setStyleName("preview-form-wrap");
 		previewContent.setWidth("100%");
 
 		previewForm = initPreviewForm();
-		previewForm.addStyleName("preview-form");
-		previewLayout.setStyleName("readview-layout");
-		previewLayout.setMargin(new MarginInfo(false, true, true, true));
 
 		ComponentContainer actionControls = createButtonControls();
 		if (actionControls != null) {

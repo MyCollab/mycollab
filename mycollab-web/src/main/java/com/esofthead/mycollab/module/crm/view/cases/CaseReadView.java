@@ -30,7 +30,6 @@ import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
  * 
  */
 public interface CaseReadView extends IPreviewView<SimpleCase> {
-
 	HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers();
 
 	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();

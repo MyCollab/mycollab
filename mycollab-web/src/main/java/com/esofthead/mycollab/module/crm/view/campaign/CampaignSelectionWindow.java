@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.ButtonLinkLegacy;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
@@ -90,7 +90,7 @@ public class CampaignSelectionWindow extends Window {
 						final SimpleCampaign campaign = tableItem
 								.getBeanByIndex(itemId);
 
-						ButtonLink campaignLink = new ButtonLink(campaign
+						ButtonLinkLegacy campaignLink = new ButtonLinkLegacy(campaign
 								.getCampaignname(), new Button.ClickListener() {
 
 							@Override

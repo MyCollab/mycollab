@@ -63,7 +63,7 @@ public class RelatedReadItemField extends CustomField {
 			FontAwesome relatedLink = null;
 			String relateItemName = null;
 
-			if ("Account".equals(type)) {
+			if (CrmTypeConstants.ACCOUNT.equals(type)) {
 				AccountService accountService = ApplicationContextUtil
 						.getSpringBean(AccountService.class);
 				final SimpleAccount account = accountService.findById(typeid,
@@ -72,7 +72,7 @@ public class RelatedReadItemField extends CustomField {
 					relateItemName = account.getAccountname();
 					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
 				}
-			} else if ("Campaign".equals(type)) {
+			} else if (CrmTypeConstants.CAMPAIGN.equals(type)) {
 				CampaignService campaignService = ApplicationContextUtil
 						.getSpringBean(CampaignService.class);
 				final SimpleCampaign campaign = campaignService.findById(
@@ -82,7 +82,7 @@ public class RelatedReadItemField extends CustomField {
 					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN);
 
 				}
-			} else if ("Contact".equals(type)) {
+			} else if (CrmTypeConstants.CONTACT.equals(type)) {
 				ContactService contactService = ApplicationContextUtil
 						.getSpringBean(ContactService.class);
 				final SimpleContact contact = contactService.findById(typeid,
@@ -92,7 +92,7 @@ public class RelatedReadItemField extends CustomField {
 					relatedLink =CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
 
 				}
-			} else if ("Lead".equals(type)) {
+			} else if (CrmTypeConstants.LEAD.equals(type)) {
 				LeadService leadService = ApplicationContextUtil
 						.getSpringBean(LeadService.class);
 				final SimpleLead lead = leadService.findById(typeid,
@@ -102,7 +102,7 @@ public class RelatedReadItemField extends CustomField {
 					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.LEAD);
 
 				}
-			} else if ("Opportunity".equals(type)) {
+			} else if (CrmTypeConstants.OPPORTUNITY.equals(type)) {
 				OpportunityService opportunityService = ApplicationContextUtil
 						.getSpringBean(OpportunityService.class);
 				final SimpleOpportunity opportunity = opportunityService
@@ -112,7 +112,7 @@ public class RelatedReadItemField extends CustomField {
 					relatedLink = CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY);
 
 				}
-			} else if ("Case".equals(type)) {
+			} else if (CrmTypeConstants.CASE.equals(type)) {
 				CaseService caseService = ApplicationContextUtil
 						.getSpringBean(CaseService.class);
 				final SimpleCase cases = caseService.findById(typeid,

@@ -23,7 +23,6 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -72,7 +71,7 @@ import java.util.Set;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class MessageListViewImpl extends AbstractPageView implements
         MessageListView, HasEditFormHandlers<Message> {
     private static final long serialVersionUID = 8433776359091397422L;
@@ -243,11 +242,8 @@ public class MessageListViewImpl extends AbstractPageView implements
                     .getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService
                     .getContents(AttachmentUtils
-                            .getProjectEntityAttachmentPath(
-                                    AppContext.getAccountId(),
-                                    message.getProjectid(),
-                                    AttachmentType.PROJECT_MESSAGE,
-                                    message.getId()));
+                            .getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                                    message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentNotification = new HorizontalLayout();
                 Label attachmentCountLbl = new Label(
@@ -416,10 +412,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 
                                 String attachmentPath = AttachmentUtils
                                         .getProjectEntityAttachmentPath(
-                                                AppContext.getAccountId(),
-                                                message.getProjectid(),
-                                                AttachmentType.PROJECT_MESSAGE,
-                                                message.getId());
+                                                AppContext.getAccountId(), message.getProjectid(),
+                                                ProjectTypeConstants.MESSAGE, "" + message.getId());
                                 attachments.saveContentsToRepo(attachmentPath);
                             } else {
                                 titleField.addStyleName("errorField");

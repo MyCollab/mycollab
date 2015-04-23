@@ -17,14 +17,17 @@
 package com.esofthead.mycollab.module.project.reporting;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.reporting.*;
@@ -72,7 +75,7 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends Expo
 	public ExportTaskListStreamResource(String reportTitle,
 			ReportExportType outputForm, ISearchableService<S> searchService,
 			S searchCriteria) {
-		super(AppContext.getUserLocale(), reportTitle, outputForm);
+		super(AppContext.getTimezone(), AppContext.getUserLocale(), reportTitle, outputForm);
 		this.searchCriteria = searchCriteria;
 		this.searchService = searchService;
 		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname,
@@ -91,16 +94,12 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends Expo
 		for (SimpleTaskList taskList : taskLists) {
 			VerticalListBuilder componentBuilder = cmp.verticalList();
 			StyleBuilder style = stl.style(reportTemplate.getBold12TitleStyle()).setBorder(stl.penThin());
-
 			StyleBuilder styleHyperLink = stl.style(reportTemplate.getBold12TitleStyle()).setBorder(stl.penThin()).setUnderline(true);
-
 			HorizontalListBuilder taskGroupLabel = cmp.horizontalList();
 
 			// TaskList Name
-			StyleBuilder taskGroupStyle = stl
-					.style(reportTemplate.getBoldStyle())
-					.setUnderline(true)
-					.setFontSize(12)
+			StyleBuilder taskGroupStyle = stl.style(reportTemplate.getBoldStyle())
+					.setUnderline(true).setFontSize(12)
 					.setAlignment(HorizontalAlignment.CENTER,
 							VerticalAlignment.MIDDLE);
 
@@ -109,49 +108,45 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends Expo
 							taskList.getId());
 
 			TextFieldBuilder<String> taskListNameHeader = cmp
-					.text(taskList.getName()).setFixedWidth(1116)
-					.setHorizontalAlignment(HorizontalAlignment.CENTER)
+					.text(taskList.getName())
+					.setHorizontalAlignment(HorizontalAlignment.LEFT)
 					.setHyperLink(hyperLink(taskListLink))
 					.setStyle(taskGroupStyle);
 			taskGroupLabel.add(taskListNameHeader).setStyle(
 					reportTemplate.getColumnTitleStyle());
 
 			// label
-			LOG.debug("Label value : " + taskList.getDescription());
-			TextFieldBuilder<String> desLabel = cmp.text("Description :")
+			TextFieldBuilder<String> desLabel = cmp.text(LocalizationHelper.getMessage(locale, GenericI18Enum.FORM_DESCRIPTION))
 					.setStyle(style).setFixedWidth(150);
 			TextFieldBuilder<String> description = cmp
-					.text(taskList.getDescription()).setFixedWidth(1020)
-					.setStyle(style);
+					.text(taskList.getDescription()).setStyle(style);
 			HorizontalListBuilder descContainer = cmp.horizontalList();
 			descContainer.add(desLabel).add(description);
 
 			// Assignee
 			LOG.debug("Assignee value : " + taskList.getOwnerFullName());
-			TextFieldBuilder<String> assigneeLbl = cmp.text("Assignee :")
+			TextFieldBuilder<String> assigneeLbl = cmp.text(LocalizationHelper
+					.getMessage(locale, GenericI18Enum.FORM_ASSIGNEE))
 					.setStyle(style).setFixedWidth(150);
 			String assigneeHyperlink = AccountLinkBuilder
 					.generatePreviewFullUserLink(taskList.getOwner());
-			TextFieldBuilder<String> assignee = cmp
-					.text(taskList.getOwnerFullName())
+			TextFieldBuilder<String> assignee = cmp.text(taskList.getOwnerFullName())
 					.setHyperLink(hyperLink(assigneeHyperlink))
 					.setStyle(reportTemplate.getUnderlineStyle())
-					.setStyle(styleHyperLink).setFixedWidth(435);
+					.setStyle(styleHyperLink);
 
-			TextFieldBuilder<String> phaseLbl = cmp.text("Phase :")
+			TextFieldBuilder<String> phaseLbl = cmp.text(LocalizationHelper.getMessage(locale, TaskI18nEnum.FORM_PHASE))
 					.setStyle(style).setFixedWidth(150);
 
 			String phaseHyperLink = ProjectLinkBuilder
 					.generateMilestonePreviewFullLink(taskList.getProjectid(),
 							taskList.getMilestoneid());
-			TextFieldBuilder<String> phase = cmp
-					.text(taskList.getMilestoneName())
+			TextFieldBuilder<String> phase = cmp.text(taskList.getMilestoneName())
 					.setHyperLink(hyperLink(phaseHyperLink))
 					.setStyle(reportTemplate.getUnderlineStyle())
-					.setStyle(styleHyperLink).setFixedWidth(435);
+					.setStyle(styleHyperLink);
 
-			HorizontalListBuilder assigneeAndPhaseHorizontal = cmp
-					.horizontalList();
+			HorizontalListBuilder assigneeAndPhaseHorizontal = cmp.horizontalList();
 			assigneeAndPhaseHorizontal.add(assigneeLbl).add(assignee)
 					.add(phaseLbl).add(phase);
 

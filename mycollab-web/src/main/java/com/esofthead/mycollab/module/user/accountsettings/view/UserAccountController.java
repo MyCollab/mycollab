@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -24,15 +26,13 @@ import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
+import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.CustomizeScreenData;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.ProfileScreenData;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.RoleScreenData;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.UserScreenData;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.SetupEvent;
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.*;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
@@ -63,32 +63,36 @@ public class UserAccountController extends AbstractController {
 		bindRoleEvents();
 		bindUserEvents();
 		bindCustomizeEvents();
+
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+            bindSetupEvents();
+        }
 	}
 
 	private void bindBillingEvents() {
 		this.register(new ApplicationEventListener<AccountBillingEvent.CancelAccount>() {
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(AccountBillingEvent.CancelAccount event) {
-				IBillingPresenter presenter = PresenterResolver
-						.getPresenter(IBillingPresenter.class);
-				presenter.go(container, new BillingScreenData.CancelAccount());
-			}
-		});
+            @Subscribe
+            @Override
+            public void handle(AccountBillingEvent.CancelAccount event) {
+                IBillingPresenter presenter = PresenterResolver
+                        .getPresenter(IBillingPresenter.class);
+                presenter.go(container, new BillingScreenData.CancelAccount());
+            }
+        });
 
 		this.register(new ApplicationEventListener<AccountBillingEvent.GotoSummary>() {
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(AccountBillingEvent.GotoSummary event) {
-				IBillingPresenter presenter = PresenterResolver
-						.getPresenter(IBillingPresenter.class);
-				presenter.go(container, new BillingScreenData.BillingSummary());
-			}
-		});
+            @Subscribe
+            @Override
+            public void handle(AccountBillingEvent.GotoSummary event) {
+                IBillingPresenter presenter = PresenterResolver
+                        .getPresenter(IBillingPresenter.class);
+                presenter.go(container, new BillingScreenData.BillingSummary());
+            }
+        });
 	}
 
 	private void bindProfileEvents() {
@@ -234,7 +238,7 @@ public class UserAccountController extends AbstractController {
 
 				RoleSearchCriteria criteria = new RoleSearchCriteria();
 				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-						AppContext.getAccountId()));
+                        AppContext.getAccountId()));
 				presenter.go(container, new RoleScreenData.Search(criteria));
 			}
 		});
@@ -257,4 +261,17 @@ public class UserAccountController extends AbstractController {
 			}
 		});
 	}
+
+    private void bindSetupEvents() {
+        this.register(new ApplicationEventListener<SetupEvent.GotoSetupPage>() {
+            private static final long serialVersionUID = 1L;
+
+            @Subscribe
+            @Override
+            public void handle(SetupEvent.GotoSetupPage event) {
+                SetupPresenter presenter = PresenterResolver.getPresenter(SetupPresenter.class);
+                presenter.go(container, null);
+            }
+        });
+    }
 }

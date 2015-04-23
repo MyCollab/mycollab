@@ -24,9 +24,9 @@ import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMe
 import com.esofthead.mycollab.mobile.module.project.ui.form.field.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -133,7 +133,7 @@ public class TaskAddPresenter extends AbstractMobilePresenter<TaskAddView> {
 					.getAttachUploadField();
 			uploadField.saveContentsToRepo(
 					CurrentProjectVariables.getProjectId(),
-					AttachmentType.PROJECT_TASK_TYPE, taskId);
+					ProjectTypeConstants.TASK, taskId);
 		} else {
 			taskService.updateWithSession(task, AppContext.getUsername());
 			ProjectFormAttachmentUploadField uploadField = view

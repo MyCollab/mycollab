@@ -62,7 +62,7 @@ public class ProjectRoleListPresenter
 		projectRoleService = ApplicationContextUtil
 				.getSpringBean(ProjectRoleService.class);
 
-		view.getPopupActionHandlers().addMassItemActionHandler(
+		view.getPopupActionHandlers().setMassActionHandler(
 				new DefaultMassEditActionHandler(this) {
 
 					@Override
@@ -77,7 +77,7 @@ public class ProjectRoleListPresenter
 						return "Roles";
 					}
 
-					@SuppressWarnings({ "unchecked", "rawtypes" })
+					@SuppressWarnings({"unchecked", "rawtypes"})
 					@Override
 					protected Class getReportModelClassType() {
 						return SimpleProjectRole.class;

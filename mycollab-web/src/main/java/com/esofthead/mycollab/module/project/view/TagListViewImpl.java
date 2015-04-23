@@ -40,7 +40,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 5.0.1
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class TagListViewImpl extends AbstractPageView implements TagListView {
 
     public TagListViewImpl() {

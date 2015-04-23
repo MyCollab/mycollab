@@ -77,7 +77,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
 
         TaskRowComp(SimpleTask task) {
             this.task = task;
-            withSpacing(false).withMargin(true).withWidth("100%").withStyleName("taskrow");
+            withSpacing(false).withMargin(true).withWidth("100%").addStyleName("taskrow");
             this.with(createTaskActionControl());
 
             taskLinkLbl = new Label(buildTaskLink(), ContentMode.HTML);
@@ -94,8 +94,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
 
         private String buildTaskLink() {
             String uid = UUID.randomUUID().toString();
-            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getTaskkey(), task
-                    .getTaskname());
+            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
 
@@ -205,7 +204,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                         .canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(closeBtn);
             } else {
-                Button reOpenBtn = new Button("ReOpen",
+                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -231,7 +230,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
 
             if (!"Pending".equals(task.getStatus())) {
                 if (!"Closed".equals(task.getStatus())) {
-                    Button pendingBtn = new Button("Pending",
+                    Button pendingBtn = new Button(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.Pending),
                             new Button.ClickListener() {
                                 private static final long serialVersionUID = 1L;
 
@@ -256,7 +255,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                     filterBtnLayout.addOption(pendingBtn);
                 }
             } else {
-                Button reOpenBtn = new Button("ReOpen",
+                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 

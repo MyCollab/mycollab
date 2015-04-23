@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -44,8 +46,8 @@ import com.vaadin.ui.UI;
  * @since 1.0
  * 
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class BugReadPresenter extends AbstractPresenter<BugReadView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public BugReadPresenter() {

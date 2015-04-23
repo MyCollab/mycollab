@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
@@ -71,7 +70,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         PageReadView {
     private static final long serialVersionUID = 1L;
@@ -116,8 +115,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
     @Override
     protected void initRelatedComponents() {
-        commentListComp = new CommentDisplay(CommentType.PRJ_PAGE,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentListComp = new CommentDisplay(ProjectTypeConstants.PAGE,
+                CurrentProjectVariables.getProjectId(),
                 ProjectPageRelayEmailNotificationAction.class);
         commentListComp.setWidth("100%");
         commentListComp.setMargin(true);
@@ -215,7 +214,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     @Override
     protected ComponentContainer createBottomPanel() {
         final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
-        tabContainer.addTab(this.commentListComp, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT), FontAwesome.COMMENTS);
+        tabContainer.addTab(this.commentListComp, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
         return tabContainer;
     }
 

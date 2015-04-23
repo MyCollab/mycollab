@@ -36,7 +36,6 @@ import com.vaadin.ui.Alignment;
  */
 @ViewComponent
 public class CrmModule extends AbstractPageView implements IModule {
-
 	private static final long serialVersionUID = 1L;
 
 	private final MVerticalLayout container;

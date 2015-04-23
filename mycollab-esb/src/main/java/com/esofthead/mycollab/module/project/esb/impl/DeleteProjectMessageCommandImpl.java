@@ -16,17 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.esb.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.domain.CommentExample;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMessageCommand;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteProjectMessageCommandImpl implements
@@ -50,9 +49,8 @@ public class DeleteProjectMessageCommandImpl implements
 
 		ResourceService resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
-		String attachmentPath = AttachmentUtils
-				.getProjectMessageAttachmentPath(accountId, projectId,
-						messageId);
+		String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+				ProjectTypeConstants.MESSAGE, "" + messageId);
 		resourceService.removeResource(attachmentPath, "", accountId);
 	}
 
@@ -62,7 +60,7 @@ public class DeleteProjectMessageCommandImpl implements
 				.getSpringBean(CommentMapper.class);
 
 		CommentExample ex = new CommentExample();
-		ex.createCriteria().andTypeEqualTo(CommentType.PRJ_MESSAGE.toString())
+		ex.createCriteria().andTypeEqualTo(ProjectTypeConstants.MESSAGE)
 				.andExtratypeidEqualTo(messageId);
 		commentMapper.deleteByExample(ex);
 	}

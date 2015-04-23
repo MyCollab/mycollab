@@ -87,7 +87,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         // defined layout here ---------------------------
 
         if (this.currentPage > 1) {
-            final Button firstLink = new ButtonLink("1",
+            final Button firstLink = new ButtonLinkLegacy("1",
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -105,7 +105,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(ss1);
         }
         if (this.currentPage > 3) {
-            final Button previous2 = new ButtonLink(
+            final Button previous2 = new ButtonLinkLegacy(
                     "" + (this.currentPage - 2), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -118,7 +118,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(previous2);
         }
         if (this.currentPage > 2) {
-            final Button previous1 = new ButtonLink(
+            final Button previous1 = new ButtonLinkLegacy(
                     "" + (this.currentPage - 1), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -130,8 +130,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             previous1.addStyleName("buttonPaging");
             this.pageManagement.addComponent(previous1);
         }
-        // Here add current ButtonLink
-        final Button current = new ButtonLink("" + this.currentPage,
+        // Here add current ButtonLinkLegacy
+        final Button current = new ButtonLinkLegacy("" + this.currentPage,
                 new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -146,7 +146,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         this.pageManagement.addComponent(current);
         final int range = this.totalPage - this.currentPage;
         if (range >= 1) {
-            final Button next1 = new ButtonLink("" + (this.currentPage + 1),
+            final Button next1 = new ButtonLinkLegacy("" + (this.currentPage + 1),
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -159,7 +159,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(next1);
         }
         if (range >= 2) {
-            final Button next2 = new ButtonLink("" + (this.currentPage + 2),
+            final Button next2 = new ButtonLinkLegacy("" + (this.currentPage + 2),
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -177,7 +177,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
             this.pageManagement.addComponent(ss2);
         }
         if (range >= 3) {
-            final Button last = new ButtonLink("" + this.totalPage,
+            final Button last = new ButtonLinkLegacy("" + this.totalPage,
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 

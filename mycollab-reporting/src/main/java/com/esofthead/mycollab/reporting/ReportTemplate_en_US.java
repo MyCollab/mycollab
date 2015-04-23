@@ -38,7 +38,6 @@ import net.sf.dynamicreports.report.constant.VerticalAlignment;
  * 
  */
 class ReportTemplate_en_US extends AbstractReportTemplate {
-	
 
 	ReportTemplate_en_US() {
 		rootStyle = stl.style().setPadding(2);
@@ -88,27 +87,5 @@ class ReportTemplate_en_US extends AbstractReportTemplate {
 				.setCrosstabGroupTotalStyle(crosstabGroupTotalStyle)
 				.setCrosstabGrandTotalStyle(crosstabGrandTotalStyle)
 				.setCrosstabCellStyle(crosstabCellStyle);
-	}
-
-	/**
-	 * Creates custom component which is possible to add to any report band
-	 * component
-	 */
-	public ComponentBuilder<?, ?> createTitleComponent(String label) {
-		HyperLinkBuilder link = hyperLink("http://www.mycollab.com");
-		ComponentBuilder<?, ?> dynamicReportsComponent = cmp.horizontalList(
-				cmp.image(
-						ReportTemplateFactory.class.getClassLoader()
-								.getResourceAsStream("images/logo.png"))
-						.setFixedDimension(150, 28), cmp.verticalList(
-						cmp.text(label)
-								.setStyle(bold22CenteredStyle)
-								.setHorizontalAlignment(
-										HorizontalAlignment.LEFT),
-						cmp.text("http://www.mycollab.com")
-								.setStyle(italicStyle).setHyperLink(link)));
-
-		return cmp.horizontalList().add(dynamicReportsComponent).newRow()
-				.add(cmp.line()).newRow().add(cmp.verticalGap(10));
 	}
 }

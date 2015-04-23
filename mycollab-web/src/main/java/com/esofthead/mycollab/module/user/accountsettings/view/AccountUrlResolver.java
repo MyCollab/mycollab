@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.RoleUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.SetupEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
@@ -39,6 +42,9 @@ public class AccountUrlResolver extends UrlResolver {
 		this.addSubResolver("user", new UserUrlResolver());
 		this.addSubResolver("role", new RoleUrlResolver());
 		this.addSubResolver("customization", new CustomizeUrlResolver());
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
+            this.addSubResolver("setup", new SetupUrlResolver());
+        }
 		return this;
 	}
 
@@ -82,4 +88,12 @@ public class AccountUrlResolver extends UrlResolver {
 					new AccountCustomizeEvent.GotoCustomize(this, null));
 		}
 	}
+
+    private static class SetupUrlResolver extends AccountUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            EventBusFactory.getInstance().post(
+                    new SetupEvent.GotoSetupPage(this, null));
+        }
+    }
 }

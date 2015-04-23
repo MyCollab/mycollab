@@ -238,7 +238,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
                 infoStatus.addStyleName("member-email");
                 waitingNotLayout.addComponent(infoStatus);
 
-                ButtonLink resendInvitationLink = new ButtonLink(
+                ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy(
                         "Resend Invitation", new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -420,10 +420,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             layout.setWidth("100%");
             layout.setStyleName("list-row");
 
-            if ((rowIndex + 1) % 2 != 0) {
-                layout.addStyleName("odd");
-            }
-
             Div itemDiv = buildItemValue(genericTask);
 
             Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
@@ -446,7 +442,6 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
                 footerDiv.appendChild(new Text(AppContext.getMessage(
                         TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }
-
 
             if (genericTask.getAssignUser() != null) {
                 footerDiv.appendChild(buildAssigneeValue(genericTask));

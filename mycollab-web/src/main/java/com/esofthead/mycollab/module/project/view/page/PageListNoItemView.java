@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.ProjectListNoItemView;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -39,7 +38,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 5.0.2
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class PageListNoItemView extends ProjectListNoItemView {
     @Override
     protected FontAwesome viewIcon() {

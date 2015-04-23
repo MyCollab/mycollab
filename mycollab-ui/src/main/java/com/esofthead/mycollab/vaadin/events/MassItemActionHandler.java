@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.events;
 
+import com.esofthead.mycollab.reporting.ReportExportType;
 import com.vaadin.server.StreamResource;
 
 /**
@@ -26,17 +27,9 @@ import com.vaadin.server.StreamResource;
  * 
  */
 public interface MassItemActionHandler {
-	public static final String MAIL_ACTION = "mail";
-
-	public static final String EXPORT_CSV_ACTION = "exportCsv";
-
-	public static final String EXPORT_PDF_ACTION = "exportPdf";
-
-	public static final String EXPORT_EXCEL_ACTION = "exportExcel";
-
-	public static final String DELETE_ACTION = "delete";
-
-	public static final String MASS_UPDATE_ACTION = "massUpdate";
+	String MAIL_ACTION = "mail";
+	String DELETE_ACTION = "delete";
+	String MASS_UPDATE_ACTION = "massUpdate";
 
 	/**
 	 * 
@@ -46,8 +39,8 @@ public interface MassItemActionHandler {
 
 	/**
 	 * 
-	 * @param id
+	 * @param exportType
 	 * @return
 	 */
-	StreamResource buildStreamResource(String id);
+	StreamResource buildStreamResource(ReportExportType exportType);
 }

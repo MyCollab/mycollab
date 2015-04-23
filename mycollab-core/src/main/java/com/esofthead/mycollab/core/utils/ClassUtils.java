@@ -20,6 +20,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Utility class for processing class meta data.
@@ -57,6 +59,8 @@ public class ClassUtils {
 		return null;
 	}
 
+
+	private static Map<Class, Field[]> mapFields = new ConcurrentHashMap<>();
 	/**
 	 * Get all fields of class <code>type</code> includes its super classes
 	 * 
@@ -64,9 +68,15 @@ public class ClassUtils {
 	 * @return
 	 */
 	public static Field[] getAllFields(Class<?> type) {
-		List<Field> fields = new ArrayList<>();
-		populateFields(type, fields);
-		return fields.toArray(new Field[0]);
+		if (mapFields.containsKey(type)) {
+			return mapFields.get(type);
+		} else {
+			List<Field> fields = new ArrayList<>();
+			populateFields(type, fields);
+			Field[] arr = fields.toArray(new Field[0]);
+			mapFields.put(type, arr);
+			return arr;
+		}
 	}
 
 	private static void populateFields(Class<?> type, List<Field> fields) {

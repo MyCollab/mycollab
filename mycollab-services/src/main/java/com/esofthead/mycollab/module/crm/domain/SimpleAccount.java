@@ -77,7 +77,7 @@ public class SimpleAccount extends Account {
 		this.assignUserFullName = assignUserFullName;
 	}
 
-	public static enum Field {
+	public enum Field {
 		assignUserFullName;
 
 		public boolean equalTo(Object value) {

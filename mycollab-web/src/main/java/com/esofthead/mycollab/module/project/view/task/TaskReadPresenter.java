@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
@@ -51,8 +53,8 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public TaskReadPresenter() {

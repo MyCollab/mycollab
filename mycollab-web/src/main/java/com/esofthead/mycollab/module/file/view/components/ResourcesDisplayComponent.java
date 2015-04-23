@@ -147,7 +147,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         groupBtns.with(selectAllBtn).withAlign(selectAllBtn,
                 Alignment.MIDDLE_LEFT);
 
-        Button goUpBtn = new Button("Up");
+        Button goUpBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UP));
         goUpBtn.setIcon(FontAwesome.ARROW_UP);
 
         goUpBtn.addClickListener(new Button.ClickListener() {
@@ -205,7 +205,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 .canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         navButton.addButton(createBtn);
 
-        Button uploadBtn = new Button("Upload", new ClickListener() {
+        Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD), new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -222,7 +222,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 .canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         navButton.addButton(uploadBtn);
 
-        Button downloadBtn = new Button("Download");
+        Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
         LazyStreamSource streamSource = new LazyStreamSource() {
             private static final long serialVersionUID = 1L;
@@ -247,7 +247,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
         downloadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
-        downloadBtn.setDescription("Download");
         downloadBtn.setEnabled(AppContext
                 .canRead(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         navButton.addButton(downloadBtn);
@@ -585,7 +584,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             renameBtn.setIcon(FontAwesome.EDIT);
             filterBtnLayout.addComponent(renameBtn);
 
-            final Button downloadBtn = new Button("Download");
+            final Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
             LazyStreamSource streamSource = new LazyStreamSource() {
                 private static final long serialVersionUID = 1L;
@@ -852,7 +851,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
 
-            final Button uploadBtn = new Button("Upload",
+            final Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -961,7 +960,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         private void createPageControls() {
             this.navigator.removeAllComponents();
             if (this.currentPage > 1) {
-                final Button firstLink = new ButtonLink("1",
+                final Button firstLink = new ButtonLinkLegacy("1",
                         new ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -979,7 +978,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 this.navigator.addComponent(ss1);
             }
             if (this.currentPage > 3) {
-                final Button previous2 = new ButtonLink(""
+                final Button previous2 = new ButtonLinkLegacy(""
                         + (this.currentPage - 2), new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -992,7 +991,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 this.navigator.addComponent(previous2);
             }
             if (this.currentPage > 2) {
-                final Button previous1 = new ButtonLink(""
+                final Button previous1 = new ButtonLinkLegacy(""
                         + (this.currentPage - 1), new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -1004,8 +1003,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 previous1.addStyleName("buttonPaging");
                 this.navigator.addComponent(previous1);
             }
-            // Here add current ButtonLink
-            currentBtn = new ButtonLink("" + this.currentPage,
+            // Here add current ButtonLinkLegacy
+            currentBtn = new ButtonLinkLegacy("" + this.currentPage,
                     new ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -1020,7 +1019,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.navigator.addComponent(currentBtn);
             final int range = this.totalPage - this.currentPage;
             if (range >= 1) {
-                final Button next1 = new ButtonLink(
+                final Button next1 = new ButtonLinkLegacy(
                         "" + (this.currentPage + 1), new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -1033,7 +1032,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 this.navigator.addComponent(next1);
             }
             if (range >= 2) {
-                final Button next2 = new ButtonLink(
+                final Button next2 = new ButtonLinkLegacy(
                         "" + (this.currentPage + 2), new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -1051,7 +1050,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 this.navigator.addComponent(ss2);
             }
             if (range >= 3) {
-                final Button last = new ButtonLink("" + this.totalPage,
+                final Button last = new ButtonLinkLegacy("" + this.totalPage,
                         new ClickListener() {
                             private static final long serialVersionUID = 1L;
 

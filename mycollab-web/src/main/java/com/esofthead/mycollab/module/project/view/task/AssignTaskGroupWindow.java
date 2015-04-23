@@ -17,12 +17,12 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.CommentWithBLOBs;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -90,6 +90,7 @@ public class AssignTaskGroupWindow extends Window {
 				layout.addComponent(informationLayout.getLayout());
 
 				MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+				controlsBtn.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 				layout.addComponent(controlsBtn);
 
 				Button cancelBtn = new Button(
@@ -104,9 +105,6 @@ public class AssignTaskGroupWindow extends Window {
 							}
 						});
 				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.addComponent(cancelBtn);
-				controlsBtn.setComponentAlignment(cancelBtn,
-						Alignment.MIDDLE_LEFT);
 
 				Button approveBtn = new Button(
 						AppContext
@@ -137,8 +135,7 @@ public class AssignTaskGroupWindow extends Window {
 												.getUsername());
 										comment.setSaccountid(AppContext
 												.getAccountId());
-										comment.setType(CommentType.PRJ_TASK_LIST
-												.toString());
+										comment.setType(ProjectTypeConstants.TASK_LIST);
 										comment.setTypeid("" + taskList.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
@@ -159,11 +156,9 @@ public class AssignTaskGroupWindow extends Window {
 						});
 				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-				controlsBtn.with(approveBtn).withAlign(approveBtn, Alignment.MIDDLE_RIGHT);
+				controlsBtn.with(cancelBtn, approveBtn);
 
-				layout.setComponentAlignment(controlsBtn,
-						Alignment.MIDDLE_RIGHT);
-
+				layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 				return layout;
 			}
 

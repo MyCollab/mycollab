@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
@@ -24,7 +23,6 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
@@ -44,7 +42,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
@@ -77,7 +74,7 @@ import java.util.UUID;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@ViewComponent(scope = ViewScope.PROTOTYPE)
+@ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         implements TaskReadView {
     private static final long serialVersionUID = 1L;
@@ -115,8 +112,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(CommentType.PRJ_TASK,
-                CurrentProjectVariables.getProjectId(), true, true,
+        commentList = new CommentDisplay(ProjectTypeConstants.TASK,
+                CurrentProjectVariables.getProjectId(),
                 ProjectTaskRelayEmailNotificationAction.class);
         historyList = new TaskHistoryList();
         dateInfoComp = new DateInfoComp();
@@ -242,8 +239,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
     @Override
     protected ComponentContainer createBottomPanel() {
         TabSheetLazyLoadComponent tabTaskDetail = new TabSheetLazyLoadComponent();
-        tabTaskDetail.addTab(commentList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
-        tabTaskDetail.addTab(historyList, AppContext.getMessage(ProjectCommonI18nEnum.TAB_HISTORY), FontAwesome.HISTORY);
+        tabTaskDetail.addTab(commentList, AppContext.getMessage(GenericI18Enum.TAB_COMMENT, 0), FontAwesome.COMMENTS);
+        tabTaskDetail.addTab(historyList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabTaskDetail;
     }
 
@@ -284,7 +281,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         }
 
         private String buildParentTaskLink(SimpleTask task) {
-            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), task.getParentTaskKey(),
+            String linkName = String.format("[#%d] - %s", task.getParentTaskKey(),
                     task.getParentTaskName());
             A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getParentTaskKey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
@@ -351,7 +348,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             } else if (Task.Field.id.equalTo(propertyId)) {
                 return new ProjectFormAttachmentDisplayField(
                         beanItem.getProjectid(),
-                        AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
+                        ProjectTypeConstants.TASK, beanItem.getId());
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
                     Resource iconPriority = new ExternalResource(
@@ -478,7 +475,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
         }
 
         private String buildTaskLink(SimpleTask subTask) {
-            String linkName = String.format("[%s-%d] %s", CurrentProjectVariables.getShortName(), subTask.getTaskkey(), subTask
+            String linkName = String.format("[#%d] - %s", subTask.getTaskkey(), subTask
                     .getTaskname());
             String uid = UUID.randomUUID().toString();
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),

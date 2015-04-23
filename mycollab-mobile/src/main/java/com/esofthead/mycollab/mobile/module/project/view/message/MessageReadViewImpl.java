@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import java.util.List;
-
-import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
@@ -26,8 +23,8 @@ import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.MobileAttachmentUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
@@ -35,12 +32,10 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -127,8 +122,8 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements
 		List<Content> attachments = attachmentService
 				.getContents(AttachmentUtils.getProjectEntityAttachmentPath(
 						AppContext.getAccountId(), message.getProjectid(),
-						AttachmentType.PROJECT_MESSAGE, message.getId()));
-		if (attachments != null && !attachments.isEmpty()) {
+						ProjectTypeConstants.MESSAGE, "" + message.getId()));
+		if (CollectionUtils.isNotEmpty(attachments)) {
 			CssLayout attachmentPanel = new CssLayout();
 			attachmentPanel.setStyleName("attachment-panel");
 			attachmentPanel.setWidth("100%");
@@ -147,8 +142,8 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements
 		mainLayout.addComponent(messageBlock);
 
 		MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(
-				CommentType.PRJ_MESSAGE,
-				CurrentProjectVariables.getProjectId(), true, true,
+				ProjectTypeConstants.MESSAGE,
+				CurrentProjectVariables.getProjectId(), true,
 				MessageRelayEmailNotificationAction.class);
 		commentDisplay.loadComments("" + message.getId());
 

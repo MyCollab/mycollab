@@ -29,8 +29,8 @@ import com.vaadin.ui.Label;
  * @since 4.0
  */
 public class LabelLink extends Label {
-
     private static final long serialVersionUID = 1L;
+
     private Div div;
     private A link;
 

@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 1.0
  */
 public class SimpleActivityStream extends ActivityStreamWithBLOBs {
-
     private static final long serialVersionUID = 1L;
 
     private String createdUserAvatarId;

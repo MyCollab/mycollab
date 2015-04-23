@@ -30,7 +30,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 public class MailUtils {
-
 	public static String getSiteUrl(Integer sAccountId) {
 		String siteUrl = "";
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {

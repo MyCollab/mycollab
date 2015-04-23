@@ -28,5 +28,4 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewComponent {
-	ViewScope scope() default ViewScope.SESSION;
 }
