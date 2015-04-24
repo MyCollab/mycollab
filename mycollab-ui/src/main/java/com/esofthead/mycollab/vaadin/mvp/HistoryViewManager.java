@@ -32,8 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
  * @since 1.0
  */
 public class HistoryViewManager {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(HistoryViewManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HistoryViewManager.class);
 
 	public static void addHistory(ViewState viewState) {
 		List<ViewState> history = getViewState();
@@ -68,8 +67,7 @@ public class HistoryViewManager {
 
 	@SuppressWarnings("unchecked")
 	private static List<ViewState> getViewState() {
-		List<ViewState> history = (List<ViewState>) MyCollabSession
-				.getVariable(HISTORY_VAL);
+		List<ViewState> history = (List<ViewState>) MyCollabSession.getVariable(HISTORY_VAL);
 		if (history == null) {
 			history = new ArrayList<>();
 			MyCollabSession.putVariable(HISTORY_VAL, history);

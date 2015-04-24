@@ -17,8 +17,12 @@
 package com.esofthead.mycollab.common.ui.components.notification;
 
 import com.esofthead.mycollab.common.ui.components.AbstractNotification;
-import com.esofthead.mycollab.shell.view.SmtpConfigurationWindow;
-import com.vaadin.ui.*;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
@@ -38,7 +42,9 @@ public class SmtpSetupNotification  extends AbstractNotification {
         Button smtpBtn = new Button("Setup", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new SmtpConfigurationWindow());
+                EventBusFactory.getInstance().post(
+                        new ShellEvent.GotoUserAccountModule(this,
+                                new String[]{"setup"}));
             }
         });
         smtpBtn.setStyleName("link");

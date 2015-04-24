@@ -21,18 +21,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class PageActionChain {
-	private static final Logger LOG = LoggerFactory.getLogger(PageActionChain.class);
-
-	private List<ScreenData> chains = new ArrayList<ScreenData>();
+	private List<ScreenData> chains = new ArrayList<>();
 
 	public PageActionChain(ScreenData... pageActionArr) {
 		chains.addAll(Arrays.asList(pageActionArr));
@@ -55,8 +50,7 @@ public class PageActionChain {
 	}
 
 	public ScreenData peek() {
-		ScreenData pageAction = chains.get(0);
-		return pageAction;
+		return chains.get(0);
 	}
 
 	public boolean hasNext() {

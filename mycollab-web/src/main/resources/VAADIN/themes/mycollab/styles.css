@@ -9330,7 +9330,7 @@ ul {
 	font-size: 14px;
 }
 
-.wordWrap.v-label {
+.v-label.wordWrap {
 	word-wrap: break-word;
 	white-space: normal;
 }

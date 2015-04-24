@@ -52,8 +52,7 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PRESENTER_VAL;
  *
  */
 public final class PresenterResolver {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(PresenterResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PresenterResolver.class);
 
     @SuppressWarnings("rawtypes")
     private static Set<Class<? extends IPresenter>> presenterClasses;
@@ -99,13 +98,8 @@ public final class PresenterResolver {
                 value = presenterClass.newInstance();
             } else {
                 for (Class<?> classInstance : presenterClasses) {
-                    if (presenterClass.isAssignableFrom(classInstance)
-                            && !classInstance.isInterface()) {
-
+                    if (presenterClass.isAssignableFrom(classInstance) && !classInstance.isInterface()) {
                         value = (P) classInstance.newInstance();
-                        LOG.debug("Get implementation of presenter "
-                                + presenterClass.getName() + " is "
-                                + value.getClass().getName());
                     }
                 }
             }

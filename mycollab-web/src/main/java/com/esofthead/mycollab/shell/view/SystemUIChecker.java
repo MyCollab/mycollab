@@ -20,7 +20,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
@@ -42,23 +44,20 @@ public class SystemUIChecker {
             ExtMailService extMailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!extMailService.isMailSetupValid()) {
                 if (AppContext.isAdmin()) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    ShellI18nEnum.WINDOW_STMP_NOT_SETUP),
-                            AppContext
-                                    .getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(ShellI18nEnum.WINDOW_STMP_NOT_SETUP),
+                            AppContext.getMessage(ShellI18nEnum.WINDOW_SMTP_CONFIRM_SETUP_FOR_ADMIN),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        UI.getCurrent().addWindow(new SmtpConfigurationWindow());
+                                        EventBusFactory.getInstance().post(
+                                                new ShellEvent.GotoUserAccountModule(this,
+                                                        new String[]{"setup"}));
                                     }
                                 }
                             });

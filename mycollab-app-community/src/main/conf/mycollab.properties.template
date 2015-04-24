@@ -37,7 +37,7 @@ mail.noreply=noreply@mycollab.com
 #=====================================================
 #    ERROR REPORTING
 # This email is used to receive any error causes during 
-# MyCollab running. It just collect java stack trace not
+# MyCollab running. It just collects java stack trace not
 # any end user sensitive data. In case you are serious not
 # want to send report automatically to our team, you can
 # leave this field to empty

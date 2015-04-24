@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
-import com.esofthead.mycollab.shell.view.NoSubDomainExistedWindow;
+import com.esofthead.mycollab.shell.view.components.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;

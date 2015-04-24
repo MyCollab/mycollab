@@ -37,35 +37,21 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 
 	@Override
 	public void modifyBootstrapPage(BootstrapPageResponse response) {
-		response.getDocument().head().append(
-				"<meta http-equiv=\"pragma\" content=\"no-cache\">");
-		response.getDocument().head().append(
-				"<meta http-equiv=\"cache-control\" content=\"no-cache\">");
-		response.getDocument().head().append(
-				"<meta http-equiv=\"cache-control\" content=\"max-age=0\">");
-		response.getDocument().head().append(
-				"<meta http-equiv=\"expires\" content=\"-1\">");
-
-
 		response.getDocument().head()
 				.append("<meta name=\"robots\" content=\"nofollow\" />");
 
 		DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
 		if (deploymentMode == DeploymentMode.site) {
-			response.getDocument()
-					.head()
+			response.getDocument().head()
 					.append("<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>");
 
-			response.getDocument()
-					.head()
+			response.getDocument().head()
 					.append("<script type=\"text/javascript\" src=\"https://s3.amazonaws.com/mycollab_assets/assets/js/stickytooltip.js\"></script>");
 		} else {
-			response.getDocument()
-					.head()
+			response.getDocument().head()
 					.append("<script type=\"text/javascript\" src=\"/assets/js/jquery-1.10.2.min.js\"></script>");
 
-			response.getDocument()
-					.head()
+			response.getDocument().head()
 					.append("<script type=\"text/javascript\" src=\"/assets/js/stickytooltip.js\"></script>");
 		}
 	}

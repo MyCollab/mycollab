@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -39,6 +55,8 @@ import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.esofthead.mycollab.shell.view.components.AboutWindow;
+import com.esofthead.mycollab.shell.view.components.UpgradeConfirmWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
@@ -446,6 +464,16 @@ public final class MainView extends AbstractPageView {
             });
             setupBtn.setIcon(FontAwesome.WRENCH);
             accLayout.addOption(setupBtn);
+
+            Button aboutBtn = new Button("About", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    accountMenu.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new AboutWindow());
+                }
+            });
+            aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
+            accLayout.addOption(aboutBtn);
         }
 
         Button signoutBtn = new Button(
@@ -482,23 +510,23 @@ public final class MainView extends AbstractPageView {
             // add listener to listen the change avatar or user information to
             // update top menu
             EventBusFactory.getInstance().register(
-                            new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-                                private static final long serialVersionUID = 1L;
+                    new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+                        private static final long serialVersionUID = 1L;
 
-                                @Subscribe
-                                @Override
-                                public void handle(UserProfileChangeEvent event) {
-                                    if ("avatarid".equals(event.getFieldChange())) {
-                                        UserAvatarComp.this.removeAllComponents();
-                                        addUserAvatar();
-                                    }
-                                }
-                            });
+                        @Subscribe
+                        @Override
+                        public void handle(UserProfileChangeEvent event) {
+                            if ("avatarid".equals(event.getFieldChange())) {
+                                UserAvatarComp.this.removeAllComponents();
+                                addUserAvatar();
+                            }
+                        }
+                    });
         }
 
         private void addUserAvatar() {
             Image userAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
-                            AppContext.getUserAvatarId(), 24);
+                    AppContext.getUserAvatarId(), 24);
             this.addComponent(userAvatar);
         }
     }
