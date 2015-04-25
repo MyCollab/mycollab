@@ -77,8 +77,4 @@ public class MimeTypesUtil {
     public static boolean isVideo(String mimeType) {
         return mimeType.startsWith("video/");
     }
-
-    public static void main(String[] args) {
-        System.out.println(detectMimeType("aaa.tar"));
-    }
 }

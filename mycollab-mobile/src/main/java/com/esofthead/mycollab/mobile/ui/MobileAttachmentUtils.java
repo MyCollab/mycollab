@@ -16,20 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.log4j.Logger;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
@@ -42,16 +28,16 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
@@ -59,29 +45,13 @@ import com.vaadin.ui.UI;
  * @since 4.5.2
  */
 public class MobileAttachmentUtils {
-
-	private static final Logger LOG = Logger
+	private static final Logger LOG = LoggerFactory
 			.getLogger(MobileAttachmentUtils.class.getName());
 
 	public static String ATTACHMENT_NAME_PREFIX = "attachment_";
 
 	private static final Resource DEFAULT_SOURCE = MyCollabResource
 			.newResource("icons/docs-256.png");
-
-	// public static Component renderAttachmentRow(final Content attachment) {
-	//
-	// String docName = attachment.getPath();
-	// int lastIndex = docName.lastIndexOf("/");
-	// if (lastIndex != -1) {
-	// docName = docName.substring(lastIndex + 1, docName.length());
-	// }
-	//
-	// Label attachmentName = new Label(docName);
-	// attachmentName.setStyleName("attachment-name");
-	// attachmentName.setWidth("100%");
-	//
-	// return attachmentName;
-	// }
 
 	public static Component renderAttachmentRow(final Content attachment) {
 		String docName = attachment.getPath();

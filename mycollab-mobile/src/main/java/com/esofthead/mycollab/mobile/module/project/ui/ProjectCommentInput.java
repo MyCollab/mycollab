@@ -35,7 +35,8 @@ import com.vaadin.server.StreamVariable;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.MapUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
@@ -50,8 +51,7 @@ import java.util.*;
  */
 @SuppressWarnings("unused")
 public class ProjectCommentInput extends VerticalLayout {
-
-    private static final Logger LOG = Logger
+    private static final Logger LOG = LoggerFactory
             .getLogger(ProjectCommentInput.class.getName());
 
     private static final long serialVersionUID = 8118887310759503892L;

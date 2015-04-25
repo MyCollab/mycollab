@@ -32,14 +32,17 @@
  */
 package com.esofthead.mycollab.jetty;
 
+import ch.qos.logback.classic.BasicConfigurator;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
+import com.esofthead.mycollab.configuration.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.servlet.*;
 import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
-import org.eclipse.jetty.jndi.NamingContext;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Handler;
@@ -48,6 +51,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
+import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.webapp.*;
@@ -59,6 +63,7 @@ import javax.sql.DataSource;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -70,7 +75,11 @@ import java.util.zip.ZipInputStream;
  * @since 1.0
  */
 public abstract class GenericServerRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(GenericServerRunner.class);
+    private static final Logger LOG;
+    static {
+        LogConfig.initLog();
+        LOG = LoggerFactory.getLogger(GenericServerRunner.class);
+    }
 
     private Server server;
     private int port = 8080;
@@ -104,6 +113,7 @@ public abstract class GenericServerRunner {
      * @throws Exception
      */
     void run(String[] args) throws Exception {
+        BasicConfigurator a;
         ServerInstance.getInstance().registerInstance(this);
         System.setProperty("org.eclipse.jetty.annotations.maxWait", "180");
         int stopPort = 0;
@@ -147,12 +157,12 @@ public abstract class GenericServerRunner {
                     break;
                 }
         }
-
         execute();
+
     }
 
     private void execute() throws Exception {
-        server = new Server((port > 0) ? port : 8080);
+        server = new Server(port);
         contexts = new ContextHandlerCollection();
 
         if (!checkConfigFileExist()) {
@@ -284,7 +294,6 @@ public abstract class GenericServerRunner {
 
     private DataSource buildDataSource() {
         SiteConfiguration.loadInstance(port);
-
         DatabaseConfiguration dbConf = SiteConfiguration.getDatabaseConfiguration();
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(dbConf.getDriverClass());

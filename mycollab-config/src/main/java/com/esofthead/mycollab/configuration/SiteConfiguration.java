@@ -32,37 +32,16 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import static com.esofthead.mycollab.configuration.ApplicationProperties.APP_URL;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.BI_ENDECRYPT_PASSWORD;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.CDN_URL;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_DRIVER_CLASS;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_PASSWORD;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_URL;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_USERNAME;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DEFAULT_LOCALE;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.DROPBOX_AUTH_LINK;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.ERROR_SENDTO;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.GOOGLE_DRIVE_LINK;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.LOCALES;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_IS_TLS;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_NOREPLY;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_PASSWORD;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_PORT;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_SMTPHOST;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_USERNAME;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.RUNNING_MODE;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.SERVER_ADDRESS;
-import static com.esofthead.mycollab.configuration.ApplicationProperties.SITE_NAME;
+import com.esofthead.mycollab.core.DeploymentMode;
+import org.apache.commons.lang3.LocaleUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang3.LocaleUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.DeploymentMode;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
 
 /**
  * Utility class read mycollab system properties when system starts
@@ -97,35 +76,24 @@ public class SiteConfiguration {
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();
 
-        instance.sentErrorEmail = ApplicationProperties.getString(ERROR_SENDTO,
-                "support@mycollab.com");
+        instance.sentErrorEmail = ApplicationProperties.getString(ERROR_SENDTO, "support@mycollab.com");
+        instance.siteName = ApplicationProperties.getString(SITE_NAME, "MyCollab");
+        instance.serverAddress = ApplicationProperties.getString(SERVER_ADDRESS, "localhost");
+        instance.defaultLocale = toLocale(ApplicationProperties.getString(DEFAULT_LOCALE, "en_US"));
 
-        instance.siteName = ApplicationProperties.getString(SITE_NAME,
-                "MyCollab");
-
-        instance.serverAddress = ApplicationProperties.getString(
-                SERVER_ADDRESS, "localhost");
-
-        instance.defaultLocale = toLocale(ApplicationProperties.getString(
-                DEFAULT_LOCALE, "en_US"));
-
-        instance.supportedLanguages = getSupportedLocales(ApplicationProperties
-                .getString(LOCALES, "en_US, ja_JP"));
+        instance.supportedLanguages = getSupportedLocales(ApplicationProperties.getString(LOCALES, "en_US, ja_JP"));
 
         instance.serverPort = serverPort;
 
         // load Deployment Mode
-        String runningMode = ApplicationProperties
-                .getString(RUNNING_MODE, null);
+        String runningMode = ApplicationProperties.getString(RUNNING_MODE, null);
         instance.deploymentMode = DeploymentMode.valueOf(runningMode);
         LOG.debug("Site is running under {} mode", instance.deploymentMode);
 
-        instance.cdnUrl = String.format(
-                ApplicationProperties.getString(CDN_URL),
+        instance.cdnUrl = String.format(ApplicationProperties.getString(CDN_URL),
                 instance.serverAddress, instance.serverPort);
 
-        instance.appUrl = String.format(
-                ApplicationProperties.getString(APP_URL),
+        instance.appUrl = String.format(ApplicationProperties.getString(APP_URL),
                 instance.serverAddress, instance.serverPort);
         if (!instance.appUrl.endsWith("/")) {
             instance.appUrl += "/";
@@ -149,7 +117,6 @@ public class SiteConfiguration {
         instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY,
                 "noreply@mycollab.com");
 
-
         // load database configuration
         String driverClass = ApplicationProperties.getString(DB_DRIVER_CLASS);
         String dbUrl = ApplicationProperties.getString(DB_URL);
@@ -158,11 +125,8 @@ public class SiteConfiguration {
         instance.databaseConfiguration = new DatabaseConfiguration(driverClass,
                 dbUrl, dbUser, dbPassword);
 
-        instance.dropboxCallbackUrl = ApplicationProperties
-                .getString(DROPBOX_AUTH_LINK);
-
-        instance.ggDriveCallbackUrl = ApplicationProperties
-                .getString(GOOGLE_DRIVE_LINK);
+        instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
+        instance.ggDriveCallbackUrl = ApplicationProperties.getString(GOOGLE_DRIVE_LINK);
     }
 
     private static SiteConfiguration getInstance() {

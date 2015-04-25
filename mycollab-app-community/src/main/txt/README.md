@@ -59,6 +59,7 @@ Version 5.0.5
 * Add time summary for task group, milestone, component, version views
 * Allow system admin can change the SMTP setting on the fly
 * Enable gzip compression for assets by default
+* Replace the old log4j library by logback
 
 **Bug Fixes**
 * Checkbox in Chrome, IE has the unintended border

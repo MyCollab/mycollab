@@ -30,13 +30,10 @@ import com.esofthead.mycollab.core.MyCollabException;
  */
 public class StorageManager {
 	private static final Logger LOG = LoggerFactory.getLogger(StorageManager.class);
-
 	private static final String S3_CONF_CLS = "com.esofthead.mycollab.ondemand.configuration.S3StorageConfiguration";
-
 	private static StorageManager instance = new StorageManager();
 
 	private StorageConfiguration storageConf;
-
 	private String storageSystem;
 
 	private StorageManager() {
@@ -45,8 +42,7 @@ public class StorageManager {
 	@SuppressWarnings("unchecked")
 	static void loadStorageConfig() {
 		// Load storage configuration
-		String storageSystem = ApplicationProperties.getString(
-				ApplicationProperties.STORAGE_SYSTEM,
+		String storageSystem = ApplicationProperties.getString(ApplicationProperties.STORAGE_SYSTEM,
 				StorageConfiguration.FILE_STORAGE_SYSTEM);
 		instance.storageSystem = storageSystem;
 		if (StorageConfiguration.FILE_STORAGE_SYSTEM.equals(storageSystem)) {
@@ -55,24 +51,21 @@ public class StorageManager {
 		} else if (StorageConfiguration.S3_STORAGE_SYSTEM.equals(storageSystem)) {
 			LOG.debug("MyCollab uses amazon s3 system");
 			try {
-				Class<StorageConfiguration> s3Conf = (Class<StorageConfiguration>) Class
-						.forName(S3_CONF_CLS);
+				Class<StorageConfiguration> s3Conf = (Class<StorageConfiguration>) Class.forName(S3_CONF_CLS);
 				StorageConfiguration newInstance = s3Conf.newInstance();
 				instance.storageConf = newInstance;
 			} catch (Exception e) {
-				LOG.error("Can not load s3 file system with class "
-						+ S3_CONF_CLS, e);
+				LOG.error(String.format("Can not load s3 file system with class %s", S3_CONF_CLS), e);
 				System.exit(-1);
 			}
 		} else {
-			throw new MyCollabException("Can not load storage  "
-					+ storageSystem);
+			throw new MyCollabException(String.format("Can not load storage  %s", storageSystem));
 		}
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
 		if (StringUtils.isBlank(userAvatarId)) {
-			return MyCollabAssets.newResourceLink("icons/default_user_avatar_" + size + ".png");
+			return MyCollabAssets.newResourceLink(String.format("icons/default_user_avatar_%d.png", size));
 		} else {
 			return instance.storageConf.getAvatarPath(userAvatarId, size);
 		}

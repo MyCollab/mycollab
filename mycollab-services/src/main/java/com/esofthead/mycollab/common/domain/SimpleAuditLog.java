@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -40,7 +40,6 @@ public class SimpleAuditLog extends AuditLog {
 
 	public List<AuditChangeItem> getChangeItems() {
 		if (changeItems == null) {
-			System.out.println("CHANGESET: " + getChangeset() + "---" + getType());
 			changeItems = parseChangeItems();
 		}
 		if (changeItems == null) {

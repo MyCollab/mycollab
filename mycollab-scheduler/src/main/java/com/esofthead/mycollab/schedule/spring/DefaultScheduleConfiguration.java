@@ -22,7 +22,6 @@ import com.esofthead.mycollab.schedule.email.user.impl.SendUserInvitationEmailJo
 import com.esofthead.mycollab.schedule.email.user.impl.UserSignUpEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.CrmSendingRelayEmailNotificationJob;
 import com.esofthead.mycollab.schedule.jobs.ProjectSendingRelayEmailNotificationJob;
-import com.esofthead.mycollab.schedule.jobs.SendingErrorReportEmailJob;
 import com.esofthead.mycollab.schedule.jobs.SendingRelayEmailJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -74,13 +73,6 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
-    public JobDetailFactoryBean sendErrorReportEmailJob() {
-        JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        bean.setJobClass(SendingErrorReportEmailJob.class);
-        return bean;
-    }
-
-    @Bean
     public CronTriggerFactoryBean sendingRelayEmailTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(sendRelayEmailJob().getObject());
@@ -113,14 +105,6 @@ public class DefaultScheduleConfiguration {
     }
 
     @Bean
-    public CronTriggerFactoryBean sendErrorReportEmailTrigger() {
-        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setJobDetail(sendErrorReportEmailJob().getObject());
-        bean.setCronExpression("0 * * * * ?");
-        return bean;
-    }
-
-    @Bean
     public CronTriggerFactoryBean sendInviteUserEmailTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(sendInviteUserEmailJob().getObject());
@@ -146,7 +130,7 @@ public class DefaultScheduleConfiguration {
         bean.setApplicationContextSchedulerContextKey("applicationContextSchedulerContextKey");
 
         bean.setTriggers(sendingRelayEmailTrigger().getObject(), projectSendRelayNotificationEmailTrigger().getObject
-                (), crmSendRelayNotificationEmailTrigger().getObject(), sendErrorReportEmailTrigger().getObject(),
+                (), crmSendRelayNotificationEmailTrigger().getObject(),
                 sendInviteUserEmailTrigger().getObject(), userSignUpNotificationEmailTrigger().getObject());
         return bean;
     }
