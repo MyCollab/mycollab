@@ -9008,7 +9008,7 @@ html {
 	background: #f3f3f3;
 }
 
-.v-window, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+.v-window, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu {
 	background-color: #92BD84;
 }
 
@@ -9030,11 +9030,6 @@ html {
 }
 
 .v-window input, .v-window button, .v-window textarea {
-	font-size: 13px;
-	color: #0D0D0D;
-}
-
-.v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
 	font-size: 13px;
 	color: #0D0D0D;
 }
@@ -9099,7 +9094,7 @@ div.v-table-focus-slot-left, div.v-table-focus-slot-right {
 	text-shadow: 0 -1px 0 #43533E;
 }
 
-.v-window, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
+.v-window, .v-filterselect-suggestpopup, .v-contextmenu, .v-menubar-submenu, .v-panel-caption, .v-panel-nocaption, .v-panel-content, .v-panel-deco, .v-panel-light .v-panel-caption-light {
 	border-color: #78976E;
 }
 
@@ -9139,7 +9134,7 @@ div.v-table-focus-slot-left, div.v-table-focus-slot-right {
 	background: whitesmoke;
 }
 
-.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu {
+.v-window, .v-popupview-popup, .v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu {
 	background-color: white;
 	border-radius: 3px;
 }
@@ -9154,7 +9149,7 @@ div.v-table-focus-slot-left, div.v-table-focus-slot-right {
 	color: #525252;
 }
 
-.v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
+.v-filterselect-suggestpopup, .v-datefield-popup, .v-datefield-calendarpanel-header button, .v-contextmenu, .v-menubar-submenu, .v-table-header-drag, .v-filterselect-select-button .v-filterselect-input, .v-drag-element {
 	font-size: 13px;
 	color: #525252;
 }
@@ -9288,13 +9283,11 @@ input.noBorderRight {
 input:focus {
 	background-color: #FFF;
 	border-color: #1185DE;
-	box-shadow: 0 0 1px #0a58cd inset;
 }
 
 textarea:focus {
 	background-color: #FFF;
 	border-color: #1185DE;
-	box-shadow: 0 0 1px #0a58cd inset;
 }
 
 ul {
@@ -9384,7 +9377,7 @@ input.v-widget.v-textfield[type="text"], .v-filterselect {
 	line-height: normal;
 }
 
-.v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-Notification, .v-menubar-submenu, .v-table-header-drag, .v-drag-element {
+.v-filterselect-suggestpopup, .v-datefield-popup, .v-contextmenu, .v-menubar-submenu, .v-table-header-drag, .v-drag-element {
 	font: 12px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
 }
@@ -9899,7 +9892,6 @@ input.v-textfield-errorField {
 	width: 676px;
 	margin: 0px auto;
 	background-color: white;
-	box-shadow: 0px 4px 4px #c8c8c8;
 	border: 1px solid #c8c8c8;
 	padding: 0px 0px 30px;
 	display: table;
@@ -10028,7 +10020,6 @@ input.v-textfield-errorField {
 }
 
 #loginForm input.v-textfield.v-textfield-focus {
-	box-shadow: inset 0px 0px 2px #a9c4df;
 	border-color: #7ba0cc;
 }
 
@@ -11097,7 +11088,7 @@ td.v-tabsheet-spacertd div {
 	color: red;
 }
 
-.v-window, .v-Notification {
+.v-window {
 	background-color: white;
 	border-radius: 2px;
 }
@@ -11975,28 +11966,7 @@ div.v-ratingstars-bar {
 	padding-top: 20px;
 }
 
-.v-Notification {
-	padding: 0px;
-}
-
-.v-Notification-system, .v-Notification-error, .v-Notification-warning, .v-Notification-tray {
-	padding: 1em;
-}
-
-.v-Notification h1 {
-	display: block;
-	width: 100%;
-	background: url('icons/grad-light-top.png') repeat-x left top #e4e4e4;
-	border-bottom: 1px solid #CFCFCF;
-	font-size: 13px;
-	color: #444444;
-	padding: 3px 10px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.v-Notification.v-Notification-error h1, .v-Notification.v-Notification-warning h1, .v-Notification.v-Notification-tray h1 {
+.v-Notification.v-Notification-humanized h1, .v-Notification.v-Notification-error h1, .v-Notification.v-Notification-warning h1, .v-Notification.v-Notification-tray h1 {
 	display: inline;
 	background: none;
 	border: none;
@@ -12010,7 +11980,7 @@ div.v-ratingstars-bar {
 }
 
 .v-Notification p {
-	padding: 5px 3px;
+	padding: 5px 10px;
 	display: block;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -12018,20 +11988,14 @@ div.v-ratingstars-bar {
 	width: 100%;
 }
 
-.v-Notification table {
-	margin: 0px 10px 0px 3px;
+.v-Notification.humanized {
+	background: none;
+	background-color: darkslategray;
+	box-shadow: none;
 }
 
-.v-Notification #notificationmsg-icon {
-	height: 48px;
-	width: 48px;
-	background: url('icons/48/info.png') no-repeat left top transparent;
-}
-
-.v-Notification #warningmsg-icon {
-	height: 48px;
-	width: 48px;
-	background: url('icons/48/warn.png') no-repeat left top transparent;
+.v-Notification.humanized h1, .v-Notification.humanized p {
+	color: white;
 }
 
 .v-label.grayLabel {
@@ -13373,10 +13337,6 @@ div.v-csslayout.rightsidebar-layout {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-}
-
-.v-ie8 .gantt .month.even, .v-ie8 .gantt .day.even {
-	background-color: #ddd;
 }
 
 .gantt .month:nth-of-type(even), .gantt .day:nth-of-type(even) {

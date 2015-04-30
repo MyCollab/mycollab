@@ -24,7 +24,7 @@
         <file>logs/mycollab.out</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>mycollab_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePatternlog>logs/mycollab_%d{yyyy-MM-dd}.log</fileNamePatternlog>
 
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>

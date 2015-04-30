@@ -129,7 +129,7 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
                                         .updateWithSession(notification,
                                                 AppContext.getUsername());
                             }
-                            NotificationUtil.showNotification(AppContext
+                            NotificationUtil.showNotification("Congrats", AppContext
                                     .getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
                         } catch (Exception e) {
                             throw new MyCollabException(e);

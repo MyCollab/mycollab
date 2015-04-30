@@ -43,6 +43,7 @@ public class DefaultMailer implements IMailer {
 	private String host;
 	private String username = null;
 	private String password = null;
+    private int port = 1;
 	private boolean isTLS = false;
 
 	public DefaultMailer(EmailConfiguration emailConf) {
@@ -50,6 +51,7 @@ public class DefaultMailer implements IMailer {
 		this.username = emailConf.getUser();
 		this.password = emailConf.getPassword();
 		this.isTLS = emailConf.getIsTls();
+        this.port = emailConf.getPort();
 	}
 
 	private HtmlEmail getBasicEmail(String fromEmail, String fromName,
@@ -58,6 +60,8 @@ public class DefaultMailer implements IMailer {
 		try {
 			HtmlEmail email = new HtmlEmail();
 			email.setHostName(host);
+            email.setSmtpPort(port);
+            email.setStartTLSEnabled(isTLS);
 			email.setFrom(fromEmail, fromName);
 			email.setCharset(EmailConstants.UTF_8);
 			for (int i = 0; i < toEmail.size(); i++) {
@@ -103,7 +107,7 @@ public class DefaultMailer implements IMailer {
 			if (username != null) {
 				email.setAuthentication(username, password);
 			}
-			email.setStartTLSEnabled(isTLS);
+
 			email.setSubject(subject);
 
 			if (StringUtils.isNotBlank(html)) {

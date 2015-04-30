@@ -165,7 +165,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                     p.setProperty(ApplicationProperties.MAIL_PORT, emailConf.getPort());
                     p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getIsTls());
                     p.save();
-                    NotificationUtil.showNotification("Set up SMTP account successfully");
+                    NotificationUtil.showNotification("Congrats", "Set up SMTP account successfully");
                 } catch (Exception e) {
                     LOG.error("Can not save email props", e);
                     throw new UserInvalidInputException("Can not save properties file successfully");

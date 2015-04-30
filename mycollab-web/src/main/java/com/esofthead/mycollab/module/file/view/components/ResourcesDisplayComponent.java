@@ -356,9 +356,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                 }
 
                                 resourcesContainer.constructBody(baseFolder);
-
-                                NotificationUtil
-                                        .showNotification("Delete content successfully.");
+                                NotificationUtil.showNotification("Congrats", "Deleted content successfully.");
                             }
                         }
                     }
@@ -894,10 +892,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                 }
                                 resourcesContainer.constructBody(baseFolder);
                                 MultiUploadContentWindow.this.close();
-                                NotificationUtil.showNotification("Upload successfully.");
+                                NotificationUtil.showNotification("Congrats", "Upload successfully.");
                             } else {
                                 NotificationUtil
-                                        .showNotification("It seems you did not attach file yet!");
+                                        .showWarningNotification("It seems you did not attach file yet!");
                             }
                         }
                     });
@@ -1112,11 +1110,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             fileBreadCrumb.gotoFolder(folder);
             resourcesContainer.constructBody(folder);
             if (!checking) {
-                NotificationUtil
-                        .showNotification("Moved asset(s) successfully.");
+                NotificationUtil.showNotification("Congrats", "Moved asset(s) successfully.");
             } else {
                 NotificationUtil
-                        .showNotification("Moving assets is finished, some items can't move to destination. Please " +
+                        .showWarningNotification("Moving assets is finished, some items can't move to destination. Please " +
                                 "check duplicated file-name and try again.");
             }
         }
