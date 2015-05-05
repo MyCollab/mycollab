@@ -20,14 +20,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.4.0
  *
  */
 public class MyCollabVersion {
 	public static String getVersion() {
-		return "5.0.5.1";
+		return "5.0.6";
 	}
 
     static int[] getVersionNumbers(String ver) {
