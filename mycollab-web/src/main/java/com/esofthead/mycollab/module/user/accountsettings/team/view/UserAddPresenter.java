@@ -94,7 +94,6 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 
     public void save(SimpleUser item) {
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-
         item.setAccountId(AppContext.getAccountId());
 
         if (item.getStatus() == null) {

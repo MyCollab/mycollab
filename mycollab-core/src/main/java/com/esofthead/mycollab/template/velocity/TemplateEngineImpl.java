@@ -40,5 +40,4 @@ public class TemplateEngineImpl implements TemplateEngine {
 			String message, Reader reader) {
 		voEngine.evaluate(context.getVelocityContext(), writer, "log", reader);
 	}
-
 }

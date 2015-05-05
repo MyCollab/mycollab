@@ -1,5 +1,5 @@
 
-About MyCollab
+Release Notes
 ==============
 MyCollab is an open source Collaboration Platform of Project Management, CRM and Document.
 
@@ -14,7 +14,7 @@ For further information, please visit:
 
 Contact the MyCollab team at:
 
-* Our email [support@mycollab.com](support@mycollab.com)
+* Our Q&A page [https://www.mycollab.com/qa/](https://www.mycollab.com/qa/)
 * Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 System requirements
@@ -34,12 +34,29 @@ Installation
 2. Follow installation guideline at [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
 3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your task easily
 
-
-
-If you need to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/configuration/](http://community.mycollab.com/configuration/). You will finish reading and understanding in a matter of minutes.
+If you want to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/configuration/](http://community.mycollab.com/configuration/). You will finish reading and understanding in a matter of minutes.
 
 Last changelog
 ==============
+
+Version 5.0.6
+-----------------------------
+**Library Upgrades**
+
+* Upgrade other libraries
+
+**Improvements & New Features**
+
+* Redirect to the server host instead localhost after installing successfully
+* Minor change in task display
+* Add help menu in view
+* More comprehensive message to instruct user understand field value better
+* Request user change username for the first time login after installation
+* Increase the size of database connection pool to 50 for heavy load sites
+
+**Bug Fixes**
+
+* Display the error message when user upgrade MyCollab failed due to the file permission
 
 Version 5.0.5.1
 -----------------------------
@@ -55,6 +72,7 @@ Version 5.0.5.1
 
 * Can not send email in port different 25 in several cases
 * Fix log location
+* Exception when get the default user avatar
 
 
 Version 5.0.5

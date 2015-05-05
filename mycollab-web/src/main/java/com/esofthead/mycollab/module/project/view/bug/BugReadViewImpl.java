@@ -83,19 +83,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
     private static final Logger LOG = LoggerFactory.getLogger(BugReadViewImpl.class);
 
     private TagViewComponent tagViewComponent;
-
     private HorizontalLayout bugWorkflowControl;
-
     private BugHistoryList historyList;
-
     private ProjectFollowersComp<SimpleBug> bugFollowersList;
-
     private BugTimeLogSheet bugTimeLogList;
-
     private CommentDisplay commentList;
-
     private DateInfoComp dateInfoComp;
-
     private PeopleInfoComp peopleInfoComp;
 
     public BugReadViewImpl() {
@@ -107,8 +100,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
         if (BugStatus.Open.name().equals(beanItem.getStatus())
                 || BugStatus.ReOpened.name().equals(beanItem.getStatus())) {
             this.bugWorkflowControl.removeAllComponents();
-            final ButtonGroup navButton = new ButtonGroup();
-            final Button startProgressBtn = new Button(
+            ButtonGroup navButton = new ButtonGroup();
+             Button startProgressBtn = new Button(
                     AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;

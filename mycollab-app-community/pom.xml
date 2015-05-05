@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>parent-community</artifactId>
-        <version>5.0.5</version>
+        <version>5.0.6</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>war</packaging>
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -135,25 +135,25 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>

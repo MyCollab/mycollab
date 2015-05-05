@@ -72,11 +72,9 @@ import com.esofthead.mycollab.security.PermissionMap;
  */
 @Service
 @Transactional
-public class UserServiceDBImpl extends
-		DefaultService<String, User, UserSearchCriteria> implements UserService {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UserServiceDBImpl.class);
+public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCriteria> implements
+        UserService {
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceDBImpl.class);
 
 	@Autowired
 	private UserMapper userMapper;
@@ -129,11 +127,9 @@ public class UserServiceDBImpl extends
 									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
 									RegisterStatusConstants.VERIFICATING));
 		} else {
-			userAccountEx
-					.createCriteria()
+			userAccountEx.createCriteria()
 					.andUsernameEqualTo(record.getEmail())
-					.andRegisterstatusIn(
-							Arrays.asList(
+					.andRegisterstatusIn(Arrays.asList(
 									RegisterStatusConstants.ACTIVE,
 									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
 									RegisterStatusConstants.VERIFICATING));
@@ -141,8 +137,7 @@ public class UserServiceDBImpl extends
 
 		if (userAccountMapper.countByExample(userAccountEx) > 0) {
 			throw new UserInvalidInputException(
-					"There is already user has email " + record.getEmail()
-							+ " in your account");
+                    String.format("There is already user has email %s in your account", record.getEmail()));
 		}
 
 		if (record.getPassword() != null) {
@@ -176,24 +171,21 @@ public class UserServiceDBImpl extends
 		if (userMapper.countByExample(userEx) == 0) {
 			record.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
 			userMapper.insert(record);
-
 			userAvatarService.uploadDefaultAvatar(record.getUsername());
 		}
 
 		// save record in s_user_account table
 		UserAccount userAccount = new UserAccount();
 		userAccount.setAccountid(record.getAccountId());
-		userAccount
-				.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE
-						: record.getIsAccountOwner());
+		userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE
+                : record.getIsAccountOwner());
 
 		userAccount.setRoleid(record.getRoleid());
 		userAccount.setUsername(record.getUsername());
 		userAccount.setRegisteredtime(new GregorianCalendar().getTime());
 		userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-		userAccount
-				.setRegisterstatus((record.getRegisterstatus() == null) ? RegisterStatusConstants.VERIFICATING
-						: record.getRegisterstatus());
+		userAccount.setRegisterstatus((record.getRegisterstatus() == null) ?
+                RegisterStatusConstants.VERIFICATING : record.getRegisterstatus());
 
 		LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
 		userAccountEx = new UserAccountExample();
@@ -237,9 +229,8 @@ public class UserServiceDBImpl extends
 			int numUsers = userMapper.countByExample(ex);
 			if (numUsers > 0) {
 				throw new UserInvalidInputException(
-						"Email "
-								+ record.getEmail()
-								+ " is already existed in system. Please choose another email.");
+                        String.format("Email %s is already existed in system. Please choose another email.",
+                                record.getEmail()));
 			}
 		}
 
@@ -259,9 +250,8 @@ public class UserServiceDBImpl extends
 			int numUsers = userMapper.countByExample(ex);
 			if (numUsers > 0) {
 				throw new UserInvalidInputException(
-						"Email "
-								+ record.getEmail()
-								+ " is already existed in system. Please choose another email.");
+                        String.format("Email %s is already existed in system. Please choose another email.",
+                                record.getEmail()));
 			}
 		}
 
@@ -312,26 +302,21 @@ public class UserServiceDBImpl extends
 		List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(
 				criteria, 0, Integer.MAX_VALUE));
 		if (users == null || users.isEmpty()) {
-			throw new UserInvalidInputException("User " + username
-					+ " is not existed in this domain");
+			throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
 		} else {
 			SimpleUser user = users.get(0);
-			if (user.getPassword() == null
-					|| !PasswordEncryptHelper.checkPassword(password,
+			if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password,
 							user.getPassword(), isPasswordEncrypt)) {
-				LOG.debug("PASS: " + password + "   " + user.getPassword());
-				throw new UserInvalidInputException(
-						"Invalid username or password");
+				LOG.debug(String.format("PASS: %s   %s", password, user.getPassword()));
+				throw new UserInvalidInputException("Invalid username or password");
 			}
 
-			LOG.debug("User " + username + " login to system successfully!");
+			LOG.debug(String.format("User %s login to system successfully!", username));
 
-			if (user.getIsAccountOwner() == null
-					|| (user.getIsAccountOwner() != null && !user
-							.getIsAccountOwner())) {
+			if (user.getIsAccountOwner() == null || (user.getIsAccountOwner() != null
+                    && !user.getIsAccountOwner())) {
 				if (user.getRoleid() != null) {
-					LOG.debug("User " + username
-							+ " is not admin. Getting his role");
+					LOG.debug(String.format("User %s is not admin. Getting his role", username));
 					RolePermissionExample ex = new RolePermissionExample();
 					ex.createCriteria().andRoleidEqualTo(user.getRoleid());
 					List roles = rolePermissionMapper
@@ -341,13 +326,12 @@ public class UserServiceDBImpl extends
 						PermissionMap permissionMap = PermissionMap
 								.fromJsonString(rolePer.getRoleval());
 						user.setPermissionMaps(permissionMap);
-						LOG.debug("Find role match to user " + username);
+						LOG.debug(String.format("Find role match to user %s", username));
 					} else {
-						LOG.debug("We can not find any role associate to user "
-								+ username);
+						LOG.debug(String.format("We can not find any role associate to user %s", username));
 					}
 				} else {
-					LOG.debug("User " + username + " has no any role");
+					LOG.debug(String.format("User %s has no any role", username));
 				}
 			}
 			user.setPassword(null);
@@ -389,18 +373,14 @@ public class UserServiceDBImpl extends
 				.selectByExample(userAccountEx);
 		if (accounts.size() > 0) {
 			UserAccount account = accounts.get(0);
-			if (account.getIsaccountowner() != null
-					&& account.getIsaccountowner() == Boolean.TRUE) {
+			if (account.getIsaccountowner() != null && account.getIsaccountowner() == Boolean.TRUE) {
 				userAccountEx = new UserAccountExample();
 				userAccountEx.createCriteria().andAccountidEqualTo(accountId)
 						.andIsaccountownerEqualTo(Boolean.TRUE);
 				if (userAccountMapper.countByExample(userAccountEx) == 1) {
 					throw new UserInvalidInputException(
-							"Can not delete user "
-									+ username
-									+ ". The reason is "
-									+ username
-									+ " is the unique account owner of the current account.");
+                            String.format("Can not delete user %s. The reason is %s is the unique account owner of the current account.",
+                                    username, username));
 				}
 			}
 		}
@@ -457,7 +437,7 @@ public class UserServiceDBImpl extends
 
 	@Override
 	public void updateUserAccountsStatus(List<String> usernames,
-			@CacheKey Integer sAccountId, String registerStatus) {
+			Integer sAccountId, String registerStatus) {
 		for (String username : usernames) {
 			updateUserAccountStatus(username, sAccountId, registerStatus);
 		}
@@ -465,7 +445,7 @@ public class UserServiceDBImpl extends
 	}
 
 	@Override
-	public int getTotalActiveUsersInAccount(@CacheKey Integer accountId) {
+	public int getTotalActiveUsersInAccount(Integer accountId) {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setRegisterStatuses(new SetSearchField<>(
 				new String[] { RegisterStatusConstants.ACTIVE }));

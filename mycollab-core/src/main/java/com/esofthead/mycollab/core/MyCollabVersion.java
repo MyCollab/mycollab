@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.core;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -26,4 +29,34 @@ public class MyCollabVersion {
 	public static String getVersion() {
 		return "5.0.5.1";
 	}
+
+    static int[] getVersionNumbers(String ver) {
+        Matcher m = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)(beta(\\d*))?")
+                .matcher(ver);
+        if (!m.matches())
+            throw new IllegalArgumentException("Malformed FW version");
+
+        return new int[] { Integer.parseInt(m.group(1)),  // major
+                Integer.parseInt(m.group(2)),             // minor
+                Integer.parseInt(m.group(3)),             // rev.
+                m.group(4) == null ? Integer.MAX_VALUE    // no beta suffix
+                        : m.group(5).isEmpty() ? 1        // "beta"
+                        : Integer.parseInt(m.group(5))    // "beta3"
+        };
+    }
+
+    public static boolean isEditionNewer(String testFW) {
+        return isEditionNewer(testFW, getVersion());
+    }
+
+    static boolean isEditionNewer(String testFW, String baseFW) {
+        int[] testVer = getVersionNumbers(testFW);
+        int[] baseVer = getVersionNumbers(baseFW);
+
+        for (int i = 0; i < testVer.length; i++)
+            if (testVer[i] != baseVer[i])
+                return testVer[i] > baseVer[i];
+
+        return false;
+    }
 }

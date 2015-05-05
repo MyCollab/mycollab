@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-server-runner.
- * <p>
- * mycollab-server-runner is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * mycollab-server-runner is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with mycollab-server-runner.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.jetty;
 
 import ch.qos.logback.classic.BasicConfigurator;
@@ -39,6 +23,7 @@ import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.servlet.*;
 import com.zaxxer.hikari.HikariDataSource;
@@ -232,7 +217,7 @@ public abstract class GenericServerRunner {
         try {
             unpackFile(upgradeFile);
         } catch (IOException e) {
-            throw new MyCollabException("Exception when upgrade MyCollab", e);
+            throw new UserInvalidInputException("Exception when upgrade MyCollab", e);
         }
 
         appContext = initWebAppContext();
@@ -251,6 +236,9 @@ public abstract class GenericServerRunner {
     private static void unpackFile(File upgradeFile) throws IOException {
         File libFolder = new File(System.getProperty("user.dir"), "lib");
         File webappFolder = new File(System.getProperty("user.dir"), "webapp");
+        assertFolderWritePermission(libFolder);
+        assertFolderWritePermission(webappFolder);
+
         org.apache.commons.io.FileUtils.deleteDirectory(libFolder);
         org.apache.commons.io.FileUtils.deleteDirectory(webappFolder);
 
@@ -271,8 +259,13 @@ public abstract class GenericServerRunner {
                     }
                 }
             }
-        } catch (IOException e) {
-            throw new MyCollabException(e);
+        }
+    }
+
+    private static void assertFolderWritePermission(File folder) throws IOException {
+        if (!folder.canWrite()) {
+            throw new IOException(System.getProperty("user.name") + " does not have write permission on folder " + folder.getAbsolutePath()
+            + ". The upgrade could not be proceeded. Please correct permission before you upgrade MyCollab again");
         }
     }
 
@@ -306,6 +299,7 @@ public abstract class GenericServerRunner {
         dsProperties.setProperty("prepStmtCacheSize", "250");
         dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
         dsProperties.setProperty("useServerPrepStmts", "true");
+        dsProperties.setProperty("maximumPoolSize", "50");
         dataSource.setDataSourceProperties(dsProperties);
         return dataSource;
     }

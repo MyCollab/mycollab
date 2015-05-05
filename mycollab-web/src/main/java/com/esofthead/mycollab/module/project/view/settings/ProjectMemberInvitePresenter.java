@@ -126,7 +126,6 @@ public class ProjectMemberInvitePresenter extends
             this.setResizable(false);
             this.setModal(true);
             this.setWidth("600px");
-            this.setHeight("600px");
             contentLayout = new MVerticalLayout();
             this.setContent(contentLayout);
             center();

@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.4";
+	content: "7.4.5";
 }
 
 .v-generated-body {
@@ -429,6 +429,38 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 .v-checkbox input[type="checkbox"]:focus {
 	border: none;
 	box-shadow: none;
+}
+
+.v-widget.helpPanel {
+	right: 0;
+	z-index: 10;
+	margin: 80px auto;
+	position: absolute;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical {
+	height: 300px;
+	margin: 80px auto;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+	background-color: cadetblue;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
+	color: white;
+	text-align: center;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
+	color: white;
+	font-size: 11px;
 }
 
 .stickytooltip {
@@ -2596,6 +2628,8 @@ div.v-csslayout {
 	left: 0;
 	right: 0;
 	border: 1px solid #ddd;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	margin-top: -1px;
 	-webkit-box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 0 9px rgba(0, 0, 0, 0.2);
@@ -7651,6 +7685,38 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	box-shadow: none;
 }
 
+.v-widget.helpPanel {
+	right: 0;
+	z-index: 10;
+	margin: 80px auto;
+	position: absolute;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical {
+	height: 300px;
+	margin: 80px auto;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+	background-color: cadetblue;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
+	color: white;
+	text-align: center;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
+	color: white;
+	font-size: 11px;
+}
+
 .crm-module {
 	position: absolute;
 	top: 0;
@@ -8075,8 +8141,18 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .project-module {
-	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
 	min-height: 100%;
+}
+
+.project-module .page-view.v-margin-left, .accountViewContainer .page-view.v-margin-left {
+	padding-left: 30px;
+}
+
+.project-module .page-view.v-margin-right, .accountViewContainer .page-view.v-margin-right {
+	padding-right: 30px;
 }
 
 .projectDashboardView {
@@ -11190,7 +11266,7 @@ div.v-lazyloadingwrapper-loading {
 	margin-top: 0px !important;
 }
 
-.main-body {
+.v-csslayout.main-view {
 	overflow-y: auto;
 	background-color: #FFF;
 	position: relative;
@@ -12723,14 +12799,6 @@ img.icon-btn {
 .v-buttongroup.navigation-btns .v-button-caption {
 	font-size: 16px;
 	font-weight: bold;
-}
-
-.project-module .page-view.v-margin-left, .accountViewContainer .page-view.v-margin-left {
-	padding-left: 30px;
-}
-
-.project-module .page-view.v-margin-right, .accountViewContainer .page-view.v-margin-right {
-	padding-right: 30px;
 }
 
 div.v-csslayout.bean-block {

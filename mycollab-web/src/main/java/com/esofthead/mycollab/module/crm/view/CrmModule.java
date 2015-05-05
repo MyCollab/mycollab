@@ -66,5 +66,4 @@ public class CrmModule extends AbstractPageView implements IModule {
 			container.addComponent(view.getWidget());
 		}
 	}
-
 }

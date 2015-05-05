@@ -19,6 +19,8 @@ package com.esofthead.mycollab.common.ui.components.notification;
 import com.esofthead.mycollab.common.ui.components.AbstractNotification;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -48,7 +50,7 @@ public class SmtpSetupNotification  extends AbstractNotification {
             }
         });
         smtpBtn.setStyleName("link");
-        layout.with(new Label("You did not set up a SMTP account yet."), smtpBtn);
+        layout.with(new Label(FontAwesome.EXCLAMATION.getHtml() + " You did not set up a SMTP account yet.", ContentMode.HTML), smtpBtn);
         return layout;
     }
 }

@@ -44,8 +44,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskGroupDisplayWidget extends
-        BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
+public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
     private static final long serialVersionUID = 1L;
 
     public TaskGroupDisplayWidget() {
@@ -54,8 +53,7 @@ public class TaskGroupDisplayWidget extends
         this.setDisplayEmptyListText(false);
     }
 
-    public static class TaskListRowDisplayHandler extends
-            BeanList.RowDisplayHandler<SimpleTaskList> {
+    public static class TaskListRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleTaskList> {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -149,7 +147,7 @@ public class TaskGroupDisplayWidget extends
 
             taskListActionControl.setContent(actionBtnLayout);
 
-            final Button readBtn = new Button(
+            Button readBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -165,7 +163,7 @@ public class TaskGroupDisplayWidget extends
             readBtn.setEnabled(CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(readBtn);
 
-            final Button editBtn = new Button(
+            Button editBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -209,7 +207,7 @@ public class TaskGroupDisplayWidget extends
                     .canWrite(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(toogleBtn);
 
-            final Button deleteBtn = new Button(
+            Button deleteBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;

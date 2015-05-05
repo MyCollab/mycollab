@@ -180,8 +180,7 @@ public class ComponentReadViewImpl extends
     @Override
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm = new
-                ProjectPreviewFormControlsGenerator<>(
-                previewForm);
+                ProjectPreviewFormControlsGenerator<>(previewForm);
         HorizontalLayout topPanel = componentPreviewForm
                 .createButtonControls(ProjectRolePermissionCollections.COMPONENTS);
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
@@ -191,24 +190,18 @@ public class ComponentReadViewImpl extends
             public void buttonClick(ClickEvent event) {
                 if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
                     beanItem.setStatus(StatusI18nEnum.Open.name());
-                    ComponentReadViewImpl.this
-                            .removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_CLOSE));
+                    ComponentReadViewImpl.this.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                     quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
-                    ComponentReadViewImpl.this
-                            .addLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_REOPEN));
+                    ComponentReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
-                ComponentService service = ApplicationContextUtil
-                        .getSpringBean(ComponentService.class);
-                service.updateSelectiveWithSession(beanItem,
-                        AppContext.getUsername());
+                ComponentService service = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
 
             }
         });
@@ -216,8 +209,7 @@ public class ComponentReadViewImpl extends
         quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         componentPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-        if (!CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
+        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS)) {
             quickActionStatusBtn.setEnabled(false);
         }
         return topPanel;
@@ -251,16 +243,14 @@ public class ComponentReadViewImpl extends
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
 
             Label spacingLbl1 = new Label("");
-            Button chartBtn = new Button("");
-            chartBtn.setIcon(FontAwesome.TH_LARGE);
-            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+//            Button chartBtn = new Button("");
+//            chartBtn.setIcon(FontAwesome.TH_LARGE);
+//            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1,
-                    chartBtn).withAlign
+            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1).withAlign
                     (openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment
                     .MIDDLE_LEFT).withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(chartBtn, Alignment.MIDDLE_RIGHT)
                     .expand(spacingLbl1);
 
             bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new

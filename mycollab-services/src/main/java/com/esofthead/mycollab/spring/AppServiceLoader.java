@@ -47,12 +47,10 @@ public class AppServiceLoader {
 		}
 
 		if (myCollabResourceFile.exists()) {
-			resources = new Resource[] { new FileSystemResource(
-					myCollabResourceFile) };
+			resources = new Resource[] { new FileSystemResource(myCollabResourceFile) };
 		} else {
 			resources = new Resource[] { new ClassPathResource(
-					"mycollab.properties",
-					AppServiceLoader.class.getClassLoader()) };
+					"mycollab.properties", AppServiceLoader.class.getClassLoader()) };
 		}
 
 		pspc.setLocations(resources);

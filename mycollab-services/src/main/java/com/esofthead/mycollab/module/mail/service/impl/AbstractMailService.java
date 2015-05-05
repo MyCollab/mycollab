@@ -30,7 +30,6 @@ import com.esofthead.mycollab.module.mail.service.IGenericMailService;
  *
  */
 public abstract class AbstractMailService implements IGenericMailService {
-
 	protected abstract IMailer getMailer();
 
 	@Override

@@ -39,13 +39,11 @@ public class ServiceMenu extends ButtonGroup {
 
 	public ServiceMenu() {
 		super();
-
 		this.setStyleName(COMPONENT_STYLENAME);
 	}
 
-	public void addService(String serviceName, Resource linkIcon,
-			ClickListener listener) {
-		final Button newService = new Button(serviceName, listener);
+	public void addService(String serviceName, Resource linkIcon, ClickListener listener) {
+        Button newService = new Button(serviceName, listener);
 		newService.setIcon(linkIcon);
 		newService.setStyleName("link");
 
@@ -56,7 +54,6 @@ public class ServiceMenu extends ButtonGroup {
 		Iterator<Component> iterator = this.iterator();
 
 		int i = 0;
-
 		while (iterator.hasNext()) {
 			Component comp = iterator.next();
 			if (i == index) {

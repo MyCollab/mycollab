@@ -76,10 +76,8 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 					subdomain = urlTokenizer.getString();
 				}
 
-				UserService userService = ApplicationContextUtil
-						.getSpringBean(UserService.class);
-				SimpleUser checkUser = userService.findUserByUserNameInAccount(
-						username, accountId);
+				UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+				SimpleUser checkUser = userService.findUserByUserNameInAccount(username, accountId);
 
 				if (checkUser == null) {
 					// this user no long exist on System page
@@ -87,7 +85,6 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 							username, request.getContextPath() + "/");
 					return;
 				} else {
-
 					if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
 						// You cant deny , User has active , go to login Page

@@ -42,8 +42,7 @@ public class DataSourceConfiguration {
 	public DataSource dataSource() {
 		JndiDataSourceLookup ds = new JndiDataSourceLookup();
 		ds.setResourceRef(true);
-		DataSource dataSource = ds
-				.getDataSource("java:comp/env/jdbc/mycollabdatasource");
+		DataSource dataSource = ds.getDataSource("java:comp/env/jdbc/mycollabdatasource");
 		return dataSource;
 	}
 

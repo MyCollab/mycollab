@@ -16,21 +16,6 @@
  */
 package com.esofthead.mycollab.module.billing.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -46,6 +31,18 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccountInvitationExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -55,9 +52,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  */
 @WebServlet(name = "acceptUserInvitationServlet", urlPatterns = "/user/confirm_invite/*")
 public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AcceptInvitationPage.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AcceptInvitationPage.class);
 
 	@Autowired
 	private UserService userService;
@@ -87,24 +82,24 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 				}
 
 				User user = userService.findUserByUserName(username);
-				if (!UserStatusConstants.EMAIL_VERIFIED
-						.equals(user.getStatus())) {
+                if (user == null) {
+                    PageGeneratorUtil.responeUserNotExistPage(response,
+                            username, request.getContextPath() + "/");
+                }
+				if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
 					userService.updateWithSession(user, "");
 				}
 
-				SimpleUser userInAccount = userService
-						.findUserByUserNameInAccount(username, accountId);
+				SimpleUser userInAccount = userService.findUserByUserNameInAccount(username, accountId);
 
-				if (user == null || userInAccount == null) {
-					PageGeneratorUtil.responeUserNotExistPage(response,
-							username, request.getContextPath() + "/");
+				if (userInAccount == null) {
+					PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
 					return;
 				} else {
 					if (userInAccount.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
-						LOG.debug("Forward user {} to page {}",
-								user.getUsername(), request.getContextPath());
+						LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
 						response.sendRedirect(request.getContextPath() + "/");
 						return;
 					} else {
@@ -123,32 +118,24 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 									user.getUsername(),
 									BeanUtility.printBeanObj(user));
 							// forward to page create password for new user
-							String redirectURL = SiteConfiguration
-									.getSiteUrl(subdomain)
-									+ "user/confirm_invite/update_info/";
+							String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subdomain));
 
-							Map<String, Object> context = new HashMap<String, Object>();
+							Map<String, Object> context = new HashMap<>();
 							context.put("username", username);
 							context.put("accountId", accountId);
 							context.put("email", user.getEmail());
 							context.put("redirectURL", redirectURL);
 							context.put("loginURL", loginURL);
-							String html = generatePageByTemplate(
-									response.getLocale(),
-									"templates/page/user/FillUserInformation.mt",
-									context);
+							String html = generatePageByTemplate(response.getLocale(), "templates/page/user/FillUserInformation.mt", context);
 							PrintWriter out = response.getWriter();
 							out.print(html);
 							return;
 						} else {
-							LOG.debug("Forward user {} to page {}",
-									user.getUsername(),
-									request.getContextPath());
+							LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
 							// redirect to account site
 							userService.updateUserAccountStatus(username,
-									accountId, RegisterStatusConstants.ACTIVE);
-							response.sendRedirect(request.getContextPath()
-									+ "/");
+                                    accountId, RegisterStatusConstants.ACTIVE);
+							response.sendRedirect(request.getContextPath() + "/");
 							return;
 						}
 					}

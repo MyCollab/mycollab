@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
+import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -37,6 +37,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -192,14 +193,12 @@ class TaskAddPopup extends CustomComponent {
         }
     }
 
-    private class TaskNoteLayout extends VerticalLayout {
+    private class TaskNoteLayout extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
         private final RichTextArea noteArea;
         private final AttachmentPanel attachmentPanel;
 
         public TaskNoteLayout() {
-            this.setSpacing(true);
-            this.setMargin(true);
             this.noteArea = new RichTextArea();
             this.noteArea.setWidth("100%");
             this.noteArea.setHeight("200px");
@@ -207,8 +206,7 @@ class TaskAddPopup extends CustomComponent {
 
             this.attachmentPanel = new AttachmentPanel();
             this.addComponent(this.attachmentPanel);
-            final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
-                    this.attachmentPanel);
+            MultiFileUploadExt uploadExt = new MultiFileUploadExt(this.attachmentPanel);
             uploadExt.addComponent(this.attachmentPanel);
             this.addComponent(uploadExt);
             this.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
@@ -237,9 +235,9 @@ class TaskAddPopup extends CustomComponent {
 
         @Override
         protected Field<?> onCreateField(final Object propertyId) {
-            if (propertyId.equals("assignuser")) {
+            if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
-            } else if (propertyId.equals("taskname")) {
+            } else if (Task.Field.taskname.equalTo(propertyId)) {
                 final TextField tf = new TextField();
                 if (isValidateForm) {
                     tf.setNullRepresentation("");
@@ -247,13 +245,13 @@ class TaskAddPopup extends CustomComponent {
                     tf.setRequiredError("Please enter a Task Name");
                 }
                 return tf;
-            } else if (propertyId.equals("percentagecomplete")) {
+            } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
                 if (task.getPercentagecomplete() == null) {
                     task.setPercentagecomplete(0d);
                 }
 
-                return new TaskPercentageCompleteComboBox();
-            } else if ("priority".equals(propertyId)) {
+                return new TaskCompleteStatusSelection();
+            } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (task.getPriority() == null) {
                     task.setPriority(TaskPriority.Medium.name());
                 }

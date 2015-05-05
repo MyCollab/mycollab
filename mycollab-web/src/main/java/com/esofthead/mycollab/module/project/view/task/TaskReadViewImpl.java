@@ -486,19 +486,23 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             String avatarLink = StorageManager.getAvatarLink(subTask.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
 
+            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+                    TooltipHelper.buildDivTooltipEnable(uid));
+
+            if (subTask.getPercentagecomplete() != null && subTask.getPercentagecomplete() > 0) {
+                Div completeTxt = new Div().appendChild(new Text(String.format(" %s%%", subTask.getPercentagecomplete())))
+                        .setStyle("display:inline").setCSSClass("footer2");
+                resultDiv.appendChild(completeTxt);
+            }
+
             if (subTask.getDeadline() != null) {
                 Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
                         (TaskI18nEnum.FORM_DEADLINE), AppContext.formatPrettyTime(subTask.getDeadline()))))
                         .setStyle("display:inline").setCSSClass("footer2").setTitle(AppContext.formatDate(subTask.getDeadline()));
 
-                return new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, deadline,
-                        DivLessFormatter.EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid)).write();
-            } else {
-                return new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter
-                                .EMPTY_SPACE(),
-                        TooltipHelper.buildDivTooltipEnable(uid)).write();
+                resultDiv.appendChild(deadline);
             }
+            return resultDiv.write();
         }
     }
 
@@ -510,8 +514,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -520,26 +523,21 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(
-                        AppContext
+                Label createdLbl = new Label(AppContext
                                 .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(
-                        bean, "logby");
-                String createdUserAvatarId = (String) PropertyUtils
-                        .getProperty(bean, "logByAvatarId");
-                String createdUserDisplayName = (String) PropertyUtils
-                        .getProperty(bean, "logByFullName");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "logby");
+                String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "logByAvatarId");
+                String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "logByFullName");
 
                 ProjectMemberLink createdUserLink = new ProjectMemberLink(createdUserName,
                         createdUserAvatarId, createdUserDisplayName);
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(
-                        AppContext
+                Label assigneeLbl = new Label(AppContext
                                 .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);

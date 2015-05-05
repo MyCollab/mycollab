@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>parent-community</artifactId>
-    <version>5.0.5</version>
+    <version>5.0.6</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>3.0.4</maven>
@@ -17,10 +17,10 @@
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.4.4</vaadinVersion>
-        <jettyVersion>9.2.9.v20150224</jettyVersion>
+        <vaadinVersion>7.4.5</vaadinVersion>
+        <jettyVersion>9.2.10.v20150310</jettyVersion>
         <mysqlVersion>5.1.35</mysqlVersion>
-        <camelVersion>2.15.1</camelVersion>
+        <camelVersion>2.15.2</camelVersion>
         <junitVersion>4.12</junitVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>
@@ -292,6 +292,12 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-platform</artifactId>
+            <version>2.1.5</version>
         </dependency>
 
     </dependencies>

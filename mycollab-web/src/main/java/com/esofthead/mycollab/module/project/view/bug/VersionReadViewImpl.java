@@ -191,11 +191,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
-                VersionService service = ApplicationContextUtil
-                        .getSpringBean(VersionService.class);
-                service.updateSelectiveWithSession(beanItem,
-                        AppContext.getUsername());
-
+                VersionService service = ApplicationContextUtil.getSpringBean(VersionService.class);
+                service.updateSelectiveWithSession(beanItem, AppContext.getUsername());
             }
         });
 
@@ -244,17 +241,16 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
             Label spacingLbl1 = new Label("");
 
-            Button chartBtn = new Button("");
+//            Button chartBtn = new Button("");
+//
+//            chartBtn.setIcon(FontAwesome.TH_LARGE);
+//            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-            chartBtn.setIcon(FontAwesome.TH_LARGE);
-            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-
-            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1,
-                    chartBtn).withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
+            header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1)
+                    .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(verifiedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(resolvedSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(chartBtn, Alignment.MIDDLE_RIGHT).expand(spacingLbl1);
+                    .withAlign(resolvedSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
             bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new AssignmentRowDisplay(), 10);
             bugList.setControlStyle("borderlessControl");

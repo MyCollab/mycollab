@@ -66,6 +66,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.util.UUID;
 
@@ -74,8 +75,7 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent
-public class MilestoneReadViewImpl extends
-        AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
+public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(MilestoneReadViewImpl.class);
@@ -261,15 +261,21 @@ public class MilestoneReadViewImpl extends
                     updateTypeSearchStatus(bugSelection.getValue(), ProjectTypeConstants.BUG);
                 }
             });
-            Button chartBtn = new Button("");
 
-            chartBtn.setIcon(FontAwesome.TH_LARGE);
+            ButtonGroup navButton = new ButtonGroup();
+            Button listBtn = new Button("", FontAwesome.LIST);
+            listBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+            navButton.addButton(listBtn);
+
+            Button chartBtn = new Button("", FontAwesome.TH_LARGE);
             chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2, chartBtn)
+            navButton.addButton(chartBtn);
+
+            header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(chartBtn, Alignment.MIDDLE_RIGHT).expand(spacingLbl1, spacingLbl2);
+                    .withAlign(navButton, Alignment.MIDDLE_RIGHT).expand(spacingLbl1, spacingLbl2);
 
             assignmentsList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
                     AssignmentRowDisplay(), 10);

@@ -29,9 +29,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DeleteProjectBugCommandImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DeleteProjectBugCommandImpl.class);
 
 	@Autowired
 	private ResourceService resourceService;
@@ -40,8 +38,7 @@ public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {
 	private CommentMapper commentMapper;
 
 	@Override
-	public void bugRemoved(String username, int accountId, int projectId,
-			int bugId) {
+	public void bugRemoved(String username, int accountId, int projectId, int bugId) {
 		LOG.debug("Remove bug {} of project {} by user {}", bugId, projectId, username);
 
 		removeRelatedFiles(accountId, projectId, bugId);

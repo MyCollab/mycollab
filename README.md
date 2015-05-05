@@ -31,8 +31,8 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
   </tr>
   <tr>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8715/17068773436_01d5f24e9d_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm9.staticflickr.com/8715/17068773436_a10b27b1e9_m.jpg" alt="Page Editor">
+      <a href="https://farm8.staticflickr.com/7717/16887333327_99300b47d5_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm8.staticflickr.com/7717/16887333327_7e63f7bc70_m.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>

@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DynaFormLayout;
 import com.esofthead.mycollab.module.project.ui.components.ProjectTaskListComboBox;
-import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
+import com.esofthead.mycollab.module.project.ui.components.TaskCompleteStatusSelection;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
@@ -42,10 +42,9 @@ import com.vaadin.ui.*;
  * @since 1.0
  */
 @ViewComponent
-public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
-        TaskAddView {
-
+public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskAddView {
     private static final long serialVersionUID = 1L;
+
     private AttachmentUploadField attachmentUploadField;
 
     @Override
@@ -77,7 +76,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
     @Override
     protected ComponentContainer createButtonControls() {
-        final Layout controlButtons = (new EditFormControlsGenerator<>(
+        Layout controlButtons = (new EditFormControlsGenerator<>(
                 editForm)).createButtonControls(true, true, true);
         controlButtons.setSizeUndefined();
 
@@ -123,11 +122,10 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
                 final TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
-                tf.setRequiredError(AppContext.getMessage(
-                        ErrorI18nEnum.FIELD_MUST_NOT_NULL, "Name"));
+                tf.setRequiredError(AppContext.getMessage(ErrorI18nEnum.FIELD_MUST_NOT_NULL, "Name"));
                 return tf;
             } else if (Task.Field.percentagecomplete.equalTo(propertyId)) {
-                return new TaskPercentageCompleteComboBox();
+                return new TaskCompleteStatusSelection();
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 return new TaskPriorityComboBox();
             } else if (Task.Field.id.equalTo(propertyId)) {
@@ -137,10 +135,9 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
                             .getProjectEntityAttachmentPath(AppContext.getAccountId(),
                                     CurrentProjectVariables.getProjectId(),
                                     ProjectTypeConstants.TASK, "" + beanItem.getId());
-                    TaskAddViewImpl.this.attachmentUploadField
-                            .getAttachments(attachmentPath);
+                    attachmentUploadField.getAttachments(attachmentPath);
                 }
-                return TaskAddViewImpl.this.attachmentUploadField;
+                return attachmentUploadField;
             }
             return null;
         }

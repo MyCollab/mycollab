@@ -82,8 +82,7 @@ class TaskDisplayComponent extends CssLayout {
         criteria = new TaskSearchCriteria();
         criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         criteria.setTaskListId(new NumberSearchField(taskList.getId()));
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                new String[]{StatusI18nEnum.Open.name(),
+        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name(),
                         StatusI18nEnum.Pending.name()}));
     }
 
@@ -116,8 +115,7 @@ class TaskDisplayComponent extends CssLayout {
                 }
             }
         });
-        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(
-                previewForm) {
+        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleTaskList>(previewForm) {
             private static final long serialVersionUID = 1L;
 
             @Override

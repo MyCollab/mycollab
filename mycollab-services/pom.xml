@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>parent-community</artifactId>
-        <version>5.0.5</version>
+        <version>5.0.6</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -16,43 +16,43 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-caching</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-localization</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-jackrabbit</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-test</artifactId>
-            <version>5.0.5</version>
+            <version>5.0.6</version>
             <scope>test</scope>
         </dependency>
 
@@ -86,6 +86,12 @@
             <version>0.9.9-RC1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+            <version>3.0.9.Final</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -107,25 +113,25 @@
                 </dependencies>
                 <executions>
                     <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase>
-                        <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>User 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Common 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Project 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Tracker 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/TrackerGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Ecm 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/EcmGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Form 
-                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal> 
-                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/FormGeneratorConfig.xml</configurationFile> 
+                        <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>User
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Common
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Project
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/ProjectGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Tracker
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/TrackerGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Ecm
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/EcmGeneratorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite> </configuration> </execution> <execution> <id>Form
+                        Artifacts Generator</id> <phase>validate</phase> <goals> <goal>generate</goal>
+                        </goals> <configuration> <configurationFile>${basedir}/src/main/resources/FormGeneratorConfig.xml</configurationFile>
                         <overwrite>true</overwrite> </configuration> </execution> -->
                 </executions>
             </plugin>

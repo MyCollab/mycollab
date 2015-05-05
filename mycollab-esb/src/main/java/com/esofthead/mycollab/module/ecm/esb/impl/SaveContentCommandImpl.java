@@ -41,8 +41,7 @@ import com.esofthead.mycollab.module.file.service.RawContentService;
  */
 @Component("saveContentCommand")
 public class SaveContentCommandImpl implements SaveContentCommand {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SaveContentCommandImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SaveContentCommandImpl.class);
 
 	@Autowired
 	private DriveInfoService driveInfoService;
@@ -79,9 +78,7 @@ public class SaveContentCommandImpl implements SaveContentCommand {
 				driveInfoService.saveOrUpdateDriveInfo(driveInfo);
 			}
 		} catch (Exception e) {
-			LOG.error(
-					"Error while save content "
-							+ BeanUtility.printBeanObj(content), e);
+			LOG.error(String.format("Error while save content %s", BeanUtility.printBeanObj(content)), e);
 		} finally {
 			lock.unlock();
 		}

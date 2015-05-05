@@ -39,9 +39,7 @@ import com.esofthead.mycollab.module.file.service.RawContentService;
  */
 @Component
 public class DeleteResourcesCommandImpl implements DeleteResourcesCommand {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DeleteResourcesCommandImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DeleteResourcesCommandImpl.class);
 
 	@Autowired
 	private RawContentService rawContentService;

@@ -40,7 +40,7 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 	private ResourceService resourceService;
 
 	@Autowired
-	private PageService wikiService;
+	private PageService pageService;
 
 	@Override
 	public void accountDeleted(int accountId, CustomerFeedbackWithBLOBs feedback) {
@@ -52,6 +52,6 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 
 		String rootPath = accountId + "";
 		resourceService.removeResource(rootPath, "", accountId);
-		wikiService.removeResource(rootPath);
+		pageService.removeResource(rootPath);
 	}
 }
