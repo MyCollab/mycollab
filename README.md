@@ -1,11 +1,11 @@
-# MyCollab an open source Java CRM, Project and Document Management Platform
+# Free, open source CRM, Document and Project Management software
 [![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Build Status](https://travis-ci.org/esofthead/mycollab.svg?branch=master)](https://travis-ci.org/esofthead/mycollab) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
 
 ## Introduction
 
 MyCollab has bundle three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
-<table>no
+<table>
   <tr>
     <td align="center">
       <a href="https://farm8.staticflickr.com/7628/16887333257_13dbb12d14_o.png" target="_blank" title="Project Dashboard">
@@ -97,8 +97,8 @@ If you want to customize MyCollab, following links are useful to you:
 
 ## Contact
 Contact the MyCollab team at:
-* Our email support@mycollab.com
-* Our web form https://www.mycollab.com/contact/
+* Our Q&A page [https://www.mycollab.com/qa/](https://www.mycollab.com/qa/)
+* Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 ## License & Author
 
