@@ -37,9 +37,7 @@ public class CacheUtils {
 	}
 
 	public static Class<?> getEnclosingServiceInterface(Class<?> serviceClass) {
-		Class<?> cls = ClassUtils.getInterfaceInstanceOf(serviceClass,
-				IService.class);
-
+		Class<?> cls = ClassUtils.getInterfaceInstanceOf(serviceClass, IService.class);
 		return cls;
 	}
 
@@ -59,7 +57,6 @@ public class CacheUtils {
 	}
 
 	public static boolean isInBlackList(Class<?> cls) {
-		return (cls != null)
-				&& (cls.getAnnotation(IgnoreCacheClass.class) != null);
+		return (cls != null) && (cls.getAnnotation(IgnoreCacheClass.class) != null);
 	}
 }

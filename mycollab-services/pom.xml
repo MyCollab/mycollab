@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.1.2.Final</version>
+            <version>5.1.3.Final</version>
         </dependency>
 
         <dependency>
@@ -89,7 +89,13 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
-            <version>3.0.9.Final</version>
+            <version>${restVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${restVersion}</version>
         </dependency>
 
     </dependencies>

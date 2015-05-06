@@ -34,8 +34,7 @@ import com.vaadin.ui.*;
 public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 	private static final long serialVersionUID = 1L;
 
-	public MassUpdateAccountWindow(final String title,
-			final AccountListPresenter presenter) {
+	public MassUpdateAccountWindow(String title, AccountListPresenter presenter) {
 		super(title, CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT),
 				new Account(), presenter);
 	}
@@ -59,11 +58,10 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 
 		@Override
 		public ComponentContainer getLayout() {
-			final VerticalLayout formLayout = new VerticalLayout();
+            VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label informationHeader = new Label(
-					AppContext
+            Label informationHeader = new Label(AppContext
 							.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION));
 			informationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(informationHeader);
@@ -72,8 +70,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 			formLayout.addComponent(this.informationLayout.getLayout());
 
 			this.addressLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-			final Label addressHeader = new Label(
-					AppContext
+            Label addressHeader = new Label(AppContext
 							.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION));
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);
@@ -87,15 +84,12 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("industry")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY),
+				this.informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY),
 						0, 0);
 			} else if (propertyId.equals("type")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(AccountI18nEnum.FORM_TYPE), 1, 0);
+				this.informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_TYPE), 1, 0);
 			} else if (propertyId.equals("ownership")) {
-				this.informationLayout.addComponent(field,
-						AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP),
+				this.informationLayout.addComponent(field, AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP),
 						0, 1);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
@@ -110,20 +104,14 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 				this.addressLayout.addComponent(field, AppContext
 						.getMessage(AccountI18nEnum.FORM_BILLING_STATE), 0, 1);
 			} else if (propertyId.equals("postalcode")) {
-				this.addressLayout.addComponent(field, AppContext
-						.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE),
-						1, 1);
+				this.addressLayout.addComponent(field,
+                        AppContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE), 1, 1);
 			} else if (propertyId.equals("billingcountry")) {
-				this.addressLayout
-						.addComponent(
-								field,
-								AppContext
-										.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY),
-								0, 2);
+				this.addressLayout.addComponent(field,
+								AppContext.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY), 0, 2);
 			} else if (propertyId.equals("shippingcountry")) {
-				this.addressLayout.addComponent(field, AppContext
-						.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY), 1,
-						2);
+				this.addressLayout.addComponent(field,
+                        AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY), 1, 2);
 			} else if (propertyId.equals("shippingstate")) {
 				this.addressLayout.addComponent(field, AppContext
 						.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE), 0, 3);

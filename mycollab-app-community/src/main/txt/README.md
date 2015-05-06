@@ -57,6 +57,7 @@ Version 5.0.6
 **Bug Fixes**
 
 * Display the error message when user upgrade MyCollab failed due to the file permission
+* Did not display detail error message when validate form but the empty string
 
 Version 5.0.5.1
 -----------------------------

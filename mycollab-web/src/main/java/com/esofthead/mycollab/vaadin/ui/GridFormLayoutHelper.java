@@ -32,7 +32,6 @@ import java.util.Map;
  * 
  */
 public class GridFormLayoutHelper implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 	private final GridLayout layout;
 
@@ -46,20 +45,19 @@ public class GridFormLayoutHelper implements Serializable {
 		this(0, 0);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows) {
+	public GridFormLayoutHelper(int columns, int rows) {
 		this(columns, rows, UIConstants.DEFAULT_CONTROL_WIDTH,
 				UIConstants.DEFAULT_CAPTION_FORM_WIDTH, Alignment.TOP_LEFT);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows,
-			final String fieldControlWidth, final String defaultCaptionWidth) {
+	public GridFormLayoutHelper(int columns, int rows,
+                                String fieldControlWidth, String defaultCaptionWidth) {
 		this(columns, rows, fieldControlWidth, defaultCaptionWidth,
 				Alignment.TOP_RIGHT);
 	}
 
-	public GridFormLayoutHelper(final int columns, final int rows,
-			final String fieldControlWidth, final String defaultCaptionWidth,
-			final Alignment captionAlignment) {
+	public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth,
+                                String defaultCaptionWidth, Alignment captionAlignment) {
 		this.fieldControlWidth = fieldControlWidth;
 		this.defaultCaptionWidth = defaultCaptionWidth;
 		this.captionAlignment = captionAlignment;
@@ -85,42 +83,38 @@ public class GridFormLayoutHelper implements Serializable {
 		return this.layout.getRows();
 	}
 
-	public void addComponent(final Component field, final String caption,
-			final int columns, final int rows, final int colspan,
-			final String width) {
+	public void addComponent(Component field, String caption, int columns,
+                             int rows, int colspan, String width) {
 		this.addComponent(field, caption, columns, rows, colspan, width,
 				this.captionAlignment);
 	}
 
-	public void addComponent(final Component field, final String caption,
-			final int columns, final int rows) {
+	public void addComponent(Component field, String caption,
+                             int columns, int rows) {
 		this.addComponent(field, caption, columns, rows, 1,
 				this.fieldControlWidth, captionAlignment);
 	}
 
-	public void addComponent(final Component field, final String caption,
-			final int columns, final int rows, final Alignment alignment) {
+	public void addComponent(Component field, String caption,
+                             int columns, int rows, Alignment alignment) {
 		this.addComponent(field, caption, columns, rows, 1,
 				this.fieldControlWidth, alignment);
 	}
 
-	public void addComponent(final Component field, final String caption,
-			final int columns, final int rows, final int colspan,
-			final String width, final Alignment alignment) {
+	public void addComponent(Component field, String caption, int columns,
+                             int rows, int colspan, String width, Alignment alignment) {
 		GridCellWrapper cell = buildCell(caption, columns, rows, colspan,
 				width, alignment);
 		cell.addComponent(field);
 	}
 
-	public GridCellWrapper buildCell(final String caption, final int columns,
-			final int rows) {
+	public GridCellWrapper buildCell(String caption, int columns, int rows) {
 		return buildCell(caption, columns, rows, 1, fieldControlWidth,
 				captionAlignment);
 	}
 
-	public GridCellWrapper buildCell(final String caption, final int columns,
-			final int rows, final int colspan, final String width,
-			final Alignment alignment) {
+	public GridCellWrapper buildCell(String caption, int columns, int rows,
+                                     int colspan, String width, Alignment alignment) {
 		if (StringUtils.isNotBlank(caption)) {
 			final Label l = new Label(caption + ":");
 			final MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
@@ -160,8 +154,8 @@ public class GridFormLayoutHelper implements Serializable {
 		return fieldCaptionMappings.get(caption);
 	}
 
-	public Component addComponentNoWrapper(final Component field,
-			final String caption, final int columns, final int rows) {
+	public Component addComponentNoWrapper(Component field, String caption,
+                                           int columns, int rows) {
 		if (caption != null) {
 			final Label l = new Label(caption);
 			l.setWidth(this.defaultCaptionWidth);
@@ -207,5 +201,4 @@ public class GridFormLayoutHelper implements Serializable {
 			super.addComponent(component);
 		}
 	}
-
 }

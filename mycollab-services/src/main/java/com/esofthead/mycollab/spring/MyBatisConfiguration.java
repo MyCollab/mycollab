@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.spring;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -73,7 +74,8 @@ public class MyBatisConfiguration {
 				"classpath:sqlMap/project/*Mapper.xml",
 				"classpath:sqlMap/project/*MapperExt.xml",
 				"classpath:sqlMap/tracker/*Mapper.xml",
-				"classpath:sqlMap/tracker/*MapperExt.xml"));
+				"classpath:sqlMap/tracker/*MapperExt.xml",
+                "classpath:sqlMap/support/*Mapper.xml"));
 
 		return sqlSessionFactory.getObject();
 	}
@@ -83,20 +85,20 @@ public class MyBatisConfiguration {
 		return new SqlSessionTemplate(sqlSessionFactory());
 	}
 
-	private Resource[] buildMapperResources(String resourcePath)
-			throws IOException {
-		ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
-		Resource[] mappingLocations = patternResolver
-				.getResources(resourcePath);
-		return mappingLocations;
+	private Resource[] buildMapperResources(String resourcePath) throws IOException {
+        try {
+            ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
+            Resource[] mappingLocations = patternResolver.getResources(resourcePath);
+            return mappingLocations;
+        } catch (FileNotFoundException e) {
+            return new Resource[0];
+        }
 	}
 
-	private Resource[] buildBatchMapperResources(String... resourcesPath)
-			throws IOException {
+	private Resource[] buildBatchMapperResources(String... resourcesPath) throws IOException {
 		ArrayList<Resource> resources = new ArrayList<>();
 		for (String resourcePath : resourcesPath) {
-			CollectionUtils.addAll(resources,
-					buildMapperResources(resourcePath));
+			CollectionUtils.addAll(resources, buildMapperResources(resourcePath));
 		}
 		return resources.toArray(new Resource[0]);
 	}

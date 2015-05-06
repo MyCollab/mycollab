@@ -50,7 +50,7 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
 		if (propertyId.equals("owner")) {
-			final ProjectMemberSelectionField userbox = new ProjectMemberSelectionField();
+            ProjectMemberSelectionField userbox = new ProjectMemberSelectionField();
 			userbox.setRequired(true);
 			userbox.setRequiredError("Please select an assignee");
 			return userbox;

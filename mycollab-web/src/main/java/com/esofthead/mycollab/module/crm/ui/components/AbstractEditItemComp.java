@@ -46,7 +46,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		super();
 		setMargin(new MarginInfo(false, true, true, true));
 		editForm = new AdvancedEditBeanForm<>();
-		editForm.addStyleName("crm-edit-form");
 		addComponent(editForm);
 	}
 

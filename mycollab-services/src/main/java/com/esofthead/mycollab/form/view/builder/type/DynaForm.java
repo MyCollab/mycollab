@@ -28,7 +28,7 @@ import java.util.List;
  * 
  */
 public class DynaForm {
-	private List<DynaSection> sections = new ArrayList<DynaSection>();
+	private List<DynaSection> sections = new ArrayList<>();
 
 	public int getSectionCount() {
 		return sections.size();

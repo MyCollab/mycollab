@@ -262,20 +262,20 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 }
             });
 
-            ButtonGroup navButton = new ButtonGroup();
-            Button listBtn = new Button("", FontAwesome.LIST);
-            listBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-            navButton.addButton(listBtn);
-
-            Button chartBtn = new Button("", FontAwesome.TH_LARGE);
-            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-
-            navButton.addButton(chartBtn);
+//            ButtonGroup navButton = new ButtonGroup();
+//            Button listBtn = new Button("", FontAwesome.LIST);
+//            listBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+//            navButton.addButton(listBtn);
+//
+//            Button chartBtn = new Button("", FontAwesome.TH_LARGE);
+//            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+//
+//            navButton.addButton(chartBtn);
 
             header.with(openSelection, overdueSelection, spacingLbl1, taskSelection, bugSelection, spacingLbl2)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(taskSelection, Alignment.MIDDLE_LEFT).withAlign(bugSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(navButton, Alignment.MIDDLE_RIGHT).expand(spacingLbl1, spacingLbl2);
+                    .expand(spacingLbl1, spacingLbl2);
 
             assignmentsList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class), new
                     AssignmentRowDisplay(), 10);

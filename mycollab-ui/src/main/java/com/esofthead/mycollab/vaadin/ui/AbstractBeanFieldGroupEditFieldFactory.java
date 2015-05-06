@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-ui.
+ * <p>
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
@@ -33,6 +49,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Path;
 import javax.validation.Validator;
 import java.lang.annotation.Annotation;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -112,15 +129,25 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
             attachForm.setValid(true);
         } catch (CommitException e) {
             attachForm.setValid(false);
-            NotificationUtil.showErrorNotification(e.getCause().getMessage());
+            Map<Field<?>, com.vaadin.data.Validator.InvalidValueException> invalidFields = e.getInvalidFields();
+            if (invalidFields != null && invalidFields.size() > 0) {
+                StringBuilder errorMsg = new StringBuilder();
+                for (Field<?> field : invalidFields.keySet()) {
+                    com.vaadin.data.Validator.InvalidValueException invalidEx = invalidFields.get(field);
+                    errorMsg.append(invalidEx.getHtmlMessage()).append("<br/>");
+                    field.addStyleName("errorField");
+                }
+                NotificationUtil.showErrorNotification(errorMsg.toString());
+            } else {
+                NotificationUtil.showErrorNotification(e.getCause().getMessage());
+            }
         } catch (Exception e) {
             throw new MyCollabException(e);
         }
     }
 
     @Override
-    public void preCommit(FieldGroup.CommitEvent commitEvent)
-            throws CommitException {
+    public void preCommit(FieldGroup.CommitEvent commitEvent) throws CommitException {
         for (Object propertyId : fieldGroup.getBoundPropertyIds()) {
             fieldGroup.getField(propertyId).removeStyleName("errorField");
         }
@@ -151,27 +178,20 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
         if (violations.size() > 0) {
             StringBuilder errorMsg = new StringBuilder();
 
-            for (@SuppressWarnings("rawtypes")
-            ConstraintViolation violation : violations) {
+            for (ConstraintViolation violation : violations) {
                 errorMsg.append(violation.getMessage()).append("<br/>");
                 Path propertyPath = violation.getPropertyPath();
-                if (propertyPath != null
-                        && !propertyPath.toString().equals("")) {
+                if (propertyPath != null && !propertyPath.toString().equals("")) {
                     fieldGroup.getField(propertyPath.toString())
                             .addStyleName("errorField");
                 } else {
-                    Annotation validateAnno = violation
-                            .getConstraintDescriptor().getAnnotation();
+                    Annotation validateAnno = violation.getConstraintDescriptor().getAnnotation();
                     if (validateAnno instanceof DateComparision) {
-                        String firstDateField = ((DateComparision) validateAnno)
-                                .firstDateField();
-                        String lastDateField = ((DateComparision) validateAnno)
-                                .lastDateField();
+                        String firstDateField = ((DateComparision) validateAnno).firstDateField();
+                        String lastDateField = ((DateComparision) validateAnno).lastDateField();
 
-                        fieldGroup.getField(firstDateField).addStyleName(
-                                "errorField");
-                        fieldGroup.getField(lastDateField).addStyleName(
-                                "errorField");
+                        fieldGroup.getField(firstDateField).addStyleName("errorField");
+                        fieldGroup.getField(lastDateField).addStyleName("errorField");
                     }
                 }
 

@@ -35,6 +35,8 @@ package com.esofthead.mycollab.db.migration;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +53,7 @@ import org.springframework.stereotype.Component;
 @Component("dbMigration")
 @DependsOn("appContextUtil")
 public class DbMigrationRunner {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DbMigrationRunner.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DbMigrationRunner.class);
 
 	@Autowired
 	private DataSource dataSource;
@@ -64,6 +65,12 @@ public class DbMigrationRunner {
 			flyway.setBaselineOnMigrate(true);
 			flyway.setDataSource(dataSource);
 			flyway.setValidateOnMigrate(false);
+            if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+                flyway.setLocations("db/migration", "db/migration2");
+            } else {
+                flyway.setLocations("db/migration");
+            }
+
 			flyway.migrate();
 		} catch (Exception e) {
 			LOG.error("Error while migrate database", e);

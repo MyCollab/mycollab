@@ -56,8 +56,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm)
-				.createButtonControls();
+		return new EditFormControlsGenerator<>(editForm).createButtonControls();
 	}
 
 	@Override

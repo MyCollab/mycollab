@@ -28,7 +28,6 @@ import com.vaadin.ui.Field;
  * @param <B>
  */
 public class GenericBeanForm<B> extends CssLayout {
-
 	private static final long serialVersionUID = 1L;
 
 	private IFormLayoutFactory layoutFactory;
@@ -46,8 +45,7 @@ public class GenericBeanForm<B> extends CssLayout {
 		this.layoutFactory = layoutFactory;
 	}
 
-	public void setBeanFormFieldFactory(
-			IBeanFieldGroupFieldFactory<B> fieldFactory) {
+	public void setBeanFormFieldFactory(IBeanFieldGroupFieldFactory<B> fieldFactory) {
 		this.fieldFactory = fieldFactory;
 	}
 
