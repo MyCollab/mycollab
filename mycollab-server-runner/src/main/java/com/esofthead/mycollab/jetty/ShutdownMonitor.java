@@ -30,15 +30,12 @@ import org.eclipse.jetty.util.thread.ShutdownThread;
 
 /**
  * Shutdown/Stop Monitor thread.
- * <p>
  * This thread listens on the port specified by the STOP.PORT system parameter
  * (defaults to -1 for not listening) for request authenticated with the key
  * given by the STOP.KEY system parameter (defaults to "eclipse") for admin
  * requests.
- * <p>
  * If the stop port is set to zero, then a random port is assigned and the port
  * number is printed to stdout.
- * <p>
  * Commands "stop" and "status" are currently supported.
  */
 public class ShutdownMonitor {
