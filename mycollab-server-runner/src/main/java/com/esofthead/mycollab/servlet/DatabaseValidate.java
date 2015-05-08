@@ -48,12 +48,10 @@ public class DatabaseValidate extends HttpServlet {
 		String dbPassword = request.getParameter("dbPassword");
 		String databaseServer = request.getParameter("databaseServer");
 
-		String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true",
-				databaseServer, databaseName);
+		String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true", databaseServer, databaseName);
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(dbUrl,
-					dbUserName, dbPassword);
+			Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
 			connection.getMetaData();
 		} catch (Exception e) {
 			PrintWriter out = response.getWriter();

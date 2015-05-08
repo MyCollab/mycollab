@@ -380,7 +380,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private class ResourcesContainer extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
-        private final List<CheckBox> checkboxes;
+        private List<CheckBox> checkboxes;
         private List<Resource> resources;
 
         public ResourcesContainer() {
@@ -458,7 +458,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             if (res.getName().startsWith(".")) {
                 return null;
             }
-            final MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withHeight("44px");
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withHeight("44px");
             layout.addStyleName("resourceItem");
 
             final CheckBox checkbox = new CheckBox();
@@ -541,8 +541,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             // define the
             // created date so we do not need to display\
             if (res.getCreated() != null) {
-                Label createdTimeLbl = new Label((AppContext.formatPrettyTime(res
-                        .getCreated().getTime())));
+                Label createdTimeLbl = new Label((AppContext.formatPrettyTime(res.getCreated().getTime())));
                 createdTimeLbl.setDescription(AppContext.formatDateTime(res.getCreated().getTime()));
                 createdTimeLbl.addStyleName("grayLabel");
                 moreInfoAboutResLayout.addComponent(createdTimeLbl);
@@ -559,30 +558,24 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 moreInfoAboutResLayout.addComponent(lbl);
             }
             informationLayout.addComponent(moreInfoAboutResLayout);
-
             layout.with(informationLayout).withAlign(informationLayout, Alignment.MIDDLE_LEFT).expand(informationLayout);
 
             final PopupButton resourceSettingPopupBtn = new PopupButton();
-
             final MVerticalLayout filterBtnLayout = new MVerticalLayout();
-
             final Button renameBtn = new Button("Rename",
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
-
                         @Override
                         public void buttonClick(ClickEvent event) {
                             resourceSettingPopupBtn.setPopupVisible(false);
-                            final RenameResourceWindow renameWindow = new RenameResourceWindow(
-                                    res);
-                            UI.getCurrent().addWindow(renameWindow);
+                            UI.getCurrent().addWindow(new RenameResourceWindow(res));
                         }
                     });
             renameBtn.addStyleName("link");
             renameBtn.setIcon(FontAwesome.EDIT);
             filterBtnLayout.addComponent(renameBtn);
 
-            final Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
+            Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
             LazyStreamSource streamSource = new LazyStreamSource() {
                 private static final long serialVersionUID = 1L;
@@ -591,8 +584,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 protected StreamSource buildStreamSource() {
                     List<Resource> lstRes = new ArrayList<>();
                     lstRes.add(res);
-                    return StreamDownloadResourceUtil
-                            .getStreamSourceSupportExtDrive(lstRes);
+                    return StreamDownloadResourceUtil.getStreamSourceSupportExtDrive(lstRes);
                 }
 
                 @Override
@@ -601,38 +593,32 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             };
 
-            OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(
-                    streamSource);
+            OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(streamSource);
             downloaderExt.extend(downloadBtn);
 
             downloadBtn.addStyleName("link");
             downloadBtn.setIcon(FontAwesome.DOWNLOAD);
             filterBtnLayout.addComponent(downloadBtn);
 
-            final Button moveBtn = new Button("Move to",
-                    new Button.ClickListener() {
+            Button moveBtn = new Button("Move to", new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            MoveResourceWindow moveResourceWindow = new MoveResourceWindow(res);
-                            UI.getCurrent().addWindow(moveResourceWindow);
+                            UI.getCurrent().addWindow(new MoveResourceWindow(res));
                         }
                     });
             moveBtn.addStyleName("link");
             moveBtn.setIcon(FontAwesome.ARROWS);
             filterBtnLayout.addComponent(moveBtn);
 
-            final Button deleteBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            final Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(ClickEvent event) {
-
-                            ResourcesDisplayComponent.this
-                                    .deleteResourceAction();
+                            ResourcesDisplayComponent.this.deleteResourceAction();
                         }
                     });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
@@ -645,8 +631,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             resourceSettingPopupBtn.setContent(filterBtnLayout);
 
             layout.addComponent(resourceSettingPopupBtn);
-            layout.setComponentAlignment(resourceSettingPopupBtn,
-                    Alignment.MIDDLE_RIGHT);
+            layout.setComponentAlignment(resourceSettingPopupBtn, Alignment.MIDDLE_RIGHT);
             return layout;
         }
 
@@ -759,15 +744,15 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.folderName = new TextField();
             layoutHelper.addComponent(folderName, "Folder Name", 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
-            final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
-            final Button saveBtn = new Button(
+            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
+            Button saveBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            final String folderVal = folderName.getValue();
+                            String folderVal = folderName.getValue();
 
                             if (StringUtils.isNotBlank(folderVal)) {
                                 Pattern pattern = Pattern.compile(illegalFolderNamePattern);
@@ -801,7 +786,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             saveBtn.setIcon(FontAwesome.SAVE);
             controlsLayout.addComponent(saveBtn);
 
-            final Button cancelBtn = new Button(
+            Button cancelBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -813,8 +798,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     });
             cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
             controlsLayout.addComponent(cancelBtn);
-            controlsLayout.setComponentAlignment(cancelBtn,
-                    Alignment.MIDDLE_RIGHT);
+            controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 
             contentLayout.with(controlsLayout).withAlign(controlsLayout, Alignment.MIDDLE_CENTER);
         }
@@ -855,36 +839,27 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            List<File> attachments = attachmentPanel
-                                    .files();
+                            List<File> attachments = attachmentPanel.files();
                             if (CollectionUtils.isNotEmpty(attachments)) {
                                 for (File attachment : attachments) {
                                     try {
-                                        if (StringUtils.isNotBlank(attachment
-                                                .getName())) {
-                                            Pattern pattern = Pattern
-                                                    .compile(illegalFileNamePattern);
-                                            Matcher matcher = pattern
-                                                    .matcher(attachment.getName());
+                                        if (StringUtils.isNotBlank(attachment.getName())) {
+                                            Pattern pattern = Pattern.compile(illegalFileNamePattern);
+                                            Matcher matcher = pattern.matcher(attachment.getName());
                                             if (matcher.find()) {
-                                                NotificationUtil
-                                                        .showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
+                                                NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
                                                 return;
                                             }
                                         }
-                                        Content content = new Content(baseFolder.getPath() + "/" + attachment.getName());
+                                        Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachment.getName()));
                                         content.setSize(attachment.length());
-                                        FileInputStream fileInputStream = new FileInputStream(
-                                                attachment);
+                                        FileInputStream fileInputStream = new FileInputStream(attachment);
 
                                         if (baseFolder instanceof ExternalFolder) {
-                                            externalResourceService
-                                                    .saveContent(
-                                                            ((ExternalFolder) baseFolder)
+                                            externalResourceService.saveContent(((ExternalFolder) baseFolder)
                                                                     .getExternalDrive(), content, fileInputStream);
                                         } else
-                                            resourceService.saveContent(
-                                                    content, AppContext.getUsername(),
+                                            resourceService.saveContent(content, AppContext.getUsername(),
                                                     fileInputStream, AppContext.getAccountId());
                                     } catch (IOException e) {
                                         throw new MyCollabException(e);
@@ -894,8 +869,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                                 MultiUploadContentWindow.this.close();
                                 NotificationUtil.showNotification("Congrats", "Upload successfully.");
                             } else {
-                                NotificationUtil
-                                        .showWarningNotification("It seems you did not attach file yet!");
+                                NotificationUtil.showWarningNotification("It seems you did not attach file yet!");
                             }
                         }
                     });
@@ -903,8 +877,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             uploadBtn.setIcon(FontAwesome.UPLOAD);
             controlsLayout.addComponent(uploadBtn);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -915,12 +888,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     });
             cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
             controlsLayout.addComponent(cancelBtn);
-            controlsLayout.setComponentAlignment(cancelBtn,
-                    Alignment.MIDDLE_RIGHT);
+            controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 
             contentLayout.addComponent(controlsLayout);
-            contentLayout.setComponentAlignment(controlsLayout,
-                    Alignment.MIDDLE_CENTER);
+            contentLayout.setComponentAlignment(controlsLayout, Alignment.MIDDLE_CENTER);
         }
 
     }
@@ -1139,9 +1110,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 ResourceRemovedListener.viewInitMethod);
     }
 
-    public static interface ResourceRemovedListener extends EventListener,
+    public interface ResourceRemovedListener extends EventListener,
             Serializable {
-        public static final Method viewInitMethod = ReflectTools.findMethod(
+        public final Method viewInitMethod = ReflectTools.findMethod(
                 ResourceRemovedListener.class, "removedResource",
                 ResourceRemovedEvent.class);
 

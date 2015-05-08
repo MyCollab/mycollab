@@ -11,13 +11,12 @@
     background-image: url('${defaultUrls.cdn_url}footer-clouds.png');  background-repeat: no-repeat;  background-position: bottom right;
 }
 #mainContent {
-padding: 10px 0 8px 0px;
+    padding: 10px 0 8px 0px;
 }
 input {
-	font-size:20px;
-	line-height:35px;
+	font-size:18px;
+	height: 35px;
 	width:100%;
-	border: 1px solid rgb(169, 169, 169);
 }
 label {
 	display:block;
@@ -69,7 +68,7 @@ h3 {
 				</div>
 				<hr size="1" style="margin: 1px 0 20px 0; ">
 				<div id="title">
-					<h3>Welcome to MyCollab setup wizard. Just fill in the information below to complete the installation process.<span style="font-style:italic; font-size:20px;"></span><h3>
+					<h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.<span style="font-style:italic; font-size:20px;"></span><h3>
 				</div>
 				<hr size="1" style="margin: 20px 0 1px 0; ">
 				<div id="mainContent">
@@ -106,7 +105,7 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">DATABASE SETUP</div>
-								<h3 sytle="margin-top">Configure your pre-created database to use with MyCollab</h3>
+								<h3 sytle="margin-top">Configure your pre-created MyCollab database schema</h3>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
@@ -116,7 +115,7 @@ h3 {
 												<td><label for="databaseName">Database name: </label></td>
 											</tr>
 											<tr>
-												<td><input id="databaseName" value="mycollab"/></td>
+												<td><input id="databaseName"/></td>
 											</tr>
 											<tr><td><h4>Name of MyCollab database. Database must be created before.</h4></td></tr>
 											
@@ -124,7 +123,7 @@ h3 {
 												<td><label for="dbUserName">User name:</label></td>
 											</tr>
 											<tr>
-												<td><input id="dbUserName" /></td>
+												<td><input id="dbUserName"/></td>
 											</tr>
 											<tr><td><h4>Your database user name</h4></td></tr>
 											
@@ -132,7 +131,7 @@ h3 {
 												<td><label for="dbPassword">User password:</label></td>
 											</tr>
 											<tr>
-												<td><input id="dbPassword" type="password" /></td>
+												<td><input id="dbPassword" type="password"/></td>
 											</tr>
 											<tr><td><h4>Your database password</h4></td></tr>
 											
@@ -216,12 +215,12 @@ h3 {
 				<div id="bottom">
 				    <p>
 						<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;
-						float:left"><span>Copyright 2015 MyCollab. All rights reserved.</span></a>
+						float:left"><span>&copy; 2015 MyCollab. All rights reserved.</span></a>
 				    	
 						<div style="text-align:right;">
 						<a javascrip="void(0);" href="https://www.mycollab.com/terms" style="text-decoration : none;"><span>Terms of Service</span></a> &nbsp;&nbsp;&nbsp;
 						<span>|</span>
-						&nbsp;&nbsp;&nbsp;<a javascrip="void(0);" href="https://www.mycollab.com/privacy" style="text-decoration : none;"><span >Privacy Policy</span></a>
+						&nbsp;&nbsp;&nbsp;<a javascrip="void(0);" href="https://www.mycollab.com/privacy" style="text-decoration : none;"><span>Privacy Policy</span></a>
 						</div>
 					</p>
 				</div>
@@ -232,9 +231,6 @@ h3 {
 </body>
 <script src="/assets/js/jquery-1.10.2.min.js"></script>
 <script>
-	
-	$(document).ready(function(){
-	});
 	
 	function databaseValidate(){
 		if ($('#databaseName').val() == ""){
@@ -399,15 +395,15 @@ h3 {
 		      			smtpPort : $('#smtpPort').val().trim(), 
 		      			tls : tlsStatus
 		      		},
-		      success: function(data){
-		      	 if(data!=null){
-		      	 	if(data.length > 0){
+		      success: function(res){
+		      	 if(res!=null){
+		      	 	if(res.length > 0){
 		      	 	    $('#post').html('<span>Update & Go</span>');
-		      	 		
-		      	 	}else{
+		      	 		alert(res);
+		      	 	} else {
 		      	 		alert("Setup is completed successfully. Default username/password is \n    User name: admin@mycollab.com\n    password: admin123\nRedirect to the app?");
 		      	 		$('#post').html('<span>Update & Go</span>');
-		      	 		window.location.assign(location.protocol + "//" + serverAddress.value + ((location.port != "")? (":" + location.port) : ""));
+		      	 		window.location.assign(location.protocol + "//" + document.getElementById("serverAddress").value + ((location.port != "")? (":" + location.port) : ""));
 		      	 	}
 		      	 }
 		      }

@@ -315,13 +315,13 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
-            <version>3.0.9.Final</version>
+            <version>${restVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
-            <version>3.0.9.Final</version>
+            <version>${restVersion}</version>
         </dependency>
     </dependencies>
 
@@ -341,7 +341,7 @@
                     <exclusions>
                         <exclusion>
                             <groupId>javax.validation</groupId>
-                            <artifactId>*</artifactId>
+                            <artifactId>validation-api</artifactId>
                         </exclusion>
                     </exclusions>
                 </dependency>

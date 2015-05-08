@@ -41,8 +41,7 @@ import java.util.Map;
 public class SetupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
 
@@ -75,5 +74,4 @@ public class SetupServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(writer.toString());
 	}
-
 }

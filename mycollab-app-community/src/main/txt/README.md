@@ -58,6 +58,7 @@ Version 5.0.6
 
 * Display the error message when user upgrade MyCollab failed due to the file permission
 * Did not display detail error message when validate form but the empty string
+* Install MyCollab in Internet Explorer has several issues
 
 Version 5.0.5.1
 -----------------------------

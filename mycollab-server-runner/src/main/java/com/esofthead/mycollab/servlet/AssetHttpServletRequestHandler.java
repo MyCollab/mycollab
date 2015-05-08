@@ -56,10 +56,8 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
         }
 
         if (inputStream != null) {
-            response.setHeader("Content-Type",
-                    MimeTypesUtil.detectMimeType(path));
-            response.setHeader("Content-Length",
-                    String.valueOf(inputStream.available()));
+            response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
+            response.setHeader("Content-Length", String.valueOf(inputStream.available()));
 
             try (BufferedInputStream input = new BufferedInputStream(inputStream);
                  BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
@@ -69,7 +67,6 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
 					output.write(buffer, 0, length);
 				}
             }
-
         } else {
             LOG.error("Can not find resource has path {}", path);
         }

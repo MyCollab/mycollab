@@ -45,7 +45,7 @@ public class NewUpdateNotification extends AbstractNotification {
     public Component renderContent() {
         Span spanEl = new Span();
         spanEl.appendText("There is the new MyCollab version " + props.getProperty("version") + " . For the " +
-                "enhancements and security purpose, you should ask the system administrator upgrade to the latest version at ");
+                "enhancements and security purpose, the system administrator should upgrade to the latest version at ");
 
         A link = new A(props.getProperty("downloadLink"), "_blank");
         link.appendText("here");

@@ -62,8 +62,7 @@ public class EmailValidationServlet extends HttpServlet {
 			Email email = new SimpleEmail();
 			email.setHostName(smtpHost);
 			email.setSmtpPort(mailServerPort);
-			email.setAuthenticator(new DefaultAuthenticator(smtpUserName,
-					smtpPassword));
+			email.setAuthenticator(new DefaultAuthenticator(smtpUserName, smtpPassword));
 			if (tls.equals("true")) {
 				email.setSSLOnConnect(true);
 			} else {
@@ -81,5 +80,4 @@ public class EmailValidationServlet extends HttpServlet {
 			return;
 		}
 	}
-
 }

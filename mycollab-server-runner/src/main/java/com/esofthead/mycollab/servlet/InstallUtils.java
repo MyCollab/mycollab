@@ -31,8 +31,8 @@ import java.util.Properties;
 public class InstallUtils {
     private static final Logger LOG = LoggerFactory.getLogger(InstallUtils.class);
 
-    public static boolean checkSMTPConfig(String host, int port, String username, String password, boolean auth, String
-            enctype) {
+    public static boolean checkSMTPConfig(String host, int port, String username,
+                                          String password, boolean auth, String enctype) {
         boolean result = false;
         try {
             Properties props = new Properties();
