@@ -59,7 +59,7 @@ public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
     private static final Resource DEFAULT_SOURCE = MyCollabResource
-            .newResource("icons/docs-256.png");
+            .newResource(WebResourceIds._docs_256);
 
     public AttachmentDisplayComponent(List<Content> attachments) {
         for (Content attachment : attachments) {

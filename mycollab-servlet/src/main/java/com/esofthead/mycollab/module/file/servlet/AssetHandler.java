@@ -36,9 +36,7 @@ import java.io.InputStream;
  */
 @WebServlet(urlPatterns = "/assets/*", name = "assetHandler")
 public class AssetHandler extends GenericHttpServlet {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(AssetHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AssetHandler.class);
 
     @Override
     protected void onHandleRequest(HttpServletRequest request,
@@ -57,10 +55,8 @@ public class AssetHandler extends GenericHttpServlet {
 
         if (inputStream != null) {
             LOG.debug("Get resource {} successfully ", resourcePath);
-            response.setHeader("Content-Type",
-                    MimeTypesUtil.detectMimeType(path));
-            response.setHeader("Content-Length",
-                    String.valueOf(inputStream.available()));
+            response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
+            response.setHeader("Content-Length", String.valueOf(inputStream.available()));
 
             try(BufferedInputStream input = new BufferedInputStream(inputStream);
                 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {

@@ -46,7 +46,6 @@ public class LogConfig {
         }
 
         try {
-
             configurator.setContext(loggerContext);
             configurator.doConfigure(inputStream); // loads logback file
             inputStream.close();

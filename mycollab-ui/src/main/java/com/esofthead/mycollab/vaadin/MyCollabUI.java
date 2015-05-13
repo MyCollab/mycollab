@@ -85,7 +85,7 @@ public abstract class MyCollabUI extends UI {
 		} else {
 			initialSubDomain = servletRequest.getServerName();
 		}
-	}
+    }
 
 	public void setAttribute(String key, Object value) {
 		attributes.put(key, value);

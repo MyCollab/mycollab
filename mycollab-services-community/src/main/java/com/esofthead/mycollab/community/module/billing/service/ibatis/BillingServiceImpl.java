@@ -46,52 +46,31 @@ public class BillingServiceImpl implements BillingService {
 	@Autowired
 	private BillingAccountMapper billingAccountMapper;
 
-	@Autowired
-	private BillingAccountMapperExt billingAccountMapperExt;
-
-	@Autowired
-	private UserAccountMapper userAccountMapper;
-
-	@Autowired
-	private UserMapper userMapper;
-
-	@Autowired
-	private RoleService roleService;
-
 	@Override
 	@Transactional
-	public void registerAccount(final String subdomain,
-			final int billingPlanId, final String username,
-			final String password, final String email, final String timezoneId,
-			boolean isEmailVerified) {
-
-		throw new MyCollabException(
-				"This feature is not supported except onsite mode");
+	public void registerAccount(String subdomain, int billingPlanId, String username,
+                                String password, String email, String timezoneId, boolean isEmailVerified) {
+		throw new MyCollabException("This feature is not supported except onsite mode");
 	}
 
 	@Override
-	public List<String> getSubDomainsOfUser(final String username) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite mode");
+	public List<String> getSubDomainsOfUser(String username) {
+		throw new MyCollabException("This feature is not supported except onsite mode");
 	}
 
 	@Override
 	public List<BillingPlan> getAvailablePlans() {
-		throw new MyCollabException(
-				"This feature is not supported except onsite mode");
+		throw new MyCollabException("This feature is not supported except onsite mode");
 	}
 
 	@Override
 	public void updateBillingPlan(Integer accountId, int newBillingPlanId) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite mode");
+		throw new MyCollabException("This feature is not supported except onsite mode");
 	}
 
 	@Override
-	public void cancelAccount(Integer accountid,
-			CustomerFeedbackWithBLOBs feedback) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite mode");
+	public void cancelAccount(Integer accountid, CustomerFeedbackWithBLOBs feedback) {
+		throw new MyCollabException("This feature is not supported except onsite mode");
 	}
 
 	@Override

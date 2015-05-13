@@ -18,6 +18,7 @@ package com.esofthead.mycollab.spring;
 
 import java.io.File;
 
+import com.esofthead.mycollab.core.utils.FileUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -36,15 +37,10 @@ public class AppServiceLoader {
 	@Bean(name = "myCollabProperties")
 	public static PropertySourcesPlaceholderConfigurer properties() {
 		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-
 		Resource[] resources;
-		File myCollabResourceFile = new File(System.getProperty("user.dir"),
-				"conf/mycollab.properties");
 
-		if (!myCollabResourceFile.exists()) {
-			myCollabResourceFile = new File(System.getProperty("user.dir"),
-					"src/main/conf/mycollab.properties");
-		}
+        File myCollabResourceFile = FileUtils.getDesireFile(System.getProperty("user.dir"),
+                "conf/mycollab.properties", "src/main/conf/mycollab.properties");
 
 		if (myCollabResourceFile.exists()) {
 			resources = new Resource[] { new FileSystemResource(myCollabResourceFile) };

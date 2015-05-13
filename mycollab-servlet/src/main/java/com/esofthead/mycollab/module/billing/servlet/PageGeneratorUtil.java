@@ -54,7 +54,7 @@ class PageGeneratorUtil {
 		Map<String, String> defaultUrls = new HashMap<>();
 		SharingOptions sharingOptions = SharingOptions
 				.getDefaultSharingOptions();
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());

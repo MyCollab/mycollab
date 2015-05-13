@@ -56,8 +56,7 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 		if (accountLogoId == null || "".equals(accountLogoId)) {
 			return MyCollabAssets.newResourceLink("icons/logo.png");
 		}
-		return SiteConfiguration.getSiteUrl("app") + "logo/" + accountLogoId
-				+ "/" + size;
+		return String.format("%slogo/%s/%d", SiteConfiguration.getSiteUrl("app"), accountLogoId, size);
 	}
 
 	@Override

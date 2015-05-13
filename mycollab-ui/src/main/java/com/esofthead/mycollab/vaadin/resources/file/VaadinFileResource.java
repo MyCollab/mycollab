@@ -61,7 +61,6 @@ public class VaadinFileResource implements VaadinResource {
 				.getConfiguration();
 		File avatarFile = fileStorageConfiguration.getAvatarFile(avatarId, size);
 		return (avatarFile != null) ? new FileResource(avatarFile)
-				: MyCollabResource.newResource("icons/default_user_avatar_"
-						+ size + ".png");
+				: MyCollabResource.newResource(String.format("icons/default_user_avatar_%d.png", size));
 	}
 }

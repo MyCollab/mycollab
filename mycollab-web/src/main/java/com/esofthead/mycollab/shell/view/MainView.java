@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -284,44 +300,67 @@ public final class MainView extends AbstractPageView {
         MHorizontalLayout accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        // display trial box if user in trial mode
-        SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
-        if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
-            Label informLbl = new Label("", ContentMode.HTML);
-            informLbl.addStyleName("trialEndingNotification");
-            informLbl.setHeight("100%");
-            HorizontalLayout informBox = new HorizontalLayout();
-            informBox.addStyleName("trialInformBox");
-            informBox.setSizeFull();
-            informBox.addComponent(informLbl);
-            informBox.setMargin(new MarginInfo(false, true, false, false));
-            informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-                private static final long serialVersionUID = 1L;
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            // display trial box if user in trial mode
+            SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
+            if (AccountStatusConstants.TRIAL.equals(billingAccount.getStatus())) {
+                if ("Free".equals(billingAccount.getBillingPlan().getBillingtype())) {
+                    Label informLbl = new Label("<div class='informBlock'>FREE CHARGE<br>UPGRADE</div><div class='informBlock'>&gt;&gt;</div>", ContentMode.HTML);
+                    informLbl.addStyleName("trialEndingNotification");
+                    informLbl.setHeight("100%");
+                    HorizontalLayout informBox = new HorizontalLayout();
+                    informBox.addStyleName("trialInformBox");
+                    informBox.setSizeFull();
+                    informBox.addComponent(informLbl);
+                    informBox.setMargin(new MarginInfo(false, true, false, false));
+                    informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-                @Override
-                public void layoutClick(LayoutClickEvent event) {
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                            new String[]{"billing"}));
-                }
-            });
-            accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
-
-            Date createdTime = billingAccount.getCreatedtime();
-            long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
-            int daysLeft = (int) Math.floor(timeDeviation / (1000 * 60 * 60 * 24));
-            if (daysLeft > 30) {
-                BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
-                BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
-                billingAccount.setBillingPlan(freeBillingPlan);
-                informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-                        + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
-            } else {
-                if (AppContext.isAdmin()) {
-                    informLbl
-                            .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                        @Override
+                        public void layoutClick(LayoutClickEvent event) {
+                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
+                                    new String[]{"billing"}));
+                        }
+                    });
+                    accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
                 } else {
-                    informLbl
-                            .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                    Label informLbl = new Label("", ContentMode.HTML);
+                    informLbl.addStyleName("trialEndingNotification");
+                    informLbl.setHeight("100%");
+                    HorizontalLayout informBox = new HorizontalLayout();
+                    informBox.addStyleName("trialInformBox");
+                    informBox.setSizeFull();
+                    informBox.addComponent(informLbl);
+                    informBox.setMargin(new MarginInfo(false, true, false, false));
+                    informBox.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                        private static final long serialVersionUID = 1L;
+
+                        @Override
+                        public void layoutClick(LayoutClickEvent event) {
+                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
+                                    new String[]{"billing"}));
+                        }
+                    });
+                    accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
+
+                    Date createdTime = billingAccount.getCreatedtime();
+                    long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
+                    int daysLeft = (int) Math.floor(timeDeviation / (1000 * 60 * 60 * 24));
+                    if (daysLeft > 30) {
+                        BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
+                        BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
+                        billingAccount.setBillingPlan(freeBillingPlan);
+                        informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
+                                + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+                    } else {
+                        if (AppContext.isAdmin()) {
+                            informLbl
+                                    .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                        } else {
+                            informLbl
+                                    .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
+                        }
+                    }
                 }
             }
         }

@@ -341,17 +341,6 @@ public class AppContext implements Serializable {
         return getInstance().billingAccount;
     }
 
-    public static boolean isBugComponentEnable() {
-        SimpleBillingAccount billingAccount = getBillingAccount();
-        return (billingAccount == null) ? false : billingAccount
-                .getBillingPlan().getHasbugenable();
-    }
-
-    public static boolean isStandupComponentEnable() {
-        SimpleBillingAccount billingAccount = getBillingAccount();
-        return (billingAccount == null) ? false : billingAccount
-                .getBillingPlan().getHasstandupmeetingenable();
-    }
 
     /**
      * Check whether current user is admin or system

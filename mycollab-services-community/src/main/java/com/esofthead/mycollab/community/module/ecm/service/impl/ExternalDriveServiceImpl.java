@@ -44,6 +44,6 @@ public class ExternalDriveServiceImpl extends
 
 	@Override
 	public List<ExternalDrive> getExternalDrivesOfUser(String username) {
-		return new ArrayList<ExternalDrive>();
+		return new ArrayList<>();
 	}
 }

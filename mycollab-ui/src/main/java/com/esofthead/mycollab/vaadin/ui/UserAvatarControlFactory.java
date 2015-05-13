@@ -53,15 +53,13 @@ public class UserAvatarControlFactory {
 
 	public static Resource createAvatarResource(String avatarId, int size) {
 		if (avatarId == null) {
-			return MyCollabResource.newResource("icons/default_user_avatar_"
-					+ size + ".png");
+			return MyCollabResource.newResource(String.format("icons/default_user_avatar_%d.png", size));
 		}
 		return VaadinResourceManager.getResourceManager().getAvatarResource(
 				avatarId, size);
 	}
 
-	public static Button createUserAvatarButtonLink(String userAvatarId,
-			String fullName) {
+	public static Button createUserAvatarButtonLink(String userAvatarId, String fullName) {
 		Button button = new Button();
 		button.setIcon(createAvatarResource(userAvatarId, 48));
 		button.setStyleName("link");

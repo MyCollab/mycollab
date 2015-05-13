@@ -91,7 +91,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		context.put("defaultUrls", defaultUrls);
 
@@ -112,7 +112,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 				response.getLocale());
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		context.put("defaultUrls", defaultUrls);
 

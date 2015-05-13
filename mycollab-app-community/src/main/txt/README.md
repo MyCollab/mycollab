@@ -39,6 +39,20 @@ If you want to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 5.0.7
+-----------------------------
+**Library Upgrades**
+
+* Upgrade other libraries
+
+**Improvements & New Features**
+
+* Remove redundant images assets
+* Change the default cdn url
+* Change the default browser cache of vaadin
+
+**Bug Fixes**
+
 Version 5.0.6
 -----------------------------
 **Library Upgrades**

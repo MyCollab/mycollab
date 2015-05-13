@@ -48,5 +48,5 @@ error.sendTo=support@mycollab.com
 #    LINK CONFIGURATION
 # You should not change these values. 
 #=====================================================
-cdn.url=http://%s:%d/assets/images/email/
+cdn.url=http://%s:%d/assets/
 app.url=http://%s:%d/

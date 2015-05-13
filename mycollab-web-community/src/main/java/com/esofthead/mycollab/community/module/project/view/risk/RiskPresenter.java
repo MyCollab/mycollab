@@ -42,7 +42,5 @@ public class RiskPresenter extends AbstractPresenter<IRiskContainer> implements
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
 		projectViewContainer.gotoSubView(ProjectTypeConstants.RISK);
-
 	}
-
 }

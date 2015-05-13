@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.MyCollabVersion;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
@@ -39,21 +39,9 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 	public void modifyBootstrapPage(BootstrapPageResponse response) {
 		response.getDocument().head()
 				.append("<meta name=\"robots\" content=\"nofollow\" />");
-
-		DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
-		if (deploymentMode == DeploymentMode.site) {
-			response.getDocument().head()
-					.append("<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>");
-
-			response.getDocument().head()
-					.append("<script type=\"text/javascript\" src=\"https://s3.amazonaws.com/mycollab_assets/assets/js/stickytooltip.js\"></script>");
-		} else {
-			response.getDocument().head()
-					.append("<script type=\"text/javascript\" src=\"/assets/js/jquery-1.10.2.min.js\"></script>");
-
-			response.getDocument().head()
-					.append("<script type=\"text/javascript\" src=\"/assets/js/stickytooltip.js\"></script>");
-		}
+        response.getDocument().head()
+                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-1.10.2.min.js\"></script>", SiteConfiguration.getCdnUrl()));
+        response.getDocument().head()
+                .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip.js?v=%s\"></script>", SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
 	}
-
 }

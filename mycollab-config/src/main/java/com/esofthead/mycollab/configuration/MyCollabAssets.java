@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.configuration;
 
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.MyCollabVersion;
 
 /**
  * 
@@ -43,23 +44,20 @@ public abstract class MyCollabAssets {
 	}
 
 	public static class S3 extends MyCollabAssets {
-		private static String S3_ASSETS = "https://s3.amazonaws.com/mycollab_assets/%s";
 
 		@Override
 		protected String generateResourceLink(String resourceId) {
-			return String.format(S3_ASSETS, resourceId);
+			return SiteConfiguration.getCdnUrl() + resourceId;
 		}
-
 	}
 
 	public static class Local extends MyCollabAssets {
-
 		@Override
 		protected String generateResourceLink(String resourceId) {
-			return String.format(ApplicationProperties
-					.getString(ApplicationProperties.APP_URL),
-					SiteConfiguration.getServerAddress(), SiteConfiguration
-							.getServerPort()) + "assets/" + resourceId;
+			return String.format("%sassets/%s?v=%s", String.format(ApplicationProperties
+                            .getString(ApplicationProperties.APP_URL),
+                    SiteConfiguration.getServerAddress(), SiteConfiguration
+                            .getServerPort()), resourceId, MyCollabVersion.getVersion());
 		}
 
 	}

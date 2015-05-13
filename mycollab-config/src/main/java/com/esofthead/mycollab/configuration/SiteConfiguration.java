@@ -120,6 +120,10 @@ public class SiteConfiguration {
         return instance;
     }
 
+    public static String getEmailCdnUrl() {
+        return getInstance().cdnUrl + "images/email/";
+    }
+
     public static String getCdnUrl() {
         return getInstance().cdnUrl;
     }

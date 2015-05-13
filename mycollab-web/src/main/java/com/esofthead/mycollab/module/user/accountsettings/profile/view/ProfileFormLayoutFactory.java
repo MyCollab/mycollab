@@ -29,7 +29,7 @@ import com.vaadin.ui.*;
 @SuppressWarnings("serial")
 public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
     private String title;
-    protected UserInformationLayout userInformationLayout;
+    private UserInformationLayout userInformationLayout;
     private Resource userAvatarIcon;
 
     public ProfileFormLayoutFactory(String title) {
@@ -40,7 +40,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
     public ComponentContainer getLayout() {
         if (userAvatarIcon == null) {
             userAvatarIcon = MyCollabResource
-                    .newResource(WebResourceIds._24_project_user);
+                    .newResource(WebResourceIds._default_user_avatar_24);
         }
         final ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 

@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.MyCollabException;
@@ -89,12 +73,10 @@ public abstract class UrlResolver {
                             urlResolver = defaultUrlResolver;
                         } else {
                             throw new MyCollabException(
-                                    "Can not register resolver key " + key
-                                            + " for Resolver: " + this);
+                                    String.format("Can not register resolver key %s for Resolver: %s", key, this));
                         }
                     }
-                    List<String> paramList = Arrays.asList(params).subList(
-                            1, params.length);
+                    List<String> paramList = Arrays.asList(params).subList(1, params.length);
                     String[] nxtParams = paramList.toArray(new String[paramList.size()]);
 
                     LOG.debug("Handle url in resolver: " + urlResolver);
@@ -119,7 +101,6 @@ public abstract class UrlResolver {
      * @param params
      */
     protected void handlePage(String... params) {
-        LOG.debug("Handle page: " + this + " with params: "
-                + BeanUtility.printBeanObj(params));
+        LOG.debug(String.format("Handle page: %s with params: %s", this, BeanUtility.printBeanObj(params)));
     }
 }
