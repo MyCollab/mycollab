@@ -42,7 +42,7 @@ public class AppServiceLoader {
         File myCollabResourceFile = FileUtils.getDesireFile(System.getProperty("user.dir"),
                 "conf/mycollab.properties", "src/main/conf/mycollab.properties");
 
-		if (myCollabResourceFile.exists()) {
+		if (myCollabResourceFile != null) {
 			resources = new Resource[] { new FileSystemResource(myCollabResourceFile) };
 		} else {
 			resources = new Resource[] { new ClassPathResource(

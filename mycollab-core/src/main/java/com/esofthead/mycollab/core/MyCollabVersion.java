@@ -49,7 +49,7 @@ public class MyCollabVersion {
         return isEditionNewer(testFW, getVersion());
     }
 
-    static boolean isEditionNewer(String testFW, String baseFW) {
+    public static boolean isEditionNewer(String testFW, String baseFW) {
         try {
             int[] testVer = getVersionNumbers(testFW);
             int[] baseVer = getVersionNumbers(baseFW);

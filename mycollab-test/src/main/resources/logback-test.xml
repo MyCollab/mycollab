@@ -2,9 +2,8 @@
 <configuration>
     <!-- Errors were reported during translation. -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <Target>System.out</Target>
         <encoder>
-            <pattern>%d{ABSOLUTE} %5p %t %c{1}:%L - %m%n</pattern>
+            <pattern>%d{"HH:mm:ss,SSS"} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
     <logger name="org.springframework" level="INFO"/>
