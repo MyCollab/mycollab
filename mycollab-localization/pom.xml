@@ -6,8 +6,8 @@
     <artifactId>mycollab-localization</artifactId>
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
-        <artifactId>parent-community</artifactId>
-        <version>5.0.6</version>
+        <artifactId>mycollab-parent-community</artifactId>
+        <version>5.0.7</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
     </dependencies>
 </project>

@@ -65,7 +65,6 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
               }
             }
           }
-
         }
       }
     }

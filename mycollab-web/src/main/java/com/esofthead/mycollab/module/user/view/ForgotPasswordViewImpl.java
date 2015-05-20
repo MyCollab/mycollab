@@ -58,7 +58,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
         private static final long serialVersionUID = 1L;
         private final TextField nameOrEmailField;
 
-        public ForgotPwdForm() {
+        ForgotPwdForm() {
             CustomLayout customLayout = CustomLayoutExt.createLayout("forgotPassword");
             customLayout.setStyleName("forgotPwdForm");
 
@@ -76,15 +76,12 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
                 public void buttonClick(ClickEvent event) {
                     String username = nameOrEmailField.getValue();
                     if (StringUtils.isValidEmail(username)) {
-                        UserService userService = ApplicationContextUtil
-                                .getSpringBean(UserService.class);
+                        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
                         User user = userService.findUserByUserName(username);
 
                         if (user == null) {
                             NotificationUtil.showErrorNotification(AppContext
-                                    .getMessage(
-                                            GenericI18Enum.ERROR_USER_IS_NOT_EXISTED,
-                                            username));
+                                    .getMessage(GenericI18Enum.ERROR_USER_IS_NOT_EXISTED, username));
                         } else {
                             RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
                             relayEmail.setRecipients(username);
@@ -108,16 +105,14 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
             });
             customLayout.addComponent(sendEmail, "loginButton");
 
-            Button memoBackBtn = new Button(
-                    AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD));
+            Button memoBackBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_IGNORE_RESET_PASSWORD));
             memoBackBtn.setStyleName(UIConstants.THEME_LINK);
             memoBackBtn.addClickListener(new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.LogOut(this, null));
+                    EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
                 }
             });
             customLayout.addComponent(memoBackBtn, "forgotLink");

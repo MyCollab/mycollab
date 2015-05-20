@@ -173,5 +173,4 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
       value
     }
   }
-
 }

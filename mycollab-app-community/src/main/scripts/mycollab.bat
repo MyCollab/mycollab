@@ -22,7 +22,6 @@ rem   JAVA_HOME       Must point at your Java Development Kit installation.
 rem                   Required to run the with the "debug" argument.
 rem ---------------------------------------------------------------------------
 
-set MYCOLLAB_OPTS=-Xms756m -Xmx1024m -XX:NewSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC
 set MYCOLLAB_PORT=8080
 set _RUNJAVA=java
 
@@ -75,7 +74,6 @@ goto end
 
 :doStart
 shift
-set ACTION=--stop-port 8079 --stop-key esoftheadsecretkey
 if not "%OS%" == "Windows_NT" goto noTitle
 if "%TITLE%" == "" set TITLE=MyCollab
 set _EXECJAVA=start "%TITLE%" %_RUNJAVA%
@@ -88,7 +86,7 @@ goto execCmd
 
 :doStop
 shift
-set ACTION=--port $MYCOLLAB_PORT --stop-port 8079 --stop-key esoftheadsecretkey --stop
+set ACTION=--port $MYCOLLAB_PORT
 goto execCmd
 
 
@@ -104,7 +102,7 @@ goto setArgs
 
 rem Execute Java with the applicable properties
 cd ..
-%_EXECJAVA% %MYCOLLAB_OPTS% -jar runner.jar  %ACTION%
+%_EXECJAVA% -jar executor.jar  %ACTION%
 goto end
 
 :end

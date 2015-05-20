@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>mycollab-app-community</name>
     <artifactId>mycollab-app-community</artifactId>
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
-        <artifactId>parent-community</artifactId>
-        <version>5.0.6</version>
+        <artifactId>mycollab-parent-community</artifactId>
+        <version>5.0.7</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <properties>
         <izpackVersion>4.3.5</izpackVersion>
         <staging.dir>${project.build.directory}/staging</staging.dir>
     </properties>
 
     <dependencies>
-        <!-- END ADD DEPENDENCIES FOR RUNNING SERVICES -->
-
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -34,25 +32,25 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.0.6</version>
+            <version>5.0.7</version>
         </dependency>
 
         <dependency>
@@ -61,32 +59,13 @@
             <version>${izpackVersion}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client-compiler</artifactId> 
-            <version>${vaadinVersion}</version> <scope>provided</scope> </dependency> -->
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <wtpversion>2.0</wtpversion>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
-                <!-- The configuration of the plugin -->
                 <executions>
                     <execution>
                         <id>make-a-jar</id>
@@ -96,20 +75,11 @@
                         </goals>
                         <configuration>
                             <finalName>runner</finalName>
-                            <!-- Configuration of the archiver -->
                             <archive>
-                                <!-- Manifest specific configuration -->
                                 <manifest>
-                                    <!-- Classpath is added to the manifest 
-                                        of the created jar file. -->
                                     <addClasspath>true</addClasspath>
-                                    <!-- Configures the classpath prefix. 
-                                        This configuration option is used to specify that all needed libraries are 
-                                        found under lib/ directory. -->
                                     <classpathPrefix>lib/</classpathPrefix>
                                     <useUniqueVersions>false</useUniqueVersions>
-                                    <!-- Specifies the main class of the 
-                                        application -->
                                     <mainClass>com.esofthead.mycollab.jetty.CommunityServerRunner</mainClass>
                                 </manifest>
                             </archive>
@@ -117,26 +87,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- START SNIPPET: assembly -->
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
-                <configuration> <descriptors> <descriptor>src/main/assembly/src.xml</descriptor> 
-                </descriptors> </configuration> <executions> <execution> <phase>package</phase> 
-                <goals> <goal>single</goal> </goals> </execution> </executions> </plugin> -->
-            <!-- END SNIPPET: assembly -->
         </plugins>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <profiles>
@@ -163,7 +114,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.9</version>
+                        <version>2.10</version>
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <useBaseVersion>true</useBaseVersion>
@@ -239,7 +190,7 @@
                     <plugin>
                         <groupId>com.akathist.maven.plugins.launch4j</groupId>
                         <artifactId>launch4j-maven-plugin</artifactId>
-                        <version>1.7.4</version>
+                        <version>1.7.6</version>
                         <executions>
                             <execution>
                                 <id>l4j-clui</id>
@@ -291,43 +242,28 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-
                                         <copy todir="${staging.dir}">
-                                            <fileset
-                                                dir="${basedir}/src/izpack" />
-
+                                            <fileset dir="${basedir}/src/izpack" />
                                         </copy>
                                         <copy todir="${staging.dir}/conf">
-                                            <fileset
-                                                dir="${basedir}/src/main/conf">
-                                                <exclude
-                                                    name="mycollab.properties" />
+                                            <fileset dir="${basedir}/src/main/conf">
+                                                <exclude name="mycollab.properties" />
                                             </fileset>
                                         </copy>
                                         <copy todir="${staging.dir}/logs">
-                                            <fileset
-                                                dir="${basedir}/src/main/logs" />
+                                            <fileset dir="${basedir}/src/main/logs" />
                                         </copy>
                                         <copy todir="${staging.dir}/scripts">
-                                            <fileset
-                                                dir="${basedir}/src/main/scripts" />
+                                            <fileset dir="${basedir}/src/main/scripts" />
                                         </copy>
-
                                         <copy todir="${staging.dir}/txt">
-                                            <fileset
-                                                dir="${basedir}/src/main/txt" />
+                                            <fileset dir="${basedir}/src/main/txt" />
                                         </copy>
                                         <copy todir="${staging.dir}/webapp">
-                                            <fileset
-                                                dir="${basedir}/src/main/webapp" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/webapp">
-                                            <fileset
-                                                dir="${basedir}/src/main/webapp" />
+                                            <fileset dir="${basedir}/src/main/webapp" />
                                         </copy>
                                         <copy todir="${staging.dir}/lib">
-                                            <fileset
-                                                dir="${basedir}/src/main/lib" />
+                                            <fileset dir="${basedir}/src/main/lib" />
                                         </copy>
                                     </tasks>
                                 </configuration>
@@ -392,7 +328,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-clean-plugin</artifactId>
-                        <version>2.4.1</version>
+                        <version>2.6.1</version>
                         <configuration>
                             <filesets>
                                 <fileset>

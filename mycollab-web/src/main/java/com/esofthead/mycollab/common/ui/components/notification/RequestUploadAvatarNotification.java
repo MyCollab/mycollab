@@ -41,7 +41,7 @@ public class RequestUploadAvatarNotification extends AbstractNotification {
 	@Override
 	public Component renderContent() {
 		Span spanEl = new Span();
-		spanEl.appendText("You haven't uploaded your avatar yet. Please upload it at ");
+		spanEl.appendText("Let people recognize you. Please upload your avatar at ");
 
 		A link = new A(AccountLinkGenerator.generateFullProfileLink(AppContext
 				.getSiteUrl()));

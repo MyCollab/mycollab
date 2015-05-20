@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view.components;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.jetty.ServerInstance;
@@ -107,7 +108,7 @@ public class UpgradeConfirmWindow extends Window {
                 DownloadProgressWindow progressWindow = new DownloadProgressWindow();
                 UI.getCurrent().addWindow(progressWindow);
                 lock.unlock();
-                File tmpFile = File.createTempFile("mycollab", "zip");
+                File tmpFile = File.createTempFile("mycollab", ".zip");
                 URL url = new URL(props.getProperty("autoDownload"));
                 HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
                 int responseCode = httpConn.getResponseCode();
@@ -139,16 +140,20 @@ public class UpgradeConfirmWindow extends Window {
                         return;
                     }
 
+                    UI.getCurrent().setPollInterval(-1);
                     ServerInstance.getInstance().preUpgrade();
                     String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
+                    lock = UI.getCurrent().getSession().getLockInstance();
+                    lock.lock();
                     Page.getCurrent().setLocation(locUrl);
-                    UI.getCurrent().setPollInterval(-1);
+                    progressWindow.close();
+                    lock.unlock();
+
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    progressWindow.close();
                     ServerInstance.getInstance().upgrade(tmpFile);
                 } else {
                     NotificationUtil.showErrorNotification("Can not download the latest MyCollab distribution. You could try again or install MyCollab manually");
@@ -162,7 +167,6 @@ public class UpgradeConfirmWindow extends Window {
                     UI.getCurrent().setPollInterval(-1);
                 }
             }
-
         }
 
         class DownloadProgressWindow extends Window {
@@ -192,7 +196,7 @@ public class UpgradeConfirmWindow extends Window {
                 progressBar.setWidth("100%");
                 progressLayout.with(progressBar, new MHorizontalLayout().with(currentVolumeLabel, new Label("/"), totalVolumeLabel)).expand(progressBar);
                 content.with(new Label("Downloading the latest MyCollab distribution. Please be patient"), progressLayout);
-                Button cancelBtn = new Button("Cancel", new Button.ClickListener() {
+                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
                     @Override
                     public void buttonClick(Button.ClickEvent clickEvent) {
                         isKill = true;

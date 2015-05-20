@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.*;
 import com.esofthead.mycollab.module.project.events.*;
 import com.esofthead.mycollab.module.project.i18n.*;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.module.project.ui.components.TransparentContainer;
@@ -63,6 +64,7 @@ import com.vaadin.ui.TabSheet.Tab;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.GregorianCalendar;
 
@@ -178,7 +180,6 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                             standupPresenter.go(ProjectViewImpl.this,
                                     new StandupScreenData.Search(criteria));
                         }
-
                     }
                 });
 
@@ -203,25 +204,19 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
         if (project.isProjectArchived()) {
             Button activeProjectBtn = new Button(
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT),
+                    AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT),
                     new ClickListener() {
-
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            ProjectService projectService = ApplicationContextUtil
-                                    .getSpringBean(ProjectService.class);
+                            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
                             project.setProjectstatus(StatusI18nEnum.Open.name());
-                            projectService.updateSelectiveWithSession(project,
-                                    AppContext.getUsername());
+                            projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
                             PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(
-                                            CurrentProjectVariables
-                                                    .getProjectId()));
+                                    new ProjectScreenData.Goto(CurrentProjectVariables
+                                            .getProjectId()));
                             EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this,
-                                            chain));
+                                    .post(new ProjectEvent.GotoMyProject(this, chain));
 
                         }
                     });
@@ -350,17 +345,13 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                                             if (dialog.isConfirmed()) {
                                                 ProjectService projectService = ApplicationContextUtil
                                                         .getSpringBean(ProjectService.class);
-                                                project.setProjectstatus(StatusI18nEnum.Archived
-                                                        .name());
-                                                projectService
-                                                        .updateSelectiveWithSession(
-                                                                project, AppContext.getUsername());
+                                                project.setProjectstatus(StatusI18nEnum.Archived.name());
+                                                projectService.updateSelectiveWithSession(
+                                                        project, AppContext.getUsername());
 
                                                 PageActionChain chain = new PageActionChain(
-                                                        new ProjectScreenData.Goto(
-                                                                CurrentProjectVariables.getProjectId()));
-                                                EventBusFactory.getInstance()
-                                                        .post(new ProjectEvent.GotoMyProject(this, chain));
+                                                        new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
+                                                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                                             }
                                         }
                                     });
@@ -421,6 +412,17 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         prjList.showProjects();
+
+        if (project.getContextask() == null || project.getContextask()) {
+            ProjectMemberSearchCriteria searchCriteria = new ProjectMemberSearchCriteria();
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+            ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+            int totalMembers = prjMemberService.getTotalCount(searchCriteria);
+            if (totalMembers < 2) {
+                UI.getCurrent().addWindow(new AskToAddMoreMembersWindow());
+            }
+        }
     }
 
     @Override
@@ -666,5 +668,43 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     @Override
     public void updateProjectFeatures() {
         buildComponents();
+    }
+
+    private static class AskToAddMoreMembersWindow extends Window {
+        AskToAddMoreMembersWindow() {
+            super("Question");
+            this.setWidth("600px");
+            this.setResizable(false);
+            this.setModal(true);
+
+            MVerticalLayout content = new MVerticalLayout();
+            this.setContent(content);
+
+            content.with(new Label("There is very few users in your project. Do you want to invite additional members?"));
+            MHorizontalLayout btnControls = new MHorizontalLayout();
+            Button skipBtn = new Button("Skip", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                    SimpleProject project = CurrentProjectVariables.getProject();
+                    project.setContextask(false);
+                    projectService.updateSelectiveWithSession(project, AppContext.getUsername());
+                    AskToAddMoreMembersWindow.this.close();
+                }
+            });
+            skipBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+
+            Button addNewMembersBtn = new Button("Add Members", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    AskToAddMoreMembersWindow.this.close();
+                    EventBusFactory.getInstance().post(
+                            new ProjectMemberEvent.GotoInviteMembers(this, null));
+                }
+            });
+            addNewMembersBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            btnControls.with(skipBtn, addNewMembersBtn);
+            content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
+        }
     }
 }

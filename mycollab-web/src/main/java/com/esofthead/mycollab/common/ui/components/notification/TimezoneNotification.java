@@ -41,7 +41,7 @@ public class TimezoneNotification extends AbstractNotification {
 	@Override
 	public Component renderContent() {
 		Span spanEl = new Span();
-		spanEl.appendText("You haven't chosen preferred timezone. Please set it ");
+		spanEl.appendText("The correct your timezone will help you get the event right. Please set it ");
 
 		A link = new A(AccountLinkGenerator.generatePreviewFullUserLink(
 				AppContext.getSiteUrl(), AppContext.getUser().getUsername()));

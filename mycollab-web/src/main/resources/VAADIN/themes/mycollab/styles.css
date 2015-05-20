@@ -6791,7 +6791,7 @@ div.v-button-down:active {
 	color: #f4f4f5;
 }
 
-.v-button-default:active, .v-ie8 .v-button-default.v-pressed {
+.v-button-default:active {
 	background-color: #6482B3;
 	color: #F4F4F5;
 }
@@ -6820,7 +6820,7 @@ div.v-button-down:active {
 	border-color: #2E5A84;
 }
 
-.v-button-default:active, .v-ie8 .v-button-default.v-pressed {
+.v-button-default:active {
 	border-color: #2E5A84;
 }
 
@@ -6828,7 +6828,7 @@ div.v-button-down:active {
 	background-color: #2D6BA5;
 }
 
-.v-button-default:active .v-button-wrap, .v-ie8 .v-button-default.v-pressed .v-button-wrap {
+.v-button-default:active .v-button-wrap {
 	border-color: #2D6BA5;
 }
 
@@ -6847,7 +6847,7 @@ div.v-button-down:active {
 	color: #F7F8F9;
 }
 
-.v-button-default:active, .v-ie8 .v-button-default.v-pressed {
+.v-button-default:active {
 	background-color: #287ECE;
 	color: #F7F8F9;
 }
@@ -7026,7 +7026,7 @@ body.v-ie .v-pressed.v-button-borderless {
 	background-image: none;
 }
 
-.v-button:active, .v-ie8 .v-pressed.v-button, div.v-button-down {
+.v-button:active, div.v-button-down {
 	background-image: none;
 }
 
@@ -9781,39 +9781,46 @@ input.v-textfield-pagedtable-pagefield {
 	float: right;
 }
 
-.topNavigation .accountMenu {
+.topNavigation .v-button.accountMenu, .topNavigation .v-button.accountMenu.v-pressed {
 	height: 40px;
 	padding: 12px 0px 11px;
 	background: none;
 	border: none;
 }
 
-.topNavigation .accountMenu .v-button-caption {
+.topNavigation .v-button.accountMenu .v-button-caption, .topNavigation .v-button.accountMenu.v-pressed .v-button-caption {
 	font-weight: bold;
 }
 
-.topNavigation .accountMenu .v-popup-indicator::before {
+.topNavigation .v-button.accountMenu .v-button-wrap, .topNavigation .v-button.accountMenu.v-pressed .v-button-wrap {
+	padding: 4px 6px;
+}
+
+.topNavigation .v-button.accountMenu .v-popup-indicator::before, .topNavigation .v-button.accountMenu.v-pressed .v-popup-indicator::before {
 	content: "\f0d7";
 	color: white;
 }
 
-.topNavigation .v-button.notification-button {
+.topNavigation .v-button.notification-button, .topNavigation .v-button.notification-button.v-pressed {
 	background: none no-repeat left top #E4E4E4;
 	border-radius: 5px;
 }
 
-.topNavigation .v-button.notification-button .v-button-caption {
+.topNavigation .v-button.notification-button .v-button-caption, .topNavigation .v-button.notification-button.v-pressed .v-button-caption {
 	color: #c31616;
-	padding: 0px;
 }
 
-.topNavigation .v-button.notification-button .v-popup-indicator {
+.topNavigation .v-button.notification-button .v-popup-indicator, .topNavigation .v-button.notification-button.v-pressed .v-popup-indicator {
 	display: none;
 }
 
-.topNavigation .v-button.notification-button .v-icon {
+.topNavigation .v-button.notification-button .v-icon, .topNavigation .v-button.notification-button.v-pressed .v-icon {
 	font-size: 16px;
 	color: chocolate;
+}
+
+.topNavigation .v-button.notification-button .v-button-wrap, .topNavigation .v-button.notification-button.v-pressed .v-button-wrap {
+	padding: 4px 6px;
 }
 
 .notification-type.notification-type-warning {

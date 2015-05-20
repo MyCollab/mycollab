@@ -43,15 +43,23 @@ Version 5.0.7
 -----------------------------
 **Library Upgrades**
 
+* Upgrade Vaadin to 7.4.6
 * Upgrade other libraries
 
 **Improvements & New Features**
 
+* Revise the runner process. Important for auto upgrade feature
 * Remove redundant images assets
 * Change the default cdn url
 * Change the default browser cache of vaadin
+* Add context support for project
+* Improve sending email with various SMTP settings
+* Add warning message if user ask retrieve password without configuring SMTP (#fix per user's feedback)
 
 **Bug Fixes**
+
+* Minor bug fixes on IE browsers when user press button
+* Email subject of task group has project name is null
 
 Version 5.0.6
 -----------------------------
@@ -67,6 +75,7 @@ Version 5.0.6
 * More comprehensive message to instruct user understand field value better
 * Request user change username for the first time login after installation
 * Increase the size of database connection pool to 50 for heavy load sites
+* Improve the build process
 
 **Bug Fixes**
 

@@ -20,7 +20,6 @@ import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.servlet.*;
 import com.zaxxer.hikari.HikariDataSource;
@@ -41,12 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.io.File;
 import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * Generic MyCollab embedded server
@@ -86,6 +81,8 @@ public abstract class GenericServerRunner {
         }
     }
 
+    private ClientCommunitor clientCommunitor;
+
     /**
      * Run web server with arguments
      *
@@ -95,49 +92,26 @@ public abstract class GenericServerRunner {
     void run(String[] args) throws Exception {
         ServerInstance.getInstance().registerInstance(this);
         System.setProperty("org.eclipse.jetty.annotations.maxWait", "180");
-        int stopPort = 0;
-        String stopKey = null;
-        boolean isStop = false;
 
         for (int i = 0; i < args.length; i++) {
-            if ("--stop-port".equals(args[i])) {
-                stopPort = Integer.parseInt(args[++i]);
-            } else if ("--stop-key".equals(args[i])) {
-                stopKey = args[++i];
-            } else if ("--stop".equals(args[i])) {
-                isStop = true;
-            } else if ("--port".equals(args[i])) {
+            if ("--port".equals(args[i])) {
                 port = Integer.parseInt(args[++i]);
+            } else if ("--cport".equals(args[i])) {
+                final int listenPort = Integer.parseInt(args[++i]);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            clientCommunitor = new ClientCommunitor(listenPort);
+                        } catch (Exception e) {
+                            LOG.error("Can not establish the client socket to port " + listenPort);
+                        }
+                    }
+                }).start();
             }
         }
 
-        switch ((stopPort > 0 ? 1 : 0) + (stopKey != null ? 2 : 0)) {
-            case 1:
-                usage("Must specify --stop-key when --stop-port is specified");
-                break;
-
-            case 2:
-                usage("Must specify --stop-port when --stop-key is specified");
-                break;
-
-            case 3:
-                if (isStop) {
-                    try (Socket s = new Socket(InetAddress.getByName("localhost"), stopPort);
-                         OutputStream out = s.getOutputStream()) {
-                        out.write((stopKey + "\r\nstop\r\n").getBytes());
-                        out.flush();
-                    }
-                    return;
-                } else {
-                    ShutdownMonitor monitor = ShutdownMonitor.getInstance();
-                    monitor.setPort(stopPort);
-                    monitor.setKey(stopKey);
-                    monitor.setExitVm(true);
-                    break;
-                }
-        }
         execute();
-
     }
 
     private void execute() throws Exception {
@@ -182,8 +156,6 @@ public abstract class GenericServerRunner {
         server.setHandler(contexts);
         server.start();
 
-        ShutdownMonitor.getInstance().start();
-
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
@@ -195,86 +167,11 @@ public abstract class GenericServerRunner {
     }
 
     void upgrade(File upgradeFile) {
-        try {
-            appContext.stop();
-        } catch (Exception e) {
-            LOG.error("Error while starting server", e);
-            throw new MyCollabException(e);
+        if (clientCommunitor != null) {
+            clientCommunitor.reloadRequest(upgradeFile);
+        } else {
+            throw new MyCollabException("Can not contact host process. Terminate upgrade, you should download MyCollab manually");
         }
-        contexts.removeHandler(appContext);
-        upgradeProcess(upgradeFile);
-    }
-
-    private void upgradeProcess(File upgradeFile) {
-        try {
-            unpackFile(upgradeFile);
-        } catch (IOException e) {
-            throw new UserInvalidInputException("Exception when upgrade MyCollab", e);
-        }
-
-        appContext = initWebAppContext();
-        appContext.setClassLoader(GenericServerRunner.class.getClassLoader());
-
-        contexts.addHandler(appContext);
-        try {
-            appContext.start();
-        } catch (Exception e) {
-            LOG.error("Error while starting server", e);
-            throw new MyCollabException(e);
-        }
-        ServerInstance.getInstance().setIsUpgrading(false);
-    }
-
-    private static void unpackFile(File upgradeFile) throws IOException {
-        File libFolder = new File(System.getProperty("user.dir"), "lib");
-        File webappFolder = new File(System.getProperty("user.dir"), "webapp");
-        assertFolderWritePermission(libFolder);
-        assertFolderWritePermission(webappFolder);
-
-        org.apache.commons.io.FileUtils.deleteDirectory(libFolder);
-        org.apache.commons.io.FileUtils.deleteDirectory(webappFolder);
-
-        byte[] buffer = new byte[2048];
-
-        try (ZipInputStream inputStream = new ZipInputStream(new FileInputStream(upgradeFile))) {
-            ZipEntry entry;
-            while ((entry = inputStream.getNextEntry()) != null) {
-                if (!entry.isDirectory() && (entry.getName().startsWith("lib/")
-                        || entry.getName().startsWith("webapp"))) {
-                    File candidateFile = new File(System.getProperty("user.dir"), entry.getName());
-                    candidateFile.getParentFile().mkdirs();
-                    try (FileOutputStream output = new FileOutputStream(candidateFile)) {
-                        int len;
-                        while ((len = inputStream.read(buffer)) > 0) {
-                            output.write(buffer, 0, len);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private static void assertFolderWritePermission(File folder) throws IOException {
-        if (!folder.canWrite()) {
-            throw new IOException(System.getProperty("user.name") + " does not have write permission on folder " + folder.getAbsolutePath()
-            + ". The upgrade could not be proceeded. Please correct permission before you upgrade MyCollab again");
-        }
-    }
-
-    private void usage(String error) {
-        if (error != null)
-            System.err.println("ERROR: " + error);
-        System.err
-                .println("Usage: java -jar runner.jar [--help|--version] [ server opts]");
-        System.err.println("Server Options:");
-        System.err
-                .println(" --version                          - display version and exit");
-        System.err.println(" --port n                      - server port");
-        System.err
-                .println(" --stop-port n                      - port to listen for stop command");
-        System.err
-                .println(" --stop-key n                       - security string for stop command (required if --stop-port is present)");
-        System.exit(1);
     }
 
     private DataSource buildDataSource() {
@@ -326,7 +223,7 @@ public abstract class GenericServerRunner {
 
         for (String classpath : classPaths) {
             if (classpath.matches(osExprClassFolder)) {
-                LOG.info("Load classes in path" + classpath);
+                LOG.info("Load classes in path: " + classpath);
                 appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
             } else if (classpath.matches(osExprJarFile)) {
                 try {

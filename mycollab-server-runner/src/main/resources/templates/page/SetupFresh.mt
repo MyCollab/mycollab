@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html style="height: 100%;">
 <head>
@@ -34,7 +33,7 @@ h3 {
 
 
 </style>
-<title>MyCollab Setup Page</title>
+<title>MyCollab Setup Assistant Page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container">
@@ -50,9 +49,9 @@ h3 {
 					   		</td>
 					   		<td>
 			        			<div style="text-align: right; font-size: 10px; vertical-align: middle;">
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.facebook_url}"><img src="${defaultUrls.cdn_url}footer-facebook.png" height="20" width="20"></a>
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}"><img src="${defaultUrls.cdn_url}footer-google.png" height="20" width="20"></a>
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}"><img src="${defaultUrls.cdn_url}footer-twitter.png" height="20" width="20"></a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.facebook_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-facebook.png" height="20" width="20"></a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-google.png" height="20" width="20"></a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-twitter.png" height="20" width="20"></a>
 			        			</div>
 			    			</td>
 						</tr>
@@ -68,7 +67,10 @@ h3 {
 				</div>
 				<hr size="1" style="margin: 1px 0 20px 0; ">
 				<div id="title">
-					<h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.<span style="font-style:italic; font-size:20px;"></span><h3>
+					<h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.<h3>
+					<h4>MyCollab is well tested on various platforms include Windows, Linux and MacOS. We have been
+					spending countless hours to do the installation testing on
+					as many machines as possible. If you can not install MyCollab successfully, please raise your case in our <a href="https://www.mycollab.com/qa/" target="_blank">Q&A page</a></h4>
 				</div>
 				<hr size="1" style="margin: 20px 0 1px 0; ">
 				<div id="mainContent">
@@ -105,7 +107,7 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">DATABASE SETUP</div>
-								<h3 sytle="margin-top">Configure your pre-created MyCollab database schema</h3>
+								<h4>Configure your pre-created MyCollab database schema</h4>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
@@ -154,7 +156,7 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-								<h3 >Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file ${MYCOLLAB_HOME}/conf/mycollab.properties</h3>
+								<h4>Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file ${MYCOLLAB_HOME}/conf/mycollab.properties</h4>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
@@ -367,7 +369,7 @@ h3 {
 			return;
 		}
 		$('#post').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
-
+        $('#post').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance.</h3></p>');
 		var urlPost = "/install";
 		var tls = "";
 		if ($('#tls').is(":checked"))

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -307,5 +308,14 @@ public class ProjectServiceImpl extends
     public List<SimpleProject> getProjectsUserInvolved(String username,
                                                        Integer sAccountId) {
         return projectMapperExt.getProjectsUserInvolved(username, sAccountId);
+    }
+
+    @Override
+    public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey int sAccountId) {
+        ProjectSearchCriteria criteria = new ProjectSearchCriteria();
+        criteria.setInvolvedMember(new StringSearchField(SearchField.AND, username));
+        criteria.setProjectStatuses(new SetSearchField<>(
+                new String[]{StatusI18nEnum.Open.name()}));
+        return projectMapperExt.getTotalCount(criteria);
     }
 }

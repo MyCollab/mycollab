@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class MyCollabVersion {
 	public static String getVersion() {
-		return "5.0.6";
+		return "5.0.7";
 	}
 
     static int[] getVersionNumbers(String ver) {

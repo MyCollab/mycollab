@@ -332,6 +332,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 displayGanttChartView();
             }
         });
+        chartDisplayBtn.setDescription("Display Gantt chart");
         chartDisplayBtn.setIcon(FontAwesome.BAR_CHART_O);
 
         viewButtons = new ToggleButtonGroup();
@@ -442,7 +443,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         });
         control.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
-        final Button advancedSearchBtn = new Button(
+        Button advancedSearchBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;

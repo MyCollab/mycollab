@@ -89,12 +89,8 @@ public class InstallationServlet extends HttpServlet {
 
         String enctype = (Boolean.parseBoolean(tls)) ? "TLS" : "None";
         boolean validSMTPAccount = InstallUtils.checkSMTPConfig(smtpHost, mailServerPort, smtpUserName,
-                smtpPassword,
-                true, enctype);
+                smtpPassword, true, enctype);
         if (!validSMTPAccount) {
-//            PrintWriter out = response.getWriter();
-//            out.write("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
-//            return;
             LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
         }
 

@@ -56,8 +56,7 @@ public class SetupServlet extends HttpServlet {
 		defaultUrls.put("cdn_url", "/assets/images/email/");
 		defaultUrls.put("app_url", "/");
 
-		SharingOptions sharingOptions = SharingOptions
-				.getDefaultSharingOptions();
+		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();
 
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());

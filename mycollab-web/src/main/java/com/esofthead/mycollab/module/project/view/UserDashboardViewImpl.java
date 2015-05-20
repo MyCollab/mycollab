@@ -96,7 +96,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         MyProjectListComponent myProjectListComponent = new MyProjectListComponent();
         TaskStatusComponent taskStatusComponent = new TaskStatusComponent();
         rightPanel.with(myProjectListComponent, taskStatusComponent);
-
         layout.with(leftPanel, rightPanel).expand(leftPanel);
 
         CssLayout contentWrapper = new CssLayout();
@@ -113,6 +112,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             myProjectListComponent.displayDefaultProjectsList();
             taskStatusComponent.showProjectTasksByStatus(prjKeys);
             displayFollowingTicketsCount();
+        }
+
+        int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(AppContext.getUsername(), AppContext.getAccountId());
+        if (countActiveProjects == 0) {
+            UI.getCurrent().addWindow(new AskCreateNewProjectWindow());
         }
     }
 
@@ -131,7 +135,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             @Override
             public void buttonClick(final ClickEvent event) {
                 String userFullLinkStr = AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
-                                AppContext.getUsername());
+                        AppContext.getUsername());
                 getUI().getPage().open(userFullLinkStr, null);
             }
         });
@@ -148,16 +152,14 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-             Button createProjectBtn = new Button(
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
+            Button createProjectBtn = new Button(
+                    AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final Button.ClickEvent event) {
-                            final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
-                            UI.getCurrent().addWindow(projectNewWindow);
+                            UI.getCurrent().addWindow(new ProjectAddWindow());
                         }
                     });
             createProjectBtn.setIcon(FontAwesome.PLUS);
@@ -182,9 +184,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         timeTrackingLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME));
 
         MHorizontalLayout headerContentBottom = new MHorizontalLayout().with(followingTicketsLink, timeTrackingLink);
-
         headerContent.with(headerContentTop, headerContentBottom);
-
         header.with(headerContent).expand(headerContent);
         headerWrapper.addComponent(header);
         return headerWrapper;
@@ -240,7 +240,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         MonitorItemService monitorService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         int followingItemsCount = monitorService.getTotalCount(searchCriteria);
         followingTicketsLink.setTitle(AppContext.getMessage(
-                        FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
+                FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
     }
 
     private static class AssignmentRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
@@ -285,6 +285,39 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             layout.with(link, descLbl, footer);
             layout.addStyleName("project-item-search-box");
             return layout;
+        }
+    }
+
+    private static class AskCreateNewProjectWindow extends Window {
+        AskCreateNewProjectWindow() {
+            super("Question");
+            this.setWidth("600px");
+            this.setResizable(false);
+            this.setModal(true);
+            this.center();
+            MVerticalLayout content = new MVerticalLayout();
+            this.setContent(content);
+
+            content.with(new Label("You do not have any active project. Do you want to create a new one?"));
+
+            MHorizontalLayout btnControls = new MHorizontalLayout();
+            Button skipBtn = new Button("Skip", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    AskCreateNewProjectWindow.this.close();
+                }
+            });
+            skipBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            Button createNewBtn = new Button("New Project", new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    AskCreateNewProjectWindow.this.close();
+                    UI.getCurrent().addWindow(new ProjectAddWindow());
+                }
+            });
+            createNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            btnControls.with(skipBtn, createNewBtn);
+            content.with(btnControls).withAlign(btnControls, Alignment.MIDDLE_RIGHT);
         }
     }
 }

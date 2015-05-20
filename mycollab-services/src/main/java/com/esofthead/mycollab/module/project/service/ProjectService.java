@@ -46,6 +46,8 @@ public interface ProjectService extends
 	@Cacheable
 	SimpleProject findById(int projectId, @CacheKey int sAccountId);
 
+	Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey int sAccountId);
+
 	@Cacheable
 	Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId);
 

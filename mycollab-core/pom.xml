@@ -6,8 +6,8 @@
     <artifactId>mycollab-core</artifactId>
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
-        <artifactId>parent-community</artifactId>
-        <version>5.0.6</version>
+        <artifactId>mycollab-parent-community</artifactId>
+        <version>5.0.7</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>

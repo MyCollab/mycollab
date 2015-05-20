@@ -11,13 +11,13 @@
     <!-- Errors were reported during translation. -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{ABSOLUTE} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
     <appender name="email" class="com.esofthead.mycollab.configuration.MailAppender">
         <subject>Error: %logger{20} - %m</subject>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %logger{35} - %message%n</pattern>
+            <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>
     </appender>
     <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -30,10 +30,10 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>%d{ABSOLUTE} %5p %c{1}:%L - %m%n</pattern>
         </encoder>
     </appender>
-    <logger name="org.springframework" level="INFO"></logger>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="com.esofthead" level="INFO"/>
     <logger name="org.eclipse.jetty" level="INFO" />
     <root level="INFO">

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.mail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -31,6 +32,8 @@ import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+
+import javax.mail.internet.InternetAddress;
 
 /**
  *
@@ -62,44 +65,33 @@ public class DefaultMailer implements IMailer {
 			email.setHostName(host);
             email.setSmtpPort(port);
             email.setStartTLSEnabled(isTLS);
+            email.setSSLOnConnect(isTLS);
 			email.setFrom(fromEmail, fromName);
 			email.setCharset(EmailConstants.UTF_8);
 			for (int i = 0; i < toEmail.size(); i++) {
-				if (isValidate(toEmail.get(i).getEmail())
-						&& isValidate(toEmail.get(i).getName())) {
-					email.addTo(toEmail.get(i).getEmail(), toEmail.get(i)
-							.getName());
+				if (isValidate(toEmail.get(i).getEmail()) && isValidate(toEmail.get(i).getName())) {
+					email.addTo(toEmail.get(i).getEmail(), toEmail.get(i).getName());
 				} else {
-					LOG.error("Invalid to email input: "
-							+ toEmail.get(i).getEmail() + "---"
-							+ toEmail.get(i).getName());
+					LOG.error(String.format("Invalid to email input: %s---%s", toEmail.get(i).getEmail(), toEmail.get(i).getName()));
 				}
 			}
 
 			if (CollectionUtils.isNotEmpty(ccEmail)) {
 				for (int i = 0; i < ccEmail.size(); i++) {
-					if (isValidate(ccEmail.get(i).getEmail())
-							&& isValidate(ccEmail.get(i).getName())) {
-						email.addCc(ccEmail.get(i).getEmail(), ccEmail.get(i)
-								.getName());
+					if (isValidate(ccEmail.get(i).getEmail()) && isValidate(ccEmail.get(i).getName())) {
+						email.addCc(ccEmail.get(i).getEmail(), ccEmail.get(i).getName());
 					} else {
-						LOG.error("Invalid cc email input: "
-								+ ccEmail.get(i).getEmail() + "---"
-								+ ccEmail.get(i).getName());
+						LOG.error(String.format("Invalid cc email input: %s---%s", ccEmail.get(i).getEmail(), ccEmail.get(i).getName()));
 					}
 				}
 			}
 
 			if (CollectionUtils.isNotEmpty(bccEmail)) {
 				for (int i = 0; i < bccEmail.size(); i++) {
-					if (isValidate(bccEmail.get(i).getEmail())
-							&& isValidate(bccEmail.get(i).getName())) {
-						email.addBcc(bccEmail.get(i).getEmail(), bccEmail
-								.get(i).getName());
+					if (isValidate(bccEmail.get(i).getEmail()) && isValidate(bccEmail.get(i).getName())) {
+						email.addBcc(bccEmail.get(i).getEmail(), bccEmail.get(i).getName());
 					} else {
-						LOG.error("Invalid bcc email input: "
-								+ bccEmail.get(i).getEmail() + "---"
-								+ bccEmail.get(i).getName());
+						LOG.error(String.format("Invalid bcc email input: %s---%s", bccEmail.get(i).getEmail(), bccEmail.get(i).getName()));
 					}
 				}
 			}
@@ -125,9 +117,7 @@ public class DefaultMailer implements IMailer {
 							 List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,
 							 List<MailRecipientField> bccEmail, String subject, String html) {
 		try {
-			HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail,
-					ccEmail, bccEmail, subject, html);
-
+			HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
 			email.send();
 		} catch (EmailException e) {
 			throw new MyCollabException(e);
@@ -141,11 +131,9 @@ public class DefaultMailer implements IMailer {
 							 List<EmailAttachementSource> attachments) {
 		try {
 			if (CollectionUtils.isEmpty(attachments)) {
-				sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail,
-						subject, html);
+				sendHTMLMail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
 			} else {
-				HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail,
-						ccEmail, bccEmail, subject, html);
+				HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail, ccEmail, bccEmail, subject, html);
 
 				for (EmailAttachementSource attachment : attachments) {
 					email.attach(attachment.getAttachmentObj());
@@ -166,13 +154,11 @@ public class DefaultMailer implements IMailer {
 		List<MailRecipientField> lstRecipient = new ArrayList<>();
 		for (int i = 0; i < users.size(); i++) {
 			String mail = users.get(i).getEmail();
-			String mailName = isValidate(users.get(i).getDisplayName()) ? mail : users.get(i)
-					.getDisplayName();
+			String mailName = isValidate(users.get(i).getDisplayName()) ? mail : users.get(i).getDisplayName();
 			lstRecipient.add(new MailRecipientField(mail, mailName));
 		}
 
-		this.sendHTMLMail(fromEmail, fromName, lstRecipient, null, null,
-				subject, html, attachment);
+		this.sendHTMLMail(fromEmail, fromName, lstRecipient, null, null, subject, html, attachment);
 	}
 
 	private boolean isValidate(String val) {

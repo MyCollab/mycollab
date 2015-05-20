@@ -6,6 +6,9 @@
         extends="com.esofthead.mycollab.module.project.dao.TaskListMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.module.project.domain.SimpleTaskList">
 
+        <result column="projectName" jdbcType="VARCHAR"
+                property="projectName" />
+
         <result column="milestoneName" jdbcType="VARCHAR"
             property="milestoneName" />
 

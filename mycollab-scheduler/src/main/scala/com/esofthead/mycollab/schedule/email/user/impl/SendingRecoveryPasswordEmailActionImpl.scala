@@ -36,8 +36,7 @@ import org.springframework.stereotype.Component
  * @since 4.6.0
  */
 @Component
-class SendingRecoveryPasswordEmailActionImpl extends
-SendingRecoveryPasswordEmailAction {
+class SendingRecoveryPasswordEmailActionImpl extends SendingRecoveryPasswordEmailAction {
 
   @Autowired var extMailService: ExtMailService = _
 

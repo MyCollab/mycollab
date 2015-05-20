@@ -50,7 +50,7 @@ public class SmtpSetupNotification  extends AbstractNotification {
             }
         });
         smtpBtn.setStyleName("link");
-        layout.with(new Label(FontAwesome.EXCLAMATION.getHtml() + " You did not set up a SMTP account yet.", ContentMode.HTML), smtpBtn);
+        layout.with(new Label(FontAwesome.EXCLAMATION.getHtml() + " Your members can not receive any mail notification without a proper SMTP setting", ContentMode.HTML), smtpBtn);
         return layout;
     }
 }

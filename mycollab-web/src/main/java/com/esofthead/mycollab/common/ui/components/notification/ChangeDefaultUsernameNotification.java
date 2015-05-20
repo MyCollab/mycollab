@@ -39,7 +39,7 @@ public class ChangeDefaultUsernameNotification  extends AbstractNotification {
     @Override
     public Component renderContent() {
         Span spanEl = new Span();
-        spanEl.appendText("You use the default username is admin@mycollab.com. You should change it at ");
+        spanEl.appendText("You are using the default username 'admin@mycollab.com'. You should change it at ");
 
         A link = new A(AccountLinkGenerator.generateFullProfileLink(AppContext.getSiteUrl()));
         link.appendText("here");

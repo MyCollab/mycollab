@@ -46,11 +46,11 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 public class MyProjectListComponent extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
-    private ProjectPagedList projectList;
+    private ProjectSearchCriteria searchCriteria;
 
+    private ProjectPagedList projectList;
     private Label titleLbl;
     private Enum currentTitleMsg;
-    private ProjectSearchCriteria searchCriteria;
 
     public MyProjectListComponent() {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
@@ -74,7 +74,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         projectsPopup.setIcon(FontAwesome.CARET_SQUARE_O_DOWN);
         projectsPopup.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
         ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
@@ -142,7 +142,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     }
 
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
-        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(
@@ -151,7 +151,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     }
 
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
-        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
         prjSearchCriteria.setProjectStatuses(new SetSearchField<>(

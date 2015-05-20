@@ -121,7 +121,7 @@
         m_prj_project.targetBudget, m_prj_project.homePage, m_prj_project.actualBudget, m_prj_project.projectType, 
         m_prj_project.projectStatus, m_prj_project.description, m_prj_project.defaultBillingRate, m_prj_project.actualStartDate, 
         m_prj_project.actualEndDate, m_prj_project.defaultOvertimeBillingRate, m_prj_project.sAccountId,
-        m_prj_project.createdtime, m_prj_project.lastUpdatedTime,
+        m_prj_project.createdtime, m_prj_project.lastUpdatedTime, m_prj_project.contextAsk,
         concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerName, 
         m_crm_account.accountName, m_prj_project.currencyid, m_prj_project.progress,
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectid=m_prj_project.id) AS numBugs,

@@ -1,0 +1,1 @@
+ALTER TABLE `m_prj_project` ADD COLUMN `contextAsk` TINYINT(1) NULL DEFAULT 1;
