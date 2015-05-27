@@ -144,15 +144,11 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(ProjectEvent.GotoProjectList event) {
-				ProjectListPresenter presenter = PresenterResolver
-						.getPresenter(ProjectListPresenter.class);
+				ProjectListPresenter presenter = PresenterResolver.getPresenter(ProjectListPresenter.class);
 				ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-				criteria.setInvolvedMember(new StringSearchField(AppContext
-						.getUsername()));
-				criteria.setProjectStatuses(new SetSearchField<String>(
-						new String[] { StatusI18nEnum.Open.name() }));
-				presenter.go(navManager,
-						new ScreenData.Search<ProjectSearchCriteria>(criteria));
+				criteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+				criteria.setProjectStatuses(new SetSearchField<>(new String[] { StatusI18nEnum.Open.name() }));
+				presenter.go(navManager, new ScreenData.Search<>(criteria));
 			}
 		});
 		this.register(new ApplicationEventListener<ProjectEvent.GotoMyProject>() {
@@ -161,10 +157,8 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(ProjectEvent.GotoMyProject event) {
-				ProjectViewPresenter presenter = PresenterResolver
-						.getPresenter(ProjectViewPresenter.class);
-				presenter.handleChain(navManager,
-						(PageActionChain) event.getData());
+				ProjectViewPresenter presenter = PresenterResolver.getPresenter(ProjectViewPresenter.class);
+				presenter.handleChain(navManager, (PageActionChain) event.getData());
 			}
 		});
 		this.register(new ApplicationEventListener<ProjectEvent.AllActivities>() {
@@ -212,10 +206,8 @@ public class ProjectModuleController extends AbstractController {
 					criteria.setProjectId(new NumberSearchField(
 							SearchField.AND, CurrentProjectVariables
 									.getProjectId()));
-					BugFilterParameter parameter = new BugFilterParameter(
-							"Open Bugs", criteria);
-					presenter.go(navManager,
-							new BugScreenData.Search(parameter));
+					BugFilterParameter parameter = new BugFilterParameter("Open Bugs", criteria);
+					presenter.go(navManager, new BugScreenData.Search(parameter));
 				} else if (params instanceof BugScreenData.Search) {
 					presenter.go(navManager, (BugScreenData.Search) params);
 				} else {

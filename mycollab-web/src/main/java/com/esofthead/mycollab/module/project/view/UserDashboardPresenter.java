@@ -21,8 +21,6 @@ import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -31,8 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class UserDashboardPresenter extends
-		AbstractPresenter<UserDashboardView> {
+public class UserDashboardPresenter extends AbstractPresenter<UserDashboardView> {
 	private static final long serialVersionUID = 1L;
 
 	public UserDashboardPresenter() {
@@ -43,7 +40,7 @@ public class UserDashboardPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
-		prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
+		prjContainer.addComponent(view);
 		view.lazyLoadView();
 	}
 }

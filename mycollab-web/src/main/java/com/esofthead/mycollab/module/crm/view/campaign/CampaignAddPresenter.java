@@ -90,10 +90,10 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
                         .getSpringBean(CampaignService.class);
                 campaign = campaignService.findById(
                         (Integer) data.getParams(), AppContext.getAccountId());
-                if (campaign == null) {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
-                }
+            }
+            if (campaign == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
             }
 
             super.onGo(container, data);

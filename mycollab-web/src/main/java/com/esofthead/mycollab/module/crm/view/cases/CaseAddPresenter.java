@@ -88,10 +88,10 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
                         .getSpringBean(CaseService.class);
                 cases = caseService.findById((Integer) data.getParams(),
                         AppContext.getAccountId());
-                if (cases == null) {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
-                }
+            }
+            if (cases == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
             }
             super.onGo(container, data);
             view.editItem(cases);

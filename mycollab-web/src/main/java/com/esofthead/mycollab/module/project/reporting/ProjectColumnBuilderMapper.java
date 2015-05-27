@@ -442,7 +442,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
             @Override
             public String evaluate(ReportParameters param) {
                 Boolean level = param.getFieldValue("isbillable");
-                if (level != null && level == Boolean.TRUE) {
+                if (Boolean.TRUE.equals(level)) {
                     return "images/yes.png";
                 } else {
                     return "images/no.png";

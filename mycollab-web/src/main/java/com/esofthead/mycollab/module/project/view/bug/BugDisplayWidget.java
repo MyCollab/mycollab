@@ -72,8 +72,7 @@ public abstract class BugDisplayWidget extends Depot {
 			String depotTitle = String.format("%s (%d)", title, totalCount);
 			this.setTitle(depotTitle);
 		}
-		SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(
-				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
+		SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<>(searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
 			Button moreBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
@@ -82,12 +81,8 @@ public abstract class BugDisplayWidget extends Depot {
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							EventBusFactory
-									.getInstance()
-									.post(new BugEvent.GotoList(
-											BugDisplayWidget.this,
-											new BugScreenData.Search(
-													constructMoreDisplayFilter())));
+							EventBusFactory.getInstance().post(new BugEvent.GotoList(BugDisplayWidget.this,
+											new BugScreenData.Search(constructMoreDisplayFilter())));
 						}
 					});
 			moreBtn.setStyleName(UIConstants.THEME_GREEN_LINK);

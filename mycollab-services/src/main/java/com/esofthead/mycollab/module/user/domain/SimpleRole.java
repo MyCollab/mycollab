@@ -69,6 +69,6 @@ public class SimpleRole extends Role {
 	}
 
     public boolean isSystemRole() {
-        return (getIssystemrole() != null && getIssystemrole() == Boolean.TRUE);
+        return Boolean.TRUE.equals(getIssystemrole());
     }
 }

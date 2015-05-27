@@ -58,8 +58,7 @@ import com.vaadin.ui.UI;
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
-    private static final Resource DEFAULT_SOURCE = MyCollabResource
-            .newResource(WebResourceIds._docs_256);
+    private static final Resource DEFAULT_SOURCE = MyCollabResource.newResource(WebResourceIds._docs_256);
 
     public AttachmentDisplayComponent(List<Content> attachments) {
         for (Content attachment : attachments) {
@@ -89,8 +88,7 @@ public class AttachmentDisplayComponent extends CssLayout {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
             thumbnail.setSource(VaadinResourceManager.getResourceManager()
-                    .getImagePreviewResource(attachment.getThumbnail(),
-                            DEFAULT_SOURCE));
+                    .getImagePreviewResource(attachment.getThumbnail(), DEFAULT_SOURCE));
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
@@ -158,8 +156,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         });
         trashBtn.setIcon(FontAwesome.TRASH_O);
         trashBtn.setStyleName("attachment-control");
-        attachmentLayout.addComponent(trashBtn,
-                "top: 9px; left: 9px; z-index: 1;");
+        attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         Button downloadBtn = new Button();
         FileDownloader fileDownloader = new FileDownloader(VaadinResourceManager.getResourceManager()

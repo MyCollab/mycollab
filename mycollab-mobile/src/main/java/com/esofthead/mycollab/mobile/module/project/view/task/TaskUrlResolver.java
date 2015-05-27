@@ -46,7 +46,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("add", new AddUrlResolver());
 	}
 
-	private class ListUrlResolver extends ProjectUrlResolver {
+	private static class ListUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
@@ -63,7 +63,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 		}
 	}
 
-	private class ReadUrlResolver extends ProjectUrlResolver {
+	private static class ReadUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
@@ -101,7 +101,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 
 	}
 
-	private class EditUrlResolver extends ProjectUrlResolver {
+	private static class EditUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
@@ -129,7 +129,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 		}
 	}
 
-	private class AddUrlResolver extends ProjectUrlResolver {
+	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			UrlTokenizer token = new UrlTokenizer(params[0]);

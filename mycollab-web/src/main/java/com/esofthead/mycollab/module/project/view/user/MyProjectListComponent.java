@@ -65,6 +65,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         final SearchTextField searchTextField = new SearchTextField() {
             @Override
             public void doSearch(String value) {
+                searchCriteria = getAllProjectsSearchCriteria();
                 searchCriteria.setProjectName(new StringSearchField(value));
                 displayResults();
             }
@@ -135,7 +136,7 @@ public class MyProjectListComponent extends MVerticalLayout {
     }
 
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
-        final ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
+        ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
         prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
                 AppContext.getUsername()));
         return prjSearchCriteria;

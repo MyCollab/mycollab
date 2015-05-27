@@ -285,8 +285,10 @@ public class ProjectCommentInput extends VerticalLayout {
 
     private void saveContentsToRepo(String attachmentPath) {
         if (MapUtils.isNotEmpty(fileStores)) {
-            for (String fileName : fileStores.keySet()) {
+            for (Map.Entry<String, File> entry : fileStores.entrySet()) {
                 try {
+                    String fileName = entry.getKey();
+                    File file = entry.getValue();
                     String fileExt = "";
                     int index = fileName.lastIndexOf(".");
                     if (index > 0) {
@@ -294,11 +296,9 @@ public class ProjectCommentInput extends VerticalLayout {
                                 fileName.length());
                     }
 
-                    if ("jpg".equalsIgnoreCase(fileExt)
-                            || "png".equalsIgnoreCase(fileExt)) {
+                    if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
                         try {
-                            BufferedImage bufferedImage = ImageIO
-                                    .read(fileStores.get(fileName));
+                            BufferedImage bufferedImage = ImageIO.read(file);
 
                             int imgHeight = bufferedImage.getHeight();
                             int imgWidth = bufferedImage.getWidth();
@@ -331,15 +331,14 @@ public class ProjectCommentInput extends VerticalLayout {
                                     MobileAttachmentUtils.constructContent(
                                             fileName, attachmentPath),
                                     AppContext.getUsername(),
-                                    new FileInputStream(fileStores
-                                            .get(fileName)), AppContext
+                                    new FileInputStream(file), AppContext
                                             .getAccountId());
                         }
                     } else {
                         resourceService.saveContent(MobileAttachmentUtils
                                         .constructContent(fileName, attachmentPath),
                                 AppContext.getUsername(), new FileInputStream(
-                                        fileStores.get(fileName)), AppContext
+                                        file), AppContext
                                         .getAccountId());
                     }
 

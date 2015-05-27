@@ -45,12 +45,14 @@ public class LogConfig {
             }
         }
 
-        try {
-            configurator.setContext(loggerContext);
-            configurator.doConfigure(inputStream); // loads logback file
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (inputStream != null) {
+            try {
+                configurator.setContext(loggerContext);
+                configurator.doConfigure(inputStream); // loads logback file
+                inputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

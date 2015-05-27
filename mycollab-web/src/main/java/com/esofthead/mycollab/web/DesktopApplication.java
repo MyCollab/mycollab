@@ -64,7 +64,7 @@ public class DesktopApplication extends MyCollabUI {
 
     private static final Logger LOG = LoggerFactory.getLogger(DesktopApplication.class);
     public static final String NAME_COOKIE = "mycollab";
-    public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
+    public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     private MainWindowContainer mainWindowContainer;
 
@@ -140,6 +140,39 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
+        UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
+                e, UsageExceedBillingPlanException.class);
+        if (usageBillingException != null) {
+            if (AppContext.isAdmin()) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, SiteConfiguration.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
+
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    Collection<Window> windowsList = UI.getCurrent().getWindows();
+                                    for (Window window : windowsList) {
+                                        window.close();
+                                    }
+                                    EventBusFactory.getInstance()
+                                            .post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+                                }
+                            }
+                        });
+
+            } else {
+                NotificationUtil
+                        .showErrorNotification(AppContext
+                                .getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
+            }
+            return;
+        }
+
         UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
                 e, UserInvalidInputException.class);
         if (invalidException != null) {
@@ -156,61 +189,17 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
-
         ResourceNotFoundException resourceNotFoundException = (ResourceNotFoundException) getExceptionType(
                 e, ResourceNotFoundException.class);
         if (resourceNotFoundException != null) {
             NotificationUtil.showWarningNotification("Can not found resource.");
             LOG.error("404", resourceNotFoundException);
+            return;
         }
 
-        UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
-                e, UsageExceedBillingPlanException.class);
-        if (usageBillingException != null) {
-            if (AppContext.isAdmin()) {
-                ConfirmDialogExt
-                        .show(UI.getCurrent(),
-                                AppContext.getMessage(
-                                        GenericI18Enum.WINDOW_ATTENTION_TITLE,
-                                        SiteConfiguration.getSiteName()),
-                                AppContext
-                                        .getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-                                AppContext
-                                        .getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext
-                                        .getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
-
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            Collection<Window> windowsList = UI
-                                                    .getCurrent().getWindows();
-                                            for (Window window : windowsList) {
-                                                window.close();
-                                            }
-                                            EventBusFactory
-                                                    .getInstance()
-                                                    .post(new ShellEvent.GotoUserAccountModule(
-                                                            this,
-                                                            new String[]{"billing"}));
-                                        }
-                                    }
-                                });
-
-            } else {
-                NotificationUtil
-                        .showErrorNotification(AppContext
-                                .getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
-            }
-        } else {
-            LOG.error("Error", e);
-            NotificationUtil
-                    .showErrorNotification(AppContext
-                            .getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
-
-        }
+        LOG.error("Error", e);
+        NotificationUtil.showErrorNotification(AppContext
+                .getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
     }
 
     private void enter(String uriFragement) {

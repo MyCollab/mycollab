@@ -16,47 +16,31 @@
  */
 package com.esofthead.mycollab.module.crm.reporting;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
-
-import java.awt.Color;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.module.crm.CrmResources;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.domain.*;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
+import com.esofthead.mycollab.reporting.ReportTemplateFactory;
+import com.esofthead.mycollab.reporting.expression.*;
+import com.esofthead.mycollab.vaadin.AppContext;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
 import net.sf.dynamicreports.report.builder.style.ConditionalStyleBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.domain.Account;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.ReportTemplateFactory;
-import com.esofthead.mycollab.reporting.expression.DateExpression;
-import com.esofthead.mycollab.reporting.expression.DateTimeExpression;
-import com.esofthead.mycollab.reporting.expression.HyperlinkValue;
-import com.esofthead.mycollab.reporting.expression.MValue;
-import com.esofthead.mycollab.reporting.expression.MailExpression;
-import com.esofthead.mycollab.reporting.expression.StringExpression;
-import com.esofthead.mycollab.vaadin.AppContext;
+import java.awt.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
 /**
  * 
@@ -66,8 +50,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 @Component
 public class CrmColumnBuilderMapper implements InitializingBean {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(CrmColumnBuilderMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CrmColumnBuilderMapper.class);
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -335,8 +318,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 		ConditionalStyleBuilder isCompleteStyle = stl.conditionalStyle(
 				isCompleteExpr).setStrikeThrough(true);
 
-		StyleBuilder styleBuilder = stl
-				.style(ReportTemplateFactory.getTemplate(
+		StyleBuilder styleBuilder = stl.style(ReportTemplateFactory.getTemplate(
 						SiteConfiguration.getDefaultLocale())
 						.getUnderlineStyle()).addConditionalStyle(overDueStyle)
 				.addConditionalStyle(isCompleteStyle);

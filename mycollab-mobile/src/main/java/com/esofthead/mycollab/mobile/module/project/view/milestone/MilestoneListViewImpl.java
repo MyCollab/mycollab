@@ -130,7 +130,7 @@ public class MilestoneListViewImpl extends AbstractMobileTabPageView implements
 		this.setSelectedTab(futureMilestonesList);
 	}
 
-	private class MilestoneListChildView extends AbstractMobileSwipeView {
+	private static class MilestoneListChildView extends AbstractMobileSwipeView {
 		private static final long serialVersionUID = 5398821908475706469L;
 		private MilestoneListDisplay milestoneList;
 

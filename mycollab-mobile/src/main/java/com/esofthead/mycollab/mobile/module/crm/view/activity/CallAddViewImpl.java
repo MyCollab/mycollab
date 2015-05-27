@@ -224,7 +224,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 			Object value = newDataSource.getValue();
 			if (value instanceof Integer) {
 				Integer duration = (Integer) value;
-				if (duration != null && duration != 0) {
+				if (duration != 0) {
 					int hours = duration / 3600;
 					int minutes = duration % 3600 / 60;
 					hourField.setValue("" + hours);

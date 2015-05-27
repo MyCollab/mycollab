@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
  */
 @Component("appContextUtil")
 public class ApplicationContextUtil implements ApplicationContextAware {
-
 	private static ApplicationContext ctx;
 
 	@Override
@@ -42,11 +41,6 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 			return null;
 		}
 		return ctx.getBean(classType);
-	}
-
-	@SuppressWarnings("ucd")
-	public static ApplicationContext getApplicationContext() {
-		return ctx;
 	}
 
 }

@@ -28,8 +28,7 @@ import java.io.Serializable;
  * 
  */
 @SuppressWarnings("serial")
-public abstract class AbstractCssPageView extends CssLayout implements
-		PageView, Serializable {
+public abstract class AbstractCssPageView extends CssLayout implements PageView, Serializable {
 	private CssLayout vTabsheetFix;
 	private String vTabsheetFixWidth = "250px";
 	private boolean vTabsheetIsLeft = false;

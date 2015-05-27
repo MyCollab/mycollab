@@ -64,7 +64,10 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
 		while (parent != null && !(parent instanceof NavigationManager)) {
 			parent = parent.getParent();
 		}
-		this.previousView = ((NavigationManager) parent).getCurrentComponent();
+		if (parent != null) {
+			this.previousView = ((NavigationManager) parent).getCurrentComponent();
+		}
+
 	}
 
 	public void selectTab(String tabName) {

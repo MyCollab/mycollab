@@ -29,19 +29,15 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 public class DateTimeSearchField extends SearchField {
 	private static final long serialVersionUID = 1L;
 	
-	public static String LESSTHAN = "<";
-	public static String LESSTHANEQUAL = "<=";
-	public static String GREATERTHAN = ">";
-	public static String GREATERTHANEQUAL = ">=";
-	public static String EQUAL = "=";
-	public static String NOTEQUAL = "<>";
+	public static final String LESSTHAN = "<";
+	public static final String LESSTHANEQUAL = "<=";
+	public static final String GREATERTHAN = ">";
+	public static final String GREATERTHANEQUAL = ">=";
+	public static final String EQUAL = "=";
+	public static final String NOTEQUAL = "<>";
 
 	protected Date value;
 	protected String comparision;
-
-	public DateTimeSearchField() {
-		this(AND, null);
-	}
 
 	public DateTimeSearchField(String oper, Date value) {
 		this(oper, DateTimeSearchField.LESSTHAN, value);

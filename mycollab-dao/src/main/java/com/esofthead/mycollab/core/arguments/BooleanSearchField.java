@@ -40,7 +40,7 @@ package com.esofthead.mycollab.core.arguments;
 public class BooleanSearchField extends SearchField {
 	private static final long serialVersionUID = 1L;
 
-	public static String IS = "is";
+	public static final String IS = "is";
 
 	private boolean value;
 

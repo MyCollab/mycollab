@@ -37,15 +37,13 @@ public class ComponentManagerFactory {
 
 			Class<AbstractCloudDriveOAuthWindow> cls;
 			try {
-				cls = (Class<AbstractCloudDriveOAuthWindow>) Class
-						.forName(clsName);
+				cls = (Class<AbstractCloudDriveOAuthWindow>) Class.forName(clsName);
 			} catch (ClassNotFoundException e) {
 				continue;
 			}
 			if (cls != null) {
 				try {
-					AbstractCloudDriveOAuthWindow newInstance = cls
-							.newInstance();
+					AbstractCloudDriveOAuthWindow newInstance = cls.newInstance();
 					newInstance.setCaption(title);
 					return newInstance;
 				} catch (Exception e) {

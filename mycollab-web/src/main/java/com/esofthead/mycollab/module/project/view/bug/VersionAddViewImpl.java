@@ -88,7 +88,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 		return new EditFormFieldFactory(editForm);
 	}
 
-	private class EditFormFieldFactory extends
+	private static class EditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<Version> {
 		private static final long serialVersionUID = 1L;
 

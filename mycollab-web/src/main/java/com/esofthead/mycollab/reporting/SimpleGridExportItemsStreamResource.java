@@ -116,8 +116,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends ExportItems
         @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
         protected void fillReport() {
-            reportBuilder.setDataSource(new GroupIteratorDataSource(
-                    searchService, searchCriteria));
+            reportBuilder.setDataSource(new GroupIteratorDataSource(searchService, searchCriteria));
         }
 
     }

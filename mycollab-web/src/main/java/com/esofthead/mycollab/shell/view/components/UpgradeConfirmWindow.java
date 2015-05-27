@@ -116,45 +116,46 @@ public class UpgradeConfirmWindow extends Window {
                 // always check HTTP response code first
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     int contentLength = httpConn.getContentLength();
-                    progressWindow.setContentLength(new Long(contentLength));
+                    progressWindow.setContentLength(Long.valueOf(contentLength));
 
                     // opens input stream from the HTTP connection
                     InputStream inputStream = httpConn.getInputStream();
 
                     // opens an output stream to save into file
-                    FileOutputStream outputStream = new FileOutputStream(tmpFile);
-                    long currentBytesRead = 0;
-                    int bytesRead;
-                    byte[] buffer = new byte[4096];
-                    while (((bytesRead = inputStream.read(buffer)) != -1) && !isKill) {
-                        outputStream.write(buffer, 0, bytesRead);
-                        currentBytesRead += bytesRead;
-                        progressWindow.setProgressValue(currentBytesRead);
-                    }
-                    outputStream.close();
-                    inputStream.close();
-                    httpConn.disconnect();
+                    try(FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
+                        long currentBytesRead = 0;
+                        int bytesRead;
+                        byte[] buffer = new byte[4096];
+                        while (((bytesRead = inputStream.read(buffer)) != -1) && !isKill) {
+                            outputStream.write(buffer, 0, bytesRead);
+                            currentBytesRead += bytesRead;
+                            progressWindow.setProgressValue(currentBytesRead);
+                        }
+                        outputStream.close();
+                        inputStream.close();
+                        httpConn.disconnect();
 
-                    if (isKill) {
+                        if (isKill) {
+                            progressWindow.close();
+                            return;
+                        }
+
+                        UI.getCurrent().setPollInterval(-1);
+                        ServerInstance.getInstance().preUpgrade();
+                        String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
+                        lock = UI.getCurrent().getSession().getLockInstance();
+                        lock.lock();
+                        Page.getCurrent().setLocation(locUrl);
                         progressWindow.close();
-                        return;
-                    }
+                        lock.unlock();
 
-                    UI.getCurrent().setPollInterval(-1);
-                    ServerInstance.getInstance().preUpgrade();
-                    String locUrl = SiteConfiguration.getSiteUrl(AppContext.getSubDomain()) + "it/upgrade";
-                    lock = UI.getCurrent().getSession().getLockInstance();
-                    lock.lock();
-                    Page.getCurrent().setLocation(locUrl);
-                    progressWindow.close();
-                    lock.unlock();
-
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        ServerInstance.getInstance().upgrade(tmpFile);
                     }
-                    ServerInstance.getInstance().upgrade(tmpFile);
                 } else {
                     NotificationUtil.showErrorNotification("Can not download the latest MyCollab distribution. You could try again or install MyCollab manually");
                     httpConn.disconnect();

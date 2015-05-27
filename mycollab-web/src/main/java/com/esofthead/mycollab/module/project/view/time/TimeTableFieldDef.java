@@ -29,27 +29,27 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 public class TimeTableFieldDef {
 	public static TableViewField id = new TableViewField(null, "id", 60);
 
-	public static TableViewField summary = new TableViewField(
+	public static final TableViewField summary = new TableViewField(
 			TimeTrackingI18nEnum.FORM_SUMMARY, "summary",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField logUser = new TableViewField(
+	public static final TableViewField logUser = new TableViewField(
 			TimeTrackingI18nEnum.LOG_USER, "logUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField logValue = new TableViewField(
+	public static final TableViewField logValue = new TableViewField(
 			TimeTrackingI18nEnum.LOG_VALUE, "logvalue",
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
-	public static TableViewField billable = new TableViewField(
+	public static final TableViewField billable = new TableViewField(
 			TimeTrackingI18nEnum.FORM_IS_BILLABLE, "isbillable",
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
-	public static TableViewField logForDate = new TableViewField(
+	public static final TableViewField logForDate = new TableViewField(
 			TimeTrackingI18nEnum.LOG_FOR_DATE, "logforday",
 			UIConstants.TABLE_DATE_TIME_WIDTH);
 
-	public static TableViewField project = new TableViewField(
+	public static final TableViewField project = new TableViewField(
 			TimeTrackingI18nEnum.FORM_PROJECT, "projectName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 }

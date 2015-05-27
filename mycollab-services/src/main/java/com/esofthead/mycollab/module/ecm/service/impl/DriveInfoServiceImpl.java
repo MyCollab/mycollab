@@ -74,7 +74,7 @@ public class DriveInfoServiceImpl extends
 	@Override
 	public Long getUsedStorageVolume(@CacheKey Integer sAccountId) {
 		DriveInfo driveInfo = getDriveInfo(sAccountId);
-		return (driveInfo.getUsedvolume() == null) ? 0 : driveInfo
+		return (driveInfo.getUsedvolume() == null) ? Long.valueOf(0L) : driveInfo
 				.getUsedvolume();
 	}
 

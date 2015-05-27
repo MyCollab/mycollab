@@ -32,7 +32,6 @@ import org.apache.commons.beanutils.PropertyUtils;
  * 
  */
 public class BeanDataSource<T> implements JRDataSource {
-
 	private List<T> data = new ArrayList<>();
 	private int currentIndex = 0;
 	private T currentRecord;

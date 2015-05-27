@@ -30,11 +30,10 @@ import com.vaadin.ui.Label;
  *
  */
 public class DefaultViewField extends CustomField<String> {
+	private static final long serialVersionUID = 1L;
 
 	private String value;
 	private ContentMode contentMode;
-
-	private static final long serialVersionUID = 1L;
 
 	public DefaultViewField(final String value) {
 		this(value, ContentMode.TEXT);

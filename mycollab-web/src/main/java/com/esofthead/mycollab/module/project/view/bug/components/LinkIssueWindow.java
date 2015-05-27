@@ -114,7 +114,7 @@ public class LinkIssueWindow extends Window {
                             throw new UserInvalidInputException("The related bug must be not null");
                         }
 
-                        if (selectedBug.getId() == hostedBug.getId()) {
+                        if (selectedBug.getId().equals(hostedBug.getId())) {
                             throw new UserInvalidInputException("The relation is invalid since the both entries are " +
                                     "the same");
                         }

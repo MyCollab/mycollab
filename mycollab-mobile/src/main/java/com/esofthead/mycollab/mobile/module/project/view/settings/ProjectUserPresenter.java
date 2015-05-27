@@ -48,16 +48,8 @@ public class ProjectUserPresenter extends
 		projectModuleMenu.selectButton(AppContext
 				.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter;
 
-		// if (data instanceof ProjectMemberScreenData.Add) {
-		// presenter = PresenterResolver
-		// .getPresenter(ProjectMemberEditPresenter.class);
-		// } else if (data instanceof
-		// ProjectMemberScreenData.InviteProjectMembers) {
-		// presenter = PresenterResolver
-		// .getPresenter(ProjectMemberInvitePresenter.class);
-		// } else
 		if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberInvitePresenter.class);
@@ -67,9 +59,6 @@ public class ProjectUserPresenter extends
 		} else if (data instanceof ProjectMemberScreenData.Edit) {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberEditPresenter.class);
-		} else if (data instanceof ProjectMemberScreenData.Search) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberListPresenter.class);
 		} else {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberListPresenter.class);

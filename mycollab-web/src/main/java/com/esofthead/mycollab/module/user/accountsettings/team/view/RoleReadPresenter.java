@@ -60,23 +60,17 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 				new DefaultPreviewFormHandler<Role>() {
 					@Override
 					public void onEdit(Role data) {
-						EventBusFactory.getInstance().post(
-								new RoleEvent.GotoEdit(this, data));
+						EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onDelete(final Role data) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.DIALOG_DELETE_TITLE,
+						ConfirmDialogExt.show(UI.getCurrent(),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
 										SiteConfiguration.getSiteName()),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -85,13 +79,11 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 										if (dialog.isConfirmed()) {
 											RoleService roleService = ApplicationContextUtil
 													.getSpringBean(RoleService.class);
-											roleService.removeWithSession(
-													data.getId(),
+											roleService.removeWithSession(data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBusFactory.getInstance().post(
-													new RoleEvent.GotoList(
-															this, null));
+													new RoleEvent.GotoList(this, null));
 										}
 									}
 								});
@@ -102,14 +94,12 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 						Role cloneData = (Role) data.copy();
 						cloneData.setRolename(null);
 						cloneData.setIssystemrole(false);
-						EventBusFactory.getInstance().post(
-								new RoleEvent.GotoAdd(this, cloneData));
+						EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new RoleEvent.GotoList(this, null));
+						EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
 					}
 				});
 	}

@@ -38,10 +38,8 @@ import com.vaadin.ui.Field;
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberReadViewImpl extends
-		AbstractPreviewItemComp<SimpleProjectMember> implements
-		ProjectMemberReadView {
-
+public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimpleProjectMember>
+		implements ProjectMemberReadView {
 	private static final long serialVersionUID = 364308373821870384L;
 
 	@Override
@@ -55,7 +53,7 @@ public class ProjectMemberReadViewImpl extends
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleProjectMember> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleProjectMember>();
+		return new AdvancedPreviewBeanForm<>();
 	}
 
 	@Override
@@ -74,49 +72,38 @@ public class ProjectMemberReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<SimpleProjectMember>(
-				this.previewForm)
-				.createButtonControls(
-						ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+		return new ProjectPreviewFormControlsGenerator<>(this.previewForm)
+				.createButtonControls(ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
 								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
 						ProjectRolePermissionCollections.USERS);
 	}
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private class ProjectMemberBeanFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
+	private class ProjectMemberBeanFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
+        private static final long serialVersionUID = 5269043189285551214L;
 
-		public ProjectMemberBeanFormFieldFactory(
-				GenericBeanForm<SimpleProjectMember> form) {
+		public ProjectMemberBeanFormFieldFactory(GenericBeanForm<SimpleProjectMember> form) {
 			super(form);
 		}
-
-		private static final long serialVersionUID = 5269043189285551214L;
 
 		@Override
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("memberFullName")) {
-				return new FormViewField(
-						beanItem.getDisplayName());
+				return new FormViewField(beanItem.getDisplayName());
 			} else if (propertyId.equals("roleName")) {
-				String memberRole = "";
-				if (beanItem.getIsadmin() != null
-						&& beanItem.getIsadmin() == Boolean.TRUE
-						|| beanItem.getProjectroleid() == null) {
-					memberRole = AppContext
-							.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
+				String memberRole;
+				if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
+					memberRole = AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
 				} else {
 					memberRole = beanItem.getRoleName();
 				}
 				return new FormViewField(memberRole);
 			} else if (propertyId.equals("email")) {
-				return new FormViewField(
-						beanItem.getEmail());
+				return new FormViewField(beanItem.getEmail());
 			}
 			return null;
 		}

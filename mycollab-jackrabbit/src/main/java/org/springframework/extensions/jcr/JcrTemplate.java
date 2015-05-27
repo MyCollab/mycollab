@@ -750,7 +750,7 @@ public class JcrTemplate extends JcrAccessor implements JcrOperations {
      * Invocation handler that suppresses logout calls on JCR Session.
      * @see javax.jcr.Session#logout()
      */
-    private class LogoutSuppressingInvocationHandler implements InvocationHandler {
+    private static class LogoutSuppressingInvocationHandler implements InvocationHandler {
 
         private final Session target;
 

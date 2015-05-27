@@ -94,8 +94,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             this.center();
             this.setModal(true);
 
-            Image loadingIcon = new Image(null,
-                    MyCollabResource.newResource(WebResourceIds._lazy_load_icon));
+            Image loadingIcon = new Image(null, MyCollabResource.newResource(WebResourceIds._lazy_load_icon));
             this.setContent(loadingIcon);
         }
     }

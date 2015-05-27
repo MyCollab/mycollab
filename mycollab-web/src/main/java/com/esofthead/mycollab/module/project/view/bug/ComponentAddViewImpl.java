@@ -88,7 +88,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 		return this.editForm;
 	}
 
-	private class EditFormFieldFactory extends
+	private static class EditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<Component> {
 		private static final long serialVersionUID = 1L;
 

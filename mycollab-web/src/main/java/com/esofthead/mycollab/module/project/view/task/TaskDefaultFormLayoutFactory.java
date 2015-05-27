@@ -37,15 +37,11 @@ public class TaskDefaultFormLayoutFactory {
     static {
         defaultForm = new DynaForm();
 
-        DynaSection mainSection = new DynaSectionBuilder().layoutType(
-                LayoutType.TWO_COLUMN).build();
+        DynaSection mainSection = new DynaSectionBuilder().layoutType(LayoutType.TWO_COLUMN).build();
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
-                        .fieldName(Task.Field.taskname)
-                        .displayName(
-                                AppContext
-                                        .getMessage(TaskI18nEnum.FORM_TASK_NAME))
+        mainSection.addField(new TextDynaFieldBuilder()
+                        .fieldName(Task.Field.taskname).displayName(
+                                AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME))
                         .fieldIndex(0).mandatory(true).required(true)
                         .colSpan(true).build());
 
@@ -55,12 +51,10 @@ public class TaskDefaultFormLayoutFactory {
                         AppContext.getMessage(TaskI18nEnum.FORM_START_DATE))
                 .fieldIndex(1).build());
 
-        mainSection
-                .addField(new TextDynaFieldBuilder()
+        mainSection.addField(new TextDynaFieldBuilder()
                         .fieldName(Task.Field.actualstartdate)
                         .displayName(
-                                AppContext
-                                        .getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE))
+                                AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE))
                         .fieldIndex(2).build());
 
         mainSection.addField(new TextDynaFieldBuilder()
@@ -71,8 +65,7 @@ public class TaskDefaultFormLayoutFactory {
         mainSection.addField(new TextDynaFieldBuilder()
                 .fieldName(Task.Field.actualenddate)
                 .displayName(
-                        AppContext
-                                .getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE))
+                        AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE))
                 .fieldIndex(4).build());
 
         mainSection.addField(new TextDynaFieldBuilder()
@@ -95,16 +88,14 @@ public class TaskDefaultFormLayoutFactory {
                 .addField(new TextDynaFieldBuilder()
                         .fieldName(Task.Field.tasklistid).required(true)
                         .displayName(
-                                AppContext
-                                        .getMessage(TaskI18nEnum.FORM_TASKGROUP))
+                                AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP))
                         .fieldIndex(8).build());
 
         mainSection
                 .addField(new TextDynaFieldBuilder()
                         .fieldName(Task.Field.percentagecomplete)
                         .displayName(
-                                AppContext
-                                        .getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))
+                                AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE))
                         .colSpan(true).fieldIndex(9).build());
 
         mainSection.addField(new TextDynaFieldBuilder()
@@ -122,8 +113,7 @@ public class TaskDefaultFormLayoutFactory {
                 .addField(new TextDynaFieldBuilder()
                         .fieldName(Task.Field.parenttaskid)
                         .displayName(
-                                AppContext
-                                        .getMessage(TaskI18nEnum.FORM_SUB_TASKS))
+                                AppContext.getMessage(TaskI18nEnum.FORM_SUB_TASKS))
                         .colSpan(true).fieldIndex(12).build());
 
         defaultForm.addSection(mainSection);

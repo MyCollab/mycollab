@@ -55,27 +55,23 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.CASE,
-                AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+        return new CrmViewHeader(CrmTypeConstants.CASE, AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createCaseBtn = new Button(
-                AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
+        Button createCaseBtn = new Button(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new CaseEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new CaseEvent.GotoAdd(this, null));
                     }
                 });
         createCaseBtn.setIcon(FontAwesome.PLUS);
         createCaseBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createCaseBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CASE));
+        createCaseBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         this.addHeaderRight(createCaseBtn);
     }
 
@@ -90,8 +86,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         return new CaseAdvancedSearchLayout();
     }
 
-    private class CaseAdvancedSearchLayout extends
-            DynamicQueryParamLayout<CaseSearchCriteria> {
+    private class CaseAdvancedSearchLayout extends DynamicQueryParamLayout<CaseSearchCriteria> {
         private static final long serialVersionUID = 1L;
 
         public CaseAdvancedSearchLayout() {
@@ -143,7 +138,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
         @SuppressWarnings("serial")
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             subjectField = ShortcutExtension.installShortcutAction(new TextField(),
                     new ShortcutListener("CaseSearchField", ShortcutAction.KeyCode.ENTER,
@@ -153,18 +148,15 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
                             callSearchAction();
                         }
                     });
+            subjectField.setInputPrompt("Query by case name");
             subjectField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            basicSearchBody.with(subjectField).withAlign(subjectField,
-                    Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(subjectField).withAlign(subjectField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(
-                    AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             this.myItemCheckbox.setWidth("75px");
-            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-                    Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
@@ -175,11 +167,9 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
                 }
             });
 
-            basicSearchBody.with(searchBtn).withAlign(searchBtn,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
@@ -190,9 +180,7 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
                     Alignment.MIDDLE_CENTER);
 
-            final Button advancedSearchBtn = new Button(
-                    AppContext
-                            .getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -202,29 +190,22 @@ public class CaseSearchPanel extends DefaultGenericSearchPanel<CaseSearchCriteri
                         }
                     });
             advancedSearchBtn.setStyleName("link");
-            basicSearchBody.with(advancedSearchBtn).withAlign(
-                    advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-            searchCriteria
-                    .setSaccountid(new NumberSearchField(SearchField.AND,
-                            AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.subjectField.getValue().trim())) {
-                searchCriteria
-                        .setSubject(new StringSearchField(SearchField.AND,
-                                this.subjectField.getValue().trim()));
+                searchCriteria.setSubject(new StringSearchField(SearchField.AND, this.subjectField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria
-                        .setAssignUsers(new SetSearchField<>(
-                                SearchField.AND, new String[]{AppContext
-                                .getUsername()}));
+                searchCriteria.setAssignUsers(new SetSearchField<>(
+                                SearchField.AND, new String[]{AppContext.getUsername()}));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

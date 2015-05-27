@@ -42,7 +42,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 4.5.2
  */
 public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
-
 	private static final long serialVersionUID = -7045421785222291708L;
 
 	@Override
@@ -87,17 +86,15 @@ public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
 				new ShellEvent.PushView(this, new BugTimeLogView(bean)));
 	}
 
-	private class BugTimeLogView extends TimeLogEditView<SimpleBug> {
-
+	private static class BugTimeLogView extends TimeLogEditView<SimpleBug> {
 		private static final long serialVersionUID = -482636222620345326L;
 
-		protected BugTimeLogView(SimpleBug bean) {
+		BugTimeLogView(SimpleBug bean) {
 			super(bean);
 		}
 
 		@Override
-		protected void saveTimeInvest(double spentHours, boolean isBillable,
-				Date forDate) {
+		protected void saveTimeInvest(double spentHours, boolean isBillable, Date forDate) {
 			ItemTimeLogging item = new ItemTimeLogging();
 			item.setLoguser(AppContext.getUsername());
 			item.setLogvalue(spentHours);

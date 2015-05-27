@@ -47,7 +47,7 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -121,7 +121,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             quickActionStatusBtn.setCaption(AppContext
                     .getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
-
         }
 
     }
@@ -151,7 +150,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             @Override
             protected Field<?> onCreateField(Object propertyId) {
                 if (Version.Field.duedate.equalTo(propertyId)) {
-                    return new PrettyDateViewField(beanItem.getDuedate());
+                    return new DateViewField(beanItem.getDuedate());
                 } else if (Version.Field.id.equalTo(propertyId)) {
                     ContainerViewField containerField = new ContainerViewField();
                     containerField.addComponentField(new BugsComp());
@@ -166,7 +165,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<Version> versionPreviewForm = new ProjectPreviewFormControlsGenerator<>(
                 previewForm);
-        final HorizontalLayout topPanel = versionPreviewForm
+        HorizontalLayout topPanel = versionPreviewForm
                 .createButtonControls(ProjectRolePermissionCollections.VERSIONS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
@@ -184,8 +183,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
 
-                    VersionReadViewImpl.this
-                            .addLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    VersionReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
                     quickActionStatusBtn.setCaption(AppContext
                             .getMessage(GenericI18Enum.BUTTON_REOPEN));
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
@@ -199,8 +197,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
         quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         versionPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-        if (!CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.VERSIONS)) {
+        if (!CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
             quickActionStatusBtn.setEnabled(false);
         }
 
@@ -240,11 +237,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             CheckBox resolvedSelection = new BugStatusCheckbox(OptionI18nEnum.BugStatus.Resolved, true);
 
             Label spacingLbl1 = new Label("");
-
-//            Button chartBtn = new Button("");
-//
-//            chartBtn.setIcon(FontAwesome.TH_LARGE);
-//            chartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
             header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)

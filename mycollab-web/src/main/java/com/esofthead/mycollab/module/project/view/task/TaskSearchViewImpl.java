@@ -63,19 +63,18 @@ public class TaskSearchViewImpl extends AbstractPageView implements TaskSearchVi
         this.tableItem = new TaskTableDisplay(TaskTableFieldDef.id,
                 Arrays.asList(TaskTableFieldDef.taskname,
                         TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
-                        TaskTableFieldDef.assignee,
-                        TaskTableFieldDef.percentagecomplete), SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
+                        TaskTableFieldDef.assignee, TaskTableFieldDef.percentagecomplete),
+                SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
 
         this.tableItem.addTableListener(new TableClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void itemClick(final TableClickEvent event) {
-                final SimpleTask task = (SimpleTask) event.getData();
+                SimpleTask task = (SimpleTask) event.getData();
                 if ("taskname".equals(event.getFieldName())) {
                     EventBusFactory.getInstance().post(
-                            new TaskEvent.GotoRead(TaskSearchViewImpl.this,
-                                    task.getId()));
+                            new TaskEvent.GotoRead(TaskSearchViewImpl.this, task.getId()));
                 }
             }
         });

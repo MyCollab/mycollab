@@ -80,7 +80,7 @@
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_prj_task.deadline AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         

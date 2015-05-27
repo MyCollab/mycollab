@@ -33,7 +33,6 @@ import com.vaadin.ui.Link;
  *
  */
 public class UrlSocialNetworkLinkViewField extends CustomField<String> {
-
 	private static final long serialVersionUID = 1L;
 
 	private String caption;

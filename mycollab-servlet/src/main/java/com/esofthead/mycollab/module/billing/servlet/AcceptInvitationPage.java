@@ -85,58 +85,59 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
                 if (user == null) {
                     PageGeneratorUtil.responeUserNotExistPage(response,
                             username, request.getContextPath() + "/");
-                }
-				if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
-					user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
-					userService.updateWithSession(user, "");
-				}
+                } else {
+					if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
+						user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+						userService.updateWithSession(user, "");
+					}
 
-				SimpleUser userInAccount = userService.findUserByUserNameInAccount(username, accountId);
+					SimpleUser userInAccount = userService.findUserByUserNameInAccount(username, accountId);
 
-				if (userInAccount == null) {
-					PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
-					return;
-				} else {
-					if (userInAccount.getRegisterstatus().equals(
-							RegisterStatusConstants.ACTIVE)) {
-						LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
-						response.sendRedirect(request.getContextPath() + "/");
+					if (userInAccount == null) {
+						PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
 						return;
 					} else {
-						// remove account invitation
-						UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
-						userAccountInvitationExample.createCriteria()
-								.andUsernameEqualTo(username)
-								.andAccountidEqualTo(accountId);
-						userAccountInvitationMapper
-								.deleteByExample(userAccountInvitationExample);
-
-						if (user.getPassword() == null
-								|| user.getPassword().trim().equals("")) {
-							LOG.debug(
-									"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
-									user.getUsername(),
-									BeanUtility.printBeanObj(user));
-							// forward to page create password for new user
-							String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subdomain));
-
-							Map<String, Object> context = new HashMap<>();
-							context.put("username", username);
-							context.put("accountId", accountId);
-							context.put("email", user.getEmail());
-							context.put("redirectURL", redirectURL);
-							context.put("loginURL", loginURL);
-							String html = generatePageByTemplate(response.getLocale(), "templates/page/user/FillUserInformation.mt", context);
-							PrintWriter out = response.getWriter();
-							out.print(html);
-							return;
-						} else {
+						if (userInAccount.getRegisterstatus().equals(
+								RegisterStatusConstants.ACTIVE)) {
 							LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
-							// redirect to account site
-							userService.updateUserAccountStatus(username,
-                                    accountId, RegisterStatusConstants.ACTIVE);
 							response.sendRedirect(request.getContextPath() + "/");
 							return;
+						} else {
+							// remove account invitation
+							UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
+							userAccountInvitationExample.createCriteria()
+									.andUsernameEqualTo(username)
+									.andAccountidEqualTo(accountId);
+							userAccountInvitationMapper
+									.deleteByExample(userAccountInvitationExample);
+
+							if (user.getPassword() == null
+									|| user.getPassword().trim().equals("")) {
+								LOG.debug(
+										"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
+										user.getUsername(),
+										BeanUtility.printBeanObj(user));
+								// forward to page create password for new user
+								String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subdomain));
+
+								Map<String, Object> context = new HashMap<>();
+								context.put("username", username);
+								context.put("accountId", accountId);
+								context.put("email", user.getEmail());
+								context.put("redirectURL", redirectURL);
+								context.put("loginURL", loginURL);
+								String html = generatePageByTemplate(response.getLocale(), "templates/page/user/FillUserInformation.mt", context);
+								PrintWriter out = response.getWriter();
+								out.print(html);
+								return;
+							} else {
+								LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
+								// redirect to account site
+								userService.updateUserAccountStatus(username,
+										accountId, RegisterStatusConstants.ACTIVE);
+								response.sendRedirect(request.getContextPath() + "/");
+								return;
+							}
 						}
 					}
 				}

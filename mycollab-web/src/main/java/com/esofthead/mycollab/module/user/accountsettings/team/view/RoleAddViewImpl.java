@@ -69,7 +69,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
     public class EditForm extends AdvancedEditBeanForm<Role> {
         private static final long serialVersionUID = 1L;
-        private final Map<String, KeyCaptionComboBox> permissionControlsMap = new HashMap<String, KeyCaptionComboBox>();
+        private final Map<String, KeyCaptionComboBox> permissionControlsMap = new HashMap<>();
 
         @Override
         public void setBean(Role item) {
@@ -107,9 +107,9 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             }
 
             protected String initFormHeader() {
-                return role.getId() == null ? AppContext
-                        .getMessage(RoleI18nEnum.VIEW_NEW_TITLE) : AppContext
-                        .getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
+                return role.getId() == null ?
+                        AppContext.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) :
+                        AppContext.getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
             }
 
             protected String initFormTitle() {
@@ -125,8 +125,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
             protected Layout createBottomPanel() {
                 final VerticalLayout permissionsPanel = new VerticalLayout();
                 final Label organizationHeader = new Label(
-                        AppContext
-                                .getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
+                        AppContext.getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
                 organizationHeader.setStyleName(UIConstants.H2_STYLE2);
                 permissionsPanel.addComponent(organizationHeader);
 
@@ -137,7 +136,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                     perMap = new PermissionMap();
                 }
 
-                final GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
+                GridFormLayoutHelper crmFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(
                         2, RolePermissionCollections.CRM_PERMISSIONS_ARR.length);
 
                 for (int i = 0; i < RolePermissionCollections.CRM_PERMISSIONS_ARR.length; i++) {
@@ -146,34 +145,24 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                             .createPermissionSelection(permissionDefItem
                                     .getPermissionCls());
 
-                    final Integer flag = perMap
-                            .getPermissionFlag(permissionDefItem.getKey());
+                    Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                     permissionBox.setValue(flag);
-                    EditForm.this.permissionControlsMap.put(
-                            permissionDefItem.getKey(), permissionBox);
-                    crmFormHelper.addComponent(permissionBox,
-                            permissionDefItem.getCaption(), 0, i);
+                    EditForm.this.permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
+                    crmFormHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
                 }
 
-                permissionsPanel
-                        .addComponent(constructGridLayout(
-                                AppContext
-                                        .getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
-                                perMap,
-                                RolePermissionCollections.PROJECT_PERMISSION_ARR));
+                permissionsPanel.addComponent(constructGridLayout(
+                                AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                                perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
                 permissionsPanel.addComponent(constructGridLayout(
                         AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                         perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
                 permissionsPanel.addComponent(constructGridLayout(AppContext
                                 .getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
-                        perMap,
-                        RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-                permissionsPanel
-                        .addComponent(constructGridLayout(
-                                AppContext
-                                        .getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
-                                perMap,
-                                RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+                        perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
+                permissionsPanel.addComponent(constructGridLayout(
+                                AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                                perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
                 return permissionsPanel;
             }
@@ -181,44 +170,35 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
         private Depot constructGridLayout(String depotTitle,
                                           PermissionMap perMap, PermissionDefItem[] defItems) {
-            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
-                    defItems.length);
-            Depot component = new Depot(depotTitle,
-                    formHelper.getLayout());
+            GridFormLayoutHelper formHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2, defItems.length);
+            Depot component = new Depot(depotTitle, formHelper.getLayout());
 
             for (int i = 0; i < defItems.length; i++) {
                 PermissionDefItem permissionDefItem = defItems[i];
                 KeyCaptionComboBox permissionBox = PermissionComboBoxFactory
                         .createPermissionSelection(permissionDefItem
                                 .getPermissionCls());
-                Integer flag = perMap.getPermissionFlag(permissionDefItem
-                        .getKey());
+                Integer flag = perMap.getPermissionFlag(permissionDefItem.getKey());
                 permissionBox.setValue(flag);
-                permissionControlsMap.put(
-                        permissionDefItem.getKey(), permissionBox);
-                formHelper.addComponent(permissionBox,
-                        permissionDefItem.getCaption(), 0, i);
-
+                permissionControlsMap.put(permissionDefItem.getKey(), permissionBox);
+                formHelper.addComponent(permissionBox, permissionDefItem.getCaption(), 0, i);
             }
 
             return component;
         }
 
         protected PermissionMap getPermissionMap() {
-            final PermissionMap permissionMap = new PermissionMap();
+            PermissionMap permissionMap = new PermissionMap();
 
-            for (String permissionItem : permissionControlsMap
-                    .keySet()) {
-                KeyCaptionComboBox permissionBox = permissionControlsMap
-                        .get(permissionItem);
+            for (Map.Entry<String, KeyCaptionComboBox> entry:permissionControlsMap.entrySet()) {
+                KeyCaptionComboBox permissionBox =entry.getValue();
                 Integer perValue = (Integer) permissionBox.getValue();
-                permissionMap.addPath(permissionItem, perValue);
+                permissionMap.addPath(entry.getKey(), perValue);
             }
             return permissionMap;
         }
 
-        private class EditFormFieldFactory extends
-                AbstractBeanFieldGroupEditFieldFactory<Role> {
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Role> {
             private static final long serialVersionUID = 1L;
 
             public EditFormFieldFactory(GenericBeanForm<Role> form) {

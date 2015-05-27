@@ -37,6 +37,9 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
     private static final long serialVersionUID = 1L;
 
     private int defaultNumberSearchItems = 10;
+    private Set<PagableHandler> pagableHandlers;
+    private String listControlStyle = "listControl";
+
     protected CssLayout listContainer;
     protected RowDisplayHandler<T> rowDisplayHandler;
     protected int currentPage = 1;
@@ -45,12 +48,7 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
     protected List<T> currentListData;
     protected CssLayout controlBarWrapper;
     protected HorizontalLayout pageManagement;
-
-    private Set<PagableHandler> pagableHandlers;
-
     protected SearchRequest<S> searchRequest;
-
-    private String listControlStyle = "listControl";
 
     public AbstractBeanPagedList(RowDisplayHandler<T> rowDisplayHandler,
                                  int defaultNumberSearchItems) {
@@ -203,12 +201,27 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         this.currentListData = list;
         listContainer.removeAllComponents();
 
-        int i = 0;
-        for (T item : currentListData) {
-            Component row = rowDisplayHandler.generateRow(this, item, i);
-            listContainer.addComponent(row);
-            i++;
+        if (currentListData.size() != 0) {
+            int i = 0;
+            for (T item : currentListData) {
+                Component row = rowDisplayHandler.generateRow(this, item, i);
+                listContainer.addComponent(row);
+                i++;
+            }
+        } else {
+            listContainer.addComponent(msgWhenEmptyList());
         }
+    }
+
+    protected String stringWhenEmptyList() {
+        return null;
+    }
+
+    private Component msgWhenEmptyList() {
+        HorizontalLayout comp = new HorizontalLayout();
+        comp.setMargin(true);
+        comp.addComponent(new Label(stringWhenEmptyList()));
+        return comp;
     }
 
     abstract protected int queryTotalCount();
@@ -240,11 +253,15 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
         currentListData = queryCurrentData();
         listContainer.removeAllComponents();
 
-        int i = 0;
-        for (T item : currentListData) {
-            Component row = rowDisplayHandler.generateRow(this, item, i);
-            listContainer.addComponent(row);
-            i++;
+        if (currentListData.size() != 0) {
+            int i = 0;
+            for (T item : currentListData) {
+                Component row = rowDisplayHandler.generateRow(this, item, i);
+                listContainer.addComponent(row);
+                i++;
+            }
+        } else {
+            listContainer.addComponent(msgWhenEmptyList());
         }
     }
 

@@ -59,35 +59,31 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
+        Button createBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new RoleEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, null));
                     }
                 });
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.ACCOUNT_ROLE));
+        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE));
         this.addHeaderRight(createBtn);
     }
 
     @SuppressWarnings("rawtypes")
-    private class RoleBasicSearchLayout extends
-            GenericSearchPanel.BasicSearchLayout {
+    private class RoleBasicSearchLayout extends GenericSearchPanel.BasicSearchLayout {
+        private static final long serialVersionUID = 1L;
+
+        private TextField nameField;
 
         @SuppressWarnings("unchecked")
         public RoleBasicSearchLayout() {
             super(RoleSearchPanel.this);
         }
-
-        private static final long serialVersionUID = 1L;
-        private TextField nameField;
 
         @Override
         public ComponentContainer constructHeader() {
@@ -96,21 +92,20 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true).with(new Label("Name"));
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true).with(new Label("Name"));
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("RoleSearchName", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("RoleSearchName", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();
                         }
                     });
+            nameField.setInputPrompt("Query by role name");
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.addClickListener(new Button.ClickListener() {
@@ -123,8 +118,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
             });
             basicSearchBody.addComponent(searchBtn);
 
-            final Button clearBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -143,8 +137,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         protected SearchCriteria fillUpSearchCriteria() {
             RoleSearchCriteria searchCriteria = new RoleSearchCriteria();
             if (StringUtils.isNotBlank(this.nameField.getValue())) {
-                searchCriteria
-                        .setRoleName(new StringSearchField(SearchField.AND,
+                searchCriteria.setRoleName(new StringSearchField(SearchField.AND,
                                 this.nameField.getValue()));
             }
             return searchCriteria;

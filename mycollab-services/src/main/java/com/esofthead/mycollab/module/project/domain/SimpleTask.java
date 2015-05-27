@@ -27,7 +27,6 @@ import java.util.Date;
  * @since 1.0
  */
 public class SimpleTask extends Task {
-
     private static final long serialVersionUID = 1L;
     private String projectName;
     private String projectShortname;
@@ -161,8 +160,6 @@ public class SimpleTask extends Task {
     public void setParentTaskName(String parentTaskName) {
         this.parentTaskName = parentTaskName;
     }
-
-
 
     public boolean isCompleted() {
         return OptionI18nEnum.StatusI18nEnum.Closed.name().equals(getStatus()) && (getPercentagecomplete() !=  null)

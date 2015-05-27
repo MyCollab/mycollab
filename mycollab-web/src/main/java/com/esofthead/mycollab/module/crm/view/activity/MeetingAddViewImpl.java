@@ -76,15 +76,13 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 		return new MeetingEditFormFieldFactory(editForm);
 	}
 
-	private class MeetingEditFormFieldFactory extends
+	private static class MeetingEditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+		private static final long serialVersionUID = 1L;
 
-		public MeetingEditFormFieldFactory(
-				GenericBeanForm<MeetingWithBLOBs> form) {
+		MeetingEditFormFieldFactory(GenericBeanForm<MeetingWithBLOBs> form) {
 			super(form);
 		}
-
-		private static final long serialVersionUID = 1L;
 
 		@Override
 		protected Field<?> onCreateField(Object propertyId) {
@@ -121,11 +119,10 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 		return editForm;
 	}
 
-	private class MeetingStatusComboBox extends ValueComboBox {
-
+	private static class MeetingStatusComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 
-		public MeetingStatusComboBox() {
+		MeetingStatusComboBox() {
 			super();
 			setCaption(null);
 			this.loadData("Planned", "Held", "Not Held");

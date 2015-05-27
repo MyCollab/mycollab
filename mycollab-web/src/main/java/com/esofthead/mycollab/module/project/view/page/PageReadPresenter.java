@@ -60,42 +60,30 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 				new DefaultPreviewFormHandler<Page>() {
 					@Override
 					public void onEdit(Page data) {
-						EventBusFactory.getInstance().post(
-								new PageEvent.GotoEdit(this, data));
+						EventBusFactory.getInstance().post(new PageEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(Page data) {
-						EventBusFactory.getInstance().post(
-								new PageEvent.GotoAdd(this, null));
+						EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
 					}
 
 					@Override
 					public void onDelete(final Page data) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.DIALOG_DELETE_TITLE,
-										SiteConfiguration.getSiteName()),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+						ConfirmDialogExt.show(UI.getCurrent(),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
 									public void onClose(ConfirmDialog dialog) {
 										if (dialog.isConfirmed()) {
-											PageService wikiService = ApplicationContextUtil
-													.getSpringBean(PageService.class);
-											wikiService.removeResource(data
-													.getPath());
-											EventBusFactory.getInstance().post(
-													new PageEvent.GotoList(
-															this, null));
+											PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+											pageService.removeResource(data.getPath());
+											EventBusFactory.getInstance().post(new PageEvent.GotoList(this, null));
 										}
 									}
 								});
@@ -105,8 +93,7 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.PAGES)) {
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.PAGES)) {
 			PageContainer pageContainer = (PageContainer) container;
 			pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
 			pageContainer.removeAllComponents();
@@ -115,8 +102,7 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 			Page page = (Page) data.getParams();
 			view.previewItem(page);
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
+			ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoPageRead(page);
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

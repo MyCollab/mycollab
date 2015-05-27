@@ -125,8 +125,7 @@ class ReOpenView extends AbstractMobilePageView {
 		this.setContent(contentLayout);
 	}
 
-	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
+	private static class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
 		private static final long serialVersionUID = 1L;
 		private TextArea commentArea;
 
@@ -141,8 +140,7 @@ class ReOpenView extends AbstractMobilePageView {
 			super.setBean(newDataSource);
 		}
 
-		class FormLayoutFactory implements IFormLayoutFactory {
-
+		static class FormLayoutFactory implements IFormLayoutFactory {
 			private static final long serialVersionUID = 1L;
 			private GridFormLayoutHelper informationLayout;
 
@@ -176,9 +174,7 @@ class ReOpenView extends AbstractMobilePageView {
 			}
 		}
 
-		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
-
+		private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
 			private static final long serialVersionUID = 1L;
 
 			public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {

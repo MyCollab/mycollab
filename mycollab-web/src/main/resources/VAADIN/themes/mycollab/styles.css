@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.5";
+	content: "7.4.6";
 }
 
 .v-generated-body {
@@ -59,6 +59,74 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	display: inline-block;
+}
+
+.v-widget.helpPanel {
+	right: 0;
+	z-index: 10;
+	margin: 80px auto;
+	position: absolute;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical {
+	height: 300px;
+	margin: 80px auto;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+	background-color: cadetblue;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
+	color: white;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
+	color: white;
+	font-size: 11px;
+}
+
+.v-widget.helpPanel {
+	right: 0;
+	z-index: 10;
+	margin: 80px auto;
+	position: absolute;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical {
+	height: 300px;
+	margin: 80px auto;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
+	background-color: cadetblue;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
+	color: white;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
+	color: white;
+	font-size: 11px;
 }
 
 a {
@@ -429,38 +497,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 .v-checkbox input[type="checkbox"]:focus {
 	border: none;
 	box-shadow: none;
-}
-
-.v-widget.helpPanel {
-	right: 0;
-	z-index: 10;
-	margin: 80px auto;
-	position: absolute;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical {
-	height: 300px;
-	margin: 80px auto;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
-	background-color: cadetblue;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
-	color: white;
-	text-align: center;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
-	color: white;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
-	color: white;
-	font-size: 11px;
 }
 
 .stickytooltip {
@@ -7685,38 +7721,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	box-shadow: none;
 }
 
-.v-widget.helpPanel {
-	right: 0;
-	z-index: 10;
-	margin: 80px auto;
-	position: absolute;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical {
-	height: 300px;
-	margin: 80px auto;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
-	background-color: cadetblue;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab .v-sliderpanel-caption {
-	color: white;
-	text-align: center;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-icon, .helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content a {
-	color: white;
-	font-size: 14px;
-	font-weight: bold;
-}
-
-.helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content .v-label {
-	color: white;
-	font-size: 11px;
-}
-
 .crm-module {
 	position: absolute;
 	top: 0;
@@ -8140,7 +8144,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	-webkit-box-sizing: border-box;
 }
 
-.project-module {
+.v-csslayout.project-module {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -8637,51 +8641,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: #FFF;
 }
 
-.gantt-view {
-	border: 1px solid #CFCFCF;
-}
-
-.gantt-wrap {
-	border-top: 1px solid #CFCFCF;
-}
-
-.gantt-table .v-table-cell-wrapper a {
-	word-wrap: normal;
-	white-space: nowrap;
-	display: inline-block;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	width: 100%;
-	padding-left: 19px;
-	box-sizing: border-box;
-	margin-left: -19px;
-}
-
-.gantt-table .v-table-header-wrap {
-	border-width: 0px 1px 1px 0px;
-}
-
-.gantt-table.list-view .v-table-header td, .gantt-table.list-view .v-table-header-wrap {
-	height: 44px;
-}
-
-.gantt-table.list-view .v-table-header .v-table-resizer {
-	height: 44px;
-}
-
-.gantt-table.list-view .v-table-header .v-table-caption-container {
-	line-height: 42px;
-	font-size: 12px;
-}
-
-.gantt-table .v-table-body-wrapper.v-table-body {
-	border-width: 0px 1px 0px 0px;
-}
-
-.gantt-container {
-	height: 100% !important;
-}
-
 div.v-csslayout.followers-container {
 	display: -webkit-box;
 	display: -moz-box;
@@ -9069,6 +9028,10 @@ div.v-button.token-field:hover {
 .task-component .created-time {
 	color: gray;
 	font-size: 12px;
+}
+
+div .gantt .bar {
+	height: 31px;
 }
 
 html {
@@ -9906,15 +9869,6 @@ input.v-textfield-pagedtable-pagefield {
 
 .basicSearch .basicSearchBody .v-label.separator {
 	line-height: 16px;
-}
-
-.basicSearch .basicSearchBody input {
-	border-radius: 3px 0px 0px 3px;
-}
-
-.v-textfield.no-border-radius-left {
-	border-left: medium none;
-	border-radius: 0px 3px 3px 0px;
 }
 
 input.v-textfield-errorField {
@@ -11277,6 +11231,7 @@ div.v-lazyloadingwrapper-loading {
 	overflow-y: auto;
 	background-color: #FFF;
 	position: relative;
+	display: flex;
 }
 
 div.v-csslayout.main-body {
@@ -11285,33 +11240,6 @@ div.v-csslayout.main-body {
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
-}
-
-.v-sliderpanel-wrapper .v-sliderpanel-content {
-	background: powderblue;
-	color: gray;
-}
-
-.v-sliderpanel-wrapper .v-sliderpanel-tab {
-	background: powderblue;
-	color: gray;
-}
-
-.v-sliderpanel-wrapper .v-sliderpanel-tab .v-sliderpanel-caption {
-	font-size: 14px;
-	font-weight: bold;
-}
-
-.right-tool {
-	z-index: 9999;
-	position: absolute;
-	right: 0px;
-	bottom: 0px;
-}
-
-.v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content {
-	bottom: 0px;
-	height: 200px;
 }
 
 .footer {

@@ -114,52 +114,41 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
                     @Override
                     public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((ProjectVerticalTabsheet) event.getSource())
-                                .getSelectedTab();
+                        Tab tab = ((ProjectVerticalTabsheet) event.getSource()).getSelectedTab();
                         String caption = ((TabImpl) tab).getTabId();
                         if (ProjectTypeConstants.MESSAGE.equals(caption)) {
                             messagePresenter.go(ProjectViewImpl.this, null);
                         } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
                             MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
                             searchCriteria.setProjectId(new NumberSearchField(
-                                    SearchField.AND, CurrentProjectVariables
-                                    .getProjectId()));
-                            gotoMilestoneView(new MilestoneScreenData.Search(
-                                    searchCriteria));
+                                    SearchField.AND, CurrentProjectVariables.getProjectId()));
+                            gotoMilestoneView(new MilestoneScreenData.Search(searchCriteria));
                         } else if (ProjectTypeConstants.TASK.equals(caption)) {
                             taskPresenter.go(ProjectViewImpl.this, null);
                         } else if (ProjectTypeConstants.BUG.equals(caption)) {
                             gotoBugView(null);
                         } else if (ProjectTypeConstants.RISK.equals(caption)) {
                             RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
-                            searchCriteria.setProjectId(new NumberSearchField(
-                                    SearchField.AND, CurrentProjectVariables
+                            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables
                                     .getProjectId()));
-                            gotoRiskView(new RiskScreenData.Search(
-                                    searchCriteria));
+                            gotoRiskView(new RiskScreenData.Search(searchCriteria));
                         } else if (ProjectTypeConstants.FILE.equals(caption)) {
                             filePresenter.go(ProjectViewImpl.this,
                                     new FileScreenData.GotoDashboard());
                         } else if (ProjectTypeConstants.PAGE.equals(caption)) {
-                            pagePresenter.go(
-                                    ProjectViewImpl.this,
-                                    new PageScreenData.Search(
-                                            CurrentProjectVariables.getBasePagePath()));
+                            pagePresenter.go(ProjectViewImpl.this,
+                                    new PageScreenData.Search(CurrentProjectVariables.getBasePagePath()));
                         } else if (ProjectTypeConstants.PROBLEM.equals(caption)) {
                             ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
                             searchCriteria.setProjectId(new NumberSearchField(
                                     SearchField.AND, CurrentProjectVariables.getProjectId()));
-                            problemPresenter
-                                    .go(ProjectViewImpl.this,
-                                            new ProblemScreenData.Search(searchCriteria));
+                            problemPresenter.go(ProjectViewImpl.this, new ProblemScreenData.Search(searchCriteria));
                         } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
                             dashboardPresenter.go(ProjectViewImpl.this, null);
                         } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
                             ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                            criteria.setProjectId(new NumberSearchField(
-                                    CurrentProjectVariables.getProjectId()));
-                            criteria.setStatus(new StringSearchField(
-                                    ProjectMemberStatusConstants.ACTIVE));
+                            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                            criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
                             gotoUsersAndGroup(new ProjectMemberScreenData.Search(criteria));
                         } else if (ProjectTypeConstants.TIME.equals(caption)) {
                             ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
@@ -185,8 +174,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
         VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
         contentWrapper.addStyleName("main-content");
-        MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withWidth("100%")
-                .withStyleName("top-panel");
+        MHorizontalLayout topPanel = new MHorizontalLayout().withMargin(true).withWidth("100%").withStyleName("top-panel");
         contentWrapper.addComponentAsFirst(topPanel);
 
         ProjectListComponent prjList = new ProjectListComponent();
@@ -212,11 +200,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                             project.setProjectstatus(StatusI18nEnum.Open.name());
                             projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
-                            PageActionChain chain = new PageActionChain(
-                                    new ProjectScreenData.Goto(CurrentProjectVariables
-                                            .getProjectId()));
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectEvent.GotoMyProject(this, chain));
+                            PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
+                            EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 
                         }
                     });
@@ -241,32 +226,26 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                         @Override
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(
-                                    new MilestoneEvent.GotoAdd(ProjectViewImpl.this, null));
+                            EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(ProjectViewImpl.this, null));
                         }
                     });
-            createPhaseBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.MILESTONES));
+            createPhaseBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
             createPhaseBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.MILESTONE));
             popupButtonsControl.addOption(createPhaseBtn);
 
-            Button createTaskBtn = new Button(
-                    AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
+            Button createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(
-                                    new TaskEvent.GotoAdd(ProjectViewImpl.this,
-                                            null));
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(ProjectViewImpl.this, null));
                         }
                     });
             createTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             createTaskBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK));
             popupButtonsControl.addOption(createTaskBtn);
 
-            Button createBugBtn = new Button(
-                    AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
+            Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
@@ -274,8 +253,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                             EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
                         }
                     });
-            createBugBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.BUGS));
+            createBugBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
             createBugBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
             popupButtonsControl.addOption(createBugBtn);
 
@@ -298,28 +276,22 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                         @Override
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(
-                                    new ProblemEvent.GotoAdd(this, null));
+                            EventBusFactory.getInstance().post(new ProblemEvent.GotoAdd(this, null));
                         }
                     });
-            createProblemBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.PROBLEMS));
+            createProblemBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROBLEMS));
             createProblemBtn.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROBLEM));
             popupButtonsControl.addOption(createProblemBtn);
 
-            Button editProjectBtn = new Button(
-                    AppContext
-                            .getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
+            Button editProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            dashboardPresenter.go(ProjectViewImpl.this,
-                                    new ProjectScreenData.Edit(project));
+                            dashboardPresenter.go(ProjectViewImpl.this, new ProjectScreenData.Edit(project));
                         }
                     });
-            editProjectBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.PROJECT));
+            editProjectBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PROJECT));
             editProjectBtn.setIcon(FontAwesome.EDIT);
             popupButtonsControl.addOption(editProjectBtn);
 
@@ -329,11 +301,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                         @Override
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
-                            ConfirmDialogExt.show(
-                                    UI.getCurrent(),
-                                    AppContext.getMessage(
-                                            GenericI18Enum.WINDOW_WARNING_TITLE,
-                                            SiteConfiguration.getSiteName()),
+                            ConfirmDialogExt.show(UI.getCurrent(),
+                                    AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE, SiteConfiguration.getSiteName()),
                                     AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -343,14 +312,11 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                                         @Override
                                         public void onClose(ConfirmDialog dialog) {
                                             if (dialog.isConfirmed()) {
-                                                ProjectService projectService = ApplicationContextUtil
-                                                        .getSpringBean(ProjectService.class);
+                                                ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
                                                 project.setProjectstatus(StatusI18nEnum.Archived.name());
-                                                projectService.updateSelectiveWithSession(
-                                                        project, AppContext.getUsername());
+                                                projectService.updateSelectiveWithSession(project, AppContext.getUsername());
 
-                                                PageActionChain chain = new PageActionChain(
-                                                        new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
+                                                PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(CurrentProjectVariables.getProjectId()));
                                                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
                                             }
                                         }
@@ -372,9 +338,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                             public void buttonClick(ClickEvent event) {
                                 controlsBtn.setPopupVisible(false);
                                 ConfirmDialogExt.show(UI.getCurrent(),
-                                        AppContext.getMessage(
-                                                GenericI18Enum.DIALOG_DELETE_TITLE,
-                                                SiteConfiguration.getSiteName()),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
                                         AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -385,21 +349,16 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                                             public void onClose(
                                                     ConfirmDialog dialog) {
                                                 if (dialog.isConfirmed()) {
-                                                    ProjectService projectService = ApplicationContextUtil
-                                                            .getSpringBean(ProjectService.class);
-                                                    projectService.removeWithSession(
-                                                            CurrentProjectVariables.getProjectId(),
-                                                            AppContext.getUsername(),
-                                                            AppContext.getAccountId());
-                                                    EventBusFactory.getInstance()
-                                                            .post(new ShellEvent.GotoProjectModule(this, null));
+                                                    ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+                                                    projectService.removeWithSession(CurrentProjectVariables.getProjectId(),
+                                                            AppContext.getUsername(), AppContext.getAccountId());
+                                                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
                                                 }
                                             }
                                         });
                             }
                         });
-                deleteProjectBtn.setEnabled(CurrentProjectVariables
-                        .canAccess(ProjectRolePermissionCollections.PROJECT));
+                deleteProjectBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PROJECT));
                 deleteProjectBtn.setIcon(FontAwesome.TRASH_O);
                 popupButtonsControl.addOption(deleteProjectBtn);
             }
@@ -445,8 +404,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                         + ProjectLinkGenerator.generateProjectLink(prjId));
 
         if (CurrentProjectVariables.hasMessageFeature()) {
-            myProjectTab.addTab(
-                    constructProjectMessageComponent(),
+            myProjectTab.addTab(constructProjectMessageComponent(),
                     ProjectTypeConstants.MESSAGE, 2,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -456,20 +414,17 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasPhaseFeature()) {
-            myProjectTab
-                    .addTab(constructProjectMilestoneComponent(),
+            myProjectTab.addTab(constructProjectMilestoneComponent(),
                             ProjectTypeConstants.MILESTONE, 3,
                             AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
                             GenericLinkUtils.URL_PREFIX_PARAM
-                                    + ProjectLinkGenerator
-                                    .generateMilestonesLink(prjId));
+                                    + ProjectLinkGenerator.generateMilestonesLink(prjId));
         } else {
             myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
         }
 
         if (CurrentProjectVariables.hasTaskFeature()) {
-            myProjectTab.addTab(
-                    constructTaskDashboardComponent(),
+            myProjectTab.addTab(constructTaskDashboardComponent(),
                     ProjectTypeConstants.TASK, 4,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -479,8 +434,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasBugFeature()) {
-            myProjectTab.addTab(
-                    constructProjectBugComponent(),
+            myProjectTab.addTab(constructProjectBugComponent(),
                     ProjectTypeConstants.BUG, 5,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -490,8 +444,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasPageFeature()) {
-            myProjectTab.addTab(
-                    constructProjectPageComponent(),
+            myProjectTab.addTab(constructProjectPageComponent(),
                     ProjectTypeConstants.PAGE, 6,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -501,8 +454,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasFileFeature()) {
-            myProjectTab.addTab(
-                    constructProjectFileComponent(),
+            myProjectTab.addTab(constructProjectFileComponent(),
                     ProjectTypeConstants.FILE, 7,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -512,8 +464,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasRiskFeature()) {
-            myProjectTab.addTab(
-                    constructProjectRiskComponent(),
+            myProjectTab.addTab(constructProjectRiskComponent(),
                     ProjectTypeConstants.RISK, 8,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -523,8 +474,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasProblemFeature()) {
-            myProjectTab.addTab(
-                    constructProjectProblemComponent(),
+            myProjectTab.addTab(constructProjectProblemComponent(),
                     ProjectTypeConstants.PROBLEM, 9,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -534,8 +484,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasTimeFeature()) {
-            myProjectTab.addTab(
-                    constructTimeTrackingComponent(),
+            myProjectTab.addTab(constructTimeTrackingComponent(),
                     ProjectTypeConstants.TIME, 10,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -546,8 +495,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         }
 
         if (CurrentProjectVariables.hasStandupFeature()) {
-            myProjectTab.addTab(
-                    constructProjectStandupMeeting(),
+            myProjectTab.addTab(constructProjectStandupMeeting(),
                     ProjectTypeConstants.STANDUP, 11,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
                     GenericLinkUtils.URL_PREFIX_PARAM
@@ -556,8 +504,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
             myProjectTab.removeTab(ProjectTypeConstants.STANDUP);
         }
 
-        myProjectTab.addTab(
-                constructProjectUsers(),
+        myProjectTab.addTab(constructProjectUsers(),
                 ProjectTypeConstants.MEMBER, 12,
                 AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
                 GenericLinkUtils.URL_PREFIX_PARAM

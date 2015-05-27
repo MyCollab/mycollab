@@ -19,9 +19,11 @@ package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -155,5 +157,32 @@ public class SimpleTaskList extends TaskList {
 	public boolean isArchieved() {
 		return OptionI18nEnum.StatusI18nEnum.Archived.name().equals(getStatus()) || OptionI18nEnum.StatusI18nEnum.Closed
 				.name().equals(getStatus());
+	}
+
+	public Date getStartDate() {
+		Date value = DateTimeUtils.getCurrentDateWithoutMS();
+        for (SimpleTask task: getSubTasks()) {
+            Date startDate = task.getStartdate();
+            if (startDate != null && startDate.before(value)) {
+                value = startDate;
+            }
+        }
+        return value;
+	}
+
+	public Date getEndDate() {
+		Date value = DateTimeUtils.getCurrentDateWithoutMS();
+        value = DateTimeUtils.subtractOrAddDayDuration(value, 1);
+        for (SimpleTask task: getSubTasks()) {
+            Date endDate = task.getEnddate();
+            if (endDate == null) {
+                endDate = task.getDeadline();
+            }
+
+            if (endDate != null && endDate.after(value)) {
+                value = endDate;
+            }
+        }
+        return value;
 	}
 }

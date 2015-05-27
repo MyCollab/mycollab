@@ -29,20 +29,17 @@ public interface SendingRelayEmailNotificationAction {
 	 * 
 	 * @param notification
 	 */
-	void sendNotificationForCreateAction(
-			SimpleRelayEmailNotification notification);
+	void sendNotificationForCreateAction(SimpleRelayEmailNotification notification);
 
 	/**
 	 * 
 	 * @param notification
 	 */
-	void sendNotificationForUpdateAction(
-			SimpleRelayEmailNotification notification);
+	void sendNotificationForUpdateAction(SimpleRelayEmailNotification notification);
 
 	/**
 	 * 
 	 * @param notification
 	 */
-	void sendNotificationForCommentAction(
-			SimpleRelayEmailNotification notification);
+	void sendNotificationForCommentAction(SimpleRelayEmailNotification notification);
 }

@@ -28,19 +28,19 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
  * 
  */
 public class FollowingTicketFieldDef {
-	public static TableViewField summary = new TableViewField(
+	public static final TableViewField summary = new TableViewField(
 			FollowerI18nEnum.FORM_SUMMARY, "summary",
 			UIConstants.TABLE_EX_LABEL_WIDTH);
 
-	public static TableViewField project = new TableViewField(
+	public static final TableViewField project = new TableViewField(
 			FollowerI18nEnum.FORM_PROJECT_NAME, "projectName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField assignee = new TableViewField(
+	public static final TableViewField assignee = new TableViewField(
 			GenericI18Enum.FORM_ASSIGNEE, "assignUser",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField createdDate = new TableViewField(
+	public static final TableViewField createdDate = new TableViewField(
 			FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate",
 			UIConstants.TABLE_DATE_WIDTH);
 }

@@ -52,8 +52,7 @@ import com.vaadin.ui.Label;
  * @since 3.0
  * 
  */
-public class ContactReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<SimpleContact> {
+public class ContactReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<SimpleContact> {
 	private static final long serialVersionUID = 1L;
 
 	public ContactReadFormFieldFactory(GenericBeanForm<SimpleContact> form) {
@@ -74,8 +73,7 @@ public class ContactReadFormFieldFactory extends
 			return new UserLinkViewField(contact.getAssignuser(),
 					contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
 		} else if (propertyId.equals("iscallable")) {
-			if (contact.getIscallable() == null
-					|| Boolean.FALSE == contact.getIscallable()) {
+			if (Boolean.FALSE.equals(contact.getIscallable())) {
 				return new DefaultViewField(
 						AppContext.getMessage(GenericI18Enum.BUTTON_NO));
 			} else {
@@ -94,20 +92,18 @@ public class ContactReadFormFieldFactory extends
 				displayName += contact.getFirstname();
 			}
 
-			final Label nameLbl = new Label(displayName);
+			Label nameLbl = new Label(displayName);
 			containerField.addComponentField(nameLbl);
 			containerField.getLayout().setExpandRatio(nameLbl, 1.0f);
-			final Button vcardDownloadBtn = new Button("");
+			Button vcardDownloadBtn = new Button("");
 			VCardStreamSource streamSource = new VCardStreamSource();
-			OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(
-					streamSource);
+			OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(streamSource);
 			downloaderExt.extend(vcardDownloadBtn);
 
 			vcardDownloadBtn.setIcon(FontAwesome.CREDIT_CARD);
 			vcardDownloadBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 			containerField.addComponentField(vcardDownloadBtn);
-			containerField.getLayout().setComponentAlignment(vcardDownloadBtn,
-					Alignment.TOP_RIGHT);
+			containerField.getLayout().setComponentAlignment(vcardDownloadBtn, Alignment.TOP_RIGHT);
 			return containerField;
 		} else if (propertyId.equals("description")) {
 			return new RichTextViewField(contact.getDescription());
@@ -116,7 +112,7 @@ public class ContactReadFormFieldFactory extends
 		return null;
 	}
 
-	private class VCardStreamSource extends LazyStreamSource {
+	private static class VCardStreamSource extends LazyStreamSource {
 		private static final long serialVersionUID = 1L;
 		private File vcardTemp;
 
@@ -125,8 +121,7 @@ public class ContactReadFormFieldFactory extends
 				vcardTemp = File.createTempFile("mycollab", ".vcf");
 			} catch (IOException e) {
 				throw new MyCollabException(
-						"Can not create temporary file to download vcard export",
-						e);
+						"Can not create temporary file to download vcard export", e);
 			}
 		}
 

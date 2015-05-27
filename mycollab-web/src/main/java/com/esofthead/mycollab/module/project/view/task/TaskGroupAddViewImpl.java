@@ -89,11 +89,11 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 		return new EditFormFieldFactory(editForm);
 	}
 
-	private class EditFormFieldFactory extends
+	private static class EditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<TaskList> {
 		private static final long serialVersionUID = 1L;
 
-		public EditFormFieldFactory(GenericBeanForm<TaskList> form) {
+		EditFormFieldFactory(GenericBeanForm<TaskList> form) {
 			super(form);
 		}
 

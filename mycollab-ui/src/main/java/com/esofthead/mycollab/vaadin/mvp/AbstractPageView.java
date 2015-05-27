@@ -29,8 +29,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * 
  */
 @SuppressWarnings("serial")
-public abstract class AbstractPageView extends MVerticalLayout implements
-		PageView, Serializable {
+public abstract class AbstractPageView extends MVerticalLayout implements PageView, Serializable {
 
 	public AbstractPageView() {
 		this.withStyleName("page-view").withSpacing(false).withMargin(false);
@@ -44,7 +43,6 @@ public abstract class AbstractPageView extends MVerticalLayout implements
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void addViewListener(ViewListener listener) {
-		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,
-				ViewListener.viewInitMethod);
+		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener, ViewListener.viewInitMethod);
 	}
 }

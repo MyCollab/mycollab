@@ -48,8 +48,7 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
     private static final long serialVersionUID = 1L;
 
     public TaskGroupDisplayWidget() {
-        super(null, ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
-                TaskListRowDisplayHandler.class);
+        super(null, ApplicationContextUtil.getSpringBean(ProjectTaskListService.class), TaskListRowDisplayHandler.class);
         this.setDisplayEmptyListText(false);
     }
 
@@ -87,8 +86,7 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
 
         private void initHeader() {
             searchCriteria = new TaskSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-                    .getProjectId()));
+            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTaskListId(new NumberSearchField(taskList.getId()));
             searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
 
@@ -147,16 +145,14 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
 
             taskListActionControl.setContent(actionBtnLayout);
 
-            Button readBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
+            Button readBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
                             taskListActionControl.setPopupVisible(false);
-                            EventBusFactory.getInstance()
-                                    .post(new TaskListEvent.GotoRead(event, taskList.getId()));
+                            EventBusFactory.getInstance().post(new TaskListEvent.GotoRead(event, taskList.getId()));
                         }
                     });
             readBtn.setIcon(FontAwesome.HACKER_NEWS);
@@ -203,20 +199,17 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
                         }
                     });
             toogleBtn.setIcon(FontAwesome.TOGGLE_UP);
-            toogleBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.TASKS));
+            toogleBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(toogleBtn);
 
-            Button deleteBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
                             taskListActionControl.setPopupVisible(false);
-                            ConfirmDialogExt.show(
-                                    UI.getCurrent(),
+                            ConfirmDialogExt.show(UI.getCurrent(),
                                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                             SiteConfiguration.getSiteName()),
                                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
@@ -226,15 +219,12 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
                                         private static final long serialVersionUID = 1L;
 
                                         @Override
-                                        public void onClose(
-                                                final ConfirmDialog dialog) {
+                                        public void onClose(ConfirmDialog dialog) {
                                             if (dialog.isConfirmed()) {
                                                 ProjectTaskListService taskListService = ApplicationContextUtil
                                                         .getSpringBean(ProjectTaskListService.class);
-                                                taskListService.removeWithSession(
-                                                                taskList.getId(),
-                                                                AppContext.getUsername(),
-                                                                AppContext.getAccountId());
+                                                taskListService.removeWithSession(taskList.getId(),
+                                                                AppContext.getUsername(), AppContext.getAccountId());
                                                 Component parentComp = TaskListDepot.this.getParent();
                                                 if (parentComp instanceof CssLayout) {
                                                     ((CssLayout) parentComp).removeComponent(TaskListDepot.this);

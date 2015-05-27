@@ -28,26 +28,26 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
  * 
  */
 public class TaskTableFieldDef {
-	public static TableViewField id = new TableViewField(null, "id",
+	public static final TableViewField id = new TableViewField(null, "id",
 			UIConstants.TABLE_CONTROL_WIDTH);
 
-	public static TableViewField taskname = new TableViewField(
+	public static final TableViewField taskname = new TableViewField(
 			TaskI18nEnum.FORM_TASK_NAME, "taskname",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
-	public static TableViewField startdate = new TableViewField(
+	public static final TableViewField startdate = new TableViewField(
 			TaskI18nEnum.FORM_START_DATE, "startdate",
 			UIConstants.TABLE_DATE_WIDTH);
 
-	public static TableViewField duedate = new TableViewField(
+	public static final TableViewField duedate = new TableViewField(
 			TaskI18nEnum.FORM_DEADLINE, "deadline",
 			UIConstants.TABLE_DATE_WIDTH);
 
-	public static TableViewField percentagecomplete = new TableViewField(
+	public static final TableViewField percentagecomplete = new TableViewField(
 			TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete",
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
-	public static TableViewField assignee = new TableViewField(
+	public static final TableViewField assignee = new TableViewField(
 			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 }

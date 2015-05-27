@@ -29,19 +29,15 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 public class DateSearchField extends SearchField {
 	private static final long serialVersionUID = 1L;
 	
-	public static String LESSTHAN = "<";
-	public static String LESSTHANEQUAL = "<=";
-	public static String GREATERTHAN = ">";
-	public static String GREATERTHANEQUAL = ">=";
-	public static String EQUAL = "=";
-	public static String NOTEQUAL = "<>";
+	public static final String LESSTHAN = "<";
+	public static final String LESSTHANEQUAL = "<=";
+	public static final String GREATERTHAN = ">";
+	public static final String GREATERTHANEQUAL = ">=";
+	public static final String EQUAL = "=";
+	public static final String NOTEQUAL = "<>";
 
 	private Date value;
-	private String comparision;
-
-	public DateSearchField() {
-		this(AND, null, null);
-	}
+	private String comparison;
 
 	public DateSearchField(String oper, Date value) {
 		this(oper, DateTimeSearchField.LESSTHAN, value);
@@ -49,7 +45,7 @@ public class DateSearchField extends SearchField {
 
 	public DateSearchField(String oper, String comparision, Date dateVal) {
 		this.operation = oper;
-		this.comparision = comparision;
+		this.comparison = comparision;
 		this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils
 				.convertTimeFromSystemTimezoneToUTC(dateVal.getTime()));
 	}
@@ -62,11 +58,11 @@ public class DateSearchField extends SearchField {
 		this.value = value;
 	}
 
-	public String getComparision() {
-		return comparision;
+	public String getComparison() {
+		return comparison;
 	}
 
-	public void setComparision(String comparision) {
-		this.comparision = comparision;
+	public void setComparison(String comparison) {
+		this.comparison = comparison;
 	}
 }

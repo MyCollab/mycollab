@@ -373,7 +373,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 				.selectByExample(userAccountEx);
 		if (accounts.size() > 0) {
 			UserAccount account = accounts.get(0);
-			if (account.getIsaccountowner() != null && account.getIsaccountowner() == Boolean.TRUE) {
+			if (Boolean.TRUE.equals(account.getIsaccountowner())) {
 				userAccountEx = new UserAccountExample();
 				userAccountEx.createCriteria().andAccountidEqualTo(accountId)
 						.andIsaccountownerEqualTo(Boolean.TRUE);

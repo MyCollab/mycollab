@@ -62,25 +62,21 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT,
-                AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
+        return new ProjectViewHeader(ProjectTypeConstants.BUG_COMPONENT, AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(
-                AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
+        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new BugComponentEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
                     }
                 });
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.COMPONENTS));
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.COMPONENTS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
         this.addHeaderRight(createBtn);
@@ -104,7 +100,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
@@ -115,16 +111,14 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
                             callSearchAction();
                         }
                     });
+            nameField.setInputPrompt("Query by component name");
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            myItemCheckbox = new CheckBox(
-                    AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-                    Alignment.MIDDLE_CENTER);
+            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -137,11 +131,9 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
                     callSearchAction();
                 }
             });
-            basicSearchBody.with(searchBtn).withAlign(searchBtn,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.addClickListener(new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -163,8 +155,7 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
             searchCriteria.setComponentName(new StringSearchField(this.nameField.getValue().trim()));
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setUserlead(new StringSearchField(SearchField.AND,
-                        AppContext.getUsername()));
+                searchCriteria.setUserlead(new StringSearchField(SearchField.AND, AppContext.getUsername()));
             } else {
                 searchCriteria.setUserlead(null);
             }

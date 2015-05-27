@@ -140,14 +140,12 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				String pagePath = tokenizer.getRemainValue();
 
 				Page page = new Page();
-				page.setPath(pagePath + "/"
-						+ StringUtils.generateSoftUniqueId());
+				page.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId());
 
 				PageActionChain chain = new PageActionChain(
 						new ProjectScreenData.Goto(projectId),
 						new PageScreenData.Add(page));
-				EventBusFactory.getInstance().post(
-						new ProjectEvent.GotoMyProject(this, chain));
+				EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 			} catch (Exception e) {
 				throw new MyCollabException(e);
 			}

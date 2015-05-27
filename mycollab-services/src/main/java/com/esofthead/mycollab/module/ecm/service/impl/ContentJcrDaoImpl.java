@@ -51,9 +51,7 @@ import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 @Repository
 @Transactional
 public class ContentJcrDaoImpl implements ContentJcrDao {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ContentJcrDaoImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ContentJcrDaoImpl.class);
 
 	@Qualifier("jcrTemplate")
 	@Autowired
@@ -75,8 +73,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					if (isNodeFolder(node)) {
 						String errorStr = String
 								.format("Resource is existed. Search node is not a folder. It has path %s and type is %s",
-										node.getPath(), node
-												.getPrimaryNodeType().getName());
+										node.getPath(), node.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
 					} else if (isNodeContent(node)) {
 						LOG.debug("Found existing resource. Override");
@@ -86,8 +83,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					} else {
 						String errorStr = String
 								.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
-										node.getPath(), node
-												.getPrimaryNodeType().getName());
+										node.getPath(), node.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
 					}
 				} else {
@@ -97,10 +93,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					Node parentNode = rootNode;
 					// create the folder node
 					for (int i = 0; i < pathStr.length - 1; i++) {
-						if (!com.esofthead.mycollab.core.utils.StringUtils
-								.isValidFileName(pathStr[i])) {
-							throw new UserInvalidInputException(
-									"Invalid file name: " + path);
+						if (!com.esofthead.mycollab.core.utils.StringUtils.isValidFileName(pathStr[i])) {
+							throw new UserInvalidInputException("Invalid file name: " + path);
 						}
 
 						// move to lastest node of the path
@@ -111,15 +105,12 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 								String errorString = "Invalid path. User want to create a content has path %s but there is a content has path %s. This node has type %s";
 								throw new ContentException(String.format(
 										errorString, path, childNode.getPath(),
-										childNode.getPrimaryNodeType()
-												.getName()));
+										childNode.getPrimaryNodeType().getName()));
 							}
 						} else {
 							// add node
-							childNode = JcrUtils.getOrAddNode(parentNode,
-									pathStr[i], "mycollab:folder");
-							childNode.setProperty("mycollab:createdUser",
-									createdUser);
+							childNode = JcrUtils.getOrAddNode(parentNode, pathStr[i], "mycollab:folder");
+							childNode.setProperty("mycollab:createdUser", createdUser);
 						}
 						parentNode = childNode;
 					}
@@ -176,10 +167,8 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						} else { // add node
 							LOG.debug("Create new folder {} of sub node {}",
 									pathStr[i], parentNode.getPath());
-							childNode = JcrUtils.getOrAddNode(parentNode,
-									pathStr[i], "mycollab:folder");
-							childNode.setProperty("mycollab:createdUser",
-									createdUser);
+							childNode = JcrUtils.getOrAddNode(parentNode, pathStr[i], "mycollab:folder");
+							childNode.setProperty("mycollab:createdUser", createdUser);
 							session.save();
 						}
 

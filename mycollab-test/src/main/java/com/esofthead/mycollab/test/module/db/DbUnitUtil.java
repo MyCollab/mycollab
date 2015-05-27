@@ -30,34 +30,19 @@ import org.dbunit.dataset.xml.FlatDtdDataSet;
 import com.esofthead.mycollab.test.DataSourceFactoryBean;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class DbUnitUtil {
 
-	public static void main(String[] args) throws Exception {
-		DataSource dataSource = new DataSourceFactoryBean()
-				.getDataSource();
-		File file = new File("src/main/resources/mycollab.dtd");
-		IDatabaseConnection connection = null;
-		try {
-			connection = new DatabaseDataSourceConnection(dataSource);
-			connection.getConfig().setProperty(
-					DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, true);
-			// write DTD file
-			FlatDtdDataSet.write(connection.createDataSet(),
-					new FileOutputStream(file));
-
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				throw e;
-			}
-		}
-	}
+    public static void main(String[] args) throws Exception {
+        DataSource dataSource = new DataSourceFactoryBean().getDataSource();
+        File file = new File("src/main/resources/mycollab.dtd");
+        IDatabaseConnection connection = new DatabaseDataSourceConnection(dataSource);
+        connection.getConfig().setProperty(DatabaseConfig.FEATURE_QUALIFIED_TABLE_NAMES, true);
+        // write DTD file
+        FlatDtdDataSet.write(connection.createDataSet(), new FileOutputStream(file));
+    }
 }

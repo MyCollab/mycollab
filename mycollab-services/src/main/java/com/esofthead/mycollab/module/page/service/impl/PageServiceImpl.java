@@ -77,33 +77,29 @@ public class PageServiceImpl implements PageService {
 		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
-			public Object doInJcr(Session session) throws IOException,
-					RepositoryException {
+			public Object doInJcr(Session session) throws IOException, RepositoryException {
 				page.setCreatedTime(new GregorianCalendar());
 				page.setCreatedUser(createdUser);
+                page.setLastUpdatedTime(new GregorianCalendar());
+                page.setLastUpdatedUser(createdUser);
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, page.getPath());
 				// forward to current path
 				if (node != null) {
 					if (isNodeFolder(node)) {
-						String errorStr = String
-								.format("Resource is existed. Search node is not a folder. It has path %s and type is %s",
-										node.getPath(), node
-												.getPrimaryNodeType().getName());
+						String errorStr = String.format("Resource is existed. Search node is not a folder. It has path %s and type is %s",
+                                node.getPath(), node.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
 					} else if (isNodePage(node)) {
 						LOG.debug("Found existing resource. Override");
-						VersionManager vm = session.getWorkspace()
-								.getVersionManager();
+						VersionManager vm = session.getWorkspace().getVersionManager();
 						vm.checkout("/" + page.getPath());
 						convertPageToNode(node, page, createdUser);
 						session.save();
 						vm.checkin("/" + page.getPath());
 					} else {
-						String errorStr = String
-								.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
-										node.getPath(), node
-												.getPrimaryNodeType().getName());
+						String errorStr = String.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
+                                node.getPath(), node.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
 					}
 				} else {
@@ -114,35 +110,26 @@ public class PageServiceImpl implements PageService {
 						// create folder note
 						for (int i = 0; i < pathStr.length - 1; i++) {
 							// move to lastest node of the path
-							Node childNode = JcrUtils.getNodeIfExists(
-									parentNode, pathStr[i]);
+							Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
 							if (childNode != null) {
 								if (!isNodeFolder(childNode)) {
 									// node must is folder
 									String errorString = "Invalid path. User want to create a content has path %s but there is a folder has path %s";
-									throw new ContentException(String.format(
-											errorString, page.getPath(),
-											childNode.getPath()));
+									throw new ContentException(String.format(errorString, page.getPath(), childNode.getPath()));
 								}
 							} else {
 								// add node
-								childNode = parentNode
-										.addNode(pathStr[i],
-												"{http://www.esofthead.com/wiki}folder");
-								childNode.setProperty("wiki:createdUser",
-										createdUser);
+								childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
+								childNode.setProperty("wiki:createdUser", createdUser);
 								childNode.setProperty("wiki:name", pathStr[i]);
 								childNode.setProperty("wiki:description", "");
 							}
 							parentNode = childNode;
 						}
 
-						Node addNode = parentNode.addNode(
-								pathStr[pathStr.length - 1],
-								"{http://www.esofthead.com/wiki}page");
+						Node addNode = parentNode.addNode(pathStr[pathStr.length - 1], "{http://www.esofthead.com/wiki}page");
 						convertPageToNode(addNode, page, createdUser);
 						session.save();
-
 					} catch (Exception e) {
 						LOG.error("error in convertToNode Method", e);
 						throw new MyCollabException(e);
@@ -225,12 +212,10 @@ public class PageServiceImpl implements PageService {
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, path);
 				if (node != null) {
-					VersionManager vm = session.getWorkspace()
-							.getVersionManager();
+					VersionManager vm = session.getWorkspace().getVersionManager();
 					VersionHistory history = vm.getVersionHistory("/" + path);
-					List<PageVersion> versions = new ArrayList<PageVersion>();
-					for (VersionIterator it = history.getAllVersions(); it
-							.hasNext();) {
+					List<PageVersion> versions = new ArrayList<>();
+					for (VersionIterator it = history.getAllVersions(); it.hasNext();) {
 						Version version = (Version) it.next();
 						if (!"jcr:rootVersion".equals(version.getName())) {
 							versions.add(convertNodeToPageVersion(version));
@@ -249,21 +234,17 @@ public class PageServiceImpl implements PageService {
 		return jcrTemplate.execute(new JcrCallback<Page>() {
 
 			@Override
-			public Page doInJcr(Session session) throws IOException,
-					RepositoryException {
+			public Page doInJcr(Session session) throws IOException, RepositoryException {
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, path);
 				if (node != null) {
-					VersionManager vm = session.getWorkspace()
-							.getVersionManager();
+					VersionManager vm = session.getWorkspace().getVersionManager();
 					try {
 						vm.restore("/" + path, versionName, true);
 						node = JcrUtils.getNodeIfExists(rootNode, path);
 						return convertNodeToPage(node);
 					} catch (Exception e) {
-						LOG.error(
-								"Error when restore document {} to version {}",
-								path, versionName, e);
+						LOG.error("Error when restore document {} to version {}", path, versionName, e);
 					}
 				}
 				return null;
@@ -295,8 +276,7 @@ public class PageServiceImpl implements PageService {
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, path);
 				if (node != null) {
-					VersionManager vm = session.getWorkspace()
-							.getVersionManager();
+					VersionManager vm = session.getWorkspace().getVersionManager();
 					VersionHistory history = vm.getVersionHistory("/" + path);
 					Version version = history.getVersion(versionName);
 					if (version != null) {
@@ -332,8 +312,7 @@ public class PageServiceImpl implements PageService {
 					session.save();
 				} else {
 					Node node = JcrUtils.getNodeIfExists(rootNode, path);
-					if (node != null
-							&& (isNodeFolder(node) || isNodePage(node))) {
+					if (node != null && (isNodeFolder(node) || isNodePage(node))) {
 						node.remove();
 						session.save();
 					}
@@ -355,7 +334,7 @@ public class PageServiceImpl implements PageService {
 				Node node = JcrUtils.getNodeIfExists(rootNode, path);
 				if (node != null) {
 					if (isNodeFolder(node)) {
-						List<Page> pages = new ArrayList<Page>();
+						List<Page> pages = new ArrayList<>();
 						NodeIterator childNodes = node.getNodes();
 						while (childNodes.hasNext()) {
 							Node childNode = childNodes.nextNode();
@@ -369,10 +348,8 @@ public class PageServiceImpl implements PageService {
 
 						return pages;
 					} else {
-						throw new ContentException(
-								"Do not support any node type except mycollab:folder. The current node has type: "
-										+ node.getPrimaryNodeType().getName()
-										+ " and its path is " + path);
+						throw new ContentException(String.format("Do not support any node type except mycollab:folder. The current node has type: %s and its path is %s",
+								node.getPrimaryNodeType().getName(), path));
 					}
 				}
 				return new ArrayList<Page>();
@@ -381,8 +358,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public List<PageResource> getResources(final String path,
-			final String requestedUser) {
+	public List<PageResource> getResources(final String path, final String requestedUser) {
 		return jcrTemplate.execute(new JcrCallback<List<PageResource>>() {
 
 			@Override
@@ -420,7 +396,7 @@ public class PageServiceImpl implements PageService {
 				}
 
 				LOG.debug("There is no resource in path {}", path);
-				return new ArrayList<PageResource>();
+				return new ArrayList<>();
 			}
 		});
 	}
@@ -444,45 +420,28 @@ public class PageServiceImpl implements PageService {
 							continue;
 						}
 						// move to lastest node of the path
-						Node childNode = JcrUtils.getNodeIfExists(parentNode,
-								pathStr[i]);
+						Node childNode = JcrUtils.getNodeIfExists(parentNode, pathStr[i]);
 						if (childNode != null) {
-							LOG.debug("Found node with path {} in sub node ",
-									pathStr[i], parentNode.getPath());
+							LOG.debug("Found node with path {} in sub node ", pathStr[i], parentNode.getPath());
 							if (!isNodeFolder(childNode)) {
 								// node must be the folder
 								String errorString = "Invalid path. User want to create folder has path %s but there is a content has path %s";
-								throw new ContentException(String.format(
-										errorString, folderPath,
-										childNode.getPath()));
+								throw new ContentException(String.format(errorString, folderPath, childNode.getPath()));
 							} else {
-								LOG.debug("Found folder node {}",
-										childNode.getPath());
+								LOG.debug("Found folder node {}", childNode.getPath());
 
 								if (i == pathStr.length - 1) {
-									childNode.setProperty("wiki:createdUser",
-											createdUser);
-									childNode
-											.setProperty(
-													"wiki:description",
-													StringUtils
-															.getStrOptionalNullValue(folder
-																	.getDescription()));
-									childNode.setProperty("wiki:name",
-											folder.getName());
+									childNode.setProperty("wiki:createdUser", createdUser);
+									childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
+									childNode.setProperty("wiki:name", folder.getName());
 									session.save();
 								}
 							}
 						} else { // add node
-							LOG.debug("Create new folder {} of sub node {}",
-									pathStr[i], parentNode.getPath());
-							childNode = parentNode.addNode(pathStr[i],
-									"{http://www.esofthead.com/wiki}folder");
-							childNode.setProperty("wiki:createdUser",
-									createdUser);
-							childNode.setProperty("wiki:description",
-									StringUtils.getStrOptionalNullValue(folder
-											.getDescription()));
+							LOG.debug("Create new folder {} of sub node {}", pathStr[i], parentNode.getPath());
+							childNode = parentNode.addNode(pathStr[i], "{http://www.esofthead.com/wiki}folder");
+							childNode.setProperty("wiki:createdUser", createdUser);
+							childNode.setProperty("wiki:description", StringUtils.getStrOptionalNullValue(folder.getDescription()));
 							childNode.setProperty("wiki:name", folder.getName());
 							session.save();
 						}
@@ -490,14 +449,11 @@ public class PageServiceImpl implements PageService {
 						parentNode = childNode;
 					}
 
-					LOG.debug(
-							"Node path {} is existed {}",
-							folderPath,
+					LOG.debug("Node path {} is existed {}", folderPath,
 							(JcrUtils.getNodeIfExists(rootNode, folderPath) != null));
 				} catch (Exception e) {
 					String errorString = "Error while create folder with path %s";
-					throw new MyCollabException(String.format(errorString,
-							folder.getPath()), e);
+					throw new MyCollabException(String.format(errorString, folder.getPath()), e);
 				}
 				return null;
 			}
@@ -559,8 +515,7 @@ public class PageServiceImpl implements PageService {
 		try {
 			Folder folder = new Folder();
 			folder.setCreatedTime(node.getProperty("jcr:created").getDate());
-			folder.setCreatedUser(node.getProperty("wiki:createdUser")
-					.getString());
+			folder.setCreatedUser(node.getProperty("wiki:createdUser").getString());
 			if (node.hasProperty("wiki:description")) {
 				folder.setDescription(node.getProperty("wiki:description")
 						.getString());

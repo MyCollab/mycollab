@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
@@ -75,6 +76,8 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 					|| data instanceof TaskGroupScreenData.Edit) {
 				presenter = PresenterResolver
 						.getPresenter(TaskGroupAddPresenter.class);
+			} else {
+				throw new MyCollabException("Do not support param: " + data);
 			}
 
 			presenter.go(container, data);

@@ -60,23 +60,17 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 				new DefaultPreviewFormHandler<User>() {
 					@Override
 					public void onEdit(User data) {
-						EventBusFactory.getInstance().post(
-								new UserEvent.GotoEdit(this, data));
+						EventBusFactory.getInstance().post(new UserEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onDelete(final User data) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.DIALOG_DELETE_TITLE,
+						ConfirmDialogExt.show(UI.getCurrent(),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
 										SiteConfiguration.getSiteName()),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -85,12 +79,10 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 										if (dialog.isConfirmed()) {
 											UserService userService = ApplicationContextUtil
 													.getSpringBean(UserService.class);
-											userService.pendingUserAccount(
-													data.getUsername(),
+											userService.pendingUserAccount(data.getUsername(),
 													AppContext.getAccountId());
 											EventBusFactory.getInstance().post(
-													new UserEvent.GotoList(
-															this, null));
+													new UserEvent.GotoList(this, null));
 										}
 									}
 								});
@@ -101,14 +93,12 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 					public void onClone(User data) {
 						User cloneData = (User) data.copy();
 						cloneData.setUsername(null);
-						EventBusFactory.getInstance().post(
-								new UserEvent.GotoAdd(this, cloneData));
+						EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new UserEvent.GotoList(this, null));
+						EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
 					}
 				});
 	}
@@ -132,10 +122,8 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 						.getCacheComponent(AccountSettingBreadcrumb.class);
 				breadcrumb.gotoUserRead(user);
 			} else {
-				NotificationUtil.showErrorNotification("There is no user "
-						+ username + " in this account");
+				NotificationUtil.showErrorNotification(String.format("There is no user %s in this account", username));
 			}
-
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

@@ -136,7 +136,7 @@ public class TagViewComponent extends CssLayout {
         return new ArrayList<Object>(suggestedTags);
     }
 
-    private class TagSuggestionConverter implements SuggestField.SuggestionConverter {
+    private static class TagSuggestionConverter implements SuggestField.SuggestionConverter {
         @Override
         public SuggestFieldSuggestion toSuggestion(Object item) {
             assert (item != null) : "Item cannot be null";

@@ -38,34 +38,34 @@ import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 public class RiskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_assignee = new PropertyListParam("risk-assignuser",
+	public static final Param p_assignee = new PropertyListParam("risk-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_prj_risk", "assigntouser");
 
-	public static Param p_raisedUser = new PropertyListParam("risk-raiseduser",
+	public static final Param p_raisedUser = new PropertyListParam("risk-raiseduser",
 			RiskI18nEnum.FORM_RAISED_BY, "m_prj_risk", "raisedbyuser");
 
-	public static Param p_duedate = new DateParam("risk-duedate",
+	public static final Param p_duedate = new DateParam("risk-duedate",
 			RiskI18nEnum.FORM_DATE_DUE, "m_prj_risk", "datedue");
 
-	public static Param p_raiseddate = new DateParam("risk-raiseddate",
+	public static final Param p_raiseddate = new DateParam("risk-raiseddate",
 			GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "dateraised");
 
-	public static Param p_status = new StringListParam("risk-status",
+	public static final Param p_status = new StringListParam("risk-status",
 			RiskI18nEnum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
 					StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
 
-	public static Param p_probalitity = new StringListParam("risk-probalitity",
+	public static final Param p_probalitity = new StringListParam("risk-probalitity",
 			RiskI18nEnum.FORM_PROBABILITY, "m_prj_risk", "probalitity",
 			Arrays.asList("Certain", "Likely", "Possible", "Unlikely", "Rare"));
 
-	public static Param p_consequence = new StringListParam("risk-consequence",
+	public static final Param p_consequence = new StringListParam("risk-consequence",
 			RiskI18nEnum.FORM_CONSEQUENCE, "m_prj_risk", "consequence",
 			Arrays.asList("Catastrophic", "Critical", "Marginal", "Negligible"));
 
-	public static Param p_createdtime = new DateParam("risk-createdtime",
+	public static final Param p_createdtime = new DateParam("risk-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_prj_risk", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"risk-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_prj_risk", "lastUpdatedTime");
 

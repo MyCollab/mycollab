@@ -272,8 +272,7 @@ public class TaskGroupReadViewImpl extends
 
         private Div buildItemValue(SimpleTask task) {
             Div div = new Div();
-            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task
-                    .getTaskname());
+            String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK).getHtml());
             String uid = UUID.randomUUID().toString();
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
@@ -322,15 +321,14 @@ public class TaskGroupReadViewImpl extends
         }
     }
 
-    private class PeopleInfoComp extends MVerticalLayout {
+    private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
             this.withMargin(new MarginInfo(false, false, false, true));
 
-            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " +
-                    AppContext
+            Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " + AppContext
                             .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
@@ -340,14 +338,12 @@ public class TaskGroupReadViewImpl extends
             layout.setWidth("100%");
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
-                Label createdLbl = new Label(
-                        AppContext
+                Label createdLbl = new Label(AppContext
                                 .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 
-                String createdUserName = (String) PropertyUtils.getProperty(
-                        bean, "createduser");
+                String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
                 String createdUserAvatarId = (String) PropertyUtils
                         .getProperty(bean, "createdUserAvatarId");
                 String createdUserDisplayName = (String) PropertyUtils
@@ -358,24 +354,19 @@ public class TaskGroupReadViewImpl extends
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(
-                        AppContext
+                Label assigneeLbl = new Label(AppContext
                                 .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
-                String assignUserName = (String) PropertyUtils.getProperty(
-                        bean, "owner");
-                String assignUserAvatarId = (String) PropertyUtils.getProperty(
-                        bean, "ownerAvatarId");
-                String assignUserDisplayName = (String) PropertyUtils
-                        .getProperty(bean, "ownerFullName");
+                String assignUserName = (String) PropertyUtils.getProperty(bean, "owner");
+                String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "ownerAvatarId");
+                String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "ownerFullName");
 
                 ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName,
                         assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {
-                LOG.error("Can not build user link {} ",
-                        BeanUtility.printBeanObj(bean));
+                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
             }
 
             this.addComponent(layout);

@@ -85,10 +85,10 @@ public class ContactAddPresenter extends
 						.getSpringBean(ContactService.class);
 				contact = contactService.findById((Integer) data.getParams(),
 						AppContext.getAccountId());
-				if (contact == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
+			}
+			if (contact == null) {
+				NotificationUtil.showRecordNotExistNotification();
+				return;
 			}
 			super.onGo(container, data);
 			view.editItem(contact);

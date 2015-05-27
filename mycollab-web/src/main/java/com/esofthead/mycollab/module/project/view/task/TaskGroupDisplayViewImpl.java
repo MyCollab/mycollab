@@ -84,74 +84,64 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
     private ToggleButtonGroup viewButtons;
 
     private void implementTaskFilterButton() {
-        this.taskSelection = new PopupButton(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS));
+        this.taskSelection = new PopupButton(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS));
 
-        this.taskSelection.setEnabled(CurrentProjectVariables
-                .canRead(ProjectRolePermissionCollections.TASKS));
+        this.taskSelection.setEnabled(CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS));
         this.taskSelection.addStyleName("link");
         this.taskSelection.addStyleName("hdr-text");
 
-        final MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
+        MVerticalLayout filterBtnLayout = new MVerticalLayout().withWidth("200px");
 
-        final Button allTasksFilterBtn = new Button(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
+        final Button allTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         taskSelection.setPopupVisible(false);
-                        taskSelection
-                                .setCaption(event.getButton().getCaption());
+                        taskSelection.setCaption(event.getButton().getCaption());
                         displayAllTasks();
                     }
                 });
         allTasksFilterBtn.setStyleName("link");
         filterBtnLayout.addComponent(allTasksFilterBtn);
 
-        final Button activeTasksFilterBtn = new Button(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
+        Button activeTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         taskSelection.setPopupVisible(false);
-                        taskSelection
-                                .setCaption(event.getButton().getCaption());
+                        taskSelection.setCaption(event.getButton().getCaption());
                         displayActiveTasksOnly();
                     }
                 });
         activeTasksFilterBtn.setStyleName("link");
         filterBtnLayout.addComponent(activeTasksFilterBtn);
 
-        final Button pendingTasksFilterBtn = new Button(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_PENDING_TASKS),
+        Button pendingTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_PENDING_TASKS),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         taskSelection.setPopupVisible(false);
-                        taskSelection
-                                .setCaption(event.getButton().getCaption());
+                        taskSelection.setCaption(event.getButton().getCaption());
                         displayPendingTasksOnly();
                     }
                 });
         pendingTasksFilterBtn.setStyleName("link");
         filterBtnLayout.addComponent(pendingTasksFilterBtn);
 
-        final Button archievedTasksFilterBtn = new Button(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
+        Button archievedTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         taskSelection.setPopupVisible(false);
-                        taskSelection
-                                .setCaption(event.getButton().getCaption());
+                        taskSelection.setCaption(event.getButton().getCaption());
                         displayInActiveTasks();
                     }
                 });
@@ -164,26 +154,19 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         this.removeAllComponents();
         this.withMargin(new MarginInfo(false, true, true, true));
 
-        header = new MHorizontalLayout()
-                .withMargin(new MarginInfo(true, false, true, false))
-                .withStyleName("hdr-view").withWidth("100%");
+        header = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withStyleName("hdr-view").withWidth("100%");
         header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        this.taskGroupSelection = new PopupButton(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
-        this.taskGroupSelection.setEnabled(CurrentProjectVariables
-                .canRead(ProjectRolePermissionCollections.TASKS));
+        this.taskGroupSelection = new PopupButton(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
+        this.taskGroupSelection.setEnabled(CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS));
         this.taskGroupSelection.addStyleName("link");
         this.taskGroupSelection.addStyleName("hdr-text");
         taskGroupSelection.setIcon(ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK_LIST));
-        header.with(taskGroupSelection)
-                .withAlign(taskGroupSelection, Alignment.MIDDLE_LEFT)
-                .expand(taskGroupSelection);
+        header.with(taskGroupSelection).withAlign(taskGroupSelection, Alignment.MIDDLE_LEFT).expand(taskGroupSelection);
 
-        final OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
+        OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("200px");
 
-        final Button allTasksFilterBtn = new Button(
-                AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
+        Button allTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -196,9 +179,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 });
         filterBtnLayout.addOption(allTasksFilterBtn);
 
-        final Button activeTasksFilterBtn = new Button(
-                AppContext
-                        .getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
+        Button activeTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -211,9 +192,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 });
         filterBtnLayout.addOption(activeTasksFilterBtn);
 
-        final Button archivedTasksFilterBtn = new Button(
-                AppContext
-                        .getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
+        Button archivedTasksFilterBtn = new Button(AppContext.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -228,23 +207,19 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
         this.taskGroupSelection.setContent(filterBtnLayout);
 
-        final Button newTaskListBtn = new Button(
-                AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP),
+        Button newTaskListBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        final TaskGroupAddWindow taskListWindow = new TaskGroupAddWindow(
-                                TaskGroupDisplayViewImpl.this);
+                        TaskGroupAddWindow taskListWindow = new TaskGroupAddWindow(TaskGroupDisplayViewImpl.this);
                         UI.getCurrent().addWindow(taskListWindow);
                     }
                 });
-        newTaskListBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS));
+        newTaskListBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         newTaskListBtn.setIcon(FontAwesome.PLUS);
-        newTaskListBtn.setDescription(AppContext
-                .getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
+        newTaskListBtn.setDescription(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
         newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         header.addComponent(newTaskListBtn);
         header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
@@ -254,16 +229,13 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                EventBusFactory.getInstance().post(
-                        new TaskListEvent.ReoderTaskList(this, null));
+                EventBusFactory.getInstance().post(new TaskListEvent.ReoderTaskList(this, null));
             }
         });
-        reOrderBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS));
+        reOrderBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         reOrderBtn.setIcon(FontAwesome.SORT);
         reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-        reOrderBtn.setDescription(AppContext
-                .getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
+        reOrderBtn.setDescription(AppContext.getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
         header.addComponent(reOrderBtn);
         header.setComponentAlignment(reOrderBtn, Alignment.MIDDLE_RIGHT);
 
@@ -275,18 +247,14 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("120px");
         exportButtonControl.setContent(popupButtonsControl);
 
-        Button exportPdfBtn = new Button(
-                AppContext.getMessage(FileI18nEnum.PDF));
-        FileDownloader pdfDownloader = new FileDownloader(
-                constructStreamResource(ReportExportType.PDF));
+        Button exportPdfBtn = new Button(AppContext.getMessage(FileI18nEnum.PDF));
+        FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
         pdfDownloader.extend(exportPdfBtn);
         exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
         popupButtonsControl.addOption(exportPdfBtn);
 
-        Button exportExcelBtn = new Button(
-                AppContext.getMessage(FileI18nEnum.EXCEL));
-        FileDownloader excelDownloader = new FileDownloader(
-                constructStreamResource(ReportExportType.EXCEL));
+        Button exportExcelBtn = new Button(AppContext.getMessage(FileI18nEnum.EXCEL));
+        FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
         excelDownloader.extend(exportExcelBtn);
         exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
         popupButtonsControl.addOption(exportExcelBtn);
@@ -311,18 +279,15 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
             @Override
             public void buttonClick(ClickEvent event) {
                 TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-                searchCriteria.setProjectid(new NumberSearchField(
-                        CurrentProjectVariables.getProjectId()));
+                searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                 searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
-                TaskFilterParameter taskFilter = new TaskFilterParameter(
-                        searchCriteria, "Task Search");
+                TaskFilterParameter taskFilter = new TaskFilterParameter(searchCriteria, "Task Search");
                 taskFilter.setAdvanceSearch(true);
                 moveToTaskSearch(taskFilter);
             }
         });
         simpleDisplayBtn.setIcon(FontAwesome.LIST_UL);
-        simpleDisplayBtn.setDescription(AppContext
-                .getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
+        simpleDisplayBtn.setDescription(AppContext.getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
 
         Button chartDisplayBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = -5707546605789537298L;
@@ -344,22 +309,19 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         mainLayout = new MHorizontalLayout().withFullHeight().withFullWidth();
         this.taskListsWidget = new TaskGroupDisplayWidget();
 
-        MVerticalLayout leftColumn = new MVerticalLayout().withMargin(
-                new MarginInfo(false, true, false, false)).with(taskListsWidget);
+        MVerticalLayout leftColumn = new MVerticalLayout().withMargin(new MarginInfo(false, true, false, false)).with(taskListsWidget);
 
         this.rightColumn = new MVerticalLayout().withWidth("300px").withMargin(
                 new MarginInfo(true, false, false, false));
 
         mainLayout.with(leftColumn, rightColumn).expand(leftColumn);
 
-        FloatingComponent floatSidebar = FloatingComponent
-                .floatThis(this.rightColumn);
+        FloatingComponent floatSidebar = FloatingComponent.floatThis(this.rightColumn);
         floatSidebar.setContainerId("main-body");
 
         implementTaskFilterButton();
         basicSearchView = new TaskSearchViewImpl();
-        basicSearchView.getSearchHandlers().addSearchHandler(
-                new SearchHandler<TaskSearchCriteria>() {
+        basicSearchView.getSearchHandlers().addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
                     @Override
                     public void onSearch(TaskSearchCriteria criteria) {
                         doSearch(criteria);
@@ -382,8 +344,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 .getProject().getName() : "");
 
         TaskListSearchCriteria tasklistSearchCriteria = new TaskListSearchCriteria();
-        tasklistSearchCriteria.setProjectId(new NumberSearchField(
-                SearchField.AND, CurrentProjectVariables.getProject().getId()));
+        tasklistSearchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProject().getId()));
 
         String exportFileName;
 
@@ -401,8 +362,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
     private TaskListSearchCriteria createBaseSearchCriteria() {
         TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-                .getProjectId()));
+        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         return criteria;
     }
 
@@ -424,13 +384,13 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                         doSearch();
                     }
                 });
+        nameField.setInputPrompt("Query by task name");
         nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
         basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
         MHorizontalLayout control = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false));
 
-        final Button searchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
         searchBtn.setIcon(FontAwesome.SEARCH);
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         searchBtn.addClickListener(new Button.ClickListener() {
@@ -443,47 +403,37 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         });
         control.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
-        Button advancedSearchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+        Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-                        searchCriteria.setProjectid(new NumberSearchField(
-                                CurrentProjectVariables.getProjectId()));
-                        searchCriteria.setTaskName(new StringSearchField(
-                                nameField.getValue().trim()));
-                        TaskFilterParameter taskFilter = new TaskFilterParameter(
-                                searchCriteria, "Task Search");
+                        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        searchCriteria.setTaskName(new StringSearchField(nameField.getValue().trim()));
+                        TaskFilterParameter taskFilter = new TaskFilterParameter(searchCriteria, "Task Search");
                         taskFilter.setAdvanceSearch(true);
                         moveToTaskSearch(taskFilter);
                     }
                 });
         advancedSearchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-        control.with(advancedSearchBtn).withAlign(advancedSearchBtn,
-                Alignment.MIDDLE_CENTER);
-        basicSearchBody.with(control).withAlign(control,
-                Alignment.MIDDLE_CENTER);
+        control.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+        basicSearchBody.with(control).withAlign(control, Alignment.MIDDLE_CENTER);
 
         return basicSearchBody;
     }
 
     private void doSearch() {
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setProjectid(new NumberSearchField(
-                CurrentProjectVariables.getProjectId()));
-        searchCriteria.setTaskName(new StringSearchField(nameField
-                .getValue().trim()));
-        TaskFilterParameter taskFilter = new TaskFilterParameter(
-                searchCriteria, "Task Search");
+        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setTaskName(new StringSearchField(nameField.getValue().trim()));
+        TaskFilterParameter taskFilter = new TaskFilterParameter(searchCriteria, "Task Search");
         moveToTaskSearch(taskFilter);
     }
 
     private void moveToTaskSearch(TaskFilterParameter taskFilter) {
-        EventBusFactory.getInstance().post(
-                new TaskEvent.Search(this, taskFilter));
+        EventBusFactory.getInstance().post(new TaskEvent.Search(this, taskFilter));
     }
 
     private void displayTaskStatistic() {
@@ -494,10 +444,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         rightColumn.addComponent(unresolvedTaskByAssigneeWidget);
 
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
-        searchCriteria.setProjectid(new NumberSearchField(
-                CurrentProjectVariables.getProjectId()));
-        searchCriteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                new String[]{StatusI18nEnum.Open.name()}));
+        searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name()}));
 
         unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
 
@@ -513,24 +461,23 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
     }
 
     private void displayGanttChartView() {
-        EventBusFactory.getInstance().post(
-                new TaskEvent.GotoGanttChart(this, null));
+        EventBusFactory.getInstance().post(new TaskEvent.GotoGanttChart(this, null));
     }
 
     private void displayActiveTaskGroups() {
-        final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
+        TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
         criteria.setStatus(new StringSearchField(StatusI18nEnum.Open.name()));
         this.taskListsWidget.setSearchCriteria(criteria);
     }
 
     private void displayInActiveTaskGroups() {
-        final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
+        TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
         criteria.setStatus(new StringSearchField(StatusI18nEnum.Closed.name()));
         this.taskListsWidget.setSearchCriteria(criteria);
     }
 
     private void displayAllTaskGroups() {
-        final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
+        TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
         this.taskListsWidget.setSearchCriteria(criteria);
     }
 
@@ -540,77 +487,66 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
     }
 
     private TaskSearchCriteria createTaskBaseSearchCriteria() {
-        final TaskSearchCriteria criteria = new TaskSearchCriteria();
-        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-                .getProjectId()));
+        TaskSearchCriteria criteria = new TaskSearchCriteria();
+        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         return criteria;
     }
 
     private void displayActiveTasksOnly() {
-        final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                new String[]{StatusI18nEnum.Open.name()}));
+        TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name()}));
         this.doSearch(criteria);
     }
 
     private void displayPendingTasksOnly() {
-        final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                new String[]{StatusI18nEnum.Pending.name()}));
+        TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Pending.name()}));
         this.doSearch(criteria);
     }
 
     private void displayAllTasks() {
-        final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+        TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
         this.doSearch(criteria);
     }
 
     private void displayInActiveTasks() {
-        final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND,
-                new String[]{StatusI18nEnum.Closed.name()}));
+        TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Closed.name()}));
         this.doSearch(criteria);
     }
 
     @Override
     public void enableActionControls(int numOfSelectedItem) {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public void disableActionControls() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSearchHandlers<TaskListSearchCriteria> getSearchHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasMassItemActionHandler getPopupActionHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public HasSelectableItemHandlers<SimpleTaskList> getSelectableItemHandlers() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 
     @Override
     public AbstractPagedBeanTable<TaskListSearchCriteria, SimpleTaskList> getPagedBeanTable() {
-        throw new UnsupportedOperationException(
-                "This view doesn't support this operation");
+        throw new UnsupportedOperationException("This view doesn't support this operation");
     }
 }

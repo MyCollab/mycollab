@@ -119,7 +119,20 @@ public final class MainView extends AbstractPageView {
 
         ComponentContainer widget = module.getWidget();
         bodyLayout.addComponent(widget);
+        bodyLayout.addComponent(buildHelpSlider());
 
+        if (ModuleHelper.isCurrentProjectModule()) {
+            serviceMenu.selectService(0);
+        } else if (ModuleHelper.isCurrentCrmModule()) {
+            serviceMenu.selectService(1);
+        } else if (ModuleHelper.isCurrentFileModule()) {
+            serviceMenu.selectService(2);
+        } else if (ModuleHelper.isCurrentAccountModule()) {
+            serviceMenu.selectService(3);
+        }
+    }
+
+    private SliderPanel buildHelpSlider() {
         MVerticalLayout helpContent = new MVerticalLayout().withWidth("250px");
         SliderPanel topSlider = new SliderPanel(helpContent, false, SliderMode.RIGHT);
         topSlider.setHeight("300px");
@@ -139,17 +152,7 @@ public final class MainView extends AbstractPageView {
         helpContent.with(helpLink, helpDesc, supportLink, supportDesc, contactLink, contactDesc);
         topSlider.setCaption("Get Help");
         topSlider.setTabPosition(SliderTabPosition.MIDDLE);
-        bodyLayout.addComponent(topSlider);
-
-        if (ModuleHelper.isCurrentProjectModule()) {
-            serviceMenu.selectService(0);
-        } else if (ModuleHelper.isCurrentCrmModule()) {
-            serviceMenu.selectService(1);
-        } else if (ModuleHelper.isCurrentFileModule()) {
-            serviceMenu.selectService(2);
-        } else if (ModuleHelper.isCurrentAccountModule()) {
-            serviceMenu.selectService(3);
-        }
+        return topSlider;
     }
 
     private CustomLayout createFooter() {
@@ -158,7 +161,7 @@ public final class MainView extends AbstractPageView {
         footer.setWidth("100%");
         footer.setHeightUndefined();
 
-        Link companyLink = new Link("eSoftHead", new ExternalResource("http://www.esofthead.com"));
+        Link companyLink = new Link("MyCollab", new ExternalResource("https://www.mycollab.com"));
         companyLink.setTargetName("_blank");
 
         footer.addComponent(companyLink, "company-url");
@@ -330,7 +333,7 @@ public final class MainView extends AbstractPageView {
 
                     Date createdTime = billingAccount.getCreatedtime();
                     long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
-                    int daysLeft = (int) Math.floor(timeDeviation / (1000 * 60 * 60 * 24));
+                    int daysLeft = (int) Math.floor(timeDeviation / (double)(1000 * 60 * 60 * 24));
                     if (daysLeft > 30) {
                         BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();
@@ -338,13 +341,7 @@ public final class MainView extends AbstractPageView {
                         informLbl.setValue("<div class='informBlock'>TRIAL ENDING<br>"
                                 + " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
                     } else {
-                        if (AppContext.isAdmin()) {
-                            informLbl
-                                    .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
-                        } else {
-                            informLbl
-                                    .setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
-                        }
+                        informLbl.setValue(String.format("<div class='informBlock'>TRIAL ENDING<br>%d DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>", 30 - daysLeft));
                     }
                 }
             }
@@ -401,7 +398,7 @@ public final class MainView extends AbstractPageView {
             SimpleUser user = AppContext.getUser();
             GregorianCalendar tenDaysAgo = new GregorianCalendar();
             tenDaysAgo.add(Calendar.DATE, -10);
-            if (user.getRequestad() != null && user.getRequestad() == Boolean.TRUE &&
+            if (Boolean.TRUE.equals(user.getRequestad()) &&
                     user.getRegisteredtime().before(tenDaysAgo.getTime())) {
                 UI.getCurrent().addWindow(new AdRequestWindow(user));
             }

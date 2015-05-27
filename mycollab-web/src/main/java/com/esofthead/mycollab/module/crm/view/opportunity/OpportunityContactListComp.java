@@ -45,6 +45,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,24 +53,24 @@ import java.util.Map;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class OpportunityContactListComp
-        extends
+public class OpportunityContactListComp extends
         RelatedListComp2<ContactOpportunityService, ContactSearchCriteria, SimpleContactOpportunityRel> {
     private static final long serialVersionUID = 5717208523696358616L;
 
     private Opportunity opportunity;
 
-    public static Map<String, String> colormap = new HashMap<>();
+    static final Map<String, String> colormap;
 
     static {
+        Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
             String roleKeyName = CrmDataTypeFactory
                     .getOpportunityContactRoleList()[i];
-            if (!colormap.containsKey(roleKeyName)) {
-                colormap.put(roleKeyName,
-                        AbstractBeanBlockList.getColorStyleNameList()[i]);
+            if (!tmpMap.containsKey(roleKeyName)) {
+                tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
         }
+        colormap = Collections.unmodifiableMap(tmpMap);
     }
 
     public OpportunityContactListComp() {

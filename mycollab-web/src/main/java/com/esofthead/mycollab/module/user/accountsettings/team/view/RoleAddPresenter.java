@@ -84,8 +84,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 	}
 
 	public void save(Role item) {
-		RoleService roleService = ApplicationContextUtil
-				.getSpringBean(RoleService.class);
+		RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
 		item.setSaccountid(AppContext.getAccountId());
 
 		if (item.getId() == null) {
@@ -109,8 +108,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 			Role role = (Role) data.getParams();
 			view.editItem(role);
 
-			AccountSettingBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(AccountSettingBreadcrumb.class);
+			AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
 			if (role.getId() == null) {
 				breadcrumb.gotoRoleAdd();

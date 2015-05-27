@@ -37,18 +37,18 @@ public class NumberParam extends ColumnParam {
 	static final String IS_EMPTY = "is empty";
 	static final String IS_NOT_EMPTY = "is not empty";
 
-	public static String[] OPTIONS = { EQUAL, NOT_EQUAL, LESS_THAN,
+	public static final String[] OPTIONS = { EQUAL, NOT_EQUAL, LESS_THAN,
 			LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY,
 			IS_NOT_EMPTY };
 
-	private static String EQUAL_EXPR = "%s.%s = ";
-	private static String NOT_EQUAL_EXPR = "%s.%s <> ";
-	private static String NULL_EXPR = "%s.%s is null";
-	private static String NOT_NULL_EXPR = "%s.%s is not null";
-	private static String GREATER_THAN_EXPR = "%s.%s > ";
-	private static String GREATER_THAN_EQUAL_EXPR = "%s.%s >= ";
-	private static String LESS_THAN_EXPR = "%s.%s < ";
-	private static String LESS_THAN_EQUAL_EXPR = "%s.%s <= ";
+	private static final String EQUAL_EXPR = "%s.%s = ";
+	private static final String NOT_EQUAL_EXPR = "%s.%s <> ";
+	private static final String NULL_EXPR = "%s.%s is null";
+	private static final String NOT_NULL_EXPR = "%s.%s is not null";
+	private static final String GREATER_THAN_EXPR = "%s.%s > ";
+	private static final String GREATER_THAN_EQUAL_EXPR = "%s.%s >= ";
+	private static final String LESS_THAN_EXPR = "%s.%s < ";
+	private static final String LESS_THAN_EQUAL_EXPR = "%s.%s <= ";
 
 	public NumberParam(String id, Enum displayName, String table, String column) {
 		super(id, displayName, table, column);

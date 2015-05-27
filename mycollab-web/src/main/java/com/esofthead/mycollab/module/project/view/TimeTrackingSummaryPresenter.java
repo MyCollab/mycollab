@@ -21,7 +21,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -31,8 +30,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class TimeTrackingSummaryPresenter extends
-		AbstractPresenter<TimeTrackingSummaryView> {
+public class TimeTrackingSummaryPresenter extends AbstractPresenter<TimeTrackingSummaryView> {
 	private static final long serialVersionUID = 1L;
 
 	public TimeTrackingSummaryPresenter() {

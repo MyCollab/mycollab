@@ -55,10 +55,8 @@ public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
-            ProjectBreadcrumb breadCrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadCrumb.gotoTaskSearch();
 
 			TaskContainer trackerContainer = (TaskContainer) container;

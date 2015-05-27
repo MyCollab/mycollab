@@ -781,7 +781,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
                                 version.getVersionname()));
     }
 
-    private class GotoVersionListener implements Button.ClickListener {
+    private static class GotoVersionListener implements Button.ClickListener {
         private static final long serialVersionUID = 1L;
 
         @Override

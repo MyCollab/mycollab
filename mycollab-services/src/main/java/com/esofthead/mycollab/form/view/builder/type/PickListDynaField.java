@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.form.view.builder.type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +26,7 @@ import java.util.List;
  * 
  */
 public class PickListDynaField<T> extends AbstractDynaField {
-
-	private List<T> options;
+	private List<T> options = new ArrayList<>();
 
 	public void addOption(T option) {
 		options.add(option);

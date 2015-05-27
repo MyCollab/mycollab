@@ -84,12 +84,11 @@ public class MeetingAddPresenter extends
 						.getSpringBean(MeetingService.class);
 				meeting = meetingService.findByPrimaryKey(
 						(Integer) data.getParams(), AppContext.getAccountId());
-				if (meeting == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
 			}
-
+			if (meeting == null) {
+				NotificationUtil.showRecordNotExistNotification();
+				return;
+			}
 			super.onGo(container, data);
 
 			view.editItem(meeting);

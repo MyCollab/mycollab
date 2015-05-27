@@ -35,8 +35,7 @@ import com.vaadin.ui.TextField;
  * @since 4.1
  * 
  */
-public class AssignmentEditFormFieldFactory extends
-		AbstractBeanFieldGroupEditFieldFactory<Task> {
+public class AssignmentEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
 	private static final long serialVersionUID = 1L;
 
 	public AssignmentEditFormFieldFactory(GenericBeanForm<Task> form) {
@@ -82,8 +81,7 @@ public class AssignmentEditFormFieldFactory extends
 		return null;
 	}
 
-	class TaskPriorityComboBox extends ValueComboBox {
-
+	static class TaskPriorityComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 
 		public TaskPriorityComboBox() {
@@ -93,8 +91,7 @@ public class AssignmentEditFormFieldFactory extends
 		}
 	}
 
-	class TaskStatusComboBox extends ValueComboBox {
-
+	static class TaskStatusComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 
 		public TaskStatusComboBox() {

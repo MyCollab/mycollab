@@ -64,21 +64,21 @@
         #ifnotnull($searchCriteria.updatedDate)
             ${searchCriteria.updatedDate.operation}
             CAST(m_tracker_bug.lastUpdatedTime AS DATE )
-            ${searchCriteria.updatedDate.comparision}
+            ${searchCriteria.updatedDate.comparison}
             @{searchCriteria.updatedDate.value}
         #end
         
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_tracker_bug.duedate AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         
         #ifnotnull($searchCriteria.resolvedDate)
             ${searchCriteria.resolvedDate.operation}
             CAST(m_tracker_bug.resolveddate AS DATE )
-            ${searchCriteria.resolvedDate.comparision}
+            ${searchCriteria.resolvedDate.comparison}
             @{searchCriteria.resolvedDate.value}
         #end
         
@@ -229,21 +229,21 @@
         #ifnotnull($searchCriteria.updatedDate)
             ${searchCriteria.updatedDate.operation}
             CAST(m_tracker_bug.lastUpdatedTime AS DATE )
-            ${searchCriteria.updatedDate.comparision}
+            ${searchCriteria.updatedDate.comparison}
             @{searchCriteria.updatedDate.value}
         #end
         
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_tracker_bug.duedate AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         
         #ifnotnull($searchCriteria.resolvedDate)
             ${searchCriteria.resolvedDate.operation}
             CAST(m_tracker_bug.resolveddate AS DATE )
-            ${searchCriteria.resolvedDate.comparision}
+            ${searchCriteria.resolvedDate.comparison}
             @{searchCriteria.resolvedDate.value}
         #end
         

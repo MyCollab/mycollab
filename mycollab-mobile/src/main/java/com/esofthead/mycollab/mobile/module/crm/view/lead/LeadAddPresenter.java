@@ -85,12 +85,11 @@ public class LeadAddPresenter extends AbstractMobilePresenter<LeadAddView> {
 						.getSpringBean(LeadService.class);
 				lead = leadService.findById((Integer) data.getParams(),
 						AppContext.getAccountId());
-				if (lead == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
 			}
-
+			if (lead == null) {
+				NotificationUtil.showRecordNotExistNotification();
+				return;
+			}
 			super.onGo(container, data);
 			view.editItem(lead);
 

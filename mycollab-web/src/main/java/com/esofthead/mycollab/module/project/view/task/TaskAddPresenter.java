@@ -67,32 +67,28 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
             public void onCancel() {
                 ViewState viewState = HistoryViewManager.back();
                 if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    EventBusFactory.getInstance().post(
-                            new TaskListEvent.GotoTaskListScreen(this, null));
+                    EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
                 }
             }
 
             @Override
             public void onSaveAndNew(final Task item) {
                 save(item);
-                EventBusFactory.getInstance().post(
-                        new TaskEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
             }
         });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
             TaskContainer taskContainer = (TaskContainer) container;
             taskContainer.navigateToContainer(ProjectTypeConstants.TASK);
             taskContainer.removeAllComponents();
             taskContainer.addComponent(view.getWidget());
             SimpleTask task = (SimpleTask) data.getParams();
 
-            ProjectBreadcrumb breadCrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (task.getId() == null) {
                 breadCrumb.gotoTaskAdd();
                 task.setPriority(OptionI18nEnum.TaskPriority.Medium.name());
@@ -106,8 +102,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
     }
 
     private int save(Task item) {
-        ProjectTaskService taskService = ApplicationContextUtil
-                .getSpringBean(ProjectTaskService.class);
+        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
         item.setSaccountid(AppContext.getAccountId());
         item.setProjectid(CurrentProjectVariables.getProjectId());
@@ -122,8 +117,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 
         if (item.getId() == null) {
             item.setLogby(AppContext.getUsername());
-            int taskId = taskService.saveWithSession(item,
-                    AppContext.getUsername());
+            int taskId = taskService.saveWithSession(item, AppContext.getUsername());
             AttachmentUploadField uploadField = view.getAttachUploadField();
             String attachPath = AttachmentUtils.getProjectEntityAttachmentPath(
                     AppContext.getAccountId(), CurrentProjectVariables.getProjectId(),

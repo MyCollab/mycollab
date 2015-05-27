@@ -85,8 +85,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         CssLayout headerWrapper = setupHeader();
         addComponent(headerWrapper);
 
-        MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false,
-                false, true, false)).withWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
         ActivityStreamComponent activityStreamComponent = new ActivityStreamComponent();
         MVerticalLayout leftPanel = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false,
@@ -152,8 +151,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            Button createProjectBtn = new Button(
-                    AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
+            Button createProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -215,8 +213,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         layout.with(headerComp);
 
         ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
-        prjKeys = prjService.getProjectKeysUserInvolved(
-                AppContext.getUsername(), AppContext.getAccountId());
+        prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             ProjectGenericItemSearchCriteria searchCriteria = new ProjectGenericItemSearchCriteria();
             searchCriteria.setPrjKeys(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
@@ -239,15 +236,13 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
         MonitorItemService monitorService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         int followingItemsCount = monitorService.getTotalCount(searchCriteria);
-        followingTicketsLink.setTitle(AppContext.getMessage(
-                FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
+        followingTicketsLink.setTitle(AppContext.getMessage(FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, followingItemsCount));
     }
 
     private static class AssignmentRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericItem> {
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericItem projectItem, int rowIndex) {
-            MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true))
-                    .withWidth("100%");
+            MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(true, true, false, true)).withWidth("100%");
             Label link = new Label(ProjectLinkBuilder.generateProjectItemHtmlLink(projectItem.getProjectShortName(), projectItem
                     .getProjectId(), projectItem.getSummary(), projectItem.getType(), projectItem.getTypeId()), ContentMode.HTML);
             link.setStyleName("h2");

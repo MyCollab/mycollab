@@ -33,18 +33,10 @@ public class CommonUIFactory {
 		return btn;
 	}
 
-	public static Button createButtonTooltip(String caption,
-			String description, Button.ClickListener listener) {
+	public static Button createButtonTooltip(String caption, String description, Button.ClickListener listener) {
 		Button btn = new Button(caption);
 		btn.setDescription(description);
 		btn.addClickListener(listener);
-		return btn;
-	}
-
-	public static PopupButton createPopupButtonTooltip(String caption,
-			String description) {
-		PopupButton btn = new PopupButton(caption);
-		btn.setDescription(description);
 		return btn;
 	}
 }

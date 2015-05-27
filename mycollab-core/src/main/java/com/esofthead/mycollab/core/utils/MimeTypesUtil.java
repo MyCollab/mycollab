@@ -29,7 +29,7 @@ import java.io.InputStream;
  * 
  */
 public class MimeTypesUtil {
-	public static String BINARY_MIME_TYPE = "application/octet-stream";
+	public static final String BINARY_MIME_TYPE = "application/octet-stream";
 
 	private static Tika tika = new Tika();
 

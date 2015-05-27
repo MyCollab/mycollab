@@ -57,20 +57,18 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
 
 		AbstractPresenter<?> presenter = null;
 
-		if (data instanceof BugScreenData.Search) {
-			presenter = PresenterResolver.getPresenter(BugListPresenter.class);
-		} else if (data instanceof BugScreenData.Add
+		if (data instanceof BugScreenData.Add
 				|| data instanceof BugScreenData.Edit) {
 			presenter = PresenterResolver.getPresenter(BugAddPresenter.class);
 		} else if (data instanceof BugScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
-		} else if (data == null) {
+		} else if (data == null || data instanceof BugScreenData.Search) {
 			BugSearchCriteria criteria = new BugSearchCriteria();
 			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 					.getProjectId()));
 			data = new BugScreenData.Search(new BugFilterParameter("All Bugs",
 					criteria));
-
+			presenter = PresenterResolver.getPresenter(BugListPresenter.class);
 		} else {
 			throw new MyCollabException("Do not support screen data");
 		}

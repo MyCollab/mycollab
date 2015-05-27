@@ -190,13 +190,13 @@ public class ProjectInformationComponent extends VerticalLayout {
                         @Override
                         protected Field<?> onCreateField(Object propertyId) {
                             if (propertyId.equals("planstartdate")) {
-                                return new PrettyDateViewField(project.getPlanstartdate());
+                                return new DateViewField(project.getPlanstartdate());
                             } else if (propertyId.equals("planenddate")) {
-                                return new PrettyDateViewField(project.getPlanenddate());
+                                return new DateViewField(project.getPlanenddate());
                             } else if (propertyId.equals("actualstartdate")) {
-                                return new PrettyDateViewField(project.getActualstartdate());
+                                return new DateViewField(project.getActualstartdate());
                             } else if (propertyId.equals("actualenddate")) {
-                                return new PrettyDateViewField(project.getActualenddate());
+                                return new DateViewField(project.getActualenddate());
                             } else if (propertyId.equals("homepage")) {
                                 return new UrlLinkViewField(project.getHomepage());
                             } else if (propertyId.equals("description")) {

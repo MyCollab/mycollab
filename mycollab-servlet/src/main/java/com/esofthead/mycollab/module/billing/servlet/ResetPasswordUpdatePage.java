@@ -82,8 +82,7 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 				}
 			} else {
 				throw new ResourceNotFoundException(
-						"Can not recover user password with context "
-								+ pathInfo);
+						"Can not recover user password with context path is null");
 			}
 		} catch (Exception e) {
 			throw new MyCollabException(e);

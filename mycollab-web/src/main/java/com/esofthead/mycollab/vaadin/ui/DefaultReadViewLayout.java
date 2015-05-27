@@ -26,7 +26,6 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 4.6.0
  */
 public class DefaultReadViewLayout extends ReadViewLayout {
-
     private Label titleLbl;
 
     public DefaultReadViewLayout(String title) {

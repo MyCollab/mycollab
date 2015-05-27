@@ -50,7 +50,7 @@ public class JcrNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("sessionFactory", new JcrSessionFactoryBeanDefinitionParser());
     }
 
-    private class JcrEventListenerBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+    private static class JcrEventListenerBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
         public static final String EVENT_TYPE = "eventType";
 
         public static final String NODE_TYPE_NAME = "nodeTypeName";
@@ -83,7 +83,7 @@ public class JcrNamespaceHandler extends NamespaceHandlerSupport {
                     Element evenTypeElement = iter.next();
                     eventType |= types.asNumber(DomUtils.getTextValue(evenTypeElement)).intValue();
                 }
-                definitionBuilder.addPropertyValue("eventTypes", new Integer(eventType));
+                definitionBuilder.addPropertyValue("eventTypes", Integer.valueOf(eventType));
             }
 
             List<Element> nodeTypeNames = DomUtils.getChildElementsByTagName(element, NODE_TYPE_NAME);
@@ -110,7 +110,7 @@ public class JcrNamespaceHandler extends NamespaceHandlerSupport {
         }
     }
 
-    private class JcrSessionFactoryBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+    private static class JcrSessionFactoryBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
         /*
          * (non-Javadoc)
          * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser

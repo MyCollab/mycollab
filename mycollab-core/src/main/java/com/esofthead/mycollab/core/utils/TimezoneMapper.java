@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.core.utils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -31,12 +32,12 @@ import com.esofthead.mycollab.core.MyCollabException;
 public class TimezoneMapper {
 	public static Map<String, TimezoneExt> timeMap;
 
-	public static String AREAS[] = new String[] { "UTC", "Africa", "America",
+	public static final String AREAS[] = new String[] { "UTC", "Africa", "America",
 			"Atlantic", "Antarctica", "Asia", "Australia", "Europe", "Indian",
 			"Pacific" };
 
 	static {
-		timeMap = new HashMap<String, TimezoneMapper.TimezoneExt>();
+		timeMap = new HashMap<>();
 
 		timeMap.put("3", new TimezoneExt("3", "(GMT-11:00) Midway", "Pacific",
 				"Pacific/Midway"));
@@ -995,6 +996,7 @@ public class TimezoneMapper {
 				"Pacific", "Pacific/Tongatapu"));
 		timeMap.put("615", new TimezoneExt("615", "(GMT+14:00) Kiritimati",
 				"Pacific", "Pacific/Kiritimati"));
+		timeMap = Collections.unmodifiableMap(timeMap);
 	}
 
 	public static TimezoneExt getTimezoneExt(String mycollabId) {

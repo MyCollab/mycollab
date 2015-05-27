@@ -172,7 +172,7 @@ public class AcceptProjectInvitationHandler extends
 				projectMember.setIsadmin(false);
 				projectMember.setStatus(RegisterStatusConstants.ACTIVE);
 				projectMemberService.saveWithSession(projectMember, "");
-			} else if (member != null) {
+			} else {
 				member.setStatus(RegisterStatusConstants.ACTIVE);
 				member.setSaccountid(sAccountId);
 				member.setProjectroleid(projectRoleId);

@@ -76,8 +76,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskA
 
     @Override
     protected ComponentContainer createButtonControls() {
-        Layout controlButtons = (new EditFormControlsGenerator<>(
-                editForm)).createButtonControls(true, true, true);
+        Layout controlButtons = (new EditFormControlsGenerator<>(editForm)).createButtonControls(true, true, true);
         controlButtons.setSizeUndefined();
 
         return controlButtons;
@@ -100,8 +99,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements TaskA
         return new EditFormFieldFactory(editForm);
     }
 
-    private class EditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<Task> {
+    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Task> {
         private static final long serialVersionUID = 1L;
 
         public EditFormFieldFactory(GenericBeanForm<Task> form) {

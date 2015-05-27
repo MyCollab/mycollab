@@ -56,14 +56,10 @@ public class MessageConveyorExt implements IMessageConveyor {
 
 		String keyAsStr = key.toString();
 		String value = rb.getString(keyAsStr);
-		if (value == null) {
-			return "No key found for " + keyAsStr;
+		if (args == null || args.length == 0) {
+			return value;
 		} else {
-			if (args == null || args.length == 0) {
-				return value;
-			} else {
-				return MessageFormat.format(value, args);
-			}
+			return MessageFormat.format(value, args);
 		}
 	}
 

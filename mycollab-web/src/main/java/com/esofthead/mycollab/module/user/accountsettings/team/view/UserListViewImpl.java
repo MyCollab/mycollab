@@ -249,8 +249,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             blockContent.addComponent(memberRole);
             blockContent.setComponentAlignment(memberRole,
                     Alignment.MIDDLE_RIGHT);
-        } else if (member.getIsAccountOwner() != null
-                && member.getIsAccountOwner() == Boolean.TRUE) {
+        } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
             Label memberRole = new Label();
             memberRole.setContentMode(ContentMode.HTML);
             memberRole.setValue("<a style=\"color: #B00000;\">Account Owner</a>");

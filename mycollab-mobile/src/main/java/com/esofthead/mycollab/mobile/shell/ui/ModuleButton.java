@@ -23,10 +23,9 @@ import com.vaadin.ui.Button;
  * @since 3.0
  */
 public class ModuleButton extends Button {
-	
 	private static final long serialVersionUID = 1197359749888761486L;
 	
-	public static String CLASSNAME = "module-button";
+	public static final String CLASSNAME = "module-button";
 
     public ModuleButton(String moduleName) {
         super(moduleName);

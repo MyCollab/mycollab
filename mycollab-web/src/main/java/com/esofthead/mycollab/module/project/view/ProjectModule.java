@@ -16,11 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.IModule;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.*;
 
 /**
  * 
@@ -34,14 +30,12 @@ public class ProjectModule extends AbstractPageView implements IModule {
 
 	public ProjectModule() {
 		setStyleName("project-module");
-        this.withWidth("100%");
-		ControllerRegistry.addController(
-				new ProjectModuleController(this));
+        setSizeFull();
+		ControllerRegistry.addController(new ProjectModuleController(this));
 	}
 
 	public void gotoProjectPage() {
-		UserDashboardPresenter presenter = PresenterResolver
-				.getPresenter(UserDashboardPresenter.class);
+		UserDashboardPresenter presenter = PresenterResolver.getPresenter(UserDashboardPresenter.class);
 		presenter.go(this, null);
 	}
 }

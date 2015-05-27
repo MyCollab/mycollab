@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.ProfileScreenData;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
@@ -42,13 +43,15 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
 		AccountModule accountContainer = (AccountModule) container;
 		accountContainer.gotoSubView(SettingUIConstants.PROFILE);
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter;
 		if (data == null) {
 			presenter = PresenterResolver
 					.getPresenter(ProfileReadPresenter.class);
 		} else if (data instanceof ProfileScreenData.UploadPhoto) {
 			presenter = PresenterResolver
 					.getPresenter(ProfilePhotoUploadPresenter.class);
+		} else {
+			throw new MyCollabException("Do not support screen data");
 		}
 
 		presenter.go(view.getWidget(), data);

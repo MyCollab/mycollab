@@ -90,10 +90,10 @@ public class OpportunityAddPresenter extends CrmGenericPresenter<OpportunityAddV
                         .getSpringBean(OpportunityService.class);
                 opportunity = accountService.findById(
                         (Integer) data.getParams(), AppContext.getAccountId());
-                if (opportunity == null) {
-                    NotificationUtil.showRecordNotExistNotification();
-                    return;
-                }
+            }
+            if (opportunity == null) {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
             }
             super.onGo(container, data);
             view.editItem(opportunity);

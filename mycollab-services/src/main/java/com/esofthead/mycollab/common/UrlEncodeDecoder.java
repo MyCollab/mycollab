@@ -34,9 +34,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  */
 public class UrlEncodeDecoder {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UrlEncodeDecoder.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UrlEncodeDecoder.class);
 
 	private UrlEncodeDecoder() {
 	}
@@ -51,10 +49,8 @@ public class UrlEncodeDecoder {
 			if (StringUtils.isBlank(str)) {
 				return "";
 			}
-			return URLEncoder.encode(
-					new String(
-							Base64.encodeBase64URLSafe(str.getBytes("UTF-8")),
-							"UTF-8"), "UTF-8");
+			return URLEncoder.encode(new String(Base64.encodeBase64URLSafe(
+					str.getBytes("UTF-8")), "UTF-8"), "UTF-8");
 		} catch (UnsupportedEncodingException ex) {
 			throw new MyCollabException(ex);
 		}
@@ -68,8 +64,7 @@ public class UrlEncodeDecoder {
 	static String decode(String str) {
 		try {
 			String decodeStr = URLDecoder.decode(str, "UTF8");
-			decodeStr = new String(Base64.decodeBase64(decodeStr
-					.getBytes("UTF-8")), "UTF-8");
+			decodeStr = new String(Base64.decodeBase64(decodeStr.getBytes("UTF-8")), "UTF-8");
 			return decodeStr;
 		} catch (Exception e) {
 			LOG.error("Error while decode string: " + str);

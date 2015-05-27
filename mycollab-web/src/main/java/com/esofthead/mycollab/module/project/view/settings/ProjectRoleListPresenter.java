@@ -90,15 +90,12 @@ public class ProjectRoleListPresenter
 		if (!isSelectAll) {
 			Collection<SimpleProjectRole> currentDataList = view
 					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
+			List<Integer> keyList = new ArrayList<>();
 			for (ProjectRole item : currentDataList) {
-				if (item.isSelected()
-						&& (item.getIssystemrole() == null || item
-								.getIssystemrole() == Boolean.FALSE)) {
+				if (item.isSelected() && Boolean.FALSE.equals(item.getIssystemrole())) {
 					keyList.add(item.getId());
 				} else {
-					NotificationUtil
-							.showErrorNotification(AppContext
+					NotificationUtil.showErrorNotification(AppContext
 									.getMessage(
 											ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
 											item.getRolename()));

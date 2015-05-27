@@ -30,8 +30,7 @@ public class ButtonI18nComp extends Button {
 
 	private String key;
 
-	public ButtonI18nComp(String key, Enum<?> caption,
-			Button.ClickListener listener) {
+	public ButtonI18nComp(String key, Enum<?> caption, Button.ClickListener listener) {
 		this.key = key;
 		this.setCaption(AppContext.getMessage(caption));
 		this.addClickListener(listener);

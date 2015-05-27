@@ -33,15 +33,15 @@ public abstract class ReadViewLayout extends CustomLayoutExt {
 		super("readView");
 	}
 
-	public void addHeader(final ComponentContainer header) {
+	public void addHeader(ComponentContainer header) {
 		this.addComponent(header, "readViewHeader");
 	}
 
-	public void addBody(final ComponentContainer body) {
+	public void addBody(ComponentContainer body) {
 		this.addComponent(body, "readViewBody");
 	}
 
-	public void addBottomControls(final ComponentContainer bottomControls) {
+	public void addBottomControls(ComponentContainer bottomControls) {
 		this.addComponent(bottomControls, "readViewBottomControls");
 	}
 
@@ -49,19 +49,19 @@ public abstract class ReadViewLayout extends CustomLayoutExt {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
-	public void addTitleStyleName(final String styleName) {
+	public void addTitleStyleName(String styleName) {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
-	public void setTitleStyleName(final String styleName) {
+	public void setTitleStyleName(String styleName) {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
-	public void removeTitleStyleName(final String styleName) {
+	public void removeTitleStyleName(String styleName) {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 
-	public void setTitle(final String title) {
+	public void setTitle(String title) {
 		throw new MyCollabException("Must be implemented in the sub class");
 	}
 }

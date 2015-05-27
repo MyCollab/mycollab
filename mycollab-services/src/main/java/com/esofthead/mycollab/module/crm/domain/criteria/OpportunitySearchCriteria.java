@@ -41,49 +41,49 @@ import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 public class OpportunitySearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_opportunityName = new StringParam("opportunity-name",
+	public static final Param p_opportunityName = new StringParam("opportunity-name",
 			OpportunityI18nEnum.FORM_NAME, "m_crm_opportunity",
 			"opportunityName");
 
-	public static Param p_account = new PropertyParam("opportunity-account",
+	public static final Param p_account = new PropertyParam("opportunity-account",
 			OpportunityI18nEnum.FORM_ACCOUNT_NAME, "m_crm_opportunity",
 			"accountid");
 
-	public static Param p_campaign = new PropertyParam("opportunity-campaign",
+	public static final Param p_campaign = new PropertyParam("opportunity-campaign",
 			OpportunityI18nEnum.FORM_CAMPAIGN_NAME, "m_crm_opportunity",
 			"campaignid");
 
-	public static Param p_nextStep = new StringParam("opportunity-nextstep",
+	public static final Param p_nextStep = new StringParam("opportunity-nextstep",
 			OpportunityI18nEnum.FORM_NEXT_STEP, "m_crm_opportunity", "nextStep");
 
-	public static Param p_saleStage = new StringListParam(
+	public static final Param p_saleStage = new StringListParam(
 			"opportunity-saleStage", OpportunityI18nEnum.FORM_SALE_STAGE,
 			"m_crm_opportunity", "salesStage", Arrays.asList(CrmDataTypeFactory
 					.getOpportunitySalesStageList()));
 
-	public static Param p_leadSource = new StringListParam(
+	public static final Param p_leadSource = new StringListParam(
 			"opportunity-leadSource", OpportunityI18nEnum.FORM_LEAD_SOURCE,
 			"m_crm_opportunity", "source", Arrays.asList(CrmDataTypeFactory
 					.getLeadSourceList()));
 
-	public static Param p_type = new StringListParam("opportunity-type",
+	public static final Param p_type = new StringListParam("opportunity-type",
 			OpportunityI18nEnum.FORM_TYPE, "m_crm_opportunity", "type",
 			Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList()));
 
-	public static Param p_assignee = new PropertyListParam(
+	public static final Param p_assignee = new PropertyListParam(
 			"opportunity-assignee", GenericI18Enum.FORM_ASSIGNEE,
 			"m_crm_opportunity", "assignUser");
 
-	public static Param p_expectedcloseddate = new DateParam(
+	public static final Param p_expectedcloseddate = new DateParam(
 			"opportunity-expectedcloseddate",
 			OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE, "m_crm_opportunity",
 			"expectedClosedDate");
 
-	public static Param p_createdtime = new DateParam(
+	public static final Param p_createdtime = new DateParam(
 			"opportunity-createdtime", GenericI18Enum.FORM_CREATED_TIME,
 			"m_crm_opportunity", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"opportunity-lastUpdatedTime",
 			GenericI18Enum.FORM_LAST_UPDATED_TIME, "m_crm_opportunity",
 			"lastUpdatedTime");

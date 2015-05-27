@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
@@ -48,9 +48,9 @@ class CampaignReadFormFieldFactory extends
                     campaign.getAssignUserAvatarId(),
                     campaign.getAssignUserFullName());
         } else if (propertyId.equals("startdate")) {
-            return new PrettyDateViewField(campaign.getStartdate());
+            return new DateViewField(campaign.getStartdate());
         } else if (propertyId.equals("enddate")) {
-            return new PrettyDateViewField(campaign.getEnddate());
+            return new DateViewField(campaign.getEnddate());
         } else if (propertyId.equals("currencyid")) {
             if (campaign.getCurrency() != null) {
                 return new DefaultViewField(campaign.getCurrency()

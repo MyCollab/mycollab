@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Button;
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -47,51 +48,41 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
     private TaskSearchCriteria searchCriteria;
 
     public UnresolvedTaskByAssigneeWidget() {
-        super(AppContext
-                        .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
-                new MVerticalLayout());
+        super(AppContext.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), new MVerticalLayout());
         this.setContentBorder(true);
     }
 
     public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
         this.bodyContent.removeAllComponents();
-        ProjectTaskService projectTaskService = ApplicationContextUtil
-                .getSpringBean(ProjectTaskService.class);
+        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
         int totalCountItems = projectTaskService.getTotalCount(searchCriteria);
-        final List<GroupItem> groupItems = projectTaskService
-                .getAssignedDefectsSummary(searchCriteria);
+        final List<GroupItem> groupItems = projectTaskService.getAssignedDefectsSummary(searchCriteria);
 
-        this.setTitle(AppContext
-                .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE) + " (" + totalCountItems + ")");
+        this.setTitle(String.format("%s (%d)", AppContext
+                .getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE), totalCountItems));
 
         if (!groupItems.isEmpty()) {
-            for (final GroupItem item : groupItems) {
-                final MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
+            for (GroupItem item : groupItems) {
+                MHorizontalLayout assigneeLayout = new MHorizontalLayout().withWidth("100%");
 
-                final String assignUser = item.getGroupid();
-                String assignUserFullName = item.getGroupid() == null ? ""
-                        : item.getGroupname();
+                String assignUser = item.getGroupid();
+                String assignUserFullName = item.getGroupid() == null ? "" : item.getGroupname();
 
-                if (assignUserFullName == null
-                        || assignUserFullName.trim().equals("")) {
+                if (StringUtils.isBlank(assignUserFullName)) {
                     String displayName = item.getGroupid();
-                    int index = displayName != null ? displayName.indexOf("@")
-                            : 0;
+                    int index = displayName != null ? displayName.indexOf("@") : 0;
                     if (index > 0) {
                         assignUserFullName = displayName.substring(0, index);
                     } else {
-                        assignUserFullName = AppContext
-                                .getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
+                        assignUserFullName = AppContext.getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
                     }
                 }
 
-                final TaskAssigneeLink userLbl = new TaskAssigneeLink(
-                        assignUser, item.getExtraValue(), assignUserFullName);
+                TaskAssigneeLink userLbl = new TaskAssigneeLink(assignUser, item.getExtraValue(), assignUserFullName);
                 assigneeLayout.addComponent(userLbl);
-                final ProgressBarIndicator indicator = new ProgressBarIndicator(
-                        totalCountItems, totalCountItems - item.getValue(),
-                        false);
+                ProgressBarIndicator indicator = new ProgressBarIndicator(
+                        totalCountItems, totalCountItems - item.getValue(), false);
                 indicator.setWidth("100%");
                 assigneeLayout.with(indicator).expand(indicator);
                 bodyContent.addComponent(assigneeLayout);

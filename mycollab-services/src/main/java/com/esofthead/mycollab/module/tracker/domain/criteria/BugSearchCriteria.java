@@ -37,52 +37,52 @@ import java.util.Collection;
 public class BugSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_textDesc = new CompositionStringParam("bug-textDesc",
+	public static final Param p_textDesc = new CompositionStringParam("bug-textDesc",
 			BugI18nEnum.FORM_ANY_TEXT, new StringParam[] {
 					new StringParam("", null, "m_tracker_bug", "summary"),
 					new StringParam("", null, "m_tracker_bug", "detail") });
 
-	public static Param p_createdtime = new DateParam("bug-createdtime",
+	public static final Param p_createdtime = new DateParam("bug-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_tracker_bug", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"bug-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_tracker_bug", "lastUpdatedTime");
 
-	public static Param p_resolveddate = new DateParam("bug-resolveddate",
+	public static final Param p_resolveddate = new DateParam("bug-resolveddate",
 			BugI18nEnum.FORM_RESOLVED_DATE, "m_tracker_bug", "resolveddate");
 
-	public static Param p_duedate = new DateParam("bug-duedate",
+	public static final Param p_duedate = new DateParam("bug-duedate",
 			BugI18nEnum.FORM_DUE_DATE, "m_tracker_bug", "duedate");
 
-	public static Param p_priority = new StringListParam("bug-priority",
+	public static final Param p_priority = new StringListParam("bug-priority",
 			BugI18nEnum.FORM_PRIORITY, "m_tracker_bug", "priority",
 			Arrays.asList(BugPriority.Blocker.name(),
 					BugPriority.Critical.name(), BugPriority.Major.name(),
 					BugPriority.Minor.name(), BugPriority.Trivial.name()));
 
-	public static Param p_severity = new StringListParam("bug-severity",
+	public static final Param p_severity = new StringListParam("bug-severity",
 			BugI18nEnum.FORM_SEVERITY, "m_tracker_bug", "severity",
 			Arrays.asList(BugSeverity.Critical.name(), BugSeverity.Major.name(),
 					BugSeverity.Minor.name(), BugSeverity.Trivial.name()));
 
-	public static Param p_status = new StringListParam("bug-status",
+	public static final Param p_status = new StringListParam("bug-status",
 			BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(
 					BugStatus.Verified.name(), BugStatus.InProgress.name(),
 					BugStatus.Open.name(), BugStatus.ReOpened.name(),
 					BugStatus.Resolved.name()));
 
-	public static Param p_affectedVersions = new BugTypeCustomSql(
+	public static final Param p_affectedVersions = new BugTypeCustomSql(
 			"bug_affected_versions", BugI18nEnum.FORM_AFFECTED_VERSIONS,
 			"AffVersion");
 
-	public static Param p_fixedVersions = new BugTypeCustomSql(
+	public static final Param p_fixedVersions = new BugTypeCustomSql(
 			"bug_fixed_versions", BugI18nEnum.FORM_FIXED_VERSIONS, "FixVersion");
 
-	public static Param p_components = new BugTypeCustomSql("bug_components",
+	public static final Param p_components = new BugTypeCustomSql("bug_components",
 			BugI18nEnum.FORM_COMPONENTS, "Component");
 
-	public static Param p_assignee = new PropertyListParam("bug-assignuser",
+	public static final Param p_assignee = new PropertyListParam("bug-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");
 
 	private static class BugTypeCustomSql extends CustomSqlParam {
@@ -216,9 +216,9 @@ public class BugSearchCriteria extends SearchCriteria {
 
 	private NumberSearchField projectId;
 
-	public static String AFFVERSION = "AffVersion";
-	public static String FIXVERSION = "FixVersion";
-	public static String COMPONENT = "Component";
+	public static final String AFFVERSION = "AffVersion";
+	public static final String FIXVERSION = "FixVersion";
+	public static final String COMPONENT = "Component";
 
 	public StringSearchField getAssignuser() {
 		return assignuser;

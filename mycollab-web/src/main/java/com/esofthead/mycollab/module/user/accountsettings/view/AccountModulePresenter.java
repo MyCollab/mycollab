@@ -46,11 +46,9 @@ public class AccountModulePresenter extends AbstractPresenter<AccountModule> {
 		if (params == null || params.length == 0) {
 			view.gotoUserProfilePage();
 		} else {
-			DesktopApplication.rootUrlResolver.getSubResolver("account").handle(
-					params);
+			DesktopApplication.rootUrlResolver.getSubResolver("account").handle(params);
 		}
 
-		AppContext.getInstance().updateLastModuleVisit(
-				ModuleNameConstants.ACCOUNT);
+		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.ACCOUNT);
 	}
 }

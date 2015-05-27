@@ -94,8 +94,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 		return new AccountAdvancedSearchLayout();
 	}
 
-	private class AccountAdvancedSearchLayout extends
-			DynamicQueryParamLayout<AccountSearchCriteria> {
+	private class AccountAdvancedSearchLayout extends DynamicQueryParamLayout<AccountSearchCriteria> {
 
 		public AccountAdvancedSearchLayout() {
 			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
@@ -125,8 +124,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 		}
 	}
 
-	private class AccountBasicSearchLayout extends
-			BasicSearchLayout<AccountSearchCriteria> {
+	private class AccountBasicSearchLayout extends BasicSearchLayout<AccountSearchCriteria> {
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
 
@@ -136,30 +134,26 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+			MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("AccountSearchRequest", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("AccountSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();
                         }
                     });
+			nameField.setInputPrompt("Query by account name");
 			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 
-			basicSearchBody.with(nameField).withAlign(nameField,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox(
-					AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+			this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 
-			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+			Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(FontAwesome.SEARCH);
 			searchBtn.addClickListener(new Button.ClickListener() {
@@ -169,11 +163,9 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 				}
 			});
 
-			basicSearchBody.with(searchBtn).withAlign(searchBtn,
-					Alignment.MIDDLE_LEFT);
+			basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+			Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -181,22 +173,17 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 					nameField.setValue("");
 				}
 			});
-			basicSearchBody.with(cancelBtn).withAlign(cancelBtn,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Button advancedSearchBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+			Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							AccountSearchPanel.this
-									.moveToAdvancedSearchLayout();
+							AccountSearchPanel.this.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			basicSearchBody.with(advancedSearchBtn).withAlign(
-					advancedSearchBtn, Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}
 
@@ -207,14 +194,11 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
 		@Override
 		protected AccountSearchCriteria fillUpSearchCriteria() {
-			final AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
-			searchCriteria.setAccountname(new StringSearchField(
-					SearchField.AND, this.nameField.getValue().trim()));
+			AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
+			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+			searchCriteria.setAccountname(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
 			if (this.myItemCheckbox.getValue()) {
-				searchCriteria.setAssignUser(new StringSearchField(
-						SearchField.AND, AppContext.getUsername()));
+				searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
 			} else {
 				searchCriteria.setAssignUsers(null);
 			}

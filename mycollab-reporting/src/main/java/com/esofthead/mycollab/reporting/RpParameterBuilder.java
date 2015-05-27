@@ -34,8 +34,7 @@ public class RpParameterBuilder {
 		viewFields = new ArrayList<>();
 
 		for (TableViewField field : fields) {
-			TableViewFieldDecorator fieldDecorator = new TableViewFieldDecorator(
-					field);
+			TableViewFieldDecorator fieldDecorator = new TableViewFieldDecorator(field);
 			viewFields.add(fieldDecorator);
 		}
 	}

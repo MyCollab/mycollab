@@ -102,9 +102,8 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 
 	public void insetItemOnBottom(T item) {
 		RowDisplayHandler<T> rowHandler = constructRowDisplayHandler();
-		Component row = rowHandler.generateRow(item,
-				contentLayout.getComponentCount());
-		if (row != null && contentLayout != null) {
+		Component row = rowHandler.generateRow(item, contentLayout.getComponentCount());
+		if (row != null) {
 			contentLayout.addComponent(row);
 		}
 	}

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComboBox;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -72,7 +73,7 @@ public class MilestoneComboBox extends ComboBox {
 
 	}
 
-	private static class MilestoneComparator implements Comparator<Milestone> {
+	private static class MilestoneComparator implements Comparator<Milestone>, Serializable {
 
 		@Override
 		public int compare(Milestone milestone1, Milestone milestone2) {

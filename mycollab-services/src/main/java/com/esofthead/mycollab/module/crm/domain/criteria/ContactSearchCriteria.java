@@ -44,26 +44,26 @@ import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 public class ContactSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_name = new ConcatStringParam("contact-firstname",
+	public static final Param p_name = new ConcatStringParam("contact-firstname",
 			ContactI18nEnum.FORM_NAME, "m_crm_contact", new String[] {
 					"firstname", "lastname" });
 
-	public static Param p_leadsource = new StringListParam(
+	public static final Param p_leadsource = new StringListParam(
 			"contact-leadsource", ContactI18nEnum.FORM_LEAD_SOURCE,
 			"m_crm_contact", "leadSource", Arrays.asList(CrmDataTypeFactory
 					.getLeadSourceList()));
 
-	public static Param p_billingCountry = new StringListParam(
+	public static final Param p_billingCountry = new StringListParam(
 			"contact-billingCountry", ContactI18nEnum.FORM_PRIMARY_COUNTRY,
 			"m_crm_contact", "primCountry", Arrays.asList(CountryValueFactory
 					.getCountryList()));
 
-	public static Param p_shippingCountry = new StringListParam(
+	public static final Param p_shippingCountry = new StringListParam(
 			"contact-shippingCountry", ContactI18nEnum.FORM_OTHER_COUNTRY,
 			"m_crm_contact", "otherCountry", Arrays.asList(CountryValueFactory
 					.getCountryList()));
 
-	public static Param p_anyPhone = new CompositionStringParam(
+	public static final Param p_anyPhone = new CompositionStringParam(
 			"contact-anyPhone",
 			ContactI18nEnum.FORM_ANY_PHONE,
 			new StringParam[] {
@@ -74,28 +74,28 @@ public class ContactSearchCriteria extends SearchCriteria {
 					new StringParam("", null, "m_crm_contact", "fax"),
 					new StringParam("", null, "m_crm_contact", "assistantPhone") });
 
-	public static Param p_anyEmail = new CompositionStringParam(
+	public static final Param p_anyEmail = new CompositionStringParam(
 			"contact-anyEmail", ContactI18nEnum.FORM_ANY_EMAIL,
 			new StringParam[] { new StringParam("", null, "m_crm_contact",
 					"email") });
 
-	public static Param p_anyCity = new CompositionStringParam(
+	public static final Param p_anyCity = new CompositionStringParam(
 			"contact-anyCity", ContactI18nEnum.FORM_ANY_CITY,
 			new StringParam[] {
 					new StringParam("", null, "m_crm_contact", "primCity"),
 					new StringParam("", null, "m_crm_contact", "otherCity") });
 
-	public static Param p_account = new PropertyParam("contact-account",
+	public static final Param p_account = new PropertyParam("contact-account",
 			ContactI18nEnum.FORM_ACCOUNTS, "m_crm_contact", "accountId");
 
-	public static Param p_assignee = new PropertyListParam(
+	public static final Param p_assignee = new PropertyListParam(
 			"contact-assignuser", GenericI18Enum.FORM_ASSIGNEE,
 			"m_crm_contact", "assignUser");
 
-	public static Param p_createdtime = new DateParam("contact-createdtime",
+	public static final Param p_createdtime = new DateParam("contact-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_crm_contact", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"contact-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_crm_contact", "lastUpdatedTime");
 

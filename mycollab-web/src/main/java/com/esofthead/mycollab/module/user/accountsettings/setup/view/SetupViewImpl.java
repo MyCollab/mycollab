@@ -189,10 +189,10 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         }
     }
 
-    private class BasicEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<EmailConfiguration> {
+    private static class BasicEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<EmailConfiguration> {
         private static final long serialVersionUID = 1L;
 
-        public BasicEditFormFieldFactory(GenericBeanForm<EmailConfiguration> form) {
+        BasicEditFormFieldFactory(GenericBeanForm<EmailConfiguration> form) {
             super(form);
         }
 

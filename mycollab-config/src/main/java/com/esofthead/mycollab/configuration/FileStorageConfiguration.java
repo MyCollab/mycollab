@@ -27,7 +27,7 @@ import java.io.File;
  */
 public final class FileStorageConfiguration implements StorageConfiguration {
 
-	public static File baseContentFolder;
+	public static final File baseContentFolder;
 
 	static {
 		String userFolder = System.getProperty("user.home");
@@ -45,10 +45,9 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 	@Override
 	public String getAvatarPath(String userAvatarId, int size) {
 		if (userAvatarId == null || "".equals(userAvatarId)) {
-			return SiteConfiguration.getSiteUrl("app") + "avatar/null/" + size;
+			return String.format("%savatar/null/%d", SiteConfiguration.getSiteUrl("app"), size);
 		}
-		return SiteConfiguration.getSiteUrl("app") + "avatar/" + userAvatarId
-				+ "/" + size;
+		return String.format("%savatar/%s/%d", SiteConfiguration.getSiteUrl("app"), userAvatarId, size);
 	}
 
 	@Override
@@ -71,8 +70,7 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 	 * @return null if user avatar is not existed
 	 */
 	public File getAvatarFile(String username, int size) {
-		File userAvatarFile = new File(baseContentFolder, "/avatar/" + username
-				+ "_" + size + ".png");
+		File userAvatarFile = new File(baseContentFolder, String.format("/avatar/%s_%d.png", username, size));
 		if (userAvatarFile.exists()) {
 			return userAvatarFile;
 		} else {
@@ -87,8 +85,7 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 	 * @return null if logo file is not existed
 	 */
 	public File getLogoFile(String logoId, int size) {
-		File logoFile = new File(baseContentFolder, "/logo/" + logoId + "_"
-				+ size + ".png");
+		File logoFile = new File(baseContentFolder, String.format("/logo/%s_%d.png", logoId, size));
 		if (logoFile.exists()) {
 			return logoFile;
 		} else {

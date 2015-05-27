@@ -53,32 +53,28 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
             @Override
             public void onSave(final Page page) {
                 savePage(page);
-                EventBusFactory.getInstance().post(
-                        new PageEvent.GotoRead(this, page));
+                EventBusFactory.getInstance().post(new PageEvent.GotoRead(this, page));
             }
 
             @Override
             public void onCancel() {
                 ViewState viewState = HistoryViewManager.back();
                 if (viewState.hasPresenters(NullViewState.EmptyPresenter.class, ProjectViewPresenter.class)) {
-                    EventBusFactory.getInstance().post(
-                            new PageEvent.GotoList(this, null));
+                    EventBusFactory.getInstance().post(new PageEvent.GotoList(this, null));
                 }
             }
 
             @Override
             public void onSaveAndNew(final Page page) {
                 savePage(page);
-                EventBusFactory.getInstance().post(
-                        new PageEvent.GotoAdd(this, null));
+                EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
             }
         });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.PAGES)) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES)) {
             PageContainer pageContainer = (PageContainer) container;
             pageContainer.navigateToContainer(ProjectTypeConstants.PAGE);
             pageContainer.removeAllComponents();
@@ -87,8 +83,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
             Page page = (Page) data.getParams();
             view.editItem(page);
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             if (page.getPath().equals("")) {
                 breadcrumb.gotoPageAdd();
             } else {
@@ -101,11 +96,9 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
     }
 
     private void savePage(Page page) {
-        ProjectPageService pageService = ApplicationContextUtil
-                .getSpringBean(ProjectPageService.class);
+        ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
 
-        pageService.savePage(page, AppContext.getUsername(),
-                CurrentProjectVariables.getProjectId(),
+        pageService.savePage(page, AppContext.getUsername(), CurrentProjectVariables.getProjectId(),
                 AppContext.getAccountId());
     }
 }

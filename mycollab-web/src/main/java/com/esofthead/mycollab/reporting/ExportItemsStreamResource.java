@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.reporting;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.MyCollabThread;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -31,7 +30,10 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
@@ -47,6 +49,8 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.*;
  */
 public abstract class ExportItemsStreamResource implements StreamResource.StreamSource {
     private static final long serialVersionUID = 1L;
+
+    private static Logger LOG = LoggerFactory.getLogger(ExportItemsStreamResource.class);
 
     protected AbstractReportTemplate reportTemplate;
     protected JasperReportBuilder reportBuilder;
@@ -79,11 +83,11 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
     @Override
     public InputStream getStream() {
         final PipedInputStream inStream = new PipedInputStream();
-
-        Thread threadExport = new MyCollabThread(new Runnable() {
+        final PipedOutputStream outStream = new PipedOutputStream();
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                try (PipedOutputStream outStream = new PipedOutputStream(inStream)) {
+                try  {
                     reportBuilder = createReport();
 
                     initReport();
@@ -92,31 +96,36 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
                     if (outputForm == ReportExportType.PDF) {
                         reportBuilder.toPdf(outStream);
                     } else if (outputForm == ReportExportType.CSV) {
-                        JasperCsvExporterBuilder csvExporter = export
-                                .csvExporter(outStream);
+                        JasperCsvExporterBuilder csvExporter = export.csvExporter(outStream);
                         reportBuilder.ignorePageWidth();
                         reportBuilder.toCsv(csvExporter);
                     } else if (outputForm == ReportExportType.EXCEL) {
-                        JasperXlsxExporterBuilder xlsExporter = export
-                                .xlsxExporter(outStream)
-                                .setDetectCellType(true)
-                                .setIgnorePageMargins(true)
-                                .setWhitePageBackground(false)
-                                .setRemoveEmptySpaceBetweenColumns(true);
+                        JasperXlsxExporterBuilder xlsExporter = export.xlsxExporter(outStream)
+                                .setDetectCellType(true).setIgnorePageMargins(true)
+                                .setWhitePageBackground(false).setRemoveEmptySpaceBetweenColumns(true);
                         reportBuilder.toXlsx(xlsExporter);
                     } else {
                         throw new IllegalArgumentException(
                                 "Do not support output type " + outputForm);
                     }
-                    outStream.flush();
                 } catch (Exception e) {
                     EventBusFactory.getInstance().post(
                             new ShellEvent.NotifyErrorEvent(
                                     ExportItemsStreamResource.this, e));
+                } finally {
+                    try {
+                        outStream.close();
+                    } catch (IOException e) {
+                        LOG.error("Try to close reporting stream error", e);
+                    }
                 }
             }
-        });
-        threadExport.start();
+        }).start();
+        try {
+            outStream.connect(inStream);
+        } catch (IOException e) {
+            throw new MyCollabException(e);
+        }
         return inStream;
     }
 
@@ -129,14 +138,11 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
         if (outputForm == ReportExportType.PDF) {
             reportBuilder
                     .title(createTitleComponent(reportTitle))
-                    .noData(createTitleComponent(reportTitle),
-                            cmp.text("There is no data"))
+                    .noData(createTitleComponent(reportTitle), cmp.text("There is no data"))
                     .setPageFormat(PageType.A3, PageOrientation.LANDSCAPE)
                     .setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
-                    .highlightDetailEvenRows()
-                    .pageFooter(
-                            cmp.pageXofY().setStyle(
-                                    reportTemplate.getBoldCenteredStyle()))
+                    .highlightDetailEvenRows().pageFooter(
+                    cmp.pageXofY().setStyle(reportTemplate.getBoldCenteredStyle()))
                     .setLocale(locale);
 
         } else if (outputForm == ReportExportType.CSV) {
@@ -166,10 +172,8 @@ public abstract class ExportItemsStreamResource implements StreamResource.Stream
                         ReportTemplateFactory.class.getClassLoader()
                                 .getResourceAsStream("images/logo.png"))
                         .setFixedDimension(150, 28), cmp.horizontalGap(10), cmp.verticalList(
-                        cmp.text(label)
-                                .setStyle(reportTemplate.bold22CenteredStyle)
-                                .setHorizontalAlignment(
-                                        HorizontalAlignment.LEFT),
+                        cmp.text(label).setStyle(reportTemplate.bold22CenteredStyle)
+                                .setHorizontalAlignment(HorizontalAlignment.LEFT),
                         cmp.text("https://www.mycollab.com")
                                 .setStyle(reportTemplate.italicStyle).setHyperLink(link)),
                 cmp.horizontalGap(20),

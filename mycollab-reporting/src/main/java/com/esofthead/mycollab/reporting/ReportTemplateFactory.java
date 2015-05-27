@@ -55,6 +55,5 @@ public class ReportTemplateFactory {
 				return enReport;
 			}
 		}
-
 	}
 }

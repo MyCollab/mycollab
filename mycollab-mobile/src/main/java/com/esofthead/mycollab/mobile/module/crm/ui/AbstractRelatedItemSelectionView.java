@@ -34,10 +34,9 @@ import com.vaadin.ui.Button;
  */
 public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriteria>
 		extends AbstractMobilePageView {
-
 	private static final long serialVersionUID = -8672605824883862622L;
 
-	protected static String SELECTED_STYLENAME = "selected";
+	protected static final String SELECTED_STYLENAME = "selected";
 
 	protected final AbstractRelatedListView<T, S> relatedListView;
 	protected Set<T> selections = new HashSet<T>();
@@ -47,9 +46,6 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 			final AbstractRelatedListView<T, S> relatedListView) {
 		this.setCaption(title);
 		this.relatedListView = relatedListView;
-		// if (!relatedListView.getItemList().getCurrentDataList().isEmpty())
-		// this.selections = new HashSet<T>(relatedListView.getItemList()
-		// .getCurrentDataList());
 		initUI();
 		this.setContent(itemList);
 		Button doneBtn = new Button(
@@ -60,8 +56,7 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
 						if (!selections.isEmpty()) {
-							relatedListView
-									.fireSelectedRelatedItems(selections);
+							relatedListView.fireSelectedRelatedItems(selections);
 						}
 					}
 				});

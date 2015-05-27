@@ -66,11 +66,9 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 						.getSelectedTabInfo();
 				String caption = tab.getCaption();
 				if ("Users".equals(caption)) {
-					userPresenter.go(UserPermissionManagementViewImpl.this,
-							null);
+					userPresenter.go(UserPermissionManagementViewImpl.this, null);
 				} else if ("Roles".equals(caption)) {
-					rolePresenter.go(UserPermissionManagementViewImpl.this,
-							null);
+					rolePresenter.go(UserPermissionManagementViewImpl.this, null);
 				}
 			}
 		});
@@ -81,8 +79,7 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
 	@Override
 	public Component gotoSubView(String name) {
-		PageView component = (PageView) groupTab.selectTab(name)
-				.getComponent();
+		PageView component = (PageView) groupTab.selectTab(name).getComponent();
 		return component;
 	}
 

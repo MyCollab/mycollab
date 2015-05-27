@@ -74,7 +74,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 		return new AssignmentEditFormFieldFactory(editForm);
 	}
 
-	private class AssignmentEditFormFieldFactory extends
+	private static class AssignmentEditFormFieldFactory extends
 			AbstractBeanFieldGroupEditFieldFactory<Task> {
 		private static final long serialVersionUID = 1L;
 
@@ -117,7 +117,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 		}
 	}
 
-	class TaskPriorityComboBox extends ValueComboBox {
+	private static class TaskPriorityComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 
 		public TaskPriorityComboBox() {
@@ -127,10 +127,10 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 		}
 	}
 
-	class TaskStatusComboBox extends ValueComboBox {
+	private static class TaskStatusComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 
-		public TaskStatusComboBox() {
+		TaskStatusComboBox() {
 			super();
 			setCaption(null);
 			this.loadData(CrmDataTypeFactory.getTaskStatuses());

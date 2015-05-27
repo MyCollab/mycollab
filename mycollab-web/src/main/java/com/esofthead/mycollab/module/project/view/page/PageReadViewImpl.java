@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
@@ -29,33 +30,31 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
-import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.*;
 import com.lowagie.text.DocumentException;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.*;
-import org.apache.commons.lang3.StringUtils;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -65,32 +64,30 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.*;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
 @ViewComponent
-public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
-        PageReadView {
+public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements PageReadView {
     private static final long serialVersionUID = 1L;
     private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
             + "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body><h1>%s</h1><br/>%s" +
             "</body></html>";
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(PageReadViewImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PageReadViewImpl.class);
 
     private CommentDisplay commentListComp;
-    private PageInfoComp pageInfoComp;
     private PageVersionSelectionBox pageVersionsSelection;
 
     private PageVersion selectedVersion;
     private PageService pageService;
 
     public PageReadViewImpl() {
-        super(new MHorizontalLayout().withMargin(true));
+        super(new MHorizontalLayout().withMargin(true), new PagePreviewFormLayout());
         pageService = ApplicationContextUtil.getSpringBean(PageService.class);
         constructHeader();
     }
@@ -98,8 +95,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        Label headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum
-                .VIEW_READ_TITLE));
+        Label headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
         headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 
@@ -116,19 +112,15 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     @Override
     protected void initRelatedComponents() {
         commentListComp = new CommentDisplay(ProjectTypeConstants.PAGE,
-                CurrentProjectVariables.getProjectId(),
-                ProjectPageRelayEmailNotificationAction.class);
+                CurrentProjectVariables.getProjectId(), ProjectPageRelayEmailNotificationAction.class);
         commentListComp.setWidth("100%");
         commentListComp.setMargin(true);
-
-        pageInfoComp = new PageInfoComp();
-        addToSideBar(pageInfoComp);
     }
 
     @Override
     protected void onPreviewItem() {
+        ((PagePreviewFormLayout) previewLayout).displayPageInfo(beanItem);
         commentListComp.loadComments(beanItem.getPath());
-        pageInfoComp.displayEntryInfo();
         pageVersionsSelection.displayVersions(beanItem.getPath());
     }
 
@@ -161,15 +153,13 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<>(
                 previewForm);
-        final HorizontalLayout topPanel = pagesPreviewForm
-                .createButtonControls(
-                        ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
-                        ProjectRolePermissionCollections.PAGES);
+        HorizontalLayout topPanel = pagesPreviewForm.createButtonControls(
+                ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
+                ProjectRolePermissionCollections.PAGES);
 
-        Button exportPdfBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
+        Button exportPdfBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
                 FontAwesome.EXTERNAL_LINK);
         exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -196,8 +186,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         }, "Document.pdf");
     }
 
-    private File writePdf() throws IOException,
-            DocumentException {
+    private File writePdf() throws IOException, DocumentException {
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(String.format(XHTML_PAGE,
                 beanItem.getSubject(), beanItem.getSubject(), beanItem.getContent()));
@@ -205,15 +194,15 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
 
         File file = File.createTempFile(beanItem.getSubject(), "pdf");
         file.deleteOnExit();
-        OutputStream os = new FileOutputStream(file);
-        renderer.createPDF(os);
-        os.close();
+        try (OutputStream os = new FileOutputStream(file)) {
+            renderer.createPDF(os);
+        }
         return file;
     }
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
+        TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
         tabContainer.addTab(this.commentListComp, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
         return tabContainer;
     }
@@ -223,8 +212,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         return ProjectTypeConstants.PAGE;
     }
 
-    private static class PageReadFormFieldFactory extends
-            AbstractBeanFieldGroupViewFieldFactory<Page> {
+    private static class PageReadFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<Page> {
         private static final long serialVersionUID = 1L;
 
         public PageReadFormFieldFactory(GenericBeanForm<Page> form) {
@@ -232,11 +220,9 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         }
 
         @Override
-        protected Field<?> onCreateField(Object propertyId) {
-
+        protected Field<?> onCreateField(java.lang.Object propertyId) {
             if (propertyId.equals("status")) {
-                return new I18nFormViewField(attachForm.getBean().getStatus(),
-                        WikiI18nEnum.class);
+                return new I18nFormViewField(attachForm.getBean().getStatus(), WikiI18nEnum.class);
             } else if (propertyId.equals("content")) {
                 return new RichTextViewField(attachForm.getBean().getContent());
             }
@@ -244,7 +230,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         }
     }
 
-    private class PageReadFormLayout implements IFormLayoutFactory {
+    private static class PageReadFormLayout implements IFormLayoutFactory {
         private static final long serialVersionUID = 1L;
 
         private MVerticalLayout layout;
@@ -256,75 +242,47 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
         }
 
         @Override
-        public void attachField(Object propertyId, Field<?> field) {
+        public void attachField(java.lang.Object propertyId, Field<?> field) {
             if (propertyId.equals("content")) {
                 layout.addComponent(field);
             }
         }
     }
 
-    private class PageInfoComp extends MVerticalLayout {
-        private static final long serialVersionUID = 1L;
-
-        public void displayEntryInfo() {
-            this.removeAllComponents();
-            this.withMargin(new MarginInfo(false, false, false, true));
-
-            Label pageInfoHeader = new Label(FontAwesome.INFO_CIRCLE.getHtml() + " Page Information", ContentMode.HTML);
-            pageInfoHeader.setStyleName("info-hdr");
-            this.addComponent(pageInfoHeader);
-
-            MVerticalLayout layout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true))
-                    .withWidth("100%");
-            String createdDate = AppContext.formatPrettyTime(beanItem
-                    .getCreatedTime().getTime());
-            layout.addComponent(new ELabel(AppContext.getMessage(
-                    ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)).withDescription(AppContext
-                    .formatDateTime(beanItem.getCreatedTime().getTime())));
-
-            String createdUser = beanItem.getCreatedUser();
-
-            Label createdLbl = new Label(AppContext.getMessage(
-                    Page18InEnum.OPT_CREATED_USER, getMemberLink(createdUser)),
-                    ContentMode.HTML);
-            createdLbl.addStyleName(UIConstants.WORD_WRAP);
-            createdLbl.setSizeUndefined();
-            layout.addComponent(createdLbl);
-
-            Label visibilityLbl = new Label(String.format(
-                    "%s: %s",
-                    AppContext.getMessage(Page18InEnum.FORM_VISIBILITY),
-                    AppContext.getMessage(WikiI18nEnum.class,
-                            beanItem.getStatus())));
-            layout.addComponent(visibilityLbl);
-
-            this.addComponent(layout);
-        }
-
-        private String getMemberLink(String createdUser) {
-            if (StringUtils.isNotBlank(createdUser)) {
-                ProjectMemberService projectMemberService = ApplicationContextUtil
-                        .getSpringBean(ProjectMemberService.class);
-                SimpleProjectMember member = projectMemberService
-                        .findMemberByUsername(createdUser,
-                                CurrentProjectVariables.getProjectId(),
-                                AppContext.getAccountId());
-                if (member != null) {
-                    DivLessFormatter div = new DivLessFormatter();
-                    Img userAvatar = new Img("", StorageManager.getAvatarLink(
-                            member.getMemberAvatarId(), 16));
-                    A userLink = new A();
-                    userLink.setHref(ProjectLinkBuilder
-                            .generateProjectMemberFullLink(
-                                    CurrentProjectVariables.getProjectId(),
-                                    createdUser));
-                    userLink.appendText(member.getMemberFullName());
-                    div.appendChild(userAvatar, userLink);
-                    return div.write();
-                }
+    private static class PagePreviewFormLayout extends ReadViewLayout {
+        void displayPageInfo(Page beanItem) {
+            MVerticalLayout header = new MVerticalLayout().withMargin(false);
+            Label titleLbl = new Label(beanItem.getSubject());
+            titleLbl.setStyleName("headerName");
+            header.with(titleLbl);
+            Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
+            Span lastUpdatedTimeTxt = new Span().appendText(AppContext.getMessage(
+                    DayI18nEnum.LAST_UPDATED_ON,
+                    AppContext.formatPrettyTime(beanItem.getLastUpdatedTime().getTime())))
+                    .setTitle(AppContext.formatDateTime(beanItem.getLastUpdatedTime().getTime()));
+            String uid = UUID.randomUUID().toString();
+            ProjectMemberService projectMemberService = ApplicationContextUtil
+                    .getSpringBean(ProjectMemberService.class);
+            SimpleProjectMember member = projectMemberService.findMemberByUsername(beanItem.getCreatedUser(),
+                    CurrentProjectVariables.getProjectId(), AppContext.getAccountId());
+            if (member != null) {
+                Img userAvatar = new Img("", StorageManager.getAvatarLink(member.getMemberAvatarId(), 16));
+                A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
+                        .getProjectid(), member.getUsername())).appendText(member.getMemberFullName());
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, member.getUsername()));
+                userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+                footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;Created by: "), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
+                        DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+            } else {
+                footer.appendChild(lastUpdatedTimeTxt);
             }
 
-            return createdUser;
+            header.addComponent(new Label(footer.write(), ContentMode.HTML));
+            this.addHeader(header);
+        }
+
+        @Override
+        public void setTitle(String title) {
         }
     }
 
@@ -351,18 +309,14 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public void valueChange(
-                            com.vaadin.data.Property.ValueChangeEvent event) {
-                        selectedVersion = (PageVersion) pageSelection
-                                .getValue();
+                    public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+                        selectedVersion = (PageVersion) pageSelection.getValue();
                         if (selectedVersion != null) {
-                            Page page = pageService.getPageByVersion(
-                                    beanItem.getPath(),
-                                    selectedVersion.getName());
+                            Page page = pageService.getPageByVersion(beanItem.getPath(), selectedVersion.getName());
                             page.setPath(beanItem.getPath());
                             previewForm.setBean(page);
                             previewLayout.setTitle(page.getSubject());
-                            pageInfoComp.displayEntryInfo();
+                            ((PagePreviewFormLayout) previewLayout).displayPageInfo(page);
                         }
                     }
                 });
@@ -373,13 +327,11 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements
                 for (int i = 0; i < pageVersions.size(); i++) {
                     PageVersion version = pageVersions.get(i);
                     pageSelection.addItem(version);
-                    pageSelection.setItemCaption(version,
-                            getVersionDisplay(version, i));
+                    pageSelection.setItemCaption(version, getVersionDisplay(version, i));
                 }
 
                 if (pageVersions.size() > 0) {
-                    pageSelection
-                            .setValue(pageVersions.get(pageVersions.size() - 1));
+                    pageSelection.setValue(pageVersions.get(pageVersions.size() - 1));
                 }
             }
         }

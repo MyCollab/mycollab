@@ -33,6 +33,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -45,21 +46,16 @@ import java.util.Map;
  * @since 4.5.2
  */
 public class MobileAttachmentUtils {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MobileAttachmentUtils.class.getName());
+	private static final Logger LOG = LoggerFactory.getLogger(MobileAttachmentUtils.class.getName());
 
-	public static String ATTACHMENT_NAME_PREFIX = "attachment_";
+	public static final String ATTACHMENT_NAME_PREFIX = "attachment_";
 
-	private static final Resource DEFAULT_SOURCE = MyCollabResource
-			.newResource("icons/docs-256.png");
+	private static final Resource DEFAULT_SOURCE = MyCollabResource.newResource("icons/docs-256.png");
 
 	public static Component renderAttachmentRow(final Content attachment) {
 		String docName = attachment.getPath();
 		int lastIndex = docName.lastIndexOf("/");
-		HorizontalLayout attachmentRow = new HorizontalLayout();
-		attachmentRow.setStyleName("attachment-row");
-		attachmentRow.setWidth("100%");
-		attachmentRow.setSpacing(true);
+		MHorizontalLayout attachmentRow = new MHorizontalLayout().withWidth("100%").withStyleName("attachment-row");
 		attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		CssLayout thumbnailWrap = new CssLayout();
@@ -94,9 +90,7 @@ public class MobileAttachmentUtils {
 						public void buttonClick(Button.ClickEvent event) {
 							AttachmentPreviewView previewView = new AttachmentPreviewView(
 									VaadinResourceManager.getResourceManager()
-											.getImagePreviewResource(
-													attachment.getPath(),
-													DEFAULT_SOURCE));
+											.getImagePreviewResource(attachment.getPath(), DEFAULT_SOURCE));
 							EventBusFactory.getInstance().post(
 									new ShellEvent.PushView(this, previewView));
 						}
@@ -150,20 +144,16 @@ public class MobileAttachmentUtils {
 		attachmentLayout.setExpandRatio(attachmentLink, 1.0f);
 
 		Button removeAttachment = new Button(
-				"<span aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.DELETE + "\"></span>",
+                String.format("<span aria-hidden=\"true\" data-icon=\"%s\"></span>", IconConstants.DELETE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(ClickEvent event) {
 
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
+						ConfirmDialog.show(UI.getCurrent(),
+								AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
 								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
@@ -173,12 +163,9 @@ public class MobileAttachmentUtils {
 										if (dialog.isConfirmed()) {
 											ResourceService attachmentService = ApplicationContextUtil
 													.getSpringBean(ResourceService.class);
-											attachmentService.removeResource(
-													attachment.getPath(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											((ComponentContainer) attachmentLayout
-													.getParent())
+											attachmentService.removeResource(attachment.getPath(),
+													AppContext.getUsername(), AppContext.getAccountId());
+											((ComponentContainer) attachmentLayout.getParent())
 													.removeComponent(attachmentLayout);
 										}
 									}
@@ -203,67 +190,64 @@ public class MobileAttachmentUtils {
 	public static void saveContentsToRepo(String attachmentPath,
 			Map<String, File> fileStores) {
 		if (MapUtils.isNotEmpty(fileStores)) {
-			ResourceService resourceService = ApplicationContextUtil
-					.getSpringBean(ResourceService.class);
-			for (String fileName : fileStores.keySet()) {
-				try {
-					String fileExt = "";
-					int index = fileName.lastIndexOf(".");
-					if (index > 0) {
-						fileExt = fileName.substring(index + 1,
-								fileName.length());
-					}
+            ResourceService resourceService = ApplicationContextUtil
+                    .getSpringBean(ResourceService.class);
+			for (Map.Entry<String, File> entry : fileStores.entrySet()) {
+                try {
+                    String fileExt = "";
+                    String fileName = entry.getKey();
+                    File file = entry.getValue();
+                    int index = fileName.lastIndexOf(".");
+                    if (index > 0) {
+                        fileExt = fileName.substring(index + 1, fileName.length());
+                    }
 
-					if ("jpg".equalsIgnoreCase(fileExt)
-							|| "png".equalsIgnoreCase(fileExt)) {
-						try {
-							BufferedImage bufferedImage = ImageIO
-									.read(fileStores.get(fileName));
+                    if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
+                        try {
+                            BufferedImage bufferedImage = ImageIO.read(file);
 
-							int imgHeight = bufferedImage.getHeight();
-							int imgWidth = bufferedImage.getWidth();
+                            int imgHeight = bufferedImage.getHeight();
+                            int imgWidth = bufferedImage.getWidth();
 
-							BufferedImage scaledImage = null;
+                            BufferedImage scaledImage;
 
-							float scale;
-							float destWidth = 974;
-							float destHeight = 718;
+                            float scale;
+                            float destWidth = 974;
+                            float destHeight = 718;
 
-							float scaleX = Math.min(destHeight / imgHeight, 1);
-							float scaleY = Math.min(destWidth / imgWidth, 1);
-							scale = Math.min(scaleX, scaleY);
-							scaledImage = ImageUtil.scaleImage(bufferedImage,
-									scale);
+                            float scaleX = Math.min(destHeight / imgHeight, 1);
+                            float scaleY = Math.min(destWidth / imgWidth, 1);
+                            scale = Math.min(scaleX, scaleY);
+                            scaledImage = ImageUtil.scaleImage(bufferedImage,
+                                    scale);
 
-							ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-							ImageIO.write(scaledImage, fileExt, outStream);
+                            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                            ImageIO.write(scaledImage, fileExt, outStream);
 
-							resourceService.saveContent(
-									constructContent(fileName, attachmentPath),
-									AppContext.getUsername(),
-									new ByteArrayInputStream(outStream
-											.toByteArray()), AppContext
-											.getAccountId());
-						} catch (IOException e) {
-							LOG.error("Error in upload file", e);
-							resourceService.saveContent(
-									constructContent(fileName, attachmentPath),
-									AppContext.getUsername(),
-									new FileInputStream(fileStores
-											.get(fileName)), AppContext
-											.getAccountId());
-						}
-					} else {
-						resourceService.saveContent(
-								constructContent(fileName, attachmentPath),
-								AppContext.getUsername(), new FileInputStream(
-										fileStores.get(fileName)), AppContext
-										.getAccountId());
-					}
+                            resourceService.saveContent(
+                                    constructContent(fileName, attachmentPath),
+                                    AppContext.getUsername(),
+                                    new ByteArrayInputStream(outStream
+                                            .toByteArray()), AppContext
+                                            .getAccountId());
+                        } catch (IOException e) {
+                            LOG.error("Error in upload file", e);
+                            resourceService.saveContent(
+                                    constructContent(fileName, attachmentPath),
+                                    AppContext.getUsername(),
+                                    new FileInputStream(fileStores
+                                            .get(fileName)), AppContext
+                                            .getAccountId());
+                        }
+                    } else {
+                        resourceService.saveContent(constructContent(fileName, attachmentPath),
+                                AppContext.getUsername(), new FileInputStream(file), AppContext
+                                        .getAccountId());
+                    }
 
-				} catch (FileNotFoundException e) {
-					LOG.error("Error when attach content in UI", e);
-				}
+                } catch (FileNotFoundException e) {
+                    LOG.error("Error when attach content in UI", e);
+                }
 			}
 		}
 	}

@@ -725,7 +725,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
         }
     }
 
-    private class QuickCreateEventWindow extends Window {
+    private static class QuickCreateEventWindow extends Window {
         private static final long serialVersionUID = 1L;
         private EditForm editForm;
         private MeetingWithBLOBs meeting;
@@ -870,7 +870,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
             private class MeetingStatusComboBox extends ValueComboBox {
                 private static final long serialVersionUID = 1L;
 
-                public MeetingStatusComboBox() {
+                MeetingStatusComboBox() {
                     super();
                     setCaption(null);
                     this.loadData("Planned", "Held", "Not Held");

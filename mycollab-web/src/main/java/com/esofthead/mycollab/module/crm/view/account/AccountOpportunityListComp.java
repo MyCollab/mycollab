@@ -40,6 +40,7 @@ import com.vaadin.ui.*;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,24 +50,25 @@ import java.util.Map;
  * @since 1.0
  *
  */
-public class AccountOpportunityListComp
-        extends
+public class AccountOpportunityListComp extends
         RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
     private static final long serialVersionUID = -2414709814283942446L;
 
     private Account account;
 
-    public static Map<String, String> colormap = new HashMap<>();
+    static final Map<String, String> colormap;
 
     static {
+        Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
             String roleKeyName = CrmDataTypeFactory
                     .getOpportunitySalesStageList()[i];
-            if (!colormap.containsKey(roleKeyName)) {
-                colormap.put(roleKeyName,
-                        AbstractBeanBlockList.getColorStyleNameList()[i]);
+            if (!tmpMap.containsKey(roleKeyName)) {
+                tmpMap.put(roleKeyName,
+                        AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
         }
+        colormap = Collections.unmodifiableMap(tmpMap);
     }
 
     public AccountOpportunityListComp() {

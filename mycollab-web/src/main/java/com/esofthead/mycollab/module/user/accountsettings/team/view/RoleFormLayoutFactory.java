@@ -37,13 +37,13 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
     @Override
     public ComponentContainer getLayout() {
-        final ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
+        ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
         this.userInformationLayout = new RoleInformationLayout();
         this.userInformationLayout.getLayout().setWidth("100%");
         userAddLayout.addBody(userInformationLayout.getLayout());
 
-        final Layout bottomPanel = this.createBottomPanel();
+        Layout bottomPanel = this.createBottomPanel();
         if (bottomPanel != null) {
             userAddLayout.addBottomControls(bottomPanel);
         }
@@ -64,9 +64,8 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
         @Override
         public ComponentContainer getLayout() {
-            final VerticalLayout layout = new VerticalLayout();
-            final Label organizationHeader = new Label(
-                    AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION));
+            VerticalLayout layout = new VerticalLayout();
+            Label organizationHeader = new Label(AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION));
             organizationHeader.setStyleName(UIConstants.H2_STYLE2);
             layout.addComponent(organizationHeader);
 
@@ -79,12 +78,10 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
         public void attachField(final Object propertyId, final Field<?> field) {
             if (propertyId.equals("rolename")) {
                 this.informationLayout.addComponent(field,
-                        AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2,
-                        "100%");
+                        AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2, "100%");
             } else if (propertyId.equals("description")) {
                 this.informationLayout.addComponent(field,
-                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                        0, 1, 2, "100%");
+                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 1, 2, "100%");
             }
         }
     }

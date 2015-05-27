@@ -18,6 +18,7 @@ package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Text;
@@ -49,7 +50,7 @@ public class AboutWindow extends Window {
         MHorizontalLayout content = new MHorizontalLayout().withMargin(true).withWidth("100%");
         this.setContent(content);
 
-        Image about = new Image("", MyCollabResource.newResource("icons/about.png"));
+        Image about = new Image("", MyCollabResource.newResource(WebResourceIds._about));
         MVerticalLayout rightPanel = new MVerticalLayout();
         Label versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
         versionLbl.addStyleName("h2");

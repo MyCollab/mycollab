@@ -64,20 +64,18 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE),
+        Button createBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new ProjectRoleEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
                     }
                 });
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.ROLES));
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.ROLES));
         this.addHeaderRight(createBtn);
     }
 
@@ -98,7 +96,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             basicSearchBody.addComponent(new Label("Name"));
@@ -109,11 +107,11 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
                             callSearchAction();
                         }
                     });
+            nameField.setInputPrompt("Query by role name");
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.addComponent(nameField);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -126,15 +124,13 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
             searchBtn.setIcon(FontAwesome.SEARCH);
             basicSearchBody.addComponent(searchBtn);
 
-            final Button clearBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final Button.ClickEvent event) {
-                            ProjectRoleBasicSearchLayout.this.nameField
-                                    .setValue("");
+                            ProjectRoleBasicSearchLayout.this.nameField.setValue("");
                         }
                     });
             clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);

@@ -25,21 +25,21 @@ package com.esofthead.mycollab.vaadin.ui;
 @SuppressWarnings("serial")
 public class DateSelectionComboBox extends ValueComboBox {
 
-	public static String EQUAL = "Equals";
-	public static String NOTON = "Not On";
-	public static String AFTER = "After";
-	public static String BEFORE = "Before";
-	public static String LAST7DAYS = "Last 7 Days";
-	public static String NEXT7DAYS = "Next 7 Days";
-	public static String LAST30DAYS = "Last 30 Days";
-	public static String NEXT30DAYS = "Next 30 Days";
-	public static String LASTMONTH = "Last Month";
-	public static String THISMONTH = "This Month";
-	public static String NEXTMONTH = "Next Month";
-	public static String LASTYEAR = "Last Year";
-	public static String THISYEAR = "This Year";
-	public static String NEXTYEAR = "Next Year";
-	public static String ISBETWEEN = "Is Between";
+	public static final String EQUAL = "Equals";
+	public static final String NOTON = "Not On";
+	public static final String AFTER = "After";
+	public static final String BEFORE = "Before";
+	public static final String LAST7DAYS = "Last 7 Days";
+	public static final String NEXT7DAYS = "Next 7 Days";
+	public static final String LAST30DAYS = "Last 30 Days";
+	public static final String NEXT30DAYS = "Next 30 Days";
+	public static final String LASTMONTH = "Last Month";
+	public static final String THISMONTH = "This Month";
+	public static final String NEXTMONTH = "Next Month";
+	public static final String LASTYEAR = "Last Year";
+	public static final String THISYEAR = "This Year";
+	public static final String NEXTYEAR = "Next Year";
+	public static final String ISBETWEEN = "Is Between";
 
 	public DateSelectionComboBox() {
 		super();

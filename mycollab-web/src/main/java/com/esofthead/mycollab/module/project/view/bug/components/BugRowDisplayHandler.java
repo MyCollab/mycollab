@@ -49,9 +49,8 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
     @Override
     public Component generateRow(SimpleBug bug, int rowIndex) {
         MVerticalLayout rowContent = new MVerticalLayout().withWidth("100%").withStyleName("list-row");
-        final LabelLink defectLink = new LabelLink(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()),
-                ProjectLinkBuilder.generateBugPreviewFullLink(
-                        bug.getBugkey(), bug.getProjectShortName()));
+        LabelLink defectLink = new LabelLink(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()),
+                ProjectLinkBuilder.generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
         defectLink.setWidth("100%");
         defectLink.addStyleName("font-large");
         defectLink.setIconLink(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG));
@@ -66,8 +65,7 @@ public class BugRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleBug> 
         }
         rowContent.addComponent(defectLink);
 
-        final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
-                bug.getDescription());
+        LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(bug.getDescription());
         descInfo.setWidth("100%");
         rowContent.addComponent(descInfo);
 

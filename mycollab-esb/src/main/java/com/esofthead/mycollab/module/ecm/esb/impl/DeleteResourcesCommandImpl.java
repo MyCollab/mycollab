@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.ecm.esb.impl;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
@@ -82,7 +83,7 @@ public class DeleteResourcesCommandImpl implements DeleteResourcesCommand {
 				driveInfoService.saveOrUpdateDriveInfo(driveInfo);
 			}
 		} catch (Exception e) {
-			LOG.error("Error while delete content " + paths, e);
+			LOG.error("Error while delete content " + Arrays.toString(paths), e);
 		} finally {
 			lock.unlock();
 		}

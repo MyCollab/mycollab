@@ -172,10 +172,10 @@ class GroupPageAddWindow extends Window {
         }
     }
 
-    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Folder> {
+    private static class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Folder> {
         private static final long serialVersionUID = 1L;
 
-        public EditFormFieldFactory(GenericBeanForm<Folder> form) {
+        EditFormFieldFactory(GenericBeanForm<Folder> form) {
             super(form);
         }
 

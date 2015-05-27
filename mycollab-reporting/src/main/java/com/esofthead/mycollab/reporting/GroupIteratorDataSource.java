@@ -39,8 +39,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 public class GroupIteratorDataSource<SearchService extends ISearchableService<S>, S extends SearchCriteria>
 		implements JRDataSource {
 	private static final int ITEMS_PER_PAGE = 20;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(GroupIteratorDataSource.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GroupIteratorDataSource.class);
 
 	private int currentIndex = 0;
 	private int currentPage = 0;

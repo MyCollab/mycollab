@@ -69,7 +69,7 @@
          #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_prj_problem.datedue AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         ]]>
@@ -112,7 +112,7 @@
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_prj_risk.datedue AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         ]]>
@@ -159,7 +159,7 @@
          #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_tracker_bug.duedate AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         ]]>
@@ -206,7 +206,7 @@
         #ifnotnull($searchCriteria.dueDate)
             ${searchCriteria.dueDate.operation}
             CAST(m_prj_task.deadline AS DATE )
-            ${searchCriteria.dueDate.comparision}
+            ${searchCriteria.dueDate.comparison}
             @{searchCriteria.dueDate.value}
         #end
         ]]>

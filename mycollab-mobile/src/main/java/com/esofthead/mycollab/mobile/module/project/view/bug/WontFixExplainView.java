@@ -124,8 +124,7 @@ class WontFixExplainView extends AbstractMobilePageView {
         this.setContent(this.editForm);
     }
 
-    private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
+    private static class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
         private static final long serialVersionUID = 1L;
         private TextArea commentArea;
 
@@ -140,7 +139,7 @@ class WontFixExplainView extends AbstractMobilePageView {
             super.setBean(newDataSource);
         }
 
-        class FormLayoutFactory implements IFormLayoutFactory {
+        static class FormLayoutFactory implements IFormLayoutFactory {
 
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
@@ -156,8 +155,7 @@ class WontFixExplainView extends AbstractMobilePageView {
             }
 
             @Override
-            public void attachField(final Object propertyId,
-                                    final Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("resolution")) {
                     this.informationLayout.addComponent(field,
                             AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),

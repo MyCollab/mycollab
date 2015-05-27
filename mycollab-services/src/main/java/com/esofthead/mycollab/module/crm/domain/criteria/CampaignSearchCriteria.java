@@ -40,32 +40,32 @@ import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 public class CampaignSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_campaignName = new StringParam("campaign-name",
+	public static final Param p_campaignName = new StringParam("campaign-name",
 			CampaignI18nEnum.FORM_CAMPAIGN_NAME, "m_crm_campaign",
 			"campaignName");
 
-	public static Param p_startDate = new DateParam("campaign-startdate",
+	public static final Param p_startDate = new DateParam("campaign-startdate",
 			CampaignI18nEnum.FORM_START_DATE, "m_crm_campaign", "startDate");
 
-	public static Param p_endDate = new DateParam("campaign-enddate",
+	public static final Param p_endDate = new DateParam("campaign-enddate",
 			CampaignI18nEnum.FORM_END_DATE, "m_crm_campaign", "endDate");
 
-	public static Param p_createdtime = new DateParam("campaign-createdtime",
+	public static final Param p_createdtime = new DateParam("campaign-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_crm_campaign", "createdTime");
 
-	public static Param p_lastUpdatedTime = new DateParam(
+	public static final Param p_lastUpdatedTime = new DateParam(
 			"campaign-lastUpdatedTime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_crm_campaign", "lastUpdatedTime");
 
-	public static Param p_types = new StringListParam("campaign-type",
+	public static final Param p_types = new StringListParam("campaign-type",
 			CampaignI18nEnum.FORM_TYPE, "m_crm_campaign", "type",
 			Arrays.asList(CrmDataTypeFactory.getCampaignTypeList()));
 
-	public static Param p_statuses = new StringListParam("campaign-status",
+	public static final Param p_statuses = new StringListParam("campaign-status",
 			CampaignI18nEnum.FORM_STATUS, "m_crm_campaign", "status",
 			Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
 
-	public static Param p_assignee = new PropertyListParam(
+	public static final Param p_assignee = new PropertyListParam(
 			"campaign-assignuser", GenericI18Enum.FORM_ASSIGNEE,
 			"m_crm_campaign", "assignUser");
 

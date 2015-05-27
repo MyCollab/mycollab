@@ -60,8 +60,7 @@ public class CrmModule extends AbstractPageView implements IModule {
 
 	public void addView(PageView view) {
 		if (container.getComponentCount() > 1) {
-			container.replaceComponent(container.getComponent(1),
-					view.getWidget());
+			container.replaceComponent(container.getComponent(1), view.getWidget());
 		} else {
 			container.addComponent(view.getWidget());
 		}

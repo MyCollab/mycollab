@@ -21,6 +21,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * @author MyCollab Ltd.
@@ -33,9 +35,9 @@ public class SafeHtmlLabel extends Label {
     }
 
     public SafeHtmlLabel(String value, int trimCharacters) {
-        String content = StringUtils.formatRichText(value);
+        Document doc = Jsoup.parse(value);
+        String content = doc.body().text();
         content = StringUtils.trim(content, trimCharacters);
-        this.setContentMode(ContentMode.HTML);
         this.setValue(content);
         this.addStyleName("wordWrap");
     }

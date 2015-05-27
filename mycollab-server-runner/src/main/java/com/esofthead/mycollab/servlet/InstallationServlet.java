@@ -64,14 +64,18 @@ public class InstallationServlet extends HttpServlet {
         String smtpPort = request.getParameter("smtpPort");
         String tls = request.getParameter("tls");
 
-        String dbUrl = String
-                .format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
-                        databaseServer, databaseName);
+        String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
+                databaseServer, databaseName);
 
         try {
-            LOG.debug("Check database config");
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+        } catch (ClassNotFoundException e) {
+            LOG.error("Can not load mysql driver", e);
+            return;
+        }
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword)) {
+            LOG.debug("Check database config");
             connection.getMetaData();
         } catch (Exception e) {
             String rootCause = (e.getCause() == null) ? e.getMessage() : e.getCause().getMessage();

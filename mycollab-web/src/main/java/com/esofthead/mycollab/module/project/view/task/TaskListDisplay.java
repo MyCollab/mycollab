@@ -61,8 +61,12 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
         this.setStyleName("tasklist");
     }
 
-    public static class TaskRowDisplayHandler implements RowDisplayHandler<SimpleTask> {
+    @Override
+    protected String stringWhenEmptyList() {
+        return "No tasks in this list yet.";
+    }
 
+    public static class TaskRowDisplayHandler implements RowDisplayHandler<SimpleTask> {
         @Override
         public Component generateRow(AbstractBeanPagedList host, SimpleTask task, int rowIndex) {
             return new TaskRowComp(task);
@@ -164,8 +168,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
         private OptionPopupContent createPopupContent() {
             OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
-            Button editButton = new Button(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_EDIT),
+            Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -177,16 +180,12 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                             TaskRowComp.this, task));
                         }
                     });
-            editButton.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.TASKS));
+            editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             editButton.setIcon(FontAwesome.EDIT);
             filterBtnLayout.addOption(editButton);
 
-            if ((task.getPercentagecomplete() != null && task
-                    .getPercentagecomplete() != 100)
-                    || task.getPercentagecomplete() == null) {
-                Button closeBtn = new Button(AppContext
-                        .getMessage(GenericI18Enum.BUTTON_CLOSE),
+            if (!task.isCompleted()) {
+                Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -195,18 +194,14 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                 task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
                                 task.setPercentagecomplete(100d);
 
-                                ProjectTaskService projectTaskService = ApplicationContextUtil
-                                        .getSpringBean(ProjectTaskService.class);
-                                projectTaskService
-                                        .updateSelectiveWithSession(task,
-                                                AppContext.getUsername());
+                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                                 taskSettingPopupBtn.setPopupVisible(false);
                                 closeTask();
                             }
                         });
                 closeBtn.setIcon(FontAwesome.CHECK_CIRCLE_O);
-                closeBtn.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.TASKS));
+                closeBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(closeBtn);
             } else {
                 Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
@@ -219,17 +214,13 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                 task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
                                 task.setPercentagecomplete(0d);
 
-                                ProjectTaskService projectTaskService = ApplicationContextUtil
-                                        .getSpringBean(ProjectTaskService.class);
-                                projectTaskService
-                                        .updateSelectiveWithSession(task,
-                                                AppContext.getUsername());
+                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                                 reOpenTask();
                             }
                         });
                 reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                reOpenBtn.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.TASKS));
+                reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(reOpenBtn);
             }
 
@@ -245,18 +236,13 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                     task.setStatus("Pending");
                                     task.setPercentagecomplete(0d);
 
-                                    ProjectTaskService projectTaskService = ApplicationContextUtil
-                                            .getSpringBean(ProjectTaskService.class);
-                                    projectTaskService
-                                            .updateSelectiveWithSession(
-                                                    task, AppContext
-                                                            .getUsername());
+                                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                                     pendingTask();
                                 }
                             });
                     pendingBtn.setIcon(FontAwesome.HDD_O);
-                    pendingBtn.setEnabled(CurrentProjectVariables
-                            .canWrite(ProjectRolePermissionCollections.TASKS));
+                    pendingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addOption(pendingBtn);
                 }
             } else {
@@ -270,33 +256,26 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                 task.setStatus("Open");
                                 task.setPercentagecomplete(0d);
 
-                                ProjectTaskService projectTaskService = ApplicationContextUtil
-                                        .getSpringBean(ProjectTaskService.class);
-                                projectTaskService
-                                        .updateSelectiveWithSession(task,
-                                                AppContext.getUsername());
+                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
 
                                 reOpenTask();
                             }
                         });
                 reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                reOpenBtn.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.TASKS));
+                reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(reOpenBtn);
             }
 
-            Button deleteBtn = new Button(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_DELETE),
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
                             taskSettingPopupBtn.setPopupVisible(false);
-                            ConfirmDialogExt.show(
-                                    UI.getCurrent(),
-                                    AppContext.getMessage(
-                                            GenericI18Enum.DIALOG_DELETE_TITLE,
+                            ConfirmDialogExt.show(UI.getCurrent(),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                             SiteConfiguration.getSiteName()),
                                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
@@ -311,9 +290,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                                 ProjectTaskService projectTaskService = ApplicationContextUtil
                                                         .getSpringBean(ProjectTaskService.class);
                                                 projectTaskService.removeWithSession(
-                                                        task.getId(),
-                                                        AppContext.getUsername(),
-                                                        AppContext.getAccountId());
+                                                        task.getId(), AppContext.getUsername(), AppContext.getAccountId());
                                                 deleteTask();
                                             }
                                         }

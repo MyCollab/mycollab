@@ -147,11 +147,10 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
         }
     }
 
-    private class CallPurposeComboBox extends ValueComboBox {
-
+    private static class CallPurposeComboBox extends ValueComboBox {
         private static final long serialVersionUID = 1L;
 
-        public CallPurposeComboBox() {
+        CallPurposeComboBox() {
             super();
             setCaption(null);
             this.loadData("Prospecting", "Administrative",
@@ -159,13 +158,12 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
         }
     }
 
-    private class CallDurationField extends CustomField<Integer> {
-
+    private static class CallDurationField extends CustomField<Integer> {
         private static final long serialVersionUID = 1L;
         private TextField hourField;
         private ValueComboBox minutesField;
 
-        public CallDurationField() {
+        CallDurationField() {
             hourField = new TextField();
             hourField.setWidth("30px");
 

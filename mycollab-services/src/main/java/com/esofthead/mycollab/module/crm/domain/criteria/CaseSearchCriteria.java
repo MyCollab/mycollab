@@ -41,42 +41,42 @@ import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 public class CaseSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_priority = new StringListParam("case-priority",
+	public static final Param p_priority = new StringListParam("case-priority",
 			CaseI18nEnum.FORM_PRIORITY, "m_crm_case", "priority",
 			Arrays.asList(CrmDataTypeFactory.getCasesPriorityList()));
 
-	public static Param p_account = new PropertyParam("case-account",
+	public static final Param p_account = new PropertyParam("case-account",
 			CaseI18nEnum.FORM_ACCOUNT, "m_crm_case", "accountId");
 
-	public static Param p_status = new StringListParam("case-status",
+	public static final Param p_status = new StringListParam("case-status",
 			CaseI18nEnum.FORM_STATUS, "m_crm_case", "status",
 			Arrays.asList(CrmDataTypeFactory.getCasesStatusList()));
 
-	public static Param p_type = new StringListParam("case-type",
+	public static final Param p_type = new StringListParam("case-type",
 			CaseI18nEnum.FORM_TYPE, "m_crm_case", "type",
 			Arrays.asList(CrmDataTypeFactory.getCasesType()));
 
-	public static Param p_reason = new StringListParam("case-reason",
+	public static final Param p_reason = new StringListParam("case-reason",
 			CaseI18nEnum.FORM_REASON, "m_crm_case", "reason",
 			Arrays.asList(CrmDataTypeFactory.getCasesReason()));
 
-	public static Param p_origin = new StringListParam("case-origin",
+	public static final Param p_origin = new StringListParam("case-origin",
 			CaseI18nEnum.FORM_ORIGIN, "m_crm_case", "origin",
 			Arrays.asList(CrmDataTypeFactory.getCasesOrigin()));
 
-	public static Param p_subject = new StringParam("case-subject",
+	public static final Param p_subject = new StringParam("case-subject",
 			CaseI18nEnum.FORM_SUBJECT, "m_crm_case", "subject");
 
-	public static Param p_email = new StringParam("case-subject",
+	public static final Param p_email = new StringParam("case-subject",
 			CaseI18nEnum.FORM_EMAIL, "m_crm_case", "email");
 
-	public static Param p_assignee = new PropertyListParam("case-assignuser",
+	public static final Param p_assignee = new PropertyListParam("case-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_crm_case", "assignUser");
 
-	public static Param p_createdtime = new DateParam("case-createdtime",
+	public static final Param p_createdtime = new DateParam("case-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_crm_case", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"case-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_crm_case", "lastUpdatedTime");
 

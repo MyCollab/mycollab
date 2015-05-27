@@ -59,9 +59,6 @@ public class ProjectUserPresenter extends
 		} else if (data instanceof ProjectMemberScreenData.Read) {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberReadPresenter.class);
-		} else if (data instanceof ProjectMemberScreenData.Search) {
-			presenter = PresenterResolver
-					.getPresenter(ProjectMemberListPresenter.class);
 		} else {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberListPresenter.class);

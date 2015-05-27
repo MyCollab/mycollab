@@ -26,6 +26,7 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.*;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -113,13 +114,13 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
             attachForm.setValid(true);
         } catch (CommitException e) {
             attachForm.setValid(false);
-            Map<Field<?>, com.vaadin.data.Validator.InvalidValueException> invalidFields = e.getInvalidFields();
+            Map<Field<?>, InvalidValueException> invalidFields = e.getInvalidFields();
             if (invalidFields != null && invalidFields.size() > 0) {
                 StringBuilder errorMsg = new StringBuilder();
-                for (Field<?> field : invalidFields.keySet()) {
-                    com.vaadin.data.Validator.InvalidValueException invalidEx = invalidFields.get(field);
+                for (Map.Entry<Field<?>, InvalidValueException> entry : invalidFields.entrySet()) {
+                    InvalidValueException invalidEx = entry.getValue();
                     errorMsg.append(invalidEx.getHtmlMessage()).append("<br/>");
-                    field.addStyleName("errorField");
+                    entry.getKey().addStyleName("errorField");
                 }
                 NotificationUtil.showErrorNotification(errorMsg.toString());
             } else {

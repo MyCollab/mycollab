@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,17 +48,11 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskTableDisplay extends
-        DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
+public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
     private static final long serialVersionUID = 1L;
 
     TaskTableDisplay(List<TableViewField> displayColumns) {
         this(null, displayColumns, SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
-    }
-
-    public TaskTableDisplay(TableViewField requiredColumn,
-                            List<TableViewField> displayColumns) {
-        this(requiredColumn, displayColumns, Integer.MAX_VALUE);
     }
 
     public TaskTableDisplay(TableViewField requiredColumn,
@@ -74,13 +67,10 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = getBeanByIndex(itemId);
-
+                SimpleTask task = getBeanByIndex(itemId);
                 CssLayout taskName = new CssLayout();
 
-                String taskname = "[%s-%s] %s";
-                taskname = String.format(taskname, CurrentProjectVariables
-                        .getProject().getShortname(), task.getTaskkey(), task
+                String taskname = String.format("[#%s] %s", task.getTaskkey(), task
                         .getTaskname());
 
                 LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
@@ -92,8 +82,7 @@ public class TaskTableDisplay extends
 
                 if (StringUtils.isNotBlank(task.getPriority())) {
                     b.setIconLink(ProjectResources
-                            .getIconResourceLink12ByTaskPriority(task
-                                    .getPriority()));
+                            .getIconResourceLink12ByTaskPriority(task.getPriority()));
 
                 }
 
@@ -120,11 +109,9 @@ public class TaskTableDisplay extends
                     @Override
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
-                        final SimpleTask task = getBeanByIndex(itemId);
-                        Double percomp = (task.getPercentagecomplete() == null) ? new Double(
-                                0) : task.getPercentagecomplete();
-                        ProgressPercentageIndicator progress = new ProgressPercentageIndicator(
-                                percomp);
+                        SimpleTask task = getBeanByIndex(itemId);
+                        Double percomp = (task.getPercentagecomplete() == null) ? new Double(0) : task.getPercentagecomplete();
+                        ProgressPercentageIndicator progress = new ProgressPercentageIndicator(percomp);
                         progress.setWidth("100px");
                         return progress;
                     }
@@ -136,7 +123,7 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = getBeanByIndex(itemId);
+                SimpleTask task = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(task.getStartdate());
 
             }
@@ -148,7 +135,7 @@ public class TaskTableDisplay extends
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
-                final SimpleTask task = getBeanByIndex(itemId);
+                SimpleTask task = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(task.getDeadline());
 
             }
@@ -177,20 +164,15 @@ public class TaskTableDisplay extends
                             @Override
                             public void buttonClick(ClickEvent event) {
                                 EventBusFactory.getInstance().post(
-                                        new TaskEvent.GotoEdit(
-                                                TaskTableDisplay.this, task));
+                                        new TaskEvent.GotoEdit(TaskTableDisplay.this, task));
                             }
                         });
-                editButton.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.TASKS));
+                editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 editButton.setIcon(FontAwesome.EDIT);
                 filterBtnLayout.addOption(editButton);
 
-                if ((task.getPercentagecomplete() != null && task
-                        .getPercentagecomplete() != 100)
-                        || task.getPercentagecomplete() == null) {
-                    Button closeBtn = new Button(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_CLOSE),
+                if (!task.isCompleted()) {
+                    Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                             new Button.ClickListener() {
                                 private static final long serialVersionUID = 1L;
 
@@ -201,18 +183,12 @@ public class TaskTableDisplay extends
 
                                     ProjectTaskService projectTaskService = ApplicationContextUtil
                                             .getSpringBean(ProjectTaskService.class);
-                                    projectTaskService
-                                            .updateSelectiveWithSession(task,
-                                                    AppContext.getUsername());
-
-                                    fireTableEvent(new TableClickEvent(
-                                            TaskTableDisplay.this, task,
-                                            "closeTask"));
+                                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                                    fireTableEvent(new TableClickEvent(TaskTableDisplay.this, task, "closeTask"));
                                 }
                             });
                     closeBtn.setIcon(FontAwesome.CHECK_CIRCLE_O);
-                    closeBtn.setEnabled(CurrentProjectVariables
-                            .canWrite(ProjectRolePermissionCollections.TASKS));
+                    closeBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addOption(closeBtn);
                 } else {
                     Button reOpenBtn = new Button("ReOpen",
@@ -227,16 +203,13 @@ public class TaskTableDisplay extends
                                     ProjectTaskService projectTaskService = ApplicationContextUtil
                                             .getSpringBean(ProjectTaskService.class);
                                     projectTaskService
-                                            .updateSelectiveWithSession(task,
-                                                    AppContext.getUsername());
+                                            .updateSelectiveWithSession(task, AppContext.getUsername());
                                     fireTableEvent(new TableClickEvent(
-                                            TaskTableDisplay.this, task,
-                                            "reopenTask"));
+                                            TaskTableDisplay.this, task, "reopenTask"));
                                 }
                             });
                     reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                    reOpenBtn.setEnabled(CurrentProjectVariables
-                            .canWrite(ProjectRolePermissionCollections.TASKS));
+                    reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addOption(reOpenBtn);
                 }
 
@@ -253,18 +226,15 @@ public class TaskTableDisplay extends
 
                                         ProjectTaskService projectTaskService = ApplicationContextUtil
                                                 .getSpringBean(ProjectTaskService.class);
-                                        projectTaskService
-                                                .updateSelectiveWithSession(
-                                                        task, AppContext
-                                                                .getUsername());
+                                        projectTaskService.updateSelectiveWithSession(
+                                                task, AppContext.getUsername());
                                         fireTableEvent(new TableClickEvent(
                                                 TaskTableDisplay.this, task,
                                                 "pendingTask"));
                                     }
                                 });
                         pendingBtn.setIcon(FontAwesome.HDD_O);
-                        pendingBtn.setEnabled(CurrentProjectVariables
-                                .canWrite(ProjectRolePermissionCollections.TASKS));
+                        pendingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                         filterBtnLayout.addOption(pendingBtn);
                     }
                 } else {
@@ -279,18 +249,14 @@ public class TaskTableDisplay extends
 
                                     ProjectTaskService projectTaskService = ApplicationContextUtil
                                             .getSpringBean(ProjectTaskService.class);
-                                    projectTaskService
-                                            .updateSelectiveWithSession(task,
+                                    projectTaskService.updateSelectiveWithSession(task,
                                                     AppContext.getUsername());
 
-                                    fireTableEvent(new TableClickEvent(
-                                            TaskTableDisplay.this, task,
-                                            "reopenTask"));
+                                    fireTableEvent(new TableClickEvent(TaskTableDisplay.this, task, "reopenTask"));
                                 }
                             });
                     reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                    reOpenBtn.setEnabled(CurrentProjectVariables
-                            .canWrite(ProjectRolePermissionCollections.TASKS));
+                    reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addOption(reOpenBtn);
                 }
 
@@ -303,17 +269,11 @@ public class TaskTableDisplay extends
                             public void buttonClick(ClickEvent event) {
                                 ConfirmDialogExt.show(
                                         UI.getCurrent(),
-                                        AppContext
-                                                .getMessage(
-                                                        GenericI18Enum.DIALOG_DELETE_TITLE,
-                                                        SiteConfiguration
-                                                                .getSiteName()),
-                                        AppContext
-                                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                        AppContext
-                                                .getMessage(GenericI18Enum.BUTTON_YES),
-                                        AppContext
-                                                .getMessage(GenericI18Enum.BUTTON_NO),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                                        SiteConfiguration.getSiteName()),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                         new ConfirmDialog.Listener() {
                                             private static final long serialVersionUID = 1L;
 
@@ -324,12 +284,8 @@ public class TaskTableDisplay extends
                                                     ProjectTaskService projectTaskService = ApplicationContextUtil
                                                             .getSpringBean(ProjectTaskService.class);
                                                     projectTaskService.removeWithSession(
-                                                            task.getId(),
-                                                            AppContext.getUsername(),
-                                                            AppContext.getAccountId());
-                                                    fireTableEvent(new TableClickEvent(
-                                                            TaskTableDisplay.this,
-                                                            task, "deleteTask"));
+                                                            task.getId(), AppContext.getUsername(), AppContext.getAccountId());
+                                                    fireTableEvent(new TableClickEvent(TaskTableDisplay.this, task, "deleteTask"));
                                                 }
                                             }
                                         });
@@ -352,9 +308,7 @@ public class TaskTableDisplay extends
                     public com.vaadin.ui.Component generateCell(Table source,
                                                                 final Object itemId, Object columnId) {
                         SimpleTask task = getBeanByIndex(itemId);
-                        return new ProjectUserLink(task.getAssignuser(), task
-                                .getAssignUserAvatarId(), task
-                                .getAssignUserFullName());
+                        return new ProjectUserLink(task.getAssignuser(), task.getAssignUserAvatarId(), task.getAssignUserFullName());
 
                     }
                 });

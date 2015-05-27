@@ -38,8 +38,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @author MyCollab Ltd.
  * @since 4.3.3
  */
-public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
-        implements PageView {
+public abstract class AbstractPreviewItemComp<B> extends VerticalLayout implements PageView {
     private static final long serialVersionUID = 1L;
 
     private static Logger LOG = LoggerFactory.getLogger(AbstractPreviewItemComp.class);
@@ -55,14 +54,17 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
     private Button favoriteBtn;
     private FavoriteItemService favoriteItemService = ApplicationContextUtil.getSpringBean(FavoriteItemService.class);
+    private boolean isDisplaySideBar = true;
 
     public AbstractPreviewItemComp(String headerText, Resource iconResource) {
         this(headerText, iconResource, null);
     }
 
-    public AbstractPreviewItemComp(ComponentContainer customHeader) {
+    public AbstractPreviewItemComp(ComponentContainer customHeader, ReadViewLayout layout) {
         this.header = customHeader;
         this.addComponent(header);
+        isDisplaySideBar = false;
+        this.previewLayout = layout;
         initContent();
     }
 
@@ -73,8 +75,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
         this.previewLayout = layout;
 
-        header = new MHorizontalLayout().withSpacing(false).withStyleName("hdr-view").withWidth("100%").withMargin
-                (true);
+        header = new MHorizontalLayout().withSpacing(false).withStyleName("hdr-view").withWidth("100%").withMargin(true);
         ((MHorizontalLayout) header).setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (iconResource != null) {
@@ -126,20 +127,27 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 
         contentWrapper.addComponent(previewLayout);
 
-        RightSidebarLayout bodyContainer = new RightSidebarLayout();
-        bodyContainer.setSizeFull();
-        bodyContainer.addStyleName("readview-body-wrap");
+        if (isDisplaySideBar) {
+            RightSidebarLayout bodyContainer = new RightSidebarLayout();
+            bodyContainer.setSizeFull();
+            bodyContainer.addStyleName("readview-body-wrap");
 
-        bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
-        bodyContainer.setContent(bodyContent);
+            bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
+            bodyContainer.setContent(bodyContent);
+            sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
+            bodyContainer.setSidebar(sidebarContent);
 
-        sidebarContent = new MVerticalLayout().withWidth("250px").withStyleName("readview-sidebar");
-        bodyContainer.setSidebar(sidebarContent);
-
-        FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
-        floatSidebar.setContainerId("main-body");
-
-        previewLayout.addBody(bodyContainer);
+            FloatingComponent floatSidebar = FloatingComponent.floatThis(sidebarContent);
+            floatSidebar.setContainerId("main-body");
+            previewLayout.addBody(bodyContainer);
+        } else {
+            CssLayout bodyContainer = new CssLayout();
+            bodyContainer.setSizeFull();
+            bodyContainer.addStyleName("readview-body-wrap");
+            bodyContent = new MVerticalLayout().withSpacing(false).withMargin(false).with(previewForm);
+            bodyContainer.addComponent(bodyContent);
+            previewLayout.addBody(bodyContainer);
+        }
 
         this.addComponent(contentWrapper);
     }
@@ -200,7 +208,10 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
     }
 
     private void initLayout() {
-        sidebarContent.removeAllComponents();
+        if (sidebarContent != null) {
+            sidebarContent.removeAllComponents();
+        }
+
         initRelatedComponents();
         ComponentContainer bottomPanel = createBottomPanel();
         addBottomPanel(bottomPanel);

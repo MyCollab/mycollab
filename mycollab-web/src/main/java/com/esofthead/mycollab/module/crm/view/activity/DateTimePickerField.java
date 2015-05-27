@@ -134,19 +134,19 @@ public class DateTimePickerField extends CustomField<Date> {
 		return cal.getTime();
 	}
 
-	private class HourPickerComboBox extends ValueComboBox {
+	private static class HourPickerComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 		private final String[] HOURS = new String[] { "00", "01", "02",
 				"03", "04", "05", "06", "07", "08", "09", "10", "11" };
 
-		public HourPickerComboBox() {
+		HourPickerComboBox() {
 			super();
 			setCaption(null);
 			this.loadData(HOURS);
 		}
 	}
 
-	private class MinutePickerComboBox extends ValueComboBox {
+	private static class MinutePickerComboBox extends ValueComboBox {
 		private static final long serialVersionUID = 1L;
 		private String[] MINUS = new String[] { "00", "15", "30", "45" };
 

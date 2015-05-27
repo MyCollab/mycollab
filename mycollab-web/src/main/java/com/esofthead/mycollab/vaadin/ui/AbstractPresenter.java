@@ -92,8 +92,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
 	}
 
-	protected abstract void onGo(ComponentContainer container,
-			ScreenData<?> data);
+	protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
 
 	private boolean checkPermissionAccessIfAny() {
 		ViewPermission viewPermission = this.getClass().getAnnotation(
@@ -113,8 +112,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 					if (value == null) {
 						return false;
 					} else {
-						return PermissionChecker.isImplied(value,
-								impliedPermissionVal);
+						return PermissionChecker.isImplied(value, impliedPermissionVal);
 					}
 				}
 			}
@@ -125,8 +123,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
+	public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
 		ScreenData pageAction = pageActionChain.pop();
 		go(container, pageAction);
 
@@ -141,8 +138,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 
 	}
 
-	protected void onHandleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
+	protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
 		throw new UnsupportedOperationException("You need override this method");
 	}
 }

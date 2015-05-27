@@ -34,9 +34,7 @@ import com.vaadin.ui.TextField;
  * @since 4.4.0
  *
  */
-class PageEditFormFieldFactory extends
-		AbstractBeanFieldGroupEditFieldFactory<Page> {
-
+class PageEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Page> {
 	private static final long serialVersionUID = 1L;
 
 	PageEditFormFieldFactory(GenericBeanForm<Page> form) {
@@ -57,18 +55,15 @@ class PageEditFormFieldFactory extends
 			config.setWidth("100%");
 
 			String appUrl = AppContext.getSiteUrl();
-			String params = String.format(
-					"path=%s&createdUser=%s&sAccountId=%d", page.getPath(),
+			String params = String.format("path=%s&createdUser=%s&sAccountId=%d", page.getPath(),
 					AppContext.getUsername(), AppContext.getAccountId());
 			if (appUrl.endsWith("/")) {
-				config.setFilebrowserUploadUrl(appUrl + "page/upload?" + params);
+				config.setFilebrowserUploadUrl(String.format("%spage/upload?%s", appUrl, params));
 			} else {
-				config.setFilebrowserUploadUrl(appUrl + "/page/upload?"
-						+ params);
+				config.setFilebrowserUploadUrl(String.format("%s/page/upload?%s", appUrl, params));
 			}
 
-			final CKEditorTextField ckEditorTextField = new CKEditorTextField(
-					config);
+			CKEditorTextField ckEditorTextField = new CKEditorTextField(config);
 			ckEditorTextField.setHeight("450px");
 			ckEditorTextField.setRequired(true);
 			ckEditorTextField.setRequiredError("Content must be not null");

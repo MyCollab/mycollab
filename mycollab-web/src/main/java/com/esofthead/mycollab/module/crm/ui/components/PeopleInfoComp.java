@@ -89,8 +89,7 @@ public class PeopleInfoComp extends MVerticalLayout {
 					assignUserAvatarId, assignUserDisplayName);
 			layout.addComponent(assignUserLink, 1, 1);
 		} catch (Exception e) {
-			LOG.error("Can not build user link {} ",
-					BeanUtility.printBeanObj(bean));
+			LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
 		}
 
 		this.addComponent(layout);

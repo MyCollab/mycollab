@@ -128,7 +128,7 @@ public class ProjectResources {
 					.newResourceLink(T_PRIORITY_MEDIUM_IMG);
 		} else if (TaskPriority.Low.name().equals(priority)) {
 			iconPriority = MyCollabAssets.newResourceLink(T_PRIORITY_LOW_IMG);
-		} else if (TaskPriority.None.equals(priority)) {
+		} else if (TaskPriority.None.name().equals(priority)) {
 			iconPriority = MyCollabAssets.newResourceLink(T_PRIORITY_NONE_IMG);
 		}
 		return iconPriority;

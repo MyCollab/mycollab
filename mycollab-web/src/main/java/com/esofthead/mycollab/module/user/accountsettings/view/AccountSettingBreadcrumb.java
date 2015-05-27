@@ -42,8 +42,7 @@ import com.vaadin.ui.Button.ClickEvent;
  * 
  */
 @ViewComponent
-public class AccountSettingBreadcrumb extends Breadcrumb implements
-		CacheableComponent {
+public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableComponent {
 	private static final long serialVersionUID = 1L;
 
 	private static LabelStringGenerator menuLinkGenerator = new BreadcrumbLabelStringGenerator();
@@ -105,16 +104,14 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				new GotoUserListListener()));
 		this.addLink(generateBreadcrumbLink(user.getDisplayName()));
 
-		AppContext.addFragment(
-				"account/user/preview/"
+		AppContext.addFragment("account/user/preview/"
 						+ UrlEncodeDecoder.encode(user.getUsername()),
 				"Preview User " + user.getDisplayName());
 	}
 
 	public void gotoUserAdd() {
 		this.select(0);
-		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS),
+		this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
@@ -134,15 +131,13 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBusFactory.getInstance()
-								.post(new UserEvent.GotoRead(this, user
+						EventBusFactory.getInstance().post(new UserEvent.GotoRead(this, user
 										.getUsername()));
 
 					}
 				}));
 		this.setLinkEnabled(true, 2);
-		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_EDIT)));
+		this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
 		AppContext.addFragment(
 				"account/user/edit/"
 						+ UrlEncodeDecoder.encode(user.getUsername()),
@@ -151,10 +146,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 	public void gotoCustomizationPage() {
 		this.select(0);
-		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE)));
-		AppContext
-				.addFragment("account/customization", AppContext
+		this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE)));
+		AppContext.addFragment("account/customization", AppContext
 						.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE));
 	}
 
@@ -163,8 +156,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBusFactory.getInstance().post(
-					new UserEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
 		}
 	}
 
@@ -177,24 +169,20 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 	public void gotoRoleAdd() {
 		this.select(0);
-		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
+		this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
-		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_ADD)));
+		this.addLink(new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD)));
 		AppContext.addFragment("account/role/add", "New Role");
 	}
 
 	public void gotoRoleRead(SimpleRole role) {
 		this.select(0);
-		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
+		this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(role.getRolename()));
-		AppContext
-				.addFragment(
+		AppContext.addFragment(
 						"account/role/preview/"
 								+ UrlEncodeDecoder.encode(role.getId()),
 						"Preview Role " + role.getRolename());
@@ -202,8 +190,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 	public void gotoRoleEdit(final Role role) {
 		this.select(0);
-		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
+		this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(role.getRolename(),
@@ -212,8 +199,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new RoleEvent.GotoRead(this, role.getId()));
+						EventBusFactory.getInstance().post(new RoleEvent.GotoRead(this, role.getId()));
 
 					}
 				}));
@@ -230,8 +216,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBusFactory.getInstance().post(
-					new RoleEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
 		}
 	}
 
@@ -240,8 +225,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				menuLinkGenerator.handleText(linkname), linkname);
 	}
 
-	private static Button generateBreadcrumbLink(String linkname,
-			Button.ClickListener listener) {
+	private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
 		return CommonUIFactory.createButtonTooltip(
 				menuLinkGenerator.handleText(linkname), linkname, listener);
 	}

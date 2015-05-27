@@ -47,9 +47,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 4.0.0
  */
-public class FollowingTicketSearchPanel extends
-		DefaultGenericSearchPanel<FollowingTicketSearchCriteria> {
-
+public class FollowingTicketSearchPanel extends DefaultGenericSearchPanel<FollowingTicketSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	private FollowingTicketBasicSearchLayout basicSearchLayout;
@@ -84,7 +82,6 @@ public class FollowingTicketSearchPanel extends
 
 	@SuppressWarnings("rawtypes")
 	private class FollowingTicketBasicSearchLayout extends BasicSearchLayout {
-
 		private static final long serialVersionUID = 1L;
 
 		private UserInvolvedProjectsListSelect projectField;
@@ -103,12 +100,12 @@ public class FollowingTicketSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+			MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
-			final GridLayout selectionLayout = new GridLayout(5, 2);
+			GridLayout selectionLayout = new GridLayout(5, 2);
 			selectionLayout.setSpacing(true);
-			selectionLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 			selectionLayout.setMargin(true);
+			selectionLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 			basicSearchBody.addComponent(selectionLayout);
 
 			Label summaryLb = new Label("Summary:");
@@ -117,6 +114,7 @@ public class FollowingTicketSearchPanel extends
 
 			this.summaryField = new TextField();
 			this.summaryField.setWidth("100%");
+            this.summaryField.setInputPrompt("Query by name");
 			selectionLayout.addComponent(this.summaryField, 1, 0);
 
 			Label typeLb = new Label("Type:");
@@ -124,8 +122,7 @@ public class FollowingTicketSearchPanel extends
 
 			selectionLayout.addComponent(typeLb, 0, 1);
 
-			MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false,
-                    false));
+			MHorizontalLayout typeSelectWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
 			selectionLayout.addComponent(typeSelectWrapper, 1, 1);
 
 			this.taskSelect = new CheckBox("Task", true);
@@ -154,8 +151,7 @@ public class FollowingTicketSearchPanel extends
 			this.projectField.setRows(4);
 			selectionLayout.addComponent(this.projectField, 3, 0, 3, 1);
 
-			final Button queryBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT),
+			Button queryBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -165,7 +161,6 @@ public class FollowingTicketSearchPanel extends
 						}
 					});
             queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-
 			selectionLayout.addComponent(queryBtn, 4, 0);
 
 			return basicSearchBody;
@@ -175,8 +170,7 @@ public class FollowingTicketSearchPanel extends
 		@SuppressWarnings("unchecked")
 		protected SearchCriteria fillUpSearchCriteria() {
 			FollowingTicketSearchCriteria searchCriteria = new FollowingTicketSearchCriteria();
-			searchCriteria.setUser(new StringSearchField(AppContext
-					.getUsername()));
+			searchCriteria.setUser(new StringSearchField(AppContext.getUsername()));
 
 			List<String> types = new ArrayList<>();
 			if (this.taskSelect.getValue()) {
@@ -193,28 +187,23 @@ public class FollowingTicketSearchPanel extends
 			}
 
 			if (types.size() > 0) {
-				searchCriteria.setTypes(new SetSearchField<>(types
-						.toArray(new String[types.size()])));
+				searchCriteria.setTypes(new SetSearchField<>(types.toArray(new String[types.size()])));
 			} else {
 				searchCriteria.setTypes(null);
 			}
 
 			String summary = summaryField.getValue().trim();
-			searchCriteria.setSummary(new StringSearchField(StringUtils
-					.isEmpty(summary) ? "" : summary));
+			searchCriteria.setSummary(new StringSearchField(StringUtils.isEmpty(summary) ? "" : summary));
 
-			Collection<Integer> selectedProjects = (Collection<Integer>) projectField
-					.getValue();
+			Collection<Integer> selectedProjects = (Collection<Integer>) projectField.getValue();
 			if (CollectionUtils.isNotEmpty(selectedProjects)) {
-				searchCriteria.setExtraTypeIds(new SetSearchField<>(
-						SearchField.AND, selectedProjects));
+				searchCriteria.setExtraTypeIds(new SetSearchField<>(SearchField.AND, selectedProjects));
 			} else {
 				List<Integer> keys = new ArrayList<>();
 				for (SimpleProject project : projects) {
 					keys.add(project.getId());
 				}
-				searchCriteria.setExtraTypeIds(new SetSearchField<>(
-						SearchField.AND, keys));
+				searchCriteria.setExtraTypeIds(new SetSearchField<>(SearchField.AND, keys));
 			}
 
 			return searchCriteria;
@@ -225,10 +214,8 @@ public class FollowingTicketSearchPanel extends
 		private static final long serialVersionUID = 1L;
 
 		public UserInvolvedProjectsListSelect() {
-			FollowingTicketSearchPanel.this.projects = ApplicationContextUtil
-					.getSpringBean(ProjectService.class)
-					.getProjectsUserInvolved(AppContext.getUsername(),
-							AppContext.getAccountId());
+			FollowingTicketSearchPanel.this.projects = ApplicationContextUtil.getSpringBean(ProjectService.class)
+					.getProjectsUserInvolved(AppContext.getUsername(), AppContext.getAccountId());
 
 			for (SimpleProject project : projects) {
 				this.addItem(project.getId());

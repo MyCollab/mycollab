@@ -32,23 +32,22 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public ConfirmDialog create(final String caption, final String message,
-			final String okCaption, final String cancelCaption,
-			String notOkCaption) {
-		final ConfirmDialog d = super.create(caption, message, okCaption,
+	public ConfirmDialog create(String caption, String message,
+								String okCaption, String cancelCaption, String notOkCaption) {
+		ConfirmDialog d = super.create(caption, message, okCaption,
 				cancelCaption, notOkCaption);
 
 		d.getContent().setStyleName("custom-dialog");
 		d.getContent().setHeightUndefined();
 		d.setHeightUndefined();
 
-		final Button ok = d.getOkButton();
+		Button ok = d.getOkButton();
 		ok.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
 		buttons.setHeightUndefined();
 
-		final Button cancelBtn = d.getCancelButton();
+		Button cancelBtn = d.getCancelButton();
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		cancelBtn.focus();
 

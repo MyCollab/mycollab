@@ -42,6 +42,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.maddon.button.MButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,16 +55,17 @@ public class AccountCaseListComp extends
     private static final long serialVersionUID = -8763667647686473453L;
     private Account account;
 
-    public static Map<String, String> colorsMap = new HashMap<>();
+    final static Map<String, String> colorsMap;
 
     static {
+        Map<String, String> tmpMap = new HashMap<>();
         for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
             String roleKeyName = CrmDataTypeFactory.getCasesStatusList()[i];
-            if (!colorsMap.containsKey(roleKeyName)) {
-                colorsMap.put(roleKeyName,
-                        AbstractBeanBlockList.getColorStyleNameList()[i]);
+            if (!tmpMap.containsKey(roleKeyName)) {
+                tmpMap.put(roleKeyName, AbstractBeanBlockList.COLOR_STYLENAME_LIST[i]);
             }
         }
+        colorsMap = Collections.unmodifiableMap(tmpMap);
     }
 
     public AccountCaseListComp() {
@@ -88,8 +90,7 @@ public class AccountCaseListComp extends
         for (int i = 0; i < CrmDataTypeFactory.getCasesStatusList().length; i++) {
             Label note = new Label(CrmDataTypeFactory.getCasesStatusList()[i]);
             note.setStyleName("note-label");
-            note.addStyleName(colorsMap.get(CrmDataTypeFactory
-                    .getCasesStatusList()[i]));
+            note.addStyleName(colorsMap.get(CrmDataTypeFactory.getCasesStatusList()[i]));
             note.setSizeUndefined();
             noteBlock.addComponent(note);
         }
@@ -98,13 +99,11 @@ public class AccountCaseListComp extends
         controlsBtnWrap.addComponent(notesWrap);
 
         controlsBtnWrap.setWidth("100%");
-        final Button createBtn = new Button();
+        Button createBtn = new Button();
         createBtn.setSizeUndefined();
-        createBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CASE));
+        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CASE));
         createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setCaption(AppContext
-                .getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
+        createBtn.setCaption(AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = -8725970955325733072L;
@@ -116,8 +115,7 @@ public class AccountCaseListComp extends
         });
 
         controlsBtnWrap.addComponent(createBtn);
-        controlsBtnWrap
-                .setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+        controlsBtnWrap.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
         return controlsBtnWrap;
     }
 
@@ -140,8 +138,7 @@ public class AccountCaseListComp extends
         loadCases();
     }
 
-    public class AccountCaseBlockDisplay implements
-            BlockDisplayHandler<SimpleCase> {
+    public class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
 
         @Override
         public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
@@ -150,8 +147,7 @@ public class AccountCaseListComp extends
             beanBlock.setWidth("350px");
 
             VerticalLayout blockContent = new VerticalLayout();
-            HorizontalLayout blockTop = new HorizontalLayout();
-            blockTop.setSpacing(true);
+            MHorizontalLayout blockTop = new MHorizontalLayout();
             CssLayout iconWrap = new CssLayout();
             iconWrap.setStyleName("icon-wrap");
             FontIconLabel caseIcon = new FontIconLabel(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
@@ -165,29 +161,21 @@ public class AccountCaseListComp extends
             deleteBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    SiteConfiguration.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final CaseService caseService = ApplicationContextUtil
+                                        CaseService caseService = ApplicationContextUtil
                                                 .getSpringBean(CaseService.class);
-                                        caseService.removeWithSession(
-                                                oneCase.getId(),
-                                                AppContext.getUsername(),
-                                                AppContext.getAccountId());
+                                        caseService.removeWithSession(oneCase.getId(),
+                                                AppContext.getUsername(), AppContext.getAccountId());
                                         AccountCaseListComp.this.refresh();
                                     }
                                 }
@@ -199,12 +187,11 @@ public class AccountCaseListComp extends
             blockContent.addComponent(deleteBtn);
             blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
-            Label caseSubject = new Label("Subject: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CASE, oneCase.getId()) + "'>"
-                    + oneCase.getSubject() + "</a>", ContentMode.HTML);
+            Label caseSubject = new Label(String.format("Subject: <a href='%s%s'>%s</a>",
+                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()),
+                    CrmLinkGenerator.generateCrmItemLink(
+                    CrmTypeConstants.CASE, oneCase.getId()), oneCase.getSubject()),
+                    ContentMode.HTML);
 
             caseInfo.addComponent(caseSubject);
 

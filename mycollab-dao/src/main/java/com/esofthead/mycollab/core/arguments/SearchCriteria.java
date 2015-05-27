@@ -29,9 +29,9 @@ import java.util.List;
 public abstract class SearchCriteria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static String ASC = "ASC";
+	public static final String ASC = "ASC";
 
-	public static String DESC = "DESC";
+	public static final String DESC = "DESC";
 
 	private String orderByField;
 

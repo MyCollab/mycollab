@@ -57,11 +57,10 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class MessageReadViewImpl extends AbstractPageView implements
-        MessageReadView {
+public class MessageReadViewImpl extends AbstractPageView implements MessageReadView {
     private static final long serialVersionUID = 1L;
 
-    private final AdvancedPreviewBeanForm<SimpleMessage> previewForm;
+    private AdvancedPreviewBeanForm<SimpleMessage> previewForm;
     private SimpleMessage message;
     private CssLayout contentWrapper;
     private MHorizontalLayout header;
@@ -92,8 +91,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
     public void previewItem(SimpleMessage item) {
         this.message = item;
         previewForm.setFormLayoutFactory(new FormLayoutFactory());
-        previewForm
-                .setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
+        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
                         previewForm) {
                     private static final long serialVersionUID = 1L;
 
@@ -101,7 +99,6 @@ public class MessageReadViewImpl extends AbstractPageView implements
                     protected Field<?> onCreateField(Object propertyId) {
                         return null;
                     }
-
                 });
         previewForm.setBean(item);
     }
@@ -119,8 +116,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
             header.removeAllComponents();
             MVerticalLayout messageAddLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
 
-            Button deleteBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -128,15 +124,11 @@ public class MessageReadViewImpl extends AbstractPageView implements
                         public void buttonClick(ClickEvent event) {
                             ConfirmDialogExt.show(
                                     UI.getCurrent(),
-                                    AppContext.getMessage(
-                                            GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                             SiteConfiguration.getSiteName()),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext
-                                            .getMessage(GenericI18Enum.BUTTON_NO),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                     new ConfirmDialog.Listener() {
                                         private static final long serialVersionUID = 1L;
 
@@ -144,16 +136,13 @@ public class MessageReadViewImpl extends AbstractPageView implements
                                         public void onClose(
                                                 final ConfirmDialog dialog) {
                                             if (dialog.isConfirmed()) {
-                                                final MessageService messageService = ApplicationContextUtil
+                                                MessageService messageService = ApplicationContextUtil
                                                         .getSpringBean(MessageService.class);
                                                 messageService.removeWithSession(
                                                         message.getId(),
-                                                        AppContext
-                                                                .getUsername(),
-                                                        AppContext
-                                                                .getAccountId());
-                                                previewForm
-                                                        .fireCancelForm(message);
+                                                        AppContext.getUsername(),
+                                                        AppContext.getAccountId());
+                                                previewForm.fireCancelForm(message);
                                             }
                                         }
                                     });
@@ -170,14 +159,11 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
                 @Override
                 public void valueChange(ValueChangeEvent event) {
-                    if (CurrentProjectVariables
-                            .canWrite(ProjectRolePermissionCollections.MESSAGES)) {
+                    if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
                         message.setIsstick(stickyCheck.getValue());
                         message.setSaccountid(AppContext.getAccountId());
-                        final MessageService messageService = ApplicationContextUtil
-                                .getSpringBean(MessageService.class);
-                        messageService.updateWithSession(message,
-                                AppContext.getUsername());
+                        MessageService messageService = ApplicationContextUtil.getSpringBean(MessageService.class);
+                        messageService.updateWithSession(message, AppContext.getUsername());
                     } else {
                         NotificationUtil.showMessagePermissionAlert();
                     }
@@ -193,8 +179,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
                     .withAlign(deleteBtn, Alignment.MIDDLE_RIGHT)
                     .expand(headerText);
 
-            MHorizontalLayout messageLayout = new MHorizontalLayout()
-                    .withStyleName("message").withWidth("100%");
+            MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withWidth("100%");
 
             if (message.getIsstick() != null && message.getIsstick()) {
                 messageLayout.addStyleName("important-message");
@@ -204,17 +189,17 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
             messageLayout.addComponent(userBlock);
 
-            final CssLayout rowLayout = new CssLayout();
+            CssLayout rowLayout = new CssLayout();
             rowLayout.setStyleName("message-container");
             rowLayout.setWidth("100%");
 
-            final MHorizontalLayout messageHeader = new MHorizontalLayout()
+            MHorizontalLayout messageHeader = new MHorizontalLayout()
                     .withStyleName("message-header")
                     .withMargin(new MarginInfo(true, false, false, true))
                     .withWidth("100%");
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-            final ELabel timePostLbl = new ELabel(AppContext.getMessage(
+            ELabel timePostLbl = new ELabel(AppContext.getMessage(
                     MessageI18nEnum.USER_COMMENT_ADD, message.getFullPostedUserName(),
                     AppContext.formatPrettyTime(message.getPosteddate())), ContentMode.HTML).withDescription
                     (AppContext.formatDateTime(message.getPosteddate()));
@@ -225,7 +210,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
             rowLayout.addComponent(messageHeader);
 
-             SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
+            SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
             messageContent.setStyleName("message-body");
             rowLayout.addComponent(messageContent);
 

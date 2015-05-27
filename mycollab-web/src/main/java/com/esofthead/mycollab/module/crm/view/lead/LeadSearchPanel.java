@@ -56,26 +56,22 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.LEAD,
-                AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
+        return new CrmViewHeader(CrmTypeConstants.LEAD, AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createLeadBtn = new Button(
-                AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD),
+        Button createLeadBtn = new Button(AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD),
                 new Button.ClickListener() {
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new LeadEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
                     }
                 });
         createLeadBtn.setIcon(FontAwesome.PLUS);
         createLeadBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createLeadBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_LEAD));
+        createLeadBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_LEAD));
         this.addHeaderRight(createLeadBtn);
     }
 
@@ -107,27 +103,24 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("LeadSearchRequest", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("LeadSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();
                         }
                     });
+            nameField.setInputPrompt("Query by lead name");
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             layout.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(
-                    AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             this.myItemCheckbox.setWidth("75px");
-            layout.with(myItemCheckbox).withAlign(myItemCheckbox,
-                    Alignment.MIDDLE_CENTER);
+            layout.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
@@ -139,8 +132,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             });
             layout.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
@@ -151,9 +143,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             layout.with(cancelBtn)
                     .withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            final Button advancedSearchBtn = new Button(
-                    AppContext
-                            .getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     new Button.ClickListener() {
 
                         @Override
@@ -162,30 +152,22 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
                         }
                     });
             advancedSearchBtn.setStyleName("link");
-            layout.with(advancedSearchBtn).withAlign(advancedSearchBtn,
-                    Alignment.MIDDLE_CENTER);
+            layout.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return layout;
         }
 
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-            searchCriteria
-                    .setSaccountid(new NumberSearchField(SearchField.AND,
-                            AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 
-            if (StringUtils.isNotBlank(this.nameField.getValue()
-                    .trim())) {
-                searchCriteria
-                        .setLeadName(new StringSearchField(SearchField.AND,
-                                this.nameField.getValue()));
+            if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
+                searchCriteria.setLeadName(new StringSearchField(SearchField.AND, this.nameField.getValue()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria
-                        .setAssignUsers(new SetSearchField<>(
-                                SearchField.AND, new String[]{AppContext
-                                .getUsername()}));
+                searchCriteria.setAssignUsers(new SetSearchField<>(
+                                SearchField.AND, new String[]{AppContext.getUsername()}));
             } else {
                 searchCriteria.setAssignUsers(null);
             }
@@ -193,8 +175,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         }
     }
 
-    private class LeadAdvancedSearchLayout extends
-            DynamicQueryParamLayout<LeadSearchCriteria> {
+    private class LeadAdvancedSearchLayout extends DynamicQueryParamLayout<LeadSearchCriteria> {
 
         public LeadAdvancedSearchLayout() {
             super(LeadSearchPanel.this, CrmTypeConstants.LEAD);

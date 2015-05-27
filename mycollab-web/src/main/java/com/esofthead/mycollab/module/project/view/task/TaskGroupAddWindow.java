@@ -52,7 +52,7 @@ public class TaskGroupAddWindow extends Window {
 
 	private ProjectMemberSelectionField projectSelectionField;
 
-	private final TaskGroupDisplayView taskView;
+	private TaskGroupDisplayView taskView;
 	private SimpleTaskList taskList;
 	private TaskListForm taskListForm;
 
@@ -60,8 +60,7 @@ public class TaskGroupAddWindow extends Window {
 		this(taskView, new SimpleTaskList());
 	}
 
-	public TaskGroupAddWindow(final TaskGroupDisplayView taskView,
-			final SimpleTaskList taskList) {
+	public TaskGroupAddWindow(final TaskGroupDisplayView taskView, SimpleTaskList taskList) {
 		super(AppContext.getMessage(TaskI18nEnum.DIALOG_NEW_TASKGROUP_TITLE));
 		this.setModal(true);
 		this.setResizable(false);
@@ -91,10 +90,9 @@ public class TaskGroupAddWindow extends Window {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public void setBean(final TaskList newDataSource) {
+		public void setBean(TaskList newDataSource) {
 			this.setFormLayoutFactory(new TaskListFormLayoutFactory());
-			this.setBeanFormFieldFactory(new TaskListEditFormFieldFactory(
-					TaskListForm.this));
+			this.setBeanFormFieldFactory(new TaskListEditFormFieldFactory(TaskListForm.this));
 			super.setBean(newDataSource);
 		}
 
@@ -104,38 +102,34 @@ public class TaskGroupAddWindow extends Window {
 
 			@Override
 			public ComponentContainer getLayout() {
-				final VerticalLayout taskListAddLayout = new VerticalLayout();
+                VerticalLayout taskListAddLayout = new VerticalLayout();
 				taskListAddLayout.setMargin(false);
 				taskListAddLayout.setWidth("100%");
 
 				this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 3);
 
-				final VerticalLayout bodyLayout = new VerticalLayout();
+				VerticalLayout bodyLayout = new VerticalLayout();
 				bodyLayout.addComponent(this.informationLayout.getLayout());
 
 				taskListAddLayout.addComponent(bodyLayout);
-				final Layout bottomPanel = this.createBottomPanel();
+                Layout bottomPanel = this.createBottomPanel();
 				taskListAddLayout.addComponent(bottomPanel);
-				taskListAddLayout.setComponentAlignment(bottomPanel,
-						Alignment.MIDDLE_RIGHT);
+				taskListAddLayout.setComponentAlignment(bottomPanel, Alignment.MIDDLE_RIGHT);
 				return taskListAddLayout;
 			}
 
 			private Layout createBottomPanel() {
-				final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(true).withMargin(true);
+                MHorizontalLayout layout = new MHorizontalLayout().withMargin(true);
 
-				final Button saveBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+				final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
 							public void buttonClick(final ClickEvent event) {
-								if (TaskGroupAddWindow.TaskListForm.this
-										.validateForm()) {
+								if (TaskGroupAddWindow.TaskListForm.this.validateForm()) {
 									TaskListForm.this.fieldFactory.commit();
-									TaskListFormLayoutFactory.this
-											.saveTaskList();
+									TaskListFormLayoutFactory.this.saveTaskList();
 									TaskGroupAddWindow.this.close();
 								}
 							}
@@ -145,19 +139,15 @@ public class TaskGroupAddWindow extends Window {
                 saveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 				layout.addComponent(saveBtn);
 
-				final Button saveAndNewBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_SAVE_NEW),
+                Button saveAndNewBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
 							public void buttonClick(final ClickEvent event) {
-								if (TaskGroupAddWindow.TaskListForm.this
-										.validateForm()) {
+								if (TaskGroupAddWindow.TaskListForm.this.validateForm()) {
 									TaskListForm.this.fieldFactory.commit();
-									TaskListFormLayoutFactory.this
-											.saveTaskList();
+									TaskListFormLayoutFactory.this.saveTaskList();
 									TaskGroupAddWindow.this.taskList = new SimpleTaskList();
 								}
 							}
@@ -166,9 +156,7 @@ public class TaskGroupAddWindow extends Window {
 				saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
 				layout.addComponent(saveAndNewBtn);
 
-				final Button cancelBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL),
+				Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -184,16 +172,14 @@ public class TaskGroupAddWindow extends Window {
 			}
 
 			private void saveTaskList() {
-				ProjectTaskListService taskListService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskListService.class);
+				ProjectTaskListService taskListService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
 				taskList.setSaccountid(AppContext.getAccountId());
 				taskList.setCreateduser(AppContext.getUsername());
 				taskList.setCreatedtime(new GregorianCalendar().getTime());
 				taskList.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
 				taskList.setProjectid(CurrentProjectVariables.getProjectId());
 
-				ProjectMemberSelectionBox prjMemberSelectionBox = projectSelectionField
-						.getWrappedComponent();
+				ProjectMemberSelectionBox prjMemberSelectionBox = projectSelectionField.getWrappedComponent();
 				Object memberVal = prjMemberSelectionBox.getValue();
 				if (memberVal != null) {
 					SimpleProjectMember member = (SimpleProjectMember) memberVal;
@@ -208,35 +194,25 @@ public class TaskGroupAddWindow extends Window {
 			}
 
 			@Override
-			public void attachField(final Object propertyId,
-									final Field<?> field) {
+			public void attachField(Object propertyId, Field<?> field) {
 				if (propertyId.equals("name")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD), 0,
+					this.informationLayout.addComponent(field, AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD), 0,
 							0, 2, "100%");
 				} else if (propertyId.equals("description")) {
-					this.informationLayout
-							.addComponent(
-									field,
-									AppContext
-											.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD),
+					this.informationLayout.addComponent(field,
+									AppContext.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD),
 									0, 1, 2, "100%");
 				} else if (propertyId.equals("owner")) {
-					this.informationLayout
-							.addComponent(field, AppContext
-									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+					this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 									0, 2);
 				} else if (propertyId.equals("milestoneid")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1,
-							2);
+					this.informationLayout.addComponent(field, AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
+							1, 2);
 				}
 			}
 		}
 
-		private class TaskListEditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<TaskList> {
-
+		private class TaskListEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<TaskList> {
 			private static final long serialVersionUID = 1L;
 
 			public TaskListEditFormFieldFactory(GenericBeanForm<TaskList> form) {
@@ -246,7 +222,7 @@ public class TaskGroupAddWindow extends Window {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("description")) {
-					final RichTextArea area = new RichTextArea();
+                    RichTextArea area = new RichTextArea();
 					area.setNullRepresentation("");
 					return area;
 				} else if (propertyId.equals("owner")) {
@@ -255,7 +231,7 @@ public class TaskGroupAddWindow extends Window {
 				} else if (propertyId.equals("milestoneid")) {
 					return new MilestoneComboBox();
 				} else if (propertyId.equals("name")) {
-					final TextField tf = new TextField();
+                    TextField tf = new TextField();
 					tf.setNullRepresentation("");
 					tf.setRequired(true);
 					tf.setRequiredError("Please enter task group name");

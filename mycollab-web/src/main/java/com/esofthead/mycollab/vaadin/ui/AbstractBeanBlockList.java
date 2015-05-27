@@ -33,6 +33,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * 
@@ -54,25 +55,20 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
 	protected int totalCount;
 	protected List<T> currentListData;
 	protected CssLayout controlBarWrapper;
-	protected HorizontalLayout pageManagement;
+	protected MHorizontalLayout pageManagement;
 
 	private Set<PagableHandler> pagableHandlers;
 
 	protected SearchRequest<S> searchRequest;
 
-	private static String[] COLOR_STYLENAME_LIST = new String[] { "red-block",
+    public static final String[] COLOR_STYLENAME_LIST = new String[] { "red-block",
 			"cyan-block", "blue-block", "lightblue-block", "purple-block",
 			"yellow-block", "lime-block", "magenta-block", "silver-block",
 			"gray-block", "orange-block", "brown-block", "maroon-block",
 			"green-block", "olive-block" };
 
-	public static String[] getColorStyleNameList() {
-		return COLOR_STYLENAME_LIST;
-	}
-
-	public AbstractBeanBlockList(
-			final BlockDisplayHandler<T> blockDisplayHandler,
-			final int defaultNumberSearchItems) {
+	public AbstractBeanBlockList(BlockDisplayHandler<T> blockDisplayHandler,
+								 int defaultNumberSearchItems) {
 		this(defaultNumberSearchItems);
 		this.setBlockDisplayHandler(blockDisplayHandler);
 	}
@@ -92,7 +88,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
 	@Override
 	public void addPagableHandler(final PagableHandler handler) {
 		if (pagableHandlers == null) {
-			pagableHandlers = new HashSet<PagableHandler>();
+			pagableHandlers = new HashSet<>();
 		}
 		pagableHandlers.add(handler);
 	}
@@ -105,7 +101,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
 		controlBar.setWidth("100%");
 		this.controlBarWrapper.addComponent(controlBar);
 
-		this.pageManagement = new HorizontalLayout();
+		this.pageManagement = new MHorizontalLayout();
 
 		// defined layout here ---------------------------
 
@@ -220,10 +216,8 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
 		}
 
 		this.pageManagement.setWidth(null);
-		this.pageManagement.setSpacing(true);
 		controlBar.addComponent(this.pageManagement);
-		controlBar.setComponentAlignment(this.pageManagement,
-				Alignment.MIDDLE_RIGHT);
+		controlBar.setComponentAlignment(this.pageManagement, Alignment.MIDDLE_RIGHT);
 
 		return this.controlBarWrapper;
 	}

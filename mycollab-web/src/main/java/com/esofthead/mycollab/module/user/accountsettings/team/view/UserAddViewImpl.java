@@ -82,15 +82,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
         public void displayBasicForm(SimpleUser newDataSource) {
             this.setFormLayoutFactory(new BasicFormLayoutFactory());
-            this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(
-                    editUserForm));
+            this.setBeanFormFieldFactory(new BasicEditFormFieldFactory(editUserForm));
             super.setBean(newDataSource);
         }
 
         public void displayAdvancedForm(SimpleUser newDataSource) {
             this.setFormLayoutFactory(new AdvancedFormLayoutFactory());
-            this.setBeanFormFieldFactory(new AdvancedEditFormFieldFactory(
-                    editUserForm));
+            this.setBeanFormFieldFactory(new AdvancedEditFormFieldFactory(editUserForm));
             super.setBean(newDataSource);
         }
     }
@@ -224,7 +222,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                 return new AdminRoleSelectionField();
             } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) || User.Field.lastname.equalTo(propertyId)) {
-                final TextField tf = new TextField();
+                TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);
                 tf.setRequiredError("This field must be not null");
@@ -234,28 +232,23 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
             } else if (propertyId.equals("timezone")) {
                 TimeZoneSelectionField cboTimezone = new TimeZoneSelectionField(false);
                 if (user.getTimezone() != null) {
-                    cboTimezone.setTimeZone(TimezoneMapper
-                            .getTimezoneExt(user.getTimezone()));
+                    cboTimezone.setTimeZone(TimezoneMapper.getTimezoneExt(user.getTimezone()));
                 } else {
                     if (AppContext.getUser().getTimezone() != null) {
-                        cboTimezone
-                                .setTimeZone(TimezoneMapper
-                                        .getTimezoneExt(AppContext.getUser()
-                                                .getTimezone()));
+                        cboTimezone.setTimeZone(TimezoneMapper
+                                        .getTimezoneExt(AppContext.getUser().getTimezone()));
                     }
                 }
                 return cboTimezone;
             } else if (propertyId.equals("country")) {
                 final CountryComboBox cboCountry = new CountryComboBox();
-                cboCountry
-                        .addValueChangeListener(new Property.ValueChangeListener() {
+                cboCountry.addValueChangeListener(new Property.ValueChangeListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
                             public void valueChange(
                                     final Property.ValueChangeEvent event) {
-                                user.setCountry((String) cboCountry
-                                        .getValue());
+                                user.setCountry((String) cboCountry.getValue());
                             }
                         });
                 return cboCountry;

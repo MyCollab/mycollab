@@ -139,13 +139,11 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 
     @Override
     public PermissionMap getPermissionMap() {
-        final PermissionMap permissionMap = new PermissionMap();
-
-        for (final String permissionItem : this.permissionControlsMap.keySet()) {
-            final AccessPermissionComboBox permissionBox = this.permissionControlsMap
-                    .get(permissionItem);
-            final Integer perValue = (Integer) permissionBox.getValue();
-            permissionMap.addPath(permissionItem, perValue);
+        PermissionMap permissionMap = new PermissionMap();
+        for (Map.Entry<String, AccessPermissionComboBox> entry : permissionControlsMap.entrySet()) {
+            AccessPermissionComboBox permissionBox = entry.getValue();
+            Integer perValue = (Integer) permissionBox.getValue();
+            permissionMap.addPath(entry.getKey(), perValue);
         }
         return permissionMap;
     }

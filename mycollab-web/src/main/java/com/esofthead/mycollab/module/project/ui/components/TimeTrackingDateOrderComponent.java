@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
@@ -27,6 +23,9 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.google.common.collect.Ordering;
 import com.vaadin.ui.Label;
+import org.apache.commons.lang3.time.FastDateFormat;
+
+import java.util.List;
 
 /**
  * 
@@ -34,12 +33,10 @@ import com.vaadin.ui.Label;
  * @since 4.5.1
  * 
  */
-public class TimeTrackingDateOrderComponent
-		extends AbstractTimeTrackingDisplayComp {
+public class TimeTrackingDateOrderComponent extends AbstractTimeTrackingDisplayComp {
 	private static final long serialVersionUID = 1L;
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-			"EEEE, dd MMMM yyyy");
+	private static final FastDateFormat DATE_FORMAT = FastDateFormat.getInstance("EEEE, dd MMMM yyyy");
 
 	public TimeTrackingDateOrderComponent(List<TableViewField> fields,
 			TableClickListener tableClickListener) {
@@ -61,8 +58,7 @@ public class TimeTrackingDateOrderComponent
 	}
 
 	@Override
-	protected void displayGroupItems(
-			List<SimpleItemTimeLogging> timeLoggingEntries) {
+	protected void displayGroupItems(List<SimpleItemTimeLogging> timeLoggingEntries) {
 		if (timeLoggingEntries.size() > 0) {
 			Label label = new Label(DATE_FORMAT.format(timeLoggingEntries
 					.get(0).getLogforday()));

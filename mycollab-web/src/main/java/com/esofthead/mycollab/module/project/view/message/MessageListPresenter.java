@@ -77,10 +77,8 @@ public class MessageListPresenter extends AbstractPresenter<MessageListView>
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
-			ProjectBreadcrumb breadCrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+			ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoMessageList();
 
 			MessageContainer messageContainer = (MessageContainer) container;

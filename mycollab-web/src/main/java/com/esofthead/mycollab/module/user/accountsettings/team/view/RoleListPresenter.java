@@ -48,8 +48,7 @@ import com.vaadin.ui.UI;
  * @since 1.0
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_ROLE, impliedPermissionVal = AccessPermissionFlag.READ_ONLY)
-public class RoleListPresenter extends
-		ListSelectionPresenter<RoleListView, RoleSearchCriteria, SimpleRole> {
+public class RoleListPresenter extends ListSelectionPresenter<RoleListView, RoleSearchCriteria, SimpleRole> {
 	private static final long serialVersionUID = 1L;
 
 	private RoleService roleService;
@@ -89,23 +88,19 @@ public class RoleListPresenter extends
 		if (!isSelectAll) {
 			Collection<SimpleRole> currentDataList = view.getPagedBeanTable()
 					.getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
-			for (Role item : currentDataList) {
-				if (item.isSelected()
-						&& (item.getIssystemrole() == null || item
-								.getIssystemrole() == Boolean.FALSE)) {
+			List<Integer> keyList = new ArrayList<>();
+			for (SimpleRole item : currentDataList) {
+				if (item.isSelected() && Boolean.FALSE.equals(item.getIssystemrole())) {
 					keyList.add(item.getId());
 				} else {
-					NotificationUtil
-							.showErrorNotification("Can not delete role "
-									+ item.getRolename()
-									+ " because it is the system role.");
+					NotificationUtil.showErrorNotification("Can not delete role "
+							+ item.getRolename()
+							+ " because it is the system role.");
 				}
 			}
 
 			if (keyList.size() > 0) {
-				roleService.massRemoveWithSession(keyList,
-						AppContext.getUsername(), AppContext.getAccountId());
+				roleService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
 				doSearch(searchCriteria);
 			}
 		} else {

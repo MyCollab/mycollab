@@ -53,9 +53,8 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
 		UserSearchCriteria criteria = null;
 		if (data == null) {
 			criteria = new UserSearchCriteria();
-			criteria.setSaccountid(new NumberSearchField(AppContext
-					.getAccountId()));
-			criteria.setRegisterStatuses(new SetSearchField<String>(
+			criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+			criteria.setRegisterStatuses(new SetSearchField<>(
 					new String[] { RegisterStatusConstants.ACTIVE }));
 		} else {
 			criteria = (UserSearchCriteria) data.getParams();
@@ -63,8 +62,7 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
 
 		view.setSearchCriteria(criteria);
 
-		AccountSettingBreadcrumb breadcrumb = ViewManager
-				.getCacheComponent(AccountSettingBreadcrumb.class);
+		AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 		breadcrumb.gotoUserList();
 	}
 }

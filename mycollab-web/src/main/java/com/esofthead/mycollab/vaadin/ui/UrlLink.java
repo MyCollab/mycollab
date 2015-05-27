@@ -27,7 +27,6 @@ import com.vaadin.ui.Link;
  * 
  */
 public class UrlLink extends Link {
-
 	private static final long serialVersionUID = 1L;
 
 	public UrlLink(String urlLink) {

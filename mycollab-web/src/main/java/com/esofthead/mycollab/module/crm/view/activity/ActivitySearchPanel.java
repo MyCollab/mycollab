@@ -55,41 +55,36 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
     protected void buildExtraControls() {
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CALL)
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL)
                 || AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         controlsBtn.setIcon(FontAwesome.PLUS);
         controlsBtn.setCaption("New Task");
-        controlsBtn
-                .addClickListener(new SplitButton.SplitButtonClickListener() {
+        controlsBtn.addClickListener(new SplitButton.SplitButtonClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void splitButtonClick(
                             final SplitButton.SplitButtonClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.TaskAdd(this, null));
+                        EventBusFactory.getInstance().post(new ActivityEvent.TaskAdd(this, null));
                     }
                 });
 
-        final OptionPopupContent btnControlsLayout = new OptionPopupContent();
+        OptionPopupContent btnControlsLayout = new OptionPopupContent();
         controlsBtn.setContent(btnControlsLayout);
 
-        final Button createMeetingBtn = new Button("New Meeting",
+        Button createMeetingBtn = new Button("New Meeting",
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         controlsBtn.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.MeetingAdd(this, null));
+                        EventBusFactory.getInstance().post(new ActivityEvent.MeetingAdd(this, null));
                     }
                 });
         btnControlsLayout.addOption(createMeetingBtn);
-        createMeetingBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_MEETING));
+        createMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         final Button createCallBtn = new Button("New Call",
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -97,12 +92,10 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         controlsBtn.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.CallAdd(this, null));
+                        EventBusFactory.getInstance().post(new ActivityEvent.CallAdd(this, null));
                     }
                 });
-        createCallBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CALL));
+        createCallBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CALL));
         btnControlsLayout.addOption(createCallBtn);
 
         addHeaderRight(controlsBtn);
@@ -115,8 +108,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
 
                     @Override
                     public void buttonClick(ClickEvent evt) {
-                        EventBusFactory.getInstance().post(
-                                new ActivityEvent.GotoCalendar(this, null));
+                        EventBusFactory.getInstance().post(new ActivityEvent.GotoCalendar(this, null));
                     }
                 });
         calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -153,22 +145,18 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             this.nameField = new TextField();
             this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            basicSearchBody.with(nameField).withAlign(nameField,
-                    Alignment.MIDDLE_CENTER);
+            this.nameField.setInputPrompt("Query by activity name");
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(
-                    AppContext
-                            .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             this.myItemCheckbox.setWidth("75px");
-            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox,
-                    Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
@@ -178,11 +166,9 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
                     EventBasicSearchLayout.this.callSearchAction();
                 }
             });
-            basicSearchBody.with(searchBtn).withAlign(searchBtn,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button clearBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             clearBtn.addClickListener(new Button.ClickListener() {
                 @Override
@@ -198,8 +184,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-            searchCriteria
-                    .setSaccountid(new NumberSearchField(SearchField.AND,
+            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
                             AppContext.getAccountId()));
             return searchCriteria;
         }

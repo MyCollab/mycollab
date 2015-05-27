@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.standup;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -36,6 +31,11 @@ import com.esofthead.mycollab.module.project.view.parameters.StandupScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
+import org.apache.commons.lang3.time.FastDateFormat;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 
@@ -49,8 +49,7 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("add", new PreviewUrlResolver());
 	}
 
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-			"MM/dd/yyyy");
+	private static FastDateFormat simpleDateFormat = FastDateFormat.getInstance("MM/dd/yyyy");
 
 	/**
 	 * 

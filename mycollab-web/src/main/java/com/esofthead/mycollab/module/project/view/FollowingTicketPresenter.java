@@ -29,8 +29,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class FollowingTicketPresenter extends
-		AbstractPresenter<FollowingTicketView> {
+public class FollowingTicketPresenter extends AbstractPresenter<FollowingTicketView> {
 	private static final long serialVersionUID = 1L;
 
 	public FollowingTicketPresenter() {
@@ -52,8 +51,7 @@ public class FollowingTicketPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
-		prjContainer.addComponent(view);
-		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
+		prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
 		view.displayTickets();
 	}
 }

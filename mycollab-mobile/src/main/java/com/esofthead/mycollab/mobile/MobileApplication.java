@@ -69,10 +69,9 @@ public class MobileApplication extends MyCollabUI {
 
 	public static final String LOGIN_DATA = "m_login";
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(MobileApplication.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MobileApplication.class);
 
-	public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
+	public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
 	@Override
 	protected void init(VaadinRequest request) {

@@ -251,7 +251,7 @@ public class RelatedEditItemField extends CustomField<String> implements
 		}
 	}
 
-	private class RelatedItemComboBox extends KeyCaptionComboBox {
+	private static class RelatedItemComboBox extends KeyCaptionComboBox {
 		private static final long serialVersionUID = 1L;
 
 		public RelatedItemComboBox() {

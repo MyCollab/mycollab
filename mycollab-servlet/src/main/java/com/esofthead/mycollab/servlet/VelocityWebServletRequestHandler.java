@@ -35,8 +35,7 @@ import java.util.Map;
  * @since 4.0
  * 
  */
-public abstract class VelocityWebServletRequestHandler extends
-		GenericHttpServlet {
+public abstract class VelocityWebServletRequestHandler extends GenericHttpServlet {
 
 	@Autowired
 	private TemplateEngine templateEngine;
@@ -48,12 +47,12 @@ public abstract class VelocityWebServletRequestHandler extends
 		Reader reader = LocalizationHelper.templateReader(templatePath, locale);
 
 		if (params != null) {
-			for (String key : params.keySet()) {
-				pageContext.put(key, params.get(key));
+			for (Map.Entry<String, Object> entry : params.entrySet()) {
+				pageContext.put(entry.getKey(), entry.getValue());
 			}
 		}
 
-		Map<String, String> defaultUrls = new HashMap<String, String>();
+		Map<String, String> defaultUrls = new HashMap<>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());

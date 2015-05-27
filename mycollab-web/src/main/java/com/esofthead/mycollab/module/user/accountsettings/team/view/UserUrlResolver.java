@@ -39,21 +39,21 @@ public class UserUrlResolver extends AccountUrlResolver {
 		this.addSubResolver("preview", new PreviewUrlResolver());
 	}
 
-	private class ListUrlResolver extends AccountUrlResolver {
+	private static class ListUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
 			EventBusFactory.getInstance().post(
 					new UserEvent.GotoList(ListUrlResolver.this, null));
 		}
 	}
 
-	private class AddUrlResolver extends AccountUrlResolver {
+	private static class AddUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
 			EventBusFactory.getInstance().post(
 					new UserEvent.GotoAdd(AddUrlResolver.this, null));
 		}
 	}
 
-	private class EditUrlResolver extends AccountUrlResolver {
+	private static class EditUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
 			String username = new UrlTokenizer(params[0]).getString();
 			UserService userService = ApplicationContextUtil
@@ -65,7 +65,7 @@ public class UserUrlResolver extends AccountUrlResolver {
 		}
 	}
 
-	private class PreviewUrlResolver extends AccountUrlResolver {
+	private static class PreviewUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
 			String username = new UrlTokenizer(params[0]).getString();
 			EventBusFactory.getInstance().post(

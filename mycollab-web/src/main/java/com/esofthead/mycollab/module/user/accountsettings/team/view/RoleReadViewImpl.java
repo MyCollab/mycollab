@@ -78,8 +78,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
     public void previewItem(final SimpleRole role) {
         this.role = role;
         this.previewForm.setFormLayoutFactory(new FormLayoutFactory());
-        this.previewForm
-                .setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
+        this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
                         previewForm) {
                     private static final long serialVersionUID = 1L;
 
@@ -104,8 +103,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
             return "Undefined";
         } else {
             if (PermissionChecker.isAccessPermission(perVal)) {
-                return AppContext
-                        .getMessage(AccessPermissionFlag.toKey(perVal));
+                return AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
             } else if (PermissionChecker.isBooleanPermission(perVal)) {
                 return AppContext.getMessage(BooleanPermissionFlag.toKey(perVal));
             } else {
@@ -122,10 +120,8 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
         for (int i = 0; i < defItems.length; i++) {
             PermissionDefItem permissionDefItem = defItems[i];
-            formHelper.addComponent(
-                    new Label(getValueFromPerPath(permissionMap,
-                            permissionDefItem.getKey())), permissionDefItem
-                            .getCaption(), 0, i);
+            formHelper.addComponent(new Label(getValueFromPerPath(permissionMap,
+                            permissionDefItem.getKey())), permissionDefItem.getCaption(), 0, i);
         }
         return component;
     }
@@ -144,13 +140,12 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
         @Override
         protected Layout createBottomPanel() {
-            final VerticalLayout permissionsPanel = new VerticalLayout();
-            final Label organizationHeader = new Label("Permissions");
+            VerticalLayout permissionsPanel = new VerticalLayout();
+            Label organizationHeader = new Label("Permissions");
             organizationHeader.setStyleName("h2");
             permissionsPanel.addComponent(organizationHeader);
 
-            final PermissionMap permissionMap = RoleReadViewImpl.this.role
-                    .getPermissionMap();
+            PermissionMap permissionMap = RoleReadViewImpl.this.role.getPermissionMap();
 
             permissionsPanel.addComponent(constructPermissionSectionView(
                     "Project", permissionMap,

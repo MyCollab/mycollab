@@ -29,9 +29,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
@@ -76,6 +76,7 @@ public class AttachmentPanel extends VerticalLayout implements
         Button removeBtn = new Button(null, new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @SuppressFBWarnings({"RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"})
             @Override
             public void buttonClick(ClickEvent event) {
                 File file = fileStores.get(fileName);
@@ -119,8 +120,10 @@ public class AttachmentPanel extends VerticalLayout implements
 
     public void saveContentsToRepo(String attachmentPath) {
         if (MapUtils.isNotEmpty(fileStores)) {
-            for (String fileName : fileStores.keySet()) {
+            for (Map.Entry<String, File> entry : fileStores.entrySet()) {
                 try {
+                    String fileName = entry.getKey();
+                    File file = entry.getValue();
                     String fileExt = "";
                     int index = fileName.lastIndexOf(".");
                     if (index > 0) {
@@ -128,11 +131,9 @@ public class AttachmentPanel extends VerticalLayout implements
                                 fileName.length());
                     }
 
-                    if ("jpg".equalsIgnoreCase(fileExt)
-                            || "png".equalsIgnoreCase(fileExt)) {
+                    if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
                         try {
-                            BufferedImage bufferedImage = ImageIO
-                                    .read(fileStores.get(fileName));
+                            BufferedImage bufferedImage = ImageIO.read(file);
 
                             int imgHeight = bufferedImage.getHeight();
                             int imgWidth = bufferedImage.getWidth();
@@ -144,33 +145,23 @@ public class AttachmentPanel extends VerticalLayout implements
                             float scaleX = Math.min(destHeight / imgHeight, 1);
                             float scaleY = Math.min(destWidth / imgWidth, 1);
                             scale = Math.min(scaleX, scaleY);
-                            BufferedImage scaledImage = ImageUtil.scaleImage(bufferedImage,
-                                    scale);
+                            BufferedImage scaledImage = ImageUtil.scaleImage(bufferedImage, scale);
 
                             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                             ImageIO.write(scaledImage, fileExt, outStream);
 
-                            resourceService.saveContent(
-                                    constructContent(fileName, attachmentPath),
+                            resourceService.saveContent(constructContent(fileName, attachmentPath),
                                     AppContext.getUsername(),
-                                    new ByteArrayInputStream(outStream
-                                            .toByteArray()), AppContext
-                                            .getAccountId());
+                                    new ByteArrayInputStream(outStream.toByteArray()), AppContext.getAccountId());
                         } catch (IOException e) {
                             LOG.error("Error in upload file", e);
-                            resourceService.saveContent(
-                                    constructContent(fileName, attachmentPath),
-                                    AppContext.getUsername(),
-                                    new FileInputStream(fileStores
-                                            .get(fileName)), AppContext
-                                            .getAccountId());
+                            resourceService.saveContent(constructContent(fileName, attachmentPath),
+                                    AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                         }
                     } else {
                         resourceService.saveContent(
-                                constructContent(fileName, attachmentPath),
-                                AppContext.getUsername(), new FileInputStream(
-                                        fileStores.get(fileName)), AppContext
-                                        .getAccountId());
+                                constructContent(fileName, attachmentPath), AppContext.getUsername(),
+                                new FileInputStream(file), AppContext.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {
@@ -187,14 +178,15 @@ public class AttachmentPanel extends VerticalLayout implements
         return content;
     }
 
+    @SuppressFBWarnings({"RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"})
     public List<File> files() {
         List<File> listFile = null;
         if (MapUtils.isNotEmpty(fileStores)) {
             listFile = new ArrayList<>();
-            for (String fileName : fileStores.keySet()) {
-                File oldFile = fileStores.get(fileName);
+            for (Map.Entry<String, File> entry : fileStores.entrySet()) {
+                File oldFile = entry.getValue();
                 File parentFile = oldFile.getParentFile();
-                File newFile = new File(parentFile, fileName);
+                File newFile = new File(parentFile, entry.getKey());
                 if (newFile.exists())
                     newFile.delete();
                 if (oldFile.renameTo(newFile)) {
@@ -203,7 +195,6 @@ public class AttachmentPanel extends VerticalLayout implements
 
                 if (listFile.size() <= 0)
                     return null;
-
             }
         }
         return listFile;

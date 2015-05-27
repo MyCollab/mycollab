@@ -24,6 +24,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
  * 
@@ -32,24 +33,20 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class ProjectPreviewFormControlsGenerator<T> {
-
-	public static int EDIT_BTN_PRESENTED = 2;
-	public static int DELETE_BTN_PRESENTED = 4;
-	public static int CLONE_BTN_PRESENTED = 8;
-	public static int ASSIGN_BTN_PRESENTED = 16;
+	public static final int EDIT_BTN_PRESENTED = 2;
+	public static final int DELETE_BTN_PRESENTED = 4;
+	public static final int CLONE_BTN_PRESENTED = 8;
+	public static final int ASSIGN_BTN_PRESENTED = 16;
 
 	private Button deleteBtn, editBtn, cloneBtn, assignBtn;
 	private PreviewBeanForm<T> previewForm;
 
-	private VerticalLayout editButtons;
+	private MVerticalLayout editButtons;
 
 	public ProjectPreviewFormControlsGenerator(final PreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
 
-		editButtons = new VerticalLayout();
-		editButtons.setSpacing(true);
-		editButtons.setWidth("100%");
-		editButtons.setMargin(true);
+		editButtons = new MVerticalLayout().withWidth("100%");
 		editButtons.addStyleName("edit-btn-layout");
 		editButtons.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 	}
@@ -74,14 +71,13 @@ public class ProjectPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT));
+			editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT));
 			editBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					final T item = previewForm.getBean();
+					T item = previewForm.getBean();
 					previewForm.fireEditForm(item);
 				}
 			});
@@ -91,14 +87,13 @@ public class ProjectPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-			deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+			deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							final T item = previewForm.getBean();
+							T item = previewForm.getBean();
 							previewForm.fireDeleteForm(item);
 						}
 					});
@@ -108,14 +103,13 @@ public class ProjectPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-			cloneBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE));
+			cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE));
 			cloneBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					final T item = previewForm.getBean();
+					T item = previewForm.getBean();
 					previewForm.fireCloneForm(item);
 				}
 			});
@@ -125,15 +119,14 @@ public class ProjectPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-			assignBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN));
+			assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN));
 			assignBtn.addClickListener(new Button.ClickListener() {
 
 				private static final long serialVersionUID = 6882405297466892069L;
 
 				@Override
 				public void buttonClick(Button.ClickEvent event) {
-					final T item = previewForm.getBean();
+					T item = previewForm.getBean();
 					previewForm.fireAssignForm(item);
 				}
 			});

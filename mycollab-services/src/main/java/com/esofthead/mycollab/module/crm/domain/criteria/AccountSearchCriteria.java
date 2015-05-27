@@ -44,54 +44,54 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 public class AccountSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_accountName = new StringParam("account-name",
+	public static final Param p_accountName = new StringParam("account-name",
 			AccountI18nEnum.FORM_ACCOUNT_NAME, "m_crm_account", "accountName");
 
-	public static Param p_website = new StringParam("account-website",
+	public static final Param p_website = new StringParam("account-website",
 			AccountI18nEnum.FORM_WEBSITE, "m_crm_account", "website");
 
-	public static Param p_numemployees = new NumberParam("account-employees",
+	public static final Param p_numemployees = new NumberParam("account-employees",
 			AccountI18nEnum.FORM_EMPLOYEES, "m_crm_account", "numemployees");
 
-	public static Param p_assignee = new PropertyListParam(
+	public static final Param p_assignee = new PropertyListParam(
 			"account-assignuser", GenericI18Enum.FORM_ASSIGNEE,
 			"m_crm_account", "assignUser");
 
-	public static Param p_createdtime = new DateParam("account-createdtime",
+	public static final Param p_createdtime = new DateParam("account-createdtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_crm_account", "createdTime");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"account-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_crm_account", "lastUpdatedTime");
 
-	public static Param p_anyCity = new CompositionStringParam(
+	public static final Param p_anyCity = new CompositionStringParam(
 			"account-anyCity",
 			AccountI18nEnum.FORM_ANY_CITY,
 			new StringParam[] {
 					new StringParam("", null, "m_crm_account", "city"),
 					new StringParam("", null, "m_crm_account", "shippingCity") });
 
-	public static Param p_anyPhone = new CompositionStringParam(
+	public static final Param p_anyPhone = new CompositionStringParam(
 			"account-anyPhone",
 			AccountI18nEnum.FORM_ANY_PHONE,
 			new StringParam[] {
 					new StringParam("", null, "m_crm_account", "alternatePhone"),
 					new StringParam("", null, "m_crm_account", "phoneOffice") });
 
-	public static Param p_industries = new StringListParam("account-industry",
+	public static final Param p_industries = new StringListParam("account-industry",
 			AccountI18nEnum.FORM_INDUSTRY, "m_crm_account", "industry",
 			Arrays.asList(CrmDataTypeFactory.getAccountIndustryList()));
 
-	public static Param p_types = new I18nStringListParam("account-type",
+	public static final Param p_types = new I18nStringListParam("account-type",
 			AccountI18nEnum.FORM_TYPE, "m_crm_account", "type",
 			CrmDataTypeFactory.getAccountTypeList());
 
-	public static Param p_billingCountry = new StringListParam(
+	public static final Param p_billingCountry = new StringListParam(
 			"account-billingCountry", AccountI18nEnum.FORM_BILLING_COUNTRY,
 			"m_crm_account", "billingCountry",
 			Arrays.asList(CountryValueFactory.getCountryList()));
 
-	public static Param p_shippingCountry = new StringListParam(
+	public static final Param p_shippingCountry = new StringListParam(
 			"account-shippingCountry", AccountI18nEnum.FORM_SHIPPING_COUNTRY,
 			"m_crm_account", "shippingCountry",
 			Arrays.asList(CountryValueFactory.getCountryList()));

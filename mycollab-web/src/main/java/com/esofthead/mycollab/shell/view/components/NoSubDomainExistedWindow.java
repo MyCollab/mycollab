@@ -48,20 +48,18 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 		public NoSubDomainLayout(final String domain) {
 			super("noSubdomainWindow");
 
-			final VerticalLayout warningContent = new VerticalLayout();
-			final Label warningMsg = new Label(AppContext.getMessage(
-					ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain));
+			VerticalLayout warningContent = new VerticalLayout();
+			Label warningMsg = new Label(AppContext.getMessage(ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain));
 			warningContent.addComponent(warningMsg);
 
-			final Button backToHome = new Button(
+			Button backToHome = new Button(
 					AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							getUI().getPage().setLocation(
-									"http://www.mycollab.com");
+							getUI().getPage().setLocation("https://www.mycollab.com");
 						}
 					});
 			backToHome.addStyleName(UIConstants.THEME_GREEN_LINK);

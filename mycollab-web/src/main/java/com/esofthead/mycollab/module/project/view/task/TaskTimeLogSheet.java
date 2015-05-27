@@ -46,8 +46,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<>(
-				CurrentProjectVariables.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(true));
@@ -57,8 +56,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalNonBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<>(
-				CurrentProjectVariables.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(false));
@@ -90,8 +88,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 		public TaskTimeLogEditWindow(SimpleTask bean) {
 			super(bean);
 			this.setModal(true);
-			this.setCaption(AppContext
-					.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
+			this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
 			this.setModal(true);
 			this.addCloseListener(new CloseListener() {
 				@Override
@@ -112,14 +109,12 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 			item.setProjectid(CurrentProjectVariables.getProjectId());
 			item.setLogforday(forLogDate());
 			item.setIsbillable(isBillableHours());
-			itemTimeLoggingService.saveWithSession(item,
-					AppContext.getUsername());
+			itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
 		}
 
 		@Override
 		protected void updateTimeRemain() {
-			ProjectTaskService taskService = ApplicationContextUtil
-					.getSpringBean(ProjectTaskService.class);
+			ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 			bean.setRemainestimate(getUpdateRemainTime());
 			taskService.updateWithSession(bean, AppContext.getUsername());
 
@@ -128,10 +123,8 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 		@Override
 		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
 			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<>(
-					CurrentProjectVariables.getProjectId()));
-			searchCriteria.setType(new StringSearchField(
-					ProjectTypeConstants.TASK));
+			searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+			searchCriteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
 			return searchCriteria;
 		}

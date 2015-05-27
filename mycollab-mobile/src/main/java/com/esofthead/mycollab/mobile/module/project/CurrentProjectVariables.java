@@ -61,9 +61,8 @@ public class CurrentProjectVariables {
 				AppContext.getUsername(), project.getId(),
 				AppContext.getAccountId());
 		if (prjMember != null) {
-			if (((prjMember.getIsadmin() != null && prjMember.getIsadmin() == Boolean.FALSE) || (prjMember
-					.getIsadmin() == null))
-					&& prjMember.getProjectroleid() != null) {
+			if (Boolean.FALSE.equals(prjMember.getIsadmin() || (prjMember
+					.getIsadmin() == null)) && prjMember.getProjectroleid() != null) {
 				ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
 				ex.createCriteria()
 						.andRoleidEqualTo(prjMember.getProjectroleid())

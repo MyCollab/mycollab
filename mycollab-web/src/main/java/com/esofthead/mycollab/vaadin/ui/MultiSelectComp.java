@@ -132,7 +132,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
     protected ItemSelectionComp<T> buildItem(final T item) {
         String itemName = "";
-        if (propertyDisplayField != "") {
+        if (!"".equals(propertyDisplayField)) {
             try {
                 itemName = (String) PropertyUtils.getProperty(item,
                         propertyDisplayField);

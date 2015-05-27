@@ -44,7 +44,6 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList.RowDisplayHandler;
 import com.hp.gagawa.java.elements.A;
@@ -269,7 +268,7 @@ public class MessageListViewImpl extends AbstractPageView implements
     }
 
     @SuppressWarnings({"serial"})
-    private class MessageSearchPanel extends GenericSearchPanel<MessageSearchCriteria> {
+    private static class MessageSearchPanel extends GenericSearchPanel<MessageSearchCriteria> {
         private MessageSearchCriteria messageSearchCriteria;
         private TextField nameField;
 
@@ -324,14 +323,13 @@ public class MessageListViewImpl extends AbstractPageView implements
 
     private final class TopMessagePanel extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
-        private final MessageSearchPanel messageSearchPanel;
-        private final HorizontalLayout messagePanelBody;
+        private MessageSearchPanel messageSearchPanel;
+        private HorizontalLayout messagePanelBody;
 
         public TopMessagePanel() {
             this.withWidth("100%").withStyleName("message-toppanel");
-            this.messagePanelBody = new HorizontalLayout();
-            this.messagePanelBody.setStyleName("message-toppanel-body");
-            this.messagePanelBody.setWidth("100%");
+            this.messagePanelBody = new MHorizontalLayout().withSpacing(false)
+                    .withStyleName("message-toppanel-body").withWidth("100%");
             this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             this.messageSearchPanel = new MessageSearchPanel();
@@ -343,7 +341,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
         private void createAddMessageLayout() {
             this.messagePanelBody.removeAllComponents();
-            final MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("700px");
+            MVerticalLayout addMessageWrapper = new MVerticalLayout().withWidth("700px");
 
             final RichTextArea ckEditorTextField = new RichTextArea();
             ckEditorTextField.setWidth("100%");
@@ -353,9 +351,8 @@ public class MessageListViewImpl extends AbstractPageView implements
             final TextField titleField = new TextField();
 
             MHorizontalLayout titleLayout = new MHorizontalLayout().withWidth("100%");
-            final Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
+            Label titleLbl = new Label(AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
             titleLbl.setWidthUndefined();
-
             titleField.setWidth("100%");
             titleField.setNullRepresentation("");
             titleField.setRequired(true);
@@ -390,7 +387,7 @@ public class MessageListViewImpl extends AbstractPageView implements
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
-             Button saveBtn = new Button(
+            Button saveBtn = new Button(
                     AppContext.getMessage(GenericI18Enum.BUTTON_POST),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
@@ -436,9 +433,8 @@ public class MessageListViewImpl extends AbstractPageView implements
             this.messagePanelBody.addComponent(this.messageSearchPanel);
 
             if (!MessageListViewImpl.this.isEmpty) {
-                final Button createMessageBtn = new Button(
-                        AppContext
-                                .getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
+                Button createMessageBtn = new Button(
+                        AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -447,16 +443,13 @@ public class MessageListViewImpl extends AbstractPageView implements
                                 TopMessagePanel.this.createAddMessageLayout();
                             }
                         });
-                createMessageBtn.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.MESSAGES));
+                createMessageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
                 createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 createMessageBtn.setIcon(FontAwesome.PLUS);
-                createMessageBtn.setEnabled(CurrentProjectVariables
-                        .canWrite(ProjectRolePermissionCollections.MESSAGES));
+                createMessageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
                 this.messagePanelBody.addComponent(createMessageBtn);
-                this.messagePanelBody.setComponentAlignment(createMessageBtn,
-                        Alignment.MIDDLE_RIGHT);
+                this.messagePanelBody.setComponentAlignment(createMessageBtn, Alignment.MIDDLE_RIGHT);
             }
 
         }

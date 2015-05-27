@@ -39,6 +39,27 @@ If you want to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 5.1.0
+-----------------------------
+**Library Upgrades**
+
+* Upgrade libraries: HirakiCP, Jackrabbit, Commons-Email
+
+**Improvements & New Features**
+
+* Parse html better, display rich html text smoothly
+* Improve code quality overall
+* Optimize the hash query and improve the site performance a little bit
+* Revise the Gantt chart display
+
+**Bug Fixes**
+
+* Search project may throw exception in some special case
+* Export report document is sometimes failed
+* Several bug fixes relate to Gantt chart views
+* Upload file in page editor throws exception
+* Add a new project page throws exception
+
 Version 5.0.7
 -----------------------------
 **Library Upgrades**

@@ -34,26 +34,24 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
  * @since 1.0
  */
 public class CrmPreviewFormControlsGenerator<T> {
-    public static int BACK_BTN_PRESENTED = 2;
-    public static int EDIT_BTN_PRESENTED = 4;
-    public static int DELETE_BTN_PRESENTED = 8;
-    public static int CLONE_BTN_PRESENTED = 16;
-    public static int PREVIOUS_BTN_PRESENTED = 32;
-    public static int NEXT_BTN_PRESENTED = 64;
-    public static int ADD_BTN_PRESENTED = 128;
+    public static final int BACK_BTN_PRESENTED = 2;
+    public static final int EDIT_BTN_PRESENTED = 4;
+    public static final int DELETE_BTN_PRESENTED = 8;
+    public static final int CLONE_BTN_PRESENTED = 16;
+    public static final int PREVIOUS_BTN_PRESENTED = 32;
+    public static final int NEXT_BTN_PRESENTED = 64;
+    public static final int ADD_BTN_PRESENTED = 128;
 
     private AdvancedPreviewBeanForm<T> previewForm;
     private SplitButton optionBtn;
     private MHorizontalLayout layout;
 
-    public CrmPreviewFormControlsGenerator(
-            AdvancedPreviewBeanForm<T> editForm) {
+    public CrmPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
 
         layout = new MHorizontalLayout().withStyleName("control-buttons");
 
-        Button editButtons = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
+        Button editButtons = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -114,8 +112,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            Button editBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -133,8 +130,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            Button deleteBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -151,8 +147,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            Button cloneBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
+            Button cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 

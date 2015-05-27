@@ -35,8 +35,7 @@ public class UserLinkViewField extends CustomField {
 	private String userAvatarId;
 	private String fullName;
 
-	public UserLinkViewField(String username, String userAvatarId,
-			final String fullName) {
+	public UserLinkViewField(String username, String userAvatarId, String fullName) {
 		this.username = username;
 		this.userAvatarId = userAvatarId;
 		this.fullName = fullName;
@@ -49,8 +48,7 @@ public class UserLinkViewField extends CustomField {
 
 	@Override
 	protected Component initContent() {
-		final UserLink userLink = new UserLink(username, userAvatarId,
-				fullName);
+		UserLink userLink = new UserLink(username, userAvatarId, fullName);
 		userLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 		return userLink;
 	}

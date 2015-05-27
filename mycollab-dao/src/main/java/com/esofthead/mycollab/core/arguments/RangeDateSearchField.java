@@ -44,19 +44,9 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 public class RangeDateSearchField extends RangeDateTimeSearchField {
 	private static final long serialVersionUID = 1L;
 
-	public RangeDateSearchField() {
-		this(null, null);
-	}
 
 	public RangeDateSearchField(Date from, Date to) {
 		super(DateTimeUtils.trimHMSOfDate(DateTimeUtils
-				.convertTimeFromSystemTimezoneToUTC(from.getTime())),
-				DateTimeUtils.trimHMSOfDate(DateTimeUtils
-						.convertTimeFromSystemTimezoneToUTC(to.getTime())));
-	}
-
-	public RangeDateSearchField(String oper, Date from, Date to) {
-		super(oper, DateTimeUtils.trimHMSOfDate(DateTimeUtils
 				.convertTimeFromSystemTimezoneToUTC(from.getTime())),
 				DateTimeUtils.trimHMSOfDate(DateTimeUtils
 						.convertTimeFromSystemTimezoneToUTC(to.getTime())));

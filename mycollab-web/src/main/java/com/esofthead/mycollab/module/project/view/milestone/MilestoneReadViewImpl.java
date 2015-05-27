@@ -49,8 +49,8 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.PrettyDateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -66,7 +66,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
-import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import java.util.UUID;
 
@@ -77,7 +76,6 @@ import java.util.UUID;
 @ViewComponent
 public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilestone> implements MilestoneReadView {
     private static final long serialVersionUID = 1L;
-
     private static final Logger LOG = LoggerFactory.getLogger(MilestoneReadViewImpl.class);
 
     private CommentDisplay commentListComp;
@@ -171,7 +169,6 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
 
     private class MilestoneFormFieldFactory extends
             AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
-
         private static final long serialVersionUID = 1L;
 
         public MilestoneFormFieldFactory(GenericBeanForm<SimpleMilestone> form) {
@@ -182,18 +179,15 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         protected Field<?> onCreateField(final Object propertyId) {
             SimpleMilestone milestone = attachForm.getBean();
             if (Milestone.Field.startdate.equalTo(propertyId)) {
-                return new PrettyDateViewField(
-                        milestone.getStartdate());
+                return new DateViewField(milestone.getStartdate());
             } else if (Milestone.Field.enddate.equalTo(propertyId)) {
-                return new PrettyDateViewField(
-                        milestone.getEnddate());
+                return new DateViewField(milestone.getEnddate());
             } else if (Milestone.Field.owner.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(milestone.getOwner(),
                         milestone.getOwnerAvatarId(),
                         milestone.getOwnerFullName());
             } else if (Milestone.Field.description.equalTo(propertyId)) {
-                return new RichTextViewField(
-                        milestone.getDescription());
+                return new RichTextViewField(milestone.getDescription());
             } else if (Milestone.Field.status.equalTo(propertyId)) {
                 String milestoneStatus = AppContext.getMessage(
                         MilestoneStatus.class, beanItem.getStatus());
@@ -382,10 +376,10 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
         }
     }
 
-    private class PeopleInfoComp extends MVerticalLayout {
+    private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
-        public void displayEntryPeople(ValuedBean bean) {
+        void displayEntryPeople(ValuedBean bean) {
             this.removeAllComponents();
             this.withMargin(new MarginInfo(false, false, false, true));
 

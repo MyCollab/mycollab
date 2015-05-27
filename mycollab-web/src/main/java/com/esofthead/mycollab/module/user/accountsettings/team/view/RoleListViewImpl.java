@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.Arrays;
 
@@ -101,45 +102,35 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 	}
 
 	private ComponentContainer constructTableActionControls() {
-		final CssLayout layoutWrapper = new CssLayout();
+		CssLayout layoutWrapper = new CssLayout();
 		layoutWrapper.setWidth("100%");
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
+		MHorizontalLayout layout = new MHorizontalLayout();
 		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
 		layoutWrapper.addComponent(layout);
 
 		this.selectOptionButton = new SelectionOptionButton(this.tableItem);
 		layout.addComponent(this.selectOptionButton);
 
-		final Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-		deleteBtn.setEnabled(AppContext
-				.canAccess(RolePermissionCollections.ACCOUNT_ROLE));
+		Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
+		deleteBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE));
 
 		this.tableActionControls = new DefaultMassItemActionHandlerContainer();
 		if (AppContext.canAccess(RolePermissionCollections.ACCOUNT_ROLE)) {
 			tableActionControls.addActionItem(
 					MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
+					"delete", AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.PDF,
-                FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
+		tableActionControls.addDownloadActionItem(ReportExportType.PDF,
+                FontAwesome.FILE_PDF_O, "export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.EXCEL,
-                FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
+		tableActionControls.addDownloadActionItem(ReportExportType.EXCEL,
+                FontAwesome.FILE_EXCEL_O, "export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		tableActionControls.addDownloadActionItem(
-				ReportExportType.CSV,
-				FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+				ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
+				"export", "export.csv", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
 		layout.addComponent(this.tableActionControls);
 		layout.addComponent(this.selectedItemsNumberLabel);

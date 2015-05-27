@@ -59,7 +59,7 @@ public class DbUnitInitializerRule implements TestRule {
 		}
 	}
 
-	private class WrappedStatement extends Statement {
+	private static class WrappedStatement extends Statement {
 		private Statement baseStm;
 		private Class testClass = null;
 		private IDatabaseTester databaseTester;
@@ -86,7 +86,7 @@ public class DbUnitInitializerRule implements TestRule {
 			String classFileName = this.testClass.getName();
 			String xmlFile = classFileName.replace('.', '/') + ".xml";
 
-			InputStream stream = null;
+			InputStream stream;
 			String xmlFullPath = "src/test/resources/" + xmlFile;
 			if (new File(xmlFullPath).exists()) {
 				try {

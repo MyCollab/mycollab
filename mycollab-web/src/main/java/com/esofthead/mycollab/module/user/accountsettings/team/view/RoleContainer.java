@@ -28,7 +28,4 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 @ViewComponent
 public class RoleContainer extends AbstractPageView {
 	private static final long serialVersionUID = 1L;
-
-	public RoleContainer() {
-	}
 }

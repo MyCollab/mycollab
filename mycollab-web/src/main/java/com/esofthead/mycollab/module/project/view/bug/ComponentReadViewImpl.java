@@ -363,7 +363,7 @@ public class ComponentReadViewImpl extends
         }
     }
 
-    private class PeopleInfoComp extends MVerticalLayout {
+    private static class PeopleInfoComp extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
 
         public void displayEntryPeople(ValuedBean bean) {

@@ -205,7 +205,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 	private int getTotalFollowers(V bean) {
 		try {
 			MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-			criteria.setTypeId(new NumberSearchField((int) PropertyUtils.getProperty(bean, "id")));
+			criteria.setTypeId(new NumberSearchField((Number) PropertyUtils.getProperty(bean, "id")));
 			criteria.setType(new StringSearchField(type));
 			return monitorItemService.getTotalCount(criteria);
 		} catch (IllegalAccessException | InvocationTargetException
@@ -220,7 +220,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 			MonitorItem monitorItem = new MonitorItem();
 			monitorItem.setMonitorDate(new GregorianCalendar().getTime());
 			monitorItem.setType(type);
-			monitorItem.setTypeid((int) PropertyUtils.getProperty(bean, "id"));
+			monitorItem.setTypeid((Integer) PropertyUtils.getProperty(bean, "id"));
 			monitorItem.setUser(username);
 			monitorItem.setSaccountid(AppContext.getAccountId());
 			monitorItemService.saveWithSession(monitorItem,
@@ -234,7 +234,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 	private void unfollowItem(String username, V bean) {
 		try {
 			MonitorSearchCriteria criteria = new MonitorSearchCriteria();
-			criteria.setTypeId(new NumberSearchField((int) PropertyUtils
+			criteria.setTypeId(new NumberSearchField((Number) PropertyUtils
 					.getProperty(bean, "id")));
 			criteria.setType(new StringSearchField(type));
 			criteria.setUser(new StringSearchField(username));
@@ -397,7 +397,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends MVerticalLayout {
 			try {
 				MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
 				searchCriteria.setTypeId(new NumberSearchField(
-						(int) PropertyUtils.getProperty(bean, "id")));
+						(Number) PropertyUtils.getProperty(bean, "id")));
 				searchCriteria.setType(new StringSearchField(type));
 				tableItem.setSearchCriteria(searchCriteria);
 			} catch (IllegalAccessException | InvocationTargetException

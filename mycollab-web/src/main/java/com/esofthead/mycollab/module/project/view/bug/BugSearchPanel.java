@@ -62,27 +62,23 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG,
-                AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
+        return new ProjectViewHeader(ProjectTypeConstants.BUG, AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(
-                AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
+        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new BugEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
                     }
                 });
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.BUGS));
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS));
         addHeaderRight(createBtn);
     }
 
@@ -108,10 +104,9 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @SuppressWarnings("serial")
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             Label nameLbl = new Label("Name:");
-            basicSearchBody.with(nameLbl).withAlign(nameLbl,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
                     new ShortcutListener("BugSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
@@ -121,15 +116,13 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                         }
                     });
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField.setInputPrompt("Query by name, description or environment");
             basicSearchBody.with(nameField).withAlign(nameLbl, Alignment.MIDDLE_CENTER);
 
-            myItemCheckbox = new CheckBox(
-                    AppContext
-                            .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -140,11 +133,9 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                 }
             });
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            basicSearchBody.with(searchBtn).withAlign(searchBtn,
-                    Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
@@ -154,9 +145,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             basicSearchBody.addComponent(cancelBtn);
 
-            final Button advancedSearchBtn = new Button(
-                    AppContext
-                            .getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(final ClickEvent event) {
@@ -164,8 +153,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
                         }
                     });
             advancedSearchBtn.setStyleName("link");
-            basicSearchBody.with(advancedSearchBtn).withAlign(
-                    advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
 
             return basicSearchBody;
         }
@@ -173,12 +161,10 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new BugSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
             searchCriteria.setSummary(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignuser(new StringSearchField(
-                        SearchField.AND, AppContext.getUsername()));
+                searchCriteria.setAssignuser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignuser(null);
             }
@@ -230,8 +216,7 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = super.fillUpSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
     }

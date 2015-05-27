@@ -375,7 +375,7 @@ public class BugTableDisplay extends
             ContextMenuItem severitySubMenuItem = severityMenuItem
                     .addItem(AppContext.getMessage(bugSeverity));
             severityMenuItem.setData(new MenuItemData("severity", bugSeverity.name(), AppContext.getMessage(bugSeverity)));
-            if (bugSeverity.equals(bug.getSeverity())) {
+            if (bugSeverity.name().equals(bug.getSeverity())) {
                 severitySubMenuItem.setEnabled(false);
             }
         }

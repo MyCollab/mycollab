@@ -50,8 +50,7 @@ public class RolePresenter extends AbstractPresenter<RoleContainer> {
 			RoleListPresenter listPresenter = PresenterResolver
 					.getPresenter(RoleListPresenter.class);
 			RoleSearchCriteria criteria = new RoleSearchCriteria();
-			listPresenter.go(view.getWidget(),
-					new ScreenData.Search<RoleSearchCriteria>(criteria));
+			listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
 		} else if (data instanceof RoleScreenData.Add
 				|| data instanceof RoleScreenData.Edit) {
 			RoleAddPresenter presenter = PresenterResolver

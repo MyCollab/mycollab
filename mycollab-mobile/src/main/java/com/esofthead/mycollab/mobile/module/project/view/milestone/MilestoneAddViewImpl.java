@@ -40,7 +40,6 @@ import com.vaadin.ui.VerticalLayout;
 @ViewComponent
 public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone>
 		implements MilestoneAddView {
-
 	private static final long serialVersionUID = 5003180627691878220L;
 
 	@Override
@@ -57,11 +56,10 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleMilestone> initBeanFormFieldFactory() {
-		return new MilestoneEditFormFieldFactory<SimpleMilestone>(this.editForm);
+		return new MilestoneEditFormFieldFactory<>(this.editForm);
 	}
 
-	private class MilestoneFormLayoutFactory implements IFormLayoutFactory {
-
+	private static class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 		private static final long serialVersionUID = 7126369624045401332L;
 
 		private GridFormLayoutHelper informationLayout;
@@ -113,7 +111,5 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone>
 						0, 5);
 			}
 		}
-
 	}
-
 }

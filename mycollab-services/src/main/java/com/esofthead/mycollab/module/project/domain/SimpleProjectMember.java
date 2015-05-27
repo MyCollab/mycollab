@@ -140,6 +140,6 @@ public class SimpleProjectMember extends ProjectMember {
 	}
 
 	public boolean isAdmin() {
-		return (getIsadmin() != null) && (getIsadmin() == Boolean.TRUE);
+		return Boolean.TRUE.equals(getIsadmin());
 	}
 }

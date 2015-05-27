@@ -85,12 +85,11 @@ public class AccountAddPresenter extends
 						.getSpringBean(AccountService.class);
 				account = accountService.findById((Integer) data.getParams(),
 						AppContext.getAccountId());
-				if (account == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
 			}
-
+			if (account == null) {
+				NotificationUtil.showRecordNotExistNotification();
+				return;
+			}
 			super.onGo(container, data);
 			view.editItem(account);
 			if (account.getId() == null) {

@@ -438,10 +438,9 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		this.tableItem.setSortEnabled(false);
 
 		// set column generator
-		for (final Object propertyId : this.columnGenerators.keySet()) {
-			this.tableItem.addGeneratedColumn(propertyId,
-					this.columnGenerators.get(propertyId));
-		}
+		for (Map.Entry<Object, ColumnGenerator> entry: columnGenerators.entrySet()) {
+            tableItem.addGeneratedColumn(entry.getKey(), entry.getValue());
+        }
 
 		if (StringUtils.isNotBlank((String) this.sortColumnId)) {
 			this.tableItem.setColumnIcon(

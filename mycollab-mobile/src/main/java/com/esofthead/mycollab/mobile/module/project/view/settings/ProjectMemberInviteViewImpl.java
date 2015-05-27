@@ -125,17 +125,15 @@ public class ProjectMemberInviteViewImpl extends AbstractMobilePageView
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						if (inviteEmailField.getValue() == "") {
+						if ("".equals(inviteEmailField.getValue())) {
 							return;
 						}
 						ProjectMemberInviteViewImpl.this.roleId = (Integer) roleComboBox
 								.getValue();
 						ProjectMemberInviteViewImpl.this
-								.fireEvent(new ViewEvent<ProjectMemberEvent.InviteProjectMembers>(
-										ProjectMemberInviteViewImpl.this,
+								.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
 										new ProjectMemberEvent.InviteProjectMembers(
-												Arrays.asList(inviteEmailField
-														.getValue()),
+												Arrays.asList(inviteEmailField.getValue()),
 												ProjectMemberInviteViewImpl.this.roleId,
 												messageArea.getValue())));
 

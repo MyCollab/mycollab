@@ -61,25 +61,21 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION,
-                AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
+        return new ProjectViewHeader(ProjectTypeConstants.BUG_VERSION, AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(
-                AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
+        Button createBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new BugVersionEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
                     }
                 });
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.VERSIONS));
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
         this.addHeaderRight(createBtn);
@@ -102,15 +98,15 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
             this.nameField = new TextField();
+            this.nameField.setInputPrompt("Query by version name");
             this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-            this.nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode
-                    .ENTER, null) {
+            this.nameField.addShortcutListener(new ShortcutListener("VersionSearchName", ShortcutAction.KeyCode.ENTER, null) {
                 @Override
                 public void handleAction(Object o, Object o1) {
                     callSearchAction();
@@ -118,7 +114,7 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
             });
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.setIcon(FontAwesome.SEARCH);
 
@@ -130,11 +126,9 @@ public class VersionSearchPanel extends DefaultGenericSearchPanel<VersionSearchC
                     callSearchAction();
                 }
             });
-            basicSearchBody.with(searchBtn).withAlign(searchBtn,
-                    Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
-            final Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.addClickListener(new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 

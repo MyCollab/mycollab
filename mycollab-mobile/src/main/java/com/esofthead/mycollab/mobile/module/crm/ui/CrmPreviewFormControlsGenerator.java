@@ -31,10 +31,9 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class CrmPreviewFormControlsGenerator<T> {
-
-	public static int EDIT_BTN_PRESENTED = 2;
-	public static int DELETE_BTN_PRESENTED = 4;
-	public static int CLONE_BTN_PRESENTED = 8;
+	public static final int EDIT_BTN_PRESENTED = 2;
+	public static final int DELETE_BTN_PRESENTED = 4;
+	public static final int CLONE_BTN_PRESENTED = 8;
 
 	private Button deleteBtn, editBtn, cloneBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
@@ -64,11 +63,9 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public VerticalLayout createButtonControls(int buttonEnableFlags,
 			final String permissionItem) {
 
-		boolean canRead = true;
 		boolean canWrite = true;
 		boolean canAccess = true;
 		if (permissionItem != null) {
-			canRead = AppContext.canRead(permissionItem);
 			canWrite = AppContext.canWrite(permissionItem);
 			canAccess = AppContext.canAccess(permissionItem);
 		}

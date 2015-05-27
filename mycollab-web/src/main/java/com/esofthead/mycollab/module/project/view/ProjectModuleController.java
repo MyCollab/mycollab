@@ -54,10 +54,8 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(ProjectEvent.GotoMyProject event) {
-				ProjectViewPresenter presenter = PresenterResolver
-						.getPresenter(ProjectViewPresenter.class);
-				presenter.handleChain(container,
-						(PageActionChain) event.getData());
+				ProjectViewPresenter presenter = PresenterResolver.getPresenter(ProjectViewPresenter.class);
+				presenter.handleChain(container, (PageActionChain) event.getData());
 			}
 		});
 	}
@@ -69,10 +67,8 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(FollowingTicketEvent.GotoMyFollowingItems event) {
-				FollowingTicketPresenter presenter = PresenterResolver
-						.getPresenter(FollowingTicketPresenter.class);
-				presenter.go(container,
-						new FollowingTicketsScreenData.GotoMyFollowingItems(
+				FollowingTicketPresenter presenter = PresenterResolver.getPresenter(FollowingTicketPresenter.class);
+				presenter.go(container, new FollowingTicketsScreenData.GotoMyFollowingItems(
 								(List<Integer>) event.getData()));
 			}
 		});
@@ -85,8 +81,7 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TimeTrackingEvent.GotoTimeTrackingView event) {
-				TimeTrackingSummaryPresenter presenter = PresenterResolver
-						.getPresenter(TimeTrackingSummaryPresenter.class);
+				TimeTrackingSummaryPresenter presenter = PresenterResolver.getPresenter(TimeTrackingSummaryPresenter.class);
 				presenter.go(container, new ScreenData(event.getData()));
 			}
 		});

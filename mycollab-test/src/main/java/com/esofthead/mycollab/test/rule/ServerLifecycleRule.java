@@ -42,7 +42,7 @@ public class ServerLifecycleRule implements TestRule {
 		}
 	}
 
-	private class WrappedStatement extends Statement {
+	private static class WrappedStatement extends Statement {
 		private Server server;
 		private Statement baseStm;
 

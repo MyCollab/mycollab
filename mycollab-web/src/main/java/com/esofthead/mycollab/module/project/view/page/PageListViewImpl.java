@@ -121,33 +121,26 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         Label headerText = new ProjectViewHeader(ProjectTypeConstants.PAGE,
                 AppContext.getMessage(Page18InEnum.VIEW_LIST_TITLE));
 
-        headerLayout.with(headerText)
-                .alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
+        headerLayout.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
 
-        Label sortLbl = new Label(
-                AppContext.getMessage(Page18InEnum.OPT_SORT_LABEL));
+        Label sortLbl = new Label(AppContext.getMessage(Page18InEnum.OPT_SORT_LABEL));
         sortLbl.setSizeUndefined();
         headerLayout.with(sortLbl).withAlign(sortLbl, Alignment.MIDDLE_RIGHT);
 
         ToggleButtonGroup sortGroup = new ToggleButtonGroup();
-        headerLayout.with(sortGroup).withAlign(sortGroup,
-                Alignment.MIDDLE_RIGHT);
+        headerLayout.with(sortGroup).withAlign(sortGroup, Alignment.MIDDLE_RIGHT);
 
-        SortButton sortDateBtn = new SortButton(
-                AppContext.getMessage(Page18InEnum.OPT_SORT_BY_DATE),
+        SortButton sortDateBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_DATE),
                 new Button.ClickListener() {
-
                     private static final long serialVersionUID = -6987503077975316907L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         dateSourceAscend = !dateSourceAscend;
                         if (dateSourceAscend) {
-                            Collections
-                                    .sort(resources, Ordering.from(dateSort));
+                            Collections.sort(resources, Ordering.from(dateSort));
                         } else {
-                            Collections.sort(resources, Ordering.from(dateSort)
-                                    .reverse());
+                            Collections.sort(resources, Ordering.from(dateSort).reverse());
                         }
                         displayPages(resources);
 
@@ -155,8 +148,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         sortGroup.addButton(sortDateBtn);
 
-        SortButton sortNameBtn = new SortButton(
-                AppContext.getMessage(Page18InEnum.OPT_SORT_BY_NAME),
+        SortButton sortNameBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_NAME),
                 new Button.ClickListener() {
 
                     private static final long serialVersionUID = 2847554379518387585L;
@@ -165,11 +157,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                     public void buttonClick(Button.ClickEvent event) {
                         nameSortAscend = !nameSortAscend;
                         if (nameSortAscend) {
-                            Collections
-                                    .sort(resources, Ordering.from(nameSort));
+                            Collections.sort(resources, Ordering.from(nameSort));
                         } else {
-                            Collections.sort(resources, Ordering.from(nameSort)
-                                    .reverse());
+                            Collections.sort(resources, Ordering.from(nameSort).reverse());
                         }
                         displayPages(resources);
 
@@ -177,21 +167,17 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         sortGroup.addButton(sortNameBtn);
 
-        SortButton sortKindBtn = new SortButton(
-                AppContext.getMessage(Page18InEnum.OPT_SORT_BY_KIND),
+        SortButton sortKindBtn = new SortButton(AppContext.getMessage(Page18InEnum.OPT_SORT_BY_KIND),
                 new Button.ClickListener() {
-
                     private static final long serialVersionUID = 2230933690084074590L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         kindSortAscend = !kindSortAscend;
                         if (kindSortAscend) {
-                            Collections
-                                    .sort(resources, Ordering.from(kindSort));
+                            Collections.sort(resources, Ordering.from(kindSort));
                         } else {
-                            Collections.sort(resources, Ordering.from(kindSort)
-                                    .reverse());
+                            Collections.sort(resources, Ordering.from(kindSort).reverse());
                         }
                         displayPages(resources);
 
@@ -200,8 +186,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         sortGroup.addButton(sortKindBtn);
         sortGroup.setDefaultButton(sortDateBtn);
 
-        final Button newGroupBtn = new Button(
-                AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP),
+        Button newGroupBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -212,30 +197,24 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                 });
         newGroupBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         newGroupBtn.setIcon(FontAwesome.PLUS);
-        newGroupBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.PAGES));
-        headerLayout.with(newGroupBtn).withAlign(newGroupBtn,
-                Alignment.MIDDLE_RIGHT);
+        newGroupBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
+        headerLayout.with(newGroupBtn).withAlign(newGroupBtn, Alignment.MIDDLE_RIGHT);
 
-        final Button newPageBtn = new Button(
-                AppContext.getMessage(Page18InEnum.BUTTON_NEW_PAGE),
+        Button newPageBtn = new Button(AppContext.getMessage(Page18InEnum.BUTTON_NEW_PAGE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new PageEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
                     }
                 });
         newPageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         newPageBtn.setIcon(FontAwesome.PLUS);
-        newPageBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.PAGES));
+        newPageBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
 
         headerText.setStyleName(UIConstants.HEADER_TEXT);
-        headerLayout.with(newPageBtn).withAlign(newPageBtn,
-                Alignment.MIDDLE_RIGHT);
+        headerLayout.with(newPageBtn).withAlign(newPageBtn, Alignment.MIDDLE_RIGHT);
     }
 
     private void displayPages(List<PageResource> resources) {
@@ -280,11 +259,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         folderLink.addStyleName("link h3");
         headerPanel.addComponent(folderLink);
         block.addComponent(headerPanel);
-        block.addComponent(new Label(StringUtils.trimHtmlTags(resource
-                .getDescription())));
+        block.addComponent(new Label(StringUtils.trimHtmlTags(resource.getDescription())));
 
-        Label lastUpdateInfo = new ELabel(
-                AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
+        Label lastUpdateInfo = new ELabel(AppContext.getMessage(Page18InEnum.LABEL_LAST_UPDATE,
                         ProjectLinkBuilder.generateProjectMemberHtmlLink(
                                 CurrentProjectVariables.getProjectId(), resource.getCreatedUser()),
                         AppContext.formatPrettyTime(resource.getCreatedTime()
@@ -293,41 +270,32 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         block.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout().withStyleName("control-btns");
-        Button editBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {
 
                     private static final long serialVersionUID = -5387015552598157076L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        UI.getCurrent()
-                                .addWindow(new GroupPageAddWindow(resource));
+                        UI.getCurrent().addWindow(new GroupPageAddWindow(resource));
                     }
                 });
         editBtn.setIcon(FontAwesome.EDIT);
         editBtn.setStyleName("link");
-        editBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.PAGES));
+        editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         controlBtns.addComponent(editBtn);
 
-        Button deleteBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                 new Button.ClickListener() {
 
                     private static final long serialVersionUID = -5387015552598157076L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        ConfirmDialogExt.show(
-                                UI.getCurrent(),
-                                AppContext.getMessage(
-                                        GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        SiteConfiguration.getSiteName()),
-                                AppContext
-                                        .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext
-                                        .getMessage(GenericI18Enum.BUTTON_YES),
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 new ConfirmDialog.Listener() {
                                     private static final long serialVersionUID = 1L;
@@ -335,10 +303,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                                     @Override
                                     public void onClose(ConfirmDialog dialog) {
                                         if (dialog.isConfirmed()) {
-                                            PageService wikiService = ApplicationContextUtil
-                                                    .getSpringBean(PageService.class);
-                                            wikiService.removeResource(resource
-                                                    .getPath());
+                                            PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                            pageService.removeResource(resource.getPath());
                                             resources.remove(resource);
                                             displayPages(resources);
                                         }
@@ -347,8 +313,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
                     }
                 });
-        deleteBtn.setEnabled(CurrentProjectVariables
-                .canAccess(ProjectRolePermissionCollections.PAGES));
+        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.setStyleName("link");
         controlBtns.addComponent(deleteBtn);
@@ -372,16 +337,12 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
         MVerticalLayout block = new MVerticalLayout().withSpacing(false).withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
         HorizontalLayout headerPanel = new HorizontalLayout();
-        Button pageLink = new Button(resource.getSubject(),
-                new Button.ClickListener() {
+        Button pageLink = new Button(resource.getSubject(), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new PageEvent.GotoRead(PageListViewImpl.this,
-                                        resource));
-
+                        EventBusFactory.getInstance().post(new PageEvent.GotoRead(PageListViewImpl.this, resource));
                     }
                 });
         pageLink.addStyleName("link h3");
@@ -390,8 +351,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         block.with(headerPanel, new SafeHtmlLabel(resource.getContent(), 400));
 
         Label lastUpdateInfo = new ELabel(AppContext.getMessage(
-                Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder
-                        .generateProjectMemberHtmlLink(
+                Page18InEnum.LABEL_LAST_UPDATE, ProjectLinkBuilder.generateProjectMemberHtmlLink(
                                 CurrentProjectVariables.getProjectId(), resource.getLastUpdatedUser()),
                 AppContext.formatPrettyTime(resource.getLastUpdatedTime()
                         .getTime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(resource.getLastUpdatedTime().getTime()));
@@ -399,42 +359,32 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
         block.addComponent(lastUpdateInfo);
 
         MHorizontalLayout controlBtns = new MHorizontalLayout().withStyleName("control-btns");
-        Button editBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {
 
                     private static final long serialVersionUID = -5387015552598157076L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new PageEvent.GotoEdit(PageListViewImpl.this,
-                                        resource));
+                        EventBusFactory.getInstance().post(new PageEvent.GotoEdit(PageListViewImpl.this, resource));
                     }
                 });
-        editBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.PAGES));
+        editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.PAGES));
         editBtn.setIcon(FontAwesome.EDIT);
         editBtn.setStyleName("link");
         controlBtns.addComponent(editBtn);
 
-        Button deleteBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                 new Button.ClickListener() {
 
                     private static final long serialVersionUID = 2575434171770462361L;
 
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
-                        ConfirmDialogExt.show(
-                                UI.getCurrent(),
-                                AppContext.getMessage(
-                                        GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        SiteConfiguration.getSiteName()),
-                                AppContext
-                                        .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext
-                                        .getMessage(GenericI18Enum.BUTTON_YES),
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 new ConfirmDialog.Listener() {
                                     private static final long serialVersionUID = 1L;
@@ -442,10 +392,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
                                     @Override
                                     public void onClose(ConfirmDialog dialog) {
                                         if (dialog.isConfirmed()) {
-                                            PageService wikiService = ApplicationContextUtil
-                                                    .getSpringBean(PageService.class);
-                                            wikiService.removeResource(resource
-                                                    .getPath());
+                                            PageService pageService = ApplicationContextUtil.getSpringBean(PageService.class);
+                                            pageService.removeResource(resource.getPath());
                                             resources.remove(resource);
                                             displayPages(resources);
                                         }
@@ -454,8 +402,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
                     }
                 });
-        deleteBtn.setEnabled(CurrentProjectVariables
-                .canAccess(ProjectRolePermissionCollections.PAGES));
+        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PAGES));
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.setStyleName("link");
         controlBtns.addComponent(deleteBtn);

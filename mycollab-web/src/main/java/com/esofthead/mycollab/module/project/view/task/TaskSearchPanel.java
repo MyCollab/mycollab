@@ -60,17 +60,13 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
     @Override
     protected void buildExtraControls() {
-        Button backBtn = new Button(
-                AppContext.getMessage(TaskI18nEnum.BUTTON_BACK_TO_DASHBOARD),
+        Button backBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_BACK_TO_DASHBOARD),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        EventBusFactory.getInstance()
-                                .post(new TaskListEvent.GotoTaskListScreen(
-                                        this, null));
-
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
                     }
                 });
         backBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -104,13 +100,12 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
     private class TaskBasicSearchLayout extends BasicSearchLayout<TaskSearchCriteria> {
         private static final long serialVersionUID = 1L;
+        private TextField nameField;
+        private CheckBox myItemCheckbox;
 
         public TaskBasicSearchLayout() {
             super(TaskSearchPanel.this);
         }
-
-        private TextField nameField;
-        private CheckBox myItemCheckbox;
 
         public void setNameField(String value) {
             this.nameField.setValue(value);
@@ -118,21 +113,21 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
 
         @Override
         public ComponentContainer constructBody() {
-            final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             Label nameLbl = new Label("Name:");
             basicSearchBody.with(nameLbl).withAlign(nameLbl, Alignment.MIDDLE_LEFT);
 
             this.nameField = new TextField();
+            this.nameField.setInputPrompt("Query by task name");
             this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
             basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-            this.myItemCheckbox = new CheckBox(AppContext
-                    .getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
             this.myItemCheckbox.setWidth("75px");
             basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-            final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.setIcon(FontAwesome.SEARCH);
             searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             searchBtn.addClickListener(new Button.ClickListener() {
@@ -145,7 +140,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             });
             basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-            final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             cancelBtn.addClickListener(new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
@@ -157,8 +152,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             });
             basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            final Button advancedSearchBtn = new Button(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -169,20 +163,17 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
                     });
             advancedSearchBtn.setStyleName("link");
 
-            basicSearchBody.with(advancedSearchBtn).withAlign(
-                    advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
             return basicSearchBody;
         }
 
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new TaskSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTaskName(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUser(new StringSearchField(
-                        SearchField.AND, AppContext.getUsername()));
+                searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUser(null);
             }
@@ -229,8 +220,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
         @Override
         protected TaskSearchCriteria fillUpSearchCriteria() {
             searchCriteria = super.fillUpSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             return searchCriteria;
         }
     }

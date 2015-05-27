@@ -35,37 +35,37 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 public class TaskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_assignee = new PropertyListParam("task-assignuser",
+	public static final Param p_assignee = new PropertyListParam("task-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_prj_task", "assignUser");
 
-	public static Param p_tasklist = new PropertyListParam("task-list",
+	public static final Param p_tasklist = new PropertyListParam("task-list",
 			TaskI18nEnum.FORM_TASKGROUP, "m_prj_task", "tasklistid");
 
-	public static Param p_duedate = new DateParam("task-duedate",
+	public static final Param p_duedate = new DateParam("task-duedate",
 			TaskI18nEnum.FORM_DEADLINE, "m_prj_task", "deadline");
 
-	public static Param p_lastupdatedtime = new DateParam(
+	public static final Param p_lastupdatedtime = new DateParam(
 			"task-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
 			"m_prj_task", "lastUpdatedTime");
 
-	public static Param p_createtime = new DateParam("task-createtime",
+	public static final Param p_createtime = new DateParam("task-createtime",
 			GenericI18Enum.FORM_CREATED_TIME, "m_prj_task", "createTime");
 
-	public static Param p_status = new StringListParam("task-status",
+	public static final Param p_status = new StringListParam("task-status",
 			TaskI18nEnum.FORM_STATUS, "m_prj_task", "status", Arrays.asList(
 					"Open", "Pending", "Closed"));
 
-	public static Param p_startdate = new DateParam("task-startdate",
+	public static final Param p_startdate = new DateParam("task-startdate",
 			TaskI18nEnum.FORM_START_DATE, "m_prj_task", "startdate");
 
-	public static Param p_actualstartdate = new DateParam(
+	public static final Param p_actualstartdate = new DateParam(
 			"task-actualstartdate", TaskI18nEnum.FORM_ACTUAL_START_DATE,
 			"m_prj_task", "actualStartDate");
 
-	public static Param p_enddate = new DateParam("task-enddate",
+	public static final Param p_enddate = new DateParam("task-enddate",
 			TaskI18nEnum.FORM_END_DATE, "m_prj_task", "enddate");
 
-	public static Param p_actualenddate = new DateParam("task-actualenddate",
+	public static final Param p_actualenddate = new DateParam("task-actualenddate",
 			TaskI18nEnum.FORM_ACTUAL_END_DATE, "m_prj_task", "actualEndDate");
 
 	private NumberSearchField projectid;

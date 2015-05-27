@@ -45,8 +45,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * 
  */
 @SuppressWarnings("serial")
-public class ContactSearchPanel extends
-		DefaultGenericSearchPanel<ContactSearchCriteria> {
+public class ContactSearchPanel extends DefaultGenericSearchPanel<ContactSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
 			ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
@@ -60,27 +59,23 @@ public class ContactSearchPanel extends
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
-        return new CrmViewHeader(CrmTypeConstants.CONTACT,
-                AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+        return new CrmViewHeader(CrmTypeConstants.CONTACT, AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
     }
 
     @Override
     protected void buildExtraControls() {
-        final Button createBtn = new Button(
-                AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
+		Button createBtn = new Button(AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new ContactEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new ContactEvent.GotoAdd(this, null));
                     }
                 });
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CONTACT));
+        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         this.addHeaderRight(createBtn);
     }
 
@@ -113,27 +108,23 @@ public class ContactSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("ContactSearchRequest", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("ContactSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             callSearchAction();
                         }
                     });
+			nameField.setInputPrompt("Query by contact name");
 			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			basicSearchBody.with(nameField).withAlign(nameField,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox(
-					AppContext
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+			this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+			Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(FontAwesome.SEARCH);
 
@@ -143,10 +134,9 @@ public class ContactSearchPanel extends
 					ContactBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			basicSearchBody.with(searchBtn).withAlign(searchBtn,
-					Alignment.MIDDLE_LEFT);
+			basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+			Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -156,16 +146,13 @@ public class ContactSearchPanel extends
 			});
 			basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Button advancedSearchBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+			Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							ContactSearchPanel.this
-									.moveToAdvancedSearchLayout();
+							ContactSearchPanel.this.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
@@ -175,12 +162,10 @@ public class ContactSearchPanel extends
 
 		@Override
 		protected SearchCriteria fillUpSearchCriteria() {
-			final ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
+			ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
+			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
 			if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-				searchCriteria.setContactName(new StringSearchField(
-						SearchField.AND, this.nameField.getValue().trim()));
+				searchCriteria.setContactName(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
@@ -193,10 +178,9 @@ public class ContactSearchPanel extends
 		}
 	}
 
-	private class ContactAdvancedSearchLayout extends
-			DynamicQueryParamLayout<ContactSearchCriteria> {
+	private class ContactAdvancedSearchLayout extends DynamicQueryParamLayout<ContactSearchCriteria> {
 
-		public ContactAdvancedSearchLayout() {
+		ContactAdvancedSearchLayout() {
 			super(ContactSearchPanel.this, CrmTypeConstants.CONTACT);
 		}
 

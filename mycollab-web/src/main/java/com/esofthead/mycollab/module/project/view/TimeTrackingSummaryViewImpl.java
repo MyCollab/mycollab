@@ -74,8 +74,7 @@ import java.util.Calendar;
  * 
  */
 @ViewComponent
-public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
-		TimeTrackingSummaryView {
+public class TimeTrackingSummaryViewImpl extends AbstractPageView implements TimeTrackingSummaryView {
 	private static final long serialVersionUID = 1L;
 
 	private static final String GROUPBY_PROJECT = "Project";
@@ -98,10 +97,6 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 	private VerticalLayout timeTrackingWrapper;
 
-	public TimeTrackingSummaryViewImpl() {
-		this.setSizeFull();
-	}
-
 	private void initListSelectStyle(ListSelect listSelect) {
 		listSelect.setWidth("300px");
 		listSelect.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
@@ -110,36 +105,30 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		listSelect.setRows(4);
 	}
 
-	private StreamResource constructStreamResource(
-			final ReportExportType exportType) {
+	private StreamResource constructStreamResource(final ReportExportType exportType) {
 		LazyStreamSource streamSource = new LazyStreamSource() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected StreamSource buildStreamSource() {
 				return new SimpleGridExportItemsStreamResource.AllItems<>(
-						"Time Tracking Report", new RpParameterBuilder(
-								getVisibleFields()), exportType,
+						"Time Report", new RpParameterBuilder(getVisibleFields()), exportType,
 						itemTimeLoggingService, searchCriteria,
 						SimpleItemTimeLogging.class);
 			}
 		};
-		return new StreamResource(streamSource,
-				ExportItemsStreamResource.getDefaultExportFileName(exportType));
+		return new StreamResource(streamSource, ExportItemsStreamResource.getDefaultExportFileName(exportType));
 	}
 
 	private AbstractTimeTrackingDisplayComp buildTimeTrackingComp() {
 		String groupBy = (String) groupField.getValue();
 
 		if (groupBy.equals(GROUPBY_PROJECT)) {
-			return new TimeTrackingProjectOrderComponent(getVisibleFields(),
-					this.tableClickListener);
+			return new TimeTrackingProjectOrderComponent(getVisibleFields(), tableClickListener);
 		} else if (groupBy.equals(GROUPBY_DATE)) {
-			return new TimeTrackingDateOrderComponent(getVisibleFields(),
-					this.tableClickListener);
+			return new TimeTrackingDateOrderComponent(getVisibleFields(), tableClickListener);
 		} else if (groupBy.equals(GROUPBY_USER)) {
-			return new TimeTrackingUserOrderComponent(getVisibleFields(),
-					this.tableClickListener);
+			return new TimeTrackingUserOrderComponent(getVisibleFields(), tableClickListener);
 		} else {
 			throw new MyCollabException("Do not support view type: " + groupBy);
 		}
@@ -171,67 +160,90 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 				.getProjectsUserInvolved(AppContext.getUsername(),
 						AppContext.getAccountId());
 		if (CollectionUtils.isNotEmpty(projects)) {
-			itemTimeLoggingService = ApplicationContextUtil
-					.getSpringBean(ItemTimeLoggingService.class);
+			itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
-			final CssLayout headerWrapper = new CssLayout();
-			headerWrapper.setWidth("100%");
-			headerWrapper.setStyleName("projectfeed-hdr-wrapper");
-
-			HorizontalLayout loggingPanel = new HorizontalLayout();
-
-			HorizontalLayout controlBtns = new HorizontalLayout();
-			controlBtns.setMargin(new MarginInfo(true, false, true, false));
-
-			final Label layoutHeader = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME).getHtml() +
+            Label layoutHeader = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.TIME).getHtml() +
                     " Time Tracking", ContentMode.HTML);
 			layoutHeader.addStyleName("h2");
 
-            final MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
-			header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
-
-			final CssLayout contentWrapper = new CssLayout();
-			contentWrapper.setWidth("100%");
-			contentWrapper.addStyleName(UIConstants.CONTENT_WRAPPER);
-
-			headerWrapper.addComponent(header);
+            CssLayout headerWrapper = new CssLayout();
+            headerWrapper.addComponent(layoutHeader);
+            headerWrapper.setWidth("100%");
+            headerWrapper.setStyleName("projectfeed-hdr-wrapper");
+            headerWrapper.setHeightUndefined();
 			this.addComponent(headerWrapper);
+
+            CssLayout contentWrapper = new CssLayout();
+            contentWrapper.setWidth("100%");
+            contentWrapper.addStyleName(UIConstants.CONTENT_WRAPPER);
+
+            HorizontalLayout controlBtns = new HorizontalLayout();
+            controlBtns.setMargin(new MarginInfo(true, false, true, false));
 			contentWrapper.addComponent(controlBtns);
 
             MHorizontalLayout controlsPanel = new MHorizontalLayout().withWidth("100%");
-
 			contentWrapper.addComponent(controlsPanel);
-			contentWrapper.addComponent(loggingPanel);
-			this.addComponent(contentWrapper);
 
-			final Button backBtn = new Button("Back to Workboard");
+            Button backBtn = new Button("Back to Workboard");
 			backBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoProjectModule(
-									TimeTrackingSummaryViewImpl.this, null));
-
-				}
-			});
-
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(
+                            TimeTrackingSummaryViewImpl.this, null));
+                }
+            });
 			backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			backBtn.setIcon(FontAwesome.ARROW_LEFT);
 
 			controlBtns.addComponent(backBtn);
+            Button exportBtn = new Button("Export", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    exportButtonControl.setPopupVisible(true);
+
+                }
+            });
+            exportButtonControl = new SplitButton(exportBtn);
+            exportButtonControl.setWidthUndefined();
+            exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
+            exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
+
+            OptionPopupContent popupButtonsControl = new OptionPopupContent();
+            exportButtonControl.setContent(popupButtonsControl);
+
+            Button exportPdfBtn = new Button("Pdf");
+            FileDownloader pdfDownloader = new FileDownloader(
+                    constructStreamResource(ReportExportType.PDF));
+            pdfDownloader.extend(exportPdfBtn);
+            exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
+            popupButtonsControl.addOption(exportPdfBtn);
+
+            Button exportExcelBtn = new Button("Excel");
+            FileDownloader excelDownloader = new FileDownloader(
+                    constructStreamResource(ReportExportType.EXCEL));
+            excelDownloader.extend(exportExcelBtn);
+            exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
+            popupButtonsControl.addOption(exportExcelBtn);
+
+            controlBtns.addComponent(exportButtonControl);
+            controlBtns.setComponentAlignment(exportButtonControl,
+                    Alignment.TOP_RIGHT);
+            controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
+            controlBtns.setSizeFull();
 
 			VerticalLayout selectionLayoutWrapper = new VerticalLayout();
 			selectionLayoutWrapper.setWidth("100%");
-			selectionLayoutWrapper
-					.addStyleName("time-tracking-summary-search-panel");
+            selectionLayoutWrapper.addStyleName("time-tracking-summary-search-panel");
 			controlsPanel.addComponent(selectionLayoutWrapper);
 
-			final GridLayout selectionLayout = new GridLayout(9, 2);
+            GridLayout selectionLayout = new GridLayout(9, 2);
 			selectionLayout.setSpacing(true);
+            selectionLayout.setMargin(true);
 			selectionLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
-			selectionLayout.setMargin(true);
 			selectionLayoutWrapper.addComponent(selectionLayout);
 
 			Label fromLb = new Label("From:");
@@ -239,56 +251,54 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			selectionLayout.addComponent(fromLb, 0, 0);
 
 			this.fromDateField = new PopupDateFieldExt();
-			this.fromDateField.setResolution(Resolution.DAY);
+            this.fromDateField.setResolution(Resolution.DAY);
 			this.fromDateField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
-			this.fromDateField.setWidth("100px");
+            this.fromDateField.setWidth("100px");
 			selectionLayout.addComponent(this.fromDateField, 1, 0);
 
 			Label toLb = new Label("To:");
 			toLb.setWidthUndefined();
-			selectionLayout.addComponent(toLb, 2, 0);
+            selectionLayout.addComponent(toLb, 2, 0);
 
 			this.toDateField = new PopupDateFieldExt();
 			this.toDateField.setResolution(Resolution.DAY);
-			this.toDateField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
-			this.toDateField.setWidth("100px");
-			selectionLayout.addComponent(this.toDateField, 3, 0);
+            this.toDateField.setDateFormat(AppContext.getUserDateFormat().getDateFormat());
+            this.toDateField.setWidth("100px");
+            selectionLayout.addComponent(this.toDateField, 3, 0);
 
 			Label groupLb = new Label("Group:");
 			groupLb.setWidthUndefined();
-			selectionLayout.addComponent(groupLb, 0, 1);
+            selectionLayout.addComponent(groupLb, 0, 1);
 
-			this.groupField = new ValueComboBox(false, GROUPBY_PROJECT,
-					GROUPBY_DATE, GROUPBY_USER);
-			this.groupField.setWidth("100px");
+			this.groupField = new ValueComboBox(false, GROUPBY_PROJECT, GROUPBY_DATE, GROUPBY_USER);
+            this.groupField.setWidth("100px");
 			selectionLayout.addComponent(this.groupField, 1, 1);
 
 			Label sortLb = new Label("Sort:");
 			sortLb.setWidthUndefined();
-			selectionLayout.addComponent(sortLb, 2, 1);
+            selectionLayout.addComponent(sortLb, 2, 1);
 
 			this.orderField = new ItemOrderComboBox();
-			this.orderField.setWidth("100px");
-			selectionLayout.addComponent(this.orderField, 3, 1);
+            this.orderField.setWidth("100px");
+            selectionLayout.addComponent(this.orderField, 3, 1);
 
 			Label projectLb = new Label("Project:");
 			projectLb.setWidthUndefined();
-			selectionLayout.addComponent(projectLb, 4, 0);
+            selectionLayout.addComponent(projectLb, 4, 0);
 
 			this.projectField = new UserInvolvedProjectsListSelect();
-			initListSelectStyle(this.projectField);
-			selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
+            initListSelectStyle(this.projectField);
+            selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
 
 			Label userLb = new Label("User:");
 			userLb.setWidthUndefined();
 			selectionLayout.addComponent(userLb, 6, 0);
 
-			this.userField = new UserInvolvedProjectsMemberListSelect(
-					getProjectIds());
-			initListSelectStyle(this.userField);
-			selectionLayout.addComponent(this.userField, 7, 0, 7, 1);
+			this.userField = new UserInvolvedProjectsMemberListSelect(getProjectIds());
+            initListSelectStyle(this.userField);
+            selectionLayout.addComponent(this.userField, 7, 0, 7, 1);
 
-			final Button queryBtn = new Button(
+            Button queryBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -297,9 +307,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 						public void buttonClick(final ClickEvent event) {
 							fromDate = fromDateField.getValue();
 							toDate = toDateField.getValue();
-							searchCriteria
-									.setRangeDate(new RangeDateSearchField(
-											fromDate, toDate));
+                            searchCriteria.setRangeDate(new RangeDateSearchField(fromDate, toDate));
 							searchTimeReporting();
 						}
 					});
@@ -307,55 +315,12 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			selectionLayout.addComponent(queryBtn, 8, 0);
 
-			loggingPanel.setWidth("100%");
-			loggingPanel.setHeight("80px");
-			loggingPanel.setSpacing(true);
-
-			totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs",
-					ContentMode.HTML);
+			totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs", ContentMode.HTML);
 			totalHoursLoggingLabel.addStyleName(UIConstants.LAYOUT_LOG);
 			totalHoursLoggingLabel.addStyleName(UIConstants.TEXT_LOG_DATE_FULL);
-			loggingPanel.addComponent(totalHoursLoggingLabel);
-			loggingPanel.setExpandRatio(totalHoursLoggingLabel, 1.0f);
-			loggingPanel.setComponentAlignment(totalHoursLoggingLabel,
-					Alignment.MIDDLE_LEFT);
-
-			Button exportBtn = new Button("Export", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					exportButtonControl.setPopupVisible(true);
-
-				}
-			});
-			exportButtonControl = new SplitButton(exportBtn);
-			exportButtonControl.setWidthUndefined();
-			exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
-			exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
-
-			OptionPopupContent popupButtonsControl = new OptionPopupContent();
-			exportButtonControl.setContent(popupButtonsControl);
-
-			Button exportPdfBtn = new Button("Pdf");
-			FileDownloader pdfDownloader = new FileDownloader(
-					constructStreamResource(ReportExportType.PDF));
-			pdfDownloader.extend(exportPdfBtn);
-			exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
-			popupButtonsControl.addOption(exportPdfBtn);
-
-			Button exportExcelBtn = new Button("Excel");
-			FileDownloader excelDownloader = new FileDownloader(
-					constructStreamResource(ReportExportType.EXCEL));
-			excelDownloader.extend(exportExcelBtn);
-			exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
-			popupButtonsControl.addOption(exportExcelBtn);
-
-			controlBtns.addComponent(exportButtonControl);
-			controlBtns.setComponentAlignment(exportButtonControl,
-					Alignment.TOP_RIGHT);
-			controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
-			controlBtns.setSizeFull();
+            MHorizontalLayout loggingPanel = new MHorizontalLayout().withWidth("100%");
+            loggingPanel.with(totalHoursLoggingLabel).expand(totalHoursLoggingLabel);
+            contentWrapper.addComponent(loggingPanel);
 
 			this.timeTrackingWrapper = new VerticalLayout();
 			this.timeTrackingWrapper.setWidth("100%");
@@ -365,26 +330,23 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			date.set(Calendar.DAY_OF_MONTH, 1);
 
 			fromDate = date.getTime();
-			date.add(Calendar.DAY_OF_MONTH,
-					date.getActualMaximum(Calendar.DAY_OF_MONTH));
+			date.add(Calendar.DAY_OF_MONTH, date.getActualMaximum(Calendar.DAY_OF_MONTH));
 			toDate = date.getTime();
 
 			fromDateField.setValue(fromDate);
 			toDateField.setValue(toDate);
 
 			searchCriteria = new ItemTimeLoggingSearchCriteria();
-
-			searchCriteria.setRangeDate(new RangeDateSearchField(fromDate,
-					toDate));
-		} else {
-			final Button backBtn = new Button("Back to Workboard");
+			searchCriteria.setRangeDate(new RangeDateSearchField(fromDate, toDate));
+            this.with(contentWrapper).withAlign(contentWrapper, Alignment.TOP_CENTER);
+        } else {
+            Button backBtn = new Button("Back to Workboard");
 			backBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoProjectModule(
+					EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(
 									TimeTrackingSummaryViewImpl.this, null));
 
 				}
@@ -396,26 +358,21 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			VerticalLayout contentWrapper = new VerticalLayout();
 			contentWrapper.setSpacing(true);
 
-			Label infoLbl = new Label(
-					"You are not involved in any project yet to track time working");
+			Label infoLbl = new Label("You are not involved in any project yet to track time working");
 			infoLbl.setWidthUndefined();
-			contentWrapper.setMargin(true);
+            contentWrapper.setMargin(true);
 			contentWrapper.addComponent(infoLbl);
-			contentWrapper.setComponentAlignment(infoLbl,
-					Alignment.MIDDLE_CENTER);
+			contentWrapper.setComponentAlignment(infoLbl, Alignment.MIDDLE_CENTER);
 
 			contentWrapper.addComponent(backBtn);
-			contentWrapper.setComponentAlignment(backBtn,
-					Alignment.MIDDLE_CENTER);
-			this.addComponent(contentWrapper);
-			this.setComponentAlignment(contentWrapper, Alignment.MIDDLE_CENTER);
+			contentWrapper.setComponentAlignment(backBtn, Alignment.MIDDLE_CENTER);
+			this.with(contentWrapper).withAlign(contentWrapper, Alignment.TOP_CENTER);
 		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void searchTimeReporting() {
-		final Collection<String> selectedUsers = (Collection<String>) this.userField
-				.getValue();
+        Collection<String> selectedUsers = (Collection<String>) this.userField.getValue();
 		if (CollectionUtils.isNotEmpty(selectedUsers)) {
 			searchCriteria.setLogUsers(new SetSearchField(SearchField.AND,
 					selectedUsers));
@@ -424,51 +381,41 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					this.userField.getUsernames()));
 		}
 
-		final Collection<Integer> selectedProjects = (Collection<Integer>) this.projectField
-				.getValue();
+        Collection<Integer> selectedProjects = (Collection<Integer>) this.projectField.getValue();
 		if (CollectionUtils.isNotEmpty(selectedProjects)) {
-			searchCriteria.setProjectIds(new SetSearchField(SearchField.AND,
-					selectedProjects));
+			searchCriteria.setProjectIds(new SetSearchField(SearchField.AND, selectedProjects));
 		} else {
-			searchCriteria.setProjectIds(new SetSearchField(SearchField.AND,
-					getProjectIds()));
+			searchCriteria.setProjectIds(new SetSearchField(SearchField.AND, getProjectIds()));
 		}
 
 		searchCriteria.setIsBillable(new BooleanSearchField(true));
-		Double billableHour = this.itemTimeLoggingService
-				.getTotalHoursByCriteria(searchCriteria);
+        Double billableHour = this.itemTimeLoggingService.getTotalHoursByCriteria(searchCriteria);
 		if (billableHour == null || billableHour < 0) {
 			billableHour = 0d;
 		}
 
 		searchCriteria.setIsBillable(new BooleanSearchField(false));
-		Double nonBillableHours = this.itemTimeLoggingService
-				.getTotalHoursByCriteria(searchCriteria);
+		Double nonBillableHours = this.itemTimeLoggingService.getTotalHoursByCriteria(searchCriteria);
 		if (nonBillableHours == null || nonBillableHours < 0) {
 			nonBillableHours = 0d;
 		}
 
 		searchCriteria.setIsBillable(null);
-		final Double totalHour = this.itemTimeLoggingService
-				.getTotalHoursByCriteria(searchCriteria);
+        Double totalHour = this.itemTimeLoggingService.getTotalHoursByCriteria(searchCriteria);
 
 		if (totalHour == null || totalHour < 0) {
 			totalHoursLoggingLabel.setValue("Total hours logging: 0 Hrs");
 		} else {
-			totalHoursLoggingLabel
-					.setValue(AppContext
-							.getMessage(
-									TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
-									fromDate, toDate, totalHour, billableHour,
-									nonBillableHours));
+            totalHoursLoggingLabel.setValue(AppContext.getMessage(
+                    TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
+                    fromDate, toDate, totalHour, billableHour, nonBillableHours));
 		}
 
 		timeTrackingWrapper.removeAllComponents();
 
 		AbstractTimeTrackingDisplayComp timeDisplayComp = buildTimeTrackingComp();
 		timeTrackingWrapper.addComponent(timeDisplayComp);
-		timeDisplayComp.queryData(searchCriteria,
-				(Order) this.orderField.getValue());
+		timeDisplayComp.queryData(searchCriteria, (Order) this.orderField.getValue());
 	}
 
 	private TableClickListener tableClickListener = new TableClickListener() {
@@ -476,28 +423,27 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		@Override
 		public void itemClick(final TableClickEvent event) {
-			final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
+            SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
 					.getData();
 			if ("summary".equals(event.getFieldName())) {
-				final int typeId = itemLogging.getTypeid();
-				final int projectId = itemLogging.getProjectid();
+                int typeId = itemLogging.getTypeid();
+                int projectId = itemLogging.getProjectid();
 
 				if (ProjectTypeConstants.BUG.equals(itemLogging.getType())) {
-					final PageActionChain chain = new PageActionChain(
+                    PageActionChain chain = new PageActionChain(
 							new ProjectScreenData.Goto(projectId),
 							new BugScreenData.Read(typeId));
-					EventBusFactory.getInstance().post(
-							new ProjectEvent.GotoMyProject(this, chain));
+					EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 				} else if (ProjectTypeConstants.TASK.equals(itemLogging
 						.getType())) {
-					final PageActionChain chain = new PageActionChain(
+                    PageActionChain chain = new PageActionChain(
 							new ProjectScreenData.Goto(projectId),
 							new TaskScreenData.Read(typeId));
 					EventBusFactory.getInstance().post(
 							new ProjectEvent.GotoMyProject(this, chain));
 				}
 			} else if ("projectName".equals(event.getFieldName())) {
-				final PageActionChain chain = new PageActionChain(
+                PageActionChain chain = new PageActionChain(
 						new ProjectScreenData.Goto(itemLogging.getProjectid()));
 				EventBusFactory.getInstance().post(
 						new ProjectEvent.GotoMyProject(this, chain));
@@ -525,12 +471,12 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 	}
 
-	private class UserInvolvedProjectsMemberListSelect extends ListSelect {
+	private static class UserInvolvedProjectsMemberListSelect extends ListSelect {
 		private static final long serialVersionUID = 1L;
 
 		private List<SimpleUser> users;
 
-		public UserInvolvedProjectsMemberListSelect(List<Integer> projectIds) {
+		UserInvolvedProjectsMemberListSelect(List<Integer> projectIds) {
 			users = ApplicationContextUtil.getSpringBean(
 					ProjectMemberService.class).getActiveUsersInProjects(
 					projectIds, AppContext.getAccountId());

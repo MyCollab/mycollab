@@ -87,8 +87,7 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 				new ShellEvent.PushView(this, new TaskTimeLogView(bean)));
 	}
 
-	private class TaskTimeLogView extends TimeLogEditView<SimpleTask> {
-
+	private static class TaskTimeLogView extends TimeLogEditView<SimpleTask> {
 		private static final long serialVersionUID = -5178708279456191875L;
 
 		protected TaskTimeLogView(SimpleTask bean) {

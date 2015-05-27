@@ -65,8 +65,7 @@ public class ContactReadFormFieldFactory extends
 			return new FormViewField(attachForm.getBean()
 					.getAssignUserFullName());
 		} else if (propertyId.equals("iscallable")) {
-			if (attachForm.getBean().getIscallable() == null
-					|| Boolean.FALSE == attachForm.getBean().getIscallable()) {
+			if (Boolean.FALSE.equals(attachForm.getBean().getIscallable())) {
 				return new FormViewField(
 						AppContext.getMessage(GenericI18Enum.BUTTON_NO));
 			} else {

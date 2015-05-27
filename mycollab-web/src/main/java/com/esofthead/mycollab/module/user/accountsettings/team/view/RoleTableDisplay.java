@@ -41,8 +41,7 @@ import com.vaadin.ui.Table;
 public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSearchCriteria, SimpleRole> {
 	private static final long serialVersionUID = 1L;
 
-	public RoleTableDisplay(TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
+	public RoleTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
 		super(ApplicationContextUtil.getSpringBean(RoleService.class),
 				SimpleRole.class, requiredColumn, displayColumns);
 
@@ -52,17 +51,14 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final SimpleRole role = RoleTableDisplay.this
-						.getBeanByIndex(itemId);
-				final CheckBoxDecor cb = new CheckBoxDecor("", role
-						.isSelected());
+				final SimpleRole role = getBeanByIndex(itemId);
+				CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-
 						RoleTableDisplay.this.fireSelectItemEvent(role);
 					}
 				});
@@ -77,13 +73,11 @@ public class RoleTableDisplay extends DefaultPagedBeanTable<RoleService, RoleSea
 			@Override
 			public com.vaadin.ui.Component generateCell(Table source,
 					final Object itemId, Object columnId) {
-				final SimpleRole role = RoleTableDisplay.this
-						.getBeanByIndex(itemId);
+				SimpleRole role = getBeanByIndex(itemId);
 
 				return new LabelLink(role.getRolename(),
 						GenericLinkUtils.URL_PREFIX_PARAM
-								+ AccountLinkGenerator.generateRoleLink(role
-										.getId()));
+								+ AccountLinkGenerator.generateRoleLink(role.getId()));
 			}
 		});
 	}

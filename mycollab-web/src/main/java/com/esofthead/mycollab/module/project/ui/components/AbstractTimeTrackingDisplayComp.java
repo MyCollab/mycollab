@@ -31,6 +31,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -108,18 +109,16 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 
 	protected abstract void displayGroupItems(List<SimpleItemTimeLogging> list);
 
-	protected static class ProjectComparator
-			implements
-				Comparator<SimpleItemTimeLogging> {
+	protected static class ProjectComparator implements
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getProjectid().compareTo(o2.getProjectid());
 		}
 	}
 
-	protected static class UserComparator
-			implements
-				Comparator<SimpleItemTimeLogging> {
+	protected static class UserComparator implements
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLoguser().compareTo(o2.getLoguser());
@@ -128,34 +127,31 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 
 	protected static class DateComparator
 			implements
-				Comparator<SimpleItemTimeLogging> {
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLogforday().compareTo(o2.getLogforday());
 		}
 	}
 
-	protected static class BillableComparator
-			implements
-				Comparator<SimpleItemTimeLogging> {
+	protected static class BillableComparator implements
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getIsbillable().compareTo(o2.getIsbillable());
 		}
 	}
 
-	protected static class ValueComparator
-			implements
-				Comparator<SimpleItemTimeLogging> {
+	protected static class ValueComparator implements
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLogvalue().compareTo(o2.getLogvalue());
 		}
 	}
 
-	protected static class SummaryComparator
-			implements
-				Comparator<SimpleItemTimeLogging> {
+	protected static class SummaryComparator implements
+				Comparator<SimpleItemTimeLogging>, Serializable {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getSummary().compareTo(o2.getSummary());
