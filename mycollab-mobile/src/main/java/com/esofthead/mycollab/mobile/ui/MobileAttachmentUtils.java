@@ -64,13 +64,11 @@ public class MobileAttachmentUtils {
 		thumbnailWrap.setStyleName("thumbnail-wrap");
 
 		Image thumbnail = new Image(null);
-		if (org.apache.commons.lang3.StringUtils.isBlank(attachment
-				.getThumbnail())) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
 			thumbnail.setSource(DEFAULT_SOURCE);
 		} else {
 			thumbnail.setSource(VaadinResourceManager.getResourceManager()
-					.getImagePreviewResource(attachment.getThumbnail(),
-							DEFAULT_SOURCE));
+					.getImagePreviewResource(attachment.getThumbnail()));
 		}
 		thumbnail.setWidth("100%");
 		thumbnailWrap.addComponent(thumbnail);
@@ -90,7 +88,7 @@ public class MobileAttachmentUtils {
 						public void buttonClick(Button.ClickEvent event) {
 							AttachmentPreviewView previewView = new AttachmentPreviewView(
 									VaadinResourceManager.getResourceManager()
-											.getImagePreviewResource(attachment.getPath(), DEFAULT_SOURCE));
+											.getImagePreviewResource(attachment.getPath()));
 							EventBusFactory.getInstance().post(
 									new ShellEvent.PushView(this, previewView));
 						}
@@ -107,8 +105,7 @@ public class MobileAttachmentUtils {
 		return attachmentRow;
 	}
 
-	public static Component renderAttachmentFieldRow(final Content attachment,
-			Button.ClickListener additionalListener) {
+	public static Component renderAttachmentFieldRow(final Content attachment, Button.ClickListener additionalListener) {
 		String docName = attachment.getPath();
 		int lastIndex = docName.lastIndexOf("/");
 		if (lastIndex != -1) {
@@ -132,8 +129,7 @@ public class MobileAttachmentUtils {
 			thumbnail.setSource(DEFAULT_SOURCE);
 		} else {
 			thumbnail.setSource(VaadinResourceManager.getResourceManager()
-					.getImagePreviewResource(attachment.getThumbnail(),
-							DEFAULT_SOURCE));
+					.getImagePreviewResource(attachment.getThumbnail()));
 		}
 		thumbnail.setWidth("100%");
 		thumbnailWrap.addComponent(thumbnail);
@@ -150,7 +146,6 @@ public class MobileAttachmentUtils {
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-
 						ConfirmDialog.show(UI.getCurrent(),
 								AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
 								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
@@ -183,7 +178,7 @@ public class MobileAttachmentUtils {
 		return attachmentLayout;
 	}
 
-	public static Component renderAttachmentFieldRow(final Content attachment) {
+	public static Component renderAttachmentFieldRow(Content attachment) {
 		return renderAttachmentFieldRow(attachment, null);
 	}
 

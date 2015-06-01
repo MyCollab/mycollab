@@ -22,7 +22,8 @@
        <tr>
             <td>
                 <div style="padding: 10px 30px; background-color: rgb(106, 201, 228);">
-                    <img src="${defaultUrls.cdn_url}logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;">
+                    <img src="${defaultUrls.cdn_url}icons/logo-email.png" alt="esofthead-logo" width="130" height="30"
+                    style="margin: 0px; padding: 0px;">
                 </div>
             </td>           
         </tr>

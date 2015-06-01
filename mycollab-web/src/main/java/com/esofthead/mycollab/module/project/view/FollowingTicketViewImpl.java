@@ -62,19 +62,19 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	private static final long serialVersionUID = 1L;
 
 	private SplitButton exportButtonControl;
-	private final FollowingTicketTableDisplay ticketTable;
+	private FollowingTicketTableDisplay ticketTable;
 
 	private FollowingTicketSearchPanel searchPanel;
 
 	public FollowingTicketViewImpl() {
 		this.setWidth("100%");
 
-		final MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
+		MVerticalLayout headerWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
 				("100%").withStyleName("projectfeed-hdr-wrapper");
 
-		final MHorizontalLayout header = new MHorizontalLayout().withMargin(false).withWidth("100%");
+		MHorizontalLayout header = new MHorizontalLayout().withWidth("100%");
 
-		final Label layoutHeader = new Label(FontAwesome.EYE.getHtml() +  " My Following Tickets", ContentMode.HTML);
+		Label layoutHeader = new Label(FontAwesome.EYE.getHtml() +  " My Following Tickets", ContentMode.HTML);
 		layoutHeader.addStyleName("h2");
 		header.with(layoutHeader).withAlign(layoutHeader, Alignment.MIDDLE_LEFT).expand(layoutHeader);
 
@@ -84,24 +84,19 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		MHorizontalLayout controlBtns = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true,
 				false, true, false)).withWidth("100%");
 
-		final MVerticalLayout contentWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth
-				("100%");
+		MVerticalLayout contentWrapper = new MVerticalLayout().withSpacing(false).withMargin(false).withWidth("100%");
 		contentWrapper.addStyleName("content-wrapper");
 
 		contentWrapper.addComponent(controlBtns);
 		this.addComponent(contentWrapper);
 
-		final Button backBtn = new Button(
-				AppContext
-						.getMessage(FollowerI18nEnum.BUTTON_BACK_TO_WORKBOARD));
+		Button backBtn = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_BACK_TO_WORKBOARD));
 		backBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.GotoProjectModule(
-								FollowingTicketViewImpl.this, null));
+				EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(FollowingTicketViewImpl.this, null));
 			}
 		});
 
@@ -127,15 +122,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		exportButtonControl.setContent(popupButtonsControl);
 
 		Button exportPdfBtn = new Button("Pdf");
-		FileDownloader pdfDownloader = new FileDownloader(
-				constructStreamResource(ReportExportType.PDF));
+		FileDownloader pdfDownloader = new FileDownloader(constructStreamResource(ReportExportType.PDF));
 		pdfDownloader.extend(exportPdfBtn);
 		exportPdfBtn.setIcon(FontAwesome.FILE_PDF_O);
 		popupButtonsControl.addOption(exportPdfBtn);
 
 		Button exportExcelBtn = new Button("Excel");
-		FileDownloader excelDownloader = new FileDownloader(
-				constructStreamResource(ReportExportType.EXCEL));
+		FileDownloader excelDownloader = new FileDownloader(constructStreamResource(ReportExportType.EXCEL));
 		excelDownloader.extend(exportExcelBtn);
 		exportExcelBtn.setIcon(FontAwesome.FILE_EXCEL_O);
 		popupButtonsControl.addOption(exportExcelBtn);
@@ -160,17 +153,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 			@Override
 			protected StreamSource buildStreamSource() {
 				return new SimpleGridExportItemsStreamResource.AllItems<>(
-						"Following Tickets Report",
-						new RpParameterBuilder(ticketTable.getDisplayColumns()),
-						exportType,
-						ApplicationContextUtil
-								.getSpringBean(ProjectFollowingTicketService.class),
+						"Following Tickets Report", new RpParameterBuilder(ticketTable.getDisplayColumns()),
+						exportType, ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
 						new FollowingTicketSearchCriteria(), FollowingTicket.class);
 			}
 		};
 
-		return new StreamResource(streamSource,
-				ExportItemsStreamResource.getDefaultExportFileName(exportType));
+		return new StreamResource(streamSource, ExportItemsStreamResource.getDefaultExportFileName(exportType));
 	}
 
 	@Override

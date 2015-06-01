@@ -93,21 +93,18 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
     class TaskAssigneeLink extends Button {
         private static final long serialVersionUID = 1L;
 
-        public TaskAssigneeLink(final String assignee,
-                                final String assigneeAvatarId, final String assigneeFullName) {
+        public TaskAssigneeLink(final String assignee, String assigneeAvatarId, final String assigneeFullName) {
             super(assigneeFullName, new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    searchCriteria.setAssignUser(new StringSearchField(
-                            SearchField.AND, assignee));
+                    searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, assignee));
                     TaskFilterParameter filterParam = new TaskFilterParameter(
                             searchCriteria, AppContext.getMessage(
                             TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
                             assigneeFullName));
-                    EventBusFactory.getInstance().post(
-                            new TaskEvent.Search(this, filterParam));
+                    EventBusFactory.getInstance().post(new TaskEvent.Search(this, filterParam));
                 }
             });
 
@@ -115,8 +112,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setDescription(assigneeFullName);
-            this.setIcon(UserAvatarControlFactory.createAvatarResource(
-                    assigneeAvatarId, 16));
+            this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
         }
     }
 }

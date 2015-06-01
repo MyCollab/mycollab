@@ -47,32 +47,28 @@ public class ProjectInformationComponent extends VerticalLayout {
         setStyleName(UIConstants.PROJECT_INFO);
         prjDisplay = new BasicProjectInformation();
         projectInfoHeader = new MHorizontalLayout().withMargin(true).withWidth("100%");
-        projectInfoHeader
-                .setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        projectInfoHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         projectInfoHeader.setStyleName(UIConstants.PROJECT_INFO_HEADER);
         this.addComponent(projectInfoHeader);
         this.addComponent(prjDisplay);
 
         MHorizontalLayout projectInfoFooter = new MHorizontalLayout().withMargin(true).withStyleName(UIConstants.PROJECT_INFO_FOOTER);
-        final Button toggleBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
+        Button toggleBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
         toggleBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                final int replaceIndex = ProjectInformationComponent.this
+                int replaceIndex = ProjectInformationComponent.this
                         .getComponentIndex(ProjectInformationComponent.this.prjDisplay);
                 ProjectInformationComponent.this
                         .removeComponent(ProjectInformationComponent.this.prjDisplay);
                 if (prjDisplay instanceof BasicProjectInformation) {
                     prjDisplay = new DetailProjectInformation();
-                    event.getButton().setCaption(
-                            AppContext.getMessage(GenericI18Enum.BUTTON_LESS));
+                    event.getButton().setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_LESS));
                 } else {
                     prjDisplay = new BasicProjectInformation();
-                    event.getButton().setCaption(
-                            AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
+                    event.getButton().setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
                 }
                 ProjectInformationComponent.this.addComponent(prjDisplay, replaceIndex);
                 prjDisplay.show();
@@ -180,11 +176,8 @@ public class ProjectInformationComponent extends VerticalLayout {
 
         @Override
         public void show() {
-            this.previewForm
-                    .setFormLayoutFactory(new ProjectInformationLayout());
-            this.previewForm
-                    .setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleProject>(
-                            previewForm) {
+            this.previewForm.setFormLayoutFactory(new ProjectInformationLayout());
+            this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleProject>(previewForm) {
                         private static final long serialVersionUID = 1L;
 
                         @Override
@@ -203,8 +196,7 @@ public class ProjectInformationComponent extends VerticalLayout {
                                 return new RichTextViewField(project.getDescription());
                             } else if (propertyId.equals("currencyid")) {
                                 if (project.getCurrency() != null) {
-                                    return new DefaultViewField(
-                                            project.getCurrency().getShortname());
+                                    return new DefaultViewField(project.getCurrency().getShortname());
                                 } else {
                                     return new DefaultViewField("");
                                 }

@@ -53,7 +53,7 @@ public class UpgradeServlet extends HttpServlet {
         SharingOptions sharingOptions = SharingOptions
                 .getDefaultSharingOptions();
         Map<String, String> defaultUrls = new HashMap<>();
-        defaultUrls.put("cdn_url", "/assets/images/email/");
+        defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
         defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
         defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());

@@ -45,7 +45,7 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
     templateContext = new TemplateContext
     val sharingOptions = SharingOptions.getDefaultSharingOptions
     val defaultUrls = Map[String, String](
-      "cdn_url" -> SiteConfiguration.getEmailCdnUrl,
+      "cdn_url" -> SiteConfiguration.getCdnUrl,
       "facebook_url" -> sharingOptions.getFacebookUrl,
       "google_url" -> sharingOptions.getGoogleplusUrl,
       "linkedin_url" -> sharingOptions.getLinkedinUrl,

@@ -65,7 +65,6 @@ public class DefaultMailer implements IMailer {
 			email.setHostName(host);
             email.setSmtpPort(port);
             email.setStartTLSEnabled(isTLS);
-            email.setSSLOnConnect(isTLS);
 			email.setFrom(fromEmail, fromName);
 			email.setCharset(EmailConstants.UTF_8);
 			for (int i = 0; i < toEmail.size(); i++) {

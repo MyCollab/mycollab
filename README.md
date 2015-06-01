@@ -58,7 +58,7 @@ New features, enhancements, and updates appear on a regular basis.
 
 Pull requests and bug reports are always welcome!
 
-Visit our website at http://www.mycollab.com/
+Visit our website at https://www.mycollab.com/
 
 ## Features
 MyCollab provides the rich set features of Project Management, Customer Management module and online collaboration methods.
@@ -76,7 +76,7 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * People and Permission management
   * Support English and Japanese, more languages will be added in future
 
-We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organization to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs, and we hope you will find it useful!
+We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organizations to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs, and we hope you will find it useful!
 
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
@@ -104,11 +104,4 @@ Contact the MyCollab team at:
 
 * MyCollab community is licensed with Affero GPL v3. For license terms, see http://community.mycollab.com/licenses/
 
-* MyCollab is powered by eSoftHead http://esofthead.com, which is a software outsourcing and offshoring service company based in Vietnam.
-
-
-
-## History
-We started development MyCollab since November 2011. MyCollab is developed mainly by Java/Scala languages with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty, Solr etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. We published a part of our product as a lite version and open source it to Github and Sourceforge, so you can audit our code or customize this lite version that meet to your business needs if needed
-
-You can try MyCollab on-demand edition on site https://www.mycollab.com
+* You can try MyCollab on-demand edition on site https://www.mycollab.com

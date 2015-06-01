@@ -51,8 +51,7 @@ public class FollowingTicketTableDisplay
     private static final long serialVersionUID = 1L;
 
     public FollowingTicketTableDisplay() {
-        super(ApplicationContextUtil
-                        .getSpringBean(ProjectFollowingTicketService.class),
+        super(ApplicationContextUtil.getSpringBean(ProjectFollowingTicketService.class),
                 FollowingTicket.class, Arrays.asList(
                         FollowingTicketFieldDef.summary,
                         FollowingTicketFieldDef.project,
@@ -145,9 +144,9 @@ public class FollowingTicketTableDisplay
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            final int projectId = ticket.getProjectId();
-                            final int problemId = ticket.getTypeId();
-                            final PageActionChain chain = new PageActionChain(
+                            int projectId = ticket.getProjectId();
+                            int problemId = ticket.getTypeId();
+                            PageActionChain chain = new PageActionChain(
                                     new ProjectScreenData.Goto(projectId),
                                     new ProblemScreenData.Read(problemId));
                             EventBusFactory.getInstance()
@@ -223,7 +222,7 @@ public class FollowingTicketTableDisplay
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
-                final FollowingTicket ticket = getBeanByIndex(itemId);
+                FollowingTicket ticket = getBeanByIndex(itemId);
                 return new UserLink(ticket.getAssignUser(), ticket
                         .getAssignUserAvatarId(), ticket
                         .getAssignUserFullName());
@@ -236,7 +235,7 @@ public class FollowingTicketTableDisplay
             @Override
             public Object generateCell(final Table source, final Object itemId,
                                        final Object columnId) {
-                final FollowingTicket ticket = FollowingTicketTableDisplay.this
+                FollowingTicket ticket = FollowingTicketTableDisplay.this
                         .getBeanByIndex(itemId);
                 return new ELabel().prettyDateTime(ticket.getMonitorDate());
             }

@@ -9,8 +9,8 @@ You can checkout our latest development source codes at [https://github.com/esof
 
 For further information, please visit:
 
-* [http://www.mycollab.com/](http://www.mycollab.com/)
-* [http://community.mycollab.com/](http://community.mycollab.com/)
+* [https://www.mycollab.com/](https://www.mycollab.com/)
+* [https://community.mycollab.com/](https://community.mycollab.com/)
 
 Contact the MyCollab team at:
 
@@ -31,10 +31,14 @@ Installation
 ============
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
-2. Follow installation guideline at [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
-3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://community.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your task easily
+2. Follow installation guideline at [https://community.mycollab.com/installation-guideline/](https://community
+.mycollab.com/installation-guideline/)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [https://community
+.mycollab.com/upgrade/](http://community.mycollab.com/upgrade/) will instruct steps to make your task easily
 
-If you want to understand more MyCollab advanced configuration settings, please visit the link [http://community.mycollab.com/configuration/](http://community.mycollab.com/configuration/). You will finish reading and understanding in a matter of minutes.
+If you want to understand more MyCollab advanced configuration settings, please visit the link [https://community
+.mycollab.com/configuration/](https://community.mycollab.com/configuration/). You will finish reading and 
+understanding in a matter of minutes.
 
 Last changelog
 ==============
@@ -43,6 +47,7 @@ Version 5.1.0
 -----------------------------
 **Library Upgrades**
 
+* Upgrade Vaadin to 7.4.7
 * Upgrade libraries: HirakiCP, Jackrabbit, Commons-Email
 
 **Improvements & New Features**
@@ -56,9 +61,10 @@ Version 5.1.0
 
 * Search project may throw exception in some special case
 * Export report document is sometimes failed
-* Several bug fixes relate to Gantt chart views
 * Upload file in page editor throws exception
 * Add a new project page throws exception
+* Fix several bugs relate to Gantt chart
+* Display the new user information when user re-login by another account 
 
 Version 5.0.7
 -----------------------------

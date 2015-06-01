@@ -50,18 +50,14 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
         prjContainer.removeAllComponents();
         prjContainer.with(view).withAlign(view, Alignment.TOP_CENTER);
         if (data.getParams() instanceof Integer) {
-            ProjectService projectService = ApplicationContextUtil
-                    .getSpringBean(ProjectService.class);
-            SimpleProject project = projectService.findById(
-                    (Integer) data.getParams(), AppContext.getAccountId());
+            ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
+            SimpleProject project = projectService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
             if (project == null) {
                 NotificationUtil.showRecordNotExistNotification();
             } else {
-                ProjectMemberService projectMemberService = ApplicationContextUtil
-                        .getSpringBean(ProjectMemberService.class);
-                boolean userBelongToProject = projectMemberService
-                        .isUserBelongToProject(AppContext.getUsername(),
+                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                boolean userBelongToProject = projectMemberService.isUserBelongToProject(AppContext.getUsername(),
                                 project.getId(), AppContext.getAccountId());
                 if (userBelongToProject) {
                     CurrentProjectVariables.setProject(project);
@@ -75,8 +71,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 
     @Override
     protected void onDefaultStopChain() {
-        ProjectDashboardPresenter presenter = PresenterResolver
-                .getPresenter(ProjectDashboardPresenter.class);
+        ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
         presenter.go(this.view, null);
     }
 

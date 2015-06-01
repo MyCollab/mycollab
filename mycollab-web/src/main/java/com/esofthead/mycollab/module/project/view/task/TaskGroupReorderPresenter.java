@@ -46,8 +46,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class TaskGroupReorderPresenter extends
-		AbstractPresenter<TaskGroupReorderView> {
+public class TaskGroupReorderPresenter extends AbstractPresenter<TaskGroupReorderView> {
 	private static final long serialVersionUID = 1L;
 
 	public TaskGroupReorderPresenter() {
@@ -56,8 +55,7 @@ public class TaskGroupReorderPresenter extends
 
 	@Override
 	protected void postInitView() {
-		EventBusFactory.getInstance()
-				.register(
+		EventBusFactory.getInstance().register(
 						new ApplicationEventListener<TaskListEvent.SaveReoderTaskList>() {
 							private static final long serialVersionUID = 1L;
 
@@ -65,32 +63,26 @@ public class TaskGroupReorderPresenter extends
 							@Subscribe
 							@Override
 							public void handle(SaveReoderTaskList event) {
-								Set<SimpleTaskList> changeSet = (Set<SimpleTaskList>) event
-										.getData();
-								ProjectTaskListService taskListService = ApplicationContextUtil
-										.getSpringBean(ProjectTaskListService.class);
+								Set<SimpleTaskList> changeSet = (Set<SimpleTaskList>) event.getData();
+								ProjectTaskListService taskListService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
 								taskListService.updateTaskListIndex(
-										changeSet.toArray(new TaskList[] {}),
-										AppContext.getAccountId());
+										changeSet.toArray(new TaskList[] {}), AppContext.getAccountId());
 								EventBusFactory.getInstance().post(
-										new TaskListEvent.GotoTaskListScreen(
-												this, null));
+										new TaskListEvent.GotoTaskListScreen(this, null));
 							}
 						});
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS)) {
+		if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS)) {
 			TaskContainer taskContainer = (TaskContainer) container;
 			taskContainer.removeAllComponents();
 
 			taskContainer.addComponent(view.getWidget());
 			view.displayTaskLists();
 
-			ProjectBreadcrumb breadCrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
+			ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoTaskListReorder();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

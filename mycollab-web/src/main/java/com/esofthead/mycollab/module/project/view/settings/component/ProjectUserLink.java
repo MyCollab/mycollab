@@ -38,8 +38,7 @@ import java.util.UUID;
 public class ProjectUserLink extends Label {
     private static final long serialVersionUID = 1L;
 
-    public ProjectUserLink(String username, String userAvatarId,
-                           String displayName) {
+    public ProjectUserLink(String username, String userAvatarId, String displayName) {
         if (StringUtils.isBlank(username)) {
             return;
         }

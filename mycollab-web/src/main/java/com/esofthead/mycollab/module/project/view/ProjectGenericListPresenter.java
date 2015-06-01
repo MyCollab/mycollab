@@ -40,10 +40,6 @@ public abstract class ProjectGenericListPresenter<V extends ListView<S, B>, S ex
 
 	private Class<? extends PageView> noItemFallbackViewClass;
 
-	public ProjectGenericListPresenter(Class<V> viewClass) {
-		this(viewClass, null);
-	}
-
 	public ProjectGenericListPresenter(Class<V> viewClass,
 			Class<? extends PageView> noItemFallbackViewClass) {
 		super(viewClass);

@@ -2,12 +2,13 @@
 <html style="height: 100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="${defaultUrls.app_url}assets/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="${defaultUrls.app_url}assets/favicon.ico" type="image/x-icon">
+<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${defaultUrls.app_url}assets/css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}footer-clouds.png');  background-repeat: no-repeat;  background-position: bottom right;
+    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-position: bottom right;
 }
 #mainContent {
     padding: 10px 0 8px 0px;
@@ -44,14 +45,20 @@ h3 {
 					  	 <tr>
 					   		<td>
 					  			<a href="https://www.mycollab.com">
-					       			<img src="${defaultUrls.cdn_url}logo_mycollab_2.png" alt="MyCollab">
+					       			<img src="${defaultUrls.cdn_url}icons/logo_mycollab_2.png" alt="MyCollab">
 						   		</a>
 					   		</td>
 					   		<td>
 			        			<div style="text-align: right; font-size: 10px; vertical-align: middle;">
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.facebook_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-facebook.png" height="20" width="20"></a>
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-google.png" height="20" width="20"></a>
-						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}" target="_blank"><img src="${defaultUrls.cdn_url}footer-twitter.png" height="20" width="20"></a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.facebook_url}" target="_blank">
+						                <img src="${defaultUrls.cdn_url}icons/email/footer-facebook.png" height="20" width="20">
+						            </a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}" target="_blank">
+						                <img src="${defaultUrls.cdn_url}icons/email/footer-google.png" height="20" width="20"/>
+						            </a>
+						            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}" target="_blank">
+						                <img src="${defaultUrls.cdn_url}icons/email/footer-twitter.png" height="20" width="20"/>
+						            </a>
 			        			</div>
 			    			</td>
 						</tr>
@@ -256,7 +263,8 @@ h3 {
 		}
 		
 		var urlValidate = "/validate";
-		$('#validate').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;" >');
+		$('#validate').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock"
+		style="height:18px;" >');
 		$.ajax({
 		      type: 'GET',
 		      url: urlValidate,
@@ -312,7 +320,7 @@ h3 {
 		}
 		
 		var urlValidate = "/emailValidate";
-		$('#emailValidate').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;" >');
+		$('#emailValidate').html('<img src="${defaultUrls.app_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;" >');
 		$.ajax({
 		      type: 'GET',
 		      url: urlValidate,
@@ -368,7 +376,8 @@ h3 {
 			alert("Please enter database server address");
 			return;
 		}
-		$('#post').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
+		$('#post').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock"
+		style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
         $('#post').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance.</h3></p>');
 		var urlPost = "/install";
 		var tls = "";

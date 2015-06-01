@@ -5,6 +5,10 @@
 <module>
     <!-- WS Compiler: manually edited -->
 
+    <generate-with class="com.esofthead.mycollab.community.OptimizedConnectorBundleLoaderFactory">
+        <when-type-assignable class="com.vaadin.client.metadata.ConnectorBundleLoader" />
+    </generate-with>
+
     <inherits name="org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset" />
 
     <inherits name="org.vaadin.peter.contextmenu.ContextmenuWidgetset" />
@@ -42,4 +46,6 @@
     <inherits name="org.vaadin.suggestfield.WidgetSet" />
 
     <inherits name="org.vaadin.sliderpanel.WidgetSet" />
+
+    <inherits name="org.vaadin.addons.fancybox.FancyboxWidgetSet"/>
 </module>

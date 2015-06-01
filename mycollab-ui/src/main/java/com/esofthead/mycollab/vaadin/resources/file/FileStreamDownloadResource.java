@@ -35,13 +35,10 @@ import com.vaadin.server.FileResource;
 class FileStreamDownloadResource extends FileResource {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(FileStreamDownloadResource.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FileStreamDownloadResource.class);
 
 	FileStreamDownloadResource(String documentPath) {
-		super(
-				new File(FileStorageConfiguration.baseContentFolder,
-						documentPath));
+		super(new File(FileStorageConfiguration.baseContentFolder, documentPath));
 	}
 
 	@Override
@@ -49,7 +46,7 @@ class FileStreamDownloadResource extends FileResource {
 		try {
 			String fileName = getFilename();
 			fileName = fileName.replaceAll(" ", "_").replaceAll("-", "_");
-			final DownloadStream ds = new DownloadStream(new FileInputStream(
+			DownloadStream ds = new DownloadStream(new FileInputStream(
 					getSourceFile()), getMIMEType(), fileName);
 			ds.setParameter("Content-Disposition", "attachment; filename="
 					+ fileName);

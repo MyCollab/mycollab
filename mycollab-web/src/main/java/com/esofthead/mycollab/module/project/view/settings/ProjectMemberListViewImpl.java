@@ -117,9 +117,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 
         VerticalLayout blockContent = new VerticalLayout();
         MHorizontalLayout blockTop = new MHorizontalLayout();
-        Image memberAvatar = UserAvatarControlFactory
-                .createUserAvatarEmbeddedComponent(member.getMemberAvatarId(),
-                        100);
+        Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(), 100);
         blockTop.addComponent(memberAvatar);
 
         VerticalLayout memberInfo = new VerticalLayout();
@@ -128,13 +126,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         deleteBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                ConfirmDialogExt.show(
-                        UI.getCurrent(),
-                        AppContext.getMessage(
-                                GenericI18Enum.DIALOG_DELETE_TITLE,
-                                SiteConfiguration.getSiteName()),
-                        AppContext
-                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                         new ConfirmDialog.Listener() {
@@ -148,11 +142,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
                                     member.setStatus(ProjectMemberStatusConstants.INACTIVE);
                                     prjMemberService.updateWithSession(member, AppContext.getUsername());
 
-                                    EventBusFactory
-                                            .getInstance()
-                                            .post(new ProjectMemberEvent.GotoList(
-                                                    ProjectMemberListViewImpl.this,
-                                                    null));
+                                    EventBusFactory.getInstance()
+                                            .post(new ProjectMemberEvent.GotoList(ProjectMemberListViewImpl.this, null));
                                 }
                             }
                         });
@@ -161,25 +152,19 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
         blockContent.addComponent(deleteBtn);
-        deleteBtn.setVisible(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.USERS));
+        deleteBtn.setVisible(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS));
         blockContent.setComponentAlignment(deleteBtn, Alignment.TOP_RIGHT);
 
         LabelLink memberLink = new LabelLink(member.getMemberFullName(),
-                ProjectLinkBuilder.generateProjectMemberFullLink(
-                        member.getProjectid(), member.getUsername()));
+                ProjectLinkBuilder.generateProjectMemberFullLink(member.getProjectid(), member.getUsername()));
 
         memberLink.setWidth("100%");
         memberLink.addStyleName("member-name");
 
         memberInfo.addComponent(memberLink);
 
-        String roleLink = "<a href=\""
-                + AppContext.getSiteUrl()
-                + GenericLinkUtils.URL_PREFIX_PARAM
-                + ProjectLinkGenerator.generateRolePreviewLink(
-                member.getProjectid(), member.getProjectRoleId())
-                + "\"";
+        String roleLink = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
+                ProjectLinkGenerator.generateRolePreviewLink(member.getProjectid(), member.getProjectRoleId()));
         Label memberRole = new Label();
         memberRole.setContentMode(ContentMode.HTML);
         memberRole.setStyleName("member-role");
@@ -194,46 +179,36 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
         memberRole.setSizeUndefined();
         memberInfo.addComponent(memberRole);
 
-        Label memberEmailLabel = new Label("<a href='mailto:"
-                + member.getUsername() + "'>" + member.getUsername() + "</a>",
-                ContentMode.HTML);
+        Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
+                member.getUsername()), ContentMode.HTML);
         memberEmailLabel.addStyleName("member-email");
         memberEmailLabel.setWidth("100%");
         memberInfo.addComponent(memberEmailLabel);
 
-        ELabel memberSinceLabel = new ELabel("Member since: "
-                + AppContext.formatPrettyTime(member.getJoindate())).withDescription(AppContext.formatDateTime(member
-                .getJoindate()));
+        ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(member.getJoindate())))
+                .withDescription(AppContext.formatDateTime(member.getJoindate()));
         memberSinceLabel.addStyleName("member-email");
         memberSinceLabel.setWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
 
-        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member
-                .getStatus())) {
+        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member.getStatus())) {
             final VerticalLayout waitingNotLayout = new VerticalLayout();
-            Label infoStatus = new Label(
-                    AppContext
-                            .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
+            Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
             infoStatus.addStyleName("member-email");
             waitingNotLayout.addComponent(infoStatus);
 
             ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy(
-                    AppContext
-                            .getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION),
+                    AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            ProjectMemberMapper projectMemberMapper = ApplicationContextUtil
-                                    .getSpringBean(ProjectMemberMapper.class);
+                            ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
                             member.setStatus(RegisterStatusConstants.VERIFICATING);
-                            projectMemberMapper
-                                    .updateByPrimaryKeySelective(member);
+                            projectMemberMapper.updateByPrimaryKeySelective(member);
                             waitingNotLayout.removeAllComponents();
-                            Label statusEmail = new Label(
-                                    AppContext
-                                            .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
+                            Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
                             statusEmail.addStyleName("member-email");
                             waitingNotLayout.addComponent(statusEmail);
                         }
@@ -243,16 +218,12 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);
         } else if (RegisterStatusConstants.ACTIVE.equals(member.getStatus())) {
-            ELabel lastAccessTimeLbl = new ELabel("Logged in "
-                    + AppContext.formatPrettyTime(member.getLastAccessTime())).withDescription(AppContext.formatDateTime
-                    (member.getLastAccessTime()));
+            ELabel lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(member.getLastAccessTime())))
+                    .withDescription(AppContext.formatDateTime(member.getLastAccessTime()));
             lastAccessTimeLbl.addStyleName("member-email");
             memberInfo.addComponent(lastAccessTimeLbl);
-        } else if (RegisterStatusConstants.VERIFICATING.equals(member
-                .getStatus())) {
-            Label infoStatus = new Label(
-                    AppContext
-                            .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
+        } else if (RegisterStatusConstants.VERIFICATING.equals(member.getStatus())) {
+            Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
             infoStatus.addStyleName("member-email");
             memberInfo.addComponent(infoStatus);
         }

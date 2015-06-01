@@ -83,8 +83,7 @@ public class ProjectAddWindow extends Window {
             } else if (propertyId.equals("projectstatus")) {
                 ProjectStatusComboBox projectCombo = new ProjectStatusComboBox();
                 projectCombo.setRequired(true);
-                projectCombo
-                        .setRequiredError("Project status must be not null");
+                projectCombo.setRequiredError("Project status must be not null");
                 if (project.getProjectstatus() == null) {
                     project.setProjectstatus(StatusI18nEnum.Open.name());
                 }
@@ -114,15 +113,14 @@ public class ProjectAddWindow extends Window {
 
         @Override
         public ComponentContainer getLayout() {
-            final VerticalLayout projectAddLayout = new VerticalLayout();
+            VerticalLayout projectAddLayout = new VerticalLayout();
 
             this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 4);
             projectAddLayout.addComponent(this.informationLayout.getLayout());
 
-            final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
+            MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
 
-            final Button closeBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
+            Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -135,8 +133,7 @@ public class ProjectAddWindow extends Window {
             closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
 
-            final Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -144,20 +141,14 @@ public class ProjectAddWindow extends Window {
                         public void buttonClick(final ClickEvent event) {
                             if (editForm.validateForm()) {
                                 project.setSaccountid(AppContext.getAccountId());
-                                final ProjectService projectService = ApplicationContextUtil
+                                ProjectService projectService = ApplicationContextUtil
                                         .getSpringBean(ProjectService.class);
 
-                                projectService.saveWithSession(
-                                        ProjectAddWindow.this.project,
+                                projectService.saveWithSession(ProjectAddWindow.this.project,
                                         AppContext.getUsername());
 
-                                EventBusFactory
-                                        .getInstance()
-                                        .post(new ProjectEvent.GotoMyProject(
-                                                this,
-                                                new PageActionChain(
-                                                        new ProjectScreenData.Goto(
-                                                                project.getId()))));
+                                EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
+                                                new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
                                 ProjectAddWindow.this.close();
                             }
                         }
@@ -169,8 +160,7 @@ public class ProjectAddWindow extends Window {
             buttonControls.with(saveBtn).withAlign(saveBtn, Alignment.MIDDLE_RIGHT);
 
             projectAddLayout.addComponent(buttonControls);
-            projectAddLayout.setComponentAlignment(buttonControls,
-                    Alignment.MIDDLE_RIGHT);
+            projectAddLayout.setComponentAlignment(buttonControls, Alignment.MIDDLE_RIGHT);
             return projectAddLayout;
         }
 
@@ -185,25 +175,18 @@ public class ProjectAddWindow extends Window {
                         1, 0);
             } else if (propertyId.equals("shortname")) {
                 this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
-                        0, 1);
+                        AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME), 0, 1);
             } else if (propertyId.equals("projectstatus")) {
                 this.informationLayout.addComponent(field,
-                        AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
-                        1);
+                        AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
             } else if (propertyId.equals("planstartdate")) {
-                this.informationLayout
-                        .addComponent(
-                                field,
-                                AppContext
-                                        .getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
-                                0, 2);
+                this.informationLayout.addComponent(field,
+                                AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 2);
             } else if (propertyId.equals("planenddate")) {
                 this.informationLayout.addComponent(field, AppContext
                         .getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
             } else if (propertyId.equals("description")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
                         0, 3, 2, "100%", Alignment.MIDDLE_LEFT);
             }
 

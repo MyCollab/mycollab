@@ -34,25 +34,17 @@ public class ProjectLocalizationTypeMap {
 
 	static {
 		typeMap = new HashMap<>();
-		typeMap.put(ProjectTypeConstants.PROJECT,
-				ProjectTypeI18nEnum.PROJECT_ITEM);
-		typeMap.put(ProjectTypeConstants.MESSAGE,
-				ProjectTypeI18nEnum.MESSAGE_ITEM);
-		typeMap.put(ProjectTypeConstants.MILESTONE,
-				ProjectTypeI18nEnum.PHASE_ITEM);
+		typeMap.put(ProjectTypeConstants.PROJECT, ProjectTypeI18nEnum.PROJECT_ITEM);
+		typeMap.put(ProjectTypeConstants.MESSAGE, ProjectTypeI18nEnum.MESSAGE_ITEM);
+		typeMap.put(ProjectTypeConstants.MILESTONE, ProjectTypeI18nEnum.PHASE_ITEM);
 		typeMap.put(ProjectTypeConstants.TASK, ProjectTypeI18nEnum.TASK_ITEM);
-		typeMap.put(ProjectTypeConstants.TASK_LIST,
-				ProjectTypeI18nEnum.TASKGROUP_ITEM);
+		typeMap.put(ProjectTypeConstants.TASK_LIST, ProjectTypeI18nEnum.TASKGROUP_ITEM);
 		typeMap.put(ProjectTypeConstants.BUG, ProjectTypeI18nEnum.BUG_ITEM);
-		typeMap.put(ProjectTypeConstants.BUG_COMPONENT,
-				ProjectTypeI18nEnum.COMPONENT_ITEM);
-		typeMap.put(ProjectTypeConstants.BUG_VERSION,
-				ProjectTypeI18nEnum.VERSION_ITEM);
+		typeMap.put(ProjectTypeConstants.BUG_COMPONENT, ProjectTypeI18nEnum.COMPONENT_ITEM);
+		typeMap.put(ProjectTypeConstants.BUG_VERSION, ProjectTypeI18nEnum.VERSION_ITEM);
 		typeMap.put(ProjectTypeConstants.PAGE, ProjectTypeI18nEnum.PAGE_ITEM);
-		typeMap.put(ProjectTypeConstants.STANDUP,
-				ProjectTypeI18nEnum.STANDUP_ITEM);
-		typeMap.put(ProjectTypeConstants.PROBLEM,
-				ProjectTypeI18nEnum.PROBLEM_ITEM);
+		typeMap.put(ProjectTypeConstants.STANDUP, ProjectTypeI18nEnum.STANDUP_ITEM);
+		typeMap.put(ProjectTypeConstants.PROBLEM, ProjectTypeI18nEnum.PROBLEM_ITEM);
 		typeMap.put(ProjectTypeConstants.RISK, ProjectTypeI18nEnum.RISK_ITEM);
 	}
 

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
@@ -69,8 +70,7 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent
-public class TaskGroupReadViewImpl extends
-        AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
+public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskGroupReadViewImpl.class);
@@ -82,8 +82,7 @@ public class TaskGroupReadViewImpl extends
     private TaskGroupTimeLogSheet timeLogSheet;
 
     public TaskGroupReadViewImpl() {
-        super(AppContext
-                        .getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
+        super(AppContext.getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
                 ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK_LIST));
     }
 
@@ -316,7 +315,8 @@ public class TaskGroupReadViewImpl extends
         private Div buildLastUpdateTime(SimpleTask task) {
             Div div = new Div();
             div.appendChild(new Text(AppContext.formatPrettyTime(task.getLastupdatedtime()))).setTitle(AppContext
-                    .formatDateTime(task.getLastupdatedtime()));
+                    .getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext
+                            .formatDateTime(task.getLastupdatedtime())));
             return div.setCSSClass("column100");
         }
     }
@@ -354,8 +354,7 @@ public class TaskGroupReadViewImpl extends
                 layout.addComponent(createdUserLink, 1, 0);
                 layout.setColumnExpandRatio(1, 1.0f);
 
-                Label assigneeLbl = new Label(AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                Label assigneeLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(bean, "owner");

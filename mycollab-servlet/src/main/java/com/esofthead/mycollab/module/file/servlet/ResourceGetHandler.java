@@ -40,25 +40,21 @@ import java.io.InputStream;
  */
 @WebServlet(urlPatterns = "/file/*", name = "resourceGetHandler")
 public class ResourceGetHandler extends GenericHttpServlet {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ResourceGetHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceGetHandler.class);
 
 	@Autowired
 	private ResourceService resourceService;
 
 	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String path = request.getPathInfo();
 		InputStream inputStream = resourceService.getContentStream(path);
 
 		if (inputStream != null) {
 			LOG.debug("Get resource {} successfully ", path);
-			response.setHeader("Content-Type",
-					MimeTypesUtil.detectMimeType(path));
-			response.setHeader("Content-Length",
-					String.valueOf(inputStream.available()));
+			response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
+			response.setHeader("Content-Length", String.valueOf(inputStream.available()));
 
 			try (BufferedInputStream input = new BufferedInputStream(inputStream);
 				 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {

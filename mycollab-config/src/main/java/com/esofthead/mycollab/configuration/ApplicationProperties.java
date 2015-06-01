@@ -68,6 +68,8 @@ public class ApplicationProperties {
     public static final String SERVER_ADDRESS = "server.address";
     public static final String RUNNING_MODE = "running.mode";
 
+    public static final String RESOURCE_DOWNLOAD_URL = "resource.downloadUrl";
+
     public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
     public static final String GOOGLE_DRIVE_LINK = "ggDrive.callbackUrl";
 
@@ -84,8 +86,7 @@ public class ApplicationProperties {
             if (myCollabResourceFile != null) {
                 properties.load(new FileInputStream(myCollabResourceFile));
             } else {
-                properties.load(Thread.currentThread().getContextClassLoader()
-                        .getResourceAsStream(RESOURCE_PROPERTIES));
+                properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
             }
         } catch (Exception e) {
             throw new MyCollabException(e);

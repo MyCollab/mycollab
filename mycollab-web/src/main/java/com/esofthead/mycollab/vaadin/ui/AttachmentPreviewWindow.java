@@ -33,14 +33,10 @@ public class AttachmentPreviewWindow extends Window {
 
 	public AttachmentPreviewWindow(Resource previewResource) {
 		this.previewResource = previewResource;
-		initLayout();
-	}
-
-	private void initLayout() {
-		this.setSizeUndefined();
+		this.setHeight("600px");
 		this.setCaption("Image Preview");
-		initUI();
 		center();
+		initUI();
 	}
 
 	private void initUI() {

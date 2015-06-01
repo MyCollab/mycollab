@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.web.DesktopApplication;
@@ -48,8 +47,7 @@ public class ProjectModulePresenter extends AbstractPresenter<ProjectModule> {
 			view.gotoProjectPage();
 			AppContext.addFragment("project", "Project");
 		} else {
-			DesktopApplication.rootUrlResolver.getSubResolver("project").handle(
-					params);
+			DesktopApplication.rootUrlResolver.getSubResolver("project").handle(params);
 		}
 
 		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.PRJ);

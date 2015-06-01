@@ -44,7 +44,6 @@ public class MainViewController extends AbstractController {
 	public MainViewController(MainView view) {
 		this.container = view;
 		bind();
-
 	}
 
 	private void bind() {

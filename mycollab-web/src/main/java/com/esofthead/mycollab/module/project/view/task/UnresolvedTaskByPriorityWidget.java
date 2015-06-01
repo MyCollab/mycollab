@@ -72,8 +72,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                         isFound = true;
                         MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
                         ButtonI18nComp userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                        Resource iconPriority = new ExternalResource(ProjectResources
-                                        .getIconResourceLink12ByTaskPriority(priority.name()));
+                        Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
                         userLbl.setIcon(iconPriority);
                         userLbl.setWidth("110px");
                         userLbl.setStyleName("link");
@@ -90,8 +89,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
                 if (!isFound) {
                     MHorizontalLayout priorityLayout = new MHorizontalLayout().withWidth("100%");
                     ButtonI18nComp userLbl = new ButtonI18nComp(priority.name(), priority, listener);
-                    Resource iconPriority = new ExternalResource(
-                            ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
+                    Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByTaskPriority(priority.name()));
                     userLbl.setIcon(iconPriority);
                     userLbl.setWidth("110px");
                     userLbl.setStyleName("link");

@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p/>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -83,7 +99,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
-        for ( SimpleMilestone milestone : milestones) {
+        for (SimpleMilestone milestone : milestones) {
             ComponentContainer componentContainer = constructMilestoneBox(milestone);
             if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
                 inProgressContainer.addComponent(componentContainer);
@@ -132,8 +148,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoAdd(
-                                        MilestoneListViewImpl.this, null));
+                                new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null));
                     }
                 });
         createBtn.setIcon(FontAwesome.PLUS);
@@ -152,7 +167,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         bodyContent.setWidth("100%");
         bodyContent.setStyleName("milestone-view");
 
-         MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
+        MHorizontalLayout closedHeaderLayout = new MHorizontalLayout();
 
         closedHeader = new Label("", ContentMode.HTML);
         closedHeader.setSizeUndefined();
@@ -164,12 +179,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         closeContainer.setWidth("100%");
         bodyContent.addComponent(closeContainer, "closed-milestones");
 
-         MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
+        MHorizontalLayout inProgressHeaderLayout = new MHorizontalLayout();
         inProgressHeader = new Label("", ContentMode.HTML);
         inProgressHeader.setSizeUndefined();
         inProgressHeaderLayout.addComponent(inProgressHeader);
-        inProgressHeaderLayout.setComponentAlignment(inProgressHeader,
-                Alignment.MIDDLE_CENTER);
+        inProgressHeaderLayout.setComponentAlignment(inProgressHeader, Alignment.MIDDLE_CENTER);
 
         bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
         inProgressContainer = new CssLayout();
@@ -177,7 +191,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         inProgressContainer.setWidth("100%");
         bodyContent.addComponent(this.inProgressContainer, "in-progress-milestones");
 
-         MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
+        MHorizontalLayout futureHeaderLayout = new MHorizontalLayout();
         futureHeader = new Label("", ContentMode.HTML);
         futureHeader.setSizeUndefined();
         futureHeaderLayout.addComponent(futureHeader);
@@ -194,32 +208,27 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private void updateClosedMilestoneNumber(int closeMilestones) {
         closedHeader.setValue(FontAwesome.MINUS.getHtml() + " " +
-                AppContext
-                        .getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
+                AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE) + " (" + closeMilestones + ")");
     }
 
     private void updateFutureMilestoneNumber(int futureMilestones) {
         futureHeader.setValue(FontAwesome.CLOCK_O.getHtml() + " " +
-                AppContext
-                        .getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
+                AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE) + " (" + futureMilestones + ")");
     }
 
     private void updateInProgressMilestoneNumber(int inProgressMilestones) {
         inProgressHeader.setValue(FontAwesome.SPINNER.getHtml() + " " +
-                AppContext
-                        .getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
+                AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE) + " (" + inProgressMilestones +
                 ")");
     }
 
-    private ComponentContainer constructMilestoneBox(
-            final SimpleMilestone milestone) {
+    private ComponentContainer constructMilestoneBox(final SimpleMilestone milestone) {
         CssLayout layout = new CssLayout();
         layout.addStyleName(UIConstants.MILESTONE_BOX);
         layout.setWidth("100%");
 
         LabelLink milestoneLink = new LabelLink(milestone.getName(),
-                ProjectLinkBuilder.generateMilestonePreviewFullLink(
-                        milestone.getProjectid(), milestone.getId()));
+                ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
         milestoneLink.setStyleName("link");
         milestoneLink.addStyleName("bold");
         milestoneLink.addStyleName(UIConstants.WORD_WRAP);
@@ -245,27 +254,20 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                                         MilestoneListViewImpl.this, milestone));
                     }
                 });
-        editButton.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.MILESTONES));
+        editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         editButton.setIcon(FontAwesome.EDIT);
         filterBtnLayout.addOption(editButton);
 
-        Button deleteBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        ConfirmDialogExt.show(
-                                UI.getCurrent(),
-                                AppContext.getMessage(
-                                        GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        SiteConfiguration.getSiteName()),
-                                AppContext
-                                        .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext
-                                        .getMessage(GenericI18Enum.BUTTON_YES),
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                 AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                 new ConfirmDialog.Listener() {
                                     private static final long serialVersionUID = 1L;
@@ -275,10 +277,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                                         if (dialog.isConfirmed()) {
                                             MilestoneService projectTaskService = ApplicationContextUtil
                                                     .getSpringBean(MilestoneService.class);
-                                            projectTaskService.removeWithSession(
-                                                    milestone.getId(),
-                                                    AppContext.getUsername(),
-                                                    AppContext.getAccountId());
+                                            projectTaskService.removeWithSession(milestone.getId(),
+                                                    AppContext.getUsername(), AppContext.getAccountId());
                                             milestones.remove(milestone);
                                             displayMilestones(milestones);
                                         }
@@ -287,8 +287,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                     }
                 });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
-        deleteBtn.setEnabled(CurrentProjectVariables
-                .canAccess(ProjectRolePermissionCollections.MILESTONES));
+        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES));
         filterBtnLayout.addOption(deleteBtn);
 
         taskSettingPopupBtn.setIcon(FontAwesome.COG);

@@ -57,6 +57,7 @@
         
         #ifnotnull($searchCriteria.taskListId)
             ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
+            AND m_prj_task.parentTaskId IS NULL
         #end
         
         #ifnotnull($searchCriteria.parentTaskId)
@@ -120,6 +121,7 @@
         
         #ifnotnull($searchCriteria.taskListId)
             ${searchCriteria.taskListId.operation} m_prj_task.tasklistid = @{searchCriteria.taskListId.value,jdbcType=NUMERIC}
+            AND m_prj_task.parentTaskId IS NULL
         #end
         
         #ifnotnull($searchCriteria.parentTaskId)

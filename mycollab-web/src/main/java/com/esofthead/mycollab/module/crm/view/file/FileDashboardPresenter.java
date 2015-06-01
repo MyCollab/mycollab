@@ -47,8 +47,7 @@ public class FileDashboardPresenter extends CrmGenericPresenter<FileDashboardVie
 		if (AppContext.canRead(RolePermissionCollections.CRM_DOCUMENT)) {
 			super.onGo(container, data);
 			view.displayFiles();
-			AppContext.addFragment("crm/file/dashboard",
-					"Customer: File Dashboard");
+			AppContext.addFragment("crm/file/dashboard", "Customer: File Dashboard");
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

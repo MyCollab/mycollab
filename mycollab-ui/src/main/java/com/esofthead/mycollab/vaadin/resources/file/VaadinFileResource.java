@@ -16,15 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.resources.file;
 
-import com.esofthead.mycollab.configuration.FileStorageConfiguration;
-import com.esofthead.mycollab.configuration.StorageConfiguration;
-import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.vaadin.resources.VaadinResource;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
-
-import java.io.File;
 
 /**
  * 
@@ -32,35 +25,10 @@ import java.io.File;
  * @since 4.5.1
  *
  */
-public class VaadinFileResource implements VaadinResource {
+public class VaadinFileResource extends VaadinResource {
 
 	@Override
 	public Resource getStreamResource(String documentPath) {
 		return new FileStreamDownloadResource(documentPath);
-	}
-
-	@Override
-	public Resource getImagePreviewResource(String documentPath, Resource failOverSource) {
-		StorageConfiguration storageConfiguration = StorageManager.getConfiguration();
-		File docFile = new File(storageConfiguration.getResourcePath(documentPath));
-		return (docFile.exists()) ? new FileResource(docFile) : failOverSource;
-	}
-
-	@Override
-	public Resource getLogoResource(String logoId, int size) {
-		FileStorageConfiguration fileStorageConfiguration = (FileStorageConfiguration) StorageManager
-				.getConfiguration();
-		File logoFile = fileStorageConfiguration.getLogoFile(logoId, size);
-		return (logoFile != null) ? new FileResource(logoFile)
-				: MyCollabResource.newResource("icons/logo.png");
-	}
-
-	@Override
-	public Resource getAvatarResource(String avatarId, int size) {
-		FileStorageConfiguration fileStorageConfiguration = (FileStorageConfiguration) StorageManager
-				.getConfiguration();
-		File avatarFile = fileStorageConfiguration.getAvatarFile(avatarId, size);
-		return (avatarFile != null) ? new FileResource(avatarFile)
-				: MyCollabResource.newResource(String.format("icons/default_user_avatar_%d.png", size));
 	}
 }

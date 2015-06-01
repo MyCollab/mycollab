@@ -25,8 +25,7 @@ import java.io.File;
  * @since 1.0
  * 
  */
-public final class FileStorageConfiguration implements StorageConfiguration {
-
+public final class FileStorageConfiguration extends StorageConfiguration {
 	public static final File baseContentFolder;
 
 	static {
@@ -42,27 +41,6 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 		logoFolder.mkdirs();
 	}
 
-	@Override
-	public String getAvatarPath(String userAvatarId, int size) {
-		if (userAvatarId == null || "".equals(userAvatarId)) {
-			return String.format("%savatar/null/%d", SiteConfiguration.getSiteUrl("app"), size);
-		}
-		return String.format("%savatar/%s/%d", SiteConfiguration.getSiteUrl("app"), userAvatarId, size);
-	}
-
-	@Override
-	public String getLogoPath(String accountLogoId, int size) {
-		if (accountLogoId == null || "".equals(accountLogoId)) {
-			return MyCollabAssets.newResourceLink("icons/logo.png");
-		}
-		return String.format("%slogo/%s/%d", SiteConfiguration.getSiteUrl("app"), accountLogoId, size);
-	}
-
-	@Override
-	public String getResourcePath(String documentPath) {
-		return baseContentFolder.getPath() + "/" + documentPath;
-	}
-
 	/**
 	 * 
 	 * @param username
@@ -73,21 +51,6 @@ public final class FileStorageConfiguration implements StorageConfiguration {
 		File userAvatarFile = new File(baseContentFolder, String.format("/avatar/%s_%d.png", username, size));
 		if (userAvatarFile.exists()) {
 			return userAvatarFile;
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * 
-	 * @param logoId
-	 * @param size
-	 * @return null if logo file is not existed
-	 */
-	public File getLogoFile(String logoId, int size) {
-		File logoFile = new File(baseContentFolder, String.format("/logo/%s_%d.png", logoId, size));
-		if (logoFile.exists()) {
-			return logoFile;
 		} else {
 			return null;
 		}

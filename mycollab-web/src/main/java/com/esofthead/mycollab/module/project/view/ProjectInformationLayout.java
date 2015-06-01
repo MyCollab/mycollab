@@ -39,58 +39,44 @@ class ProjectInformationLayout implements IFormLayoutFactory {
 	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("homepage")) {
 			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0,
-					0, Alignment.TOP_LEFT);
+					AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
+					0, 0, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("projectstatus")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 0,
-					Alignment.TOP_LEFT);
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_STATUS),
+					1, 0, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("planstartdate")) {
-			this.moreInfoLayout
-					.addComponent(field, AppContext
-							.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
 							0, 1, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("currencyid")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY), 1, 1,
-					Alignment.TOP_LEFT);
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY),
+					1, 1, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("planenddate")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE),
 					0, 2, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("defaultbillingrate")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLING_RATE),
 					1, 2, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("actualstartdate")) {
-			this.moreInfoLayout.addComponent(field, AppContext
-					.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0, 3,
-					Alignment.TOP_LEFT);
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE),
+					0, 3, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("targetbudget")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET),
 					1, 3, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("actualenddate")) {
-			this.moreInfoLayout
-					.addComponent(field, AppContext
-							.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE),
 							0, 4, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("actualbudget")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET),
 					1, 4, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("totalBillableHours")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS),
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_BILLABLE_HOURS),
 					0, 5, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("totalNonBillableHours")) {
-			this.moreInfoLayout.addComponent(field, AppContext
-					.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS), 1, 5,
-					Alignment.TOP_LEFT);
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(ProjectI18nEnum.FORM_NON_BILLABLE_HOURS),
+					1, 5, Alignment.TOP_LEFT);
 		} else if (propertyId.equals("description")) {
-			this.moreInfoLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
-					6, 2, "100%", Alignment.TOP_LEFT);
+			this.moreInfoLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+					0, 6, 2, "100%", Alignment.TOP_LEFT);
 		}
 	}
 

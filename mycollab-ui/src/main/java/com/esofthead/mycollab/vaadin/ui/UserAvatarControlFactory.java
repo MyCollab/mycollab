@@ -29,21 +29,18 @@ import com.vaadin.ui.themes.BaseTheme;
  * 
  */
 public class UserAvatarControlFactory {
-	public static Image createUserAvatarEmbeddedComponent(String avatarId,
-			int size) {
+	public static Image createUserAvatarEmbeddedComponent(String avatarId, int size) {
 		Image embedded = new Image(null, createAvatarResource(avatarId, size));
 		return embedded;
 	}
 
-	public static Image createUserAvatarEmbeddedComponent(String avatarId,
-			int size, String tooltip) {
+	public static Image createUserAvatarEmbeddedComponent(String avatarId, int size, String tooltip) {
 		Image embedded = new Image(null, createAvatarResource(avatarId, size));
 		embedded.setDescription(tooltip);
 		return embedded;
 	}
 
-	public static Button createUserAvatarEmbeddedButton(String avatarId,
-			int size) {
+	public static Button createUserAvatarEmbeddedButton(String avatarId, int size) {
 		Button embedded = new Button();
 		embedded.setIcon(createAvatarResource(avatarId, size));
 		embedded.setStyleName(BaseTheme.BUTTON_LINK);

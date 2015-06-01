@@ -52,6 +52,7 @@ public class SiteConfiguration {
     private String dropboxCallbackUrl;
     private String ggDriveCallbackUrl;
     private String appUrl;
+    private String resourceDownloadUrl;
 
     private Locale defaultLocale;
     private List<Locale> supportedLanguages;
@@ -106,8 +107,9 @@ public class SiteConfiguration {
         String dbUrl = ApplicationProperties.getString(DB_URL);
         String dbUser = ApplicationProperties.getString(DB_USERNAME);
         String dbPassword = ApplicationProperties.getString(DB_PASSWORD);
-        instance.databaseConfiguration = new DatabaseConfiguration(driverClass,
-                dbUrl, dbUser, dbPassword);
+        instance.databaseConfiguration = new DatabaseConfiguration(driverClass, dbUrl, dbUser, dbPassword);
+
+        instance.resourceDownloadUrl = ApplicationProperties.getString(RESOURCE_DOWNLOAD_URL, instance.appUrl + "file/");
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
         instance.ggDriveCallbackUrl = ApplicationProperties.getString(GOOGLE_DRIVE_LINK);
@@ -120,16 +122,16 @@ public class SiteConfiguration {
         return instance;
     }
 
-    public static String getEmailCdnUrl() {
-        return getInstance().cdnUrl + "images/email/";
-    }
-
     public static String getCdnUrl() {
         return getInstance().cdnUrl;
     }
 
     public static String getAppUrl() {
         return getInstance().appUrl;
+    }
+
+    public static String getResourceDownloadUrl() {
+        return getInstance().resourceDownloadUrl;
     }
 
     public static DatabaseConfiguration getDatabaseConfiguration() {
@@ -171,11 +173,9 @@ public class SiteConfiguration {
     public static String getSiteUrl(String subDomain) {
         String siteUrl;
         if (getInstance().deploymentMode == DeploymentMode.site) {
-            siteUrl = String.format(ApplicationProperties
-                    .getString(ApplicationProperties.APP_URL), subDomain);
+            siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL), subDomain);
         } else {
-            siteUrl = String.format(ApplicationProperties
-                            .getString(ApplicationProperties.APP_URL),
+            siteUrl = String.format(ApplicationProperties.getString(ApplicationProperties.APP_URL),
                     instance.serverAddress, instance.serverPort);
         }
         return siteUrl;

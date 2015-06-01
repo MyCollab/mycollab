@@ -71,4 +71,5 @@ public class UrlTokenizer {
 	public String getRemainValue() {
 		return remainStrVal;
 	}
+
 }

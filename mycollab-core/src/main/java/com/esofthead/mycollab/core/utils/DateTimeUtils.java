@@ -146,8 +146,7 @@ public class DateTimeUtils {
 		return formatDate(date, dateFormat, null);
 	}
 
-	public static String formatDate(Date date, String dateFormat,
-			TimeZone timezone) {
+	public static String formatDate(Date date, String dateFormat, TimeZone timezone) {
 		if (date == null) {
 			return "";
 		}

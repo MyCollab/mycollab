@@ -172,7 +172,6 @@ public class SimpleTaskList extends TaskList {
 
 	public Date getEndDate() {
 		Date value = DateTimeUtils.getCurrentDateWithoutMS();
-        value = DateTimeUtils.subtractOrAddDayDuration(value, 1);
         for (SimpleTask task: getSubTasks()) {
             Date endDate = task.getEnddate();
             if (endDate == null) {
@@ -183,6 +182,7 @@ public class SimpleTaskList extends TaskList {
                 value = endDate;
             }
         }
+		value = DateTimeUtils.subtractOrAddDayDuration(value, 1);
         return value;
 	}
 }

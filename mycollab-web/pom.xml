@@ -109,6 +109,12 @@
 
         <dependency>
             <groupId>org.vaadin.addons</groupId>
+            <artifactId>fancybox</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
             <artifactId>popupbutton</artifactId>
             <version>2.5.0</version>
         </dependency>

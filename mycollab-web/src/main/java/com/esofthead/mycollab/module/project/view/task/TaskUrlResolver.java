@@ -40,9 +40,7 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class TaskUrlResolver extends ProjectUrlResolver {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TaskUrlResolver.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TaskUrlResolver.class);
 
 	public TaskUrlResolver() {
 		this.addSubResolver("preview", new ReadUrlResolver());
@@ -56,11 +54,9 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			int projectId, taskId;
 
 			if (ProjectLinkParams.isValidParam(params[0])) {
-				String prjShortName = ProjectLinkParams
-						.getProjectShortName(params[0]);
+				String prjShortName = ProjectLinkParams.getProjectShortName(params[0]);
 				int itemKey = ProjectLinkParams.getItemKey(params[0]);
-				ProjectTaskService taskService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskService.class);
+				ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 				SimpleTask task = taskService.findByProjectAndTaskKey(itemKey,
 						prjShortName, AppContext.getAccountId());
 
@@ -69,12 +65,10 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 					taskId = task.getId();
 				} else {
 					throw new ResourceNotFoundException(
-							"Can not find task with itemKey " + itemKey
-									+ " and project " + prjShortName);
+							String.format("Can not find task with itemKey %d and project %s", itemKey, prjShortName));
 				}
 			} else {
-				LOG.error("Should not call this. Fall back function: "
-						+ params[0]);
+				LOG.error(String.format("Should not call this. Fall back function: %s", params[0]));
 				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
 				projectId = tokenizer.getInt();
 				taskId = tokenizer.getInt();
@@ -83,8 +77,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskScreenData.Read(taskId));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
+			EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
 
@@ -92,16 +85,13 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			SimpleTask task;
-			ProjectTaskService taskService = ApplicationContextUtil
-					.getSpringBean(ProjectTaskService.class);
+			ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
 			if (ProjectLinkParams.isValidParam(params[0])) {
-				String prjShortName = ProjectLinkParams
-						.getProjectShortName(params[0]);
+				String prjShortName = ProjectLinkParams.getProjectShortName(params[0]);
 				int itemKey = ProjectLinkParams.getItemKey(params[0]);
 
-				task = taskService.findByProjectAndTaskKey(itemKey,
-						prjShortName, AppContext.getAccountId());
+				task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId());
 			} else {
 				throw new MyCollabException("Can not find task link "
 						+ params[0]);

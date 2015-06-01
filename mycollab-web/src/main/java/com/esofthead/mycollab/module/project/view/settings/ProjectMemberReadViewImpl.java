@@ -67,8 +67,7 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectMemberReadViewImpl extends AbstractProjectPageView
-        implements ProjectMemberReadView {
+public class ProjectMemberReadViewImpl extends AbstractProjectPageView implements ProjectMemberReadView {
     private static final long serialVersionUID = 1L;
 
     private SimpleProjectMember beanItem;
@@ -77,8 +76,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
     private MHorizontalLayout bottomLayout;
 
     public ProjectMemberReadViewImpl() {
-        super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE),
-                FontAwesome.USER);
+        super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE), FontAwesome.USER);
 
         contentWrapper.addStyleName("member-preview");
 
@@ -123,10 +121,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
     }
 
     private ComponentContainer createButtonControls() {
-        return new ProjectPreviewFormControlsGenerator<>(
-                previewForm)
-                .createButtonControls(
-                        ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+        return new ProjectPreviewFormControlsGenerator<>(previewForm)
+                .createButtonControls(ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
                                 | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
                         ProjectRolePermissionCollections.USERS);
     }
@@ -177,14 +173,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             memberBlock.addStyleName("member-block");
 
             HorizontalLayout blockContent = new HorizontalLayout();
-            Image memberAvatar = UserAvatarControlFactory
-                    .createUserAvatarEmbeddedComponent(
+            Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
                             beanItem.getMemberAvatarId(), 100);
             blockContent.addComponent(memberAvatar);
 
-            MVerticalLayout memberInfo = new MVerticalLayout().withStyleName(
-                    "member-info").withMargin(
-                    new MarginInfo(false, false, false, true));
+            MVerticalLayout memberInfo = new MVerticalLayout().withStyleName("member-info")
+                    .withMargin(new MarginInfo(false, false, false, true));
 
             Label memberLink = new Label(beanItem.getMemberFullName());
             memberLink.setWidth("100%");
@@ -192,17 +186,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 
             memberInfo.addComponent(memberLink);
 
-            String memberRoleLinkPrefix = "<a href=\""
-                    + AppContext.getSiteUrl()
-                    + GenericLinkUtils.URL_PREFIX_PARAM
-                    + ProjectLinkGenerator.generateRolePreviewLink(
-                    beanItem.getProjectid(),
-                    beanItem.getProjectRoleId()) + "\"";
+            String memberRoleLinkPrefix = String.format("<a href=\"%s%s%s\"", AppContext.getSiteUrl(), GenericLinkUtils.URL_PREFIX_PARAM,
+                    ProjectLinkGenerator.generateRolePreviewLink(beanItem.getProjectid(), beanItem.getProjectRoleId()));
             Label memberRole = new Label();
             memberRole.setContentMode(ContentMode.HTML);
             memberRole.setStyleName("member-role");
-            if (Boolean.TRUE.equals(beanItem.getIsadmin())
-                    || beanItem.getProjectroleid() == null) {
+            if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
                 memberRole.setValue(memberRoleLinkPrefix
                         + "style=\"color: #B00000;\">" + "Project Admin"
                         + "</a>");
@@ -214,25 +203,22 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
             memberRole.setSizeUndefined();
             memberInfo.addComponent(memberRole);
 
-            Label memberEmailLabel = new Label("<a href='mailto:"
-                    + beanItem.getUsername() + "'>" + beanItem.getUsername()
-                    + "</a>", ContentMode.HTML);
+            Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", beanItem.getUsername(),
+                    beanItem.getUsername()), ContentMode.HTML);
             memberEmailLabel.addStyleName("member-email");
             memberEmailLabel.setWidth("100%");
             memberInfo.addComponent(memberEmailLabel);
 
-            ELabel memberSinceLabel = new ELabel("Member since: "
-                    + AppContext.formatPrettyTime(beanItem.getJoindate())).withDescription(AppContext.formatDateTime
-                    (beanItem.getJoindate()));
+            ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
+                    .withDescription(AppContext.formatDateTime
+                            (beanItem.getJoindate()));
             memberSinceLabel.addStyleName("member-email");
             memberSinceLabel.setWidth("100%");
             memberInfo.addComponent(memberSinceLabel);
 
-            if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem
-                    .getStatus())) {
+            if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem.getStatus())) {
                 final VerticalLayout waitingNotLayout = new VerticalLayout();
-                Label infoStatus = new Label(
-                        AppContext
+                Label infoStatus = new Label(AppContext
                                 .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 waitingNotLayout.addComponent(infoStatus);
@@ -246,11 +232,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
                         ProjectMemberMapper projectMemberMapper = ApplicationContextUtil
                                 .getSpringBean(ProjectMemberMapper.class);
                         beanItem.setStatus(RegisterStatusConstants.VERIFICATING);
-                        projectMemberMapper
-                                .updateByPrimaryKeySelective(beanItem);
+                        projectMemberMapper.updateByPrimaryKeySelective(beanItem);
                         waitingNotLayout.removeAllComponents();
-                        Label statusEmail = new Label(
-                                AppContext
+                        Label statusEmail = new Label(AppContext
                                         .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
                         statusEmail.addStyleName("member-email");
                         waitingNotLayout.addComponent(statusEmail);
@@ -260,17 +244,13 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
                 resendInvitationLink.addStyleName("member-email");
                 waitingNotLayout.addComponent(resendInvitationLink);
                 memberInfo.addComponent(waitingNotLayout);
-            } else if (RegisterStatusConstants.ACTIVE.equals(beanItem
-                    .getStatus())) {
-                Label lastAccessTimeLbl = new ELabel("Logged in "
-                        + AppContext.formatPrettyTime(beanItem.getLastAccessTime())).withDescription(AppContext
-                        .formatDateTime(beanItem.getLastAccessTime()));
+            } else if (RegisterStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
+                Label lastAccessTimeLbl = new ELabel(String.format("Logged in %s", AppContext.formatPrettyTime(beanItem.getLastAccessTime())))
+                        .withDescription(AppContext.formatDateTime(beanItem.getLastAccessTime()));
                 lastAccessTimeLbl.addStyleName("member-email");
                 memberInfo.addComponent(lastAccessTimeLbl);
-            } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem
-                    .getStatus())) {
-                Label infoStatus = new Label(
-                        AppContext
+            } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem.getStatus())) {
+                Label infoStatus = new Label(AppContext
                                 .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 memberInfo.addComponent(infoStatus);

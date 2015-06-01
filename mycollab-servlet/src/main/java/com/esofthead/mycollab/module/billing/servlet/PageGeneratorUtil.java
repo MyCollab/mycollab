@@ -40,21 +40,17 @@ import com.esofthead.mycollab.template.velocity.TemplateContext;
  * 
  */
 class PageGeneratorUtil {
-
-	static void responeUserNotExistPage(HttpServletResponse response,
-			String username, String loginURL) throws IOException {
+	static void responeUserNotExistPage(HttpServletResponse response, String username, String loginURL) throws IOException {
 		String pageNotFoundTemplate = "templates/page/UserNotExistPage.mt";
 		TemplateContext context = new TemplateContext();
 
-		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate,
-				SiteConfiguration.getDefaultLocale());
+		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, SiteConfiguration.getDefaultLocale());
 
 		context.put("loginURL", loginURL);
 		context.put("username", username);
 		Map<String, String> defaultUrls = new HashMap<>();
-		SharingOptions sharingOptions = SharingOptions
-				.getDefaultSharingOptions();
-		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
+		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();
+		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
@@ -63,10 +59,8 @@ class PageGeneratorUtil {
 		context.put("defaultUrls", defaultUrls);
 
 		StringWriter writer = new StringWriter();
-		VelocityEngine templateEngine = ApplicationContextUtil
-				.getSpringBean(VelocityEngine.class);
-		templateEngine.evaluate(context.getVelocityContext(), writer,
-				"log task", reader);
+		VelocityEngine templateEngine = ApplicationContextUtil.getSpringBean(VelocityEngine.class);
+		templateEngine.evaluate(context.getVelocityContext(), writer, "log task", reader);
 
 		String html = writer.toString();
 		PrintWriter out = response.getWriter();

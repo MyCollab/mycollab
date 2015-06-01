@@ -73,29 +73,22 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
 					@Override
 					public void onEdit(final SimpleTask data) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoEdit(this, data));
+						EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleTask data) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoAdd(this, null));
+						EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
 					}
 
 					@Override
 					public void onDelete(final SimpleTask data) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.DIALOG_DELETE_TITLE,
+						ConfirmDialogExt.show(UI.getCurrent(),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
 										SiteConfiguration.getSiteName()),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -103,16 +96,12 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 									public void onClose(
 											final ConfirmDialog dialog) {
 										if (dialog.isConfirmed()) {
-											final ProjectTaskService taskService = ApplicationContextUtil
+											ProjectTaskService taskService = ApplicationContextUtil
 													.getSpringBean(ProjectTaskService.class);
-											taskService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory
-													.getInstance()
-													.post(new TaskListEvent.GotoTaskListScreen(
-															this, null));
+											taskService.removeWithSession(data.getId(),
+													AppContext.getUsername(), AppContext.getAccountId());
+											EventBusFactory.getInstance()
+													.post(new TaskListEvent.GotoTaskListScreen(this, null));
 										}
 									}
 								});
@@ -120,36 +109,27 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
 					@Override
 					public void onClone(final SimpleTask data) {
-						final Task cloneData = (Task) data.copy();
+						Task cloneData = (Task) data.copy();
 						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoEdit(this, cloneData));
+						EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBusFactory.getInstance()
-								.post(new TaskListEvent.GotoTaskListScreen(
-										this, null));
+						EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
 					}
 
 					@Override
-					public void gotoNext(final SimpleTask data) {
-						final ProjectTaskService taskService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskService.class);
+					public void gotoNext(SimpleTask data) {
+						ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-						final TaskSearchCriteria criteria = new TaskSearchCriteria();
-						final SimpleProject project = (SimpleProject) MyCollabSession
-								.getVariable("project");
-						criteria.setProjectid(new NumberSearchField(
-								SearchField.AND, project.getId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						final Integer nextId = taskService
-								.getNextItemKey(criteria);
+						TaskSearchCriteria criteria = new TaskSearchCriteria();
+						SimpleProject project = (SimpleProject) MyCollabSession.getVariable("project");
+						criteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
+						criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+						Integer nextId = taskService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new TaskEvent.GotoRead(this, nextId));
+							EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -158,21 +138,15 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
 					@Override
 					public void gotoPrevious(final SimpleTask data) {
-						final ProjectTaskService taskService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskService.class);
+						ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-						final TaskSearchCriteria criteria = new TaskSearchCriteria();
-						final SimpleProject project = (SimpleProject) MyCollabSession
-								.getVariable("project");
-						criteria.setProjectid(new NumberSearchField(
-								SearchField.AND, project.getId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						final Integer nextId = taskService
-								.getNextItemKey(criteria);
+						TaskSearchCriteria criteria = new TaskSearchCriteria();
+						SimpleProject project = (SimpleProject) MyCollabSession.getVariable("project");
+						criteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
+						criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+						Integer nextId = taskService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new TaskEvent.GotoRead(this, nextId));
+							EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}
@@ -181,25 +155,20 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 	}
 
 	@Override
-	protected void onGo(final ComponentContainer container,
-			final ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
-			final TaskContainer taskContainer = (TaskContainer) container;
+	protected void onGo(final ComponentContainer container, ScreenData<?> data) {
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
+			TaskContainer taskContainer = (TaskContainer) container;
 			taskContainer.removeAllComponents();
 
 			taskContainer.addComponent(this.view.getWidget());
 			if (data.getParams() instanceof Integer) {
-				final ProjectTaskService taskService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskService.class);
-				final SimpleTask task = taskService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
+				ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+				SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
 				if (task != null) {
 					this.view.previewItem(task);
 
-					final ProjectBreadcrumb breadCrumb = ViewManager
-							.getCacheComponent(ProjectBreadcrumb.class);
+					ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 					breadCrumb.gotoTaskRead(task);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

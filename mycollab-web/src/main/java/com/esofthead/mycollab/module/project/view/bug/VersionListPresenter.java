@@ -87,8 +87,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.VERSIONS)) {
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
 			VersionContainer versionContainer = (VersionContainer) container;
 			versionContainer.removeAllComponents();
 			versionContainer.addComponent(view.getWidget());
@@ -103,8 +102,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 				displayNoExistItems(container, data);
 			}
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
+			ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoVersionList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
@@ -114,8 +112,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 	@Override
 	protected void deleteSelectedItems() {
 		if (!isSelectAll) {
-			Collection<SimpleVersion> currentDataList = view
-					.getPagedBeanTable().getCurrentDataList();
+			Collection<SimpleVersion> currentDataList = view.getPagedBeanTable().getCurrentDataList();
 			List<Integer> keyList = new ArrayList<>();
 			for (Version item : currentDataList) {
 				if (item.isSelected()) {
@@ -124,12 +121,10 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 			}
 
 			if (keyList.size() > 0) {
-				versionService.massRemoveWithSession(keyList,
-						AppContext.getUsername(), AppContext.getAccountId());
+				versionService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
 			}
 		} else {
-			versionService.removeByCriteria(searchCriteria,
-					AppContext.getAccountId());
+			versionService.removeByCriteria(searchCriteria, AppContext.getAccountId());
 		}
 
 		int totalCount = versionService.getTotalCount(searchCriteria);

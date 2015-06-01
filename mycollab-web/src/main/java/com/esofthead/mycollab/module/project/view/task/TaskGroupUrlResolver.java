@@ -51,8 +51,7 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskGroupScreenData.Read(taskgroupId));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
+			EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
 
@@ -64,15 +63,12 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 			int projectId = token.getInt();
 			int taskgroupId = token.getInt();
 
-			ProjectTaskListService taskGroupService = ApplicationContextUtil
-					.getSpringBean(ProjectTaskListService.class);
-			SimpleTaskList taskgroup = taskGroupService.findById(taskgroupId,
-					AppContext.getAccountId());
+			ProjectTaskListService taskGroupService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+			SimpleTaskList taskgroup = taskGroupService.findById(taskgroupId, AppContext.getAccountId());
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskGroupScreenData.Edit(taskgroup));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
+			EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
 

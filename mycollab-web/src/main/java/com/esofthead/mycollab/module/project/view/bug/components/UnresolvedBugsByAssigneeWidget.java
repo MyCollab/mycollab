@@ -105,13 +105,10 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    bugSearchCriteria
-                            .setAssignuser(new StringSearchField(
+                    bugSearchCriteria.setAssignuser(new StringSearchField(
                                     SearchField.AND, assignee));
-                    componentLayout
-                            .displayBugListWidget(
-                                    assigneeFullName + " Bugs List",
-                                    bugSearchCriteria);
+                    componentLayout.displayBugListWidget(
+                                    assigneeFullName + " Bugs List", bugSearchCriteria);
                 }
             });
 

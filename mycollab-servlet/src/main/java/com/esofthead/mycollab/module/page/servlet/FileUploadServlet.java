@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.page.servlet;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageConfiguration;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -73,19 +72,11 @@ public class FileUploadServlet extends GenericHttpServlet {
 			resourceService.saveContent(content, "", fileContent, 1);
 
 			String filePath = "";
-			StorageConfiguration storageConfiguration = StorageManager
-					.getConfiguration();
-			if (StorageManager.isFileStorage()) {
-				filePath = SiteConfiguration.getAppUrl() + "file/"
-						+ content.getPath();
-			} else if (StorageManager.isS3Storage()) {
-				filePath = storageConfiguration.getResourcePath(content
-						.getPath());
-			}
+			StorageConfiguration storageConfiguration = StorageManager.getConfiguration();
+			storageConfiguration.getResourcePath(content.getPath());
 
 			String responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('%s','%s','%s');</script></body></html>";
-			responseHtml = String.format(responseHtml, ckEditorFuncNum,
-					filePath, "");
+			responseHtml = String.format(responseHtml, ckEditorFuncNum, filePath, "");
 			writer.write(responseHtml);
 		}catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
@@ -93,16 +84,14 @@ public class FileUploadServlet extends GenericHttpServlet {
 					+ "location.");
 			writer.println("<br/> ERROR: " + fne.getMessage());
 
-			LOG.error("Problems during file upload. Error: {0}",
-					new Object[] { fne.getMessage() });
+			LOG.error("Problems during file upload. Error: {0}", new Object[] { fne.getMessage() });
 		}
 	}
 
 	private String getFileName(final Part part) {
 		for (String content : part.getHeader("content-disposition").split(";")) {
 			if (content.trim().startsWith("filename")) {
-				String fileName = content.substring(content.indexOf('=') + 1)
-						.trim().replace("\"", "");
+				String fileName = content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
 				int index;
 				if ((index = fileName.lastIndexOf(".")) != -1) {
 					fileName = fileName.substring(0, index - 1)
@@ -114,5 +103,4 @@ public class FileUploadServlet extends GenericHttpServlet {
 		}
 		return null;
 	}
-
 }

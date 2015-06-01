@@ -16,19 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.List;
-
-import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.utils.FileUtils;
-import com.esofthead.mycollab.module.user.AccountLinkGenerator;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.service.UserService;
-import com.hp.gagawa.java.elements.*;
-import com.vaadin.server.FontAwesome;
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -36,18 +26,19 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Li;
+import com.hp.gagawa.java.elements.Span;
+import com.hp.gagawa.java.elements.Ul;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
+
+import java.util.List;
 
 /**
  *
@@ -83,12 +74,11 @@ public class AttachmentDisplayComponent extends CssLayout {
         thumbnailWrap.setStyleName("thumbnail-wrap");
 
         Image thumbnail = new Image(null);
-        if (org.apache.commons.lang3.StringUtils.isBlank(attachment
-                .getThumbnail())) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
             thumbnail.setSource(VaadinResourceManager.getResourceManager()
-                    .getImagePreviewResource(attachment.getThumbnail(), DEFAULT_SOURCE));
+                    .getImagePreviewResource(attachment.getThumbnail()));
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
@@ -109,9 +99,8 @@ public class AttachmentDisplayComponent extends CssLayout {
                 public void click(MouseEvents.ClickEvent event) {
                     Resource previewResource = VaadinResourceManager
                             .getResourceManager().getImagePreviewResource(
-                                    attachment.getPath(), DEFAULT_SOURCE);
-                    UI.getCurrent().addWindow(
-                            new AttachmentPreviewWindow(previewResource));
+                                    attachment.getPath());
+                    UI.getCurrent().addWindow(new AttachmentPreviewWindow(previewResource));
                 }
             });
         }

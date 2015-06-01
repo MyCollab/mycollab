@@ -43,8 +43,7 @@ import java.util.Map;
  */
 @WebServlet(urlPatterns = "/error", name = "appExceptionHandlerServlet")
 public class AppExceptionHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AppExceptionHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AppExceptionHandler.class);
 
 	@Autowired
 	private TemplateEngine templateEngine;
@@ -61,16 +60,14 @@ public class AppExceptionHandler extends GenericHttpServlet {
 		}
 
 		try {
-			if ((status_code != null && status_code == 404)
-					|| ("404".equals(request.getParameter("param")))) {
+			if ((status_code != null && status_code == 404) || ("404".equals(request.getParameter("param")))) {
 				responsePage404(response);
 			} else {
 				responsePage500(response);
 			}
 
 			// Analyze the servlet exception
-			Throwable throwable = (Throwable) request
-					.getAttribute("javax.servlet.error.exception");
+			Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
 			if (throwable != null) {
 				LOG.error("Error in servlet " + requestUri, throwable);
 			}
@@ -80,18 +77,15 @@ public class AppExceptionHandler extends GenericHttpServlet {
 		}
 	}
 
-	private void responsePage404(HttpServletResponse response)
-			throws IOException {
-
+	private void responsePage404(HttpServletResponse response) throws IOException {
 		String pageNotFoundTemplate = "templates/page/404Page.mt";
 		TemplateContext context = new TemplateContext();
 
-		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate,
-				response.getLocale());
+		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate, response.getLocale());
 
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		context.put("defaultUrls", defaultUrls);
 
@@ -103,8 +97,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 		out.println(html);
 	}
 
-	private void responsePage500(HttpServletResponse response)
-			throws IOException {
+	private void responsePage500(HttpServletResponse response) throws IOException {
 		String errorPage = "templates/page/500Page.mt";
 		TemplateContext context = new TemplateContext();
 
@@ -112,7 +105,7 @@ public class AppExceptionHandler extends GenericHttpServlet {
 				response.getLocale());
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		context.put("defaultUrls", defaultUrls);
 

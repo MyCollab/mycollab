@@ -47,8 +47,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @since 2.0
  */
 @ViewComponent
-public class ProfileReadViewImpl extends AbstractPageView implements
-        ProfileReadView {
+public class ProfileReadViewImpl extends AbstractPageView implements ProfileReadView {
     private static final long serialVersionUID = 1L;
 
     private final PreviewForm formItem;
@@ -71,9 +70,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
     private void displayUserAvatar() {
         this.userAvatar.removeAllComponents();
-        final Image cropField = UserAvatarControlFactory
-                .createUserAvatarEmbeddedComponent(
-                        AppContext.getUserAvatarId(), 100);
+        final Image cropField = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(AppContext.getUserAvatarId(), 100);
         userAvatar.addComponent(cropField);
 
         this.avatarAndPass.removeAllComponents();
@@ -81,54 +78,42 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
         User user = formItem.getUser();
 
-        final VerticalLayout basicLayout = new VerticalLayout();
+        VerticalLayout basicLayout = new VerticalLayout();
         basicLayout.setSpacing(true);
 
-        final HorizontalLayout userWrapper = new HorizontalLayout();
+        HorizontalLayout userWrapper = new HorizontalLayout();
 
-        final Label userName = new Label(AppContext.getUser().getDisplayName());
+        Label userName = new Label(AppContext.getUser().getDisplayName());
         userName.setStyleName("h1");
         userWrapper.addComponent(userName);
 
-        final Button btnChangeBasicInfo = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        Button btnChangeBasicInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(
-                                new BasicInfoChangeWindow(formItem.getUser()));
+                        UI.getCurrent().addWindow(new BasicInfoChangeWindow(formItem.getUser()));
                     }
                 });
         btnChangeBasicInfo.setStyleName("link");
         HorizontalLayout btnChangeBasicInfoWrapper = new HorizontalLayout();
         btnChangeBasicInfoWrapper.setWidth("40px");
         btnChangeBasicInfoWrapper.addComponent(btnChangeBasicInfo);
-        btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo,
-                Alignment.MIDDLE_RIGHT);
+        btnChangeBasicInfoWrapper.setComponentAlignment(btnChangeBasicInfo, Alignment.MIDDLE_RIGHT);
         userWrapper.addComponent(btnChangeBasicInfoWrapper);
         basicLayout.addComponent(userWrapper);
         basicLayout.setComponentAlignment(userWrapper, Alignment.MIDDLE_LEFT);
 
-        basicLayout.addComponent(new Label(AppContext
-                .getMessage(UserI18nEnum.FORM_BIRTHDAY)
-                + ": "
-                + AppContext.formatDate(user.getDateofbirth())));
+        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY),
+                AppContext.formatDate(user.getDateofbirth()))));
         basicLayout.addComponent(new MHorizontalLayout(new Label(AppContext
                 .getMessage(UserI18nEnum.FORM_EMAIL) + ": "), new LabelLink(
-                user.getEmail(), "mailto:" + user.getEmail())));
-        basicLayout.addComponent(new Label(AppContext
-                .getMessage(UserI18nEnum.FORM_TIMEZONE)
-                + ": "
-                + TimezoneMapper.getTimezoneExt(user.getTimezone())
-                .getDisplayName()));
-        basicLayout
-                .addComponent(new Label(AppContext
-                        .getMessage(UserI18nEnum.FORM_LANGUAGE)
-                        + ": "
-                        + AppContext.getMessage(LangI18Enum.class,
-                        user.getLanguage())));
+                user.getEmail(), String.format("mailto:%s", user.getEmail()))));
+        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE),
+                TimezoneMapper.getTimezoneExt(user.getTimezone()).getDisplayName())));
+        basicLayout.addComponent(new Label(String.format("%s: %s", AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
+                AppContext.getMessage(LangI18Enum.class, user.getLanguage()))));
 
         HorizontalLayout passwordWrapper = new HorizontalLayout();
         passwordWrapper.addComponent(new Label(AppContext
@@ -140,20 +125,17 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        UI.getCurrent().addWindow(
-                                new PasswordChangeWindow(formItem.user));
+                        UI.getCurrent().addWindow(new PasswordChangeWindow(formItem.user));
                     }
                 });
         btnChangePassword.setStyleName("link");
         HorizontalLayout btnChangePasswordWrapper = new HorizontalLayout();
         btnChangePasswordWrapper.setWidth("50px");
         btnChangePasswordWrapper.addComponent(btnChangePassword);
-        btnChangePasswordWrapper.setComponentAlignment(btnChangePassword,
-                Alignment.MIDDLE_RIGHT);
+        btnChangePasswordWrapper.setComponentAlignment(btnChangePassword, Alignment.MIDDLE_RIGHT);
         passwordWrapper.addComponent(btnChangePasswordWrapper);
         basicLayout.addComponent(passwordWrapper);
-        basicLayout
-                .setComponentAlignment(passwordWrapper, Alignment.MIDDLE_LEFT);
+        basicLayout.setComponentAlignment(passwordWrapper, Alignment.MIDDLE_LEFT);
 
         avatarAndPass.addComponent(basicLayout);
         avatarAndPass.setComponentAlignment(basicLayout, Alignment.TOP_LEFT);
@@ -177,8 +159,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
                 }
 
                 if (mimeType.equals("image/png")) {
-                    EventBusFactory.getInstance().post(
-                            new ProfileEvent.GotoUploadPhoto(
+                    EventBusFactory.getInstance().post(new ProfileEvent.GotoUploadPhoto(
                                     ProfileReadViewImpl.this, imageData));
                 } else {
                     throw new UserInvalidInputException(
@@ -187,8 +168,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
             }
         };
         avatarUploadField.addStyleName("upload-field");
-        avatarUploadField.setButtonCaption(AppContext
-                .getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
+        avatarUploadField.setButtonCaption(AppContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
         avatarUploadField.setSizeUndefined();
         avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
         this.userAvatar.addComponent(avatarUploadField);
@@ -210,15 +190,14 @@ public class ProfileReadViewImpl extends AbstractPageView implements
         @Override
         public void setBean(final User newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
-            this.setBeanFormFieldFactory(new PreviewFormFieldFactory(
-                    PreviewForm.this));
+            this.setBeanFormFieldFactory(new PreviewFormFieldFactory(PreviewForm.this));
             super.setBean(newDataSource);
         }
 
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            protected VerticalLayout contactInformation = new VerticalLayout();
+            protected MVerticalLayout contactInformation = new MVerticalLayout();
             protected VerticalLayout contactInformationTitle = new VerticalLayout();
 
             protected VerticalLayout advanceInformation = new VerticalLayout();
@@ -238,60 +217,48 @@ public class ProfileReadViewImpl extends AbstractPageView implements
                 contactInformation.setSpacing(true);
                 advanceInformation.setSpacing(true);
 
-                final HorizontalLayout contactInformationHeader = new HorizontalLayout();
-                final Label contactInformationHeaderLbl = new Label(
-                        AppContext
-                                .getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
+                HorizontalLayout contactInformationHeader = new HorizontalLayout();
+                Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
                 contactInformationHeaderLbl.addStyleName("h1");
                 contactInformationHeader.setHeight("50px");
-                contactInformationHeader
-                        .addComponent(contactInformationHeaderLbl);
-                contactInformationHeader.setComponentAlignment(
-                        contactInformationHeaderLbl, Alignment.BOTTOM_LEFT);
+                contactInformationHeader.addComponent(contactInformationHeaderLbl);
+                contactInformationHeader.setComponentAlignment(contactInformationHeaderLbl, Alignment.BOTTOM_LEFT);
 
-                final HorizontalLayout advanceInfoHeader = new HorizontalLayout();
-                final Label advanceInfoHeaderLbl = new Label(
-                        AppContext
-                                .getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
+                HorizontalLayout advanceInfoHeader = new HorizontalLayout();
+                Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
                 advanceInfoHeaderLbl.addStyleName("h1");
                 advanceInfoHeader.setHeight("50px");
                 advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
-                advanceInfoHeader.setComponentAlignment(advanceInfoHeaderLbl,
-                        Alignment.BOTTOM_LEFT);
+                advanceInfoHeader.setComponentAlignment(advanceInfoHeaderLbl, Alignment.BOTTOM_LEFT);
 
                 String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 3px; margin-bottom: 10px";
 
                 layout.addComponent(contactInformationHeader);
                 Div contactSeparator = new Div();
                 contactSeparator.setAttribute("style", separatorStyle);
-                layout.addComponent(new Label(contactSeparator.write(),
-                        ContentMode.HTML));
+                layout.addComponent(new Label(contactSeparator.write(), ContentMode.HTML));
                 HorizontalLayout contactInformationWrapper = new HorizontalLayout();
                 contactInformationWrapper.addComponent(contactInformationTitle);
                 contactInformationWrapper.addComponent(contactInformation);
                 layout.addComponent(contactInformationWrapper);
 
-                final HorizontalLayout btnChangeContactInfoWrapper = new HorizontalLayout();
+                HorizontalLayout btnChangeContactInfoWrapper = new HorizontalLayout();
                 btnChangeContactInfoWrapper.setWidth("40px");
                 btnChangeContactInfoWrapper.setHeight("100%");
-                final Button btnChangeContactInfo = new Button(
+                Button btnChangeContactInfo = new Button(
                         AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
                             public void buttonClick(final ClickEvent event) {
-                                UI.getCurrent().addWindow(
-                                        new ContactInfoChangeWindow(
-                                                PreviewForm.this.user));
+                                UI.getCurrent().addWindow(new ContactInfoChangeWindow(PreviewForm.this.user));
                             }
                         });
                 btnChangeContactInfo.addStyleName("link");
                 btnChangeContactInfoWrapper.addComponent(btnChangeContactInfo);
-                btnChangeContactInfoWrapper.setComponentAlignment(
-                        btnChangeContactInfo, Alignment.BOTTOM_RIGHT);
-                contactInformationHeader
-                        .addComponent(btnChangeContactInfoWrapper);
+                btnChangeContactInfoWrapper.setComponentAlignment(btnChangeContactInfo, Alignment.BOTTOM_RIGHT);
+                contactInformationHeader.addComponent(btnChangeContactInfoWrapper);
 
                 layout.addComponent(advanceInfoHeader);
                 Div advanceSeparator = new Div();
@@ -304,32 +271,28 @@ public class ProfileReadViewImpl extends AbstractPageView implements
                 advancedInformationWrapper.addComponent(advanceInformation);
                 layout.addComponent(advancedInformationWrapper);
 
-                final HorizontalLayout btnChangeAdvanceInfoWrapper = new HorizontalLayout();
+                HorizontalLayout btnChangeAdvanceInfoWrapper = new HorizontalLayout();
                 btnChangeAdvanceInfoWrapper.setWidth("40px");
                 btnChangeAdvanceInfoWrapper.setHeight("100%");
-                final Button btnChangeAdvanceInfo = new Button(
+                Button btnChangeAdvanceInfo = new Button(
                         AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
                             public void buttonClick(final ClickEvent event) {
-                                UI.getCurrent().addWindow(
-                                        new AdvancedInfoChangeWindow(
-                                                PreviewForm.this.user));
+                                UI.getCurrent().addWindow(new AdvancedInfoChangeWindow(PreviewForm.this.user));
                             }
                         });
                 btnChangeAdvanceInfo.addStyleName("link");
                 btnChangeAdvanceInfoWrapper.addComponent(btnChangeAdvanceInfo);
-                btnChangeAdvanceInfoWrapper.setComponentAlignment(
-                        btnChangeAdvanceInfo, Alignment.BOTTOM_RIGHT);
+                btnChangeAdvanceInfoWrapper.setComponentAlignment(btnChangeAdvanceInfo, Alignment.BOTTOM_RIGHT);
                 advanceInfoHeader.addComponent(btnChangeAdvanceInfoWrapper);
                 return layout;
             }
 
             @Override
-            public void attachField(final Object propertyId,
-                                    final Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
                     this.advanceInformationTitle.addComponent(new Label(
                             AppContext.getMessage(UserI18nEnum.FORM_WEBSITE)));
@@ -343,33 +306,27 @@ public class ProfileReadViewImpl extends AbstractPageView implements
                             AppContext.getMessage(UserI18nEnum.FORM_COUNTRY)));
                     this.advanceInformation.addComponent(field);
                 } else if (propertyId.equals("workphone")) {
-                    this.contactInformationTitle
-                            .addComponent(new Label(AppContext
+                    this.contactInformationTitle.addComponent(new Label(AppContext
                                     .getMessage(UserI18nEnum.FORM_WORK_PHONE)));
                     this.contactInformation.addComponent(field);
                 } else if (propertyId.equals("homephone")) {
-                    this.contactInformationTitle
-                            .addComponent(new Label(AppContext
+                    this.contactInformationTitle.addComponent(new Label(AppContext
                                     .getMessage(UserI18nEnum.FORM_HOME_PHONE)));
                     this.contactInformation.addComponent(field);
                 } else if (propertyId.equals("facebookaccount")) {
-                    this.contactInformationTitle.addComponent(new Label(
-                            "Facebook"));
+                    this.contactInformationTitle.addComponent(new Label("Facebook"));
                     this.contactInformation.addComponent(field);
                 } else if (propertyId.equals("twitteraccount")) {
-                    this.contactInformationTitle.addComponent(new Label(
-                            "Twitter"));
+                    this.contactInformationTitle.addComponent(new Label("Twitter"));
                     this.contactInformation.addComponent(field);
                 } else if (propertyId.equals("skypecontact")) {
-                    this.contactInformationTitle
-                            .addComponent(new Label("Skype"));
+                    this.contactInformationTitle.addComponent(new Label("Skype"));
                     this.contactInformation.addComponent(field);
                 }
             }
         }
 
-        private class PreviewFormFieldFactory extends
-                AbstractBeanFieldGroupViewFieldFactory<User> {
+        private class PreviewFormFieldFactory extends AbstractBeanFieldGroupViewFieldFactory<User> {
             private static final long serialVersionUID = 1L;
 
             public PreviewFormFieldFactory(GenericBeanForm<User> form) {
@@ -378,25 +335,17 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
             @Override
             protected Field<?> onCreateField(final Object propertyId) {
-
                 if (propertyId.equals("website")) {
                     return new UrlLinkViewField(user.getWebsite());
                 } else if (propertyId.equals("facebookaccount")) {
-                    return new UrlSocialNetworkLinkViewField(
-                            user.getFacebookaccount(),
-                            "https://www.facebook.com/"
-                                    + PreviewForm.this.user
-                                    .getFacebookaccount());
+                    return new UrlSocialNetworkLinkViewField(user.getFacebookaccount(),
+                            String.format("https://www.facebook.com/%s", user.getFacebookaccount()));
                 } else if (propertyId.equals("twitteraccount")) {
-                    return new UrlSocialNetworkLinkViewField(
-                            user.getTwitteraccount(),
-                            "https://www.twitter.com/"
-                                    + PreviewForm.this.user.getTwitteraccount());
+                    return new UrlSocialNetworkLinkViewField(user.getTwitteraccount(),
+                            String.format("https://www.twitter.com/%s", user.getTwitteraccount()));
                 } else if (propertyId.equals("skypecontact")) {
                     return new UrlSocialNetworkLinkViewField(
-                            user.getSkypecontact(), "skype:"
-                            + PreviewForm.this.user.getSkypecontact()
-                            + "?chat");
+                            user.getSkypecontact(), String.format("skype:%s?chat", user.getSkypecontact()));
                 }
                 return null;
             }

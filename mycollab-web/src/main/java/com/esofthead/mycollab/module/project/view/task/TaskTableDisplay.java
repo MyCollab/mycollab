@@ -66,7 +66,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
 
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+                                                        Object itemId, Object columnId) {
                 SimpleTask task = getBeanByIndex(itemId);
                 CssLayout taskName = new CssLayout();
 

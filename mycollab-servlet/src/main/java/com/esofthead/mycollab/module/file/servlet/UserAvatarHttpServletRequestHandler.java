@@ -37,8 +37,7 @@ import java.io.*;
  */
 @WebServlet(urlPatterns = "/avatar/*", name = "userAvatarFSServlet")
 public class UserAvatarHttpServletRequestHandler extends GenericHttpServlet {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UserAvatarHttpServletRequestHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserAvatarHttpServletRequestHandler.class);
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,

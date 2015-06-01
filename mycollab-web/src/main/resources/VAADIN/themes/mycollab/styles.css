@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.6";
+	content: "7.4.7";
 }
 
 .v-generated-body {
@@ -9746,7 +9746,7 @@ input.v-textfield-pagedtable-pagefield {
 
 .topNavigation .v-button.accountMenu, .topNavigation .v-button.accountMenu.v-pressed {
 	height: 40px;
-	padding: 12px 0px 11px;
+	padding: 12px 0px;
 	background: none;
 	border: none;
 }
@@ -9756,7 +9756,7 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 .topNavigation .v-button.accountMenu .v-button-wrap, .topNavigation .v-button.accountMenu.v-pressed .v-button-wrap {
-	padding: 4px 6px;
+	padding: 0px 6px;
 }
 
 .topNavigation .v-button.accountMenu .v-popup-indicator::before, .topNavigation .v-button.accountMenu.v-pressed .v-popup-indicator::before {

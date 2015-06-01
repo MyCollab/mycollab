@@ -39,18 +39,15 @@ public class AssetHandler extends GenericHttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(AssetHandler.class);
 
     @Override
-    protected void onHandleRequest(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         String resourcePath = "assets" + path;
 
-        InputStream inputStream = AssetHandler.class
-                .getClassLoader().getResourceAsStream(resourcePath);
+        InputStream inputStream = AssetHandler.class.getClassLoader().getResourceAsStream(resourcePath);
 
         if (inputStream == null) {
             resourcePath = "VAADIN/themes/mycollab" + path;
-            inputStream = AssetHandler.class.getClassLoader()
-                    .getResourceAsStream(resourcePath);
+            inputStream = AssetHandler.class.getClassLoader().getResourceAsStream(resourcePath);
         }
 
         if (inputStream != null) {
@@ -70,5 +67,4 @@ public class AssetHandler extends GenericHttpServlet {
             LOG.error("Can not find resource has path {}", path);
         }
     }
-
 }

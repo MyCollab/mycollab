@@ -5,10 +5,15 @@
         text-decoration: none;">eSoftHead</a><br>&copy; 2015 MyCollab, LLC. All rights reserved.</div>
         <div style="text-align: right; font-size: 10px; display: block; float: right; vertical-align: middle; width: 295px;">
             <span style="display: inline-block; vertical-align: middle;">Connect with us:&nbsp;</span>
-            <a style="display: inline-block; vertical-align: middle;" href="$defaultUrls.facebook_url"><img
-            src="${defaultUrls.cdn_url}footer-facebook.png" height="20" width="20"></a>
-            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}"><img src="${defaultUrls.cdn_url}footer-google.png" height="20" width="20"></a>
-            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}"><img src="${defaultUrls.cdn_url}footer-twitter.png" height="20" width="20"></a>
+            <a style="display: inline-block; vertical-align: middle;" href="$defaultUrls.facebook_url">
+                <img src="${defaultUrls.cdn_url}icons/email/footer-facebook.png" height="20" width="20">
+            </a>
+            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.google_url}">
+                <img src="${defaultUrls.cdn_url}icons/email/footer-google.png" height="20" width="20">
+            </a>
+            <a style="display: inline-block; vertical-align: middle;" href="${defaultUrls.twitter_url}">
+                <img src="${defaultUrls.cdn_url}icons/email/footer-twitter.png" height="20" width="20">
+            </a>
         </div>
         <div style="clear:both;"></div>
     </td>

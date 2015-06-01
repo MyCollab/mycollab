@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -55,11 +56,10 @@ import java.util.Set;
  * @since 1.0
  */
 @ViewComponent
-public class TaskGroupReorderViewImpl extends AbstractPageView implements
-		TaskGroupReorderView {
+public class TaskGroupReorderViewImpl extends AbstractPageView implements TaskGroupReorderView {
 	private static final long serialVersionUID = 1L;
 	private BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> taskLists;
-	private final Set<SimpleTaskList> changeSet = new HashSet<>();
+	private Set<SimpleTaskList> changeSet = new HashSet<>();
 
 	public TaskGroupReorderViewImpl() {
 		super();
@@ -84,8 +84,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
 						EventBusFactory.getInstance()
-								.post(new TaskListEvent.GotoTaskListScreen(
-										this, null));
+								.post(new TaskListEvent.GotoTaskListScreen(this, null));
 					}
 				});
 		backToListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -100,8 +99,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
 						EventBusFactory.getInstance().post(
-								new TaskListEvent.SaveReoderTaskList(event,
-										changeSet));
+								new TaskListEvent.SaveReoderTaskList(event, changeSet));
 					}
 				});
 		saveOrderBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -126,14 +124,12 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 
 			@Override
 			public void drop(DragAndDropEvent event) {
-				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event
-						.getTransferable();
+				LayoutBoundTransferable transferable = (LayoutBoundTransferable) event.getTransferable();
 
 				DDVerticalLayout.VerticalLayoutTargetDetails details = (DDVerticalLayout.VerticalLayoutTargetDetails) event
 						.getTargetDetails();
 
-				TaskListComponent comp = (TaskListComponent) transferable
-						.getComponent();
+				TaskListComponent comp = (TaskListComponent) transferable.getComponent();
 
 				int currentIndex = ddLayout.getComponentIndex(comp);
 				int newIndex = details.getOverIndex();
@@ -174,8 +170,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		taskLists.setSearchCriteria(criteria);
 	}
 
-	public static class TaskListRowDisplayHandler extends
-			BeanList.RowDisplayHandler<SimpleTaskList> {
+	public static class TaskListRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleTaskList> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -198,9 +193,8 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 				taskName.addStyleName(UIConstants.LINK_COMPLETED);
 			}
 			this.addComponent(taskName);
-			Label taskCreatedTime = new Label("Last updated on "
-					+ AppContext.formatPrettyTime(
-                    taskList.getLastupdatedtime()));
+			Label taskCreatedTime = new Label(AppContext.getMessage(DayI18nEnum.LAST_UPDATED_ON, AppContext.formatPrettyTime(
+					taskList.getLastupdatedtime())));
 			taskCreatedTime.setStyleName("created-time");
 			this.addComponent(taskCreatedTime);
 		}

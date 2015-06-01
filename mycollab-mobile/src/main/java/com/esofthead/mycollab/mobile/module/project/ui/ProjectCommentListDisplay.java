@@ -34,17 +34,16 @@ import com.esofthead.mycollab.vaadin.ui.SafeHtmlLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
  *
  */
-public class ProjectCommentListDisplay extends AbstractMobilePageView implements
-		ReloadableComponent {
+public class ProjectCommentListDisplay extends AbstractMobilePageView implements ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
@@ -63,13 +62,11 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 				.getMessage(GenericI18Enum.TAB_COMMENT));
 		this.type = type;
 		if (isDisplayCommentInput) {
-			commentBox = new ProjectCommentInput(this, type, extraTypeId,
-					false, emailHandler);
+			commentBox = new ProjectCommentInput(this, type, extraTypeId, false, emailHandler);
 			this.setToolbar(commentBox);
 		}
 
-		commentList = new BeanList<>(
-				ApplicationContextUtil.getSpringBean(CommentService.class),
+		commentList = new BeanList<>(ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
 		this.setContent(commentList);
@@ -82,7 +79,7 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 			return;
 		}
 
-		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
+		CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 		searchCriteria.setType(new StringSearchField(type.toString()));
 		searchCriteria.setTypeid(new StringSearchField(typeId));
 		numComments = commentList.setSearchCriteria(searchCriteria);
@@ -105,18 +102,15 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 		displayCommentList();
 	}
 
-	public static class CommentRowDisplayHandler extends
-			BeanList.RowDisplayHandler<SimpleComment> {
-
+	public static class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleComment> {
 		private static final long serialVersionUID = 7604097872938029830L;
 
 		@Override
 		public Component generateRow(SimpleComment comment, int rowIndex) {
-			HorizontalLayout commentBlock = new HorizontalLayout();
+			MHorizontalLayout commentBlock = new MHorizontalLayout().withSpacing(false);
 			commentBlock.setStyleName("comment-block");
-			Image userAvatarImg = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(
-							comment.getOwnerAvatarId(), 32);
+			Image userAvatarImg = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
+					comment.getOwnerAvatarId(), 32);
 			userAvatarImg.setStyleName("user-avatar");
 			commentBlock.addComponent(userAvatarImg);
 

@@ -34,8 +34,7 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView>
-		implements ListCommand<TaskSearchCriteria> {
+public class TaskSearchPresenter extends AbstractPresenter<TaskSearchView> implements ListCommand<TaskSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	public TaskSearchPresenter() {

@@ -54,11 +54,10 @@ public abstract class VelocityWebServletRequestHandler extends GenericHttpServle
 
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getEmailCdnUrl());
+		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 
-		SharingOptions sharingOptions = SharingOptions
-				.getDefaultSharingOptions();
+		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();
 
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());

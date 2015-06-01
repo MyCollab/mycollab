@@ -47,11 +47,11 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} m_crm_task.startdate ${searchCriteria.startDate.comparison} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_task.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} m_crm_task.duedate ${searchCriteria.endDate.comparison} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_task.duedate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -77,7 +77,7 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} m_crm_call.startdate ${searchCriteria.startDate.comparison} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_call.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -103,11 +103,11 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} m_crm_meeting.startdate ${searchCriteria.startDate.comparison} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_meeting.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} m_crm_meeting.enddate ${searchCriteria.endDate.comparison} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_meeting.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
          
         #ifnotnull($searchCriteria.saccountid)
