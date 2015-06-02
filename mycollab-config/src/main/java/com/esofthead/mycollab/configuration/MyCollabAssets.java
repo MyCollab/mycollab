@@ -54,10 +54,7 @@ public abstract class MyCollabAssets {
 	public static class Local extends MyCollabAssets {
 		@Override
 		protected String generateResourceLink(String resourceId) {
-			return String.format("%sassets/%s?v=%s", String.format(ApplicationProperties
-                            .getString(ApplicationProperties.APP_URL),
-                    SiteConfiguration.getServerAddress(), SiteConfiguration
-                            .getServerPort()), resourceId, MyCollabVersion.getVersion());
+			return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
 		}
 
 	}

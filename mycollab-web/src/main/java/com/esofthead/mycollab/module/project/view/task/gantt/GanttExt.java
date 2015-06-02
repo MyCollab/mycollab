@@ -25,7 +25,7 @@ import org.tltv.gantt.client.shared.SubStep;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.0
+ * @since 5.0.8
  */
 public class GanttExt extends Gantt {
 

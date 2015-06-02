@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.servlet;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -63,6 +64,7 @@ public class InstallationServlet extends HttpServlet {
         String smtpHost = request.getParameter("smtpHost");
         String smtpPort = request.getParameter("smtpPort");
         String tls = request.getParameter("tls");
+        String ssl = request.getParameter("ssl");
 
         String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
                 databaseServer, databaseName);
@@ -91,10 +93,12 @@ public class InstallationServlet extends HttpServlet {
             mailServerPort = 0;
         }
 
-        String enctype = (Boolean.parseBoolean(tls)) ? "TLS" : "None";
-        boolean validSMTPAccount = InstallUtils.checkSMTPConfig(smtpHost, mailServerPort, smtpUserName,
-                smtpPassword, true, enctype);
-        if (!validSMTPAccount) {
+        boolean isStartTls = Boolean.parseBoolean(tls);
+        boolean isSsl = Boolean.parseBoolean(ssl);
+        try {
+            InstallUtils.checkSMTPConfig(smtpHost, mailServerPort, smtpUserName,
+                    smtpPassword, true, isStartTls, isSsl);
+        } catch (UserInvalidInputException e) {
             LOG.warn("Cannot authenticate mail server successfully. Make sure your inputs are correct.");
         }
 
@@ -109,6 +113,7 @@ public class InstallationServlet extends HttpServlet {
         templateContext.put("smtpUserName", smtpUserName);
         templateContext.put("smtpPassword", smtpPassword);
         templateContext.put("smtpTLSEnable", tls);
+        templateContext.put("smtpSSLEnable", ssl);
 
         File confFolder = FileUtils.getDesireFile(System.getProperty("user.dir"), "conf", "src/main/conf");
         if (confFolder == null) {

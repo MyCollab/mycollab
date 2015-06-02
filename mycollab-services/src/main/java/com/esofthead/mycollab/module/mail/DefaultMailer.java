@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.mail;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.esofthead.mycollab.configuration.EmailConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailConstants;
@@ -28,12 +28,8 @@ import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.domain.MailRecipientField;
-import com.esofthead.mycollab.configuration.EmailConfiguration;
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-
-import javax.mail.internet.InternetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -43,18 +39,11 @@ import javax.mail.internet.InternetAddress;
  */
 public class DefaultMailer implements IMailer {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultMailer.class);
-	private String host;
-	private String username = null;
-	private String password = null;
-    private int port = 1;
-	private boolean isTLS = false;
+
+    private EmailConfiguration emailConf;
 
 	public DefaultMailer(EmailConfiguration emailConf) {
-		this.host = emailConf.getHost();
-		this.username = emailConf.getUser();
-		this.password = emailConf.getPassword();
-		this.isTLS = emailConf.getIsTls();
-        this.port = emailConf.getPort();
+		this.emailConf = emailConf;
 	}
 
 	private HtmlEmail getBasicEmail(String fromEmail, String fromName,
@@ -62,9 +51,10 @@ public class DefaultMailer implements IMailer {
 									List<MailRecipientField> bccEmail, String subject, String html) {
 		try {
 			HtmlEmail email = new HtmlEmail();
-			email.setHostName(host);
-            email.setSmtpPort(port);
-            email.setStartTLSEnabled(isTLS);
+			email.setHostName(emailConf.getHost());
+            email.setSmtpPort(emailConf.getPort());
+            email.setStartTLSEnabled(emailConf.getIsStartTls());
+			email.setSSLOnConnect(emailConf.getIsSsl());
 			email.setFrom(fromEmail, fromName);
 			email.setCharset(EmailConstants.UTF_8);
 			for (int i = 0; i < toEmail.size(); i++) {
@@ -95,8 +85,8 @@ public class DefaultMailer implements IMailer {
 				}
 			}
 
-			if (username != null) {
-				email.setAuthentication(username, password);
+			if (emailConf.getUser() != null) {
+				email.setAuthentication(emailConf.getUser(), emailConf.getPassword());
 			}
 
 			email.setSubject(subject);

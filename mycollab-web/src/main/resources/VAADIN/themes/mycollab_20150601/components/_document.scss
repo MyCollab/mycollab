@@ -1,0 +1,19 @@
+@mixin mycollab-document {
+  .date-wrapper {
+    background: url('icons/timehdr-bg.png') no-repeat left top rgb(212, 223, 239);
+    font-size: $font-small;
+    padding: 0px 5px;
+    border-width: 0px 1px 1px;
+    border-style: solid;
+    border-color: $border-color;
+    color: white;
+    .v-label {
+      font-size: $font-small;
+    }
+    > .v-csslayout-margin {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+    }
+  }
+}

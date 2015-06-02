@@ -57,8 +57,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 	private CssLayout uploads = new CssLayout();
 	private MultiUpload upload;
 
-	public MultiFileUploadExt(
-			AttachmentUploadComponent attachmentDisplayComponent) {
+	public MultiFileUploadExt(AttachmentUploadComponent attachmentDisplayComponent) {
 		this.attachmentDisplayComponent = attachmentDisplayComponent;
 		this.attachmentDisplayComponent.registerMultiUpload(this);
 		progressBars.setWidthUndefined();
@@ -84,8 +83,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			private LinkedList<ProgressBar> indicators;
 
 			@Override
-			public void streamingStarted(
-					StreamVariable.StreamingStartEvent event) {
+			public void streamingStarted(StreamVariable.StreamingStartEvent event) {
 			}
 
 			@Override
@@ -101,22 +99,19 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				File file = receiver.getFile();
 				String candidateFileName = event.getFileName();
 				if (!StringUtils.isValidFileName(candidateFileName)) {
-					String extension = FilenameUtils
-							.getExtension(candidateFileName);
+					String extension = FilenameUtils.getExtension(candidateFileName);
 					candidateFileName = StringUtils.generateSoftUniqueId();
 					if (!"".equals(extension)) {
 						candidateFileName += "." + extension;
 					}
 				}
 
-				handleFile(file, candidateFileName, event.getMimeType(),
-						event.getBytesReceived());
+				handleFile(file, candidateFileName, event.getMimeType(), event.getBytesReceived());
 				receiver.setValue(null);
 			}
 
 			@Override
 			public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
-
 				for (ProgressBar progressIndicator : indicators) {
 					progressBars.removeComponent(progressIndicator);
 				}
@@ -133,17 +128,13 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
 			@Override
 			public OutputStream getOutputStream() {
-				MultiUpload.FileDetail next = upload.getPendingFileNames()
-						.iterator().next();
-
-				return receiver.receiveUpload(next.getFileName(),
-						next.getMimeType());
+				MultiUpload.FileDetail next = upload.getPendingFileNames().iterator().next();
+				return receiver.receiveUpload(next.getFileName(), next.getMimeType());
 
 			}
 
 			@Override
-			public void filesQueued(
-					Collection<MultiUpload.FileDetail> pendingFiles) {
+			public void filesQueued(Collection<MultiUpload.FileDetail> pendingFiles) {
 				UI.getCurrent().setPollInterval(1000);
 				if (indicators == null) {
 					indicators = new LinkedList<>();
@@ -185,10 +176,6 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		return fileFactory;
 	}
 
-	public void setFileFactory(FileFactory fileFactory) {
-		this.fileFactory = fileFactory;
-	}
-
 	protected FileBuffer createReceiver() {
 		FileBuffer receiver = new FileBuffer(UploadField.FieldType.FILE) {
 			private static final long serialVersionUID = 1L;
@@ -200,10 +187,6 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		};
 		receiver.setDeleteFiles(false);
 		return receiver;
-	}
-
-	protected int getPollinInterval() {
-		return 1000;
 	}
 
 	@Override
@@ -252,22 +235,11 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		return false;
 	}
 
-	protected void handleFile(File file, String fileName, String mimeType,
-			long length) {
+	protected void handleFile(File file, String fileName, String mimeType, long length) {
 		attachmentDisplayComponent
 				.receiveFile(file, fileName, mimeType, length);
 	}
 
-	/**
-	 * A helper method to set DirectoryFileFactory with given pathname as
-	 * directory.
-	 * 
-	 * @param directoryWhereToUpload
-	 */
-	public void setRootDirectory(String directoryWhereToUpload) {
-		setFileFactory(new DirectoryFileFactory(
-				new File(directoryWhereToUpload)));
-	}
 
 	@Override
 	public AcceptCriterion getAcceptCriterion() {
@@ -303,24 +275,20 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				}
 
 				@Override
-				public void onProgress(
-						StreamVariable.StreamingProgressEvent event) {
-					float p = (float) event.getBytesReceived()
-							/ (float) event.getContentLength();
+				public void onProgress(StreamVariable.StreamingProgressEvent event) {
+					float p = (float) event.getBytesReceived() / (float) event.getContentLength();
 					pi.setValue(p);
 				}
 
 				@Override
-				public void streamingStarted(
-						StreamVariable.StreamingStartEvent event) {
+				public void streamingStarted(StreamVariable.StreamingStartEvent event) {
 					name = event.getFileName();
 					mime = event.getMimeType();
 					UI.getCurrent().setPollInterval(300);
 				}
 
 				@Override
-				public void streamingFinished(
-						StreamVariable.StreamingEndEvent event) {
+				public void streamingFinished(StreamVariable.StreamingEndEvent event) {
 					progressBars.removeComponent(pi);
 					handleFile(receiver.getFile(), html5File.getFileName(),
 							html5File.getType(), html5File.getFileSize());
@@ -328,8 +296,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				}
 
 				@Override
-				public void streamingFailed(
-						StreamVariable.StreamingErrorEvent event) {
+				public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
 					progressBars.removeComponent(pi);
 				}
 
@@ -342,7 +309,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
 	}
 
-	private static interface MultiUploadHandlerExt extends MultiUploadHandler,
+	private interface MultiUploadHandlerExt extends MultiUploadHandler,
 			Serializable {
 
 	}

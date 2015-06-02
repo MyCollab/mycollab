@@ -43,7 +43,7 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
-Version 5.1.0
+Version 5.0.8
 -----------------------------
 **Library Upgrades**
 
@@ -56,6 +56,8 @@ Version 5.1.0
 * Improve code quality overall
 * Optimize the hash query and improve the site performance a little bit
 * Revise the Gantt chart display
+* Remove redundant assets and libraries to reduce the size of downloaded file size
+* Support send email via StartTls or Ssl/Tls protocols
 
 **Bug Fixes**
 
@@ -65,6 +67,7 @@ Version 5.1.0
 * Add a new project page throws exception
 * Fix several bugs relate to Gantt chart
 * Display the new user information when user re-login by another account 
+* Fix missing assets in email template
 
 Version 5.0.7
 -----------------------------

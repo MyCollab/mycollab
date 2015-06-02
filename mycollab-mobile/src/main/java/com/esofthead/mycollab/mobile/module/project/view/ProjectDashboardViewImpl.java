@@ -51,8 +51,7 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 
 	public ProjectDashboardViewImpl() {
 		super();
-		this.setCaption(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
+		this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
 		mainLayout = new CssLayout();
 		mainLayout.setSizeFull();
 		mainLayout.setStyleName("project-dashboard");
@@ -68,15 +67,13 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 		projectInfo.setWidth("100%");
 		projectInfo.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-		Label projectIcon = new Label(
-				"<span aria-hidden=\"true\" data-icon=\"&#xe614\"></span>");
+		Label projectIcon = new Label("<span aria-hidden=\"true\" data-icon=\"&#xe614\"></span>");
 		projectIcon.setStyleName("project-icon");
 		projectIcon.setContentMode(ContentMode.HTML);
 		projectIcon.setWidthUndefined();
 		projectInfo.addComponent(projectIcon);
 
-		Label projectName = new Label(StringUtils.trim(
-				currentProject.getName(), 50, true));
+		Label projectName = new Label(StringUtils.trim(currentProject.getName(), 50, true));
 		projectName.setWidth("100%");
 		projectName.setStyleName("project-name");
 		projectInfo.addComponent(projectName);
@@ -98,21 +95,6 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
 				.getMessage(ProjectCommonI18nEnum.VIEW_BUG), "&#xf188;"));
-
-		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;"));
-		//
-		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;"));
-		//
-		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;"));
-		//
-		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;"));
-		//
-		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
-		// .getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;"));
 
 		projectModulesList.addComponent(
 				new ProjectModuleButton(AppContext
@@ -136,16 +118,12 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 			this.buttonId = id;
 			this.setHtmlContentAllowed(true);
 			this.addClickListener(new Button.ClickListener() {
-
 				private static final long serialVersionUID = -6012218269990812630L;
 
 				@Override
 				public void buttonClick(Button.ClickEvent evt) {
-					final String buttonId = ((ProjectModuleButton) evt
-							.getButton()).getButtonId();
-					if (AppContext.getMessage(
-							ProjectCommonI18nEnum.VIEW_MESSAGE)
-							.equals(buttonId)) {
+					final String buttonId = ((ProjectModuleButton) evt.getButton()).getButtonId();
+					if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE).equals(buttonId)) {
 						EventBusFactory.getInstance().post(
 								new MessageEvent.GotoList(this, null));
 					} else if (AppContext.getMessage(

@@ -49,6 +49,7 @@ public class EmailValidationServlet extends HttpServlet {
 		String smtpHost = request.getParameter("smtpHost");
 		String smtpPort = request.getParameter("smtpPort");
 		String tls = request.getParameter("tls");
+		String ssl = request.getParameter("ssl");
 
 		int mailServerPort;
 		try {
@@ -63,11 +64,17 @@ public class EmailValidationServlet extends HttpServlet {
 			email.setHostName(smtpHost);
 			email.setSmtpPort(mailServerPort);
 			email.setAuthenticator(new DefaultAuthenticator(smtpUserName, smtpPassword));
-			if (tls.equals("true")) {
-				email.setSSLOnConnect(true);
+			if ("true".equals(tls)) {
+				email.setStartTLSEnabled(true);
 			} else {
-				email.setSSLOnConnect(false);
+				email.setStartTLSEnabled(false);
 			}
+
+            if ("true".equals(ssl)) {
+                email.setSSLOnConnect(true);
+            } else {
+                email.setSSLOnConnect(false);
+            }
 			email.setFrom(smtpUserName);
 			email.setSubject("MyCollab Test Email");
 			email.setMsg("This is a test mail ... :-)");

@@ -1,0 +1,369 @@
+@mixin mycollab-crm {
+  .crm-module {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    .crmContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-height: 100%;
+    }
+  }
+
+  .crmContainer {
+    width: 100%;
+    .main-view {
+      background-color: #FFF;
+      min-height: 100%;
+    }
+    .crm-toolbar {
+      z-index: 1;
+      position: relative;
+      &.v-margin-right {
+        padding-right: 30px;
+      }
+    }
+    .main-view.v-margin-right {
+      padding-right: 30px;
+    }
+    .crm-toolbar.v-margin-left, .main-view.v-margin-left {
+      padding-left: 30px;
+    }
+    .crm-toolbar .v-popupbutton .v-popup-indicator {
+      width: 0px;
+      background: none no-repeat left top transparent;
+    }
+    .v-table-body-noselection {
+      height: 100% !important;
+    }
+    .page-view {
+      &.v-margin-left {
+        padding-left: 30px;
+      }
+      &.v-margin-right {
+        padding-right: 30px;
+      }
+      display:inline-block;
+    }
+    .navigator-wrap .basic-info {
+      color: white;
+      &:after {
+        content: "";
+        border-bottom: 1px solid $border-color;
+        width: 221px;
+        position: relative;
+        height: 15px;
+        display: block;
+      }
+      .info-hdr {
+        font-size: $font-normal;
+        font-weight: bold;
+      }
+      .v-button-wrap .v-button-caption {
+        color: white;
+      }
+    }
+    &.preview-comp {
+      min-height: 100%;
+    }
+  }
+
+  .h-sidebar-menu {
+    height: 50px;
+    position: relative;
+    background-color:cadetblue;
+    > div {
+      display: inline-block;
+      zoom: 1;
+      *display: inline;
+      position: relative;
+    }
+    .v-button {
+      &.v-button-link {
+        &:focus, &:active {
+          height: 50px;
+          margin: 0px;
+          padding: 0px;
+          background: none no-repeat 0 0 transparent;
+          a {
+            color: #FFF;
+          }
+        }
+        height: 50px;
+        margin: 0px;
+        padding: 0px;
+        background: none no-repeat 0 0 transparent;
+        &.isSelected {
+          background-color: #FFF;
+          a {
+            color: #535353;
+          }
+        }
+      }
+      border-radius: 0px;
+      box-shadow: initial;
+      -webkit-box-shadow: initial;
+      -moz-box-shadow: initial;
+      display: inline-block;
+      *display: inline;
+      zoom: 1;
+      position: relative;
+      .v-button-wrap {
+        border-radius: 0px;
+        box-shadow: initial;
+        -webkit-box-shadow: initial;
+        -moz-box-shadow: initial;
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        position: relative;
+      }
+    }
+  }
+
+  .v-ie .h-sidebar-menu .v-pressed.v-button-link {
+    margin: 0px;
+  }
+
+  .h-sidebar-menu .v-button-link .v-button-wrap, .v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    position: relative;
+    padding: 17px 18px;
+    color: #FFF;
+  }
+
+  .h-sidebar-menu {
+    div.v-button-link {
+      &:active .v-button-wrap, &:focus .v-button-wrap {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        position: relative;
+        padding: 17px 18px;
+      }
+    }
+    .v-button-link .v-button-wrap:active {
+      display: inline-block;
+      *display: inline;
+      zoom: 1;
+      position: relative;
+      padding: 17px 18px;
+    }
+    .v-popupbutton {
+      .v-button-wrap, &:active .v-button-wrap {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        position: relative;
+        padding: 17px 18px;
+      }
+    }
+    div.v-disabled.v-button-link .v-button-wrap {
+      display: inline-block;
+      *display: inline;
+      zoom: 1;
+      position: relative;
+      padding: 17px 18px;
+    }
+    .v-button-link:first-child .v-button-wrap {
+      border: none;
+    }
+  }
+
+  .v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap {
+    border: none;
+  }
+
+  .h-sidebar-menu {
+    div.v-button-link {
+      &:active:first-child .v-button-wrap, &:focus:first-child .v-button-wrap {
+        border: none;
+      }
+    }
+    .v-button-link {
+      &:first-child .v-button-wrap:active {
+        border: none;
+      }
+      .v-button-caption {
+        text-decoration: none;
+        color: #FFF;
+        text-shadow: none;
+        font-weight: bold;
+        font-family: $font-family;
+        font-size: $font-normal;
+      }
+    }
+    .v-button.v-button-link.isSelected .v-button-caption {
+      color: #535353;
+      &:hover {
+        color: #535353;
+      }
+    }
+  }
+
+  .comment-list-wrapper.v-margin-left {
+    padding-left: 58px;
+  }
+
+/* New ReadViewLayout */
+
+  .readViewLayout {
+    background-color: #FFF;
+    border-radius: 0px;
+    border: 1px solid $border-color;
+    .readViewHeader {
+      .headerName {
+        font-size: $font-x-large;
+        color: #303030;
+      }
+      .headerNameOverdue {
+        font-size: $font-x-large;
+        color: red;
+      }
+    }
+    .h2 {
+      text-shadow: #F0F0F0 0 1px 0;
+      padding: 8px 0px 8px 18px;
+      font-size: $font-normal;
+      border-bottom: 1px solid $border-color;
+      color: rgb(69, 69, 69);
+    }
+    .v-label-h2.no-border {
+      border: none;
+    }
+    .v-label-h2-no-padding {
+      text-shadow: #F0F0F0 0 1px 0;
+      padding: 0px 0px 0px 0px;
+      font-size: $font-normal;
+      color: rgb(69, 69, 69);
+      font-weight: bold;
+    }
+  }
+
+  .readViewHeader {
+    padding: 10px 5px 10px 18px;
+    background: none repeat-x left top #EEEEEE;
+    border-radius: 0px;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .readViewBottomControls .v-verticallayout {
+    display: block;
+  }
+
+  .readview-layout {
+    background-color: #FFF;
+    padding: 0px;
+    &.v-margin-left {
+      padding-left: 30px;
+    }
+    &.v-margin-right {
+      padding-right: 30px;
+    }
+    .colored-gridlayout .gridform-field, .readViewLayout .colored-gridlayout .gridform-field {
+      &.v-margin-top {
+        padding-top: 8px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 8px;
+      }
+    }
+    .preview-form-wrap {
+      border: solid 1px $border-color;
+    }
+  }
+
+  /* AddViewLayout2 */
+
+  .addview-layout {
+    background-color: #f5f5f5;
+    padding: 0px;
+    border-radius: 0;
+    .addview-layout-body {
+      border: solid 1px $border-color;
+    }
+  }
+
+  .control-buttons {
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 0;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 5px;
+    }
+  }
+
+  .addview-layout-body {
+    border: none;
+    .v-label.h2 {
+      padding: 8px 0px 8px 18px;
+      font-size: $font-normal;
+      border-bottom: 1px solid $border-color;
+      color: rgb(69, 69, 69);
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      background-color: #EEEEEE;
+    }
+    .control-buttons {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border-bottom: 1px solid $border-color;
+    }
+    .colored-gridlayout {
+      border-bottom: 1px solid $border-color;
+    }
+    .v-horizontallayout-gridform-caption {
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 5px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 18px;
+      }
+    }
+    .gridform-caption {
+      border-left: 1px solid $border-color;
+      border-right: 1px solid $border-color;
+      &.first-col {
+        border-left: none;
+      }
+    }
+    .colored-gridlayout .v-gridlayout-slot > div {
+      border-top: 1px solid $border-color;
+      &.first-row {
+        border-top: none;
+      }
+    }
+    .v-horizontallayout-gridform-field {
+      &.v-margin-top {
+        padding-top: 5px;
+      }
+      &.v-margin-right {
+        padding-right: 8px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 10px;
+      }
+    }
+  }
+}

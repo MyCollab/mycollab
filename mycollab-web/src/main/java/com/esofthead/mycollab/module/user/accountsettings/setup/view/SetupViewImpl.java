@@ -84,7 +84,7 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
             Label organizationHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
             organizationHeader.setStyleName("h2");
             layout.addComponent(organizationHeader);
-            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 5);
+            informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
             layout.addComponent(informationLayout.getLayout());
 
             formAddLayout.addHeaderRight(createButtonControls());
@@ -95,41 +95,38 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
         private Layout createButtonControls() {
             final MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true).withStyleName("addNewControl");
 
-            final Button closeBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
+            final Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final Button.ClickEvent event) {
                             EventBusFactory.getInstance().post(
-                                    new ShellEvent.GotoUserAccountModule(this,
-                                            new String[]{"preview"}));
+                                    new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
                         }
 
                     });
             closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             buttonControls.with(closeBtn).withAlign(closeBtn, Alignment.MIDDLE_RIGHT);
 
-            final Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final Button.ClickEvent event) {
                             if (editForm.validateForm()) {
-                                String isTLS = (emailConf.getIsTls()) ? "TLS" : "";
-                                boolean isSetupValid = InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(), emailConf.getPassword(), true, isTLS);
-                                if (!isSetupValid) {
-                                    ConfirmDialogExt.show(
-                                            UI.getCurrent(),
+                                try {
+                                    InstallUtils.checkSMTPConfig(emailConf.getHost(), emailConf.getPort(), emailConf.getUser(),
+                                            emailConf.getPassword(), true, emailConf.getIsStartTls(), emailConf.getIsSsl());
+                                    saveEmailConfiguration();
+                                } catch(UserInvalidInputException e) {
+                                    ConfirmDialogExt.show(UI.getCurrent(),
                                             "Invalid SMTP account?",
-                                            "We can not connect to the SMTP server. Save the configuration anyway?",
-                                            AppContext
-                                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                                            AppContext
-                                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                                            "We can not connect to the SMTP server. The root cause is " + e.getMessage() +
+                                                    ". Save the configuration anyway?",
+                                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                                             new ConfirmDialog.Listener() {
                                                 private static final long serialVersionUID = 1L;
 
@@ -140,8 +137,6 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                                                     }
                                                 }
                                             });
-                                } else {
-                                    saveEmailConfiguration();
                                 }
                             }
                         }
@@ -163,7 +158,8 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                     p.setProperty(ApplicationProperties.MAIL_USERNAME, emailConf.getUser());
                     p.setProperty(ApplicationProperties.MAIL_PASSWORD, emailConf.getPassword());
                     p.setProperty(ApplicationProperties.MAIL_PORT, emailConf.getPort());
-                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getIsTls());
+                    p.setProperty(ApplicationProperties.MAIL_IS_TLS, emailConf.getIsStartTls());
+                    p.setProperty(ApplicationProperties.MAIL_IS_SSL, emailConf.getIsSsl());
                     p.save();
                     NotificationUtil.showNotification("Congrats", "Set up SMTP account successfully");
                 } catch (Exception e) {
@@ -183,8 +179,10 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
                 this.informationLayout.addComponent(field, "Password", 0, 2);
             } else if (propertyId.equals("port")) {
                 this.informationLayout.addComponent(field, "Port", 0, 3);
-            } else if (propertyId.equals("isTls")) {
-                this.informationLayout.addComponent(field, "SSL/TLS", 0, 4);
+            } else if (propertyId.equals("isStartTls")) {
+                this.informationLayout.addComponent(field, "StartTls", 0, 4);
+            }else if (propertyId.equals("isSsl")) {
+                this.informationLayout.addComponent(field, "Tls/Ssl", 0, 5);
             }
         }
     }
@@ -198,7 +196,9 @@ public class SetupViewImpl extends AbstractPageView implements SetupView {
 
         @Override
         protected Field<?> onCreateField(Object propertyId) {
-            if (propertyId.equals("isTls")) {
+            if (propertyId.equals("isStartTls")) {
+                return new CheckBox("", false);
+            } else if (propertyId.equals("isSsl")) {
                 return new CheckBox("", false);
             }
             return null;

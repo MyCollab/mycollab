@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- * @since 5.1.0
+ * @since 5.0.8
  */
 public class TaskListGanttItemWrapper extends GanttItemWrapper {
     private ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);

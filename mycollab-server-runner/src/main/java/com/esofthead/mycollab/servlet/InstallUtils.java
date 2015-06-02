@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 
-import javax.mail.AuthenticationFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import java.util.Properties;
@@ -29,11 +27,9 @@ import java.util.Properties;
  * @since 5.0.3
  */
 public class InstallUtils {
-    private static final Logger LOG = LoggerFactory.getLogger(InstallUtils.class);
 
-    public static boolean checkSMTPConfig(String host, int port, String username,
-                                          String password, boolean auth, String enctype) {
-        boolean result = false;
+    public static void checkSMTPConfig(String host, int port, String username,
+                                          String password, boolean auth, boolean isStartTls, boolean isSSL) {
         try {
             Properties props = new Properties();
             if (auth) {
@@ -41,22 +37,21 @@ public class InstallUtils {
             } else {
                 props.setProperty("mail.smtp.auth", "false");
             }
-            if (enctype.endsWith("TLS")) {
+            if (isStartTls) {
                 props.setProperty("mail.smtp.starttls.enable", "true");
                 props.setProperty("mail.smtp.startssl.enable", "true");
-            } else if (enctype.endsWith("SSL")) {
-                props.setProperty("mail.smtp.startssl.enable", "true");
+            } else if (isSSL) {
+                props.setProperty("mail.smtp.startssl.enable", "false");
+                props.setProperty("mail.smtp.ssl.enable", "true");
+                props.setProperty("mail.smtp.ssl.socketFactory.fallback", "false");
+
             }
             Session session = Session.getInstance(props, null);
             Transport transport = session.getTransport("smtp");
             transport.connect(host, port, username, password);
             transport.close();
-            result = true;
-        } catch (AuthenticationFailedException e) {
-            LOG.debug("Authenticate failed", e);
         } catch (Exception e) {
-            LOG.debug("Unknown error", e);
+            throw new UserInvalidInputException(e);
         }
-        return result;
     }
 }

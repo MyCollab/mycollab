@@ -1,5 +1,5 @@
 #=====================================================
-# You can visit link http://community.mycollab.com/configuration/
+# You can visit link https://community.mycollab.com/configuration/
 # to get all configuration parameters and their meanings
 #=====================================================
 
@@ -32,6 +32,7 @@ mail.port=${smtpPort}
 mail.username=${smtpUserName}
 mail.password=${smtpPassword}
 mail.isTLS=${smtpTLSEnable}
+mail.isSSL=${smtpSSLEnable}
 mail.noreply=noreply@mycollab.com
 
 #=====================================================
@@ -50,4 +51,4 @@ error.sendTo=support@mycollab.com
 #=====================================================
 cdn.url=http://%s:%d/assets/
 app.url=http://%s:%d/
-resource.downloadUrl=http://%s:%d/file
+resource.downloadUrl=http://%s:%d/file/

@@ -53,7 +53,7 @@ public class SetupServlet extends HttpServlet {
 
 		Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", "/assets/images/email/");
+		defaultUrls.put("cdn_url", "/assets/");
 		defaultUrls.put("app_url", "/");
 
 		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();

@@ -57,7 +57,7 @@ import java.util.Collection;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@Theme("mycollab")
+@Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;

@@ -91,8 +91,7 @@ public class ImageUtil {
 	 */
 	public static byte[] convertJpgToPngFormat(byte[] pngData) {
 		try {
-			BufferedImage image = ImageIO
-					.read(new ByteArrayInputStream(pngData));
+			BufferedImage image = ImageIO.read(new ByteArrayInputStream(pngData));
 			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 			ImageIO.write(image, "png", outStream);
 			return outStream.toByteArray();

@@ -137,9 +137,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         basicLayout.addComponent(passwordWrapper);
         basicLayout.setComponentAlignment(passwordWrapper, Alignment.MIDDLE_LEFT);
 
-        avatarAndPass.addComponent(basicLayout);
-        avatarAndPass.setComponentAlignment(basicLayout, Alignment.TOP_LEFT);
-        avatarAndPass.setExpandRatio(basicLayout, 1.0f);
+        avatarAndPass.with(basicLayout).expand(basicLayout);
 
         final UploadField avatarUploadField = new UploadField() {
             private static final long serialVersionUID = 1L;
@@ -151,8 +149,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 if (mimeType.equals("image/jpeg")) {
                     imageData = ImageUtil.convertJpgToPngFormat(imageData);
                     if (imageData == null) {
-                        throw new UserInvalidInputException(
-                                "Do not support image format for avatar");
+                        throw new UserInvalidInputException("Can not convert image to jpg format");
                     } else {
                         mimeType = "image/png";
                     }
@@ -171,7 +168,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         avatarUploadField.setButtonCaption(AppContext.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
         avatarUploadField.setSizeUndefined();
         avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
-        this.userAvatar.addComponent(avatarUploadField);
+        userAvatar.addComponent(avatarUploadField);
     }
 
     private class PreviewForm extends AdvancedPreviewBeanForm<User> {
@@ -179,7 +176,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         private User user;
 
-        public void setUser(final User user) {
+        public void setUser(User user) {
             this.user = user;
         }
 

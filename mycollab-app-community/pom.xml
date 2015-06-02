@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.0.7</version>
+        <version>5.0.8</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -32,25 +32,25 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
@@ -63,13 +63,6 @@
             <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-standalone-compiler</artifactId>
             <version>${izpackVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-client-compiler</artifactId>
-            <version>${vaadinVersion}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -122,6 +115,32 @@
                     <value>production</value>
                 </property>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiler</artifactId>
+                    <version>${vaadinVersion}</version>
+                    <scope>provided</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.vaadin</groupId>
+                            <artifactId>vaadin-sass-compiler</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.vaadin.external.flute</groupId>
+                            <artifactId>flute</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.vaadin.external.streamhtmlparser</groupId>
+                            <artifactId>streamhtmlparser-jsilver</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.vaadin.external.google</groupId>
+                            <artifactId>guava</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -147,7 +166,7 @@
                                 </goals>
                                 <configuration>
                                     <outputDirectory>${staging.dir}/lib</outputDirectory>
-                                    <excludeScope>system</excludeScope>
+                                    <excludeScope>provided</excludeScope>
                                     <!-- this excludes tools.jar, e.g. -->
                                     <excludeArtifactIds>mycustompanels</excludeArtifactIds>
                                     <!-- IMPORTANT: don't copy custom panels 
@@ -336,6 +355,12 @@
                     <version>${vaadinVersion}</version>
                     <scope>provided</scope>
                 </dependency>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiler</artifactId>
+                    <version>${vaadinVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
             </dependencies>
             <build>
                 <plugins>
@@ -381,8 +406,7 @@
                         <executions>
                             <execution>
                                 <configuration>
-                                    <!-- if you don't specify any modules, 
-                                        the plugin will find them -->
+                                    <!-- if you don't specify any modules, the plugin will find them -->
                                     <modules>
                                         <module>com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet</module>
                                         <module>com.esofthead.mycollab.widgetset.MyCollabWidgetSet</module>

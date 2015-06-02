@@ -40,9 +40,9 @@
 						#confirmLink ($mailToUrl $user.Email)
 						 and the password you created.</p>
 						<p style="text-align: left;">By clicking this link, you agree to the 
-						#confirmLink ("http://www.mycollab.com/terms" "Terms of Service")
+						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service")
 						 and the 
-						#confirmLink ("http://www.mycollab.com/privacy" "Privacy Policy")
+						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy")
 						</p>
 						<p style="text-align: left;">
 						If clicking on the link does not work, just copy and paste the following address into your browser:
@@ -55,7 +55,8 @@
 						
 						<span style="font-weight: bold;">Have a productive day!</span>
 						</p>
-						<p style="text-align: left;">P/S: Hope you enjoy using Mycollab to grow the sales in your business, and remember you can switch between plans during the trial!</p>
+						<p style="text-align: left;">P/S: Hope you enjoy using MyCollab to grow the sales in your
+						business, and remember you can switch between plans during the trial!</p>
 					</div>
 					<div id="contentFooter" style="padding:10px 0px 50px; text-align: left;">
 						Best regards, <br>

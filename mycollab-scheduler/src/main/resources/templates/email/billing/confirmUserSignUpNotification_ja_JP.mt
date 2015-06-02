@@ -38,9 +38,9 @@
 						#confirmLink ($mailToUrl $user.Email)
 						 と登録したパスワードでログインしてください。</p>
 						<p style="text-align: left;">こちらのリンクをクリックすると、 
-						#confirmLink ("http://www.mycollab.com/terms" "Terms of Service")
+						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service")
 						 と 
-						#confirmLink ("http://www.mycollab.com/privacy" "Privacy Policy")
+						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy")
 						に同意されたものとみなされます。
 						</p>
 						<p style="text-align: left;">

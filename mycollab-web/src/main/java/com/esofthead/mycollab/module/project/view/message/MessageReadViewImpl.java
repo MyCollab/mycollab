@@ -122,10 +122,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            ConfirmDialogExt.show(
-                                    UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                            SiteConfiguration.getSiteName()),
+                            ConfirmDialogExt.show(UI.getCurrent(),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
                                     AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -138,10 +136,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                                             if (dialog.isConfirmed()) {
                                                 MessageService messageService = ApplicationContextUtil
                                                         .getSpringBean(MessageService.class);
-                                                messageService.removeWithSession(
-                                                        message.getId(),
-                                                        AppContext.getUsername(),
-                                                        AppContext.getAccountId());
+                                                messageService.removeWithSession(message.getId(),
+                                                        AppContext.getUsername(), AppContext.getAccountId());
                                                 previewForm.fireCancelForm(message);
                                             }
                                         }
@@ -217,8 +213,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             ResourceService attachmentService = ApplicationContextUtil
                     .getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService
-                    .getContents(AttachmentUtils
-                            .getProjectEntityAttachmentPath(
+                    .getContents(AttachmentUtils.getProjectEntityAttachmentPath(
                                     AppContext.getAccountId(), message.getProjectid(),
                                     ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
@@ -227,8 +222,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
-                Label lbAttachment = new Label(
-                        AppContext
+                Label lbAttachment = new Label(AppContext
                                 .getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
                 attachmentField.addComponent(lbAttachment);
 
@@ -246,8 +240,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             messageLayout.with(rowLayout).expand(rowLayout);
             messageAddLayout.addComponent(messageLayout);
 
-            if (commentDisplay != null
-                    && commentDisplay.getParent() == contentWrapper) {
+            if (commentDisplay != null && commentDisplay.getParent() == contentWrapper) {
                 contentWrapper.removeComponent(commentDisplay);
             }
             commentDisplay = createCommentPanel();

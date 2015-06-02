@@ -21,7 +21,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
  * @author MyCollab Ltd
- * @since 5.1.0
+ * @since 5.0.8
  */
 public interface MainView extends PageView {
     void display();

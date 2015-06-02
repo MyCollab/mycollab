@@ -97,8 +97,10 @@ public class SiteConfiguration {
                 MAIL_PORT, "-1"));
         Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(
                 MAIL_IS_TLS, "false"));
+        Boolean isSsl = Boolean.parseBoolean(ApplicationProperties.getString(
+                MAIL_IS_SSL, "false"));
         instance.emailConfiguration = new EmailConfiguration(host, user,
-                password, port, isTls);
+                password, port, isTls, isSsl);
         instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY,
                 "noreply@mycollab.com");
 
@@ -109,7 +111,13 @@ public class SiteConfiguration {
         String dbPassword = ApplicationProperties.getString(DB_PASSWORD);
         instance.databaseConfiguration = new DatabaseConfiguration(driverClass, dbUrl, dbUser, dbPassword);
 
-        instance.resourceDownloadUrl = ApplicationProperties.getString(RESOURCE_DOWNLOAD_URL, instance.appUrl + "file/");
+        instance.resourceDownloadUrl = ApplicationProperties.getString(RESOURCE_DOWNLOAD_URL);
+        if (!"".equals(instance.resourceDownloadUrl)) {
+            instance.resourceDownloadUrl = String.format(instance.resourceDownloadUrl,
+                    instance.serverAddress, instance.serverPort);
+        } else {
+            instance.resourceDownloadUrl = instance.appUrl + "file/";
+        }
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
         instance.ggDriveCallbackUrl = ApplicationProperties.getString(GOOGLE_DRIVE_LINK);

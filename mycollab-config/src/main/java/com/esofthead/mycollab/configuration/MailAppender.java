@@ -36,7 +36,7 @@ public class MailAppender extends SMTPAppender {
         this.setSMTPPort(conf.getPort());
         this.setUsername(conf.getUser());
         this.setPassword(conf.getPassword());
-        this.setSTARTTLS(conf.getIsTls());
+        this.setSTARTTLS(conf.getIsStartTls());
         this.setFrom(SiteConfiguration.getNoReplyEmail());
         this.addTo(SiteConfiguration.getSendErrorEmail());
         super.start();

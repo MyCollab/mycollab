@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-core.
+ * <p/>
+ * mycollab-core is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * mycollab-core is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.core.utils;
 
 import org.apache.commons.validator.EmailValidator;
@@ -86,27 +102,31 @@ public class StringUtils {
         Document doc = Jsoup.parse(value);
         Element body = doc.body();
         replaceHtml(body);
-        return body.html();
+        String html = body.html();
+        return html.replace("\n", "");
     }
 
     private static void replaceHtml(Node element) {
         List<Node> elements = element.childNodes();
         Pattern compile = Pattern.compile("(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*");
-        for (int i=0; i<elements.size(); i++) {
+        for (int i = elements.size() - 1; i >= 0; i--) {
             Node node = elements.get(i);
             if (node instanceof TextNode) {
-                String value = ((TextNode)node).text();
+                String value = ((TextNode) node).text();
                 Matcher matcher = compile.matcher(value);
                 if (matcher.find()) {
                     value = value.replaceAll(
                             "(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",
                             "<a href=\"$0\" target=\"_blank\">$0</a>");
                     Document newDoc = Jsoup.parse(value);
-                    Element body = newDoc.body().child(0);
-                    element.replaceWith(body);
+                    List<Node> childs = newDoc.body().childNodes();
+                    for (int j = 0; j < childs.size(); j++) {
+                        Node childNode = childs.get(j).clone();
+                        node.before(childNode);
+                    }
+                    node.remove();
                 }
             }
-            replaceHtml(node);
         }
     }
 

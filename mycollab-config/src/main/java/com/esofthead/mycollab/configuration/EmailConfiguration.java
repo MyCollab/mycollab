@@ -35,21 +35,21 @@ public class EmailConfiguration implements Cloneable {
 	private String user;
 	@NotNull
 	private String password;
+
 	@Digits(integer = 6, fraction = 0)
 	private Integer port;
-	private boolean isTls = false;
 
-	public EmailConfiguration() {
+	private boolean isStartTls = false;
 
-	}
+    private boolean isSsl = false;
 
-	EmailConfiguration(String host, String username, String password, int port,
-			boolean isTLS) {
+	EmailConfiguration(String host, String username, String password, int port, boolean isStartTls, boolean isSsl) {
 		this.host = host;
 		this.user = username;
 		this.password = password;
 		this.port = port;
-		this.isTls = isTLS;
+		this.isStartTls = isStartTls;
+        this.isSsl = isSsl;
 	}
 
 	public String getHost() {
@@ -84,13 +84,21 @@ public class EmailConfiguration implements Cloneable {
 		this.port = port;
 	}
 
-	public boolean getIsTls() {
-		return isTls;
+	public boolean getIsStartTls() {
+		return isStartTls;
 	}
 
-	public void setIsTls(boolean isTls) {
-		this.isTls = isTls;
+	public void setIsStartTls(boolean isStartTls) {
+		this.isStartTls = isStartTls;
 	}
+
+    public boolean getIsSsl() {
+        return isSsl;
+    }
+
+    public void setIsSsl(boolean isSsl) {
+        this.isSsl = isSsl;
+    }
 
     public EmailConfiguration clone() {
         try {

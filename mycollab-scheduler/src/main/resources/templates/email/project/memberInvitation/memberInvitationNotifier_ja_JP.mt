@@ -30,7 +30,8 @@
 		</tr>
         <tr>
             <td style="font: 12px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 10px 50px;">
-            	<div><img src="${defaultUrls.cdn_url}default_user_avatar_16.png" width="16" height="16" style="display: inline-block; vertical-align: top;"/>$inviteUser has よりあなたは、オンラインコラボレーションツールでのプロジェクト "$!member.projectName" のチームに招待されました。</div>
+            	<div><img src="${defaultUrls.cdn_url}icons/default_user_avatar_16.png" width="16" height="16"
+            	style="display: inline-block; vertical-align: top;"/>$inviteUser has よりあなたは、オンラインコラボレーションツールでのプロジェクト "$!member.projectName" のチームに招待されました。</div>
 				<p>承認される場合は、下記アドレスをクリックしてください。</p>
 				#linkBlock( $!urlAccept )
 				<p>拒否される場合、または心あたりのない場合は、下記アドレスをクリックしてください。</p>

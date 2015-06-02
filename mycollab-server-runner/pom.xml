@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>mycollab-parent-community</artifactId>
-        <version>5.0.7</version>
+        <version>5.0.8</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -15,13 +15,13 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>5.0.7</version>
+            <version>5.0.8</version>
         </dependency>
 
         <dependency>
@@ -71,11 +71,12 @@
             <artifactId>jetty-plus</artifactId>
             <version>${jettyVersion}</version>
         </dependency>
-
+<!--
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.2.1-b03</version>
         </dependency>
+        -->
     </dependencies>
 </project>
