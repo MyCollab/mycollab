@@ -65,176 +65,159 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  */
 @Service
-public class ProjectMemberServiceImpl extends
-		DefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria>
-		implements ProjectMemberService {
+public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria>
+        implements ProjectMemberService {
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectMemberServiceImpl.class);
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ProjectMemberServiceImpl.class);
+    @Autowired
+    protected ProjectMemberMapper projectMemberMapper;
 
-	@Autowired
-	protected ProjectMemberMapper projectMemberMapper;
+    @Autowired
+    protected ProjectMemberMapperExt projectMemberMapperExt;
 
-	@Autowired
-	protected ProjectMemberMapperExt projectMemberMapperExt;
+    @Autowired
+    private UserMapper userMapper;
 
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
-	@Autowired
-	private UserMapper userMapper;
+    @Autowired
+    private RoleService roleService;
 
-	@Autowired
-	private UserAccountMapper userAccountMapper;
+    @Override
+    public ICrudGenericDAO getCrudMapper() {
+        return projectMemberMapper;
+    }
 
-	@Autowired
-	private RoleService roleService;
+    @Override
+    public ISearchableDAO<ProjectMemberSearchCriteria> getSearchMapper() {
+        return projectMemberMapperExt;
+    }
 
-	@Override
-	public ICrudGenericDAO getCrudMapper() {
-		return projectMemberMapper;
-	}
+    @Override
+    public SimpleProjectMember findById(int memberId, int sAccountId) {
+        return projectMemberMapperExt.findMemberById(memberId);
+    }
 
-	@Override
-	public ISearchableDAO<ProjectMemberSearchCriteria> getSearchMapper() {
-		return projectMemberMapperExt;
-	}
+    @Override
+    public List<SimpleUser> getUsersNotInProject(int projectId, Integer sAccountId) {
+        return projectMemberMapperExt.getUsersNotInProject(projectId, sAccountId);
+    }
 
-	@Override
-	public SimpleProjectMember findById(int memberId, int sAccountId) {
-		return projectMemberMapperExt.findMemberById(memberId);
-	}
+    @Override
+    public SimpleProjectMember findMemberByUsername(String username, int projectId, Integer sAccountId) {
+        return projectMemberMapperExt.findMemberByUsername(username, projectId);
+    }
 
-	@Override
-	public List<SimpleUser> getUsersNotInProject(int projectId,
-			Integer sAccountId) {
-		return projectMemberMapperExt.getUsersNotInProject(projectId,
-				sAccountId);
-	}
+    @Override
+    public int removeWithSession(Integer primaryKey, String username, int accountId) {
+        SimpleProjectMember projectMember = projectMemberMapperExt
+                .findMemberById(primaryKey);
+        ProjectMapper projectMapper = ApplicationContextUtil.getSpringBean(ProjectMapper.class);
 
-	@Override
-	public SimpleProjectMember findMemberByUsername(String username,
-			int projectId, Integer sAccountId) {
-		return projectMemberMapperExt.findMemberByUsername(username, projectId);
-	}
+        if (projectMember != null) {
+            try {
+                Project project = projectMapper.selectByPrimaryKey(projectMember.getProjectid());
+                DeleteProjectMemberCommand projectMemberDeleteListener = CamelProxyBuilderUtil
+                        .build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT,
+                                DeleteProjectMemberCommand.class);
+                projectMemberDeleteListener.projectMemberRemoved(username,
+                        primaryKey, projectMember.getProjectid(), project.getSaccountid());
+            } catch (Exception e) {
+                LOG.error("Error while notify project member delete", e);
+            }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		SimpleProjectMember projectMember = projectMemberMapperExt
-				.findMemberById(primaryKey);
-		ProjectMapper projectMapper = ApplicationContextUtil
-				.getSpringBean(ProjectMapper.class);
+            projectMember.setStatus(RegisterStatusConstants.DELETE);
+            projectMemberMapper.updateByPrimaryKeySelective(projectMember);
+        }
 
-		if (projectMember != null) {
-			try {
-				Project project = projectMapper
-						.selectByPrimaryKey(projectMember.getProjectid());
-				DeleteProjectMemberCommand projectMemberDeleteListener = CamelProxyBuilderUtil
-						.build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT,
-								DeleteProjectMemberCommand.class);
-				projectMemberDeleteListener.projectMemberRemoved(username,
-						primaryKey, projectMember.getProjectid(),
-						project.getSaccountid());
-			} catch (Exception e) {
-				LOG.error("Error while notify project member delete", e);
-			}
+        return 1;
+    }
 
-			projectMember.setStatus(RegisterStatusConstants.DELETE);
-			projectMemberMapper.updateByPrimaryKeySelective(projectMember);
-		}
+    @Override
+    public List<SimpleUser> getActiveUsersInProject(int projectId, Integer sAccountId) {
+        return projectMemberMapperExt.getActiveUsersInProject(projectId, sAccountId);
+    }
 
-		return 1;
-	}
+    @Override
+    public void inviteProjectMembers(String[] email, int projectId,
+            int projectRoleId, String inviteUser, String inviteMessage,
+            int sAccountId) {
+        InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
+                ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
+                InviteProjectMembersCommand.class);
+        listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
+                inviteMessage, sAccountId);
+    }
 
-	@Override
-	public List<SimpleUser> getActiveUsersInProject(int projectId,
-			Integer sAccountId) {
-		return projectMemberMapperExt.getActiveUsersInProject(projectId,
-				sAccountId);
-	}
+    @Override
+    public void acceptProjectInvitationByNewUser(String email, String password,
+            Integer projectId, Integer projectRoleId, Integer sAccountId) {
 
-	@Override
-	public void inviteProjectMembers(String[] email, int projectId,
-			int projectRoleId, String inviteUser, String inviteMessage,
-			int sAccountId) {
-		InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
-				ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
-				InviteProjectMembersCommand.class);
-		listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
-				inviteMessage, sAccountId);
-	}
+        Date now = new GregorianCalendar().getTime();
+        try {
+            SimpleUser simpleUser = new SimpleUser();
+            simpleUser.setAccountId(sAccountId);
+            simpleUser.setFirstname("");
+            simpleUser.setLastname(StringUtils.extractNameFromEmail(email));
+            simpleUser.setRegisteredtime(now);
+            simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+            simpleUser.setPassword(PasswordEncryptHelper.encryptSaltPassword(password));
+            simpleUser.setUsername(email);
+            simpleUser.setEmail(email);
+            LOG.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
+            userMapper.insert(simpleUser);
+        } catch (DuplicateKeyException e) {
+            throw new UserExistedException("User existed " + email);
+        }
 
-	@Override
-	public void acceptProjectInvitationByNewUser(String email, String password,
-			Integer projectId, Integer projectRoleId, Integer sAccountId) {
+        LOG.debug("Assign guest role for this user {}", email);
+        Integer systemGuestRoleId = roleService.getSystemRoleId(
+                SimpleRole.GUEST, sAccountId);
+        if (systemGuestRoleId == null) {
+            LOG.error("Can not find guess role for account {}", sAccountId);
+        }
 
-		Date now = new GregorianCalendar().getTime();
-		try {
-			SimpleUser simpleUser = new SimpleUser();
-			simpleUser.setAccountId(sAccountId);
-			simpleUser.setFirstname("");
-			simpleUser.setLastname(StringUtils.extractNameFromEmail(email));
-			simpleUser.setRegisteredtime(now);
-			simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-			simpleUser.setPassword(PasswordEncryptHelper
-					.encryptSaltPassword(password));
-			simpleUser.setUsername(email);
-			simpleUser.setEmail(email);
-			LOG.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
-			userMapper.insert(simpleUser);
-		} catch (DuplicateKeyException e) {
-			throw new UserExistedException("User existed " + email);
-		}
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername(email);
+        userAccount.setAccountid(sAccountId);
+        userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+        userAccount.setIsaccountowner(false);
+        userAccount.setRegisteredtime(now);
+        userAccount.setRoleid(systemGuestRoleId);
 
-		LOG.debug("Assign guest role for this user {}", email);
-		Integer systemGuestRoleId = roleService.getSystemRoleId(
-				SimpleRole.GUEST, sAccountId);
-		if (systemGuestRoleId == null) {
-			LOG.error("Can not find guess role for account {}", sAccountId);
-		}
+        LOG.debug("Start save user account {}",
+                BeanUtility.printBeanObj(userAccount));
+        userAccountMapper.insert(userAccount);
 
-		UserAccount userAccount = new UserAccount();
-		userAccount.setUsername(email);
-		userAccount.setAccountid(sAccountId);
-		userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-		userAccount.setIsaccountowner(false);
-		userAccount.setRegisteredtime(now);
-		userAccount.setRoleid(systemGuestRoleId);
+        ProjectMember member = new ProjectMember();
+        member.setProjectid(projectId);
+        member.setUsername(email);
+        member.setJoindate(now);
+        member.setSaccountid(sAccountId);
+        member.setIsadmin(false);
+        member.setStatus(RegisterStatusConstants.ACTIVE);
+        member.setProjectroleid(projectRoleId);
+        LOG.debug("Start save project member {}", BeanUtility.printBeanObj(member));
 
-		LOG.debug("Start save user account {}",
-				BeanUtility.printBeanObj(userAccount));
-		userAccountMapper.insert(userAccount);
+        saveWithSession(member, "");
+        CacheUtils.cleanCache(sAccountId, ProjectMemberService.class.getName());
+    }
 
-		ProjectMember member = new ProjectMember();
-		member.setProjectid(projectId);
-		member.setUsername(email);
-		member.setJoindate(now);
-		member.setSaccountid(sAccountId);
-		member.setIsadmin(false);
-		member.setStatus(RegisterStatusConstants.ACTIVE);
-		member.setProjectroleid(projectRoleId);
-		LOG.debug("Start save project member {}",
-				BeanUtility.printBeanObj(member));
+    @Override
+    public boolean isUserBelongToProject(String username, int projectId,
+            int sAccountId) {
+        ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(projectId));
+        criteria.setSaccountid(new NumberSearchField(sAccountId));
+        criteria.setInvolvedMember(new StringSearchField(username));
+        return (getTotalCount(criteria) > 0);
+    }
 
-		saveWithSession(member, "");
-		CacheUtils.cleanCache(sAccountId, ProjectMemberService.class.getName());
-	}
-
-	@Override
-	public boolean isUserBelongToProject(String username, int projectId,
-			int sAccountId) {
-		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(projectId));
-		criteria.setSaccountid(new NumberSearchField(sAccountId));
-		criteria.setInvolvedMember(new StringSearchField(username));
-		return (getTotalCount(criteria) > 0);
-	}
-
-	@Override
-	public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
-			Integer sAccountId) {
-		return projectMemberMapperExt.getActiveUsersInProjects(projectIds,
-				sAccountId);
-	}
+    @Override
+    public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
+            Integer sAccountId) {
+        return projectMemberMapperExt.getActiveUsersInProjects(projectIds,
+                sAccountId);
+    }
 }

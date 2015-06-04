@@ -35,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class GenericChartWrapper<S extends SearchCriteria> extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	public static final String[] CHART_COLOR_STR = { ColorConstants.BLUE,
+	protected static final String[] CHART_COLOR_STR = { ColorConstants.BLUE,
 		ColorConstants.GREEN, ColorConstants.ORANGE, ColorConstants.BLACK,
 		ColorConstants.DARK_ORANGE, ColorConstants.LIGHT_BLUE,
 		ColorConstants.GRAY, ColorConstants.BRIGHT_TURQUOISE,

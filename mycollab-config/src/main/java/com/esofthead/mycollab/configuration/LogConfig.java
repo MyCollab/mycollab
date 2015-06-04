@@ -18,13 +18,12 @@ package com.esofthead.mycollab.configuration;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
 
 /**
  * @author MyCollab Ltd
@@ -49,9 +48,14 @@ public class LogConfig {
             try {
                 configurator.setContext(loggerContext);
                 configurator.doConfigure(inputStream); // loads logback file
-                inputStream.close();
             } catch (Exception e) {
-                e.printStackTrace();
+               throw new MyCollabException(e);
+            } finally {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    throw new MyCollabException(e);
+                }
             }
         }
     }

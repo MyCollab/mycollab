@@ -70,7 +70,6 @@ public class TaskStatusComponent extends MVerticalLayout {
 
     public TaskStatusComponent() {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
-        this.addStyleName("myprojectlist");
 
         MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(false, true,
                 false, true)).withHeight("34px");

@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -135,6 +136,10 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
+
+        SimpleProject project = new SimpleProject();
+        project.setName("Project A");
+		when(projectService.findById(1, 1)).thenReturn(project);
 
 		verifyPrjMemberHandler.onHandleRequest(request, response);
 

@@ -43,8 +43,7 @@ public class TimezoneNotification extends AbstractNotification {
 		Span spanEl = new Span();
 		spanEl.appendText("The correct your timezone will help you get the event right. Please set it ");
 
-		A link = new A(AccountLinkGenerator.generatePreviewFullUserLink(
-				AppContext.getSiteUrl(), AppContext.getUser().getUsername()));
+		A link = new A(AccountLinkGenerator.generateFullProfileLink(AppContext.getSiteUrl()));
 		link.appendText("here");
 		spanEl.appendChild(link);
 		return new Label(FontAwesome.EXCLAMATION.getHtml() + " " + spanEl.write(), ContentMode.HTML);

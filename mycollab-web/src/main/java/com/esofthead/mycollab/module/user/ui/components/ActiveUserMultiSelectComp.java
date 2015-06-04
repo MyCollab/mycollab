@@ -44,8 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ActiveUserMultiSelectComp.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ActiveUserMultiSelectComp.class);
 
 	public ActiveUserMultiSelectComp() {
 		super("displayName");
@@ -54,16 +53,12 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
 	@Override
 	protected List<SimpleUser> createData() {
 		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setRegisterStatuses(new SetSearchField<>(
-				SearchField.AND,
+		criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+		criteria.setRegisterStatuses(new SetSearchField<>(SearchField.AND,
 				new String[] { RegisterStatusConstants.ACTIVE }));
 
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		List<SimpleUser> userList = userService
-				.findPagableListByCriteria(new SearchRequest<>(
+		UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+		List<SimpleUser> userList = userService.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		return userList;
 	}
@@ -88,5 +83,4 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
 	public Class<? extends SimpleUser> getType() {
 		return SimpleUser.class;
 	}
-
 }

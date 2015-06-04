@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resources.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.vaadin.resources.file.FileAssetsUtil;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;

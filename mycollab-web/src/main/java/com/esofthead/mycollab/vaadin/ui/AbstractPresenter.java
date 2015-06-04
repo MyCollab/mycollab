@@ -75,8 +75,7 @@ public abstract class AbstractPresenter<V extends PageView> implements IPresente
 	}
 
 	@Override
-	public void go(ComponentContainer container, ScreenData<?> data,
-			boolean isHistoryTrack) {
+	public void go(ComponentContainer container, ScreenData<?> data, boolean isHistoryTrack) {
 		initView();
 		LOG.debug("Go to view: " + view);
 		if (isHistoryTrack) {

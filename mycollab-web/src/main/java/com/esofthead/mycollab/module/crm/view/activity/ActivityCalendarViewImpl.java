@@ -105,7 +105,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
                 .withWidth("100%").withStyleName(UIConstants.HEADER_VIEW);
         actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label headerText = new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Calendar");
+        Component headerText = new CrmViewHeader(CrmTypeConstants.ACTIVITY, "Calendar");
         headerText.setStyleName(UIConstants.HEADER_TEXT);
         actionPanel.with(headerText).expand(headerText);
 

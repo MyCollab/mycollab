@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;

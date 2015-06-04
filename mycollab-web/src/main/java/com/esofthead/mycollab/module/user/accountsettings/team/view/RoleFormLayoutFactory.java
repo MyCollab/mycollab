@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 
 /**

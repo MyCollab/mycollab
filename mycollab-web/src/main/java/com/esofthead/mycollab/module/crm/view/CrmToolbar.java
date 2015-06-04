@@ -44,7 +44,7 @@ import java.util.Iterator;
 public class CrmToolbar extends HorizontalLayout implements PageView {
 	private static final long serialVersionUID = 1L;
 
-	private final PopupButton addBtn;
+	private final PopupButton addPopupMenu;
 
 	public CrmToolbar() {
 		super();
@@ -89,7 +89,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		MenuItem activitiesList = new MenuItem(CrmTypeConstants.ACTIVITY, AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER), listener);
-		final boolean isActivityEnable = AppContext
+		boolean isActivityEnable = AppContext
 				.canRead(RolePermissionCollections.CRM_MEETING)
 				|| AppContext.canRead(RolePermissionCollections.CRM_TASK)
 				|| AppContext.canRead(RolePermissionCollections.CRM_CALL);
@@ -103,19 +103,17 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		fileBtn.setEnabled(AppContext.canRead(RolePermissionCollections.CRM_DOCUMENT));
 		addComponent(fileBtn);
 
-		final MenuItem notificationBtn = new MenuItem(CrmTypeConstants.SETTING, AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER),
-				listener);
+		MenuItem notificationBtn = new MenuItem(CrmTypeConstants.SETTING,
+				AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER), listener);
 		addComponent(notificationBtn);
 
-		addBtn = new PopupButton(
-				AppContext.getMessage(CrmCommonI18nEnum.BUTTON_CREATE));
-		final GridLayout addBtnLayout = new GridLayout(3, 2);
+		addPopupMenu = new PopupButton(AppContext.getMessage(CrmCommonI18nEnum.BUTTON_CREATE));
+		GridLayout addBtnLayout = new GridLayout(3, 2);
 		addBtnLayout.setMargin(true);
 		addBtnLayout.setWidth("370px");
 		addBtnLayout.setSpacing(true);
 
-		final ButtonLinkLegacy newAccountBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newAccountBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
 				listener, false);
 		newAccountBtn.setEnabled(AppContext
@@ -123,7 +121,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newAccountBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT));
 		addBtnLayout.addComponent(newAccountBtn);
 
-		final ButtonLinkLegacy newContactBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newContactBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
 				listener, false);
 		newContactBtn.setEnabled(AppContext
@@ -131,7 +129,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newContactBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT));
 		addBtnLayout.addComponent(newContactBtn);
 
-		final ButtonLinkLegacy newCampaignBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newCampaignBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
 				listener, false);
 		newCampaignBtn.setEnabled(AppContext
@@ -139,7 +137,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newCampaignBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
 		addBtnLayout.addComponent(newCampaignBtn);
 
-		final ButtonLinkLegacy newOpportunityBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newOpportunityBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
 				listener, false);
 		newOpportunityBtn.setEnabled(AppContext
@@ -147,7 +145,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newOpportunityBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
 		addBtnLayout.addComponent(newOpportunityBtn);
 
-		final ButtonLinkLegacy newLeadBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newLeadBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), listener,
 				false);
 		newLeadBtn.setEnabled(AppContext
@@ -155,7 +153,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newLeadBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.LEAD));
 		addBtnLayout.addComponent(newLeadBtn);
 
-		final ButtonLinkLegacy newCaseBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newCaseBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), listener,
 				false);
 		newCaseBtn.setEnabled(AppContext
@@ -163,7 +161,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newCaseBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CASE));
 		addBtnLayout.addComponent(newCaseBtn);
 
-		final ButtonLinkLegacy newTaskBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newTaskBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), listener,
 				false);
 		newTaskBtn.setEnabled(AppContext
@@ -171,7 +169,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newTaskBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
 		addBtnLayout.addComponent(newTaskBtn);
 
-		final ButtonLinkLegacy newCallBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newCallBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), listener,
 				false);
 		newCallBtn.setEnabled(AppContext
@@ -179,7 +177,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newCallBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CALL));
 		addBtnLayout.addComponent(newCallBtn);
 
-		final ButtonLinkLegacy newMeetingBtn = new ButtonLinkLegacy(
+		ButtonLinkLegacy newMeetingBtn = new ButtonLinkLegacy(
 				AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING),
 				listener, false);
 		newMeetingBtn.setEnabled(AppContext
@@ -187,13 +185,13 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		newMeetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
 		addBtnLayout.addComponent(newMeetingBtn);
 
-		addBtn.setContent(addBtnLayout);
-		addBtn.setStyleName("link");
-		addBtn.addStyleName("quickadd-btn");
-		addComponent(addBtn);
+		addPopupMenu.setContent(addBtnLayout);
+		addPopupMenu.setStyleName("link");
+		addPopupMenu.addStyleName("quickadd-btn");
+		addComponent(addPopupMenu);
 
-		setExpandRatio(addBtn, 1.0f);
-		setComponentAlignment(addBtn, Alignment.MIDDLE_RIGHT);
+		setExpandRatio(addPopupMenu, 1.0f);
+		setComponentAlignment(addPopupMenu, Alignment.MIDDLE_RIGHT);
 	}
 
 	private class NavigatorItemListener implements Button.ClickListener {
@@ -202,7 +200,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		@Override
 		public void buttonClick(final ClickEvent event) {
 			String selectedBtnCaption = "";
-			final String caption = event.getButton().getCaption();
+			String caption = event.getButton().getCaption();
 
 			if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER).equals(caption)) {
@@ -311,7 +309,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				selectedBtnCaption = caption;
 			}
 
-			addBtn.setPopupVisible(false);
+			addPopupMenu.setPopupVisible(false);
 
 			for (final Iterator<com.vaadin.ui.Component> it = CrmToolbar.this
 					.iterator(); it.hasNext();) {

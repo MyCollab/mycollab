@@ -101,13 +101,13 @@ public class ProjectListComponent extends MVerticalLayout {
         headerBar.with(headerPopupButton).expand(headerPopupButton);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            final MButton createProjectBtn = new MButton("+",
+            MButton createProjectBtn = new MButton("+",
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final Button.ClickEvent event) {
-                            final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
+                            ProjectAddWindow projectNewWindow = new ProjectAddWindow();
                             UI.getCurrent().addWindow(projectNewWindow);
                         }
                     });

@@ -112,9 +112,11 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
             displayFollowingTicketsCount();
         }
 
-        int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(AppContext.getUsername(), AppContext.getAccountId());
-        if (countActiveProjects == 0) {
-            UI.getCurrent().addWindow(new AskCreateNewProjectWindow());
+        if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
+            int countActiveProjects = prjService.getTotalActiveProjectsOfInvolvedUsers(AppContext.getUsername(), AppContext.getAccountId());
+            if (countActiveProjects == 0) {
+                UI.getCurrent().addWindow(new AskCreateNewProjectWindow());
+            }
         }
     }
 

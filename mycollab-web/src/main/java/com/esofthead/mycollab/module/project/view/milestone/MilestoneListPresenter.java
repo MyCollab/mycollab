@@ -62,8 +62,7 @@ public class MilestoneListPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MILESTONES)) {
+		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
 			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
 			milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
 			milestoneContainer.removeAllComponents();
@@ -71,8 +70,7 @@ public class MilestoneListPresenter extends
 
 			MilestoneSearchCriteria searchCriteria;
 
-			if (data.getParams() == null
-					|| !(data.getParams() instanceof MilestoneSearchCriteria)) {
+			if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
 				searchCriteria = new MilestoneSearchCriteria();
 				searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
 						CurrentProjectVariables.getProjectId()));
@@ -89,8 +87,7 @@ public class MilestoneListPresenter extends
 				displayNoExistItems(container, data);
 			}
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
+			ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoMilestoneList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
@@ -112,7 +109,6 @@ public class MilestoneListPresenter extends
 
 	@Override
 	protected void deleteSelectedItems() {
-		throw new UnsupportedOperationException(
-				"This presenter doesn't support this operation");
+		throw new UnsupportedOperationException("This presenter doesn't support this operation");
 	}
 }

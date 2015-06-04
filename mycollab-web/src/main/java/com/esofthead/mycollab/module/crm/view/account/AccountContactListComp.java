@@ -123,12 +123,10 @@ public class AccountContactListComp extends
         loadContacts();
     }
 
-    public class AccountContactBlockDisplay implements
-            BlockDisplayHandler<SimpleContact> {
+    public class AccountContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
 
         @Override
-        public Component generateBlock(final SimpleContact contact,
-                                       int blockIndex) {
+        public Component generateBlock(final SimpleContact contact, int blockIndex) {
             CssLayout beanBlock = new CssLayout();
             beanBlock.addStyleName("bean-block");
             beanBlock.setWidth("350px");

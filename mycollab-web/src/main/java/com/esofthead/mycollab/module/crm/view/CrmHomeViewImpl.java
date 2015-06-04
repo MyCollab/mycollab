@@ -40,8 +40,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class CrmHomeViewImpl extends AbstractLazyPageView implements
-		CrmHomeView {
+public class CrmHomeViewImpl extends AbstractLazyPageView implements CrmHomeView {
 	private IOpportunityPipelineFunnelChartDashlet opportunityChartDashlet;
 	private AccountListDashlet accountDashlet;
 	private MeetingListDashlet meetingDashlet;
@@ -52,14 +51,13 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 	private SalesDashboardView salesDashboard;
 
 	public CrmHomeViewImpl() {
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, true, true, true));
+		this.withSpacing(true).withMargin(new MarginInfo(false, true, true, true));
 	}
 
 	@Override
 	protected void displayView() {
-		MHorizontalLayout contentLayout = new MHorizontalLayout().withSpacing(
-				true).withWidth("100%");
+		this.removeAllComponents();
+		MHorizontalLayout contentLayout = new MHorizontalLayout().withWidth("100%");
 
 		VerticalLayout myAssignmentsLayout = new VerticalLayout();
 
@@ -89,27 +87,20 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 			myAssignmentsLayout.addComponent(leadDashlet);
 		}
 
-		contentLayout.addComponent(myAssignmentsLayout);
-		contentLayout.setExpandRatio(myAssignmentsLayout, 1.0f);
+		contentLayout.with(myAssignmentsLayout).expand(myAssignmentsLayout);
 
-		MVerticalLayout streamsLayout = new MVerticalLayout()
-				.withMargin(new MarginInfo(false, false, false, true));
+		MVerticalLayout streamsLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, false, true));
 		streamsLayout.setSizeUndefined();
 
 		salesDashboard = new SalesDashboardView();
 		salesDashboard.setWidth("550px");
-		streamsLayout.addComponent(salesDashboard);
-		streamsLayout.setComponentAlignment(salesDashboard,
-				Alignment.MIDDLE_RIGHT);
+		streamsLayout.with(salesDashboard);
 
 		activityStreamPanel = new ActivityStreamPanel();
 		activityStreamPanel.setWidth("550px");
-		streamsLayout.addComponent(activityStreamPanel);
-		streamsLayout.setComponentAlignment(activityStreamPanel,
-				Alignment.MIDDLE_RIGHT);
+		streamsLayout.with(activityStreamPanel);
 
-		contentLayout.addComponent(streamsLayout);
-		contentLayout.setComponentAlignment(streamsLayout, Alignment.TOP_RIGHT);
+		contentLayout.with(streamsLayout).withAlign(streamsLayout, Alignment.TOP_RIGHT);
 
 		this.addComponent(contentLayout);
 

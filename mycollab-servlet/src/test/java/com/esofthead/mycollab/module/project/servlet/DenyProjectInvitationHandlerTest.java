@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -150,7 +151,7 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 				strArgument.getValue());
 	}
 
-	@Test(expected = MyCollabException.class)
+	@Test(expected = ResourceNotFoundException.class)
 	public void testNullParam() throws ServletException, IOException {
 		when(request.getPathInfo()).thenReturn(null);
 		denyInvitationHandler.onHandleRequest(request, response);

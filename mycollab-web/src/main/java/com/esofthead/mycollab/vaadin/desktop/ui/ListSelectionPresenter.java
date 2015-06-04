@@ -40,130 +40,125 @@ import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
  * @param <B>
  */
 public abstract class ListSelectionPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends AbstractPresenter<V> {
-	private static final long serialVersionUID = 1L;
+        extends AbstractPresenter<V> {
+    private static final long serialVersionUID = 1L;
 
-	protected boolean isSelectAll = false;
-	protected S searchCriteria;
+    protected boolean isSelectAll = false;
+    protected S searchCriteria;
 
-	public ListSelectionPresenter(Class<V> viewClass) {
-		super(viewClass);
-	}
+    public ListSelectionPresenter(Class<V> viewClass) {
+        super(viewClass);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getSearchHandlers().addSearchHandler(new SearchHandler<S>() {
-			@Override
-			public void onSearch(S criteria) {
-				doSearch(criteria);
-			}
-		});
+    @Override
+    protected void postInitView() {
+        view.getSearchHandlers().addSearchHandler(new SearchHandler<S>() {
+            @Override
+            public void onSearch(S criteria) {
+                doSearch(criteria);
+            }
+        });
 
-		view.getPagedBeanTable().addPagableHandler(new PagableHandler() {
-			private static final long serialVersionUID = 1L;
+        view.getPagedBeanTable().addPagableHandler(new PagableHandler() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void move(int newPageNumber) {
-				pageChange();
-			}
+            @Override
+            public void move(int newPageNumber) {
+                pageChange();
+            }
 
-			private void pageChange() {
-				if (isSelectAll) {
-					selectAllItemsInCurrentPage();
-				}
-				checkWhetherEnableTableActionControl();
-			}
-		});
+            private void pageChange() {
+                if (isSelectAll) {
+                    selectAllItemsInCurrentPage();
+                }
+                checkWhetherEnableTableActionControl();
+            }
+        });
 
-		view.getOptionSelectionHandlers().addSelectionOptionHandler(
-				new SelectionOptionHandler() {
-					private static final long serialVersionUID = 1L;
-					@Override
-					public void onSelectCurrentPage() {
-						isSelectAll = false;
-						selectAllItemsInCurrentPage();
-						checkWhetherEnableTableActionControl();
-					}
+        view.getOptionSelectionHandlers().addSelectionOptionHandler(
+                new SelectionOptionHandler() {
+                    private static final long serialVersionUID = 1L;
+                    @Override
+                    public void onSelectCurrentPage() {
+                        isSelectAll = false;
+                        selectAllItemsInCurrentPage();
+                        checkWhetherEnableTableActionControl();
+                    }
 
-					@Override
-					public void onDeSelect() {
-						Collection<B> currentDataList = view
-								.getPagedBeanTable().getCurrentDataList();
-						isSelectAll = false;
-						for (B item : currentDataList) {
-							item.setSelected(false);
-							CheckBoxDecor checkBox = (CheckBoxDecor) item
-									.getExtraData();
-							checkBox.setValueWithoutNotifyListeners(false);
-						}
-						checkWhetherEnableTableActionControl();
-					}
+                    @Override
+                    public void onDeSelect() {
+                        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+                        isSelectAll = false;
+                        for (B item : currentDataList) {
+                            item.setSelected(false);
+                            CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
+                            checkBox.setValueWithoutNotifyListeners(false);
+                        }
+                        checkWhetherEnableTableActionControl();
+                    }
 
-					@Override
-					public void onSelectAll() {
-						isSelectAll = true;
-						selectAllItemsInCurrentPage();
-						checkWhetherEnableTableActionControl();
-					}
-				});
+                    @Override
+                    public void onSelectAll() {
+                        isSelectAll = true;
+                        selectAllItemsInCurrentPage();
+                        checkWhetherEnableTableActionControl();
+                    }
+                });
 
-		view.getSelectableItemHandlers().addSelectableItemHandler(
-				new SelectableItemHandler<B>() {
-					@Override
-					public void onSelect(B item) {
-						isSelectAll = false;
-						item.setSelected(!item.isSelected());
-						checkWhetherEnableTableActionControl();
-					}
-				});
-	}
+        view.getSelectableItemHandlers().addSelectableItemHandler(
+                new SelectableItemHandler<B>() {
+                    @Override
+                    public void onSelect(B item) {
+                        isSelectAll = false;
+                        item.setSelected(!item.isSelected());
+                        checkWhetherEnableTableActionControl();
+                    }
+                });
+    }
 
-	protected void selectAllItemsInCurrentPage() {
-		Collection<B> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		for (B item : currentDataList) {
-			item.setSelected(true);
-			CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
-			checkBox.setValueWithoutNotifyListeners(true);
-		}
-	}
+    protected void selectAllItemsInCurrentPage() {
+        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+        for (B item : currentDataList) {
+            item.setSelected(true);
+            CheckBoxDecor checkBox = (CheckBoxDecor) item.getExtraData();
+            checkBox.setValueWithoutNotifyListeners(true);
+        }
+    }
 
-	public void doSearch(S searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
-		checkWhetherEnableTableActionControl();
+    public void doSearch(S searchCriteria) {
+        this.searchCriteria = searchCriteria;
+        int totalCountItems = view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+        checkWhetherEnableTableActionControl();
         view.getSearchHandlers().setTotalCountNumber(totalCountItems);
-	}
+    }
 
-	protected void checkWhetherEnableTableActionControl() {
-		Collection<B> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		int countItems = 0;
-		for (B item : currentDataList) {
-			if (item.isSelected()) {
-				countItems++;
-			}
-		}
-		if (countItems > 0) {
-			view.enableActionControls(countItems);
-		} else {
-			view.disableActionControls();
-		}
-	}
+    protected void checkWhetherEnableTableActionControl() {
+        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+        int countItems = 0;
+        for (B item : currentDataList) {
+            if (item.isSelected()) {
+                countItems++;
+            }
+        }
+        if (countItems > 0) {
+            view.enableActionControls(countItems);
+        } else {
+            view.disableActionControls();
+        }
+    }
 
-	protected List<B> getSelectedItems() {
-		List<B> items = new ArrayList<>();
-		Collection<B> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		for (B item : currentDataList) {
-			if (item.isSelected()) {
-				items.add(item);
-			}
-		}
-		return items;
-	}
+    protected List<B> getSelectedItems() {
+        List<B> items = new ArrayList<>();
+        Collection<B> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+        for (B item : currentDataList) {
+            if (item.isSelected()) {
+                items.add(item);
+            }
+        }
+        return items;
+    }
 
-	abstract public ISearchableService<S> getSearchService();
+    abstract public ISearchableService<S> getSearchService();
 
-	abstract protected void deleteSelectedItems();
+    abstract protected void deleteSelectedItems();
 }

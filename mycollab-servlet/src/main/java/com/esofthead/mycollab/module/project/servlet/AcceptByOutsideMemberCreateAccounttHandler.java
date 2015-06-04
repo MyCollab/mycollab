@@ -43,8 +43,7 @@ import java.io.IOException;
 public class AcceptByOutsideMemberCreateAccounttHandler extends
 		GenericHttpServlet {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AcceptByOutsideMemberCreateAccounttHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AcceptByOutsideMemberCreateAccounttHandler.class);
 
 	@Autowired
 	private ProjectMemberService projectMemberService;

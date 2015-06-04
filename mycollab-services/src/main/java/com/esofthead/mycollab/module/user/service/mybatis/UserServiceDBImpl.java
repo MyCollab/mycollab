@@ -74,382 +74,380 @@ import com.esofthead.mycollab.security.PermissionMap;
 @Transactional
 public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCriteria> implements
         UserService {
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceDBImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceDBImpl.class);
 
-	@Autowired
-	private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-	@Autowired
-	private UserMapperExt userMapperExt;
+    @Autowired
+    private UserMapperExt userMapperExt;
 
-	@Autowired
-	private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
-	@Autowired
-	private RolePermissionMapper rolePermissionMapper;
+    @Autowired
+    private RolePermissionMapper rolePermissionMapper;
 
-	@Autowired
-	private UserAvatarService userAvatarService;
+    @Autowired
+    private UserAvatarService userAvatarService;
 
-	@Autowired
-	private UserAccountInvitationMapper userAccountInvitationMapper;
+    @Autowired
+    private UserAccountInvitationMapper userAccountInvitationMapper;
 
-	@Autowired
-	private BillingPlanCheckerService billingPlanCheckerService;
+    @Autowired
+    private BillingPlanCheckerService billingPlanCheckerService;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-	public ICrudGenericDAO getCrudMapper() {
-		return userMapper;
-	}
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    public ICrudGenericDAO getCrudMapper() {
+        return userMapper;
+    }
 
-	@Override
-	public ISearchableDAO<UserSearchCriteria> getSearchMapper() {
-		return userMapperExt;
-	}
+    @Override
+    public ISearchableDAO<UserSearchCriteria> getSearchMapper() {
+        return userMapperExt;
+    }
 
-	@Override
-	public void saveUserAccount(SimpleUser record, Integer sAccountId,
-			String inviteUser) {
-		billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
+    @Override
+    public void saveUserAccount(SimpleUser record, Integer sAccountId,
+            String inviteUser) {
+        billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
-		// check if user email has already in this account yet
-		UserAccountExample userAccountEx = new UserAccountExample();
+        // check if user email has already in this account yet
+        UserAccountExample userAccountEx = new UserAccountExample();
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			userAccountEx
-					.createCriteria()
-					.andUsernameEqualTo(record.getEmail())
-					.andAccountidEqualTo(sAccountId)
-					.andRegisterstatusIn(
-							Arrays.asList(
-									RegisterStatusConstants.ACTIVE,
-									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-									RegisterStatusConstants.VERIFICATING));
-		} else {
-			userAccountEx.createCriteria()
-					.andUsernameEqualTo(record.getEmail())
-					.andRegisterstatusIn(Arrays.asList(
-									RegisterStatusConstants.ACTIVE,
-									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-									RegisterStatusConstants.VERIFICATING));
-		}
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            userAccountEx.createCriteria()
+                    .andUsernameEqualTo(record.getEmail())
+                    .andAccountidEqualTo(sAccountId)
+                    .andRegisterstatusIn(Arrays.asList(
+                                    RegisterStatusConstants.ACTIVE,
+                                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                                    RegisterStatusConstants.VERIFICATING));
+        } else {
+            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
+                    .andRegisterstatusIn(Arrays.asList(
+                                    RegisterStatusConstants.ACTIVE,
+                                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                                    RegisterStatusConstants.VERIFICATING));
+        }
 
-		if (userAccountMapper.countByExample(userAccountEx) > 0) {
-			throw new UserInvalidInputException(
+        if (userAccountMapper.countByExample(userAccountEx) > 0) {
+            throw new UserInvalidInputException(
                     String.format("There is already user has email %s in your account", record.getEmail()));
-		}
+        }
 
-		if (record.getPassword() != null) {
-			record.setPassword(PasswordEncryptHelper.encryptSaltPassword(record
-					.getPassword()));
-		}
+        if (record.getPassword() != null) {
+            record.setPassword(PasswordEncryptHelper.encryptSaltPassword(record
+                    .getPassword()));
+        }
 
-		if (record.getUsername() == null) {
-			record.setUsername(record.getEmail());
-		}
+        if (record.getUsername() == null) {
+            record.setUsername(record.getEmail());
+        }
 
-		if (record.getLastname() == null) {
-			String userEmail = record.getEmail();
-			int index = userEmail.lastIndexOf("@");
-			if (index > 0) {
-				record.setLastname(userEmail.substring(0, index));
-			} else {
-				record.setLastname(userEmail);
-			}
-		}
+        if (record.getLastname() == null) {
+            String userEmail = record.getEmail();
+            int index = userEmail.lastIndexOf("@");
+            if (index > 0) {
+                record.setLastname(userEmail.substring(0, index));
+            } else {
+                record.setLastname(userEmail);
+            }
+        }
 
-		if (record.getFirstname() == null) {
-			record.setFirstname("");
-		}
+        if (record.getFirstname() == null) {
+            record.setFirstname("");
+        }
 
-		// Check if user has already account in system, if not we will create
-		// new user
+        // Check if user has already account in system, if not we will create
+        // new user
 
-		UserExample userEx = new UserExample();
-		userEx.createCriteria().andUsernameEqualTo(record.getUsername());
-		if (userMapper.countByExample(userEx) == 0) {
-			record.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
-			userMapper.insert(record);
-			userAvatarService.uploadDefaultAvatar(record.getUsername());
-		}
+        UserExample userEx = new UserExample();
+        userEx.createCriteria().andUsernameEqualTo(record.getUsername());
+        if (userMapper.countByExample(userEx) == 0) {
+            record.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
+            userMapper.insert(record);
+            userAvatarService.uploadDefaultAvatar(record.getUsername());
+        }
 
-		// save record in s_user_account table
-		UserAccount userAccount = new UserAccount();
-		userAccount.setAccountid(record.getAccountId());
-		userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE
+        // save record in s_user_account table
+        UserAccount userAccount = new UserAccount();
+        userAccount.setAccountid(record.getAccountId());
+        userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE
                 : record.getIsAccountOwner());
 
-		userAccount.setRoleid(record.getRoleid());
-		userAccount.setUsername(record.getUsername());
-		userAccount.setRegisteredtime(new GregorianCalendar().getTime());
-		userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-		userAccount.setRegisterstatus((record.getRegisterstatus() == null) ?
+        userAccount.setRoleid(record.getRoleid());
+        userAccount.setUsername(record.getUsername());
+        userAccount.setRegisteredtime(new GregorianCalendar().getTime());
+        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+        userAccount.setRegisterstatus((record.getRegisterstatus() == null) ?
                 RegisterStatusConstants.VERIFICATING : record.getRegisterstatus());
 
-		LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
-		userAccountEx = new UserAccountExample();
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			userAccountEx.createCriteria()
-					.andUsernameEqualTo(record.getEmail())
-					.andAccountidEqualTo(sAccountId);
-		} else {
-			userAccountEx.createCriteria()
-					.andUsernameEqualTo(record.getEmail());
-		}
+        LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
+        userAccountEx = new UserAccountExample();
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            userAccountEx.createCriteria()
+                    .andUsernameEqualTo(record.getEmail())
+                    .andAccountidEqualTo(sAccountId);
+        } else {
+            userAccountEx.createCriteria()
+                    .andUsernameEqualTo(record.getEmail());
+        }
 
-		if (userAccountMapper.countByExample(userAccountEx) > 0) {
-			userAccountMapper.updateByExampleSelective(userAccount,
-					userAccountEx);
-		} else {
-			userAccountMapper.insert(userAccount);
-		}
+        if (userAccountMapper.countByExample(userAccountEx) > 0) {
+            userAccountMapper.updateByExampleSelective(userAccount,
+                    userAccountEx);
+        } else {
+            userAccountMapper.insert(userAccount);
+        }
 
-		if (!RegisterStatusConstants.ACTIVE.equals(record.getRegisterstatus())) {
-			// save to invitation user
-			UserAccountInvitation invitation = new UserAccountInvitation();
-			invitation.setAccountid(record.getAccountId());
-			invitation.setCreatedtime(new GregorianCalendar().getTime());
-			invitation.setUsername(record.getUsername());
-			invitation.setInviteuser(inviteUser);
-			invitation
-					.setInvitationstatus((record.getRegisterstatus() == null) ? RegisterStatusConstants.VERIFICATING
-							: record.getRegisterstatus());
-			userAccountInvitationMapper.insert(invitation);
-		}
-	}
+        if (!RegisterStatusConstants.ACTIVE.equals(record.getRegisterstatus())) {
+            // save to invitation user
+            UserAccountInvitation invitation = new UserAccountInvitation();
+            invitation.setAccountid(record.getAccountId());
+            invitation.setCreatedtime(new GregorianCalendar().getTime());
+            invitation.setUsername(record.getUsername());
+            invitation.setInviteuser(inviteUser);
+            invitation
+                    .setInvitationstatus((record.getRegisterstatus() == null) ? RegisterStatusConstants.VERIFICATING
+                            : record.getRegisterstatus());
+            userAccountInvitationMapper.insert(invitation);
+        }
+    }
 
-	@Override
-	public int updateWithSession(User record, String username) {
-		LOG.debug("Check whether there is exist email in system before");
-		if ((record.getEmail()) != null
-				&& !record.getUsername().equals(record.getEmail())) {
-			UserExample ex = new UserExample();
-			ex.createCriteria().andUsernameEqualTo(record.getEmail());
-			int numUsers = userMapper.countByExample(ex);
-			if (numUsers > 0) {
-				throw new UserInvalidInputException(
+    @Override
+    public int updateWithSession(User record, String username) {
+        LOG.debug("Check whether there is exist email in system before");
+        if ((record.getEmail()) != null
+                && !record.getUsername().equals(record.getEmail())) {
+            UserExample ex = new UserExample();
+            ex.createCriteria().andUsernameEqualTo(record.getEmail());
+            int numUsers = userMapper.countByExample(ex);
+            if (numUsers > 0) {
+                throw new UserInvalidInputException(
                         String.format("Email %s is already existed in system. Please choose another email.",
                                 record.getEmail()));
-			}
-		}
+            }
+        }
 
-		// now we keep username similar than email
-		UserExample ex = new UserExample();
-		ex.createCriteria().andUsernameEqualTo(record.getUsername());
-		record.setUsername(record.getEmail());
-		return userMapper.updateByExampleSelective(record, ex);
-	}
+        // now we keep username similar than email
+        UserExample ex = new UserExample();
+        ex.createCriteria().andUsernameEqualTo(record.getUsername());
+        record.setUsername(record.getEmail());
+        return userMapper.updateByExampleSelective(record, ex);
+    }
 
-	@Override
-	public void updateUserAccount(SimpleUser record, Integer sAccountId) {
-		LOG.debug("Check whether there is exist email in system before");
-		if (!record.getUsername().equals(record.getEmail())) {
-			UserExample ex = new UserExample();
-			ex.createCriteria().andUsernameEqualTo(record.getEmail());
-			int numUsers = userMapper.countByExample(ex);
-			if (numUsers > 0) {
-				throw new UserInvalidInputException(
+    @Override
+    public void updateUserAccount(SimpleUser record, Integer sAccountId) {
+        LOG.debug("Check whether there is exist email in system before");
+        if (!record.getUsername().equals(record.getEmail())) {
+            UserExample ex = new UserExample();
+            ex.createCriteria().andUsernameEqualTo(record.getEmail());
+            int numUsers = userMapper.countByExample(ex);
+            if (numUsers > 0) {
+                throw new UserInvalidInputException(
                         String.format("Email %s is already existed in system. Please choose another email.",
                                 record.getEmail()));
-			}
-		}
+            }
+        }
 
-		// now we keep username similar than email
-		UserExample ex = new UserExample();
-		ex.createCriteria().andUsernameEqualTo(record.getUsername());
-		record.setUsername(record.getEmail());
-		userMapper.updateByExampleSelective(record, ex);
+        // now we keep username similar than email
+        UserExample ex = new UserExample();
+        ex.createCriteria().andUsernameEqualTo(record.getUsername());
+        record.setUsername(record.getEmail());
+        userMapper.updateByExampleSelective(record, ex);
 
-		UserAccountExample userAccountEx = new UserAccountExample();
-		userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername())
-				.andAccountidEqualTo(sAccountId);
-		List<UserAccount> userAccounts = userAccountMapper
-				.selectByExample(userAccountEx);
-		if (userAccounts.size() > 0) {
-			UserAccount userAccount = userAccounts.get(0);
-			if (record.getRoleid() == -1) {
-				userAccount.setRoleid(null);
-				userAccount.setIsaccountowner(true);
-			} else {
-				userAccount.setRoleid(record.getRoleid());
-			}
+        UserAccountExample userAccountEx = new UserAccountExample();
+        userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername())
+                .andAccountidEqualTo(sAccountId);
+        List<UserAccount> userAccounts = userAccountMapper
+                .selectByExample(userAccountEx);
+        if (userAccounts.size() > 0) {
+            UserAccount userAccount = userAccounts.get(0);
+            if (record.getRoleid() == -1) {
+                userAccount.setRoleid(null);
+                userAccount.setIsaccountowner(true);
+            } else {
+                userAccount.setRoleid(record.getRoleid());
+            }
 
-			userAccount.setRegisterstatus(record.getRegisterstatus());
-			userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-			userAccountMapper.updateByPrimaryKey(userAccount);
-		}
-	}
+            userAccount.setRegisterstatus(record.getRegisterstatus());
+            userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+            userAccountMapper.updateByPrimaryKey(userAccount);
+        }
+    }
 
-	@Override
-	public void massRemoveWithSession(List<String> primaryKeys,
-			String username, int accountId) {
-		userMapperExt.removeKeysWithSession(primaryKeys);
-	}
+    @Override
+    public void massRemoveWithSession(List<String> primaryKeys,
+            String username, int accountId) {
+        userMapperExt.removeKeysWithSession(primaryKeys);
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public SimpleUser authentication(String username, String password,
-			String subDomain, boolean isPasswordEncrypt) {
-		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setUsername(new StringSearchField(username));
-		criteria.setSaccountid(null);
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public SimpleUser authentication(String username, String password,
+            String subDomain, boolean isPasswordEncrypt) {
+        UserSearchCriteria criteria = new UserSearchCriteria();
+        criteria.setUsername(new StringSearchField(username));
+		criteria.setRegisterStatuses(new SetSearchField<>(new String[]{RegisterStatusConstants.ACTIVE}));
+        criteria.setSaccountid(null);
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			criteria.setSubdomain(new StringSearchField(subDomain));
-		}
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            criteria.setSubdomain(new StringSearchField(subDomain));
+        }
 
-		List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(
-				criteria, 0, Integer.MAX_VALUE));
-		if (users == null || users.isEmpty()) {
-			throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
-		} else {
-			SimpleUser user = users.get(0);
-			if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password,
-							user.getPassword(), isPasswordEncrypt)) {
-				LOG.debug(String.format("PASS: %s   %s", password, user.getPassword()));
-				throw new UserInvalidInputException("Invalid username or password");
-			}
+        List<SimpleUser> users = findPagableListByCriteria(new SearchRequest<>(
+                criteria, 0, Integer.MAX_VALUE));
+        if (users == null || users.isEmpty()) {
+            throw new UserInvalidInputException(String.format("User %s is not existed in this domain %s", username, subDomain));
+        } else {
+            SimpleUser user = users.get(0);
+            if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password,
+                            user.getPassword(), isPasswordEncrypt)) {
+                LOG.debug(String.format("PASS: %s   %s", password, user.getPassword()));
+                throw new UserInvalidInputException("Invalid username or password");
+            }
 
-			LOG.debug(String.format("User %s login to system successfully!", username));
+            LOG.debug(String.format("User %s login to system successfully!", username));
 
-			if (user.getIsAccountOwner() == null || (user.getIsAccountOwner() != null
+            if (user.getIsAccountOwner() == null || (user.getIsAccountOwner() != null
                     && !user.getIsAccountOwner())) {
-				if (user.getRoleid() != null) {
-					LOG.debug(String.format("User %s is not admin. Getting his role", username));
-					RolePermissionExample ex = new RolePermissionExample();
-					ex.createCriteria().andRoleidEqualTo(user.getRoleid());
-					List roles = rolePermissionMapper
-							.selectByExampleWithBLOBs(ex);
-					if (CollectionUtils.isNotEmpty(roles)) {
-						RolePermission rolePer = (RolePermission) roles.get(0);
-						PermissionMap permissionMap = PermissionMap
-								.fromJsonString(rolePer.getRoleval());
-						user.setPermissionMaps(permissionMap);
-						LOG.debug(String.format("Find role match to user %s", username));
-					} else {
-						LOG.debug(String.format("We can not find any role associate to user %s", username));
-					}
-				} else {
-					LOG.debug(String.format("User %s has no any role", username));
-				}
-			}
-			user.setPassword(null);
-			return user;
-		}
-	}
+                if (user.getRoleid() != null) {
+                    LOG.debug(String.format("User %s is not admin. Getting his role", username));
+                    RolePermissionExample ex = new RolePermissionExample();
+                    ex.createCriteria().andRoleidEqualTo(user.getRoleid());
+                    List roles = rolePermissionMapper
+                            .selectByExampleWithBLOBs(ex);
+                    if (CollectionUtils.isNotEmpty(roles)) {
+                        RolePermission rolePer = (RolePermission) roles.get(0);
+                        PermissionMap permissionMap = PermissionMap
+                                .fromJsonString(rolePer.getRoleval());
+                        user.setPermissionMaps(permissionMap);
+                        LOG.debug(String.format("Find role match to user %s", username));
+                    } else {
+                        LOG.debug(String.format("We can not find any role associate to user %s", username));
+                    }
+                } else {
+                    LOG.debug(String.format("User %s has no any role", username));
+                }
+            }
+            user.setPassword(null);
+            return user;
+        }
+    }
 
-	@Override
-	public SimpleUser findUserByUserNameInAccount(String username,
-			Integer accountId) {
-		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setUsername(new StringSearchField(username));
-		criteria.setSaccountid(new NumberSearchField(accountId));
+    @Override
+    public SimpleUser findUserByUserNameInAccount(String username,
+            Integer accountId) {
+        UserSearchCriteria criteria = new UserSearchCriteria();
+        criteria.setUsername(new StringSearchField(username));
+        criteria.setSaccountid(new NumberSearchField(accountId));
 
-		List<SimpleUser> users = userMapperExt.findPagableListByCriteria(
-				criteria, new RowBounds(0, Integer.MAX_VALUE));
-		if (CollectionUtils.isEmpty(users)) {
-			return null;
-		} else {
-			return users.get(0);
-		}
-	}
+        List<SimpleUser> users = userMapperExt.findPagableListByCriteria(
+                criteria, new RowBounds(0, Integer.MAX_VALUE));
+        if (CollectionUtils.isEmpty(users)) {
+            return null;
+        } else {
+            return users.get(0);
+        }
+    }
 
-	@Override
-	public void pendingUserAccount(String username, Integer accountId) {
-		pendingUserAccounts(Arrays.asList(username), accountId);
+    @Override
+    public void pendingUserAccount(String username, Integer accountId) {
+        pendingUserAccounts(Arrays.asList(username), accountId);
 
-		// clean cache of related items
-		CacheUtils.cleanCaches(accountId, UserService.class);
-	}
+        // clean cache of related items
+        CacheUtils.cleanCaches(accountId, UserService.class);
+    }
 
-	private void internalPendingUserAccount(String username, Integer accountId) {
-		// check if current user is the unique account owner, then reject
-		// deletion
-		UserAccountExample userAccountEx = new UserAccountExample();
-		userAccountEx.createCriteria().andUsernameEqualTo(username)
-				.andAccountidEqualTo(accountId);
-		List<UserAccount> accounts = userAccountMapper
-				.selectByExample(userAccountEx);
-		if (accounts.size() > 0) {
-			UserAccount account = accounts.get(0);
-			if (Boolean.TRUE.equals(account.getIsaccountowner())) {
-				userAccountEx = new UserAccountExample();
-				userAccountEx.createCriteria().andAccountidEqualTo(accountId)
-						.andIsaccountownerEqualTo(Boolean.TRUE);
-				if (userAccountMapper.countByExample(userAccountEx) == 1) {
-					throw new UserInvalidInputException(
+    private void internalPendingUserAccount(String username, Integer accountId) {
+        // check if current user is the unique account owner, then reject
+        // deletion
+        UserAccountExample userAccountEx = new UserAccountExample();
+        userAccountEx.createCriteria().andUsernameEqualTo(username)
+                .andAccountidEqualTo(accountId);
+        List<UserAccount> accounts = userAccountMapper
+                .selectByExample(userAccountEx);
+        if (accounts.size() > 0) {
+            UserAccount account = accounts.get(0);
+            if (Boolean.TRUE.equals(account.getIsaccountowner())) {
+                userAccountEx = new UserAccountExample();
+                userAccountEx.createCriteria().andAccountidEqualTo(accountId)
+                        .andIsaccountownerEqualTo(Boolean.TRUE);
+                if (userAccountMapper.countByExample(userAccountEx) == 1) {
+                    throw new UserInvalidInputException(
                             String.format("Can not delete user %s. The reason is %s is the unique account owner of the current account.",
                                     username, username));
-				}
-			}
-		}
+                }
+            }
+        }
 
-		userAccountEx = new UserAccountExample();
-		userAccountEx.createCriteria().andUsernameEqualTo(username)
-				.andAccountidEqualTo(accountId);
-		UserAccount userAccount = new UserAccount();
-		userAccount.setRegisterstatus(RegisterStatusConstants.DELETE);
-		userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
+        userAccountEx = new UserAccountExample();
+        userAccountEx.createCriteria().andUsernameEqualTo(username)
+                .andAccountidEqualTo(accountId);
+        UserAccount userAccount = new UserAccount();
+        userAccount.setRegisterstatus(RegisterStatusConstants.DELETE);
+        userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
 
-		// notify users are "deleted"
-		UserRemovedCommand userRemovedCommand = CamelProxyBuilderUtil.build(
-				UserEndpoints.USER_REMOVE_ENDPOINT, UserRemovedCommand.class);
-		userRemovedCommand.userRemoved(username, accountId);
-	}
+        // notify users are "deleted"
+        UserRemovedCommand userRemovedCommand = CamelProxyBuilderUtil.build(
+                UserEndpoints.USER_REMOVE_ENDPOINT, UserRemovedCommand.class);
+        userRemovedCommand.userRemoved(username, accountId);
+    }
 
-	@Override
-	public void pendingUserAccounts(List<String> usernames, Integer accountId) {
-		for (String username : usernames) {
-			internalPendingUserAccount(username, accountId);
-		}
+    @Override
+    public void pendingUserAccounts(List<String> usernames, Integer accountId) {
+        for (String username : usernames) {
+            internalPendingUserAccount(username, accountId);
+        }
 
-		// clean cache of related items
-		CacheUtils.cleanCaches(accountId, UserService.class);
-	}
+        // clean cache of related items
+        CacheUtils.cleanCaches(accountId, UserService.class);
+    }
 
-	@Override
-	public User findUserByUserName(String username) {
-		UserExample ex = new UserExample();
-		ex.createCriteria().andUsernameEqualTo(username);
-		List<User> users = userMapper.selectByExample(ex);
-		if (CollectionUtils.isEmpty(users)) {
-			return null;
-		} else {
-			return users.get(0);
-		}
-	}
+    @Override
+    public User findUserByUserName(String username) {
+        UserExample ex = new UserExample();
+        ex.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(ex);
+        if (CollectionUtils.isEmpty(users)) {
+            return null;
+        } else {
+            return users.get(0);
+        }
+    }
 
-	@Override
-	public void updateUserAccountStatus(String username, Integer sAccountId,
-			String registerStatus) {
-		// Update status of user account
-		UserAccount userAccount = new UserAccount();
-		userAccount.setAccountid(sAccountId);
-		userAccount.setUsername(username);
-		userAccount.setRegisterstatus(registerStatus);
+    @Override
+    public void updateUserAccountStatus(String username, Integer sAccountId,
+            String registerStatus) {
+        // Update status of user account
+        UserAccount userAccount = new UserAccount();
+        userAccount.setAccountid(sAccountId);
+        userAccount.setUsername(username);
+        userAccount.setRegisterstatus(registerStatus);
 
-		UserAccountExample ex = new UserAccountExample();
-		ex.createCriteria().andAccountidEqualTo(sAccountId)
-				.andUsernameEqualTo(username);
-		userAccountMapper.updateByExampleSelective(userAccount, ex);
-	}
+        UserAccountExample ex = new UserAccountExample();
+        ex.createCriteria().andAccountidEqualTo(sAccountId)
+                .andUsernameEqualTo(username);
+        userAccountMapper.updateByExampleSelective(userAccount, ex);
+    }
 
-	@Override
-	public void updateUserAccountsStatus(List<String> usernames,
-			Integer sAccountId, String registerStatus) {
-		for (String username : usernames) {
-			updateUserAccountStatus(username, sAccountId, registerStatus);
-		}
+    @Override
+    public void updateUserAccountsStatus(List<String> usernames,
+            Integer sAccountId, String registerStatus) {
+        for (String username : usernames) {
+            updateUserAccountStatus(username, sAccountId, registerStatus);
+        }
 
-	}
+    }
 
-	@Override
-	public int getTotalActiveUsersInAccount(Integer accountId) {
-		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setRegisterStatuses(new SetSearchField<>(
-				new String[] { RegisterStatusConstants.ACTIVE }));
-		criteria.setSaccountid(new NumberSearchField(accountId));
-		return userMapperExt.getTotalCount(criteria);
-	}
+    @Override
+    public int getTotalActiveUsersInAccount(Integer accountId) {
+        UserSearchCriteria criteria = new UserSearchCriteria();
+        criteria.setRegisterStatuses(new SetSearchField<>(
+                new String[] { RegisterStatusConstants.ACTIVE }));
+        criteria.setSaccountid(new NumberSearchField(accountId));
+        return userMapperExt.getTotalCount(criteria);
+    }
 }

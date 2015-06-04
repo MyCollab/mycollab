@@ -24,9 +24,9 @@ import com.esofthead.mycollab.core.InvalidPasswordException;
  * @since 1.0
  * 
  */
-public class PasswordCheckerUtil {
+public final class PasswordCheckerUtil {
 
-	public static final String[] partialRegexChecks = { ".*[a-z]+.*", // lower
+	private static final String[] partialRegexChecks = { ".*[a-z]+.*", // lower
 			".*[A-Z]+.*", // upper
 			".*[\\d]+.*", // digits
 			".*[@#$%]+.*" // symbols

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;

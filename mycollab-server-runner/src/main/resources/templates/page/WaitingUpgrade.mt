@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
 #mainContent {

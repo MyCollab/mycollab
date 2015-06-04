@@ -85,9 +85,11 @@ public class ApplicationProperties {
             File myCollabResourceFile = getAppConfigFile();
 
             if (myCollabResourceFile != null) {
-                properties.load(new FileInputStream(myCollabResourceFile));
+                try (FileInputStream propsStream = new FileInputStream(myCollabResourceFile)) {
+                    properties.load(propsStream);
+                }
             } else {
-                properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
+                        properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
             }
         } catch (Exception e) {
             throw new MyCollabException(e);

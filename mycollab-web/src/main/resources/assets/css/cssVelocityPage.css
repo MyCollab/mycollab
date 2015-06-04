@@ -8,6 +8,7 @@ body {
 	margin: 0; 
 	padding: 0; 
 	width: 100%;
+	font-family: sans-serif;
 }
 img {
 	border: none;
@@ -43,12 +44,12 @@ img {
 
 h1 {
 	color: #05ecfa;
-	font: 27px 'Georgia', sans-serif;
+	font: 27px sans-serif;
 }
 
 h3 {
 	vertical-align: top;
-	font: 16px 'Georgia', sans-serif;
+	font: 16px sans-serif;
 	color: #eaebec;
 	margin: 10px 0;
 }
@@ -59,7 +60,7 @@ h4 {
 	font-weight: normal;
 }
 span {
-	font: 16px 'Georgia', sans-serif;
+	font: 16px;
 	color:#FFFFFF;
 }
 a {
@@ -92,7 +93,7 @@ a {
 	width: 936px;
 	margin: 0 auto;
 	color: #FFFFFF;
-	font: 18px 'Georgia', sans-serif;
+	font: 18px;
 	line-height: 1.5em;
 }
 
@@ -128,14 +129,14 @@ a {
 }
 
 #bottom span {
-	font: 12px 'Georgia', sans-serif;
+	font: 12px;
 	color: #858F94;
 }
 
 #footer {
 	position: absolute;
 	bottom: 0;
-	width: 100%; /* Height of the footer */
+	width: 100%;
 	height: 10px;
 }
 
@@ -170,14 +171,12 @@ a {
 #exclamation_mark {
     color: #3474B0;
     float: left;
-    font-family: "Lucida Bright",Arial,sans-serif;
     font-size: 180px;
     font-weight: bold;
     line-height: 165px;
 }
 #error_code {
     color: #3474B0;
-    font-family: "Lucida Bright",Arial,sans-serif;
     font-size: 130px;
     font-weight: bold;
     line-height: 130px;
@@ -189,7 +188,7 @@ a {
 }
 #content {
 	color: #FFFFFF;
-	font: 18px 'Georgia',sans-serif;
+	font-size: 18px;
 	line-height: 1.5em;
 }
 #content_left {

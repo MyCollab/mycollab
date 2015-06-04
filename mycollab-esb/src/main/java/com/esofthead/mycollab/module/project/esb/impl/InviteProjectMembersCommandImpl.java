@@ -36,8 +36,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 
 @Component
-public class InviteProjectMembersCommandImpl implements
-		InviteProjectMembersCommand {
+public class InviteProjectMembersCommandImpl implements InviteProjectMembersCommand {
 
 	@Autowired
 	private UserService userService;

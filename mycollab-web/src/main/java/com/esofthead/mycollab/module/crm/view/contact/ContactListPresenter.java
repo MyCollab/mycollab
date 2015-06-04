@@ -49,9 +49,7 @@ import java.util.List;
  * @since 1.0
  * 
  */
-public class ContactListPresenter
-		extends
-		CrmGenericListPresenter<ContactListView, ContactSearchCriteria, SimpleContact>
+public class ContactListPresenter extends CrmGenericListPresenter<ContactListView, ContactSearchCriteria, SimpleContact>
 		implements MassUpdateCommand<Contact> {
 
 	private static final long serialVersionUID = 1L;

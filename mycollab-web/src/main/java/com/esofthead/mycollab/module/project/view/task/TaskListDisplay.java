@@ -34,10 +34,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
+import com.esofthead.mycollab.vaadin.ui.*;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -157,8 +154,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             taskSettingPopupBtn = new PopupButton();
             taskSettingPopupBtn.setIcon(FontAwesome.COGS);
 
-            taskSettingPopupBtn.addStyleName("noDefaultIcon");
-            taskSettingPopupBtn.addStyleName("button-icon-only");
+            taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
             OptionPopupContent filterBtnLayout = createPopupContent();
             taskSettingPopupBtn.setContent(filterBtnLayout);
@@ -176,8 +172,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                         public void buttonClick(Button.ClickEvent event) {
                             taskSettingPopupBtn.setPopupVisible(false);
                             EventBusFactory.getInstance().post(
-                                    new TaskEvent.GotoEdit(
-                                            TaskRowComp.this, task));
+                                    new TaskEvent.GotoEdit(TaskRowComp.this, task));
                         }
                     });
             editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -193,7 +188,6 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                             public void buttonClick(Button.ClickEvent event) {
                                 task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
                                 task.setPercentagecomplete(100d);
-
                                 ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                                 projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
                                 taskSettingPopupBtn.setPopupVisible(false);

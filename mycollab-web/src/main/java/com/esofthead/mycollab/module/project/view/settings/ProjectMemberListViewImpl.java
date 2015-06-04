@@ -62,7 +62,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
                 .withWidth("100%").withStyleName("hdr-view");
         viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        Label headerText = new ProjectViewHeader(ProjectTypeConstants.MEMBER,
+        ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MEMBER,
                 AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
         headerText.setStyleName("hdr-text");
 

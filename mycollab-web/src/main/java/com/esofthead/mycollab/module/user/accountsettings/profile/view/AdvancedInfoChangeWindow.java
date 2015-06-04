@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;

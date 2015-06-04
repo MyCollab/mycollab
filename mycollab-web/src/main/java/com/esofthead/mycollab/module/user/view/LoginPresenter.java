@@ -49,68 +49,61 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class LoginPresenter extends AbstractPresenter<LoginView> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(LoginPresenter.class);
 
-	private static final Logger LOG = LoggerFactory.getLogger(LoginPresenter.class);
+    public LoginPresenter() {
+        super(LoginView.class);
+    }
 
-	public LoginPresenter() {
-		super(LoginView.class);
-	}
+    @Override
+    protected void postInitView() {
+        view.addViewListener(new ViewListener<PlainLogin>() {
+            private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void postInitView() {
-		view.addViewListener(new ViewListener<PlainLogin>() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public void receiveEvent(ViewEvent<PlainLogin> event) {
+                PlainLogin data = (PlainLogin) event.getData();
+                doLogin(data.getUsername(), data.getPassword(),
+                        data.isRememberMe());
+            }
+        });
+    }
 
-			@Override
-			public void receiveEvent(ViewEvent<PlainLogin> event) {
-				PlainLogin data = (PlainLogin) event.getData();
-				doLogin(data.getUsername(), data.getPassword(),
-						data.isRememberMe());
-			}
-		});
-	}
+    public void doLogin(String username, String password, boolean isRememberPassword) {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
 
-	public void doLogin(String username, String password,
-			boolean isRememberPassword) {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		SimpleUser user = userService.authentication(username, password,
-				AppContext.getSubDomain(), false);
+        if (isRememberPassword) {
+            ((DesktopApplication) UI.getCurrent()).rememberPassword(username, password);
+        }
 
-		if (isRememberPassword) {
-			((DesktopApplication) UI.getCurrent()).rememberPassword(
-					username, password);
-		}
+        BillingAccountService billingAccountService = ApplicationContextUtil
+                .getSpringBean(BillingAccountService.class);
 
-		BillingAccountService billingAccountService = ApplicationContextUtil
-				.getSpringBean(BillingAccountService.class);
+        SimpleBillingAccount billingAccount = billingAccountService
+                .getBillingAccountById(AppContext.getAccountId());
 
-		SimpleBillingAccount billingAccount = billingAccountService
-				.getBillingAccountById(AppContext.getAccountId());
+        LOG.debug("Get billing account successfully: " + BeanUtility.printBeanObj(billingAccount));
 
-		LOG.debug("Get billing account successfully: "
-				+ BeanUtility.printBeanObj(billingAccount));
+        UserPreferenceService preferenceService = ApplicationContextUtil
+                .getSpringBean(UserPreferenceService.class);
+        UserPreference pref = preferenceService.getPreferenceOfUser(username, AppContext.getAccountId());
 
-		UserPreferenceService preferenceService = ApplicationContextUtil
-				.getSpringBean(UserPreferenceService.class);
-		UserPreference pref = preferenceService.getPreferenceOfUser(username,
-				AppContext.getAccountId());
+        LOG.debug("Login to system successfully. Save user and preference "
+                + pref + " to session");
 
-		LOG.debug("Login to system successfully. Save user and preference "
-				+ pref + " to session");
+        AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
+        pref.setLastaccessedtime(new Date());
+        preferenceService.updateWithSession(pref, AppContext.getUsername());
+        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
+    }
 
-		AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
-		pref.setLastaccessedtime(new Date());
-		preferenceService.updateWithSession(pref, AppContext.getUsername());
-		EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
-	}
-
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		container.removeAllComponents();
-		container.addComponent(view.getWidget());
-		AppContext.addFragment("user/login", "Login Page");
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        container.removeAllComponents();
+        container.addComponent(view.getWidget());
+        AppContext.addFragment("user/login", "Login Page");
+    }
 }

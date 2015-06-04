@@ -2,12 +2,12 @@
 <html style="height:100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
 
@@ -28,13 +28,13 @@
                     <span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif;">We can't find the page you asked for. If you think something is wrong, please contact your project administrator for more information.</span>
                 </div>
                 <div style="text-align:right;">
-                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
                 </div>
                 #parse("templates/page/pageFooter_ja_JP.mt")
         </div>
     </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
 <script>
     function login(){
         window.location.assign("$!loginURL");

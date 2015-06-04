@@ -4,11 +4,11 @@
         "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
 <module>
     <!-- WS Compiler: manually edited -->
-
+<!--
     <generate-with class="com.esofthead.mycollab.community.OptimizedConnectorBundleLoaderFactory">
         <when-type-assignable class="com.vaadin.client.metadata.ConnectorBundleLoader" />
     </generate-with>
-
+-->
     <inherits name="org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset" />
 
     <inherits name="org.vaadin.peter.contextmenu.ContextmenuWidgetset" />

@@ -51,10 +51,6 @@ import java.util.List;
 public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
     private static final long serialVersionUID = 1L;
 
-    TaskTableDisplay(List<TableViewField> displayColumns) {
-        this(null, displayColumns, SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
-    }
-
     public TaskTableDisplay(TableViewField requiredColumn,
                             List<TableViewField> displayColumns, int displayNums) {
         super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
@@ -65,8 +61,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleTask task = getBeanByIndex(itemId);
                 CssLayout taskName = new CssLayout();
 
@@ -107,8 +102,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public com.vaadin.ui.Component generateCell(Table source,
-                                                                final Object itemId, Object columnId) {
+                    public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                         SimpleTask task = getBeanByIndex(itemId);
                         Double percomp = (task.getPercentagecomplete() == null) ? new Double(0) : task.getPercentagecomplete();
                         ProgressPercentageIndicator progress = new ProgressPercentageIndicator(percomp);
@@ -121,11 +115,9 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleTask task = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(task.getStartdate());
-
             }
         });
 
@@ -150,14 +142,11 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                 final SimpleTask task = getBeanByIndex(itemId);
                 PopupButton taskSettingPopupBtn = new PopupButton();
                 taskSettingPopupBtn.setIcon(FontAwesome.COGS);
-
-                taskSettingPopupBtn.addStyleName("noDefaultIcon");
-                taskSettingPopupBtn.addStyleName("button-icon-only");
+                taskSettingPopupBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
 
                 OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
-                Button editButton = new Button(AppContext
-                        .getMessage(GenericI18Enum.BUTTON_EDIT),
+                Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -191,8 +180,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                     closeBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                     filterBtnLayout.addOption(closeBtn);
                 } else {
-                    Button reOpenBtn = new Button("ReOpen",
-                            new Button.ClickListener() {
+                    Button reOpenBtn = new Button("ReOpen", new Button.ClickListener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
@@ -215,8 +203,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
 
                 if (!"Pending".equals(task.getStatus())) {
                     if (!"Closed".equals(task.getStatus())) {
-                        Button pendingBtn = new Button("Pending",
-                                new Button.ClickListener() {
+                        Button pendingBtn = new Button("Pending", new Button.ClickListener() {
                                     private static final long serialVersionUID = 1L;
 
                                     @Override
@@ -229,8 +216,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                                         projectTaskService.updateSelectiveWithSession(
                                                 task, AppContext.getUsername());
                                         fireTableEvent(new TableClickEvent(
-                                                TaskTableDisplay.this, task,
-                                                "pendingTask"));
+                                                TaskTableDisplay.this, task, "pendingTask"));
                                     }
                                 });
                         pendingBtn.setIcon(FontAwesome.HDD_O);
@@ -238,8 +224,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                         filterBtnLayout.addOption(pendingBtn);
                     }
                 } else {
-                    Button reOpenBtn = new Button("ReOpen",
-                            new Button.ClickListener() {
+                    Button reOpenBtn = new Button("ReOpen", new Button.ClickListener() {
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
@@ -260,17 +245,14 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                     filterBtnLayout.addOption(reOpenBtn);
                 }
 
-                Button deleteBtn = new Button(AppContext
-                        .getMessage(GenericI18Enum.BUTTON_DELETE),
+                Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
                             public void buttonClick(ClickEvent event) {
-                                ConfirmDialogExt.show(
-                                        UI.getCurrent(),
-                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                                        SiteConfiguration.getSiteName()),
+                                ConfirmDialogExt.show(UI.getCurrent(),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
                                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -300,13 +282,11 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             }
         });
 
-        this.addGeneratedColumn("assignUserFullName",
-                new Table.ColumnGenerator() {
+        this.addGeneratedColumn("assignUserFullName", new Table.ColumnGenerator() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public com.vaadin.ui.Component generateCell(Table source,
-                                                                final Object itemId, Object columnId) {
+                    public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                         SimpleTask task = getBeanByIndex(itemId);
                         return new ProjectUserLink(task.getAssignuser(), task.getAssignUserAvatarId(), task.getAssignUserFullName());
 

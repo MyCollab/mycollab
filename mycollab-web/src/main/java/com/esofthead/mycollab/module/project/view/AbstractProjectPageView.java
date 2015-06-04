@@ -29,12 +29,11 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * 
  */
 public class AbstractProjectPageView extends AbstractPageView {
-
 	private static final long serialVersionUID = 1L;
+
 	protected Label headerText;
 	protected CssLayout contentWrapper;
 	protected MHorizontalLayout header;
-	protected Image titleIcon;
 
 	public AbstractProjectPageView(String headerText, FontAwesome icon) {
 		super();

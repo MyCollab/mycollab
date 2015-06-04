@@ -51,6 +51,7 @@ import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.google.common.eventbus.Subscribe;
 import com.google.gson.Gson;

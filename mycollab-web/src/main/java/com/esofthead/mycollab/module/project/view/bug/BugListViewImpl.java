@@ -74,7 +74,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
         this.generateDisplayTable();
         constructTableActionControls();
         with(bugSearchPanel, bugListLayout);
-
     }
 
     private void generateDisplayTable() {

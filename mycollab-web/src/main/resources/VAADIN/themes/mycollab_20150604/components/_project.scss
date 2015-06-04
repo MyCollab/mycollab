@@ -1,0 +1,772 @@
+@mixin mycollab-project {
+  /* Project Management */
+
+  .v-csslayout.project-module {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+  }
+
+  /* Project Page View */
+
+  .project-module .page-view.v-margin-left, .accountViewContainer .page-view.v-margin-left {
+    padding-left: 30px;
+  }
+
+  .project-module .page-view.v-margin-right, .accountViewContainer .page-view.v-margin-right {
+    padding-right: 30px;
+  }
+
+  .projectDashboardView {
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    .navigator-wrap .project-list-comp {
+      .project-name {
+        .v-label {
+          cursor: pointer;
+        }
+        padding: 9px 0px;
+      }
+      .project-description {
+        color: #FFF;
+        padding: 10px 0px 20px;
+        border-bottom: 1px solid $border-color;
+      }
+    }
+    .container-wrap.main-content {
+      .top-panel {
+        background-color: #FFF;
+        border-bottom: 1px solid $border-color;
+        padding: 10px 30px;
+      }
+    }
+    .sidebar-menu {
+      background: none;
+      padding: 20px 0px 0px;
+      .v-button-wrap .v-icon {
+        font-size: $font-x-large;
+      }
+    }
+    .addViewLayout {
+      padding: 0px 30px 10px;
+    }
+  }
+
+  /* My Project List */
+
+  .v-popupbutton.myprojectlist {
+    background-color:white;
+  }
+
+  .v-popupbutton-popup-myprojectlist, .myprojectlist {
+    background-color: white;
+    .contentWrapper {
+      border-style: solid;
+      border-width: 1px 0px 0px 0px;
+      border-color: $border-color;
+    }
+    .projectblock {
+      padding: 0px;
+      background-color: #FFF;
+      border-color: $border-color;
+      border-width: 0px 1px 1px;
+      border-style: solid;
+      &:hover {
+        background-color: $hover-background-color;
+      }
+      .projectlink-wrapper, .projectlink-wrapper-archived {
+        border-right: 1px solid $border-color;
+
+        padding: 10px 15px 8px;
+        .project-name {
+          .v-button-wrap {
+            padding: 0px 0px 10px;
+          }
+          a {
+            font-size: $font-large;
+            font-weight: bold;
+          }
+        }
+      }
+      .projectlink-wrapper {
+        background-color: lavenderblush;
+        &:hover {
+          background-color: $hover-background-color;
+        }
+      }
+      .projectlink-wrapper-archived {
+        background-color: darkgray;
+        &:hover {
+          background-color: $hover-background-color;
+        }
+      }
+    }
+  }
+
+  .project-status {
+    .v-verticallayout {
+      &.v-margin-top {
+        padding-top: 8px;
+      }
+      &.v-margin-right {
+        padding-right: 15px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 5px;
+      }
+      &.v-margin-left {
+        padding-left: 15px;
+      }
+    }
+    .member-count-lbl .v-button-wrap {
+      padding: 0px;
+      border: none;
+    }
+    .createdtime-lbl {
+      color: #808080;
+      font-size: $font-small;
+    }
+    .status-lbl {
+      color: #888;
+    }
+    .v-slot-phase-status-lbl:after {
+      border-top: 3px double $border-color;
+      display: block;
+      height: 1px;
+      content: " ";
+      width: 300px;
+      position: absolute;
+      left: 50px;
+      top: 17px;
+      z-index: 0;
+    }
+    .phase-status-lbl {
+      position: relative;
+      z-index: 1;
+      padding-right: 5px;
+    }
+    .phase-status-layout {
+      padding-top: 5px;
+    }
+    .phase-status-btn {
+      .v-button-wrap, &:hover .v-button-wrap {
+        padding: 0px;
+        border: none;
+        background: none;
+        border: none;
+      }
+      padding: 0px;
+      border: none;
+      background: none;
+      .v-button-caption {
+        font-size: 18px;
+        font-weight: 700;
+        small {
+          font-weight: 400;
+          font-size: $font-small;
+          display: block;
+        }
+      }
+    }
+  }
+
+  .prj-list-row {
+    background-color: #FFF;
+    border-color: $border-color;
+    border-width: 0px 1px 1px;
+    border-style: solid;
+    padding: 0px;
+    &:nth-child(even) {
+      background-color: $background-color;
+    }
+    &:nth-child(odd) {
+      background-color: #FFF;
+    }
+    &:hover {
+      background-color: $hover-background-color;
+    }
+  }
+
+  /* Milestone Box */
+
+  .milestone-box {
+    margin-top: 25px;
+    background-color: beige;
+    border-color: #BEBEBE;
+    border-style: solid;
+    border-width: 1px 1px 1px 6px;
+    padding: 12px 20px;
+    .milestone-name {
+      font-size: $font-large;
+      border-bottom: 1px dashed #BEBEBE !important;
+      padding-bottom: 8px;
+    }
+  }
+
+  /* End Milestone Box */
+
+  .widget-short-prj-name {
+    width: 60px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: $border-color;
+    background-color:lavenderblush;
+    font-weight:bold;
+    font-size:$font-large;
+  }
+
+  .instruction-box {
+    background-color: bisque;
+    padding: 10px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    margin-top: 15px;
+  }
+
+  .projectinfo {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid $border-color;
+    background: none no-repeat left top #FFF;
+    border-radius: 0px;
+  }
+
+  .message-toppanel {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid $border-color;
+    background: none no-repeat left top $background-color;
+    border-radius: 0px;
+  }
+
+  .projectinfo-header, .message-toppanel-header {
+    font-size: $font-normal;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 3px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: none no-repeat left top $panel-background-color;
+    border-radius: 0px;
+  }
+
+  .projectinfo-header {
+    &.v-margin-top {
+      padding-top: 7px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 7px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
+  }
+
+  .message-toppanel-header {
+    &.v-margin-top {
+      padding-top: 3px;
+    }
+    &.v-margin-right {
+      padding-right: 10px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 2px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
+  }
+
+  .projectinfo-header {
+    .project-name {
+      font-weight: bold;
+      font-size: $font-larger;
+      color: #313131;
+    }
+  }
+
+  .projectinfo-footer {
+    &.v-margin-top {
+      padding-top: 5px;
+    }
+    &.v-margin-right {
+      padding-right: 5px;
+    }
+    &.v-margin-bottom {
+      padding-bottom: 5px;
+    }
+    &.v-margin-left {
+      padding-left: 18px;
+    }
+  }
+
+  .projectfeed-hdr-wrapper {
+    background: none repeat-x left bottom cadetblue;
+    padding: 15px 30px;
+    .h1 {
+      padding: 0px;
+      color: white;
+    }
+    .h2, .v-button-link .v-button-caption, .v-button-link .v-icon, .v-label, .v-label a  {
+      color: white;
+    }
+  }
+
+  .member-preview-form {
+    border: 1px solid $border-color;
+    padding: 30px;
+    background-color: #E9F2F7;
+    div.v-csslayout.member-block {
+      border-radius: 0px;
+      border: none;
+      padding: 0px;
+      margin: 0px;
+      width: 350px;
+    }
+    .member-block .member-info.v-margin-left {
+      padding-left: 20px;
+    }
+  }
+
+  .project-tableless {
+    display: table;
+    width: 100%;
+    &:hover {
+      background-color: beige;
+    }
+    .columnExpand {
+      display: table-cell;
+      line-height: 20px;
+      padding: 5px;
+      padding-left:0px;
+    }
+    .column100 {
+      display: table-cell;
+      width: 100px;
+      padding: 5px;
+      padding-left:0px;
+    }
+    .column200 {
+      display: table-cell;
+      width: 160px;
+      padding: 5px;
+      padding-left:0px;
+    }
+  }
+
+  /* Form Container View Field */
+
+  .v-button-link.block {
+    line-height: 22px;
+    background-color: blueviolet;
+    padding: 0px 7px 0px 7px;
+    margin-right: 2px;
+    &:active, &:focus {
+      line-height: 22px;
+      background-color: blueviolet;
+      padding: 0px 7px 0px 7px;
+      margin-right: 2px;
+    }
+    .v-button-caption {
+      color: white;
+      vertical-align:sub;
+    }
+  }
+
+  .task-attached {
+    background: none;
+    padding: 0px 7px 1px;
+    margin-right: 2px;
+    color: #3333EC;
+    pointer: none;
+  }
+  /* End Form Container View Field */
+
+  .project-list-comp {
+     padding: 13px 7px 0px;
+     .v-button-wrap {
+       text-align: left;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+     }
+     .v-popup-indicator {
+       float: right;
+       position: absolute;
+       right: 7px;
+       top: 7px;
+     }
+   }
+
+  .v-button.add-project-btn {
+    border: none;
+    border-radius: 10px;
+    background-color: #17D61B;
+    .v-button-wrap, &:active .v-button-wrap {
+      padding: 0px;
+      text-align:center;
+    }
+    .v-button-wrap .v-button-caption {
+      font-size: $font-larger;
+      line-height: 20px;
+      font-weight: bold;
+      color: #FFF;
+    }
+  }
+
+  div.v-csslayout.followers-container {
+    @include flex-compatible;
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    flex-wrap: wrap;
+    -ms-writing-mode:lr-tb;
+    .v-checkbox {
+      margin-right: 10px;
+    }
+  }
+
+  .v-csslayout.project-tag-comp {
+    @include flex-compatible;
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    flex-wrap: wrap;
+    -ms-writing-mode:lr-tb;
+    padding: 0px 30px 10px 30px;
+  }
+
+  .v-csslayout.tag-block {
+    @include flex-compatible;
+    margin: 0px 10px 5px 0px;
+    background-color:bisque;
+    height: 19px;
+    .v-button.link:focus .v-button-wrap, .v-button-wrap,  .v-pressed .v-button-wrap {
+      padding: 2px 5px 0px 5px;
+    }
+    .remove-btn-sup .v-button-wrap {
+      background-color: bisque;
+      padding: 0px;
+      margin: 0px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border-image-width: 0;
+      .v-icon {
+        font-size: 10px;
+        height: 19px;
+      }
+    }
+  }
+
+  /* Pages List View */
+
+  .pages-list-layout {
+    padding-top: 12px;
+    &:after {
+      content: "";
+      width: 100%;
+      border-bottom: 1px solid $separator-color;
+      display: block;
+    }
+    .page-item-block {
+      border-top: 1px solid $separator-color;
+      padding: 6px 24px 6px 0px;
+      .h3 .v-button-caption {
+        font-size: $font-large;
+        font-weight: bold;
+        line-height: 24px;
+      }
+      .control-btns {
+        padding-top: 5px;
+        .link {
+          .v-button-wrap .v-icon {
+            vertical-align: middle;
+          }
+          .v-button-caption {
+            vertical-align: middle;
+            color: rgb(138, 138, 138);
+          }
+          &:hover .v-button-caption {
+            color: rgb(68, 68, 68);
+          }
+        }
+      }
+      .last-update-info {
+        padding-top: 3px;
+        color: rgb(138, 138, 138);
+        text-decoration: none;
+        font-size: $font-small;
+        a {
+          color: rgb(138, 138, 138);
+          text-decoration: none;
+          font-size: $font-small;
+        }
+      }
+    }
+  }
+
+  /* Page Read View */
+
+  .page-read-layout {
+    border-bottom: 1px solid $border-color;
+  }
+
+  .searchitems-layout {
+    .project-item-search-box {
+      border-bottom: 1px solid $separator-color;
+      .footer {
+        border-style:none;
+        color: gray;
+        font-size: $font-small;
+      }
+    }
+  }
+
+  .footer2 {
+    border-style:none;
+    color: gray;
+    font-size: $font-small;
+    @include flex-compatible;
+  }
+
+  .v-csslayout.tagcloud {
+    border-style: solid;
+    border-top-style: none;
+    border-width: 1px;
+    border-color: $border-color;
+    .tagbutton {
+      margin: 2px;
+      &.selected {
+        background-color:blue;
+      }
+      &.nonselected {
+        background-color:red;
+      }
+    }
+  }
+
+  .v-button.multiselect {
+    height: 25px;
+    width: 22px;
+    background: none no-repeat 0px 0px transparent;
+    border-radius: 0px 2px 2px 0px;
+    border-width: 1px 1px 1px 0px;
+    border-color: $border-color;
+    position: relative;
+    .v-button-wrap, &:active .v-button-wrap, &:hover .v-button-wrap {
+      padding: 0px;
+      margin: 0px;
+      border-width: 0px;
+      height: 100%;
+      border-radius: 0px;
+      background-color: transparent;
+    }
+  }
+
+  /* Stand Up List View */
+
+  .v-label.standup-row-content {
+    padding: 10px 0px 10px 0px;
+    font-size: $font-normal;
+    width: 100%;
+    white-space: normal;
+    ul {
+      padding-left: 14px;
+      margin: 0px;
+    }
+  }
+
+  /* End Stand Up List View */
+
+  /* Toggle Button Group */
+
+  .v-buttongroup.toggle-btn-group .v-button {
+    &.selected {
+      background-color: #287ECE;
+      &:active, &:focus {
+        background-color: #287ECE;
+      }
+    }
+    &.v-button-left, &.v-button-middle, &.v-button-right {
+      border: none;
+    }
+    .v-button-wrap {
+      background: none;
+    }
+    &.v-button-right .v-button-wrap {
+      border-left: 1px solid #8F8F8F;
+    }
+    &.selected .v-button-wrap {
+      background: none;
+    }
+    .v-button-wrap img {
+      margin: 0px;
+    }
+    &:active .v-button-wrap .v-button-caption, &:focus .v-button-wrap .v-button-caption, &.selected .v-button-wrap .v-button-caption {
+      color: white;
+    }
+    background-color: rgb(123, 123, 123);
+    color: white;
+  }
+
+  div.v-csslayout.member-token{
+    cursor: text;
+    .v-textfield {
+      border: 0px solid white;
+      &:focus {
+        @include box-shadow(none);
+      }
+    }
+    .v-button:focus:after {
+      border-color: inherit;
+      @include box-shadow(none);
+    }
+    .v-button-small {
+      margin-top: 2px;
+    }
+  }
+
+  div.v-button.token-field {
+    background-color:antiquewhite;
+    height: 32px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    &:hover {
+      background-color:antiquewhite;
+    }
+  }
+
+  /* StandUp Report List */
+
+  .standup-calendar .selected-ext {
+    border: 1px solid #EE7C08;
+  }
+
+  .addViewLayout .standup-edit-layout .h2 {
+    border-bottom: none;
+  }
+
+  .standup-block {
+    background-color: $background-color;
+    border: 1px solid $border-color;
+    .report-content {
+      border-left: 1px solid $border-color;
+      background-color: #FFF;
+      &.v-margin-top {
+        padding-top: 20px;
+      }
+      &.v-margin-right {
+        padding-right: 20px;
+      }
+      &.v-margin-bottom {
+        padding-bottom: 20px;
+      }
+      &.v-margin-left {
+        padding-left: 20px;
+      }
+      .v-label.h2 {
+        color: #a56116;
+        font-size: $font-large;
+      }
+    }
+  }
+
+  /* End StandUp Report List */
+
+  /* Milestone View */
+
+  .milestone-view {
+    padding: 0px 0px 30px;
+  }
+
+  .milestone-view-table {
+    width: 100%;
+    height: 100%;
+    border-width: 1px 0px 0px;
+    border-style: solid;
+    border-color: $border-color;
+  }
+
+  .milestone-view-header {
+    text-align: center;
+    background: none repeat-x left top bisque;
+    height: 30px;
+    color: #5e5e5e;
+    border-bottom: 1px solid $border-color;
+    .v-label {
+      font-size: $font-normal;
+      text-shadow: 0px 1px 0px rgb(240, 240, 240);
+      font-weight: bold;
+    }
+  }
+
+  .milestone-view-body {
+    width: 33%;
+    background-color: #FFF;
+    padding: 0px;
+    .milestone-col {
+      padding: 0px 25px 25px;
+    }
+    > div > div > div > div:first-child > div > div > .milestone-box {
+      border-top: none;
+      margin-top: 0px;
+    }
+  }
+
+  .in-progress-milestones, .future-milestones {
+    border-left: 1px solid #d7d7d7;
+  }
+
+  /* End Milestone View */
+
+  .tasklist {
+    border-style: solid;
+    border-color: $border-color;
+    border-width: 0px 1px 1px 1px;
+    min-height:33px;
+    background-color:#FFF;
+
+    .taskrow {
+      border-style: solid;
+      border-color: $border-color;
+      border-width: 0px 0px 1px 0px;
+      &:last-child {
+        border-style: none;
+      }
+      &:nth-child(even) {
+        background-color: $background-color;
+      }
+      &:nth-child(odd) {
+        background-color: #FFF;
+      }
+      &:hover {
+        background-color: $hover-background-color;
+      }
+    }
+  }
+
+  .task-component {
+    margin-bottom: 5px;
+    background-color: $background-color;
+    > .v-csslayout-margin {
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      padding-left: 5px;
+    }
+    .task-name {
+      font-weight: bold;
+    }
+    .created-time {
+      color: gray;
+      font-size: $font-small;
+    }
+  }
+
+  div .gantt .bar {
+    height: 31px;
+  }
+}

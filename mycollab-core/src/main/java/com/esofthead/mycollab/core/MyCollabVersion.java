@@ -20,13 +20,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.4.0
  *
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20150601";
+    public static final String THEME_VERSION = "mycollab_20150604";
 
 	public static String getVersion() {
 		return "5.0.8";

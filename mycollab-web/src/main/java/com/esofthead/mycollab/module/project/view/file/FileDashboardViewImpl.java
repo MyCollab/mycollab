@@ -28,19 +28,16 @@ import com.vaadin.shared.ui.MarginInfo;
  * @since 1.0
  */
 @ViewComponent
-public class FileDashboardViewImpl extends AbstractPageView implements
-        FileDashboardView {
+public class FileDashboardViewImpl extends AbstractPageView implements FileDashboardView {
     private static final long serialVersionUID = 1L;
 
     @Override
     public void displayProjectFiles() {
         this.withMargin(new MarginInfo(false, true, false, true)).withWidth("100%");
-        final int projectId = CurrentProjectVariables.getProjectId();
-        String rootPath = String.format("%d/project/%d",
-                AppContext.getAccountId(), projectId);
+        int projectId = CurrentProjectVariables.getProjectId();
+        String rootPath = String.format("%d/project/%d", AppContext.getAccountId(), projectId);
 
         FileDashboardComponent dashboardComponent = new FileDashboardComponent(rootPath);
-        dashboardComponent.setWidth("100%");
         this.addComponent(dashboardComponent);
         dashboardComponent.displayResources();
     }

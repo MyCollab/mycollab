@@ -35,7 +35,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.google.common.collect.Ordering;
 import com.vaadin.server.FontAwesome;
@@ -118,7 +117,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
     }
 
     private void initHeader() {
-        Label headerText = new ProjectViewHeader(ProjectTypeConstants.PAGE,
+        ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.PAGE,
                 AppContext.getMessage(Page18InEnum.VIEW_LIST_TITLE));
 
         headerLayout.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);

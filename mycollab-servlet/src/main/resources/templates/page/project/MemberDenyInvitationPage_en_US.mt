@@ -2,12 +2,12 @@
 <html style="height:100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
 
@@ -24,15 +24,15 @@
 					<h1>Please Feedback To Inviter</h1>
 				</div>
 				<hr size="1">
-				<div >
-					Oops! We are sorry because you do not want to join the ${projectName} project. Could you please drop some lines to tell reason to the inviter?
+				<div>
+					Oops! We are sorry because you do not want to join the project '${projectName}'. Could you please drop some lines to tell reason to the inviter?
 					<div style="display: block; padding: 8px 8px 8px 8px;">
-                    <textarea id="message" rows="8" cols="90" style="width:750px;">
+                    <textarea id="message" rows="8" style="width:750px;">
                     </textarea>
                 	</div>
                     <div style="display: block; text-align: right;">
-                        <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();"><span style="font-family: 'verdana';font-size: 15px;">Send</span></button>&nbsp&nbsp
-                        <button class="v-button v-button-graybtn" type="button" onclick="return skip();"><span style="font-family: 'verdana';font-size: 15px;">Skip</span></button>
+                        <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();">Send</button>&nbsp&nbsp
+                        <button class="v-button v-button-graybtn" type="button" onclick="return skip();">Skip</button>
                     </div>
                     <div id="requireMsg" style="display: none; padding: 12px 8px 8px 20px;">
                         <p><span style="color:red; font-style:italic">
@@ -53,7 +53,7 @@
     <input type="hidden" id="projectId" value="$!projectId">
     <input type="hidden" id="projectRoleId" value="$!projectRoleId">
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#message').val("");
@@ -74,12 +74,12 @@
                     projectId : $('#projectId').val().trim() , projectRoleId : $('#projectRoleId').val().trim() },
                   complete: function(data){
                      alert('Send email successfully');
-                     window.location.assign("http://www.mycollab.com/");
+                     window.location.assign("https://www.mycollab.com/");
                   }
                 });
     }
     function skip(){
-        window.location.assign("http://www.mycollab.com/");
+        window.location.assign("https://www.mycollab.com/");
     }
 </script>               
 </html>

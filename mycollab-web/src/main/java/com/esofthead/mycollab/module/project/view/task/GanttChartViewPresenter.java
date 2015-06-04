@@ -50,7 +50,6 @@ public class GanttChartViewPresenter extends AbstractPresenter<GanttChartView> {
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-            TaskContainer taskContainer = (TaskContainer) container;
             ProjectModule prjView = getRoot(container, ProjectModule.class);
             prjView.removeAllComponents();
             prjView.addComponent(view.getWidget());

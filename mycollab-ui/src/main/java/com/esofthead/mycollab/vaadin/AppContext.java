@@ -101,7 +101,7 @@ public class AppContext implements Serializable {
      */
     private Integer accountId = null;
 
-    private IMessageConveyor messageHelper;
+    private transient IMessageConveyor messageHelper;
 
     private Locale userLocale = Locale.US;
 

@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccountInvitationExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +65,11 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 	private UserAccountInvitationMapper userAccountInvitationMapper;
 
 	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
 
-		String subdomain = "";
+		String subDomain = "";
 		String loginURL = request.getContextPath() + "/";
 
 		try {
@@ -78,13 +79,14 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 				int accountId = urlTokenizer.getInt();
 				String username = urlTokenizer.getString();
 				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-					subdomain = urlTokenizer.getString();
+					subDomain = urlTokenizer.getString();
 				}
 
 				User user = userService.findUserByUserName(username);
                 if (user == null) {
                     PageGeneratorUtil.responeUserNotExistPage(response,
                             username, request.getContextPath() + "/");
+                    return;
                 } else {
 					if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
 						user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
@@ -97,28 +99,23 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 						PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
 						return;
 					} else {
-						if (userInAccount.getRegisterstatus().equals(
-								RegisterStatusConstants.ACTIVE)) {
+						if (userInAccount.getRegisterstatus().equals(RegisterStatusConstants.ACTIVE)) {
 							LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
 							response.sendRedirect(request.getContextPath() + "/");
 							return;
 						} else {
 							// remove account invitation
 							UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
-							userAccountInvitationExample.createCriteria()
-									.andUsernameEqualTo(username)
+							userAccountInvitationExample.createCriteria().andUsernameEqualTo(username)
 									.andAccountidEqualTo(accountId);
-							userAccountInvitationMapper
-									.deleteByExample(userAccountInvitationExample);
+							userAccountInvitationMapper.deleteByExample(userAccountInvitationExample);
 
-							if (user.getPassword() == null
-									|| user.getPassword().trim().equals("")) {
+							if (StringUtils.isBlank(user.getPassword())) {
 								LOG.debug(
 										"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
-										user.getUsername(),
-										BeanUtility.printBeanObj(user));
+										user.getUsername(), BeanUtility.printBeanObj(user));
 								// forward to page create password for new user
-								String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subdomain));
+								String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subDomain));
 
 								Map<String, Object> context = new HashMap<>();
 								context.put("username", username);
@@ -133,8 +130,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 							} else {
 								LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
 								// redirect to account site
-								userService.updateUserAccountStatus(username,
-										accountId, RegisterStatusConstants.ACTIVE);
+								userService.updateUserAccountStatus(username, accountId, RegisterStatusConstants.ACTIVE);
 								response.sendRedirect(request.getContextPath() + "/");
 								return;
 							}
@@ -142,10 +138,8 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 					}
 				}
 			}
-			throw new ResourceNotFoundException();
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
-
 	}
 }

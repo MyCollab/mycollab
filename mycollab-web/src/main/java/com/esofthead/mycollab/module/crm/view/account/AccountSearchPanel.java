@@ -68,7 +68,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected void buildExtraControls() {
-        final Button createAccountBtn = new Button(
+		Button createAccountBtn = new Button(
                 AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
                 new Button.ClickListener() {
                     @Override

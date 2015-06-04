@@ -2,12 +2,12 @@
 <html style="height:100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
 
@@ -28,14 +28,14 @@
 						You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
 				</div>
 				<div class="right">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();">Login</button>
 				</div>
 				#parse("templates/page/pageFooter_en_US.mt")
 			</div>
 		</div>
 	</div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
 <script>
 	function login(){
 		window.location.assign("$!loginURL");

@@ -13,7 +13,7 @@
 		<tr>
 			<td style="background: url('${defaultUrls.cdn_url}icons/email/border_large_center_orange.png') repeat-y
 			0 0 transparent; text-align: center; padding-bottom: 10px;"><div style="width: 440px; display:
-			inline-block; vertical-align: middle; text-align: left;"><span style="font: bold 18px Tahoma, Geneva, sans-serif; color: white;">MyCollab Invitation</span></div><div style="width: 150px; display: inline-block; vertical-align: middle;"><img src="${defaultUrls.cdn_url}icons/logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;"></div>
+			inline-block; vertical-align: middle; text-align: left;"><span style="font: bold 18px Tahoma, Geneva, sans-serif; color: white;">MyCollab Invitation</span></div><div style="width: 150px; display: inline-block; vertical-align: middle;"><img src="${defaultUrls.cdn_url}icons/logo_email.png" alt="The power productivity tool for your organization" width="130" height="30" style="margin: 0px; padding: 0px;"></div>
 			</td>
 		</tr>
 		<tr>

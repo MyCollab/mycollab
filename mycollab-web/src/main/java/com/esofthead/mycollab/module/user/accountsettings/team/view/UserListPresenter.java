@@ -50,7 +50,7 @@ public class UserListPresenter extends AbstractPresenter<UserListView> {
 		userContainer.removeAllComponents();
 		userContainer.addComponent(view.getWidget());
 
-		UserSearchCriteria criteria = null;
+		UserSearchCriteria criteria;
 		if (data == null) {
 			criteria = new UserSearchCriteria();
 			criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));

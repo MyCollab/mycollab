@@ -41,17 +41,17 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 public class LeadSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	public static Param p_leadContactName = new ConcatStringParam(
+	public static final Param p_leadContactName = new ConcatStringParam(
 			"lead-contactname", LeadI18nEnum.FORM_NAME, "m_crm_lead",
 			new String[] { "firstname", "lastname" });
 
-	public static Param p_accountName = new StringParam("lead-accountname",
+	public static final Param p_accountName = new StringParam("lead-accountname",
 			LeadI18nEnum.FORM_ACCOUNT_NAME, "m_crm_lead", "accountName");
 
-	public static Param p_website = new StringParam("lead-accountname",
+	public static final Param p_website = new StringParam("lead-accountname",
 			LeadI18nEnum.FORM_WEBSITE, "m_crm_lead", "website");
 
-	public static Param p_anyEmail = new CompositionStringParam(
+	public static final Param p_anyEmail = new CompositionStringParam(
 			"lead-anyEmail",
 			LeadI18nEnum.FORM_ANY_EMAIL,
 			new StringParam[] { new StringParam("", null, "m_crm_lead", "email") });

@@ -35,9 +35,7 @@ import com.vaadin.ui.UI;
  * @since 4.4.0
  *
  */
-public class CrmContainerPresenter extends
-		AbstractMobilePresenter<CrmContainerView> {
-
+public class CrmContainerPresenter extends AbstractMobilePresenter<CrmContainerView> {
 	private static final long serialVersionUID = -2422488836026839744L;
 
 	public CrmContainerPresenter() {

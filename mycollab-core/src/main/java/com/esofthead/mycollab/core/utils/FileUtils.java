@@ -16,10 +16,11 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import com.esofthead.mycollab.core.MyCollabException;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * @author MyCollab Ltd.
@@ -68,6 +69,17 @@ public class FileUtils {
         } catch (UnsupportedEncodingException e) {
             return new InputStreamReader(FileUtils.class.getClassLoader()
                     .getResourceAsStream(templateFile));
+        }
+    }
+
+    public static void mkdirs(File file) {
+        if (file.exists()) {
+            return;
+        }
+        try {
+            Files.createDirectories(file.toPath());
+        } catch (IOException e) {
+            throw new MyCollabException(e);
         }
     }
 }

@@ -23,7 +23,7 @@
        <tr>
        		<td>
        			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
-       				<img src="${defaultUrls.cdn_url}icons/logo-email.png" alt="esofthead-logo" width="130" height="30"
+       				<img src="${defaultUrls.cdn_url}icons/logo_email.png" alt="The power productivity tool for your organization" width="130" height="30"
        				style="margin: 0px; padding: 0px;">
        			</div>
        		</td>			

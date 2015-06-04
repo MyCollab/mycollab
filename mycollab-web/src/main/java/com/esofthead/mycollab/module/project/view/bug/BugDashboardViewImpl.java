@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.project.ui.components.ProjectViewHeader;
 import com.esofthead.mycollab.module.project.view.bug.components.*;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -37,6 +36,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.FontAwesome;
@@ -44,7 +44,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -56,8 +55,7 @@ import java.util.GregorianCalendar;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class BugDashboardViewImpl extends AbstractLazyPageView implements
-        BugDashboardView {
+public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDashboardView {
     private MVerticalLayout leftColumn, rightColumn;
     private MHorizontalLayout header;
 
@@ -82,17 +80,15 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
     }
 
     private void initHeader() {
-        final Label title = new ProjectViewHeader(ProjectTypeConstants.BUG,
+        ProjectViewHeader title = new ProjectViewHeader(ProjectTypeConstants.BUG,
                 AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
         header.with(title).withAlign(title, Alignment.MIDDLE_LEFT).expand(title);
 
-        final Button createBugBtn = new Button(
-                AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
+        Button createBugBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
                 new Button.ClickListener() {
                     @Override
                     public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new BugEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
                     }
                 });
         createBugBtn.setEnabled(CurrentProjectVariables
@@ -109,8 +105,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         controlsBtn.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(
-                                new BugComponentEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
                     }
                 });
         createComponentBtn.setEnabled(CurrentProjectVariables

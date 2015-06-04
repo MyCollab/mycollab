@@ -1,5 +1,4 @@
 <hr size="1" style="margin: 1px 0 1px 0; margin-top:15px;">
-			
 <div id="bottom">
     <p>
 		<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;

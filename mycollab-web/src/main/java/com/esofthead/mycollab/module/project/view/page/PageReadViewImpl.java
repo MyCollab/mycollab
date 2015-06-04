@@ -95,7 +95,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
     private void constructHeader() {
         pageVersionsSelection = new PageVersionSelectionBox();
 
-        Label headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
+        ProjectViewHeader headerLbl = new ProjectViewHeader(ProjectTypeConstants.PAGE, AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
         headerLbl.setWidthUndefined();
         headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 

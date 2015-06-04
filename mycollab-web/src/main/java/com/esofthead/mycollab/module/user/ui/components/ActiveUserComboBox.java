@@ -38,7 +38,6 @@ import com.vaadin.ui.ComboBox;
  * 
  */
 public class ActiveUserComboBox extends ComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")
@@ -49,14 +48,11 @@ public class ActiveUserComboBox extends ComboBox {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
-		criteria.setRegisterStatuses(new SetSearchField<String>(
-				SearchField.AND,
+		criteria.setRegisterStatuses(new SetSearchField<>(SearchField.AND,
 				new String[] { RegisterStatusConstants.ACTIVE }));
 
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		List<SimpleUser> userList = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+		UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+		List<SimpleUser> userList = userService.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		loadUserList(userList);
 
@@ -69,14 +65,11 @@ public class ActiveUserComboBox extends ComboBox {
 	}
 
 	private void loadUserList(List<SimpleUser> userList) {
-
 		for (SimpleUser user : userList) {
 			this.addItem(user.getUsername());
 			this.setItemCaption(user.getUsername(), user.getDisplayName());
-			this.setItemIcon(
-					user.getUsername(),
-					UserAvatarControlFactory.createAvatarResource(
-							user.getAvatarid(), 16));
+			this.setItemIcon(user.getUsername(),
+					UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
 		}
 	}
 }

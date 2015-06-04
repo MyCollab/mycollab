@@ -14,22 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * This file is part of mycollab-web.
- * <p/>
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p/>
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p/>
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -56,6 +40,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.FontAwesome;
@@ -104,12 +89,10 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
             if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
                 inProgressContainer.addComponent(componentContainer);
                 totalInprogressMilestones++;
-            } else if (MilestoneStatus.Future.name().equals(
-                    milestone.getStatus())) {
+            } else if (MilestoneStatus.Future.name().equals(milestone.getStatus())) {
                 futureContainer.addComponent(componentContainer);
                 totalFutureMilestones++;
-            } else if (MilestoneStatus.Closed.name().equals(
-                    milestone.getStatus())) {
+            } else if (MilestoneStatus.Closed.name().equals(milestone.getStatus())) {
                 closeContainer.addComponent(componentContainer);
                 totalClosedMilestones++;
             }
@@ -127,7 +110,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private void initUI() {
-        Label headerText = new ProjectViewHeader(ProjectTypeConstants.MILESTONE,
+        ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MILESTONE,
                 AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
 
         MHorizontalLayout header = new MHorizontalLayout()
@@ -138,10 +121,9 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     }
 
     private HorizontalLayout createHeaderRight() {
-        final HorizontalLayout layout = new HorizontalLayout();
+        HorizontalLayout layout = new HorizontalLayout();
 
-        createBtn = new Button(
-                AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
+        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -153,8 +135,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 });
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.MILESTONES));
+        createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
         layout.addComponent(createBtn);
         layout.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
 
@@ -163,7 +144,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
     private void constructBody() {
         CustomLayout bodyContent = CustomLayoutExt.createLayout("milestoneView");
-
         bodyContent.setWidth("100%");
         bodyContent.setStyleName("milestone-view");
 
@@ -229,7 +209,6 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         LabelLink milestoneLink = new LabelLink(milestone.getName(),
                 ProjectLinkBuilder.generateMilestonePreviewFullLink(milestone.getProjectid(), milestone.getId()));
-        milestoneLink.setStyleName("link");
         milestoneLink.addStyleName("bold");
         milestoneLink.addStyleName(UIConstants.WORD_WRAP);
         milestoneLink.addStyleName("milestone-name");

@@ -19,9 +19,8 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;

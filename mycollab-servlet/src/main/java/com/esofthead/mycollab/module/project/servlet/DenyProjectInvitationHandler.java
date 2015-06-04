@@ -50,9 +50,6 @@ import java.util.Map;
 public class DenyProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DenyProjectInvitationHandler.class);
-
 	static String DENY_FEEDBACK_TEMPLATE = "templates/page/project/MemberDenyInvitationPage.mt";
 	static String REFUSE_MEMBER_DENY_TEMPLATE = "templates/page/project/RefuseMemberDenyActionPage.mt";
 	static String PROJECT_NOT_AVAILABLE_TEMPLATE = "templates/page/project/ProjectNotAvaiablePage.mt";
@@ -61,16 +58,13 @@ public class DenyProjectInvitationHandler extends
 	private ProjectMemberService projectMemberService;
 
 	@Autowired
-	private RelayEmailNotificationService relayEmailService;
-
-	@Autowired
 	private ProjectService projectService;
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
-		try {
+
 			if (pathInfo != null) {
 				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
 
@@ -81,10 +75,8 @@ public class DenyProjectInvitationHandler extends
 				String inviterName = urlTokenizer.getString();
 				String inviterEmail = urlTokenizer.getString();
 
-				String subdomain = projectService
-						.getSubdomainOfProject(projectId);
-				SimpleProject project = projectService.findById(projectId,
-						sAccountId);
+				String subdomain = projectService.getSubdomainOfProject(projectId);
+				SimpleProject project = projectService.findById(projectId, sAccountId);
 				if (project == null) {
 					Map<String, Object> context = new HashMap<>();
 					context.put("loginURL", request.getContextPath() + "/");
@@ -97,8 +89,7 @@ public class DenyProjectInvitationHandler extends
 				}
 
 				ProjectMember projectMember = projectMemberService
-						.findMemberByUsername(inviteeEmail, projectId,
-								sAccountId);
+						.findMemberByUsername(inviteeEmail, projectId, sAccountId);
 
 				if (projectMember != null) {
 					Map<String, Object> context = new HashMap<>();
@@ -133,12 +124,8 @@ public class DenyProjectInvitationHandler extends
 					return;
 				}
 
+			} else {
+				throw new ResourceNotFoundException();
 			}
-			throw new ResourceNotFoundException();
-		} catch (Exception e) {
-			LOG.error("Error with projectService", e);
-			throw new MyCollabException(e);
-		}
 	}
-
 }

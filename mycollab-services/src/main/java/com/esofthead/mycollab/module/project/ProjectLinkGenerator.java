@@ -31,21 +31,16 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 public class ProjectLinkGenerator {
 
 	public static String generateProjectLink(Integer projectId) {
-		return "project/dashboard/"
-				+ GenericLinkUtils.encodeParam(projectId);
+		return "project/dashboard/" + GenericLinkUtils.encodeParam(projectId);
 	}
 
-	public static String generateProjectFullLink(String siteUrl,
-			Integer projectId) {
-		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ generateProjectLink(projectId);
+	public static String generateProjectFullLink(String siteUrl, Integer projectId) {
+		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + generateProjectLink(projectId);
 	}
 
 	public static String generateTaskGroupPreviewLink(Integer projectId,
 			Integer taskgroupId) {
-		return "project/task/taskgroup/preview/"
-				+ GenericLinkUtils.encodeParam(projectId,
-				taskgroupId);
+		return "project/task/taskgroup/preview/" + GenericLinkUtils.encodeParam(projectId, taskgroupId);
 	}
 
 	public static String generateTaskGroupPreviewFullLink(String siteUrl,

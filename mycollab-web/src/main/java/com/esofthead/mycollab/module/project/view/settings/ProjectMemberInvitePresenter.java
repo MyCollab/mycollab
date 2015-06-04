@@ -56,8 +56,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMemberInvitePresenter extends
-        AbstractPresenter<ProjectMemberInviteView> {
+public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMemberInviteView> {
     private static final long serialVersionUID = 1L;
 
     public ProjectMemberInvitePresenter() {
@@ -101,16 +100,14 @@ public class ProjectMemberInvitePresenter extends
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.USERS)) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.USERS)) {
             ProjectUserContainer userGroupContainer = (ProjectUserContainer) container;
             userGroupContainer.removeAllComponents();
             userGroupContainer.addComponent(view.getWidget());
 
             view.display();
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoUserAdd();
             SystemUIChecker.hasValidSmtpAccount();
         } else {

@@ -14,6 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * This file is part of mycollab-web.
+ * <p>
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -28,7 +44,9 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
@@ -43,116 +61,112 @@ import org.vaadin.maddon.button.MButton;
 import java.util.Arrays;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 @ViewComponent
-public class ContactListViewImpl extends
-		AbstractListItemComp<ContactSearchCriteria, SimpleContact> implements
-		ContactListView {
+public class ContactListViewImpl extends AbstractListItemComp<ContactSearchCriteria, SimpleContact>
+        implements ContactListView {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	protected void buildExtraControls() {
-		MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
+    @Override
+    protected void buildExtraControls() {
+        MButton customizeViewBtn = ComponentUtils.createCustomizeViewButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(
-                        new ContactListCustomizeWindow(
+                UI.getCurrent().addWindow(new ContactListCustomizeWindow(
                                 ContactListView.VIEW_DEF_ID, tableItem));
             }
         });
-		this.addExtraButton(customizeViewBtn);
+        this.addExtraButton(customizeViewBtn);
 
-		MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
+        MButton importBtn = ComponentUtils.createImportEntitiesButton().withListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 UI.getCurrent().addWindow(new ContactImportWindow());
             }
         });
-		importBtn.setEnabled(AppContext
-				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		this.addExtraButton(importBtn);
-	}
+        importBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
+        this.addExtraButton(importBtn);
+    }
 
-	@Override
-	protected DefaultGenericSearchPanel<ContactSearchCriteria> createSearchPanel() {
-		return new ContactSearchPanel();
-	}
+    @Override
+    protected DefaultGenericSearchPanel<ContactSearchCriteria> createSearchPanel() {
+        return new ContactSearchPanel();
+    }
 
-	@Override
-	protected AbstractPagedBeanTable<ContactSearchCriteria, SimpleContact> createBeanTable() {
-		ContactTableDisplay contactTableDisplay = new ContactTableDisplay(
-				ContactListView.VIEW_DEF_ID, ContactTableFieldDef.selected,
-				Arrays.asList(ContactTableFieldDef.name,
-						ContactTableFieldDef.title,
-						ContactTableFieldDef.account,
-						ContactTableFieldDef.email,
-						ContactTableFieldDef.phoneOffice));
+    @Override
+    protected AbstractPagedBeanTable<ContactSearchCriteria, SimpleContact> createBeanTable() {
+        ContactTableDisplay contactTableDisplay = new ContactTableDisplay(
+                ContactListView.VIEW_DEF_ID, ContactTableFieldDef.selected,
+                Arrays.asList(ContactTableFieldDef.name,
+                        ContactTableFieldDef.title,
+                        ContactTableFieldDef.account,
+                        ContactTableFieldDef.email,
+                        ContactTableFieldDef.phoneOffice));
 
-		contactTableDisplay.addTableListener(new TableClickListener() {
-			private static final long serialVersionUID = 1L;
+        contactTableDisplay.addTableListener(new TableClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void itemClick(final TableClickEvent event) {
-				final SimpleContact contact = (SimpleContact) event.getData();
-				if ("contactName".equals(event.getFieldName())) {
-					EventBusFactory.getInstance().post(
-							new ContactEvent.GotoRead(ContactListViewImpl.this,
-									contact.getId()));
-				} else if ("accountName".equals(event.getFieldName())) {
-					EventBusFactory.getInstance().post(
-							new AccountEvent.GotoRead(ContactListViewImpl.this,
-									contact.getAccountid()));
-				}
-			}
-		});
-		return contactTableDisplay;
-	}
+            @Override
+            public void itemClick(final TableClickEvent event) {
+                final SimpleContact contact = (SimpleContact) event.getData();
+                if ("contactName".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(
+                            new ContactEvent.GotoRead(ContactListViewImpl.this,
+                                    contact.getId()));
+                } else if ("accountName".equals(event.getFieldName())) {
+                    EventBusFactory.getInstance().post(
+                            new AccountEvent.GotoRead(ContactListViewImpl.this,
+                                    contact.getAccountid()));
+                }
+            }
+        });
+        return contactTableDisplay;
+    }
 
-	@Override
-	protected DefaultMassItemActionHandlerContainer createActionControls() {
-		DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
+    @Override
+    protected DefaultMassItemActionHandlerContainer createActionControls() {
+        DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
-		if (AppContext.canAccess(RolePermissionCollections.CRM_CONTACT)) {
-			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
+        if (AppContext.canAccess(RolePermissionCollections.CRM_CONTACT)) {
+            container.addActionItem(MassItemActionHandler.DELETE_ACTION,
                     FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
-		}
+                    "delete", AppContext
+                            .getMessage(GenericI18Enum.BUTTON_DELETE));
+        }
 
-		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
+        container.addActionItem(MassItemActionHandler.MAIL_ACTION,
                 FontAwesome.ENVELOPE_O,
-				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
+                "mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
-		container.addDownloadActionItem(
-				ReportExportType.PDF,
+        container.addDownloadActionItem(
+                ReportExportType.PDF,
                 FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+                "export", "export.pdf",
+                AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
-		container.addDownloadActionItem(
-				ReportExportType.EXCEL,
+        container.addDownloadActionItem(
+                ReportExportType.EXCEL,
                 FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+                "export", "export.xlsx",
+                AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
-		container.addDownloadActionItem(
-				ReportExportType.CSV,
-				FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+        container.addDownloadActionItem(
+                ReportExportType.CSV,
+                FontAwesome.FILE_TEXT_O,
+                "export", "export.csv",
+                AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
-		if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
-			container.addActionItem(MassItemActionHandler.MASS_UPDATE_ACTION,
+        if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
+            container.addActionItem(MassItemActionHandler.MASS_UPDATE_ACTION,
                     FontAwesome.DATABASE,
-					"update", AppContext
-							.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE));
-		}
+                    "update", AppContext
+                            .getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE));
+        }
 
-		return container;
-	}
+        return container;
+    }
 }

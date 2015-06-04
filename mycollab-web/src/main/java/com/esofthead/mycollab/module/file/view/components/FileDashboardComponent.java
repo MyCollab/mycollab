@@ -43,35 +43,34 @@ public class FileDashboardComponent extends MVerticalLayout {
 	private Folder rootFolder;
 	private ResourcesDisplayComponent resourceDisplayComponent;
 
-	private final ResourceService resourceService;
+	private ResourceService resourceService;
 
 	public FileDashboardComponent(String rootPath) {
-        this.withMargin(false).withWidth("100%");
+        this.withMargin(false);
+        this.setSizeFull();
 
 		this.rootFolder = new Folder(rootPath);
 		this.resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
 
 		this.resourceDisplayComponent = new ResourcesDisplayComponent(rootFolder);
 		this.with(constructHeader(), resourceDisplayComponent);
-
 	}
 
 	public HorizontalLayout constructHeader() {
-		final MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false))
+		MHorizontalLayout layout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false))
                 .withWidth("100%");
 
-		final Label titleLbl = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files",
+        Label titleLbl = new Label(ProjectAssetsManager.getAsset(ProjectTypeConstants.FILE).getHtml() + " Files",
                 ContentMode.HTML);
         titleLbl.setStyleName("headerName");
-		layout.with(titleLbl).withAlign(titleLbl, Alignment.MIDDLE_LEFT).expand(titleLbl);
-		return layout;
+        layout.with(titleLbl).withAlign(titleLbl, Alignment.MIDDLE_LEFT).expand(titleLbl);
+        return layout;
 	}
 
 	public void displayResources() {
 		resourceDisplayComponent.displayComponent(rootFolder, "Documents");
 
-		resourceDisplayComponent
-				.addSearchHandlerToBreadCrumb(new SearchHandler<FileSearchCriteria>() {
+		resourceDisplayComponent.addSearchHandlerToBreadCrumb(new SearchHandler<FileSearchCriteria>() {
 					@Override
 					public void onSearch(FileSearchCriteria criteria) {
 						Folder selectedFolder = (Folder) resourceService.getResource(criteria.getBaseFolder());

@@ -37,8 +37,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class ProjectListPresenter
-        extends AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
+public class ProjectListPresenter extends AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
     private static final long serialVersionUID = 35574182873793474L;
 
     public ProjectListPresenter() {

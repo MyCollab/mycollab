@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import com.esofthead.mycollab.core.utils.FileUtils;
+
 import java.io.File;
 
 /**
@@ -31,14 +33,14 @@ public final class FileStorageConfiguration extends StorageConfiguration {
 	static {
 		String userFolder = System.getProperty("user.home");
 		baseContentFolder = new File(userFolder + "/.mycollab");
-		baseContentFolder.mkdirs();
+		FileUtils.mkdirs(baseContentFolder);
 	}
 
 	FileStorageConfiguration() {
 		File avatarFolder = new File(baseContentFolder, "avatar");
 		File logoFolder = new File(baseContentFolder, "logo");
-		avatarFolder.mkdirs();
-		logoFolder.mkdirs();
+		FileUtils.mkdirs(avatarFolder);
+		FileUtils.mkdirs(logoFolder);
 	}
 
 	/**

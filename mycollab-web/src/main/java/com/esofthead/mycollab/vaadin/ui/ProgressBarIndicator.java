@@ -48,8 +48,7 @@ public class ProgressBarIndicator extends CustomLayoutExt {
         this(total, remaining, true);
     }
 
-    public ProgressBarIndicator(int total, int remaining,
-                                final Boolean displayPercentage) {
+    public ProgressBarIndicator(int total, int remaining, Boolean displayPercentage) {
         this();
         float value = (total != 0) ? ((float) (total - remaining) / total) : 1;
         progressIndicator.setValue(value);
@@ -61,9 +60,7 @@ public class ProgressBarIndicator extends CustomLayoutExt {
                 this.progressStatusLabel = new Label("100%");
             }
         } else {
-            this.progressStatusLabel.setValue(String.valueOf(total
-                    - remaining)
-                    + "/" + String.valueOf(total));
+            this.progressStatusLabel.setValue(String.valueOf(total - remaining) + "/" + String.valueOf(total));
         }
     }
 

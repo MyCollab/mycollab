@@ -71,15 +71,13 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         super();
 
         header = new MHorizontalLayout().withMargin(true).withStyleName("hdr-view").withWidth("100%");
-
-        addComponent(header);
         previewForm = new AdvancedPreviewBeanForm<>();
 
         contentWrapper = new CssLayout();
         contentWrapper.setStyleName("content-wrapper");
         contentWrapper.addComponent(previewForm);
         contentWrapper.setWidth("900px");
-        addComponent(contentWrapper);
+        with(header, contentWrapper).expand(contentWrapper);
     }
 
     @Override
@@ -167,7 +165,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 }
             });
 
-            Label headerText = new ProjectViewHeader(ProjectTypeConstants.MESSAGE, message.getTitle());
+            ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MESSAGE, message.getTitle());
 
             header.with(headerText, stickyCheck, deleteBtn)
                     .withAlign(headerText, Alignment.MIDDLE_LEFT)

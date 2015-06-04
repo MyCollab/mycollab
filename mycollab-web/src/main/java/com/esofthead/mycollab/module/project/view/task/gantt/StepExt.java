@@ -46,16 +46,20 @@ public class StepExt extends Step {
         } else if(obj == null) {
             return false;
         } else {
-            AbstractStep other = (AbstractStep)obj;
-            if(this.getUid() == null) {
-                if(other.getUid() != null) {
+            if (obj instanceof AbstractStep) {
+                AbstractStep other = (AbstractStep)obj;
+                if(this.getUid() == null) {
+                    if(other.getUid() != null) {
+                        return false;
+                    }
+                } else if(!this.getUid().equals(other.getUid())) {
                     return false;
                 }
-            } else if(!this.getUid().equals(other.getUid())) {
+
+                return true;
+            } else {
                 return false;
             }
-
-            return true;
         }
     }
 }

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 

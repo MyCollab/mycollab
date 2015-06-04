@@ -2,15 +2,13 @@
 <html style="height:100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/mycollab_assets/fonts/verdana.svg#verdana">
-<link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/mycollab_assets/fonts/verdana.svg#verdana">
+<link rel="icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.cdn_url}favicon.ico" type="image/x-icon">
 
 <link rel="stylesheet" type="text/css" href="${defaultUrls.cdn_url}css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
-    background-image: url('${defaultUrls.cdn_url}icons/footer-clouds.png');  background-repeat: no-repeat;
+    background-image: url('${defaultUrls.cdn_url}icons/footer_clouds.png');  background-repeat: no-repeat;
     background-position: bottom right;
 }
 
@@ -56,7 +54,7 @@
                                         </form>
                                     </div>
                                     <div style="padding-top: 15px; text-align: right;">
-                                        <button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'verdana';font-size: 15px;">Update</span></button>
+                                        <button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();">Update</button>
                                     </div>
                                 </div>
                             </td>
@@ -72,7 +70,7 @@
     <input type="hidden" id="loginURL" value="$!loginURL">
     <input type="hidden" id="redirectURL" value="$!redirectURL">
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="${defaultUrls.cdn_url}js/jquery-1.10.2.min.js"></script>
 <script>
     $(document).ready(function(){
     });
@@ -102,7 +100,7 @@
                     if(data.length > 0){
                         alert(data);
                     }else{
-                        alert("Your password has been set successfully");
+                        alert("Your password has been changed successfully");
                         window.location.assign("$!loginURL");
                     }
                  }
