@@ -100,8 +100,7 @@ public class MilestoneReadPresenter extends
 
 					@Override
 					public void onClone(SimpleMilestone data) {
-						SimpleMilestone cloneData = (SimpleMilestone) data
-								.copy();
+						SimpleMilestone cloneData = (SimpleMilestone) data.copy();
 						cloneData.setId(null);
 						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoEdit(this, cloneData));

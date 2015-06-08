@@ -49,142 +49,132 @@ import com.vaadin.ui.VerticalLayout;
 
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractMobilePageView
-		implements ProjectMemberInviteView {
+        implements ProjectMemberInviteView {
 
-	private static final long serialVersionUID = 6319585054784302576L;
+    private static final long serialVersionUID = 6319585054784302576L;
 
-	// private List<String> inviteEmails;
-	private Integer roleId = 0;
+    // private List<String> inviteEmails;
+    private Integer roleId = 0;
 
-	private EmailField inviteEmailField;
-	private ProjectRoleComboBox roleComboBox;
-	private TextArea messageArea;
-	private VerticalComponentGroup permissionsPanel;
-	private VerticalComponentGroup inviteFormLayout;
+    private EmailField inviteEmailField;
+    private ProjectRoleComboBox roleComboBox;
+    private TextArea messageArea;
+    private VerticalComponentGroup permissionsPanel;
+    private VerticalComponentGroup inviteFormLayout;
 
-	public ProjectMemberInviteViewImpl() {
-		super();
-		this.addStyleName("member-invite-view");
-		this.setCaption(AppContext
-				.getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE));
+    public ProjectMemberInviteViewImpl() {
+        super();
+        this.addStyleName("member-invite-view");
+        this.setCaption(AppContext
+                .getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE));
 
-		constructUI();
-	}
+        constructUI();
+    }
 
-	private void constructUI() {
-		this.roleComboBox = new ProjectRoleComboBox();
-		this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = 1L;
+    private void constructUI() {
+        this.roleComboBox = new ProjectRoleComboBox();
+        this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				Integer roleId = (Integer) roleComboBox.getValue();
-				displayRolePermission(roleId);
-			}
-		});
-		roleComboBox.setCaption(AppContext
-				.getMessage(ProjectMemberI18nEnum.FORM_ROLE));
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                Integer roleId = (Integer) roleComboBox.getValue();
+                displayRolePermission(roleId);
+            }
+        });
+        roleComboBox.setCaption(AppContext
+                .getMessage(ProjectMemberI18nEnum.FORM_ROLE));
 
-		final VerticalLayout mainLayout = new VerticalLayout();
-		mainLayout.setStyleName("main-layout");
-		mainLayout.addStyleName("editview-layout");
-		mainLayout.setWidth("100%");
+        final VerticalLayout mainLayout = new VerticalLayout();
+        mainLayout.setStyleName("main-layout");
+        mainLayout.addStyleName("editview-layout");
+        mainLayout.setWidth("100%");
 
-		inviteFormLayout = new VerticalComponentGroup();
-		inviteFormLayout.setWidth("100%");
+        inviteFormLayout = new VerticalComponentGroup();
+        inviteFormLayout.setWidth("100%");
 
-		inviteEmailField = new EmailField();
-		inviteEmailField.setCaption(AppContext
-				.getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL));
-		inviteFormLayout.addComponent(inviteEmailField);
+        inviteEmailField = new EmailField();
+        inviteEmailField.setCaption(AppContext
+                .getMessage(ProjectMemberI18nEnum.M_FORM_EMAIL));
+        inviteFormLayout.addComponent(inviteEmailField);
 
-		messageArea = new TextArea();
-		messageArea
-				.setValue(AppContext
-						.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
-		messageArea.setCaption(AppContext
-				.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE));
-		inviteFormLayout.addComponent(messageArea);
+        messageArea = new TextArea();
+        messageArea.setValue(AppContext
+                .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
+        messageArea.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE));
+        inviteFormLayout.addComponent(messageArea);
 
-		inviteFormLayout.addComponent(roleComboBox);
+        inviteFormLayout.addComponent(roleComboBox);
 
-		mainLayout.addComponent(inviteFormLayout);
+        mainLayout.addComponent(inviteFormLayout);
 
-		Label permissionSectionHdr = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-		permissionSectionHdr.setStyleName("h2");
-		mainLayout.addComponent(permissionSectionHdr);
+        Label permissionSectionHdr = new Label(
+                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+        permissionSectionHdr.setStyleName("h2");
+        mainLayout.addComponent(permissionSectionHdr);
 
-		permissionsPanel = new VerticalComponentGroup();
-		mainLayout.addComponent(permissionsPanel);
+        permissionsPanel = new VerticalComponentGroup();
+        mainLayout.addComponent(permissionsPanel);
 
-		Button inviteBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button inviteBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						if ("".equals(inviteEmailField.getValue())) {
-							return;
-						}
-						ProjectMemberInviteViewImpl.this.roleId = (Integer) roleComboBox
-								.getValue();
-						ProjectMemberInviteViewImpl.this
-								.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
-										new ProjectMemberEvent.InviteProjectMembers(
-												Arrays.asList(inviteEmailField.getValue()),
-												ProjectMemberInviteViewImpl.this.roleId,
-												messageArea.getValue())));
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        if ("".equals(inviteEmailField.getValue())) {
+                            return;
+                        }
+                        ProjectMemberInviteViewImpl.this.roleId = (Integer) roleComboBox.getValue();
+                        ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(ProjectMemberInviteViewImpl.this,
+                                new ProjectMemberEvent.InviteProjectMembers(
+                                        Arrays.asList(inviteEmailField.getValue()),
+                                        ProjectMemberInviteViewImpl.this.roleId,
+                                        messageArea.getValue())));
 
-					}
-				});
-		inviteBtn.addStyleName("save-btn");
-		this.setRightComponent(inviteBtn);
-		this.setContent(mainLayout);
-	}
+                    }
+                });
+        inviteBtn.addStyleName("save-btn");
+        this.setRightComponent(inviteBtn);
+        this.setContent(mainLayout);
+    }
 
-	private void displayRolePermission(Integer roleId) {
-		permissionsPanel.removeAllComponents();
-		if (roleId != null && roleId > 0) {
-			ProjectRoleService roleService = ApplicationContextUtil
-					.getSpringBean(ProjectRoleService.class);
-			SimpleProjectRole role = roleService.findById(roleId,
-					AppContext.getAccountId());
-			if (role != null) {
-				final PermissionMap permissionMap = role.getPermissionMap();
-				for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-					final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-					Label permissionLbl = new Label(
-							AppContext.getPermissionCaptionValue(permissionMap,
-									permissionPath));
-					permissionLbl.setCaption(AppContext
-							.getMessage(RolePermissionI18nEnum
-									.valueOf(permissionPath)));
-					permissionsPanel.addComponent(permissionLbl);
-				}
-			}
-		} else {
-			for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-				final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-				Label permissionLbl = new Label(
-						AppContext.getMessage(SecurityI18nEnum.ACCESS));
-				permissionLbl.setCaption(permissionPath);
-				permissionsPanel.addComponent(permissionLbl);
-			}
-		}
+    private void displayRolePermission(Integer roleId) {
+        permissionsPanel.removeAllComponents();
+        if (roleId != null && roleId > 0) {
+            ProjectRoleService roleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+            SimpleProjectRole role = roleService.findById(roleId,
+                    AppContext.getAccountId());
+            if (role != null) {
+                final PermissionMap permissionMap = role.getPermissionMap();
+                for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    Label permissionLbl = new Label(
+                            AppContext.getPermissionCaptionValue(permissionMap, permissionPath));
+                    permissionLbl.setCaption(AppContext
+                            .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)));
+                    permissionsPanel.addComponent(permissionLbl);
+                }
+            }
+        } else {
+            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                Label permissionLbl = new Label(
+                        AppContext.getMessage(SecurityI18nEnum.ACCESS));
+                permissionLbl.setCaption(permissionPath);
+                permissionsPanel.addComponent(permissionLbl);
+            }
+        }
 
-	}
+    }
 
-	@Override
-	public void display() {
-		roleId = 0;
+    @Override
+    public void display() {
+        roleId = 0;
 
-		displayRolePermission(roleId);
-		inviteEmailField.setValue("");
-		messageArea
-				.setValue(AppContext
-						.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
-	}
+        displayRolePermission(roleId);
+        inviteEmailField.setValue("");
+        messageArea.setValue(AppContext.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
+    }
 
 }

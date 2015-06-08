@@ -36,54 +36,45 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class ProjectMemberListPresenter
-		extends
-		AbstractListPresenter<ProjectMemberListView, ProjectMemberSearchCriteria, SimpleProjectMember> {
+public class ProjectMemberListPresenter extends
+        AbstractListPresenter<ProjectMemberListView, ProjectMemberSearchCriteria, SimpleProjectMember> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public ProjectMemberListPresenter() {
+        super(ProjectMemberListView.class);
+    }
 
-	public ProjectMemberListPresenter() {
-		super(ProjectMemberListView.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.USERS)) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
-
-			ProjectMemberSearchCriteria criteria = null;
-			if (data.getParams() == null) {
-				criteria = new ProjectMemberSearchCriteria();
-				criteria.setProjectId(new NumberSearchField(
-						CurrentProjectVariables.getProjectId()));
-				criteria.setStatus(new StringSearchField(
-						ProjectMemberStatusConstants.ACTIVE));
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-			} else {
-				criteria = (ProjectMemberSearchCriteria) data.getParams();
-			}
-			super.onGo(container, data);
-			doSearch(criteria);
-			AppContext
-					.addFragment(
-							"project/user/list/"
-									+ GenericLinkUtils
-											.encodeParam(CurrentProjectVariables
-													.getProjectId()),
-							AppContext
-									.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
-
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectMemberSearchCriteria criteria;
+            if (data.getParams() == null) {
+                criteria = new ProjectMemberSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(
+                        CurrentProjectVariables.getProjectId()));
+                criteria.setStatus(new StringSearchField(
+                        ProjectMemberStatusConstants.ACTIVE));
+                criteria.setSaccountid(new NumberSearchField(AppContext
+                        .getAccountId()));
+            } else {
+                criteria = (ProjectMemberSearchCriteria) data.getParams();
+            }
+            super.onGo(container, data);
+            doSearch(criteria);
+            AppContext.addFragment("project/user/list/" + GenericLinkUtils
+                            .encodeParam(CurrentProjectVariables.getProjectId()),
+                    AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

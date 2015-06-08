@@ -43,6 +43,19 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.0.9
+-----------------------------
+**Library Upgrades**
+
+* Upgrade libraries: AspectJ, Jetty
+
+**Bug Fixes**
+
+* User can not upload non english file name document
+* Proper handling system roles
+* The resource paths still throw error in several cases
+
+
 Version 5.0.8
 -----------------------------
 **Library Upgrades**

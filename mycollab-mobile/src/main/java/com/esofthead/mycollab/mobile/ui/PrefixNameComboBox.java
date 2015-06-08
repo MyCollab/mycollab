@@ -23,7 +23,6 @@ package com.esofthead.mycollab.mobile.ui;
  * 
  */
 public class PrefixNameComboBox extends ValueComboBox {
-
 	private static final long serialVersionUID = 1L;
 
 	public PrefixNameComboBox() {

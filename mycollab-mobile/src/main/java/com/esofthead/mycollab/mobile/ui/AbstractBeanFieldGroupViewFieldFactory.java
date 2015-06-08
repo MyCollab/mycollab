@@ -33,12 +33,10 @@ import com.vaadin.ui.Field;
  * @since 2.0
  * 
  */
-public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements
-		IBeanFieldGroupFieldFactory<B> {
+public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements IBeanFieldGroupFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractBeanFieldGroupViewFieldFactory.class);
 
 	protected GenericBeanForm<B> attachForm;
 
@@ -59,8 +57,7 @@ public abstract class AbstractBeanFieldGroupViewFieldFactory<B> implements
 					continue;
 				} else {
 					try {
-						final String propertyValue = BeanUtils.getProperty(
-								attachForm.getBean(), field.getName());
+						String propertyValue = BeanUtils.getProperty(attachForm.getBean(), field.getName());
 						formField = new FormViewField(propertyValue);
 					} catch (Exception e) {
 						LOG.error("Error while get field value", e);

@@ -205,10 +205,6 @@
     }
   }
 
-  .comment-list-wrapper.v-margin-left {
-    padding-left: 58px;
-  }
-
 /* New ReadViewLayout */
 
   .readViewLayout {
@@ -225,7 +221,7 @@
         color: red;
       }
     }
-    .h2 {
+    .v-label.h2 {
       text-shadow: #F0F0F0 0 1px 0;
       padding: 8px 0px 8px 18px;
       font-size: $font-normal;
@@ -234,13 +230,6 @@
     }
     .v-label-h2.no-border {
       border: none;
-    }
-    .v-label-h2-no-padding {
-      text-shadow: #F0F0F0 0 1px 0;
-      padding: 0px 0px 0px 0px;
-      font-size: $font-normal;
-      color: rgb(69, 69, 69);
-      font-weight: bold;
     }
   }
 

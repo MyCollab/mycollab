@@ -34,16 +34,14 @@ import com.vaadin.ui.Component;
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberListViewImpl extends
-		AbstractListViewComp<ProjectMemberSearchCriteria, SimpleProjectMember>
+public class ProjectMemberListViewImpl extends AbstractListViewComp<ProjectMemberSearchCriteria, SimpleProjectMember>
 		implements ProjectMemberListView {
 
 	private static final long serialVersionUID = 3008732621100597514L;
 
 	public ProjectMemberListViewImpl() {
 		this.addStyleName("member-list-view");
-		this.setCaption(AppContext
-				.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
+		this.setCaption(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override

@@ -229,8 +229,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                     @Override
                     public void buttonClick(ClickEvent event) {
                         EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoEdit(
-                                        MilestoneListViewImpl.this, milestone));
+                                new MilestoneEvent.GotoEdit(MilestoneListViewImpl.this, milestone));
                     }
                 });
         editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
@@ -281,13 +280,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         GridFormLayoutHelper layoutHelper = new GridFormLayoutHelper(1, 5, "100%", "80px");
         layoutHelper.addComponent(
-                new ELabel(AppContext.formatPrettyTime(milestone.getStartdate())).withDescription(AppContext.formatDate
-                        (milestone.getStartdate())),
+                new ELabel(AppContext.formatDate(milestone.getStartdate())),
                 AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
                 0, 0, Alignment.MIDDLE_LEFT);
         layoutHelper.addComponent(
-                new ELabel(AppContext.formatPrettyTime(milestone.getEnddate())).withDescription(AppContext.formatDate
-                        (milestone.getEnddate())),
+                new ELabel(AppContext.formatDate(milestone.getEnddate())),
                 AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD),
                 0, 1, Alignment.MIDDLE_LEFT);
 

@@ -31,7 +31,6 @@ import com.vaadin.ui.UI;
 
 @ViewComponent
 public class ProjectModule extends AbstractMobileSwipeView implements IModule {
-
 	private static final long serialVersionUID = -537762284500231520L;
 
 	public ProjectModule() {

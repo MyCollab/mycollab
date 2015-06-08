@@ -67,7 +67,7 @@ public class MilestoneRelatedBugView extends
 
 		criteria.setProjectId(new NumberSearchField(SearchField.AND,
 				CurrentProjectVariables.getProjectId()));
-		criteria.setMilestoneIds(new SetSearchField<Integer>(this.milestone
+		criteria.setMilestoneIds(new SetSearchField<>(this.milestone
 				.getId()));
 		setSearchCriteria(criteria);
 	}

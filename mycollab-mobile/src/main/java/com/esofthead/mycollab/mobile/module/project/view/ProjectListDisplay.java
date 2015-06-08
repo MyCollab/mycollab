@@ -34,8 +34,7 @@ import com.vaadin.ui.Component;
  * @since 4.4.0
  *
  */
-public class ProjectListDisplay
-		extends
+public class ProjectListDisplay extends
 		DefaultPagedBeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 	private static final long serialVersionUID = -3362055893248919249L;
 
@@ -48,15 +47,15 @@ public class ProjectListDisplay
 			RowDisplayHandler<SimpleProject> {
 
 		@Override
-		public Component generateRow(final SimpleProject obj, int rowIndex) {
-			final Button b = new Button(obj.getName());
+		public Component generateRow(final SimpleProject project, int rowIndex) {
+			final Button b = new Button(project.getName());
 			b.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 6404941057797908742L;
 
 				@Override
 				public void buttonClick(Button.ClickEvent event) {
 					PageActionChain chain = new PageActionChain(
-							new ProjectScreenData.Goto(obj.getId()));
+							new ProjectScreenData.Goto(project.getId()));
 					EventBusFactory.getInstance().post(
 							new ProjectEvent.GotoMyProject(
 									ProjectRowDisplayHandler.this, chain));
@@ -66,7 +65,5 @@ public class ProjectListDisplay
 			b.addStyleName("list-item");
 			return b;
 		}
-
 	}
-
 }

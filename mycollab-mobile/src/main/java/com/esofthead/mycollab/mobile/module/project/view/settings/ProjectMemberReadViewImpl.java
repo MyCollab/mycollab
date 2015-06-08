@@ -96,7 +96,7 @@ public class ProjectMemberReadViewImpl extends AbstractPreviewItemComp<SimplePro
 				return new FormViewField(beanItem.getDisplayName());
 			} else if (propertyId.equals("roleName")) {
 				String memberRole;
-				if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
+				if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
 					memberRole = AppContext.getMessage(ProjectMemberI18nEnum.M_FORM_PROJECT_ADMIN);
 				} else {
 					memberRole = beanItem.getRoleName();

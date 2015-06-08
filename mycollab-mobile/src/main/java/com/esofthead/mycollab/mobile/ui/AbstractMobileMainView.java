@@ -32,40 +32,18 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import java.io.Serializable;
-
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
+
+import java.io.Serializable;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class AbstractMobileMainView extends VerticalLayout implements
-		PageView, Serializable {
+public abstract class AbstractMobileMainView extends VerticalLayout implements PageView, Serializable {
 	private static final long serialVersionUID = 1L;
-
-	public static String SAVE_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_SAVE);
-	public static String SAVE_AND_NEW_ACTION = "Save & New";
-	public static String EDIT_ACTION = "Edit";
-	public static String CANCEL_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_CANCEL);
-	public static String DELETE_ACTION = "Delete";
-	public static String CLONE_ACTION = "Clone";
-	protected ViewState viewState;
-
-	public ViewState getViewState() {
-		return viewState;
-	}
-
-	public void setViewState(ViewState viewState) {
-		this.viewState = viewState;
-	}
 
 	@Override
 	public ComponentContainer getWidget() {

@@ -25,10 +25,13 @@ import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -43,8 +46,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 
 @ViewComponent
-public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
-		ProjectDashboardView {
+public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements ProjectDashboardView {
 	private static final long serialVersionUID = 2364544271302929730L;
 
 	private final CssLayout mainLayout;
@@ -85,34 +87,34 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 		projectModulesList.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE), "&#xf04f;"));
+				.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE), ProjectAssetsManager.getAsset(ProjectTypeConstants
+                .MESSAGE)));
 
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE), "&#xf075;"));
+				.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE), ProjectAssetsManager.getAsset(ProjectTypeConstants
+                .MILESTONE)));
 
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_TASK), "&#xe60f;"));
+				.getMessage(ProjectCommonI18nEnum.VIEW_TASK), ProjectAssetsManager.getAsset(ProjectTypeConstants.TASK)));
 
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_BUG), "&#xf188;"));
+				.getMessage(ProjectCommonI18nEnum.VIEW_BUG), ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG)));
 
-		projectModulesList.addComponent(
-				new ProjectModuleButton(AppContext
+		projectModulesList.addComponent(new ProjectModuleButton(AppContext
 						.getMessage(ProjectCommonI18nEnum.VIEW_USERS),
-						"&#xe601;"), 0, 2, 1, 2);
+						ProjectAssetsManager.getAsset(ProjectTypeConstants.MEMBER)), 0, 2, 1, 2);
 
 		mainLayout.addComponent(projectInfo);
 		mainLayout.addComponent(projectModulesList);
 	}
 
-	private class ProjectModuleButton extends Button {
+	private static  class ProjectModuleButton extends Button {
 		private static final long serialVersionUID = -6193679382567699005L;
 		private String buttonId;
 
-		public ProjectModuleButton(String id, String iconCode) {
-			super("<span aria-hidden=\"true\" data-icon=\"" + iconCode
-					+ "\"></span><div class=\"screen-reader-text\">" + id
-					+ "</div>");
+		public ProjectModuleButton(String id, FontAwesome iconCode) {
+			super(id);
+			this.setIcon(iconCode);
 			this.setWidth("100%");
 			this.setStyleName("project-module-btn");
 			this.buttonId = id;
@@ -122,16 +124,13 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 
 				@Override
 				public void buttonClick(Button.ClickEvent evt) {
-					final String buttonId = ((ProjectModuleButton) evt.getButton()).getButtonId();
+					String buttonId = ((ProjectModuleButton) evt.getButton()).getButtonId();
 					if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE).equals(buttonId)) {
-						EventBusFactory.getInstance().post(
-								new MessageEvent.GotoList(this, null));
-					} else if (AppContext.getMessage(
-							ProjectCommonI18nEnum.VIEW_MILESTONE).equals(
+						EventBusFactory.getInstance().post(new MessageEvent.GotoList(this, null));
+					} else if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE).equals(
 							buttonId)) {
 						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoList(this, null));
-
 					} else if (AppContext.getMessage(
 							ProjectCommonI18nEnum.VIEW_TASK).equals(buttonId)) {
 						EventBusFactory.getInstance().post(

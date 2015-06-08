@@ -58,6 +58,7 @@ public class TagViewComponent extends CssLayout {
     }
 
     public void display(String type, int typeId) {
+        this.removeAllComponents();
         this.type = type;
         this.typeId = typeId;
 
@@ -171,17 +172,11 @@ public class TagViewComponent extends CssLayout {
             deleteBtn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    SiteConfiguration.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 

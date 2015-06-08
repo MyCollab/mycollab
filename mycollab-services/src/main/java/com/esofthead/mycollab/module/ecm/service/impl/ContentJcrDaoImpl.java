@@ -27,6 +27,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 
+import com.esofthead.mycollab.core.utils.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.slf4j.Logger;
@@ -93,7 +94,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					Node parentNode = rootNode;
 					// create the folder node
 					for (int i = 0; i < pathStr.length - 1; i++) {
-						if (!com.esofthead.mycollab.core.utils.StringUtils.isValidFileName(pathStr[i])) {
+						if (!FileUtils.isValidFileName(pathStr[i])) {
 							throw new UserInvalidInputException("Invalid file name: " + path);
 						}
 

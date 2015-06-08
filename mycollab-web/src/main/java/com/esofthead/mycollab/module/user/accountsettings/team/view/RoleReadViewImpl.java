@@ -71,8 +71,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
     protected Layout createTopPanel() {
         buttonControls = new PreviewFormControlsGenerator<>(previewForm);
-        return buttonControls
-                .createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
+        return buttonControls.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
     }
 
     @Override
@@ -97,8 +96,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         return this.previewForm;
     }
 
-    private static String getValueFromPerPath(
-            final PermissionMap permissionMap, final String permissionItem) {
+    private static String getValueFromPerPath(PermissionMap permissionMap, String permissionItem) {
         final Integer perVal = permissionMap.get(permissionItem);
         if (perVal == null) {
             return "Undefined";
@@ -146,7 +144,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
             organizationHeader.setStyleName("h2");
             permissionsPanel.addComponent(organizationHeader);
 
-            PermissionMap permissionMap = RoleReadViewImpl.this.role.getPermissionMap();
+            PermissionMap permissionMap = role.getPermissionMap();
 
             permissionsPanel.addComponent(constructPermissionSectionView(
                     "Project", permissionMap,

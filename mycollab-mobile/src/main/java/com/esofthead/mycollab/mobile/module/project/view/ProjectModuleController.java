@@ -87,13 +87,11 @@ import com.vaadin.ui.UI;
  * @since 4.3.1
  */
 public class ProjectModuleController extends AbstractController {
-
 	private static final long serialVersionUID = 8999456416358169209L;
 
 	private final MobileNavigationManager navManager;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ProjectModuleController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProjectModuleController.class);
 
 	public ProjectModuleController(MobileNavigationManager navigationManager) {
 		this.navManager = navigationManager;

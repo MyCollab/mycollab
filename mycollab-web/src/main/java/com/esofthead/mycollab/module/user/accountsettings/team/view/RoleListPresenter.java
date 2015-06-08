@@ -49,86 +49,87 @@ import com.vaadin.ui.UI;
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_ROLE, impliedPermissionVal = AccessPermissionFlag.READ_ONLY)
 public class RoleListPresenter extends ListSelectionPresenter<RoleListView, RoleSearchCriteria, SimpleRole> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private RoleService roleService;
+    private RoleService roleService;
 
-	public RoleListPresenter() {
-		super(RoleListView.class);
-		roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-	}
+    public RoleListPresenter() {
+        super(RoleListView.class);
+        roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
+    @Override
+    protected void postInitView() {
+        super.postInitView();
 
-		view.getPopupActionHandlers().setMassActionHandler(
-				new DefaultMassEditActionHandler(this) {
-					@Override
-					protected void onSelectExtra(String id) {
-						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
-							UI.getCurrent().addWindow(new MailFormWindow());
-						}
-					}
+        view.getPopupActionHandlers().setMassActionHandler(
+                new DefaultMassEditActionHandler(this) {
+                    @Override
+                    protected void onSelectExtra(String id) {
+                        if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+                            UI.getCurrent().addWindow(new MailFormWindow());
+                        }
+                    }
 
-					@Override
-					protected String getReportTitle() {
-						return "Role List";
-					}
+                    @Override
+                    protected String getReportTitle() {
+                        return "Role List";
+                    }
 
-					@Override
-					protected Class<?> getReportModelClassType() {
-						return SimpleRole.class;
-					}
-				});
-	}
+                    @Override
+                    protected Class<?> getReportModelClassType() {
+                        return SimpleRole.class;
+                    }
+                });
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		if (!isSelectAll) {
-			Collection<SimpleRole> currentDataList = view.getPagedBeanTable()
-					.getCurrentDataList();
-			List<Integer> keyList = new ArrayList<>();
-			for (SimpleRole item : currentDataList) {
-				if (item.isSelected() && Boolean.FALSE.equals(item.getIssystemrole())) {
-					keyList.add(item.getId());
-				} else {
-					NotificationUtil.showErrorNotification("Can not delete role "
-							+ item.getRolename()
-							+ " because it is the system role.");
-				}
-			}
+    @Override
+    protected void deleteSelectedItems() {
+        if (!isSelectAll) {
+            Collection<SimpleRole> currentDataList = view.getPagedBeanTable()
+                    .getCurrentDataList();
+            List<Integer> keyList = new ArrayList<>();
+            for (SimpleRole item : currentDataList) {
+                if (item.isSelected()) {
+                    if (Boolean.TRUE.equals(item.getIssystemrole())) {
+                        NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
+                                item.getRolename()));
+                    } else {
+                        keyList.add(item.getId());
+                    }
+                }
+            }
 
-			if (keyList.size() > 0) {
-				roleService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
-				doSearch(searchCriteria);
-			}
-		} else {
-			roleService.removeByCriteria(searchCriteria,
-					AppContext.getAccountId());
-			doSearch(searchCriteria);
-		}
-	}
+            if (keyList.size() > 0) {
+                roleService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                doSearch(searchCriteria);
+            }
+        } else {
+            roleService.removeByCriteria(searchCriteria,
+                    AppContext.getAccountId());
+            doSearch(searchCriteria);
+        }
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
-			RoleContainer roleContainer = (RoleContainer) container;
-			roleContainer.removeAllComponents();
-			roleContainer.addComponent(view.getWidget());
-			searchCriteria = (RoleSearchCriteria) data.getParams();
-			doSearch(searchCriteria);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
+            RoleContainer roleContainer = (RoleContainer) container;
+            roleContainer.removeAllComponents();
+            roleContainer.addComponent(view.getWidget());
+            searchCriteria = (RoleSearchCriteria) data.getParams();
+            doSearch(searchCriteria);
 
-			AccountSettingBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(AccountSettingBreadcrumb.class);
-			breadcrumb.gotoRoleList();
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            AccountSettingBreadcrumb breadcrumb = ViewManager
+                    .getCacheComponent(AccountSettingBreadcrumb.class);
+            breadcrumb.gotoRoleList();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	public ISearchableService<RoleSearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(RoleService.class);
-	}
+    @Override
+    public ISearchableService<RoleSearchCriteria> getSearchService() {
+        return ApplicationContextUtil.getSpringBean(RoleService.class);
+    }
 }

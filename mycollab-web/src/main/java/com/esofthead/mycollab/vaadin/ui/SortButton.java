@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 
 /**
@@ -26,14 +27,13 @@ import com.vaadin.ui.Button;
  */
 
 public class SortButton extends Button {
-
 	private static final long serialVersionUID = 6899070243378436412L;
 
 	private boolean isDesc = true;
 
 	public SortButton() {
 		super();
-		this.setStyleName("sort-btn");
+        this.setIcon(FontAwesome.CARET_DOWN);
 		this.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 4326727093112639245L;
@@ -46,23 +46,17 @@ public class SortButton extends Button {
 	}
 
 	public SortButton(String caption, ClickListener listener) {
-		this(caption);
-		this.addClickListener(listener);
-	}
-
-	public SortButton(String caption) {
 		this();
 		this.setCaption(caption);
+		this.addClickListener(listener);
 	}
 
 	public void toggleSortOrder() {
 		this.isDesc = !this.isDesc;
 		if (this.isDesc) {
-			this.addStyleName("desc");
-			this.removeStyleName("asc");
+			this.setIcon(FontAwesome.CARET_DOWN);
 		} else {
-			this.addStyleName("asc");
-			this.removeStyleName("desc");
+			this.setIcon(FontAwesome.CARET_UP);
 		}
 	}
 

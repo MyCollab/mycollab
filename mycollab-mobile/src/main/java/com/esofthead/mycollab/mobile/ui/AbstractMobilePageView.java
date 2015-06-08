@@ -52,33 +52,13 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 		PageView, Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static String SAVE_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_SAVE);
-	public static String SAVE_AND_NEW_ACTION = "Save & New";
-	public static String EDIT_ACTION = "Edit";
-	public static String CANCEL_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_CANCEL);
-	public static String DELETE_ACTION = "Delete";
-	public static String CLONE_ACTION = "Clone";
-
-	protected ViewState viewState;
-
 	public AbstractMobilePageView() {
 		super();
 		this.setStyleName("mobilenavview");
-		if (this.getLeftComponent() != null
-				&& this.getLeftComponent() instanceof NavigationButton) {
+		if (this.getLeftComponent() != null && this.getLeftComponent() instanceof NavigationButton) {
 			this.getLeftComponent().setCaption(
 					AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
 		}
-	}
-
-	public ViewState getViewState() {
-		return viewState;
-	}
-
-	public void setViewState(ViewState viewState) {
-		this.viewState = viewState;
 	}
 
 	@Override

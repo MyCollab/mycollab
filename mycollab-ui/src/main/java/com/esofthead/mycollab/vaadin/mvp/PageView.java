@@ -17,13 +17,13 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.EventListener;
-
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.util.ReflectTools;
+
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.EventListener;
 
 /**
  * 
@@ -37,14 +37,14 @@ public interface PageView extends ComponentContainer, CacheableComponent {
 
 	<E> void addViewListener(ViewListener<E> listener);
 
-	public static interface ViewListener<E> extends EventListener, Serializable {
-		public static final Method viewInitMethod = ReflectTools.findMethod(
+	interface ViewListener<E> extends EventListener, Serializable {
+		Method viewInitMethod = ReflectTools.findMethod(
 				ViewListener.class, "receiveEvent", ViewEvent.class);
 
 		void receiveEvent(ViewEvent<E> event);
 	}
 
-	public static class ViewEvent<E> extends ApplicationEvent {
+	class ViewEvent<E> extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;
 
 		public static final String VIEW_IDENTIFIER = "viewevent";

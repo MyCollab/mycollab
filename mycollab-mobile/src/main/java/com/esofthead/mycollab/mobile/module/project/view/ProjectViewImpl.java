@@ -25,11 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  */
 
 @ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements
-		ProjectView {
+public class ProjectViewImpl extends AbstractMobilePageView implements ProjectView {
 	private static final long serialVersionUID = -5411890906862175950L;
 
-	public ProjectViewImpl() {
-
-	}
 }

@@ -153,8 +153,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 }
 
                 permissionsPanel.addComponent(constructGridLayout(
-                                AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
-                                perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
+                        AppContext.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
+                        perMap, RolePermissionCollections.PROJECT_PERMISSION_ARR));
                 permissionsPanel.addComponent(constructGridLayout(
                         AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE),
                         perMap, RolePermissionCollections.CRM_PERMISSIONS_ARR));
@@ -162,8 +162,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                                 .getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
                         perMap, RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
                 permissionsPanel.addComponent(constructGridLayout(
-                                AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
-                                perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
+                        AppContext.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
+                        perMap, RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
                 return permissionsPanel;
             }
@@ -191,8 +191,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
         protected PermissionMap getPermissionMap() {
             PermissionMap permissionMap = new PermissionMap();
 
-            for (Map.Entry<String, KeyCaptionComboBox> entry:permissionControlsMap.entrySet()) {
-                KeyCaptionComboBox permissionBox =entry.getValue();
+            for (Map.Entry<String, KeyCaptionComboBox> entry : permissionControlsMap.entrySet()) {
+                KeyCaptionComboBox permissionBox = entry.getValue();
                 Integer perValue = (Integer) permissionBox.getValue();
                 permissionMap.addPath(entry.getKey(), perValue);
             }
@@ -211,7 +211,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
                 if (propertyId.equals("description")) {
                     return new RichTextEditField();
                 } else if (propertyId.equals("rolename")) {
-                    final TextField tf = new TextField();
+                    TextField tf = new TextField();
                     tf.setNullRepresentation("");
                     tf.setRequired(true);
                     tf.setRequiredError("Please enter a role name");

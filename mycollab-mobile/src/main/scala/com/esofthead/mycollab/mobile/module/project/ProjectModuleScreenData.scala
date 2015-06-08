@@ -14,21 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project;
+package com.esofthead.mycollab.mobile.module.project
 
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
- * @author MyCollab Ltd.
- *
- * @since 4.4.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-public class ProjectModuleScreenData {
-
-	public static class GotoModule extends ScreenData<String[]> {
-		public GotoModule(String... params) {
-			super(params);
-		}
-	}
+object ProjectModuleScreenData {
+  class GotoModule(params:Array[String]) extends ScreenData[Array[String]](params){}
 }

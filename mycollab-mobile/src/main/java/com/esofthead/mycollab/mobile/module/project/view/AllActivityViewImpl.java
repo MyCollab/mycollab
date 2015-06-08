@@ -41,6 +41,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -49,16 +50,12 @@ import com.vaadin.ui.VerticalLayout;
  */
 
 @ViewComponent
-public class AllActivityViewImpl
-		extends
-		AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream>
-		implements AllActivityView {
-
+public class AllActivityViewImpl extends
+		AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream> implements AllActivityView {
 	private static final long serialVersionUID = -7722214412998470562L;
 
 	public AllActivityViewImpl() {
-		this.setCaption(AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+		this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
 		this.addStyleName("project-activities-view");
 	}
 
@@ -74,21 +71,15 @@ public class AllActivityViewImpl
 		return null;
 	}
 
-	private static class ActivityStreamRowHandler implements
-			RowDisplayHandler<ProjectActivityStream> {
+	private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
 
 		@Override
-		public Component generateRow(final ProjectActivityStream obj,
-				int rowIndex) {
-			HorizontalLayout layout = new HorizontalLayout();
-			layout.setWidth("100%");
-			layout.setSpacing(true);
-			layout.setStyleName("list-item");
+		public Component generateRow(final ProjectActivityStream streamData, int rowIndex) {
+			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
 			layout.addStyleName("activity-row");
 
-			Label typeIcon = new Label(
-					"<span aria-hidden=\"true\" data-icon=\""
-							+ ProjectAssetsManager.toHexString(obj.getType())
+			Label typeIcon = new Label("<span aria-hidden=\"true\" data-icon=\""
+							+ ProjectAssetsManager.toHexString(streamData.getType())
 							+ "\"></span>");
 			typeIcon.setWidthUndefined();
 			typeIcon.setContentMode(ContentMode.HTML);
@@ -98,7 +89,7 @@ public class AllActivityViewImpl
 
 			VerticalLayout rightCol = new VerticalLayout();
 			rightCol.setWidth("100%");
-			Label streamItem = new Label(generateItemLink(obj));
+			Label streamItem = new Label(generateItemLink(streamData));
 			streamItem.setStyleName("activity-item");
 			streamItem.setContentMode(ContentMode.HTML);
 			rightCol.addComponent(streamItem);
@@ -110,18 +101,15 @@ public class AllActivityViewImpl
 			Label streamDetail = new Label();
 			streamDetail.setWidthUndefined();
 			streamDetail.setStyleName("activity-detail");
-			if (ActivityStreamConstants.ACTION_CREATE.equals(obj.getAction())) {
-				streamDetail
-						.setValue(AppContext
+			if (ActivityStreamConstants.ACTION_CREATE.equals(streamData.getAction())) {
+				streamDetail.setValue(AppContext
 								.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
-			} else if (ActivityStreamConstants.ACTION_UPDATE.equals(obj
-					.getAction())) {
-				streamDetail
-						.setValue(AppContext
+			} else if (ActivityStreamConstants.ACTION_UPDATE.equals(streamData.getAction())) {
+				streamDetail.setValue(AppContext
 								.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
 			}
 			detailRow1.addComponent(streamDetail);
-			Button activityUser = new Button(obj.getCreatedUserFullName(),
+			Button activityUser = new Button(streamData.getCreatedUserFullName(),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = -8003871011601870233L;
@@ -129,10 +117,8 @@ public class AllActivityViewImpl
 						@Override
 						public void buttonClick(Button.ClickEvent event) {
 							PageActionChain chain = new PageActionChain(
-									new ProjectScreenData.Goto(obj
-											.getProjectId()),
-									new ProjectMemberScreenData.Read(obj
-											.getCreateduser()));
+									new ProjectScreenData.Goto(streamData.getProjectId()),
+									new ProjectMemberScreenData.Read(streamData.getCreateduser()));
 							EventBusFactory.getInstance()
 									.post(new ProjectEvent.GotoMyProject(this,
 											chain));
@@ -142,17 +128,16 @@ public class AllActivityViewImpl
 			detailRow1.addComponent(activityUser);
 			rightCol.addComponent(detailRow1);
 
-			if (!ProjectTypeConstants.PROJECT.equals(obj.getType())) {
+			if (!ProjectTypeConstants.PROJECT.equals(streamData.getType())) {
 				CssLayout detailRow2 = new CssLayout();
 				detailRow2.setWidth("100%");
 				detailRow2.setStyleName("activity-detail-row");
-				Label prefixLbl = new Label(
-						AppContext
+				Label prefixLbl = new Label(AppContext
 								.getMessage(ProjectCommonI18nEnum.M_FEED_PROJECT_ACTIVITY_PREFIX));
 				prefixLbl.setWidthUndefined();
 				prefixLbl.setStyleName("activity-detail");
 				detailRow2.addComponent(prefixLbl);
-				Button activityProject = new Button(obj.getProjectName(),
+				Button activityProject = new Button(streamData.getProjectName(),
 						new Button.ClickListener() {
 
 							private static final long serialVersionUID = -3098780059559395224L;
@@ -160,11 +145,9 @@ public class AllActivityViewImpl
 							@Override
 							public void buttonClick(Button.ClickEvent event) {
 								PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(obj
-												.getProjectId()));
+										new ProjectScreenData.Goto(streamData.getProjectId()));
 								EventBusFactory.getInstance().post(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
+										new ProjectEvent.GotoMyProject(this, chain));
 							}
 						});
 				activityProject.setStyleName("link");
@@ -172,9 +155,7 @@ public class AllActivityViewImpl
 				rightCol.addComponent(detailRow2);
 			}
 
-			layout.addComponent(rightCol);
-			layout.setExpandRatio(rightCol, 1.0f);
-
+			layout.with(rightCol).expand(rightCol);
 			return layout;
 		}
 

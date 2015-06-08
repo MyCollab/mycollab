@@ -51,9 +51,8 @@ public class CurrencyComboBoxField extends CustomField<Integer> {
 		List<Currency> currencyList = currencyService.getCurrencies();
 		for (Currency currency : currencyList) {
 			currencyBox.addItem(currency.getId());
-			currencyBox
-					.setItemCaption(currency.getId(), currency.getShortname()
-							+ " (" + currency.getSymbol() + ")");
+			currencyBox.setItemCaption(currency.getId(),
+					String.format("%s (%s)", currency.getShortname(), currency.getSymbol()));
 		}
 	}
 

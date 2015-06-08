@@ -7942,10 +7942,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: #535353;
 }
 
-.comment-list-wrapper.v-margin-left {
-	padding-left: 58px;
-}
-
 .readViewLayout {
 	background-color: #FFF;
 	border-radius: 0px;
@@ -7962,7 +7958,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	color: red;
 }
 
-.readViewLayout .h2 {
+.readViewLayout .v-label.h2 {
 	text-shadow: #F0F0F0 0 1px 0;
 	padding: 8px 0px 8px 18px;
 	font-size: 13px;
@@ -7972,14 +7968,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .readViewLayout .v-label-h2.no-border {
 	border: none;
-}
-
-.readViewLayout .v-label-h2-no-padding {
-	text-shadow: #F0F0F0 0 1px 0;
-	padding: 0px 0px 0px 0px;
-	font-size: 13px;
-	color: #454545;
-	font-weight: bold;
 }
 
 .readViewHeader {
@@ -9932,7 +9920,7 @@ input.v-textfield-errorField {
 	width: 150px;
 	height: 200px;
 	float: left;
-	background: url('icons/ico_lock.png') no-repeat center center transparent;
+	background: url('icons/ico-lock.png') no-repeat center center transparent;
 }
 
 .customSignUpForm #loginForm {
@@ -10276,7 +10264,7 @@ input.v-textfield-errorField {
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.addViewLayout .addViewBottomControls .depotComp.collapsed .header-wrapper, .addViewLayout .addViewBottomControls .comment-list .depotContent {
+.addViewLayout .addViewBottomControls .depotComp.collapsed .header-wrapper {
 	border-width: 0px 0px 1px 0px;
 }
 
@@ -11032,21 +11020,6 @@ td.v-tabsheet-spacertd div {
 .message .message-footer {
 	border-top: 1px solid #CFCFCF;
 	padding: 7px 10px;
-}
-
-.comment-list .depotContent {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	background: none no-repeat left top #f5f5f5;
-	border-color: #CFCFCF;
-	border-style: solid;
-	border-width: 0px 1px 1px;
-}
-
-.comment-list.collapsed .depotContent {
-	border-bottom: none;
-	border-top: none;
 }
 
 .v-button .v-button-v-button-greenbtn-calendar .v-button-greenbtn-calendar .v-popupbutton .v-button-wrap .v-popup-indicator {
@@ -13068,30 +13041,6 @@ div.v-csslayout.bean-block.olive-block {
 .readview-body-wrap .readview-sidebar .info-hdr {
 	font-weight: bold;
 	padding-top: 15px;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.sort-btn {
-	position: relative;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.sort-btn.active .v-button-wrap, .v-buttongroup.toggle-btn-group .v-button.sort-btn.active:active .v-button-wrap, .v-buttongroup.toggle-btn-group .v-button.sort-btn.active:focus .v-button-wrap {
-	padding: 6px 20px 6px 10px;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.sort-btn.active:after {
-	content: "";
-	position: absolute;
-	width: 22px;
-	height: 30px;
-	background-image: url('icons/sort-icons.png');
-	background-position: left -30px;
-	background-repeat: no-repeat;
-	right: 0px;
-	top: 0px;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.sort-btn.active.asc:after {
-	background-position: left top;
 }
 
 .feature-select-box {

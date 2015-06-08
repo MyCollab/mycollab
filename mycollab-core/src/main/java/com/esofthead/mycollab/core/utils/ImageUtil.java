@@ -47,8 +47,7 @@ public class ImageUtil {
 	 * @param percenScale
 	 * @return
 	 */
-	public static BufferedImage scaleImage(BufferedImage buffImage,
-			float percenScale) {
+	public static BufferedImage scaleImage(BufferedImage buffImage, float percenScale) {
 		float width = buffImage.getWidth() * percenScale;
 		float height = buffImage.getHeight() * percenScale;
 		BufferedImage rescaledImage = Scalr.resize(buffImage, Method.BALANCED,
@@ -79,9 +78,7 @@ public class ImageUtil {
 			return buffImage;
 		}
 
-		BufferedImage rescaledImage = Scalr.resize(buffImage, Method.BALANCED,
-				Mode.AUTOMATIC, (int) destWidth, (int) destHeight);
-		return rescaledImage;
+		return Scalr.resize(buffImage, Method.BALANCED, Mode.AUTOMATIC, (int) destWidth, (int) destHeight);
 	}
 
 	/**
@@ -107,13 +104,9 @@ public class ImageUtil {
 	 * @return
 	 */
 	public static byte[] convertImageToByteArray(BufferedImage image) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			ImageIO.write(image, "png", baos);
-			baos.flush();
-			byte[] imageInByte = baos.toByteArray();
-			baos.close();
-			return imageInByte;
+			return baos.toByteArray();
 		} catch (IOException e) {
 			LOG.error("Exception to convert Image to Byte Array: ", e);
 			return null;
@@ -139,7 +132,6 @@ public class ImageUtil {
 			}
 			return rescaledImage;
 		} catch (Exception e) {
-			e.printStackTrace();
 			LOG.error("Generate thumbnail for error", e);
 			return null;
 		}

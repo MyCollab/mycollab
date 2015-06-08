@@ -40,9 +40,7 @@ import com.vaadin.ui.UI;
  *
  * @since 4.5.2
  */
-public class ProjectMemberEditPresenter extends
-		AbstractMobilePresenter<ProjectMemberEditView> {
-
+public class ProjectMemberEditPresenter extends AbstractMobilePresenter<ProjectMemberEditView> {
 	private static final long serialVersionUID = -209370866970403913L;
 
 	public ProjectMemberEditPresenter() {
@@ -58,19 +56,14 @@ public class ProjectMemberEditPresenter extends
 					@Override
 					public void onSave(final SimpleProjectMember projectMember) {
 						saveProjectMember(projectMember);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.NavigateBack(this, null));
+						EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override
-					public void onCancel() {
-					}
+					public void onCancel() {}
 
 					@Override
-					public void onSaveAndNew(
-							final SimpleProjectMember projectMember) {
-
-					}
+					public void onSaveAndNew(SimpleProjectMember projectMember) {}
 				});
 	}
 
@@ -87,8 +80,7 @@ public class ProjectMemberEditPresenter extends
 			super.onGo(container, data);
 			view.editItem(member);
 
-			AppContext.addFragment(
-					"project/user/edit/"
+			AppContext.addFragment("project/user/edit/"
 							+ GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
 							member.getId()), member.getDisplayName());
 		} else {

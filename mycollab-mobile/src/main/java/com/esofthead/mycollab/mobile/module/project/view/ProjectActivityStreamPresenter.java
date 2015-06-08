@@ -40,46 +40,39 @@ import com.vaadin.ui.UI;
  *
  * @since 4.5.2
  */
-public class ProjectActivityStreamPresenter
-		extends
-		AbstractListPresenter<ProjectActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+public class ProjectActivityStreamPresenter extends
+        AbstractListPresenter<ProjectActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
+    private static final long serialVersionUID = -2089284900326846089L;
 
-	private static final long serialVersionUID = -2089284900326846089L;
+    public ProjectActivityStreamPresenter() {
+        super(ProjectActivityView.class);
+    }
 
-	public ProjectActivityStreamPresenter() {
-		super(ProjectActivityView.class);
-	}
+    @Override
+    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canRead(ProjectRolePermissionCollections.PROJECT)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu
+                    .selectButton(AppContext
+                            .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+            super.onGo(navigator, data);
+            ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+            searchCriteria.setModuleSet(new SetSearchField<>(
+                    SearchField.AND, new String[]{ModuleNameConstants.PRJ}));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext
+                    .getAccountId()));
 
-	@Override
-	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.PROJECT)) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu
-					.selectButton(AppContext
-							.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-			super.onGo(navigator, data);
-			final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-			searchCriteria.setModuleSet(new SetSearchField<String>(
-					SearchField.AND, new String[] { ModuleNameConstants.PRJ }));
-			searchCriteria.setSaccountid(new NumberSearchField(AppContext
-					.getAccountId()));
-
-			searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(
-					CurrentProjectVariables.getProjectId()));
-			doSearch(searchCriteria);
-			AppContext
-					.addFragment(
-							"project/activities/"
-									+ GenericLinkUtils
-											.encodeParam(CurrentProjectVariables
-													.getProjectId()),
-							AppContext
-									.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            searchCriteria.setExtraTypeIds(new SetSearchField<>(
+                    CurrentProjectVariables.getProjectId()));
+            doSearch(searchCriteria);
+            AppContext.addFragment("project/activities/"
+                            + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),
+                    AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

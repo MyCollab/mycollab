@@ -31,9 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public class ProjectDashboardPresenter extends
-		AbstractMobilePresenter<ProjectDashboardView> {
-
+public class ProjectDashboardPresenter extends AbstractMobilePresenter<ProjectDashboardView> {
 	private static final long serialVersionUID = -2645763046888609751L;
 
 	public ProjectDashboardPresenter() {

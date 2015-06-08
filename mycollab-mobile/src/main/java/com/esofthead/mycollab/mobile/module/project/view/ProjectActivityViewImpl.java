@@ -32,16 +32,14 @@ import com.vaadin.ui.Component;
  */
 
 @ViewComponent
-public class ProjectActivityViewImpl
-		extends
+public class ProjectActivityViewImpl extends
 		AbstractListViewComp<ActivityStreamSearchCriteria, ProjectActivityStream>
 		implements ProjectActivityView {
 
 	private static final long serialVersionUID = 6930154745425180819L;
 
 	public ProjectActivityViewImpl() {
-		this.setCaption(AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
+		this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
 		this.addStyleName("project-activities-view");
 	}
 

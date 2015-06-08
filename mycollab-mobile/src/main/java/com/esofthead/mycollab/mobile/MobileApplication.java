@@ -113,30 +113,22 @@ public class MobileApplication extends MyCollabUI {
 							e, UsageExceedBillingPlanException.class);
 					if (usageBillingException != null) {
 						if (AppContext.isAdmin()) {
-							ConfirmDialog.show(
-									UI.getCurrent(),
-									AppContext
-											.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-									AppContext
-											.getMessage(GenericI18Enum.BUTTON_YES),
-									AppContext
-											.getMessage(GenericI18Enum.BUTTON_NO),
+							ConfirmDialog.show(UI.getCurrent(),
+									AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
+									AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+									AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 									new ConfirmDialog.CloseListener() {
 										private static final long serialVersionUID = 1L;
 
 										@Override
 										public void onClose(ConfirmDialog dialog) {
 											if (dialog.isConfirmed()) {
-												Collection<Window> windowsList = UI
-														.getCurrent()
-														.getWindows();
+												Collection<Window> windowsList = UI.getCurrent().getWindows();
 												for (Window window : windowsList) {
 													window.close();
 												}
-												EventBusFactory
-														.getInstance()
-														.post(new ShellEvent.GotoUserAccountModule(
-																this,
+												EventBusFactory.getInstance()
+														.post(new ShellEvent.GotoUserAccountModule(this,
 																new String[] { "billing" }));
 											}
 										}
@@ -189,22 +181,16 @@ public class MobileApplication extends MyCollabUI {
 									.equals(nextComponent)) {
 						ViewState viewState = MobileHistoryViewManager.pop();
 						while (!(viewState instanceof NullViewState)) {
-							if (viewState
-									.getPresenter()
-									.getView()
-									.equals(currentNavigator
-											.getCurrentComponent())) {
-								viewState.getPresenter().go(
-										viewState.getContainer(),
-										viewState.getParams());
+							if (viewState.getPresenter().getView()
+									.equals(currentNavigator.getCurrentComponent())) {
+								viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
 								break;
 							}
 							viewState = MobileHistoryViewManager.pop(false);
 						}
 					}
 					if (nextComponent instanceof NavigationView) {
-						((NavigationView) nextComponent)
-								.setPreviousComponent(null);
+						((NavigationView) nextComponent).setPreviousComponent(null);
 					}
 					currentNavigator.removeComponent(nextComponent);
 					currentNavigator.getState().setNextComponent(null);
@@ -216,9 +202,7 @@ public class MobileApplication extends MyCollabUI {
 
 		registerControllers(manager);
 
-		getPage().addUriFragmentChangedListener(
-				new UriFragmentChangedListener() {
-
+		getPage().addUriFragmentChangedListener(new UriFragmentChangedListener() {
 					private static final long serialVersionUID = -6410955178515535406L;
 
 					@Override
@@ -238,8 +222,7 @@ public class MobileApplication extends MyCollabUI {
 		ControllerRegistry.addController(new ShellController(manager));
 	}
 
-	private static Throwable getExceptionType(Throwable e,
-			Class<? extends Throwable> exceptionType) {
+	private static Throwable getExceptionType(Throwable e, Class<? extends Throwable> exceptionType) {
 		if (exceptionType.isAssignableFrom(e.getClass())) {
 			return e;
 		} else if (e.getCause() != null) {

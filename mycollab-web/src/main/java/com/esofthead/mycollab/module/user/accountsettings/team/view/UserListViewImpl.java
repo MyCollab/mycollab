@@ -116,13 +116,9 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                ConfirmDialogExt.show(
-                        UI.getCurrent(),
-                        AppContext.getMessage(
-                                GenericI18Enum.DIALOG_DELETE_TITLE,
-                                SiteConfiguration.getSiteName()),
-                        AppContext
-                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                         new ConfirmDialog.Listener() {
@@ -134,13 +130,10 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                                     UserService userService = ApplicationContextUtil
                                             .getSpringBean(UserService.class);
                                     userService.pendingUserAccounts(Arrays
-                                                    .asList(member
-                                                            .getUsername()),
+                                                    .asList(member.getUsername()),
                                             AppContext.getAccountId());
-                                    EventBusFactory
-                                            .getInstance()
-                                            .post(new UserEvent.GotoList(
-                                                    UserListViewImpl.this, null));
+                                    EventBusFactory.getInstance()
+                                            .post(new UserEvent.GotoList(UserListViewImpl.this, null));
                                 }
                             }
                         });
@@ -167,9 +160,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         memberInfo.addComponent(userAccountLink);
 
-        Label memberEmailLabel = new Label("<a href='mailto:"
-                + member.getUsername() + "'>" + member.getUsername() + "</a>",
-                ContentMode.HTML);
+        Label memberEmailLabel = new Label(String.format("<a href='mailto:%s'>%s</a>", member.getUsername(),
+                member.getUsername()), ContentMode.HTML);
         memberEmailLabel.addStyleName("member-email");
         memberEmailLabel.setWidth("100%");
         memberInfo.addComponent(memberEmailLabel);
@@ -230,29 +222,21 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         blockContent.addComponent(blockTop);
 
         if (member.getRoleid() != null) {
-            String memberRoleLinkPrefix = "<a href=\""
-                    + AccountLinkBuilder.generatePreviewFullRoleLink(member
-                    .getRoleid()) + "\"";
+            String memberRoleLinkPrefix = String.format("<a href=\"%s\"", AccountLinkBuilder.generatePreviewFullRoleLink(member.getRoleid()));
             Label memberRole = new Label();
             memberRole.setContentMode(ContentMode.HTML);
-            if (member.getIsAccountOwner() != null
-                    && member.getIsAccountOwner()) {
-                memberRole.setValue(memberRoleLinkPrefix
-                        + "style=\"color: #B00000;\">" + "Account Owner"
-                        + "</a>");
+            if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
+                memberRole.setValue(String.format("%sstyle=\"color: #B00000;\">Account Owner</a>", memberRoleLinkPrefix));
             } else {
-                memberRole.setValue(memberRoleLinkPrefix
-                        + "style=\"color:gray;font-size:12px;\">"
-                        + member.getRoleName() + "</a>");
+                memberRole.setValue(String.format("%sstyle=\"color:gray;font-size:12px;\">%s</a>",
+                        memberRoleLinkPrefix, member.getRoleName()));
             }
             memberRole.setSizeUndefined();
             blockContent.addComponent(memberRole);
             blockContent.setComponentAlignment(memberRole,
                     Alignment.MIDDLE_RIGHT);
         } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
-            Label memberRole = new Label();
-            memberRole.setContentMode(ContentMode.HTML);
-            memberRole.setValue("<a style=\"color: #B00000;\">Account Owner</a>");
+            Label memberRole = new Label("<a style=\"color: #B00000;\">Account Owner</a>", ContentMode.HTML);
             memberRole.setSizeUndefined();
             blockContent.addComponent(memberRole);
             blockContent.setComponentAlignment(memberRole,

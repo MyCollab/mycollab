@@ -40,10 +40,8 @@ import com.vaadin.ui.UI;
  *
  * @since 4.5.2
  */
-public class AllActivityStreamPresenter
-		extends
+public class AllActivityStreamPresenter extends
 		AbstractListPresenter<AllActivityView, ActivityStreamSearchCriteria, ProjectActivityStream> {
-
 	private static final long serialVersionUID = -2089284900326846089L;
 
 	public AllActivityStreamPresenter() {
@@ -52,29 +50,24 @@ public class AllActivityStreamPresenter
 
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-
 		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
 		projectModuleMenu.selectButton(AppContext
 				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
 		((MobileNavigationManager) UI.getCurrent().getContent())
 				.setNavigationMenu(projectModuleMenu);
 		super.onGo(navigator, data);
-		final ProjectService prjService = ApplicationContextUtil
-				.getSpringBean(ProjectService.class);
+		ProjectService prjService = ApplicationContextUtil.getSpringBean(ProjectService.class);
 		List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
 				AppContext.getUsername(), AppContext.getAccountId());
-		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
 		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
 				new String[] { ModuleNameConstants.PRJ }));
-		searchCriteria.setSaccountid(new NumberSearchField(AppContext
-				.getAccountId()));
+		searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys
-				.toArray(new Integer[0])));
+		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys.toArray(new Integer[0])));
 		doSearch(searchCriteria);
 		AppContext.addFragment("project/activities/", AppContext
 				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
-
 	}
 
 }

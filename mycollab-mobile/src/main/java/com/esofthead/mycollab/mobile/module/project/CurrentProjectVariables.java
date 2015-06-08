@@ -41,14 +41,12 @@ import com.esofthead.mycollab.vaadin.AppContext;
  *
  */
 public class CurrentProjectVariables {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(CurrentProjectVariables.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CurrentProjectVariables.class);
 
 	private static final String CURRENT_PAGE_VAR = "project_page";
 
 	public static SimpleProject getProject() {
-		return (SimpleProject) MyCollabSession
-				.getVariable(MyCollabSession.CURRENT_PROJECT);
+		return (SimpleProject) MyCollabSession.getVariable(MyCollabSession.CURRENT_PROJECT);
 	}
 
 	public static void setProject(SimpleProject project) {
@@ -64,10 +62,8 @@ public class CurrentProjectVariables {
 			if (Boolean.FALSE.equals(prjMember.getIsadmin() || (prjMember
 					.getIsadmin() == null)) && prjMember.getProjectroleid() != null) {
 				ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
-				ex.createCriteria()
-						.andRoleidEqualTo(prjMember.getProjectroleid())
-						.andProjectidEqualTo(
-								CurrentProjectVariables.getProjectId());
+				ex.createCriteria().andRoleidEqualTo(prjMember.getProjectroleid())
+						.andProjectidEqualTo(CurrentProjectVariables.getProjectId());
 				ProjectRolePermissionMapper rolePermissionMapper = ApplicationContextUtil
 						.getSpringBean(ProjectRolePermissionMapper.class);
 				List<ProjectRolePermission> rolePermissions = rolePermissionMapper

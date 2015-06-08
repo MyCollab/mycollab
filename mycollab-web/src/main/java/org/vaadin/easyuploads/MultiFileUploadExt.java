@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
+import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import org.apache.commons.io.FilenameUtils;
 
@@ -98,7 +99,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
 				File file = receiver.getFile();
 				String candidateFileName = event.getFileName();
-				if (!StringUtils.isValidFileName(candidateFileName)) {
+				if (!FileUtils.isValidFileName(candidateFileName)) {
 					String extension = FilenameUtils.getExtension(candidateFileName);
 					candidateFileName = StringUtils.generateSoftUniqueId();
 					if (!"".equals(extension)) {

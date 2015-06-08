@@ -32,18 +32,15 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.2
  */
 public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
-
 	private static final long serialVersionUID = 8920529536882351151L;
 
 	private GridFormLayoutHelper informationLayout;
 
 	@Override
 	public ComponentContainer getLayout() {
-		final VerticalLayout layout = new VerticalLayout();
+		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
-		Label header = new Label(
-				AppContext
-						.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
+		Label header = new Label(AppContext.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
 		header.setStyleName("h2");
 		layout.addComponent(header);
 
@@ -53,8 +50,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);
 		layout.addComponent(this.informationLayout.getLayout());
-		layout.setComponentAlignment(this.informationLayout.getLayout(),
-				Alignment.BOTTOM_CENTER);
+		layout.setComponentAlignment(this.informationLayout.getLayout(), Alignment.BOTTOM_CENTER);
 		return layout;
 	}
 

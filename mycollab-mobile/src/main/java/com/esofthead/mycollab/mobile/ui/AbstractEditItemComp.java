@@ -35,8 +35,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @param <B>
  */
-public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
-		implements IFormAddView<B> {
+public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -50,8 +49,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		this.editForm.setStyleName("editview-layout");
 		this.setContent(this.editForm);
 
-		this.saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
+		this.saveBtn = new Button(AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
 		this.saveBtn.addStyleName("save-btn");
 		this.saveBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -5504095132334808021L;

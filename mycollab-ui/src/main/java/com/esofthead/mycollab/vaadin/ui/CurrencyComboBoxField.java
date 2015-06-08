@@ -35,50 +35,49 @@ import com.vaadin.ui.CustomField;
  * 
  */
 public class CurrencyComboBoxField extends CustomField<Integer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private ComboBox currencyBox;
+    private ComboBox currencyBox;
 
-	public CurrencyComboBoxField() {
-		super();
+    public CurrencyComboBoxField() {
+        super();
 
-		currencyBox = new ComboBox();
-		currencyBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        currencyBox = new ComboBox();
+        currencyBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
-		CurrencyService currencyService = ApplicationContextUtil
-				.getSpringBean(CurrencyService.class);
-		List<Currency> currencyList = currencyService.getCurrencies();
-		for (Currency currency : currencyList) {
-			currencyBox.addItem(currency.getId());
-			currencyBox
-					.setItemCaption(currency.getId(), currency.getShortname()
-							+ " (" + currency.getSymbol() + ")");
-		}
-	}
+        CurrencyService currencyService = ApplicationContextUtil
+                .getSpringBean(CurrencyService.class);
+        List<Currency> currencyList = currencyService.getCurrencies();
+        for (Currency currency : currencyList) {
+            currencyBox.addItem(currency.getId());
+            currencyBox.setItemCaption(currency.getId(),
+                    String.format("%s (%s)", currency.getShortname(), currency.getSymbol()));
+        }
+    }
 
-	@Override
-	protected Component initContent() {
-		return currencyBox;
-	}
+    @Override
+    protected Component initContent() {
+        return currencyBox;
+    }
 
-	@Override
-	public Class<? extends Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<? extends Integer> getType() {
+        return Integer.class;
+    }
 
-	@Override
-	public void setPropertyDataSource(Property newDataSource) {
-		Object value = newDataSource.getValue();
-		if (value instanceof Integer) {
-			currencyBox.setValue(value);
-		}
-		super.setPropertyDataSource(newDataSource);
-	}
+    @Override
+    public void setPropertyDataSource(Property newDataSource) {
+        Object value = newDataSource.getValue();
+        if (value instanceof Integer) {
+            currencyBox.setValue(value);
+        }
+        super.setPropertyDataSource(newDataSource);
+    }
 
-	@Override
-	public void commit() throws SourceException, InvalidValueException {
-		Integer value = (Integer) currencyBox.getValue();
-		this.setInternalValue(value);
-		super.commit();
-	}
+    @Override
+    public void commit() throws SourceException, InvalidValueException {
+        Integer value = (Integer) currencyBox.getValue();
+        this.setInternalValue(value);
+        super.commit();
+    }
 }

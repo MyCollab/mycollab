@@ -30,9 +30,7 @@ import com.vaadin.ui.Image;
  *
  * @since 4.5.2
  */
-public class AttachmentPreviewView extends AbsoluteLayout implements
-		IMobileView {
-
+public class AttachmentPreviewView extends AbsoluteLayout implements IMobileView {
 	private static final long serialVersionUID = -6489047489795500038L;
 
 	private Resource currentResource;
@@ -49,8 +47,7 @@ public class AttachmentPreviewView extends AbsoluteLayout implements
 		this.setSizeFull();
 		this.addComponent(imgWrap, "top: 0px left: 0px; z-index: 0;");
 
-		backBtn = new NavigationButton(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+		backBtn = new NavigationButton(AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
 		backBtn.setStyleName("back-btn");
 
 		this.addComponent(backBtn, "top: 15px; left: 15px; z-index: 1;");

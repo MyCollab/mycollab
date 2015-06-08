@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.TableViewField;
@@ -46,180 +45,151 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import java.util.Arrays;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleListViewImpl extends AbstractPageView implements
-		ProjectRoleListView {
-	private static final long serialVersionUID = 1L;
+public class ProjectRoleListViewImpl extends AbstractPageView implements ProjectRoleListView {
+    private static final long serialVersionUID = 1L;
 
-	private final ProjectRoleSearchPanel searchPanel;
-	private SelectionOptionButton selectOptionButton;
-	private DefaultPagedBeanTable<ProjectRoleService, ProjectRoleSearchCriteria, SimpleProjectRole> tableItem;
-	private final VerticalLayout listLayout;
-	private DefaultMassItemActionHandlerContainer tableActionControls;
-	private final Label selectedItemsNumberLabel = new Label();
+    private ProjectRoleSearchPanel searchPanel;
+    private SelectionOptionButton selectOptionButton;
+    private DefaultPagedBeanTable<ProjectRoleService, ProjectRoleSearchCriteria, SimpleProjectRole> tableItem;
+    private VerticalLayout listLayout;
+    private DefaultMassItemActionHandlerContainer tableActionControls;
+    private Label selectedItemsNumberLabel = new Label();
 
-	public ProjectRoleListViewImpl() {
-		this.setMargin(new MarginInfo(false, true, false, true));
+    public ProjectRoleListViewImpl() {
+        this.setMargin(new MarginInfo(false, true, false, true));
+        searchPanel = new ProjectRoleSearchPanel();
+        listLayout = new VerticalLayout();
+        with(searchPanel, listLayout);
 
-		this.searchPanel = new ProjectRoleSearchPanel();
-		addComponent(this.searchPanel);
+        this.generateDisplayTable();
+    }
 
-		this.listLayout = new VerticalLayout();
-		addComponent(this.listLayout);
+    private void generateDisplayTable() {
+        this.tableItem = new DefaultPagedBeanTable<>(
+                ApplicationContextUtil.getSpringBean(ProjectRoleService.class),
+                SimpleProjectRole.class,
+                new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
+                Arrays.asList(
+                        new TableViewField(ProjectRoleI18nEnum.FORM_NAME,
+                                "rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
+                        new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
+                                "description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-		this.generateDisplayTable();
-	}
+        this.tableItem.addGeneratedColumn("selected", new Table.ColumnGenerator() {
+                    private static final long serialVersionUID = 1L;
 
-	private void generateDisplayTable() {
-		this.tableItem = new DefaultPagedBeanTable<>(
-				ApplicationContextUtil.getSpringBean(ProjectRoleService.class),
-				SimpleProjectRole.class,
-				new TableViewField(null, "selected",
-						UIConstants.TABLE_CONTROL_WIDTH),
-				Arrays.asList(
-						new TableViewField(ProjectRoleI18nEnum.FORM_NAME,
-								"rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
-								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
+                    @Override
+                    public Object generateCell(Table source, Object itemId, Object columnId) {
+                        final SimpleProjectRole role = tableItem.getBeanByIndex(itemId);
+                        CheckBoxDecor cb = new CheckBoxDecor("", role.isSelected());
+                        cb.setImmediate(true);
+                        cb.addValueChangeListener(new ValueChangeListener() {
+                            private static final long serialVersionUID = 1L;
 
-		this.tableItem.addGeneratedColumn("selected",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+                            @Override
+                            public void valueChange(Property.ValueChangeEvent event) {
+                                tableItem.fireSelectItemEvent(role);
+                            }
+                        });
 
-					@Override
-					public Object generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final SimpleProjectRole role = ProjectRoleListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						final CheckBoxDecor cb = new CheckBoxDecor("", role
-								.isSelected());
-						cb.setImmediate(true);
-						cb.addValueChangeListener(new ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
+                        role.setExtraData(cb);
+                        return cb;
+                    }
+                });
 
-							@Override
-							public void valueChange(
-									Property.ValueChangeEvent event) {
-								ProjectRoleListViewImpl.this.tableItem
-										.fireSelectItemEvent(role);
-							}
-						});
+        this.tableItem.addGeneratedColumn("rolename", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-						role.setExtraData(cb);
-						return cb;
-					}
-				});
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
+                ProjectRole role = tableItem.getBeanByIndex(itemId);
+                return new LabelLink(role.getRolename(),
+                        ProjectLinkBuilder.generateRolePreviewFullLink(
+                                role.getProjectid(), role.getId()));
 
-		this.tableItem.addGeneratedColumn("rolename",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+            }
+        });
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final ProjectRole role = ProjectRoleListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						return new LabelLink(role.getRolename(),
-								ProjectLinkBuilder.generateRolePreviewFullLink(
-										role.getProjectid(), role.getId()));
+        this.listLayout.addComponent(this.constructTableActionControls());
+        this.listLayout.addComponent(this.tableItem);
+    }
 
-					}
-				});
+    @Override
+    public HasSearchHandlers<ProjectRoleSearchCriteria> getSearchHandlers() {
+        return this.searchPanel;
+    }
 
-		this.listLayout.addComponent(this.constructTableActionControls());
-		this.listLayout.addComponent(this.tableItem);
-	}
+    private ComponentContainer constructTableActionControls() {
+        CssLayout layoutWrapper = new CssLayout();
+        layoutWrapper.setWidth("100%");
+        MHorizontalLayout layout = new MHorizontalLayout();
+        layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
+        layoutWrapper.addComponent(layout);
 
-	@Override
-	public HasSearchHandlers<ProjectRoleSearchCriteria> getSearchHandlers() {
-		return this.searchPanel;
-	}
+        this.selectOptionButton = new SelectionOptionButton(this.tableItem);
+        layout.addComponent(this.selectOptionButton);
 
-	private ComponentContainer constructTableActionControls() {
-		final CssLayout layoutWrapper = new CssLayout();
-		layoutWrapper.setWidth("100%");
-		final MHorizontalLayout layout = new MHorizontalLayout();
-		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
-		layoutWrapper.addComponent(layout);
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
+        deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES));
 
-		this.selectOptionButton = new SelectionOptionButton(this.tableItem);
-		layout.addComponent(this.selectOptionButton);
+        this.tableActionControls = new DefaultMassItemActionHandlerContainer();
+        if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES)) {
+            tableActionControls.addActionItem(
+                    MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
+                    "delete", AppContext
+                            .getMessage(GenericI18Enum.BUTTON_DELETE));
+        }
 
-		final Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-		deleteBtn.setEnabled(CurrentProjectVariables
-				.canAccess(ProjectRolePermissionCollections.ROLES));
+        tableActionControls.addDownloadActionItem(ReportExportType.PDF, FontAwesome.FILE_PDF_O,
+                "export", "export.pdf", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 
-		this.tableActionControls = new DefaultMassItemActionHandlerContainer();
-		if (CurrentProjectVariables
-				.canAccess(ProjectRolePermissionCollections.ROLES)) {
-			tableActionControls.addActionItem(
-					MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
-		}
+        tableActionControls.addDownloadActionItem(ReportExportType.EXCEL, FontAwesome.FILE_EXCEL_O,
+                "export", "export.xlsx", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.PDF,
-                FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+        tableActionControls.addDownloadActionItem(ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
+                "export", "export.csv", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.EXCEL,
-                FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+        layout.with(this.tableActionControls, this.selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel,
+                Alignment.MIDDLE_LEFT);
+        return layoutWrapper;
+    }
 
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.CSV,
-				FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+    @Override
+    public void enableActionControls(int numOfSelectedItems) {
+        this.tableActionControls.setVisible(true);
+        this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
+                GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
+    }
 
-		layout.addComponent(this.tableActionControls);
-		layout.addComponent(this.selectedItemsNumberLabel);
-		layout.setComponentAlignment(this.selectedItemsNumberLabel,
-				Alignment.MIDDLE_CENTER);
-		return layoutWrapper;
-	}
+    @Override
+    public void disableActionControls() {
+        this.tableActionControls.setVisible(false);
+        this.selectOptionButton.setSelectedCheckbox(false);
+        this.selectedItemsNumberLabel.setValue("");
+    }
 
-	@Override
-	public void enableActionControls(final int numOfSelectedItems) {
-		this.tableActionControls.setVisible(true);
-		this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
-				GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
-	}
+    @Override
+    public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+        return this.selectOptionButton;
+    }
 
-	@Override
-	public void disableActionControls() {
-		this.tableActionControls.setVisible(false);
-		this.selectOptionButton.setSelectedCheckbox(false);
-		this.selectedItemsNumberLabel.setValue("");
-	}
+    @Override
+    public HasMassItemActionHandler getPopupActionHandlers() {
+        return this.tableActionControls;
+    }
 
-	@Override
-	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
-		return this.selectOptionButton;
-	}
+    @Override
+    public HasSelectableItemHandlers<SimpleProjectRole> getSelectableItemHandlers() {
+        return this.tableItem;
+    }
 
-	@Override
-	public HasMassItemActionHandler getPopupActionHandlers() {
-		return this.tableActionControls;
-	}
-
-	@Override
-	public HasSelectableItemHandlers<SimpleProjectRole> getSelectableItemHandlers() {
-		return this.tableItem;
-	}
-
-	@Override
-	public AbstractPagedBeanTable<ProjectRoleSearchCriteria, SimpleProjectRole> getPagedBeanTable() {
-		return this.tableItem;
-	}
+    @Override
+    public AbstractPagedBeanTable<ProjectRoleSearchCriteria, SimpleProjectRole> getPagedBeanTable() {
+        return this.tableItem;
+    }
 }

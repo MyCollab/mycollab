@@ -70,8 +70,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventListener;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author MyCollab Ltd.
@@ -81,9 +79,6 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourcesDisplayComponent.class);
-
-    private static final String illegalFileNamePattern = "[<>:&/\\|?*&%()]";
-    private static final String illegalFolderNamePattern = "[.<>:&/\\|?*&%()+-]";
 
     private ResourceService resourceService;
     private ExternalResourceService externalResourceService;
@@ -109,11 +104,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         mainBodyLayout.setSpacing(true);
 
         // file breadcrum ---------------------
-        HorizontalLayout breadcrumbContainer = new HorizontalLayout();
-        breadcrumbContainer.setMargin(false);
         fileBreadCrumb = new FileBreadcrumb(rootPath);
-        breadcrumbContainer.addComponent(fileBreadCrumb);
-        mainBodyLayout.addComponent(breadcrumbContainer);
+        mainBodyLayout.addComponent(fileBreadCrumb);
 
         // Construct controllGroupBtn
         MHorizontalLayout groupBtns = new MHorizontalLayout();
@@ -141,8 +133,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 }
             }
         });
-        groupBtns.with(selectAllBtn).withAlign(selectAllBtn,
-                Alignment.MIDDLE_LEFT);
+        groupBtns.with(selectAllBtn).withAlign(selectAllBtn, Alignment.MIDDLE_LEFT);
 
         Button goUpBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UP));
         goUpBtn.setIcon(FontAwesome.ARROW_UP);
@@ -257,8 +248,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         moveToBtn.setDescription("Move to");
         navButton.addButton(moveToBtn);
 
-        Button deleteBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -386,8 +376,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     for (ExternalDrive drive : externalDrives) {
                         if (StorageNames.DROPBOX.equals(drive.getStoragename())) {
                             try {
-                                Resource res = externalResourceService
-                                        .getCurrentResourceByPath(drive, "/");
+                                Resource res = externalResourceService.getCurrentResourceByPath(drive, "/");
                                 res.setName(drive.getFoldername());
                                 resources.add(0, res);
                             } catch (Exception e) {
@@ -533,8 +522,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layout.with(informationLayout).withAlign(informationLayout, Alignment.MIDDLE_LEFT).expand(informationLayout);
 
             final PopupButton resourceSettingPopupBtn = new PopupButton();
-            final MVerticalLayout filterBtnLayout = new MVerticalLayout();
-            final Button renameBtn = new Button("Rename",
+            MVerticalLayout filterBtnLayout = new MVerticalLayout();
+            Button renameBtn = new Button("Rename",
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
                         @Override
@@ -584,7 +573,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             moveBtn.setIcon(FontAwesome.ARROWS);
             filterBtnLayout.addComponent(moveBtn);
 
-            final Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -626,9 +615,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
     private class RenameResourceWindow extends Window {
         private static final long serialVersionUID = 1L;
-        private final Resource renameResource;
+        private Resource renameResource;
 
-        public RenameResourceWindow(final Resource resource) {
+        public RenameResourceWindow(Resource resource) {
             super("Rename folder/file");
             this.center();
             this.setResizable(false);
@@ -653,7 +642,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            final String oldPath = renameResource.getPath();
+                            String oldPath = renameResource.getPath();
                             String parentOldPath = oldPath.substring(0,
                                     oldPath.lastIndexOf("/") + 1);
 
@@ -662,12 +651,10 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                             if (renameResource.isExternalResource()) {
                                 externalResourceService.rename(
-                                        ((ExternalFolder) renameResource)
-                                                .getExternalDrive(), oldPath,
+                                        ((ExternalFolder) renameResource).getExternalDrive(), oldPath,
                                         newPath);
                             } else {
-                                resourceService.rename(oldPath, newPath,
-                                        AppContext.getUsername());
+                                resourceService.rename(oldPath, newPath, AppContext.getUsername());
                             }
                             resourcesContainer.constructBody(baseFolder);
 
@@ -698,7 +685,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
     private class AddNewFolderWindow extends Window {
         private static final long serialVersionUID = 1L;
 
-        private final TextField folderName;
+        private TextField folderName;
+        private TextArea descriptionArea;
 
         public AddNewFolderWindow() {
             this.setModal(true);
@@ -715,8 +703,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layoutHelper.addComponent(folderName, "Folder Name", 0, 0);
             contentLayout.addComponent(layoutHelper.getLayout());
             MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
-            Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -725,14 +712,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                             String folderVal = folderName.getValue();
 
                             if (StringUtils.isNotBlank(folderVal)) {
-                                Pattern pattern = Pattern.compile(illegalFolderNamePattern);
-                                Matcher matcher = pattern.matcher(folderVal);
-                                if (matcher.find()) {
-                                    NotificationUtil.showWarningNotification("Please enter valid folder name except any " +
-                                                    "follow characters : " + illegalFolderNamePattern);
-                                    return;
-                                }
-
+                                FileUtils.assertValidFolderName(folderVal);
                                 String baseFolderPath = baseFolder.getPath();
 
                                 if (baseFolder instanceof ExternalFolder) {
@@ -795,7 +775,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.layoutHelper.addComponent(multiFileUploadExt, "File", 0, 0);
             contentLayout.addComponent(this.layoutHelper.getLayout());
 
-            final MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
+            MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, false, false));
 
             final Button uploadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPLOAD),
                     new Button.ClickListener() {
@@ -807,13 +787,9 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                             if (CollectionUtils.isNotEmpty(attachments)) {
                                 for (File attachment : attachments) {
                                     try {
-                                        if (StringUtils.isNotBlank(attachment.getName())) {
-                                            Pattern pattern = Pattern.compile(illegalFileNamePattern);
-                                            Matcher matcher = pattern.matcher(attachment.getName());
-                                            if (matcher.find()) {
-                                                NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
-                                                return;
-                                            }
+                                        if (!FileUtils.isValidFileName(attachment.getName())) {
+                                            NotificationUtil.showWarningNotification("Please upload valid file-name except any follow characters : <>:&/\\|?*&");
+                                            return;
                                         }
                                         Content content = new Content(String.format("%s/%s", baseFolder.getPath(), attachment.getName()));
                                         content.setSize(attachment.length());
@@ -857,13 +833,12 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             contentLayout.addComponent(controlsLayout);
             contentLayout.setComponentAlignment(controlsLayout, Alignment.MIDDLE_CENTER);
         }
-
     }
 
     private class ResourcePagingNavigator extends CssLayout {
         private static final long serialVersionUID = 1L;
         private int totalItem;
-        public int pageItemNum = 15;
+        private int pageItemNum = 15;
         private int currentPage;
         private CssLayout controlBarWrapper;
         private MHorizontalLayout navigator;
@@ -1058,11 +1033,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             this.folderTree.removeAllItems();
 
             this.baseFolder = new Folder(rootPath);
-            this.folderTree.addItem(new Object[]{
-                            ResourcesDisplayComponent.this.rootFolderName, ""},
-                    this.baseFolder);
-            this.folderTree.setItemCaption(this.baseFolder,
-                    ResourcesDisplayComponent.this.rootFolderName);
+            this.folderTree.addItem(new Object[]{ResourcesDisplayComponent.this.rootFolderName, ""}, this.baseFolder);
+            this.folderTree.setItemCaption(this.baseFolder, ResourcesDisplayComponent.this.rootFolderName);
 
             this.folderTree.setCollapsed(this.baseFolder, false);
         }
@@ -1074,9 +1046,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                 ResourceRemovedListener.viewInitMethod);
     }
 
-    public interface ResourceRemovedListener extends EventListener,
-            Serializable {
-        public final Method viewInitMethod = ReflectTools.findMethod(
+    public interface ResourceRemovedListener extends EventListener, Serializable {
+        Method viewInitMethod = ReflectTools.findMethod(
                 ResourceRemovedListener.class, "removedResource",
                 ResourceRemovedEvent.class);
 

@@ -33,15 +33,13 @@ import com.vaadin.ui.Component;
  */
 
 @ViewComponent
-public class ProjectListViewImpl extends
-		AbstractListViewComp<ProjectSearchCriteria, SimpleProject> implements
+public class ProjectListViewImpl extends AbstractListViewComp<ProjectSearchCriteria, SimpleProject> implements
 		ProjectListView {
 
 	private static final long serialVersionUID = 664947871255886622L;
 
 	public ProjectListViewImpl() {
-		this.setCaption(AppContext
-				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
+		this.setCaption(AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
 		this.setToggleButton(true);
 	}
 

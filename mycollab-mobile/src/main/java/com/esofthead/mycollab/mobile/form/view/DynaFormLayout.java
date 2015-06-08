@@ -45,21 +45,18 @@ import com.vaadin.ui.VerticalLayout;
 public class DynaFormLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DynaFormLayout.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
 	private DynaForm dynaForm;
 
 	private VerticalLayout layout;
 
-	private final Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
+	private final Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
 	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
 	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-		MasterFormService formService = ApplicationContextUtil
-				.getSpringBean(MasterFormService.class);
-		DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
-				moduleName);
+		MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
+		DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
 
 		if (form != null) {
 			this.dynaForm = form;
@@ -79,9 +76,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			for (int j = 0; j < fieldCount; j++) {
 				AbstractDynaField dynaField = section.getField(j);
 				if (dynaField.isCustom()) {
-					fieldMappings.put(
-							"customfield." + dynaField.getFieldName(),
-							dynaField);
+					fieldMappings.put("customfield." + dynaField.getFieldName(), dynaField);
 				} else {
 					fieldMappings.put(dynaField.getFieldName(), dynaField);
 				}
@@ -98,7 +93,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 	public ComponentContainer getLayout() {
 		layout = new VerticalLayout();
 		int sectionCount = dynaForm.getSectionCount();
-		sectionMappings = new HashMap<DynaSection, GridFormLayoutHelper>();
+		sectionMappings = new HashMap<>();
 
 		for (int i = 0; i < sectionCount; i++) {
 			DynaSection section = dynaForm.getSection(i);
@@ -115,8 +110,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 				continue;
 			}
 
-			gridLayout = new GridFormLayoutHelper(1, section.getFieldCount(),
-					"100%", "150px", Alignment.TOP_RIGHT);
+			gridLayout = new GridFormLayoutHelper(1, section.getFieldCount(), "100%", "150px", Alignment.TOP_RIGHT);
 
 			gridLayout.getLayout().setWidth("100%");
 			gridLayout.getLayout().setMargin(false);
@@ -135,7 +129,6 @@ public class DynaFormLayout implements IFormLayoutFactory {
 		if (dynaField != null) {
 			DynaSection section = dynaField.getOwnSection();
 			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
-
 			gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
 					dynaField.getFieldIndex(), Alignment.TOP_RIGHT);
 

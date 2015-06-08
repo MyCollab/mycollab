@@ -36,9 +36,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleReadViewImpl extends VerticalLayout implements
-        ProjectRoleReadView {
-
+public class ProjectRoleReadViewImpl extends VerticalLayout implements ProjectRoleReadView {
     private static final long serialVersionUID = 1L;
 
     private SimpleProjectRole beanItem;
@@ -83,16 +81,15 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     }
 
     protected ComponentContainer createButtonControls() {
-        return (new ProjectPreviewFormControlsGenerator<>(
-                previewForm))
+        return (new ProjectPreviewFormControlsGenerator<>(previewForm))
                 .createButtonControls(ProjectRolePermissionCollections.ROLES);
     }
 
     protected ComponentContainer createBottomPanel() {
         VerticalLayout permissionsPanel = new VerticalLayout();
-        final Label organizationHeader = new Label(
+        Label organizationHeader = new Label(
                 AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-        organizationHeader.setStyleName("h2");
+        organizationHeader.addStyleName("h2");
         permissionsPanel.addComponent(organizationHeader);
 
         projectFormHelper = GridFormLayoutHelper.defaultFormLayoutHelper(2,
@@ -106,16 +103,13 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     protected void onPreviewItem() {
         projectFormHelper.getLayout().removeAllComponents();
 
-        final PermissionMap permissionMap = beanItem.getPermissionMap();
+        PermissionMap permissionMap = beanItem.getPermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-            final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+            Enum permissionKey = RolePermissionI18nEnum.valueOf(permissionPath);
             projectFormHelper.addComponent(
-                    new Label(AppContext.getPermissionCaptionValue(
-                            permissionMap,
-                            RolePermissionI18nEnum.valueOf(permissionPath)
-                                    .name())), AppContext
-                            .getMessage(RolePermissionI18nEnum
-                                    .valueOf(permissionPath)), 0, i);
+                    new Label(AppContext.getPermissionCaptionValue(permissionMap, permissionKey.name())),
+                    AppContext.getMessage(permissionKey), 0, i);
         }
 
     }
@@ -129,8 +123,7 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     }
 
     protected AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole> initBeanFormFieldFactory() {
-        return new AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole>(
-                previewForm) {
+        return new AbstractBeanFieldGroupViewFieldFactory<SimpleProjectRole>(previewForm) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -158,14 +151,9 @@ public class ProjectRoleReadViewImpl extends VerticalLayout implements
     }
 
     private ComponentContainer constructHeader() {
-        header = new MHorizontalLayout().withStyleName("hdr-view")
-                .withWidth("100%").withMargin(true);
-
+        header = new MHorizontalLayout().withStyleName("hdr-view").withWidth("100%").withMargin(true);
         headerText.setStyleName("header-text");
-
-        header.with(headerText).alignAll(Alignment.MIDDLE_LEFT)
-                .expand(headerText);
-
+        header.with(headerText).alignAll(Alignment.MIDDLE_LEFT).expand(headerText);
         return header;
     }
 

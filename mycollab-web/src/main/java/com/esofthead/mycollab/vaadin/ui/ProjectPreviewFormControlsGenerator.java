@@ -57,8 +57,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
     private MHorizontalLayout editButtons;
     private MHorizontalLayout layout;
 
-    public ProjectPreviewFormControlsGenerator(
-            final AdvancedPreviewBeanForm<T> editForm) {
+    public ProjectPreviewFormControlsGenerator(AdvancedPreviewBeanForm<T> editForm) {
         this.previewForm = editForm;
         layout = new MHorizontalLayout().withStyleName("control-buttons");
         layout.setSizeUndefined();
@@ -67,11 +66,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         editButtons.addStyleName("edit-btn");
     }
 
-    public HorizontalLayout createButtonControls(int buttonEnableFlags,
-                                                 final String permissionItem) {
-
-        Button optionParentBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
+    public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
+        Button optionParentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -86,8 +82,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
         if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-            addBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+            addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
                     new Button.ClickListener() {
 
                         private static final long serialVersionUID = 1L;
@@ -106,8 +101,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         }
 
         if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-            editBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+            editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
 
                         private static final long serialVersionUID = 1L;
@@ -126,8 +120,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         }
 
         if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-            deleteBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
+            deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                     new Button.ClickListener() {
 
                         private static final long serialVersionUID = 1L;
@@ -146,8 +139,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         }
 
         if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
-            assignBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
+            assignBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -164,15 +156,14 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         }
 
         if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-            cloneBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
+            cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
                             optionBtn.setPopupVisible(false);
-                            final T item = previewForm.getBean();
+                            T item = previewForm.getBean();
                             previewForm.fireCloneForm(item);
                         }
                     });
@@ -200,7 +191,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    final T item = previewForm.getBean();
+                    T item = previewForm.getBean();
                     previewForm.fireGotoPrevious(item);
                 }
             });
@@ -215,7 +206,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    final T item = previewForm.getBean();
+                    T item = previewForm.getBean();
                     previewForm.fireGotoNextItem(item);
                 }
             });
@@ -230,10 +221,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
         }
 
         if (permissionItem != null) {
-            final boolean canWrite = CurrentProjectVariables
-                    .canWrite(permissionItem);
-            final boolean canAccess = CurrentProjectVariables
-                    .canAccess(permissionItem);
+            boolean canWrite = CurrentProjectVariables.canWrite(permissionItem);
+            boolean canAccess = CurrentProjectVariables.canAccess(permissionItem);
 
             if (assignBtn != null) {
                 assignBtn.setEnabled(canWrite);

@@ -349,7 +349,7 @@ public class AppContext implements Serializable {
      */
     public static boolean isAdmin() {
         Boolean isAdmin = getInstance().session.getIsAccountOwner();
-        return (isAdmin == null) ? Boolean.FALSE : isAdmin;
+        return Boolean.TRUE.equals(isAdmin);
     }
 
     /**
@@ -424,9 +424,8 @@ public class AppContext implements Serializable {
         return getInstance().session.getPermissionMaps();
     }
 
-    public static String getPermissionCaptionValue(
-            final PermissionMap permissionMap, final String permissionItem) {
-        final Integer perVal = permissionMap.get(permissionItem);
+    public static String getPermissionCaptionValue(PermissionMap permissionMap, String permissionItem) {
+        Integer perVal = permissionMap.get(permissionItem);
         return (perVal == null) ? getMessage(SecurityI18nEnum.NO_ACCESS) : AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
     }
 

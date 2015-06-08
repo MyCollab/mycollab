@@ -25,8 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
  *
  * @since 4.5.2
  */
-public interface ProjectMemberReadView extends
-		IPreviewView<SimpleProjectMember> {
+public interface ProjectMemberReadView extends IPreviewView<SimpleProjectMember> {
 
 	HasPreviewFormHandlers<SimpleProjectMember> getPreviewFormHandlers();
 }

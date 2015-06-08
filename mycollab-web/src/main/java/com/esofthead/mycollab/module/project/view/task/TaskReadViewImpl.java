@@ -134,12 +134,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         }
 
         if (!beanItem.isCompleted()) {
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CIRCLE_O_NOTCH);
 
         }

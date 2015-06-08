@@ -48,188 +48,181 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.5.2
  */
 @ViewComponent
-public class ProjectMemberEditViewImpl extends
-		AbstractEditItemComp<SimpleProjectMember> implements
-		ProjectMemberEditView {
+public class ProjectMemberEditViewImpl extends AbstractEditItemComp<SimpleProjectMember> implements
+        ProjectMemberEditView {
+    private static final long serialVersionUID = 1483479851089277052L;
 
-	private static final long serialVersionUID = 1483479851089277052L;
+    private VerticalComponentGroup permissionGroup;
 
-	private VerticalComponentGroup permissionGroup;
+    public ProjectMemberEditViewImpl() {
+        this.addStyleName("member-edit-view");
+        this.permissionGroup = new VerticalComponentGroup();
+        this.permissionGroup.setWidth("100%");
+    }
 
-	public ProjectMemberEditViewImpl() {
-		this.addStyleName("member-edit-view");
-		this.permissionGroup = new VerticalComponentGroup();
-		this.permissionGroup.setWidth("100%");
-	}
+    @Override
+    protected String initFormTitle() {
+        return beanItem.getDisplayName();
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return beanItem.getDisplayName();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new ProjectMemberEditFormLayoutFactory();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ProjectMemberEditFormLayoutFactory();
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> initBeanFormFieldFactory() {
+        return new ProjectMemberEditFieldGroupFactory(this.editForm);
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> initBeanFormFieldFactory() {
-		return new ProjectMemberEditFieldGroupFactory(this.editForm);
-	}
+    private void displayRolePermission(Integer roleId) {
+        permissionGroup.removeAllComponents();
+        if (roleId != null && roleId > 0) {
+            ProjectRoleService roleService = ApplicationContextUtil
+                    .getSpringBean(ProjectRoleService.class);
+            SimpleProjectRole role = roleService.findById(roleId, AppContext.getAccountId());
+            if (role != null) {
+                final PermissionMap permissionMap = role.getPermissionMap();
+                for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                    final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                    Label permissionLbl = new Label(
+                            AppContext.getPermissionCaptionValue(permissionMap,
+                                    permissionPath));
+                    permissionLbl.setCaption(AppContext
+                            .getMessage(RolePermissionI18nEnum
+                                    .valueOf(permissionPath)));
+                    permissionGroup.addComponent(permissionLbl);
+                }
+            }
+        } else {
+            for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+                final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+                Label permissionLbl = new Label(
+                        AppContext.getMessage(SecurityI18nEnum.ACCESS));
+                permissionLbl.setCaption(permissionPath);
+                permissionGroup.addComponent(permissionLbl);
+            }
+        }
 
-	private void displayRolePermission(Integer roleId) {
-		permissionGroup.removeAllComponents();
-		if (roleId != null && roleId > 0) {
-			ProjectRoleService roleService = ApplicationContextUtil
-					.getSpringBean(ProjectRoleService.class);
-			SimpleProjectRole role = roleService.findById(roleId,
-					AppContext.getAccountId());
-			if (role != null) {
-				final PermissionMap permissionMap = role.getPermissionMap();
-				for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-					final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-					Label permissionLbl = new Label(
-							AppContext.getPermissionCaptionValue(permissionMap,
-									permissionPath));
-					permissionLbl.setCaption(AppContext
-							.getMessage(RolePermissionI18nEnum
-									.valueOf(permissionPath)));
-					permissionGroup.addComponent(permissionLbl);
-				}
-			}
-		} else {
-			for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-				final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
-				Label permissionLbl = new Label(
-						AppContext.getMessage(SecurityI18nEnum.ACCESS));
-				permissionLbl.setCaption(permissionPath);
-				permissionGroup.addComponent(permissionLbl);
-			}
-		}
+    }
 
-	}
+    private class ProjectMemberEditFormLayoutFactory implements
+            IFormLayoutFactory {
 
-	private class ProjectMemberEditFormLayoutFactory implements
-			IFormLayoutFactory {
+        private static final long serialVersionUID = -6204799792781581979L;
+        VerticalComponentGroup fieldGroup;
 
-		private static final long serialVersionUID = -6204799792781581979L;
-		VerticalComponentGroup fieldGroup;
+        @Override
+        public ComponentContainer getLayout() {
+            final VerticalLayout layout = new VerticalLayout();
+            layout.setMargin(false);
+            Label header = new Label(AppContext
+                    .getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
+            header.setStyleName("h2");
+            layout.addComponent(header);
 
-		@Override
-		public ComponentContainer getLayout() {
-			final VerticalLayout layout = new VerticalLayout();
-			layout.setMargin(false);
-			Label header = new Label(
-					AppContext
-							.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
-			header.setStyleName("h2");
-			layout.addComponent(header);
+            fieldGroup = new VerticalComponentGroup();
+            fieldGroup.setWidth("100%");
 
-			fieldGroup = new VerticalComponentGroup();
-			fieldGroup.setWidth("100%");
+            layout.addComponent(fieldGroup);
 
-			layout.addComponent(fieldGroup);
+            Label permissionSectionHdr = new Label(
+                    AppContext
+                            .getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+            permissionSectionHdr.setStyleName("h2");
+            layout.addComponent(permissionSectionHdr);
+            layout.addComponent(permissionGroup);
 
-			Label permissionSectionHdr = new Label(
-					AppContext
-							.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
-			permissionSectionHdr.setStyleName("h2");
-			layout.addComponent(permissionSectionHdr);
-			layout.addComponent(permissionGroup);
+            return layout;
+        }
 
-			return layout;
-		}
+        @Override
+        public void attachField(Object propertyId, Field<?> field) {
+            if (propertyId.equals("projectroleid")) {
+                field.setCaption(AppContext
+                        .getMessage(ProjectMemberI18nEnum.FORM_ROLE));
+                fieldGroup.addComponent(field);
+            }
+        }
 
-		@Override
-		public void attachField(Object propertyId, Field<?> field) {
-			if (propertyId.equals("projectroleid")) {
-				field.setCaption(AppContext
-						.getMessage(ProjectMemberI18nEnum.FORM_ROLE));
-				fieldGroup.addComponent(field);
-			}
-		}
+    }
 
-	}
+    private class ProjectMemberEditFieldGroupFactory extends
+            AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
 
-	private class ProjectMemberEditFieldGroupFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<SimpleProjectMember> {
+        private static final long serialVersionUID = 1490026787891513129L;
 
-		private static final long serialVersionUID = 1490026787891513129L;
+        public ProjectMemberEditFieldGroupFactory(GenericBeanForm<SimpleProjectMember> form) {
+            super(form);
+        }
 
-		public ProjectMemberEditFieldGroupFactory(
-				GenericBeanForm<SimpleProjectMember> form) {
-			super(form);
-		}
+        @Override
+        protected Field<?> onCreateField(Object propertyId) {
+            if (propertyId.equals("projectroleid")) {
+                return new ProjectRoleSelectionField();
+            }
+            return null;
+        }
 
-		@Override
-		protected Field<?> onCreateField(Object propertyId) {
-			if (propertyId.equals("projectroleid")) {
-				return new ProjectRoleSelectionField();
-			}
-			return null;
-		}
+    }
 
-	}
+    private class ProjectRoleSelectionField extends CustomField<Integer> {
+        private static final long serialVersionUID = 1L;
+        private ProjectRoleComboBox roleComboBox;
 
-	private class ProjectRoleSelectionField extends CustomField<Integer> {
-		private static final long serialVersionUID = 1L;
-		private ProjectRoleComboBox roleComboBox;
+        public ProjectRoleSelectionField() {
+            this.roleComboBox = new ProjectRoleComboBox();
+            this.roleComboBox.addValueChangeListener(new Property.ValueChangeListener() {
+                        private static final long serialVersionUID = 1L;
 
-		public ProjectRoleSelectionField() {
-			this.roleComboBox = new ProjectRoleComboBox();
-			this.roleComboBox
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						private static final long serialVersionUID = 1L;
+                        @Override
+                        public void valueChange(
+                                final Property.ValueChangeEvent event) {
+                            displayRolePermission((Integer) roleComboBox.getValue());
 
-						@Override
-						public void valueChange(
-								final Property.ValueChangeEvent event) {
-							displayRolePermission((Integer) roleComboBox
-									.getValue());
+                        }
+                    });
+            this.roleComboBox.setWidth("100%");
+        }
 
-						}
-					});
-			this.roleComboBox.setWidth("100%");
-		}
+        @Override
+        public void commit() throws SourceException, InvalidValueException {
+            Integer roleId = (Integer) roleComboBox.getValue();
+            if (roleId == -1) {
+                beanItem.setIsadmin(Boolean.TRUE);
+                this.setInternalValue(null);
+            } else {
+                this.setInternalValue((Integer) this.roleComboBox.getValue());
+                beanItem.setIsadmin(Boolean.FALSE);
+            }
 
-		@Override
-		public void commit() throws SourceException, InvalidValueException {
-			Integer roleId = (Integer) roleComboBox.getValue();
-			if (roleId == -1) {
-				beanItem.setIsadmin(Boolean.TRUE);
-				this.setInternalValue(null);
-			} else {
-				this.setInternalValue((Integer) this.roleComboBox.getValue());
-				beanItem.setIsadmin(Boolean.FALSE);
-			}
+            super.commit();
+        }
 
-			super.commit();
-		}
+        @Override
+        public void setPropertyDataSource(
+                @SuppressWarnings("rawtypes") Property newDataSource) {
+            Object value = newDataSource.getValue();
+            if (value instanceof Integer) {
+                roleComboBox.setValue(value);
+                displayRolePermission((Integer) roleComboBox.getValue());
+            } else if (value == null) {
+                if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
+                    roleComboBox.setValue(-1);
+                    displayRolePermission(null);
+                }
+            }
+            super.setPropertyDataSource(newDataSource);
+        }
 
-		@Override
-		public void setPropertyDataSource(
-				@SuppressWarnings("rawtypes") Property newDataSource) {
-			Object value = newDataSource.getValue();
-			if (value instanceof Integer) {
-				roleComboBox.setValue(value);
-				displayRolePermission((Integer) roleComboBox.getValue());
-			} else if (value == null) {
-				if (Boolean.TRUE.equals(beanItem.getIsadmin())) {
-					roleComboBox.setValue(-1);
-					displayRolePermission(null);
-				}
-			}
-			super.setPropertyDataSource(newDataSource);
-		}
+        @Override
+        public Class<Integer> getType() {
+            return Integer.class;
+        }
 
-		@Override
-		public Class<Integer> getType() {
-			return Integer.class;
-		}
-
-		@Override
-		protected Component initContent() {
-			return roleComboBox;
-		}
-	}
+        @Override
+        protected Component initContent() {
+            return roleComboBox;
+        }
+    }
 }

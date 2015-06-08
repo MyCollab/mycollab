@@ -115,10 +115,8 @@ public class ResourceServiceImpl implements ResourceService {
 		rawContentService.saveContent(contentPath, refStream);
 
 		if (MimeTypesUtil.isImage(mimeType)) {
-			try (InputStream newInputStream = rawContentService
-					.getContentStream(contentPath)) {
-				BufferedImage image = ImageUtil
-						.generateImageThumbnail(newInputStream);
+			try (InputStream newInputStream = rawContentService.getContentStream(contentPath)) {
+				BufferedImage image = ImageUtil.generateImageThumbnail(newInputStream);
 				if (image != null) {
 					String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
 							sAccountId, StringUtils.generateSoftUniqueId(),
@@ -142,8 +140,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public void removeResource(String path, String deleteUser,
-			Integer sAccountId) {
+	public void removeResource(String path, String deleteUser, Integer sAccountId) {
 		Resource res = contentJcrDao.getResource(path);
 		if (res == null) {
 			return;

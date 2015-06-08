@@ -13,12 +13,12 @@
     </prerequisites>
     <properties>
         <springVersion>4.1.6.RELEASE</springVersion>
-        <aspectjVersion>1.8.5</aspectjVersion>
+        <aspectjVersion>1.8.6</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.4.7</vaadinVersion>
-        <jettyVersion>9.2.11.v20150529</jettyVersion>
+        <jettyVersion>9.3.0.RC1</jettyVersion>
         <mysqlVersion>5.1.35</mysqlVersion>
         <camelVersion>2.15.2</camelVersion>
         <junitVersion>4.12</junitVersion>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.4.1</version>
+            <version>4.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-codec</groupId>

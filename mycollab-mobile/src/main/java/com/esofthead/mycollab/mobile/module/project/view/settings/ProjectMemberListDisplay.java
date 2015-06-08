@@ -36,10 +36,8 @@ import com.vaadin.ui.VerticalLayout;
  *
  * @since 4.5.0
  */
-public class ProjectMemberListDisplay
-		extends
+public class ProjectMemberListDisplay extends
 		DefaultPagedBeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember> {
-
 	private static final long serialVersionUID = -8386107467240727141L;
 
 	public ProjectMemberListDisplay() {
@@ -48,17 +46,14 @@ public class ProjectMemberListDisplay
 		this.addStyleName("member-list");
 	}
 
-	private static class ProjectMemberRowDisplayHandler implements
-			RowDisplayHandler<SimpleProjectMember> {
+	private static class ProjectMemberRowDisplayHandler implements RowDisplayHandler<SimpleProjectMember> {
 
 		@Override
-		public Component generateRow(final SimpleProjectMember member,
-				int rowIndex) {
+		public Component generateRow(final SimpleProjectMember member, int rowIndex) {
 			HorizontalLayout mainLayout = new HorizontalLayout();
 			mainLayout.setWidth("100%");
 			mainLayout.setStyleName("member-row");
-			Image memberAvatar = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(
+			Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
 							member.getMemberAvatarId(), 48);
 			mainLayout.addComponent(memberAvatar);
 
@@ -74,8 +69,7 @@ public class ProjectMemberListDisplay
 				@Override
 				public void buttonClick(Button.ClickEvent event) {
 					EventBusFactory.getInstance().post(
-							new ProjectMemberEvent.GotoRead(this, member
-									.getUsername()));
+							new ProjectMemberEvent.GotoRead(this, member.getUsername()));
 				}
 			});
 			memberInfoLayout.addComponent(memberDisplayName);

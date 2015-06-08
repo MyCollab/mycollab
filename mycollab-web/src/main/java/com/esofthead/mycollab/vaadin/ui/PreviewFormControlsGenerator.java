@@ -36,9 +36,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @param <B>
  */
 public class PreviewFormControlsGenerator<B> {
-
 	private AdvancedPreviewBeanForm<B> previewForm;
-	// private Button backBtn;
 	private Button editBtn;
 	private Button deleteBtn;
 	private Button cloneBtn;
@@ -73,8 +71,7 @@ public class PreviewFormControlsGenerator<B> {
 
 		editButtons = new MHorizontalLayout();
 
-		editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-				new Button.ClickListener() {
+		editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -87,9 +84,7 @@ public class PreviewFormControlsGenerator<B> {
 		editBtn.setIcon(FontAwesome.EDIT);
 		popupButtonsControl.addOption(editBtn);
 
-		deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-				new Button.ClickListener() {
+		deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -103,9 +98,7 @@ public class PreviewFormControlsGenerator<B> {
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
 
-		cloneBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
-				new Button.ClickListener() {
+		cloneBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLONE), new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override

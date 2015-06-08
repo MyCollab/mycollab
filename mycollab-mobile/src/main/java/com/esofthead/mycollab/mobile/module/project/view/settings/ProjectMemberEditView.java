@@ -24,7 +24,5 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  *
  * @since 4.5.2
  */
-public interface ProjectMemberEditView extends
-		IFormAddView<SimpleProjectMember> {
-
+public interface ProjectMemberEditView extends IFormAddView<SimpleProjectMember> {
 }
