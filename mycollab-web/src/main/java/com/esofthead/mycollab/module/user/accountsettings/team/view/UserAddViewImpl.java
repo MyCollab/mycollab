@@ -106,9 +106,9 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
                     .getDisplayName();
             AddViewLayout formAddLayout = new AddViewLayout(title, FontAwesome.USER);
 
-            VerticalLayout layout = new VerticalLayout();
             Label organizationHeader = new Label(AppContext.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
             organizationHeader.setStyleName("h2");
+            VerticalLayout layout = new VerticalLayout();
             layout.addComponent(organizationHeader);
             basicInformationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 2);
             layout.addComponent(basicInformationLayout.getLayout());
@@ -200,8 +200,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
 
         private Layout createButtonControls() {
-            return new EditFormControlsGenerator<>(
-                    editUserForm).createButtonControls();
+            return new EditFormControlsGenerator<>(editUserForm).createButtonControls();
         }
 
         @Override
@@ -210,8 +209,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         }
     }
 
-    private class AdvancedEditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
+    private class AdvancedEditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
         private static final long serialVersionUID = 1L;
 
         public AdvancedEditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
@@ -222,7 +220,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
         protected Field<?> onCreateField(Object propertyId) {
             if (SimpleUser.Field.roleid.equalTo(propertyId)) {
                 return new AdminRoleSelectionField();
-            } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId) || User.Field.lastname.equalTo(propertyId)) {
+            } else if (User.Field.email.equalTo(propertyId) || User.Field.firstname.equalTo(propertyId)
+                    || User.Field.lastname.equalTo(propertyId)) {
                 TextField tf = new TextField();
                 tf.setNullRepresentation("");
                 tf.setRequired(true);

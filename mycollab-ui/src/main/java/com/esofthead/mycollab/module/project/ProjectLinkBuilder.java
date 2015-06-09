@@ -44,8 +44,7 @@ import java.util.UUID;
  * @since 1.0
  */
 public class ProjectLinkBuilder {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ProjectLinkBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectLinkBuilder.class);
 
     public static String generateProjectFullLink(Integer projectId) {
         if (projectId == null) {

@@ -19,12 +19,16 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
+import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.security.*;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -41,8 +45,8 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
     private static final long serialVersionUID = 1L;
 
-    protected AdvancedPreviewBeanForm<Role> previewForm;
-    protected SimpleRole role;
+    private AdvancedPreviewBeanForm<Role> previewForm;
+    private SimpleRole role;
     private PreviewFormControlsGenerator<Role> buttonControls;
 
     public RoleReadViewImpl() {
@@ -69,17 +73,16 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
         }
     }
 
-    protected Layout createTopPanel() {
+    private Layout createTopPanel() {
         buttonControls = new PreviewFormControlsGenerator<>(previewForm);
         return buttonControls.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
     }
 
     @Override
-    public void previewItem(final SimpleRole role) {
+    public void previewItem(SimpleRole role) {
         this.role = role;
         this.previewForm.setFormLayoutFactory(new FormLayoutFactory());
-        this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
-                        previewForm) {
+        this.previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(previewForm) {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -88,7 +91,6 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
                     }
                 });
         this.previewForm.setBean(role);
-        buttonControls.setDeleteButtonVisible(!role.isSystemRole());
     }
 
     @Override

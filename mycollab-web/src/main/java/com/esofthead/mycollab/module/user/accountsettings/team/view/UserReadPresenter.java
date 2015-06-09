@@ -59,6 +59,12 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 		view.getPreviewFormHandlers().addFormHandler(
 				new DefaultPreviewFormHandler<User>() {
 					@Override
+					public void onAdd(User data) {
+                        EventBusFactory.getInstance().post(
+                                new UserEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onEdit(User data) {
 						EventBusFactory.getInstance().post(new UserEvent.GotoEdit(this, data));
 					}

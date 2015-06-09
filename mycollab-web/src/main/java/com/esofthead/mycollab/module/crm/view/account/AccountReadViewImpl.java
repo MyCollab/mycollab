@@ -89,8 +89,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
     protected void displayActivities() {
         ActivitySearchCriteria criteria = new ActivitySearchCriteria();
         criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-        criteria.setType(new StringSearchField(SearchField.AND,
-                CrmTypeConstants.ACCOUNT));
+        criteria.setType(new StringSearchField(SearchField.AND, CrmTypeConstants.ACCOUNT));
         criteria.setTypeid(new NumberSearchField(beanItem.getId()));
         associateActivityList.setSearchCriteria(criteria);
     }
@@ -115,17 +114,14 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
     @Override
     protected String initFormTitle() {
-        LeadService leadService = ApplicationContextUtil
-                .getSpringBean(LeadService.class);
-        SimpleLead lead = leadService.findConvertedLeadOfAccount(
-                beanItem.getId(), AppContext.getAccountId());
+        LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+        SimpleLead lead = leadService.findConvertedLeadOfAccount(beanItem.getId(), AppContext.getAccountId());
         if (lead != null) {
             return new StringBuilder().append(beanItem.getAccountname())
                     .append(AppContext.getMessage(
                             LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
                             CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
-                            CrmLinkGenerator.generateCrmItemLink(
-                                    CrmTypeConstants.LEAD, lead.getId()),
+                            CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
                             lead.getLeadName())).toString();
         } else {
             return beanItem.getAccountname();

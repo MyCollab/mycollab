@@ -52,7 +52,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.*;
+import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.BACK_BTN_PRESENTED;
+import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator.NAVIGATOR_BTN_PRESENTED;
 
 /**
  *
@@ -61,14 +62,10 @@ import static com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormCont
  *
  */
 @ViewComponent
-public class LeadConvertReadViewImpl extends
-        AbstractPreviewItemComp<SimpleLead> implements LeadConvertReadView {
+public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements LeadConvertReadView {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(LeadConvertReadViewImpl.class);
-
-    private SimpleLead lead;
+    private static final Logger LOG = LoggerFactory.getLogger(LeadConvertReadViewImpl.class);
 
     private LeadCampaignListComp associateCampaignList;
     private ActivityRelatedItemListComp associateActivityList;
@@ -92,7 +89,7 @@ public class LeadConvertReadViewImpl extends
         CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<>(
                 previewForm);
         return controlsButton.createButtonControls(BACK_BTN_PRESENTED
-                | PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
+                | NAVIGATOR_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
     }
 
     @Override
@@ -104,7 +101,7 @@ public class LeadConvertReadViewImpl extends
     }
 
     @Override
-    public void previewItem(final SimpleLead item) {
+    public void previewItem(SimpleLead item) {
         this.beanItem = item;
         previewLayout.setTitle(initFormTitle());
         displayConvertLeadInfo(item);
@@ -204,7 +201,6 @@ public class LeadConvertReadViewImpl extends
     @Override
     public void displayConvertLeadInfo(final SimpleLead lead) {
         previewForm.removeAllComponents();
-        this.lead = lead;
 
         Label header = new Label("Conversion Details");
         header.addStyleName("h2");
@@ -218,8 +214,7 @@ public class LeadConvertReadViewImpl extends
         LOG.debug("Display associate account");
         AccountService accountService = ApplicationContextUtil
                 .getSpringBean(AccountService.class);
-        final SimpleAccount account = accountService
-                .findAccountAssoWithConvertedLead(lead.getId(),
+        final SimpleAccount account = accountService.findAccountAssoWithConvertedLead(lead.getId(),
                         AppContext.getAccountId());
         if (account != null) {
             Button accountLink = new Button(account.getAccountname(),
@@ -229,8 +224,7 @@ public class LeadConvertReadViewImpl extends
                         @Override
                         public void buttonClick(ClickEvent event) {
                             EventBusFactory.getInstance().post(
-                                    new AccountEvent.GotoRead(this, account
-                                            .getId()));
+                                    new AccountEvent.GotoRead(this, account.getId()));
 
                         }
                     });
@@ -255,8 +249,7 @@ public class LeadConvertReadViewImpl extends
                         @Override
                         public void buttonClick(ClickEvent event) {
                             EventBusFactory.getInstance().post(
-                                    new ContactEvent.GotoRead(this, contact
-                                            .getId()));
+                                    new ContactEvent.GotoRead(this, contact.getId()));
 
                         }
                     });
@@ -282,8 +275,7 @@ public class LeadConvertReadViewImpl extends
                         @Override
                         public void buttonClick(ClickEvent event) {
                             EventBusFactory.getInstance().post(
-                                    new OpportunityEvent.GotoRead(this,
-                                            opportunity.getId()));
+                                    new OpportunityEvent.GotoRead(this, opportunity.getId()));
 
                         }
                     });

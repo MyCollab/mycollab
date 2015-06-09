@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  *
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20150604";
+    public static final String THEME_VERSION = "mycollab_20150609";
 
 	public static String getVersion() {
 		return "5.0.8";

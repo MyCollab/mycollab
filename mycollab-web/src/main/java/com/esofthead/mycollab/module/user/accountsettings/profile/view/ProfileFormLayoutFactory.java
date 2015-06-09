@@ -43,7 +43,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
             userAvatarIcon = MyCollabResource
                     .newResource(WebResourceIds._default_user_avatar_24);
         }
-        final ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
+        ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 
         this.userInformationLayout = new UserInformationLayout();
         this.userInformationLayout.getLayout().setWidth("100%");
@@ -99,7 +99,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
         }
 
         @Override
-        public void attachField(final Object propertyId, final Field<?> field) {
+        public void attachField(Object propertyId, Field<?> field) {
             if (propertyId.equals("firstname")) {
                 this.basicInformationLayout.addComponent(field,
                         AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0,

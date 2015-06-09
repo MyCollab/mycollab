@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -27,11 +26,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCr
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.TabSheetDecorator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Component;
@@ -40,95 +35,93 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewComponent
-public class UserSettingViewImpl extends AbstractPageView implements
-		UserSettingView {
-	private static final long serialVersionUID = 1L;
+public class UserSettingViewImpl extends AbstractPageView implements UserSettingView {
+    private static final long serialVersionUID = 1L;
 
-	private ProjectUserPresenter userPresenter;
-	private ProjectRolePresenter rolePresenter;
-	private ProjectSettingPresenter settingPresenter;
+    private ProjectUserPresenter userPresenter;
+    private ProjectRolePresenter rolePresenter;
+    private ProjectSettingPresenter settingPresenter;
 
-	private final TabSheetDecorator myProjectTab;
+    private final TabSheetDecorator myProjectTab;
 
-	public UserSettingViewImpl() {
-		this.setWidth("100%");
-		this.myProjectTab = new TabSheetDecorator();
-		this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
+    public UserSettingViewImpl() {
+        this.setWidth("100%");
+        this.myProjectTab = new TabSheetDecorator();
+        this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
 
-		this.addComponent(myProjectTab);
+        this.addComponent(myProjectTab);
 
-		this.buildComponents();
-	}
+        this.buildComponents();
+    }
 
-	private void buildComponents() {
-		this.userPresenter = PresenterResolver
-				.getPresenter(ProjectUserPresenter.class);
-		this.myProjectTab.addTab(this.userPresenter.getView(),
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+    private void buildComponents() {
+        this.userPresenter = PresenterResolver
+                .getPresenter(ProjectUserPresenter.class);
+        this.myProjectTab.addTab(this.userPresenter.getView(),
+                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
-		this.rolePresenter = PresenterResolver
-				.getPresenter(ProjectRolePresenter.class);
-		this.myProjectTab.addTab(this.rolePresenter.getView(),
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
+        this.rolePresenter = PresenterResolver
+                .getPresenter(ProjectRolePresenter.class);
+        this.myProjectTab.addTab(this.rolePresenter.getView(),
+                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
 
-		this.settingPresenter = PresenterResolver
-				.getPresenter(ProjectSettingPresenter.class);
-		this.myProjectTab.addTab(this.settingPresenter.getView(),
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
+        this.settingPresenter = PresenterResolver
+                .getPresenter(ProjectSettingPresenter.class);
+        this.myProjectTab.addTab(this.settingPresenter.getView(),
+                AppContext.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
-		this.myProjectTab
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+        this.myProjectTab
+                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						 Tab tab = ((TabSheetDecorator) event.getTabSheet())
-								.getSelectedTabInfo();
-						 String caption = tab.getCaption();
-						 SimpleProject project = CurrentProjectVariables
-								.getProject();
+                    @Override
+                    public void selectedTabChange(SelectedTabChangeEvent event) {
+                        Tab tab = ((TabSheetDecorator) event.getTabSheet())
+                                .getSelectedTabInfo();
+                        String caption = tab.getCaption();
+                        SimpleProject project = CurrentProjectVariables.getProject();
 
-						if (AppContext.getMessage(
-								ProjectCommonI18nEnum.VIEW_USERS).equals(
-								caption)) {
-							 ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-							criteria.setProjectId(new NumberSearchField(project
-									.getId()));
-							criteria.setStatus(new StringSearchField(
-									ProjectMemberStatusConstants.ACTIVE));
-							UserSettingViewImpl.this.userPresenter
-									.go(UserSettingViewImpl.this,
-											new ScreenData.Search<>(
-													criteria));
-						} else if (AppContext.getMessage(
-								ProjectCommonI18nEnum.VIEW_ROLES).equals(
-								caption)) {
-							 ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-							criteria.setProjectId(new NumberSearchField(project
-									.getId()));
-							UserSettingViewImpl.this.rolePresenter.go(
-									UserSettingViewImpl.this,
-									new ProjectRoleScreenData.Search(criteria));
-						} else if (AppContext.getMessage(
-								ProjectCommonI18nEnum.VIEW_SETTINGS).equals(
-								caption)) {
-							settingPresenter.go(UserSettingViewImpl.this, null);
-						}
+                        if (AppContext.getMessage(
+                                ProjectCommonI18nEnum.VIEW_USERS).equals(
+                                caption)) {
+                            ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                            criteria.setProjectId(new NumberSearchField(project
+                                    .getId()));
+                            criteria.setStatus(new StringSearchField(
+                                    ProjectMemberStatusConstants.ACTIVE));
+                            UserSettingViewImpl.this.userPresenter
+                                    .go(UserSettingViewImpl.this,
+                                            new ScreenData.Search<>(
+                                                    criteria));
+                        } else if (AppContext.getMessage(
+                                ProjectCommonI18nEnum.VIEW_ROLES).equals(
+                                caption)) {
+                            ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+                            criteria.setProjectId(new NumberSearchField(project
+                                    .getId()));
+                            UserSettingViewImpl.this.rolePresenter.go(
+                                    UserSettingViewImpl.this,
+                                    new ProjectRoleScreenData.Search(criteria));
+                        } else if (AppContext.getMessage(
+                                ProjectCommonI18nEnum.VIEW_SETTINGS).equals(
+                                caption)) {
+                            settingPresenter.go(UserSettingViewImpl.this, null);
+                        }
 
-					}
-				});
+                    }
+                });
 
-	}
+    }
 
-	@Override
-	public Component gotoSubView(final String name) {
-		final PageView component = (PageView) this.myProjectTab.selectTab(name)
-				.getComponent();
-		return component;
-	}
+    @Override
+    public Component gotoSubView(final String name) {
+        final PageView component = (PageView) this.myProjectTab.selectTab(name)
+                .getComponent();
+        return component;
+    }
 }

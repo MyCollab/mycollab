@@ -28,8 +28,7 @@ import java.util.Set;
  * @author MyCollab Ltd
  * @since 1.0
  */
-public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
-		HasPreviewFormHandlers<B> {
+public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements HasPreviewFormHandlers<B> {
 	private static final long serialVersionUID = 1L;
 
 	private Set<PreviewFormHandler<B>> handlers;

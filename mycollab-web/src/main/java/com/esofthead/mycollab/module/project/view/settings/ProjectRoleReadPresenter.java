@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -29,14 +31,19 @@ import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.user.events.RoleEvent;
+import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
 
 /**
  * 
@@ -67,16 +74,30 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
                     }
 
                     @Override
-                    public void onDelete(SimpleProjectRole data) {
-                        if (Boolean.FALSE.equals(data.getIssystemrole())) {
-                            projectRoleService.removeWithSession(data.getId(),
-                                    AppContext.getUsername(),
-                                    AppContext.getAccountId());
-                            EventBusFactory.getInstance().post(
-                                    new ProjectRoleEvent.GotoList(this, null));
+                    public void onDelete(final SimpleProjectRole role) {
+                        if (Boolean.FALSE.equals(role.getIssystemrole())) {
+                            ConfirmDialogExt.show(UI.getCurrent(),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                            SiteConfiguration.getSiteName()),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                    new ConfirmDialog.Listener() {
+                                        private static final long serialVersionUID = 1L;
+
+                                        @Override
+                                        public void onClose(ConfirmDialog dialog) {
+                                            if (dialog.isConfirmed()) {
+                                                projectRoleService.removeWithSession(role.getId(),
+                                                        AppContext.getUsername(), AppContext.getAccountId());
+                                                EventBusFactory.getInstance().post(
+                                                        new ProjectRoleEvent.GotoList(this, null));
+                                            }
+                                        }
+                                    });
                         } else {
                             NotificationUtil.showErrorNotification(AppContext
-                                    .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, data.getRolename()));
+                                    .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, role.getRolename()));
                         }
                     }
 

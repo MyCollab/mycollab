@@ -39,8 +39,7 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PROJECT_MEMBER;
  * 
  */
 public class CurrentProjectVariables {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(CurrentProjectVariables.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CurrentProjectVariables.class);
 
 	private static final String CURRENT_PAGE_VAR = "project_page";
 
@@ -60,10 +59,8 @@ public class CurrentProjectVariables {
 		if (prjMember != null) {
 			if (!prjMember.isAdmin()) {
 				ProjectRolePermissionExample ex = new ProjectRolePermissionExample();
-				ex.createCriteria()
-						.andRoleidEqualTo(prjMember.getProjectroleid())
-						.andProjectidEqualTo(
-								CurrentProjectVariables.getProjectId());
+				ex.createCriteria().andRoleidEqualTo(prjMember.getProjectroleid())
+						.andProjectidEqualTo(CurrentProjectVariables.getProjectId());
 				ProjectRolePermissionMapper rolePermissionMapper = ApplicationContextUtil
 						.getSpringBean(ProjectRolePermissionMapper.class);
 				List<ProjectRolePermission> rolePermissions = rolePermissionMapper
@@ -95,8 +92,7 @@ public class CurrentProjectVariables {
 		if (AppContext.isAdmin()) {
 			return true;
 		}
-		ProjectMember member = (ProjectMember) MyCollabSession
-				.getVariable(PROJECT_MEMBER);
+		ProjectMember member = (ProjectMember) MyCollabSession.getVariable(PROJECT_MEMBER);
 		if (member != null && member.getIsadmin() != null) {
 			return member.getIsadmin();
 		}
@@ -113,8 +109,7 @@ public class CurrentProjectVariables {
 		}
 
 		try {
-			PermissionMap permissionMap = getProjectMember()
-					.getPermissionMaps();
+			PermissionMap permissionMap = getProjectMember().getPermissionMaps();
 			return (permissionMap != null) && permissionMap.canRead(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
@@ -132,8 +127,7 @@ public class CurrentProjectVariables {
 		}
 
 		try {
-			PermissionMap permissionMap = getProjectMember()
-					.getPermissionMaps();
+			PermissionMap permissionMap = getProjectMember().getPermissionMaps();
 			return (permissionMap != null) && permissionMap.canWrite(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
@@ -151,8 +145,7 @@ public class CurrentProjectVariables {
 		}
 
 		try {
-			PermissionMap permissionMap = getProjectMember()
-					.getPermissionMaps();
+			PermissionMap permissionMap = getProjectMember().getPermissionMaps();
 			return (permissionMap != null) && permissionMap.canAccess(permissionItem);
 		} catch (Exception e) {
 			LOG.error("Error while checking permission", e);
@@ -230,8 +223,7 @@ public class CurrentProjectVariables {
 	}
 
 	public static String getBasePagePath() {
-		return String.format("%d/project/%d/.page", AppContext.getAccountId(),
-				getProjectId());
+		return String.format("%d/project/%d/.page", AppContext.getAccountId(), getProjectId());
 	}
 
 	public static void setCurrentPagePath(String path) {

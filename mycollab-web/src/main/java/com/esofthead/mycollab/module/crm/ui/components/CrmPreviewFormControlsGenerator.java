@@ -38,9 +38,8 @@ public class CrmPreviewFormControlsGenerator<T> {
     public static final int EDIT_BTN_PRESENTED = 4;
     public static final int DELETE_BTN_PRESENTED = 8;
     public static final int CLONE_BTN_PRESENTED = 16;
-    public static final int PREVIOUS_BTN_PRESENTED = 32;
-    public static final int NEXT_BTN_PRESENTED = 64;
-    public static final int ADD_BTN_PRESENTED = 128;
+    public static final int NAVIGATOR_BTN_PRESENTED = 32;
+    public static final int ADD_BTN_PRESENTED = 64;
 
     private AdvancedPreviewBeanForm<T> previewForm;
     private SplitButton optionBtn;
@@ -73,17 +72,16 @@ public class CrmPreviewFormControlsGenerator<T> {
 
     public HorizontalLayout createButtonControls(final String permissionItem) {
         return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
-                | CLONE_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
+                | CLONE_BTN_PRESENTED | NAVIGATOR_BTN_PRESENTED
                 | ADD_BTN_PRESENTED, permissionItem);
     }
 
-    public HorizontalLayout createButtonControls(int buttonEnableFlags,
-                                                 String permissionItem) {
+    public HorizontalLayout createButtonControls(int buttonEnableFlags, String permissionItem) {
         layout.setSizeUndefined();
 
-        boolean canRead = true;
-        boolean canWrite = true;
-        boolean canAccess = true;
+        boolean canRead = false;
+        boolean canWrite = false;
+        boolean canAccess = false;
         if (permissionItem != null) {
             canRead = AppContext.canRead(permissionItem);
             canWrite = AppContext.canWrite(permissionItem);
@@ -93,8 +91,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         OptionPopupContent popupButtonsControl = new OptionPopupContent();
 
         if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
-            Button addBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
+            Button addBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -173,7 +170,7 @@ public class CrmPreviewFormControlsGenerator<T> {
         ButtonGroup navigationBtns = new ButtonGroup();
         navigationBtns.setStyleName("navigation-btns");
 
-        if ((buttonEnableFlags & PREVIOUS_BTN_PRESENTED) == PREVIOUS_BTN_PRESENTED) {
+        if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
             Button previousItem = new Button(null, new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -189,15 +186,13 @@ public class CrmPreviewFormControlsGenerator<T> {
                     .getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
             navigationBtns.addButton(previousItem);
             previousItem.setEnabled(canRead);
-        }
 
-        if ((buttonEnableFlags & NEXT_BTN_PRESENTED) == NEXT_BTN_PRESENTED) {
             Button nextItemBtn = new Button(null, new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                     T item = previewForm.getBean();
+                    T item = previewForm.getBean();
                     previewForm.fireGotoNextItem(item);
                 }
             });

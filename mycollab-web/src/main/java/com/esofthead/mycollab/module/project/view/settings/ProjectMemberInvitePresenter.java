@@ -166,30 +166,24 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 contentLayout.add(new Hr());
             }
 
-            final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+            MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 
-            final Button addNewBtn = new Button(
-                    "Invite more member(s)",
-                    new Button.ClickListener() {
+            Button addNewBtn = new Button("Invite more member(s)", new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
-                        public void buttonClick(
-                                final Button.ClickEvent event) {
+                        public void buttonClick(Button.ClickEvent event) {
                             EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(GetStartedInstructionWindow.this, null));
                             GetStartedInstructionWindow.this.close();
                         }
                     });
             addNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 
-            final Button doneBtn = new Button(
-                    "Done",
-                    new Button.ClickListener() {
+            Button doneBtn = new Button("Done", new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
-                        public void buttonClick(
-                                final Button.ClickEvent event) {
+                        public void buttonClick(Button.ClickEvent event) {
                             ViewState viewState = HistoryViewManager.back();
                             if (viewState instanceof NullViewState) {
                                 EventBusFactory.getInstance().post(
@@ -200,8 +194,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                     });
             doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             controlsBtn.with(addNewBtn, doneBtn);
-            contentLayout.with(controlsBtn).withAlign(controlsBtn,
-                    Alignment.MIDDLE_RIGHT);
+            contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);
         }
     }
 }

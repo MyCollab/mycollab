@@ -44,14 +44,12 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 		super();
 
 		final MenuButton prjListBtn = new MenuButton(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
+				AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
 				IconConstants.PROJECT_DASHBOARD);
 		addMenu(prjListBtn);
 
 		final MenuButton activityBtn = new MenuButton(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
+				AppContext.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
 				IconConstants.PROJECT_ACTIVITIES);
 		addMenu(activityBtn);
 

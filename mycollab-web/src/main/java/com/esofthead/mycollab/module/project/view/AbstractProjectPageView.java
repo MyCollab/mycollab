@@ -29,50 +29,45 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * 
  */
 public class AbstractProjectPageView extends AbstractPageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected Label headerText;
-	protected CssLayout contentWrapper;
-	protected MHorizontalLayout header;
+    protected Label headerText;
+    protected CssLayout contentWrapper;
+    protected MHorizontalLayout header;
 
-	public AbstractProjectPageView(String headerText, FontAwesome icon) {
-		super();
+    public AbstractProjectPageView(String headerText, FontAwesome icon) {
+        super();
 
-		this.headerText = new Label(icon.getHtml() + " " + headerText, ContentMode.HTML);
-		super.addComponent(constructHeader());
+        this.headerText = new Label(icon.getHtml() + " " + headerText, ContentMode.HTML);
+        super.addComponent(constructHeader());
 
-		contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");
-		super.addComponent(contentWrapper);
+        contentWrapper = new CssLayout();
+        contentWrapper.setStyleName("content-wrapper");
+        super.addComponent(contentWrapper);
 
-	}
+    }
 
-	private ComponentContainer constructHeader() {
-		header = new MHorizontalLayout();
-		this.headerText.setStyleName("hdr-text");
+    private ComponentContainer constructHeader() {
+        headerText.setStyleName("hdr-text");
+        header = new MHorizontalLayout().with(headerText).withStyleName("hdr-view").withWidth("100%").withMargin(true);
+        return header;
+    }
 
-		header.with(headerText).expand(headerText)
-				.withStyleName("hdr-view").withWidth("100%").withSpacing(true)
-				.withMargin(true);
+    public void addHeaderRightContent(Component c) {
+        header.with(c).withAlign(c, Alignment.MIDDLE_RIGHT);
+    }
 
-		return header;
-	}
+    @Override
+    public void addComponent(Component c) {
+        contentWrapper.addComponent(c);
+    }
 
-	public void addHeaderRightContent(Component c) {
-		header.addComponent(c);
-	}
+    @Override
+    public void replaceComponent(Component oldComponent, Component newComponent) {
+        contentWrapper.replaceComponent(oldComponent, newComponent);
+    }
 
-	@Override
-	public void addComponent(Component c) {
-		contentWrapper.addComponent(c);
-	}
-
-	@Override
-	public void replaceComponent(Component oldComponent, Component newComponent) {
-		contentWrapper.replaceComponent(oldComponent, newComponent);
-	}
-
-	public ComponentContainer getBody() {
-		return contentWrapper;
-	}
+    public ComponentContainer getBody() {
+        return contentWrapper;
+    }
 }

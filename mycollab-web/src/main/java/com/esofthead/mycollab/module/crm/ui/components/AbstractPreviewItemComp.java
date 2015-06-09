@@ -69,10 +69,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 
 					@Override
 					public void selectedTabChange(SelectedTabChangeEvent event) {
-						Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						previewItemContainer.selectTab(((TabImpl) tab)
-								.getTabId());
+						Tab tab = ((VerticalTabsheet) event.getSource()).getSelectedTab();
+						previewItemContainer.selectTab(((TabImpl) tab).getTabId());
 					}
 				});
 

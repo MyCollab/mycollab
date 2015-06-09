@@ -31,11 +31,10 @@ public class GenericBeanForm<B> extends CssLayout {
 	private static final long serialVersionUID = 1L;
 
 	private IFormLayoutFactory layoutFactory;
-	protected IBeanFieldGroupFieldFactory<B> fieldFactory;
-
 	private boolean isValid;
 
-	private B bean;
+	protected IBeanFieldGroupFieldFactory<B> fieldFactory;
+	protected B bean;
 
 	public GenericBeanForm() {
 		super();

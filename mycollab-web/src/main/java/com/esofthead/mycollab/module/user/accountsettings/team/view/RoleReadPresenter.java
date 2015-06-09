@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import org.vaadin.dialogs.ConfirmDialog;
@@ -42,87 +41,97 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_ROLE, impliedPermissionVal = AccessPermissionFlag.READ_ONLY)
 public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public RoleReadPresenter() {
-		super(RoleReadView.class);
-	}
+    public RoleReadPresenter() {
+        super(RoleReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<Role>() {
-					@Override
-					public void onEdit(Role data) {
-						EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(this, data));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(
+                new DefaultPreviewFormHandler<Role>() {
+                    @Override
+                    public void onAdd(Role role) {
+                        EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, role));
+                    }
 
-					@Override
-					public void onDelete(final Role data) {
-						ConfirmDialogExt.show(UI.getCurrent(),
-								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-										SiteConfiguration.getSiteName()),
-								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
+                    @Override
+                    public void onEdit(Role data) {
+                        EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(this, data));
+                    }
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											RoleService roleService = ApplicationContextUtil
-													.getSpringBean(RoleService.class);
-											roleService.removeWithSession(data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory.getInstance().post(
-													new RoleEvent.GotoList(this, null));
-										}
-									}
-								});
-					}
+                    @Override
+                    public void onDelete(final Role role) {
+                        if (Boolean.TRUE.equals(role.getIssystemrole())) {
+                            NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
+                                    role.getRolename()));
+                        } else {
+                            ConfirmDialogExt.show(UI.getCurrent(),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                            SiteConfiguration.getSiteName()),
+                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                    new ConfirmDialog.Listener() {
+                                        private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onClone(Role data) {
-						Role cloneData = (Role) data.copy();
-						cloneData.setRolename(null);
-						cloneData.setIssystemrole(false);
-						EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, cloneData));
-					}
+                                        @Override
+                                        public void onClose(ConfirmDialog dialog) {
+                                            if (dialog.isConfirmed()) {
+                                                RoleService roleService = ApplicationContextUtil
+                                                        .getSpringBean(RoleService.class);
+                                                roleService.removeWithSession(role.getId(),
+                                                        AppContext.getUsername(),
+                                                        AppContext.getAccountId());
+                                                EventBusFactory.getInstance().post(
+                                                        new RoleEvent.GotoList(this, null));
+                                            }
+                                        }
+                                    });
+                        }
+                    }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
-					}
-				});
-	}
+                    @Override
+                    public void onClone(Role data) {
+                        Role cloneData = (Role) data.copy();
+                        cloneData.setRolename(null);
+                        cloneData.setIssystemrole(false);
+                        EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, cloneData));
+                    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
-			RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-			SimpleRole role = roleService.findById((Integer) data.getParams(),
-					AppContext.getAccountId());
-			if (role != null) {
-				RoleContainer roleContainer = (RoleContainer) container;
-				roleContainer.removeAllComponents();
-				roleContainer.addComponent(view.getWidget());
-				view.previewItem(role);
+                    @Override
+                    public void onCancel() {
+                        EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
+                    }
+                });
+    }
 
-				AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
-				breadcrumb.gotoRoleRead(role);
-			} else {
-				NotificationUtil.showRecordNotExistNotification();
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
+            RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+            SimpleRole role = roleService.findById((Integer) data.getParams(),
+                    AppContext.getAccountId());
+            if (role != null) {
+                RoleContainer roleContainer = (RoleContainer) container;
+                roleContainer.removeAllComponents();
+                roleContainer.addComponent(view.getWidget());
+                view.previewItem(role);
+
+                AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+                breadcrumb.gotoRoleRead(role);
+            } else {
+                NotificationUtil.showRecordNotExistNotification();
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }
