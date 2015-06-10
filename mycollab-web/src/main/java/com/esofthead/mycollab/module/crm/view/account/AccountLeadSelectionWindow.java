@@ -41,18 +41,16 @@ public class AccountLeadSelectionWindow extends
 
 	public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
 		super("Select Leads", associateLeadList);
-
 		this.setWidth("900px");
 	}
 
 	@Override
 	protected void initUI() {
-		tableItem = new LeadTableDisplay(LeadTableFieldDef.selected,
-				Arrays.asList(LeadTableFieldDef.name, LeadTableFieldDef.title,
-						LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
+		tableItem = new LeadTableDisplay(LeadTableFieldDef.selected(),
+				Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.title(),
+						LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-		Button selectBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SELECT),
+		Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT),
 				new Button.ClickListener() {
 
 					@Override
@@ -63,8 +61,7 @@ public class AccountLeadSelectionWindow extends
 		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-		leadSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+		leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
 
 					@Override
 					public void onSearch(LeadSearchCriteria criteria) {
@@ -73,9 +70,7 @@ public class AccountLeadSelectionWindow extends
 
 				});
 
-		this.bodyContent.addComponent(leadSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(tableItem);
+		this.bodyContent.with(leadSimpleSearchPanel, selectBtn, tableItem);
 	}
 
 }

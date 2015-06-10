@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -39,6 +38,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resources.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resources.StreamWrapperFileDownloader;
+import com.esofthead.mycollab.vaadin.ui.OptionPopupContent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
@@ -78,10 +78,10 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
     private void generateDisplayTable() {
         this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
-                BugTableFieldDef.action, Arrays.asList(
-                BugTableFieldDef.summary, BugTableFieldDef.assignUser,
-                BugTableFieldDef.severity, BugTableFieldDef.resolution,
-                BugTableFieldDef.duedate));
+                BugTableFieldDef.action(), Arrays.asList(
+                BugTableFieldDef.summary(), BugTableFieldDef.assignUser(),
+                BugTableFieldDef.severity(), BugTableFieldDef.resolution(),
+                BugTableFieldDef.duedate()));
 
         this.tableItem.addTableListener(new TableClickListener() {
             private static final long serialVersionUID = 1L;
@@ -91,8 +91,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                 SimpleBug bug = (SimpleBug) event.getData();
                 if ("summary".equals(event.getFieldName())) {
                     EventBusFactory.getInstance().post(
-                            new BugEvent.GotoRead(BugListViewImpl.this, bug
-                                    .getId()));
+                            new BugEvent.GotoRead(BugListViewImpl.this, bug.getId()));
                 }
             }
         });
@@ -111,8 +110,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
             @Override
             public void buttonClick(ClickEvent event) {
                 UI.getCurrent().addWindow(
-                        new BugListCustomizeWindow(BugListView.VIEW_DEF_ID,
-                                tableItem));
+                        new BugListCustomizeWindow(BugListView.VIEW_DEF_ID, tableItem));
 
             }
         });
@@ -208,13 +206,10 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
                                 .getProject().getId()));
 
                         return new StreamResource(
-                                new SimpleGridExportItemsStreamResource.AllItems<>(
-                                        title,
-                                        new RpParameterBuilder(tableItem
-                                                .getDisplayColumns()),
+                                new SimpleGridExportItemsStreamResource.AllItems<>(title,
+                                        new RpParameterBuilder(tableItem.getDisplayColumns()),
                                         ReportExportType.CSV,
-                                        ApplicationContextUtil
-                                                .getSpringBean(BugService.class),
+                                        ApplicationContextUtil.getSpringBean(BugService.class),
                                         searchCriteria, SimpleBug.class),
                                 "export.csv");
                     }

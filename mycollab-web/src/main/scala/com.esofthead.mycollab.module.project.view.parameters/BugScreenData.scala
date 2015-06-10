@@ -25,13 +25,14 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object BugScreenData {
 
-  class GotoDashboard extends ScreenData {}
+    class GotoDashboard extends ScreenData {}
 
-  class Search(params: BugFilterParameter) extends ScreenData[BugFilterParameter](params) {}
+    class Search(params: BugFilterParameter) extends ScreenData[BugFilterParameter](params) {}
 
-  class Read(params: Integer) extends ScreenData[Integer](params) {}
+    class Read(params: Integer) extends ScreenData[Integer](params) {}
 
-  class Add(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
+    class Add(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
 
-  class Edit(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
+    class Edit(params: BugWithBLOBs) extends ScreenData[BugWithBLOBs](params) {}
+
 }

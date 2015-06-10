@@ -50,12 +50,11 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		TrackerContainer trackerContainer = (TrackerContainer) container;
-		trackerContainer
-				.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_BUG));
+		trackerContainer.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_BUG));
 
 		view.removeAllComponents();
 
-		AbstractPresenter<?> presenter = null;
+		AbstractPresenter<?> presenter ;
 
 		if (data instanceof BugScreenData.Add
 				|| data instanceof BugScreenData.Edit) {

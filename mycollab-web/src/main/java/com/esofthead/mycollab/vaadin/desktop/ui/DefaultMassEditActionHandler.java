@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -47,7 +48,7 @@ public abstract class DefaultMassEditActionHandler implements MassItemActionHand
 
 	@Override
 	public void onSelect(String id) {
-		if (MassItemActionHandler.DELETE_ACTION.equals(id)) {
+		if (ViewItemAction.DELETE_ACTION().equals(id)) {
 			ConfirmDialogExt
 					.show(UI.getCurrent(),
 							AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,

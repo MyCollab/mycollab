@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import org.quartz.{JobExecutionContext, JobExecutionException}
-import org.slf4j.{LoggerFactory, Logger}
+import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.scheduling.quartz.QuartzJobBean
 
 /**
@@ -25,18 +25,18 @@ import org.springframework.scheduling.quartz.QuartzJobBean
  * @since 4.6.0
  */
 abstract class GenericQuartzJobBean extends QuartzJobBean {
-  private val LOG: Logger = LoggerFactory.getLogger(classOf[GenericQuartzJobBean])
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[GenericQuartzJobBean])
 
-  @throws(classOf[JobExecutionException])
-  protected def executeInternal(context: JobExecutionContext) {
-    try {
-      executeJob(context)
+    @throws(classOf[JobExecutionException])
+    protected def executeInternal(context: JobExecutionContext) {
+        try {
+            executeJob(context)
+        }
+        catch {
+            case e: Exception => LOG.error("Exception in running schedule", e)
+        }
     }
-    catch {
-      case e: Exception => LOG.error("Exception in running schedule", e)
-    }
-  }
 
-  @throws(classOf[JobExecutionException])
-  protected def executeJob(context: JobExecutionContext): Unit
+    @throws(classOf[JobExecutionException])
+    protected def executeJob(context: JobExecutionContext): Unit
 }

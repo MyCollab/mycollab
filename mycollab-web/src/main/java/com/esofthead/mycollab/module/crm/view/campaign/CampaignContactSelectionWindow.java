@@ -34,8 +34,7 @@ import com.vaadin.ui.Button;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class CampaignContactSelectionWindow extends
-RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
+public class CampaignContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
 	public CampaignContactSelectionWindow(
 			CampaignContactListComp associateContactList) {
@@ -46,11 +45,9 @@ RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
 	@Override
 	protected void initUI() {
-		tableItem = new ContactTableDisplay(ContactTableFieldDef.selected,
-				Arrays.asList(ContactTableFieldDef.name,
-						ContactTableFieldDef.email,
-						ContactTableFieldDef.phoneOffice,
-						ContactTableFieldDef.account));
+		tableItem = new ContactTableDisplay(ContactTableFieldDef.selected(),
+				Arrays.asList(ContactTableFieldDef.name(), ContactTableFieldDef.email(),
+						ContactTableFieldDef.phoneOffice(), ContactTableFieldDef.account()));
 
 		Button selectBtn = new Button("Select", new Button.ClickListener() {
 
@@ -62,8 +59,7 @@ RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-		contactSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+		contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
 
 			@Override
 			public void onSearch(ContactSearchCriteria criteria) {

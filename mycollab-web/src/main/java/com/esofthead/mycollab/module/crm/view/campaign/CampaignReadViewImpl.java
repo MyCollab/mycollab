@@ -48,8 +48,7 @@ import java.util.GregorianCalendar;
  * 
  */
 @ViewComponent
-public class CampaignReadViewImpl extends
-		AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
+public class CampaignReadViewImpl extends AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 	private static final long serialVersionUID = 1L;
 
 	private CampaignAccountListComp associateAccountList;
@@ -105,8 +104,7 @@ public class CampaignReadViewImpl extends
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-		compFollowers = new CrmFollowersComp<>(
-				CrmTypeConstants.CAMPAIGN,
+		compFollowers = new CrmFollowersComp<>(CrmTypeConstants.CAMPAIGN,
 				RolePermissionCollections.CRM_CAMPAIGN);
 		basicInfo.addComponent(compFollowers);
 

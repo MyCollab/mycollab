@@ -25,11 +25,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object PageScreenData {
 
-  class Read(params:Page) extends ScreenData[Page](params){}
+    class Read(params: Page) extends ScreenData[Page](params) {}
 
-  class Add(params:Page) extends ScreenData[Page](params){}
+    class Add(params: Page) extends ScreenData[Page](params) {}
 
-  class Edit(params:Page) extends ScreenData[Page](params){}
+    class Edit(params: Page) extends ScreenData[Page](params) {}
 
-  class Search(params:String) extends ScreenData[String](params){}
+    class Search(params: String) extends ScreenData[String](params) {}
+
 }

@@ -74,8 +74,8 @@ public class AccountSelectionWindow extends Window {
     @SuppressWarnings("serial")
     private void createAccountList() {
         tableItem = new AccountTableDisplay(Arrays.asList(
-                AccountTableFieldDef.accountname, AccountTableFieldDef.city,
-                AccountTableFieldDef.assignUser));
+                AccountTableFieldDef.accountname(), AccountTableFieldDef.city(),
+                AccountTableFieldDef.assignUser()));
 
         tableItem.setWidth("100%");
         tableItem.setDisplayNumItems(10);
@@ -88,8 +88,7 @@ public class AccountSelectionWindow extends Window {
                     public com.vaadin.ui.Component generateCell(
                             final Table source, final Object itemId,
                             final Object columnId) {
-                        final SimpleAccount account = tableItem
-                                .getBeanByIndex(itemId);
+                        final SimpleAccount account = tableItem.getBeanByIndex(itemId);
 
                         ButtonLinkLegacy accountLink = new ButtonLinkLegacy(account.getAccountname(),
                                 new Button.ClickListener() {

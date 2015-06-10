@@ -40,15 +40,15 @@ public class ContactListCustomizeWindow extends CustomizedTableWindow {
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(ContactTableFieldDef.account,
-				ContactTableFieldDef.assignUser,
-				ContactTableFieldDef.assistant,
-				ContactTableFieldDef.assistantPhone,
-				ContactTableFieldDef.birthday, ContactTableFieldDef.department,
-				ContactTableFieldDef.email, ContactTableFieldDef.fax,
-				ContactTableFieldDef.isCallable, ContactTableFieldDef.mobile,
-				ContactTableFieldDef.name, ContactTableFieldDef.phoneOffice,
-				ContactTableFieldDef.title);
+		return Arrays.asList(ContactTableFieldDef.account(),
+				ContactTableFieldDef.assignUser(),
+				ContactTableFieldDef.assistant(),
+				ContactTableFieldDef.assistantPhone(),
+				ContactTableFieldDef.birthday(), ContactTableFieldDef.department(),
+				ContactTableFieldDef.email(), ContactTableFieldDef.fax(),
+				ContactTableFieldDef.isCallable(), ContactTableFieldDef.mobile(),
+				ContactTableFieldDef.name(), ContactTableFieldDef.phoneOffice(),
+				ContactTableFieldDef.title());
 	}
 
 }

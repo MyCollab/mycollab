@@ -39,12 +39,12 @@ public class BugListCustomizeWindow extends CustomizedTableWindow {
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(BugTableFieldDef.assignUser,
-				BugTableFieldDef.createdTime, BugTableFieldDef.description,
-				BugTableFieldDef.duedate, BugTableFieldDef.environment,
-				BugTableFieldDef.logBy, BugTableFieldDef.priority,
-				BugTableFieldDef.resolution, BugTableFieldDef.status,
-				BugTableFieldDef.summary);
+		return Arrays.asList(BugTableFieldDef.assignUser(),
+				BugTableFieldDef.createdTime(), BugTableFieldDef.description(),
+				BugTableFieldDef.duedate(), BugTableFieldDef.environment(),
+				BugTableFieldDef.logBy(), BugTableFieldDef.priority(),
+				BugTableFieldDef.resolution(), BugTableFieldDef.status(),
+				BugTableFieldDef.summary());
 	}
 
 }

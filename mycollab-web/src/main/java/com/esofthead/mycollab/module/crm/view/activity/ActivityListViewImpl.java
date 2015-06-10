@@ -17,20 +17,18 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
-import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.vaadin.server.FontAwesome;
 
 import java.util.Arrays;
 
@@ -59,8 +57,7 @@ public class ActivityListViewImpl extends AbstractListItemComp<ActivitySearchCri
 	@Override
 	protected AbstractPagedBeanTable<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
 		ActivityTableDisplay table = new ActivityTableDisplay(
-				new TableViewField(null, "selected",
-						UIConstants.TABLE_CONTROL_WIDTH),
+				new TableViewField(null, "selected", UIConstants.TABLE_CONTROL_WIDTH),
 				Arrays.asList(
 						new TableViewField(ActivityI18nEnum.FORM_SUBJECT,
 								"subject", UIConstants.TABLE_EX_LABEL_WIDTH),
@@ -80,34 +77,13 @@ public class ActivityListViewImpl extends AbstractListItemComp<ActivitySearchCri
 		if (AppContext.canAccess(RolePermissionCollections.CRM_CALL)
 				|| AppContext.canAccess(RolePermissionCollections.CRM_MEETING)
 				|| AppContext.canAccess(RolePermissionCollections.CRM_TASK)) {
-
-			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
-                    FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
+			container.addDeleteActionItem();
 		}
 
-		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
-                FontAwesome.ENVELOPE_O,
-				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
-
-		container.addDownloadActionItem(
-				ReportExportType.PDF,
-                FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
-
-		container.addDownloadActionItem(
-				ReportExportType.EXCEL,
-                FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
-
-		container.addDownloadActionItem(
-				ReportExportType.CSV,
-                FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+		container.addMailActionItem();
+		container.addDownloadPdfActionItem();
+		container.addDownloadExcelActionItem();
+		container.addDownloadCsvActionItem();
 
 		return container;
 	}

@@ -40,14 +40,14 @@ public class CampaignListCustomizeWindow extends CustomizedTableWindow {
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(CampaignTableFieldDef.assignUser,
-				CampaignTableFieldDef.actualcost, CampaignTableFieldDef.budget,
-				CampaignTableFieldDef.campaignname,
-				CampaignTableFieldDef.endDate,
-				CampaignTableFieldDef.expectedCost,
-				CampaignTableFieldDef.expectedRevenue,
-				CampaignTableFieldDef.startDate, CampaignTableFieldDef.status,
-				CampaignTableFieldDef.type);
+		return Arrays.asList(CampaignTableFieldDef.assignUser(),
+				CampaignTableFieldDef.actualcost(), CampaignTableFieldDef.budget(),
+				CampaignTableFieldDef.campaignname(),
+				CampaignTableFieldDef.endDate(),
+				CampaignTableFieldDef.expectedCost(),
+				CampaignTableFieldDef.expectedRevenue(),
+				CampaignTableFieldDef.startDate(), CampaignTableFieldDef.status(),
+				CampaignTableFieldDef.type());
 	}
 
 }

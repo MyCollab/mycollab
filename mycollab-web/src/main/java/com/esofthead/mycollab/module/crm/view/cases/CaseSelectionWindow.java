@@ -52,8 +52,7 @@ public class CaseSelectionWindow extends Window {
         MVerticalLayout layout = new MVerticalLayout();
         createCaseList();
         CaseSimpleSearchPanel caseSimpleSearchPanel = new CaseSimpleSearchPanel();
-        caseSimpleSearchPanel
-                .addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
+        caseSimpleSearchPanel.addSearchHandler(new SearchHandler<CaseSearchCriteria>() {
 
                     @Override
                     public void onSearch(CaseSearchCriteria criteria) {
@@ -72,9 +71,9 @@ public class CaseSelectionWindow extends Window {
     @SuppressWarnings("serial")
     private void createCaseList() {
         tableItem = new CaseTableDisplay(Arrays.asList(
-                CaseTableFieldDef.subject, CaseTableFieldDef.account,
-                CaseTableFieldDef.priority, CaseTableFieldDef.status,
-                CaseTableFieldDef.assignUser));
+                CaseTableFieldDef.subject(), CaseTableFieldDef.account(),
+                CaseTableFieldDef.priority(), CaseTableFieldDef.status(),
+                CaseTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
 
         tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {

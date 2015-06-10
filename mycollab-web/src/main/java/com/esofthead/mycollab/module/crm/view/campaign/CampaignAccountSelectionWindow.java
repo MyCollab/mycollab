@@ -47,10 +47,10 @@ RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
 
 	@Override
 	protected void initUI() {
-		tableItem = new AccountTableDisplay(AccountTableFieldDef.selected,
-				Arrays.asList(AccountTableFieldDef.accountname,
-						AccountTableFieldDef.phoneoffice,
-						AccountTableFieldDef.email, AccountTableFieldDef.city));
+		tableItem = new AccountTableDisplay(AccountTableFieldDef.selected(),
+				Arrays.asList(AccountTableFieldDef.accountname(),
+						AccountTableFieldDef.phoneoffice(),
+						AccountTableFieldDef.email(), AccountTableFieldDef.city()));
 
 		Button selectBtn = new Button("Select", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -73,8 +73,6 @@ RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
 
 		});
 
-		this.bodyContent.addComponent(accountSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(tableItem);
+		this.bodyContent.with(accountSimpleSearchPanel, selectBtn, tableItem);
 	}
 }

@@ -36,10 +36,10 @@ public class AccountListCustomizeWindow extends CustomizedTableWindow {
 	}
 
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(AccountTableFieldDef.accountname,
-				AccountTableFieldDef.assignUser, AccountTableFieldDef.city,
-				AccountTableFieldDef.email, AccountTableFieldDef.phoneoffice,
-				AccountTableFieldDef.website, AccountTableFieldDef.type,
-				AccountTableFieldDef.ownership, AccountTableFieldDef.fax);
+		return Arrays.asList(AccountTableFieldDef.accountname(),
+				AccountTableFieldDef.assignUser(), AccountTableFieldDef.city(),
+				AccountTableFieldDef.email(), AccountTableFieldDef.phoneoffice(),
+				AccountTableFieldDef.website(), AccountTableFieldDef.type(),
+				AccountTableFieldDef.ownership(), AccountTableFieldDef.fax());
 	}
 }

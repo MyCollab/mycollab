@@ -30,7 +30,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -45,8 +45,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class ActivityListPresenter
-        extends
+public class ActivityListPresenter extends
         CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
     private static final long serialVersionUID = 1L;
 
@@ -63,7 +62,7 @@ public class ActivityListPresenter
 
                     @Override
                     protected void onSelectExtra(String id) {
-                        if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
                             UI.getCurrent().addWindow(new MailFormWindow());
                         }
                     }

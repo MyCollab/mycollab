@@ -24,5 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object AccountModuleScreenData {
 
-  class GotoModule(source:Array[String]) extends ScreenData(source) {}
+    class GotoModule(source: Array[String]) extends ScreenData(source) {}
+
 }

@@ -19,16 +19,15 @@ package com.esofthead.mycollab.schedule.email.project.impl
 import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.{GenericI18Enum, OptionI18nEnum}
-import com.esofthead.mycollab.configuration.StorageManager
 import com.esofthead.mycollab.core.utils.StringUtils
-import com.esofthead.mycollab.html.{LinkUtils, FormatUtils}
+import com.esofthead.mycollab.html.LinkUtils
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleProject, SimpleProjectMember}
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.tracker.domain.{SimpleVersion, Version}
 import com.esofthead.mycollab.module.tracker.service.VersionService
-import com.esofthead.mycollab.schedule.email.format.{WebItem, DateFieldFormat, I18nFieldFormat}
+import com.esofthead.mycollab.schedule.email.format.{DateFieldFormat, I18nFieldFormat, WebItem}
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext}
 import com.hp.gagawa.java.elements.Img
@@ -45,55 +44,56 @@ import org.springframework.stereotype.Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleVersion] with VersionRelayEmailNotificationAction {
 
-  @Autowired var versionService: VersionService = _
+    @Autowired var versionService: VersionService = _
 
-  @Autowired var projectService: ProjectService = _
+    @Autowired var projectService: ProjectService = _
 
-  private val mapper = new VersionFieldNameMapper
+    private val mapper = new VersionFieldNameMapper
 
-  protected def buildExtraTemplateVariables(context: MailContext[SimpleVersion]) {
-    val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-    
-    val project: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-    val currentProject = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean
-      .getProjectid))
+    protected def buildExtraTemplateVariables(context: MailContext[SimpleVersion]) {
+        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
 
-    val summary: String = bean.getVersionname
-    val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-    val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val project: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
+        val currentProject = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean
+            .getProjectid))
 
-    val avatarId: String =  if (projectMember != null) projectMember.getMemberAvatarId else ""
-    val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val summary: String = bean.getVersionname
+        val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
-    val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-    val actionEnum:Enum[_] = emailNotification.getAction match {
-      case MonitorTypeConstants.CREATE_ACTION => VersionI18nEnum.MAIL_CREATE_ITEM_HEADING
-      case MonitorTypeConstants.UPDATE_ACTION => VersionI18nEnum.MAIL_UPDATE_ITEM_HEADING
-      case MonitorTypeConstants.ADD_COMMENT_ACTION => VersionI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+
+        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum: Enum[_] = emailNotification.getAction match {
+            case MonitorTypeConstants.CREATE_ACTION => VersionI18nEnum.MAIL_CREATE_ITEM_HEADING
+            case MonitorTypeConstants.UPDATE_ACTION => VersionI18nEnum.MAIL_UPDATE_ITEM_HEADING
+            case MonitorTypeConstants.ADD_COMMENT_ACTION => VersionI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        }
+
+        contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
+        contentGenerator.putVariable("titles", List(currentProject))
+        contentGenerator.putVariable("summary", summary)
+        contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("titles", List(currentProject))
-    contentGenerator.putVariable("summary", summary)
-    contentGenerator.putVariable("summaryLink", summaryLink)
-  }
+    protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
 
-  protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
+    protected def getCreateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getCreateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getUpdateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getCommentSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-  protected def getItemFieldMapper: ItemFieldMapper = mapper
+    protected def getBeanInContext(context: MailContext[SimpleVersion]): SimpleVersion = versionService.findById(context.getTypeid.toInt, context.getSaccountid)
 
-  protected def getBeanInContext(context: MailContext[SimpleVersion]): SimpleVersion = versionService.findById(context.getTypeid.toInt, context.getSaccountid)
+    class VersionFieldNameMapper extends ItemFieldMapper {
+        put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+        put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, VersionI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
+        put(Version.Field.versionname, VersionI18nEnum.FORM_NAME)
+        put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, VersionI18nEnum.FORM_DUE_DATE))
+    }
 
-  class VersionFieldNameMapper extends ItemFieldMapper {
-    put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-    put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, VersionI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
-    put(Version.Field.versionname, VersionI18nEnum.FORM_NAME)
-    put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, VersionI18nEnum.FORM_DUE_DATE))
-  }
 }

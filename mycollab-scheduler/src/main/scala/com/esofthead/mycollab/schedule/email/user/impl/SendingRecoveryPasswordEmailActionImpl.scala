@@ -38,26 +38,26 @@ import org.springframework.stereotype.Component
 @Component
 class SendingRecoveryPasswordEmailActionImpl extends SendingRecoveryPasswordEmailAction {
 
-  @Autowired var extMailService: ExtMailService = _
+    @Autowired var extMailService: ExtMailService = _
 
-  @Autowired var userService: UserService = _
+    @Autowired var userService: UserService = _
 
-  @Autowired var contentGenerator: IContentGenerator = _
+    @Autowired var contentGenerator: IContentGenerator = _
 
-  def sendEmail(relayEmail: RelayEmailWithBLOBs) {
-    val username: String = relayEmail.getRecipients
-    if (username != null) {
-      val user: User = userService.findUserByUserName(username)
-      val subDomain: String = "api"
-      val recoveryPasswordURL: String = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" + UrlEncodeDecoder.encode(username)
-      val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
-      contentGenerator.putVariable("username", user.getUsername)
-      contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
-      val recipient: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
-      val lst: List[MailRecipientField] = List[MailRecipientField](recipient)
-      import scala.collection.JavaConversions._
-      extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, lst, null, null,
-        contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT, SiteConfiguration.getSiteName)), contentGenerator.generateBodyContent("templates/email/user/userRecoveryPasswordNotifier.mt", locale, SiteConfiguration.getDefaultLocale), null)
+    def sendEmail(relayEmail: RelayEmailWithBLOBs) {
+        val username: String = relayEmail.getRecipients
+        if (username != null) {
+            val user: User = userService.findUserByUserName(username)
+            val subDomain: String = "api"
+            val recoveryPasswordURL: String = SiteConfiguration.getSiteUrl(subDomain) + "user/recoverypassword/" + UrlEncodeDecoder.encode(username)
+            val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
+            contentGenerator.putVariable("username", user.getUsername)
+            contentGenerator.putVariable("urlRecoveryPassword", recoveryPasswordURL)
+            val recipient: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
+            val lst: List[MailRecipientField] = List[MailRecipientField](recipient)
+            import scala.collection.JavaConversions._
+            extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, lst, null, null,
+                contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT, SiteConfiguration.getSiteName)), contentGenerator.generateBodyContent("templates/email/user/userRecoveryPasswordNotifier.mt", locale, SiteConfiguration.getDefaultLocale), null)
+        }
     }
-  }
 }

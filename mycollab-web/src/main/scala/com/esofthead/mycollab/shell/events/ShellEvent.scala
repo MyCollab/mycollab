@@ -24,25 +24,26 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object ShellEvent {
 
-  class NotifyErrorEvent(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class NotifyErrorEvent(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoMainPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoMainPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class LogOut(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class LogOut(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoSetupPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoSetupPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoProjectModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoProjectModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoCrmModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoCrmModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoFileModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoFileModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoUserAccountModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoUserAccountModule(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoConsolePage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoConsolePage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoForgotPasswordPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoForgotPasswordPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class NewNotification(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class NewNotification(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

@@ -78,9 +78,9 @@ public class ExportTaskListStreamResource<S extends SearchCriteria> extends Expo
 		super(AppContext.getTimezone(), AppContext.getUserLocale(), reportTitle, outputForm);
 		this.searchCriteria = searchCriteria;
 		this.searchService = searchService;
-		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname,
-				TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
-				TaskTableFieldDef.assignee);
+		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname(),
+				TaskTableFieldDef.startdate(), TaskTableFieldDef.duedate(),
+				TaskTableFieldDef.assignee());
 		this.parameters = new RpParameterBuilder(fields);
 	}
 

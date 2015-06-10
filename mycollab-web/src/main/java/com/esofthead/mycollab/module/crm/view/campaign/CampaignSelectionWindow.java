@@ -73,9 +73,9 @@ public class CampaignSelectionWindow extends Window {
 	@SuppressWarnings("serial")
 	private void createCampaignList() {
 		tableItem = new CampaignTableDisplay(Arrays.asList(
-				CampaignTableFieldDef.campaignname, CampaignTableFieldDef.type,
-				CampaignTableFieldDef.status, CampaignTableFieldDef.endDate,
-				CampaignTableFieldDef.assignUser));
+				CampaignTableFieldDef.campaignname(), CampaignTableFieldDef.type(),
+				CampaignTableFieldDef.status(), CampaignTableFieldDef.endDate(),
+				CampaignTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
 		tableItem.setWidth("100%");
 
@@ -87,8 +87,7 @@ public class CampaignSelectionWindow extends Window {
 					public com.vaadin.ui.Component generateCell(
 							final Table source, final Object itemId,
 							final Object columnId) {
-						final SimpleCampaign campaign = tableItem
-								.getBeanByIndex(itemId);
+						final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
 
 						ButtonLinkLegacy campaignLink = new ButtonLinkLegacy(campaign
 								.getCampaignname(), new Button.ClickListener() {

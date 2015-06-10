@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.i18n.{GenericI18Enum, OptionI18nEnum}
 import com.esofthead.mycollab.core.utils.StringUtils
-import com.esofthead.mycollab.html.{LinkUtils, FormatUtils}
+import com.esofthead.mycollab.html.{FormatUtils, LinkUtils}
 import com.esofthead.mycollab.module.mail.MailUtils
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleProject, SimpleProjectMember}
@@ -48,84 +48,84 @@ import org.springframework.stereotype.Service
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ComponentRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleComponent] with ComponentRelayEmailNotificationAction {
-  @Autowired var componentService: ComponentService = _
+    @Autowired var componentService: ComponentService = _
 
-  @Autowired var projectService: ProjectService = _
+    @Autowired var projectService: ProjectService = _
 
-  private val mapper: ComponentFieldNameMapper = new ComponentFieldNameMapper
+    private val mapper: ComponentFieldNameMapper = new ComponentFieldNameMapper
 
-  protected def buildExtraTemplateVariables(context: MailContext[SimpleComponent]) {
-    val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-    val project: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-    val currentProject = new WebItem(project.getName,ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
+    protected def buildExtraTemplateVariables(context: MailContext[SimpleComponent]) {
+        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+        val project: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
+        val currentProject = new WebItem(project.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
-    val summary: String = bean.getComponentname
-    val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-    val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val summary: String = bean.getComponentname
+        val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
-    val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-    val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
-    val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-    val actionEnum:Enum[_] = emailNotification.getAction match {
-      case MonitorTypeConstants.CREATE_ACTION => ComponentI18nEnum.MAIL_CREATE_ITEM_HEADING
-      case MonitorTypeConstants.UPDATE_ACTION => ComponentI18nEnum.MAIL_UPDATE_ITEM_HEADING
-      case MonitorTypeConstants.ADD_COMMENT_ACTION => ComponentI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum: Enum[_] = emailNotification.getAction match {
+            case MonitorTypeConstants.CREATE_ACTION => ComponentI18nEnum.MAIL_CREATE_ITEM_HEADING
+            case MonitorTypeConstants.UPDATE_ACTION => ComponentI18nEnum.MAIL_UPDATE_ITEM_HEADING
+            case MonitorTypeConstants.ADD_COMMENT_ACTION => ComponentI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        }
+
+        contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
+        contentGenerator.putVariable("titles", List(currentProject))
+        contentGenerator.putVariable("summary", summary)
+        contentGenerator.putVariable("summaryLink", summaryLink)
     }
 
-    contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("titles", List(currentProject))
-    contentGenerator.putVariable("summary", summary)
-    contentGenerator.putVariable("summaryLink", summaryLink)
-  }
+    protected def getUpdateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getUpdateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getBeanInContext(context: MailContext[SimpleComponent]): SimpleComponent = componentService.findById(context.getTypeid.toInt, context.getSaccountid)
 
-  protected def getBeanInContext(context: MailContext[SimpleComponent]): SimpleComponent = componentService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
 
-  protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
+    protected def getCreateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getCreateSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getCommentSubject(context: MailContext[SimpleComponent]): String = context.getMessage(ComponentI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-  protected def getItemFieldMapper: ItemFieldMapper = mapper
-
-  class ComponentFieldNameMapper extends ItemFieldMapper {
-    put(Component.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-    put(Component.Field.status, new I18nFieldFormat(Component.Field.status.name, ComponentI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
-    put(Component.Field.userlead, new LeadFieldFormat(Component.Field.userlead.name, ComponentI18nEnum.FORM_LEAD))
-  }
-
-  class LeadFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
-    def formatField(context: MailContext[_]): String = {
-      val component: SimpleComponent = context.getWrappedBean.asInstanceOf[SimpleComponent]
-      if (component.getUserlead != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(component.getUserLeadAvatarId, 16)
-        val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(component.getSaccountid), component.getUserlead)
-        val link: A = FormatUtils.newA(userLink, component.getUserLeadFullName)
-        FormatUtils.newLink(img, link).write
-      }
-      else
-        new Span().write
+    class ComponentFieldNameMapper extends ItemFieldMapper {
+        put(Component.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
+        put(Component.Field.status, new I18nFieldFormat(Component.Field.status.name, ComponentI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
+        put(Component.Field.userlead, new LeadFieldFormat(Component.Field.userlead.name, ComponentI18nEnum.FORM_LEAD))
     }
 
-    def formatField(context: MailContext[_], value: String): String = {
-      if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
-        return new Span().write
-      }
-      val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
-      val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
-      if (user != null) {
-        val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-        val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
-        val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-        val link: A = FormatUtils.newA(userLink, user.getDisplayName)
-        FormatUtils.newLink(img, link).write
-      } else
-        value
+    class LeadFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {
+        def formatField(context: MailContext[_]): String = {
+            val component: SimpleComponent = context.getWrappedBean.asInstanceOf[SimpleComponent]
+            if (component.getUserlead != null) {
+                val userAvatarLink: String = MailUtils.getAvatarLink(component.getUserLeadAvatarId, 16)
+                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(component.getSaccountid), component.getUserlead)
+                val link: A = FormatUtils.newA(userLink, component.getUserLeadFullName)
+                FormatUtils.newLink(img, link).write
+            }
+            else
+                new Span().write
+        }
+
+        def formatField(context: MailContext[_], value: String): String = {
+            if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
+                return new Span().write
+            }
+            val userService: UserService = ApplicationContextUtil.getSpringBean(classOf[UserService])
+            val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
+            if (user != null) {
+                val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
+                val link: A = FormatUtils.newA(userLink, user.getDisplayName)
+                FormatUtils.newLink(img, link).write
+            } else
+                value
+        }
     }
-  }
 
 }

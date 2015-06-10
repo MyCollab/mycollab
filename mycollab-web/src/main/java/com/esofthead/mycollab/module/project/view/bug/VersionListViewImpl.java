@@ -29,10 +29,12 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.*;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
@@ -40,7 +42,6 @@ import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.ComponentContainer;
@@ -176,7 +177,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 	private ComponentContainer constructTableActionControls() {
 		final CssLayout layoutWrapper = new CssLayout();
 		layoutWrapper.setWidth("100%");
-		final MHorizontalLayout layout = new MHorizontalLayout();
+		MHorizontalLayout layout = new MHorizontalLayout();
 		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
 		layoutWrapper.addComponent(layout);
 
@@ -185,40 +186,16 @@ public class VersionListViewImpl extends AbstractPageView implements
 
 		tableActionControls = new DefaultMassItemActionHandlerContainer();
 
-		if (CurrentProjectVariables
-				.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
-			tableActionControls.addActionItem(
-					MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
+		if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
+			tableActionControls.addDeleteActionItem();
 		}
 
-		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
-                FontAwesome.ENVELOPE_O,
-				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
+		tableActionControls.addMailActionItem();
+		tableActionControls.addDownloadPdfActionItem();
+		tableActionControls.addDownloadExcelActionItem();
+		tableActionControls.addDownloadCsvActionItem();
 
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.PDF,
-                FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
-
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.EXCEL,
-                FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
-
-		tableActionControls.addDownloadActionItem(
-				ReportExportType.CSV,
-				FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
-
-		layout.addComponent(this.tableActionControls);
-		layout.addComponent(this.selectedItemsNumberLabel);
-		layout.setComponentAlignment(this.selectedItemsNumberLabel,
-				Alignment.MIDDLE_CENTER);
+		layout.with(tableActionControls, selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel, Alignment.MIDDLE_CENTER);
 		return layoutWrapper;
 	}
 

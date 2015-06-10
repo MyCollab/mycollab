@@ -18,12 +18,14 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableFieldDef;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Button;
@@ -33,22 +35,20 @@ import com.vaadin.ui.Button;
  * @author MyCollab Ltd.
  */
 @SuppressWarnings("serial")
-public class CampaignLeadSelectionWindow extends
-RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
+public class CampaignLeadSelectionWindow extends RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
 	public CampaignLeadSelectionWindow(CampaignLeadListComp associateLeadList) {
 		super("Select Leads", associateLeadList);
-
 		this.setWidth("900px");
 	}
 
 	@Override
 	protected void initUI() {
-		tableItem = new LeadTableDisplay(LeadTableFieldDef.selected,
-				Arrays.asList(LeadTableFieldDef.name, LeadTableFieldDef.status,
-						LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
+		tableItem = new LeadTableDisplay(LeadTableFieldDef.selected(),
+				Arrays.asList(LeadTableFieldDef.name(), LeadTableFieldDef.status(),
+						LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-		Button selectBtn = new Button("Select", new Button.ClickListener() {
+		Button selectBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SELECT), new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
@@ -58,8 +58,7 @@ RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
-		leadSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+		leadSimpleSearchPanel.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
 
 			@Override
 			public void onSearch(LeadSearchCriteria criteria) {
@@ -68,8 +67,6 @@ RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
 		});
 
-		this.bodyContent.addComponent(leadSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(tableItem);
+		this.bodyContent.with(leadSimpleSearchPanel, selectBtn, tableItem);
 	}
 }

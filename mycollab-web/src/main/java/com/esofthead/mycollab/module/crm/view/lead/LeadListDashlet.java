@@ -43,7 +43,6 @@ import java.util.Arrays;
  */
 @SuppressWarnings("serial")
 public class LeadListDashlet extends Depot {
-
 	public static final String VIEW_DEF_ID = "crm-lead-dashlet";
 
 	private LeadTableDisplay tableItem;
@@ -51,20 +50,17 @@ public class LeadListDashlet extends Depot {
 	public LeadListDashlet() {
 		super("My Leads", new VerticalLayout());
 
-		tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name,
-				LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
+		tableItem = new LeadTableDisplay(Arrays.asList(LeadTableFieldDef.name(),
+				LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice()));
 
-		tableItem
-				.addTableListener(new TableClickListener() {
+		tableItem.addTableListener(new TableClickListener() {
 
 					@Override
 					public void itemClick(final TableClickEvent event) {
 						final SimpleLead lead = (SimpleLead) event.getData();
 						if ("leadName".equals(event.getFieldName())) {
-							EventBusFactory
-									.getInstance()
-									.post(new LeadEvent.GotoRead(
-											LeadListDashlet.this, lead.getId()));
+							EventBusFactory.getInstance()
+									.post(new LeadEvent.GotoRead(LeadListDashlet.this, lead.getId()));
 						}
 					}
 				});

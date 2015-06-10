@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -25,17 +24,14 @@ import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.ComponentUtils;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignImportWindow;
-import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlerContainer;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -89,13 +85,13 @@ public class OpportunityListViewImpl extends
 	protected AbstractPagedBeanTable<OpportunitySearchCriteria, SimpleOpportunity> createBeanTable() {
 		OpportunityTableDisplay opportunityTableDisplay = new OpportunityTableDisplay(
 				OpportunityListView.VIEW_DEF_ID,
-				OpportunityTableFieldDef.selected, Arrays.asList(
-						OpportunityTableFieldDef.opportunityName,
-						OpportunityTableFieldDef.accountName,
-						OpportunityTableFieldDef.saleStage,
-						OpportunityTableFieldDef.amount,
-						OpportunityTableFieldDef.expectedCloseDate,
-						OpportunityTableFieldDef.assignUser));
+				OpportunityTableFieldDef.selected(), Arrays.asList(
+						OpportunityTableFieldDef.opportunityName(),
+						OpportunityTableFieldDef.accountName(),
+						OpportunityTableFieldDef.saleStage(),
+						OpportunityTableFieldDef.amount(),
+						OpportunityTableFieldDef.expectedCloseDate(),
+						OpportunityTableFieldDef.assignUser()));
 
 		opportunityTableDisplay.addTableListener(new TableClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -124,39 +120,16 @@ public class OpportunityListViewImpl extends
 		DefaultMassItemActionHandlerContainer container = new DefaultMassItemActionHandlerContainer();
 
 		if (AppContext.canAccess(RolePermissionCollections.CRM_OPPORTUNITY)) {
-			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
-                    FontAwesome.TRASH_O,
-					"delete", AppContext
-							.getMessage(GenericI18Enum.BUTTON_DELETE));
+			container.addDeleteActionItem();
 		}
 
-		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
-                FontAwesome.ENVELOPE_O,
-				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
-
-		container.addDownloadActionItem(
-				ReportExportType.PDF,
-                FontAwesome.FILE_PDF_O,
-				"export", "export.pdf",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
-
-		container.addDownloadActionItem(
-				ReportExportType.EXCEL,
-                FontAwesome.FILE_EXCEL_O,
-				"export", "export.xlsx",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
-
-		container.addDownloadActionItem(
-				ReportExportType.CSV,
-				FontAwesome.FILE_TEXT_O,
-				"export", "export.csv",
-				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+		container.addMailActionItem();
+		container.addDownloadPdfActionItem();
+		container.addDownloadExcelActionItem();
+		container.addDownloadCsvActionItem();
 
 		if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
-			container.addActionItem(MassItemActionHandler.MASS_UPDATE_ACTION,
-                    FontAwesome.DATABASE,
-					"update", AppContext
-							.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE));
+			container.addMassUpdateActionItem();
 		}
 
 		return container;

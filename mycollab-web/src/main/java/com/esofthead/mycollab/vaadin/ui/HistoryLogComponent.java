@@ -46,7 +46,7 @@ import java.util.List;
 public abstract class HistoryLogComponent extends MVerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	protected BeanList<AuditLogService, AuditLogSearchCriteria, SimpleAuditLog> logTable;
+	private BeanList<AuditLogService, AuditLogSearchCriteria, SimpleAuditLog> logTable;
 	private String module;
 	private String type;
 	private FieldGroupFormatter groupFormatter;

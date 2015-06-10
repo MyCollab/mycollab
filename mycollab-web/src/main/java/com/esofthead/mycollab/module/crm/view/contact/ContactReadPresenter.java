@@ -54,7 +54,6 @@ import java.util.Set;
  * 
  */
 public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
-
 	private static final long serialVersionUID = 1L;
 
 	public ContactReadPresenter() {

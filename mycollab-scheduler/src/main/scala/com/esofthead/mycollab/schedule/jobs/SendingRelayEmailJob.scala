@@ -17,10 +17,8 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import com.esofthead.mycollab.common.domain.MailRecipientField
-import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.MyCollabException
 import com.esofthead.mycollab.core.utils.JsonDeSerializer
-import com.esofthead.mycollab.module.mail.DefaultMailer
 import com.esofthead.mycollab.module.mail.service.{ExtMailService, MailRelayService}
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailsAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
@@ -40,47 +38,47 @@ import scala.collection.mutable.ListBuffer
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class SendingRelayEmailJob extends GenericQuartzJobBean {
-  private val LOG = LoggerFactory.getLogger(classOf[SendingRelayEmailJob])
+    private val LOG = LoggerFactory.getLogger(classOf[SendingRelayEmailJob])
 
-  @Autowired private val mailRelayService: MailRelayService = null
+    @Autowired private val mailRelayService: MailRelayService = null
 
-  @Autowired private val extMailService:ExtMailService = null
+    @Autowired private val extMailService: ExtMailService = null
 
-  @Override
-  def executeJob(context: JobExecutionContext) {
-    val relayEmails = mailRelayService.getRelayEmails
-    mailRelayService.cleanEmails
+    @Override
+    def executeJob(context: JobExecutionContext) {
+        val relayEmails = mailRelayService.getRelayEmails
+        mailRelayService.cleanEmails
 
-    import scala.collection.JavaConversions._
-    for (relayEmail <- relayEmails) {
-      if (relayEmail.getEmailhandlerbean == null) {
-        val recipientVal: String = relayEmail.getRecipients
-        val recipientArr: Array[Array[String]] = JsonDeSerializer.fromJson(recipientVal, classOf[Array[Array[String]]])
-        try {
-          val toMailList: ListBuffer[MailRecipientField] = scala.collection.mutable.ListBuffer[MailRecipientField]()
+        import scala.collection.JavaConversions._
+        for (relayEmail <- relayEmails) {
+            if (relayEmail.getEmailhandlerbean == null) {
+                val recipientVal: String = relayEmail.getRecipients
+                val recipientArr: Array[Array[String]] = JsonDeSerializer.fromJson(recipientVal, classOf[Array[Array[String]]])
+                try {
+                    val toMailList: ListBuffer[MailRecipientField] = scala.collection.mutable.ListBuffer[MailRecipientField]()
 
-          var i: Int = 0
-          while (i < recipientArr(0).length) {
-            toMailList += (new MailRecipientField(recipientArr(0)(i), recipientArr(1)(i)))
-            i = i + 1
-          }
+                    var i: Int = 0
+                    while (i < recipientArr(0).length) {
+                        toMailList += (new MailRecipientField(recipientArr(0)(i), recipientArr(1)(i)))
+                        i = i + 1
+                    }
 
-          extMailService.sendHTMLMail(relayEmail.getFromemail, relayEmail.getFromname, toMailList.toList, null, null, relayEmail
-            .getSubject, relayEmail.getBodycontent, null)
+                    extMailService.sendHTMLMail(relayEmail.getFromemail, relayEmail.getFromname, toMailList.toList, null, null, relayEmail
+                        .getSubject, relayEmail.getBodycontent, null)
+                }
+                catch {
+                    case e: Exception => LOG.error("Error when send relay email", e)
+                }
+            }
+            else {
+                try {
+                    val emailNotificationAction: SendingRelayEmailsAction = ApplicationContextUtil.getSpringBean(Class.forName(relayEmail.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailsAction]
+                    emailNotificationAction.sendEmail(relayEmail)
+                }
+                catch {
+                    case e: ClassNotFoundException => throw new MyCollabException(e)
+                }
+            }
         }
-        catch {
-          case e: Exception => LOG.error("Error when send relay email", e)
-        }
-      }
-      else {
-        try {
-          val emailNotificationAction: SendingRelayEmailsAction = ApplicationContextUtil.getSpringBean(Class.forName(relayEmail.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailsAction]
-          emailNotificationAction.sendEmail(relayEmail)
-        }
-        catch {
-          case e: ClassNotFoundException => throw new MyCollabException(e)
-        }
-      }
     }
-  }
 }

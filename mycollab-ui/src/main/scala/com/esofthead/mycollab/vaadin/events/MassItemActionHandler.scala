@@ -14,18 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.events;
+package com.esofthead.mycollab.vaadin.events
+
+import com.esofthead.mycollab.reporting.ReportExportType
+import com.vaadin.server.StreamResource
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 2.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.0.9
  */
-public interface HasMassItemActionHandler {
-	/**
-	 * 
-	 * @param handler
-	 */
-	void setMassActionHandler(MassItemActionHandler handler);
+trait MassItemActionHandler {
+    def onSelect(id: String)
+
+    def buildStreamResource(exportType: ReportExportType): StreamResource
 }
+
+object ViewItemAction {
+    val MAIL_ACTION: String = "mail"
+    val DELETE_ACTION: String = "delete"
+    val MASS_UPDATE_ACTION: String = "massUpdate"
+}
+
+

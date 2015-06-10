@@ -51,8 +51,7 @@ import java.util.List;
 public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
     private static final long serialVersionUID = 1L;
 
-    public TaskTableDisplay(TableViewField requiredColumn,
-                            List<TableViewField> displayColumns, int displayNums) {
+    public TaskTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns, int displayNums) {
         super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
                 SimpleTask.class, requiredColumn, displayColumns);
         this.displayNumItems = displayNums;
@@ -65,8 +64,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                 SimpleTask task = getBeanByIndex(itemId);
                 CssLayout taskName = new CssLayout();
 
-                String taskname = String.format("[#%s] %s", task.getTaskkey(), task
-                        .getTaskname());
+                String taskname = String.format("[#%s] %s", task.getTaskkey(), task.getTaskname());
 
                 LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
                         .generateTaskPreviewFullLink(task.getTaskkey(),
@@ -97,8 +95,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             }
         });
 
-        this.addGeneratedColumn("percentagecomplete",
-                new Table.ColumnGenerator() {
+        this.addGeneratedColumn("percentagecomplete", new Table.ColumnGenerator() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -125,11 +122,9 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 SimpleTask task = getBeanByIndex(itemId);
                 return new ELabel().prettyDate(task.getDeadline());
-
             }
         });
 
@@ -137,8 +132,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleTask task = getBeanByIndex(itemId);
                 PopupButton taskSettingPopupBtn = new PopupButton();
                 taskSettingPopupBtn.setIcon(FontAwesome.COGS);

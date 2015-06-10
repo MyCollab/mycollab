@@ -139,20 +139,12 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements Project
 
         this.tableActionControls = new DefaultMassItemActionHandlerContainer();
         if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.ROLES)) {
-            tableActionControls.addActionItem(
-                    MassItemActionHandler.DELETE_ACTION, FontAwesome.TRASH_O,
-                    "delete", AppContext
-                            .getMessage(GenericI18Enum.BUTTON_DELETE));
+            tableActionControls.addDeleteActionItem();
         }
 
-        tableActionControls.addDownloadActionItem(ReportExportType.PDF, FontAwesome.FILE_PDF_O,
-                "export", "export.pdf", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
-
-        tableActionControls.addDownloadActionItem(ReportExportType.EXCEL, FontAwesome.FILE_EXCEL_O,
-                "export", "export.xlsx", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
-
-        tableActionControls.addDownloadActionItem(ReportExportType.CSV, FontAwesome.FILE_TEXT_O,
-                "export", "export.csv", AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
+        tableActionControls.addDownloadPdfActionItem();
+        tableActionControls.addDownloadExcelActionItem();
+        tableActionControls.addDownloadCsvActionItem();
 
         layout.with(this.tableActionControls, this.selectedItemsNumberLabel).withAlign(selectedItemsNumberLabel,
                 Alignment.MIDDLE_LEFT);

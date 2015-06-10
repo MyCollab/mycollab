@@ -24,18 +24,18 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object OpportunityEvent {
 
-  class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class Save(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class Save(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class Search(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class Search(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoContactRoleEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoContactRoleEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

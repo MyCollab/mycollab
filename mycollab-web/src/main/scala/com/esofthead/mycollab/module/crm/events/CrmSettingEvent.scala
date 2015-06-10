@@ -24,8 +24,8 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object CrmSettingEvent {
 
-  class GotoNotificationSetting(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoNotificationSetting(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoCustomViewSetting(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoCustomViewSetting(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

@@ -24,5 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object CrmEvent {
 
-  class GotoHome(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data){}
+    class GotoHome(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

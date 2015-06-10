@@ -37,7 +37,6 @@ import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.PRESENTER_VAL;
 public final class PresenterResolver {
     private static final Logger LOG = LoggerFactory.getLogger(PresenterResolver.class);
 
-    @SuppressWarnings("rawtypes")
     private static Set<Class<? extends IPresenter>> presenterClasses;
 
     static {
@@ -50,7 +49,6 @@ public final class PresenterResolver {
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public static <P extends IPresenter> P getPresenter(Class<P> presenterClass) {
         Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession
                 .getVariable(PRESENTER_VAL);

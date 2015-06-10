@@ -45,8 +45,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 
 	@Override
 	protected boolean hasEditPermission() {
-		return CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS);
+		return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS);
 	}
 
 	@Override
@@ -89,15 +88,13 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 		public BugTimeLogEditWindow(SimpleBug bean) {
 			super(bean);
 			this.setModal(true);
-			this.setCaption(AppContext
-					.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
+			this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
 			this.setModal(true);
 			this.addCloseListener(new CloseListener() {
 
 				@Override
 				public void windowClose(CloseEvent e) {
-					BugTimeLogSheet.this
-							.displayTime(BugTimeLogEditWindow.this.bean);
+					BugTimeLogSheet.this.displayTime(BugTimeLogEditWindow.this.bean);
 				}
 			});
 		}
@@ -121,8 +118,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 
 		@Override
 		protected void updateTimeRemain() {
-			BugService bugService = ApplicationContextUtil
-					.getSpringBean(BugService.class);
+			BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 			bean.setEstimateremaintime(getUpdateRemainTime());
 			bugService.updateWithSession(bean, AppContext.getUsername());
 
@@ -149,8 +145,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 
 		@Override
 		protected boolean isEnableAdd() {
-			return CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.BUGS);
+			return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS);
 		}
 	}
 

@@ -35,48 +35,39 @@ import com.vaadin.ui.Button.ClickEvent;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class AccountContactSelectionWindow extends
-RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
+public class AccountContactSelectionWindow extends RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
-	public AccountContactSelectionWindow(
-			final AccountContactListComp associateContactList) {
+	public AccountContactSelectionWindow(AccountContactListComp associateContactList) {
 		super("Select Contacts", associateContactList);
-
 		this.setWidth("900px");
 	}
 
 	@Override
 	protected void initUI() {
-		this.tableItem = new ContactTableDisplay(ContactTableFieldDef.selected,
-				Arrays.asList(ContactTableFieldDef.name,
-						ContactTableFieldDef.title,
-						ContactTableFieldDef.account,
-						ContactTableFieldDef.phoneOffice));
+		this.tableItem = new ContactTableDisplay(ContactTableFieldDef.selected(),
+				Arrays.asList(ContactTableFieldDef.name(),
+						ContactTableFieldDef.title(),
+						ContactTableFieldDef.account(),
+						ContactTableFieldDef.phoneOffice()));
 
-		final Button selectBtn = new Button("Select",
-				new Button.ClickListener() {
+		Button selectBtn = new Button("Select", new Button.ClickListener() {
 
 			@Override
-			public void buttonClick(final ClickEvent event) {
+			public void buttonClick(ClickEvent event) {
 				AccountContactSelectionWindow.this.close();
 			}
 		});
 		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-		final ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
-		contactSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
+		contactSimpleSearchPanel.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
 
 			@Override
-			public void onSearch(final ContactSearchCriteria criteria) {
-				AccountContactSelectionWindow.this.tableItem
-				.setSearchCriteria(criteria);
+			public void onSearch(ContactSearchCriteria criteria) {
+				tableItem.setSearchCriteria(criteria);
 			}
-
 		});
 
-		this.bodyContent.addComponent(contactSimpleSearchPanel);
-		this.bodyContent.addComponent(selectBtn);
-		this.bodyContent.addComponent(this.tableItem);
+		this.bodyContent.with(contactSimpleSearchPanel, selectBtn, tableItem);
 	}
 }

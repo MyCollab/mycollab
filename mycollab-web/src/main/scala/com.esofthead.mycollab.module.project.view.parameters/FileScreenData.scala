@@ -24,5 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object FileScreenData {
 
-  class GotoDashboard extends ScreenData {}
+    class GotoDashboard extends ScreenData {}
+
 }

@@ -52,8 +52,8 @@ public class AccountListDashlet extends Depot {
 	public AccountListDashlet() {
 		super("My Accounts", new VerticalLayout());
 		tableItem = new AccountTableDisplay(Arrays.asList(
-				AccountTableFieldDef.accountname,
-				AccountTableFieldDef.phoneoffice, AccountTableFieldDef.email));
+				AccountTableFieldDef.accountname(),
+				AccountTableFieldDef.phoneoffice(), AccountTableFieldDef.email()));
 
 		tableItem.addTableListener(new TableClickListener() {
 			private static final long serialVersionUID = 1L;

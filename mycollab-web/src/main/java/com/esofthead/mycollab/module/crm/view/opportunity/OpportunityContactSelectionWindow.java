@@ -46,11 +46,11 @@ public class OpportunityContactSelectionWindow extends
 
 	@Override
 	protected void initUI() {
-		tableItem = new ContactTableDisplay(ContactTableFieldDef.selected,
-				Arrays.asList(ContactTableFieldDef.name,
-						ContactTableFieldDef.email,
-						ContactTableFieldDef.phoneOffice,
-						ContactTableFieldDef.account));
+		tableItem = new ContactTableDisplay(ContactTableFieldDef.selected(),
+				Arrays.asList(ContactTableFieldDef.name(),
+						ContactTableFieldDef.email(),
+						ContactTableFieldDef.phoneOffice(),
+						ContactTableFieldDef.account()));
 
 		Button selectBtn = new Button("Select", new Button.ClickListener() {
 

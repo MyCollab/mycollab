@@ -39,13 +39,13 @@ public class CaseListCustomizeWindow extends CustomizedTableWindow {
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(CaseTableFieldDef.account,
-				CaseTableFieldDef.assignUser, CaseTableFieldDef.createdTime,
-				CaseTableFieldDef.email, CaseTableFieldDef.origin,
-				CaseTableFieldDef.lastUpdatedTime, CaseTableFieldDef.phone,
-				CaseTableFieldDef.priority, CaseTableFieldDef.reason,
-				CaseTableFieldDef.status, CaseTableFieldDef.subject,
-				CaseTableFieldDef.type);
+		return Arrays.asList(CaseTableFieldDef.account(),
+				CaseTableFieldDef.assignUser(), CaseTableFieldDef.createdTime(),
+				CaseTableFieldDef.email(), CaseTableFieldDef.origin(),
+				CaseTableFieldDef.lastUpdatedTime(), CaseTableFieldDef.phone(),
+				CaseTableFieldDef.priority(), CaseTableFieldDef.reason(),
+				CaseTableFieldDef.status(), CaseTableFieldDef.subject(),
+				CaseTableFieldDef.type());
 	}
 
 }

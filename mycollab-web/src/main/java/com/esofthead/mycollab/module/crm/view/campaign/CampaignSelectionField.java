@@ -33,9 +33,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class CampaignSelectionField extends CustomField<Integer> implements
-        FieldSelection<CampaignWithBLOBs> {
-
+public class CampaignSelectionField extends CustomField<Integer> implements FieldSelection<CampaignWithBLOBs> {
     private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
 
     private TextField campaignName = new TextField();

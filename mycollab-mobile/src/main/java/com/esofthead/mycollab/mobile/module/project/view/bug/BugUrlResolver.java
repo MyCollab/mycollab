@@ -38,114 +38,112 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.2
- * 
  */
 public class BugUrlResolver extends ProjectUrlResolver {
-	public BugUrlResolver() {
-		this.addSubResolver("list", new DashboardUrlResolver());
-		this.addSubResolver("add", new AddUrlResolver());
-		this.addSubResolver("edit", new EditUrlResolver());
-		this.addSubResolver("preview", new PreviewUrlResolver());
+    public BugUrlResolver() {
+        this.addSubResolver("list", new DashboardUrlResolver());
+        this.addSubResolver("add", new AddUrlResolver());
+        this.addSubResolver("edit", new EditUrlResolver());
+        this.addSubResolver("preview", new PreviewUrlResolver());
 
-	}
+    }
 
-	private static class DashboardUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			int projectId = new UrlTokenizer(params[0]).getInt();
-			BugSearchCriteria criteria = new BugSearchCriteria();
+    private static class DashboardUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId = new UrlTokenizer(params[0]).getInt();
+            BugSearchCriteria criteria = new BugSearchCriteria();
 
-			criteria.setProjectId(new NumberSearchField(SearchField.AND,
-					projectId));
-			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatus.InProgress.name(),
-							BugStatus.Open.name(), BugStatus.ReOpened.name() }));
-			BugFilterParameter parameter = new BugFilterParameter("Open Bugs",
-					criteria);
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new BugScreenData.Search(parameter));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            criteria.setProjectId(new NumberSearchField(SearchField.AND,
+                    projectId));
+            criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+                    new String[]{BugStatus.InProgress.name(),
+                            BugStatus.Open.name(), BugStatus.ReOpened.name()}));
+            BugFilterParameter parameter = new BugFilterParameter("Open Bugs",
+                    criteria);
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new BugScreenData.Search(parameter));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 
-	private static class PreviewUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			int projectId, bugId;
+    private static class PreviewUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId, bugId;
 
-			if (ProjectLinkParams.isValidParam(params[0])) {
-				String prjShortName = ProjectLinkParams
-						.getProjectShortName(params[0]);
-				int itemKey = ProjectLinkParams.getItemKey(params[0]);
-				BugService bugService = ApplicationContextUtil
-						.getSpringBean(BugService.class);
-				SimpleBug bug = bugService.findByProjectAndBugKey(itemKey,
-						prjShortName, AppContext.getAccountId());
-				if (bug != null) {
-					projectId = bug.getProjectid();
-					bugId = bug.getId();
-				} else {
-					throw new ResourceNotFoundException(
-							"Can not get bug with bugkey " + itemKey
-									+ " and project short name " + prjShortName);
-				}
-			} else {
-				throw new MyCollabException("Invalid bug link " + params[0]);
-			}
+            if (ProjectLinkParams.isValidParam(params[0])) {
+                String prjShortName = ProjectLinkParams
+                        .getProjectShortName(params[0]);
+                int itemKey = ProjectLinkParams.getItemKey(params[0]);
+                BugService bugService = ApplicationContextUtil
+                        .getSpringBean(BugService.class);
+                SimpleBug bug = bugService.findByProjectAndBugKey(itemKey,
+                        prjShortName, AppContext.getAccountId());
+                if (bug != null) {
+                    projectId = bug.getProjectid();
+                    bugId = bug.getId();
+                } else {
+                    throw new ResourceNotFoundException(
+                            "Can not get bug with bugkey " + itemKey
+                                    + " and project short name " + prjShortName);
+                }
+            } else {
+                throw new MyCollabException("Invalid bug link " + params[0]);
+            }
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new BugScreenData.Read(bugId));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new BugScreenData.Read(bugId));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 
-	private static class EditUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			SimpleBug bug;
+    private static class EditUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            SimpleBug bug;
 
-			if (ProjectLinkParams.isValidParam(params[0])) {
-				String prjShortName = ProjectLinkParams
-						.getProjectShortName(params[0]);
-				int itemKey = ProjectLinkParams.getItemKey(params[0]);
-				BugService bugService = ApplicationContextUtil
-						.getSpringBean(BugService.class);
-				bug = bugService.findByProjectAndBugKey(itemKey, prjShortName,
-						AppContext.getAccountId());
+            if (ProjectLinkParams.isValidParam(params[0])) {
+                String prjShortName = ProjectLinkParams
+                        .getProjectShortName(params[0]);
+                int itemKey = ProjectLinkParams.getItemKey(params[0]);
+                BugService bugService = ApplicationContextUtil
+                        .getSpringBean(BugService.class);
+                bug = bugService.findByProjectAndBugKey(itemKey, prjShortName,
+                        AppContext.getAccountId());
 
-			} else {
-				throw new MyCollabException("Invalid bug link: " + params[0]);
-			}
+            } else {
+                throw new MyCollabException("Invalid bug link: " + params[0]);
+            }
 
-			if (bug == null) {
-				throw new ResourceNotFoundException();
-			}
+            if (bug == null) {
+                throw new ResourceNotFoundException();
+            }
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(bug.getProjectid()),
-					new BugScreenData.Edit(bug));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(bug.getProjectid()),
+                    new BugScreenData.Edit(bug));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 
-	private static class AddUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			int projectId = new UrlTokenizer(params[0]).getInt();
+    private static class AddUrlResolver extends ProjectUrlResolver {
+        @Override
+        protected void handlePage(String... params) {
+            int projectId = new UrlTokenizer(params[0]).getInt();
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new BugScreenData.Add(new SimpleBug()));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
-	}
+            PageActionChain chain = new PageActionChain(
+                    new ProjectScreenData.Goto(projectId),
+                    new BugScreenData.Add(new SimpleBug()));
+            EventBusFactory.getInstance().post(
+                    new ProjectEvent.GotoMyProject(this, chain));
+        }
+    }
 }

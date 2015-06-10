@@ -33,18 +33,17 @@ import scala.beans.BeanProperty
  */
 class MailContext[B](@BeanProperty val emailNotification: SimpleRelayEmailNotification, @BeanProperty val
 user: SimpleUser, val siteUrl: String) {
-  @BeanProperty val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
-  @BeanProperty val timeZone: TimeZone = TimezoneMapper.getTimezone(user.getTimezone)
-  @BeanProperty var wrappedBean: B = _
+    @BeanProperty val locale: Locale = LocaleHelper.toLocale(user.getLanguage)
+    @BeanProperty val timeZone: TimeZone = TimezoneMapper.getTimezone(user.getTimezone)
+    @BeanProperty var wrappedBean: B = _
 
-  def getSaccountid: Int = emailNotification.getSaccountid
+    def getSaccountid: Int = emailNotification.getSaccountid
 
-  def getChangeByUserFullName: String = emailNotification.getChangeByUserFullName
+    def getChangeByUserFullName: String = emailNotification.getChangeByUserFullName
 
-  def getTypeid: String = emailNotification.getTypeid
+    def getTypeid: String = emailNotification.getTypeid
 
-  def getType: String = emailNotification.getType
+    def getType: String = emailNotification.getType
 
-  @varargs def getMessage(key: Enum[_], params: AnyRef*): String = LocalizationHelper.getMessage(locale, key, params:
-    _*)
+    @varargs def getMessage(key: Enum[_], params: AnyRef*): String = LocalizationHelper.getMessage(locale, key, params: _*)
 }

@@ -33,23 +33,22 @@ public class OpportunityListCustomizeWindow extends CustomizedTableWindow {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("rawtypes")
-	public OpportunityListCustomizeWindow(String viewId,
-			AbstractPagedBeanTable table) {
+	public OpportunityListCustomizeWindow(String viewId, AbstractPagedBeanTable table) {
 		super(viewId, table);
 	}
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(OpportunityTableFieldDef.accountName,
-				OpportunityTableFieldDef.amount,
-				OpportunityTableFieldDef.assignUser,
-				OpportunityTableFieldDef.campaignName,
-				OpportunityTableFieldDef.currency,
-				OpportunityTableFieldDef.expectedCloseDate,
-				OpportunityTableFieldDef.leadSource,
-				OpportunityTableFieldDef.opportunityName,
-				OpportunityTableFieldDef.probability,
-				OpportunityTableFieldDef.type);
+		return Arrays.asList(OpportunityTableFieldDef.accountName(),
+				OpportunityTableFieldDef.amount(),
+				OpportunityTableFieldDef.assignUser(),
+				OpportunityTableFieldDef.campaignName(),
+				OpportunityTableFieldDef.currency(),
+				OpportunityTableFieldDef.expectedCloseDate(),
+				OpportunityTableFieldDef.leadSource(),
+				OpportunityTableFieldDef.opportunityName(),
+				OpportunityTableFieldDef.probability(),
+				OpportunityTableFieldDef.type());
 	}
 
 }

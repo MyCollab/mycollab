@@ -60,10 +60,10 @@ public class TaskSearchViewImpl extends AbstractPageView implements TaskSearchVi
     }
 
     private void generateDisplayTable() {
-        this.tableItem = new TaskTableDisplay(TaskTableFieldDef.id,
-                Arrays.asList(TaskTableFieldDef.taskname,
-                        TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
-                        TaskTableFieldDef.assignee, TaskTableFieldDef.percentagecomplete),
+        this.tableItem = new TaskTableDisplay(TaskTableFieldDef.id(),
+                Arrays.asList(TaskTableFieldDef.taskname(),
+                        TaskTableFieldDef.startdate(), TaskTableFieldDef.duedate(),
+                        TaskTableFieldDef.assignee(), TaskTableFieldDef.percentagecomplete()),
                 SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS);
 
         this.tableItem.addTableListener(new TableClickListener() {

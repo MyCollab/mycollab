@@ -44,6 +44,7 @@ import java.util.Arrays;
  */
 public class BugSelectionWindow extends Window {
     private static final long serialVersionUID = 1L;
+
     private DefaultPagedBeanTable<BugService, BugSearchCriteria, SimpleBug> tableItem;
     private FieldSelection<SimpleBug> fieldSelection;
 
@@ -57,8 +58,7 @@ public class BugSelectionWindow extends Window {
 
         MVerticalLayout layout = new MVerticalLayout();
         BugSimpleSearchPanel contactSimpleSearchPanel = new BugSimpleSearchPanel();
-        contactSimpleSearchPanel
-                .addSearchHandler(new SearchHandler<BugSearchCriteria>() {
+        contactSimpleSearchPanel.addSearchHandler(new SearchHandler<BugSearchCriteria>() {
 
                     @Override
                     public void onSearch(BugSearchCriteria criteria) {
@@ -80,9 +80,9 @@ public class BugSelectionWindow extends Window {
     }
 
     private void createBugList() {
-        tableItem = new BugTableDisplay(Arrays.asList(BugTableFieldDef.summary,
-                BugTableFieldDef.severity, BugTableFieldDef.resolution,
-                BugTableFieldDef.assignUser));
+        tableItem = new BugTableDisplay(Arrays.asList(BugTableFieldDef.summary(),
+                BugTableFieldDef.severity(), BugTableFieldDef.resolution(),
+                BugTableFieldDef.assignUser()));
 
         tableItem.setWidth("100%");
 
@@ -90,8 +90,7 @@ public class BugSelectionWindow extends Window {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public com.vaadin.ui.Component generateCell(Table source,
-                                                        final Object itemId, Object columnId) {
+            public com.vaadin.ui.Component generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleBug bug = tableItem.getBeanByIndex(itemId);
 
                 String bugName = "[%s-%s] %s";
@@ -99,8 +98,7 @@ public class BugSelectionWindow extends Window {
                         .getProject().getShortname(), bug.getBugkey(), bug
                         .getSummary());
 
-                ButtonLinkLegacy b = new ButtonLinkLegacy(bugName,
-                        new Button.ClickListener() {
+                ButtonLinkLegacy b = new ButtonLinkLegacy(bugName, new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override

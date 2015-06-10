@@ -30,55 +30,56 @@ import com.esofthead.mycollab.reporting.expression.StringExpression;
  */
 @SuppressWarnings("serial")
 public class TableViewFieldDecorator extends TableViewField {
-	private TableViewField tableField;
+    private TableViewField tableField;
 
-	@SuppressWarnings("rawtypes")
-	private ComponentBuilder componentBuilder;
+    @SuppressWarnings("rawtypes")
+    private ComponentBuilder componentBuilder;
 
-	TableViewFieldDecorator(TableViewField tableField) {
-		this.tableField = tableField;
-	}
+    TableViewFieldDecorator(TableViewField tableField) {
+        super(null, "", -1);
+        this.tableField = tableField;
+    }
 
-	@Override
-	public String getField() {
-		return tableField.getField();
-	}
+    @Override
+    public String getField() {
+        return tableField.getField();
+    }
 
-	@Override
-	public void setField(String field) {
-		tableField.setField(field);
-	}
+    @Override
+    public void setField(String field) {
+        tableField.setField(field);
+    }
 
-	public Enum<?> getDescKey() {
-		return tableField.getDescKey();
-	}
+    public Enum<?> getDescKey() {
+        return tableField.getDescKey();
+    }
 
-	public void setDescKey(Enum<?> descKey) {
-		tableField.setDescKey(descKey);
-	}
+    public void setDescKey(Enum<?> descKey) {
+        tableField.setDescKey(descKey);
+    }
 
-	@Override
-	public int getDefaultWidth() {
-		return tableField.getDefaultWidth();
-	}
+    @Override
+    public Integer getDefaultWidth() {
+        return tableField.getDefaultWidth();
+    }
 
-	@Override
-	public void setDefaultWidth(int defaultWidth) {
-		tableField.setDefaultWidth(defaultWidth);
-	}
+    @Override
+    public void setDefaultWidth(Integer defaultWidth) {
+        tableField.setDefaultWidth(defaultWidth);
+    }
 
-	@SuppressWarnings("rawtypes")
-	public ComponentBuilder getComponentBuilder() {
-		if (componentBuilder == null) {
-			componentBuilder = cmp.text(
-					new StringExpression(tableField.getField())).setWidth(
-					tableField.getDefaultWidth());
-		}
-		return componentBuilder;
-	}
+    @SuppressWarnings("rawtypes")
+    public ComponentBuilder getComponentBuilder() {
+        if (componentBuilder == null) {
+            componentBuilder = cmp.text(
+                    new StringExpression(tableField.getField())).setWidth(
+                    tableField.getDefaultWidth());
+        }
+        return componentBuilder;
+    }
 
-	@SuppressWarnings("rawtypes")
-	public void setComponentBuilder(ComponentBuilder componentBuilder) {
-		this.componentBuilder = componentBuilder;
-	}
+    @SuppressWarnings("rawtypes")
+    public void setComponentBuilder(ComponentBuilder componentBuilder) {
+        this.componentBuilder = componentBuilder;
+    }
 }

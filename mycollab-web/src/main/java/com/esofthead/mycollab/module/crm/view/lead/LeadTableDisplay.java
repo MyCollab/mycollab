@@ -46,15 +46,13 @@ import com.vaadin.ui.Table;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class LeadTableDisplay extends
-		DefaultPagedBeanTable<LeadService, LeadSearchCriteria, SimpleLead> {
+public class LeadTableDisplay extends DefaultPagedBeanTable<LeadService, LeadSearchCriteria, SimpleLead> {
 
 	public LeadTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
 	}
 
-	public LeadTableDisplay(TableViewField requiredColumn,
-			List<TableViewField> displayColumns) {
+	public LeadTableDisplay(TableViewField requiredColumn, List<TableViewField> displayColumns) {
 		this(null, requiredColumn, displayColumns);
 
 	}
@@ -70,8 +68,7 @@ public class LeadTableDisplay extends
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final SimpleLead lead = LeadTableDisplay.this
-						.getBeanByIndex(itemId);
+				final SimpleLead lead = getBeanByIndex(itemId);
 				final CheckBoxDecor cb = new CheckBoxDecor("", lead
 						.isSelected());
 				cb.setImmediate(true);
@@ -96,8 +93,7 @@ public class LeadTableDisplay extends
 			@Override
 			public Object generateCell(Table source, Object itemId,
 					Object columnId) {
-				final SimpleLead lead = LeadTableDisplay.this
-						.getBeanByIndex(itemId);
+				final SimpleLead lead = getBeanByIndex(itemId);
 
 				LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder
 						.generateLeadPreviewLinkFull(lead.getId()));
@@ -119,8 +115,7 @@ public class LeadTableDisplay extends
 					@Override
 					public com.vaadin.ui.Component generateCell(Table source,
 							final Object itemId, Object columnId) {
-						final SimpleLead lead = LeadTableDisplay.this
-								.getBeanByIndex(itemId);
+						final SimpleLead lead = getBeanByIndex(itemId);
 						UserLink b = new UserLink(lead.getAssignuser(), lead
 								.getAssignUserAvatarId(), lead
 								.getAssignUserFullName());
@@ -135,8 +130,7 @@ public class LeadTableDisplay extends
 			@Override
 			public com.vaadin.ui.Component generateCell(Table source,
 					Object itemId, Object columnId) {
-				final SimpleLead lead = LeadTableDisplay.this
-						.getBeanByIndex(itemId);
+				final SimpleLead lead = getBeanByIndex(itemId);
 				Link l = new Link();
 				l.setResource(new ExternalResource("mailto:" + lead.getEmail()));
 				l.setCaption(lead.getEmail());
@@ -151,8 +145,7 @@ public class LeadTableDisplay extends
 			@Override
 			public com.vaadin.ui.Component generateCell(Table source,
 					Object itemId, Object columnId) {
-				final SimpleLead lead = LeadTableDisplay.this
-						.getBeanByIndex(itemId);
+				final SimpleLead lead = getBeanByIndex(itemId);
 				if (lead.getWebsite() != null) {
 					return new UrlLink(lead.getWebsite());
 				} else {

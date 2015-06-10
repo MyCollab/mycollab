@@ -35,36 +35,36 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
-  private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
-  def executeJob(context: JobExecutionContext) {
-    val projectService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
-    import scala.collection.JavaConverters._
-    val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
-    val relayNotificationService: RelayEmailNotificationService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
-    var emailNotificationAction: SendingRelayEmailNotificationAction = null
-    for (notification <- relayEmaiNotifications) {
-      try {
-        if (notification.getEmailhandlerbean != null) {
-          emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailNotificationAction]
-          if (emailNotificationAction != null) {
-            if (MonitorTypeConstants.CREATE_ACTION == notification.getAction) {
-              emailNotificationAction.sendNotificationForCreateAction(notification)
+    def executeJob(context: JobExecutionContext) {
+        val projectService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+        import scala.collection.JavaConverters._
+        val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
+        val relayNotificationService: RelayEmailNotificationService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
+        var emailNotificationAction: SendingRelayEmailNotificationAction = null
+        for (notification <- relayEmaiNotifications) {
+            try {
+                if (notification.getEmailhandlerbean != null) {
+                    emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailNotificationAction]
+                    if (emailNotificationAction != null) {
+                        if (MonitorTypeConstants.CREATE_ACTION == notification.getAction) {
+                            emailNotificationAction.sendNotificationForCreateAction(notification)
+                        }
+                        else if (MonitorTypeConstants.UPDATE_ACTION == notification.getAction) {
+                            emailNotificationAction.sendNotificationForUpdateAction(notification)
+                        }
+                        else if (MonitorTypeConstants.ADD_COMMENT_ACTION == notification.getAction) {
+                            emailNotificationAction.sendNotificationForCommentAction(notification)
+                        }
+                    }
+                }
             }
-            else if (MonitorTypeConstants.UPDATE_ACTION == notification.getAction) {
-              emailNotificationAction.sendNotificationForUpdateAction(notification)
+            catch {
+                case ex: Exception => LOG.error("Error while sending scheduler command", ex)
+            } finally {
+                relayNotificationService.removeWithSession(notification.getId, "", notification.getSaccountid)
             }
-            else if (MonitorTypeConstants.ADD_COMMENT_ACTION == notification.getAction) {
-              emailNotificationAction.sendNotificationForCommentAction(notification)
-            }
-          }
         }
-      }
-      catch {
-        case ex: Exception => LOG.error("Error while sending scheduler command", ex)
-      } finally {
-        relayNotificationService.removeWithSession(notification.getId, "", notification.getSaccountid)
-      }
     }
-  }
 }

@@ -17,10 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -34,7 +30,7 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -43,6 +39,10 @@ import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -67,7 +67,7 @@ public class VersionListPresenter extends ProjectGenericListPresenter<VersionLis
 				new DefaultMassEditActionHandler(this) {
 					@Override
 					protected void onSelectExtra(String id) {
-						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+						if (ViewItemAction.MAIL_ACTION().equals(id)) {
 							UI.getCurrent().addWindow(new MailFormWindow());
 						}
 					}

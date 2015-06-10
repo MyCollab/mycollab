@@ -27,7 +27,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListSelectionPresenter;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
@@ -64,7 +64,7 @@ public class ProjectRoleListPresenter extends
 
                     @Override
                     protected void onSelectExtra(String id) {
-                        if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
                             UI.getCurrent().addWindow(new MailFormWindow());
                         }
                     }

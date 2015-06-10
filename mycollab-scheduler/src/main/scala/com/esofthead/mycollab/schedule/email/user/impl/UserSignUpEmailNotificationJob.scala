@@ -44,36 +44,36 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
-  @Autowired var userService: UserService = _
-  @Autowired var extMailService: ExtMailService = _
-  @Autowired var contentGenerator: IContentGenerator = _
-  private val CONFIRM_EMAIL_TEMPLATE: String = "templates/email/billing/confirmUserSignUpNotification.mt"
+    @Autowired var userService: UserService = _
+    @Autowired var extMailService: ExtMailService = _
+    @Autowired var contentGenerator: IContentGenerator = _
+    private val CONFIRM_EMAIL_TEMPLATE: String = "templates/email/billing/confirmUserSignUpNotification.mt"
 
-  @SuppressWarnings(Array("unchecked"))
-  @throws(classOf[JobExecutionException])
-  def executeJob(context: JobExecutionContext) {
-    val criteria: UserSearchCriteria = new UserSearchCriteria
-    val statusField = new SetSearchField[String](Array(UserStatusConstants.EMAIL_NOT_VERIFIED):_*)
-    criteria.setStatuses(statusField)
-    criteria.setSaccountid(null)
+    @SuppressWarnings(Array("unchecked"))
+    @throws(classOf[JobExecutionException])
+    def executeJob(context: JobExecutionContext) {
+        val criteria: UserSearchCriteria = new UserSearchCriteria
+        val statusField = new SetSearchField[String](Array(UserStatusConstants.EMAIL_NOT_VERIFIED): _*)
+        criteria.setStatuses(statusField)
+        criteria.setSaccountid(null)
 
-    import scala.collection.JavaConverters._
-    val users: List[SimpleUser] = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria, 0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
-    if (users != null && users.nonEmpty) {
-      for (user <- users) {
-        sendConfirmEmailToUser(user)
-        user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST)
-        userService.updateWithSession(user, user.getUsername)
-      }
+        import scala.collection.JavaConverters._
+        val users: List[SimpleUser] = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria, 0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
+        if (users != null && users.nonEmpty) {
+            for (user <- users) {
+                sendConfirmEmailToUser(user)
+                user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST)
+                userService.updateWithSession(user, user.getUsername)
+            }
+        }
     }
-  }
 
-  private[impl] def sendConfirmEmailToUser(user: SimpleUser) {
-    contentGenerator.putVariable("user", user)
-    val siteUrl: String = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
-    contentGenerator.putVariable("siteUrl", siteUrl)
-    val confirmLink: String = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
-    contentGenerator.putVariable("linkConfirm", confirmLink)
-    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null, contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale, UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)), contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
-  }
+    private[impl] def sendConfirmEmailToUser(user: SimpleUser) {
+        contentGenerator.putVariable("user", user)
+        val siteUrl: String = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
+        contentGenerator.putVariable("siteUrl", siteUrl)
+        val confirmLink: String = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
+        contentGenerator.putVariable("linkConfirm", confirmLink)
+        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null, contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale, UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)), contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+    }
 }

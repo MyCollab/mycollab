@@ -39,13 +39,13 @@ public class LeadListCustomizeWindow extends CustomizedTableWindow {
 
 	@Override
 	protected Collection<TableViewField> getAvailableColumns() {
-		return Arrays.asList(LeadTableFieldDef.accountName,
-				LeadTableFieldDef.assignedUser, LeadTableFieldDef.department,
-				LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice,
-				LeadTableFieldDef.fax, LeadTableFieldDef.industry,
-				LeadTableFieldDef.leadSource, LeadTableFieldDef.mobile,
-				LeadTableFieldDef.name, LeadTableFieldDef.status,
-				LeadTableFieldDef.title, LeadTableFieldDef.website);
+		return Arrays.asList(LeadTableFieldDef.accountName(),
+				LeadTableFieldDef.assignedUser(), LeadTableFieldDef.department(),
+				LeadTableFieldDef.email(), LeadTableFieldDef.phoneoffice(),
+				LeadTableFieldDef.fax(), LeadTableFieldDef.industry(),
+				LeadTableFieldDef.leadSource(), LeadTableFieldDef.mobile(),
+				LeadTableFieldDef.name(), LeadTableFieldDef.status(),
+				LeadTableFieldDef.title(), LeadTableFieldDef.website());
 	}
 
 }

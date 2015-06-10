@@ -14,16 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package com.esofthead.mycollab.vaadin.mvp;
+package com.esofthead.mycollab.vaadin.mvp
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.0
- * 
- * @param <V>
+ * @author MyCollab Ltd
+ * @since 5.0.9
  */
-public interface MassUpdateCommand<V> {
-	void massUpdate(V value);
+trait MassUpdateCommand[V] {
+    def massUpdate(value: V)
 }

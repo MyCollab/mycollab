@@ -14,68 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.events;
+package com.esofthead.mycollab.vaadin.events
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
- * @param <T>
+ * @author MyCollab Ltd
+ * @since 5.0.9
  */
-public interface PreviewFormHandler<T> {
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void gotoNext(T data);
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void gotoPrevious(T data);
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void onAssign(T data);
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void onEdit(T data);
-	
-	/**
-	 * 
-	 * @param data
-	 */
-	void onAdd(T data);
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void onDelete(T data);
-
-	/**
-	 * 
-	 * @param data
-	 */
-	void onClone(T data);
-
-	/**
-     * 
-     */
-	void onCancel();
-
-	/**
-	 * 
-	 * @param action
-	 * @param data
-	 */
-	void onExtraAction(String action, T data);
+trait HasMassItemActionHandler {
+    def setMassActionHandler(handler: MassItemActionHandler)
 }

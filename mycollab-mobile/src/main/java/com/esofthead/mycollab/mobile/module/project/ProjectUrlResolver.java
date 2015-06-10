@@ -101,7 +101,6 @@ public class ProjectUrlResolver extends UrlResolver {
 								new ProjectScreenData.AllActivities()));
 			} else {
 				int projectId = new UrlTokenizer(params[0]).getInt();
-
 				PageActionChain chain = new PageActionChain(
 						new ProjectScreenData.Goto(projectId),
 						new ProjectScreenData.ViewActivities());

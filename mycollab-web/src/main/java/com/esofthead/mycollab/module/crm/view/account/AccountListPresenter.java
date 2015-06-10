@@ -32,7 +32,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
@@ -79,7 +79,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
 
                     @Override
                     protected void onSelectExtra(String id) {
-                        if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
+                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
                             if (isSelectAll) {
                                 NotificationUtil.showWarningNotification(AppContext
                                         .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
@@ -95,7 +95,7 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
                                 }
                                 UI.getCurrent().addWindow(new MailFormWindow(lstMail));
                             }
-                        } else if (MassItemActionHandler.MASS_UPDATE_ACTION.equals(id)) {
+                        } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
                             MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
                                     AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
                                                     AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)), AccountListPresenter.this);

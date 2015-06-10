@@ -71,10 +71,10 @@ public class OpportunitySelectionWindow extends Window {
 
     private void createOpportunityList() {
         tableItem = new OpportunityTableDisplay(Arrays.asList(
-                OpportunityTableFieldDef.opportunityName,
-                OpportunityTableFieldDef.saleStage,
-                OpportunityTableFieldDef.accountName,
-                OpportunityTableFieldDef.assignUser));
+                OpportunityTableFieldDef.opportunityName(),
+                OpportunityTableFieldDef.saleStage(),
+                OpportunityTableFieldDef.accountName(),
+                OpportunityTableFieldDef.assignUser()));
         tableItem.setDisplayNumItems(10);
         tableItem.setWidth("100%");
 
@@ -86,8 +86,7 @@ public class OpportunitySelectionWindow extends Window {
                     public com.vaadin.ui.Component generateCell(
                             final Table source, final Object itemId,
                             final Object columnId) {
-                        final SimpleOpportunity opportunity = tableItem
-                                .getBeanByIndex(itemId);
+                        final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
                         ButtonLinkLegacy b = new ButtonLinkLegacy(opportunity
                                 .getOpportunityname(),
@@ -97,8 +96,7 @@ public class OpportunitySelectionWindow extends Window {
                                     @Override
                                     public void buttonClick(
                                             final Button.ClickEvent event) {
-                                        fieldSelection
-                                                .fireValueChange(opportunity);
+                                        fieldSelection.fireValueChange(opportunity);
                                         OpportunitySelectionWindow.this.close();
                                     }
                                 });

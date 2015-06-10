@@ -18,7 +18,6 @@ package com.esofthead.mycollab.schedule.email.user.impl
 
 import java.util.Arrays
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder
 import com.esofthead.mycollab.common.domain.MailRecipientField
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.html.LinkUtils
@@ -43,32 +42,32 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE) class SendUserInvitationEmailJob extends GenericQuartzJobBean {
-  private val LOG: Logger = LoggerFactory.getLogger(classOf[SendUserInvitationEmailJob])
-  @Autowired var userAccountInvitationMapper: UserAccountInvitationMapper = _
-  @Autowired var userAccountInvitationMapperExt: UserAccountInvitationMapperExt = _
-  @Autowired var contentGenerator: IContentGenerator = _
-  @Autowired var extMailService: ExtMailService = _
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[SendUserInvitationEmailJob])
+    @Autowired var userAccountInvitationMapper: UserAccountInvitationMapper = _
+    @Autowired var userAccountInvitationMapperExt: UserAccountInvitationMapperExt = _
+    @Autowired var contentGenerator: IContentGenerator = _
+    @Autowired var extMailService: ExtMailService = _
 
-  @throws(classOf[JobExecutionException])
-  def executeJob(context: JobExecutionContext) {
-    import scala.collection.JavaConverters._
-    val invitations: List[SimpleUserAccountInvitation] = userAccountInvitationMapperExt.findAccountInvitations(RegisterStatusConstants.VERIFICATING).asScala.toList
+    @throws(classOf[JobExecutionException])
+    def executeJob(context: JobExecutionContext) {
+        import scala.collection.JavaConverters._
+        val invitations: List[SimpleUserAccountInvitation] = userAccountInvitationMapperExt.findAccountInvitations(RegisterStatusConstants.VERIFICATING).asScala.toList
 
-    for (invitation <- invitations) {
-      LOG.debug("Send invitation email to user {} of subdomain {}", Array(invitation.getUsername, invitation
-        .getSubdomain))
-      contentGenerator.putVariable("invitation", invitation)
-      contentGenerator.putVariable("urlAccept", LinkUtils.generateUserAcceptLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername))
-      val inviterName: String = invitation.getInviterFullName
-      val inviterMail: String = invitation.getInviteuser
-      val subdomain: String = invitation.getSubdomain
-      contentGenerator.putVariable("urlDeny", LinkUtils.generateUserDenyLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername, inviterName, inviterMail))
-      val userName: String = if (invitation.getUsername != null) invitation.getUsername else "there"
-      contentGenerator.putVariable("userName", userName)
-      contentGenerator.putVariable("inviterName", inviterName)
-      extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, Arrays.asList(new MailRecipientField(invitation.getUsername, invitation.getUsername)), null, null, contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale, UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getSiteName)), contentGenerator.generateBodyContent("templates/email/user/userInvitationNotifier.mt", SiteConfiguration.getDefaultLocale), null)
-      invitation.setInvitationstatus(RegisterStatusConstants.SENT_VERIFICATION_EMAIL)
-      userAccountInvitationMapper.updateByPrimaryKeySelective(invitation)
+        for (invitation <- invitations) {
+            LOG.debug("Send invitation email to user {} of subdomain {}", Array(invitation.getUsername, invitation
+                .getSubdomain))
+            contentGenerator.putVariable("invitation", invitation)
+            contentGenerator.putVariable("urlAccept", LinkUtils.generateUserAcceptLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername))
+            val inviterName: String = invitation.getInviterFullName
+            val inviterMail: String = invitation.getInviteuser
+            val subdomain: String = invitation.getSubdomain
+            contentGenerator.putVariable("urlDeny", LinkUtils.generateUserDenyLink(invitation.getSubdomain, invitation.getAccountid, invitation.getUsername, inviterName, inviterMail))
+            val userName: String = if (invitation.getUsername != null) invitation.getUsername else "there"
+            contentGenerator.putVariable("userName", userName)
+            contentGenerator.putVariable("inviterName", inviterName)
+            extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, Arrays.asList(new MailRecipientField(invitation.getUsername, invitation.getUsername)), null, null, contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale, UserI18nEnum.MAIL_INVITE_USER_SUBJECT, SiteConfiguration.getSiteName)), contentGenerator.generateBodyContent("templates/email/user/userInvitationNotifier.mt", SiteConfiguration.getDefaultLocale), null)
+            invitation.setInvitationstatus(RegisterStatusConstants.SENT_VERIFICATION_EMAIL)
+            userAccountInvitationMapper.updateByPrimaryKeySelective(invitation)
+        }
     }
-  }
 }

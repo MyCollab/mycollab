@@ -19,7 +19,7 @@ package com.esofthead.mycollab.schedule.email.project.impl
 import com.esofthead.mycollab.common.MonitorTypeConstants
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.core.utils.StringUtils
-import com.esofthead.mycollab.html.{LinkUtils, FormatUtils}
+import com.esofthead.mycollab.html.LinkUtils
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleMessage, SimpleProjectMember}
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum
@@ -42,45 +42,45 @@ import org.springframework.stereotype.Service
 class MessageRelayEmailNotificationActionImpl extends
 SendMailToAllMembersAction[SimpleMessage] with MessageRelayEmailNotificationAction {
 
-  @Autowired var messageService: MessageService = _
+    @Autowired var messageService: MessageService = _
 
-  @Autowired var projectService: ProjectService = _
+    @Autowired var projectService: ProjectService = _
 
-  protected def getItemName: String = StringUtils.trim(bean.getTitle, 100)
+    protected def getItemName: String = StringUtils.trim(bean.getTitle, 100)
 
-  protected def getCreateSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getUpdateSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getCommentSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleMessage]): String = context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-  protected def getItemFieldMapper: ItemFieldMapper = null
+    protected def getItemFieldMapper: ItemFieldMapper = null
 
-  protected def getBeanInContext(context: MailContext[SimpleMessage]): SimpleMessage = messageService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleMessage]): SimpleMessage = messageService.findById(context.getTypeid.toInt, context.getSaccountid)
 
-  protected def buildExtraTemplateVariables(context: MailContext[SimpleMessage]) {
-    val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
+    protected def buildExtraTemplateVariables(context: MailContext[SimpleMessage]) {
+        val currentProject = new WebItem(bean.getProjectName, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
-    val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
+        val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
 
-    val summary: String = bean.getTitle
-    val summaryLink: String = ProjectLinkGenerator.generateMessagePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-    val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val summary: String = bean.getTitle
+        val summaryLink: String = ProjectLinkGenerator.generateMessagePreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
-    val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
-    val userAvatar: Img = LinkUtils.newAvatar(avatarId)
+        val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
+        val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
-    val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
-    val actionEnum:Enum[_] = emailNotification.getAction match {
-      case MonitorTypeConstants.CREATE_ACTION => MessageI18nEnum.MAIL_CREATE_ITEM_HEADING
-      case MonitorTypeConstants.UPDATE_ACTION => MessageI18nEnum.MAIL_UPDATE_ITEM_HEADING
-      case MonitorTypeConstants.ADD_COMMENT_ACTION =>  MessageI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        val makeChangeUser: String = userAvatar.toString + emailNotification.getChangeByUserFullName
+        val actionEnum: Enum[_] = emailNotification.getAction match {
+            case MonitorTypeConstants.CREATE_ACTION => MessageI18nEnum.MAIL_CREATE_ITEM_HEADING
+            case MonitorTypeConstants.UPDATE_ACTION => MessageI18nEnum.MAIL_UPDATE_ITEM_HEADING
+            case MonitorTypeConstants.ADD_COMMENT_ACTION => MessageI18nEnum.MAIL_COMMENT_ITEM_HEADING
+        }
+
+        contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
+        contentGenerator.putVariable("titles", List(currentProject))
+        contentGenerator.putVariable("summary", summary)
+        contentGenerator.putVariable("summaryLink", summaryLink)
+        contentGenerator.putVariable("message", bean.getMessage)
     }
-
-    contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-    contentGenerator.putVariable("titles", List(currentProject))
-    contentGenerator.putVariable("summary", summary)
-    contentGenerator.putVariable("summaryLink", summaryLink)
-    contentGenerator.putVariable("message", bean.getMessage)
-  }
 }

@@ -14,33 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.events;
+package com.esofthead.mycollab.vaadin.events
 
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.vaadin.server.StreamResource;
+import com.esofthead.mycollab.core.MyCollabException
 
 /**
- * Popup action handler of table
- * 
- * @author MyCollab Ltd.
- * @since 2.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.0.9
  */
-public interface MassItemActionHandler {
-	String MAIL_ACTION = "mail";
-	String DELETE_ACTION = "delete";
-	String MASS_UPDATE_ACTION = "massUpdate";
+class DefaultPreviewFormHandler[T] extends PreviewFormHandler[T] {
+    override  def gotoNext(data: T) {}
 
-	/**
-	 * 
-	 * @param id
-	 */
-	void onSelect(String id);
+    override  def gotoPrevious(data: T) {}
 
-	/**
-	 * 
-	 * @param exportType
-	 * @return
-	 */
-	StreamResource buildStreamResource(ReportExportType exportType);
+    override  def onEdit(data: T) {}
+
+    override  def onDelete(data: T) {}
+
+    override  def onClone(data: T) {}
+
+    override  def onCancel {}
+
+    override  def onAssign(data: T) {}
+
+    override def onAdd(data: T) {}
+
+    override  def onExtraAction(action: String, data: T) : Unit = throw new MyCollabException("Must be override by " +
+        "sub class")
 }
