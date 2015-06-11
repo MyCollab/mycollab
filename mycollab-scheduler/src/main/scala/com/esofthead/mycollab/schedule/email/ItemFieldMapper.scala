@@ -18,32 +18,29 @@ package com.esofthead.mycollab.schedule.email
 
 import com.esofthead.mycollab.schedule.email.format.{DefaultFieldFormat, FieldFormat}
 
+import scala.collection.mutable._
+
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
 class ItemFieldMapper {
-    private val fieldNameMap: java.util.Map[String, FieldFormat] = new java.util.LinkedHashMap[String,
-        FieldFormat]()
+    private val fieldNameMap: Map[String, FieldFormat] = Map()
 
-    def put(fieldName: Enum[_], displayName: Enum[_]) {
-        fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName))
+    def put(fieldName: Enum[_], displayName: Enum[_]): Unit = {
+        fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName))
     }
 
-    def put(fieldName: Enum[_], displayName: Enum[_], isColSpan: Boolean) {
-        fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
+    def put(fieldName: Enum[_], displayName: Enum[_], isColSpan: Boolean): Unit = {
+        fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
     }
 
-    def put(fieldName: Enum[_], format: FieldFormat) {
-        fieldNameMap.put(fieldName.name, format)
+    def put(fieldName: Enum[_], format: FieldFormat): Unit = {
+        fieldNameMap += (fieldName.name -> format)
     }
 
 
-    def keySet(): java.util.Set[String] = {
-        fieldNameMap.keySet;
-    }
+    def hasField(fieldName: String): Boolean = fieldNameMap.contains(fieldName)
 
-    def hasField(fieldName: String): Boolean = fieldNameMap.containsKey(fieldName)
-
-    def getFieldLabel(fieldName: String): FieldFormat = fieldNameMap.get(fieldName)
+    def getFieldLabel(fieldName: String): FieldFormat = fieldNameMap(fieldName)
 }

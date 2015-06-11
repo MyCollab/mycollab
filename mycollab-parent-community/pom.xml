@@ -23,6 +23,8 @@
         <camelVersion>2.15.2</camelVersion>
         <junitVersion>4.12</junitVersion>
         <restVersion>3.0.9.Final</restVersion>
+        <scala.binary.version>2.11</scala.binary.version>
+        <scala.version>2.11.6</scala.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>
         <sonar.language>java</sonar.language>
@@ -278,7 +280,7 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>2.11.6</version>
+            <version>${scala.version}</version>
         </dependency>
 
         <dependency>
@@ -348,6 +350,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <scalaCompatVersion>${scala.binary.version}</scalaCompatVersion>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                </configuration>
             </plugin>
 
             <plugin>

@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.mvp
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.google.common.eventbus.EventBus
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession._
 
 import scala.collection.mutable._
 
@@ -25,17 +25,17 @@ import scala.collection.mutable._
  * @author MyCollab Ltd
  * @since 5.0.9
  */
-@SerialVersionUID(1L)
-class AbstractController extends Serializable{
-    private val eventBus:EventBus = EventBusFactory.getInstance()
-    private val subscribers:Buffer[AnyRef] =  Buffer();
-
-    def register(subscriber: AnyRef): Unit = {
-        eventBus.register(subscriber)
-        subscribers += subscriber
-    }
-
-    def unregisterAll {
-        subscribers.foreach(subscriber => eventBus.unregister(subscriber))
+object ControllerRegistry {
+    def addController(controller: AbstractController): Unit = {
+        var controllerList: Map[Class[_], AbstractController] = (MyCollabSession.getVariable(CONTROLLER_REGISTRY).asInstanceOf[Map[Class[_], AbstractController]])
+        if (controllerList == null) {
+            controllerList = Map().withDefaultValue(null)
+            MyCollabSession.putVariable(CONTROLLER_REGISTRY, controllerList)
+        }
+        val existingController: AbstractController = controllerList(controller.getClass)
+        if (existingController != null) {
+            existingController.unregisterAll
+        }
+        controllerList += (controller.getClass -> controller)
     }
 }

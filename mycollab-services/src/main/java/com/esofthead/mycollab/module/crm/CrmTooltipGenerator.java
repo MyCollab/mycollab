@@ -39,15 +39,11 @@ import static com.esofthead.mycollab.common.TooltipBuilder.TdUtil.*;
 import static com.esofthead.mycollab.core.utils.StringUtils.trimHtmlTags;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CrmTooltipGenerator {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(CrmTooltipGenerator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CrmTooltipGenerator.class);
 
     private static String generateTolltipNull(Locale locale) {
         Div div = new Div();
@@ -70,8 +66,7 @@ public class CrmTooltipGenerator {
         return (value != null) ? value.toString() : "";
     }
 
-    public static String generateToolTipAccount(Locale locale,
-                                                SimpleAccount account, String siteURL) {
+    public static String generateToolTipAccount(Locale locale, SimpleAccount account, String siteURL) {
         if (account == null) {
             return generateTolltipNull(locale);
         }
@@ -145,8 +140,7 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateToolTipContact(Locale locale,
-                                                SimpleContact contact, String siteURL, TimeZone userTimeZone) {
+    public static String generateToolTipContact(Locale locale, SimpleContact contact, String siteURL, TimeZone userTimeZone) {
         if (contact == null) {
             return generateTolltipNull(locale);
         }
@@ -234,8 +228,7 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateTooltipCampaign(Locale locale,
-                                                 SimpleCampaign campaign, String siteURl, TimeZone userTimeZone) {
+    public static String generateTooltipCampaign(Locale locale, SimpleCampaign campaign, String siteURl, TimeZone userTimeZone) {
         if (campaign == null)
             return generateTolltipNull(locale);
 
@@ -323,8 +316,7 @@ public class CrmTooltipGenerator {
         }
     }
 
-    public static String generateTooltipLead(Locale locale, SimpleLead lead,
-                                             String siteURl, TimeZone userTimeZone) {
+    public static String generateTooltipLead(Locale locale, SimpleLead lead, String siteURl, TimeZone userTimeZone) {
         if (lead == null)
             return generateTolltipNull(locale);
 

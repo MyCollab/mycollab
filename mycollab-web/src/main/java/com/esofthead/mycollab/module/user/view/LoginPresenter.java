@@ -65,8 +65,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
             @Override
             public void receiveEvent(ViewEvent<PlainLogin> event) {
                 PlainLogin data = (PlainLogin) event.getData();
-                doLogin(data.getUsername(), data.getPassword(),
-                        data.isRememberMe());
+                doLogin(data.getUsername(), data.getPassword(), data.isRememberMe());
             }
         });
     }
@@ -85,14 +84,13 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
         SimpleBillingAccount billingAccount = billingAccountService
                 .getBillingAccountById(AppContext.getAccountId());
 
-        LOG.debug("Get billing account successfully: " + BeanUtility.printBeanObj(billingAccount));
+        LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
 
         UserPreferenceService preferenceService = ApplicationContextUtil
                 .getSpringBean(UserPreferenceService.class);
         UserPreference pref = preferenceService.getPreferenceOfUser(username, AppContext.getAccountId());
 
-        LOG.debug("Login to system successfully. Save user and preference "
-                + pref + " to session");
+        LOG.debug(String.format("Login to system successfully. Save user and preference %s to session", pref));
 
         AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
         pref.setLastaccessedtime(new Date());

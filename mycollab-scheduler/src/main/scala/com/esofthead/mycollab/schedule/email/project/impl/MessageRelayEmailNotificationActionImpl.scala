@@ -39,8 +39,7 @@ import org.springframework.stereotype.Service
  */
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class MessageRelayEmailNotificationActionImpl extends
-SendMailToAllMembersAction[SimpleMessage] with MessageRelayEmailNotificationAction {
+class MessageRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleMessage] with MessageRelayEmailNotificationAction {
 
     @Autowired var messageService: MessageService = _
 

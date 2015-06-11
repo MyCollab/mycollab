@@ -53,7 +53,7 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
     putVariable("defaultUrls", defaultUrls)
   }
 
-  override def putVariable(key: String, value: scala.Any): Unit = {
+  override def putVariable(key: String, value: Any): Unit = {
     import scala.collection.JavaConversions._
     value match {
       case map: Map[_, _] => templateContext.put(key, mapAsJavaMap(map))

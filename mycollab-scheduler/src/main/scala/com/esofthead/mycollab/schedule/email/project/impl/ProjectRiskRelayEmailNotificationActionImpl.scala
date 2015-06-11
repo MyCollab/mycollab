@@ -45,8 +45,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class ProjectRiskRelayEmailNotificationActionImpl extends
-SendMailToAllMembersAction[SimpleRisk] with ProjectRiskRelayEmailNotificationAction {
+class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleRisk] with ProjectRiskRelayEmailNotificationAction {
 
     @Autowired var riskService: RiskService = _
 

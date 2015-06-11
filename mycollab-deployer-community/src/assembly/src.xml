@@ -56,6 +56,7 @@
                             <exclude>**/.gitignore</exclude>
                             <exclude>**/*.versionsBackup</exclude>
                             <exclude>**/*.iml</exclude>
+                            <exclude>**/*.scss</exclude>
                         </excludes>
                     </fileSet>
                 </fileSets>

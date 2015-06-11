@@ -31,7 +31,6 @@ import java.util.Properties;
  *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ApplicationProperties {
     private static final String RESOURCE_PROPERTIES = "mycollab.properties";
@@ -89,7 +88,7 @@ public class ApplicationProperties {
                     properties.load(propsStream);
                 }
             } else {
-                        properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
+                properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
             }
         } catch (Exception e) {
             throw new MyCollabException(e);

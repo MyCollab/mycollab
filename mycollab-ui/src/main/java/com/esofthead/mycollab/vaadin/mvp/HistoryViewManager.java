@@ -55,8 +55,7 @@ public class HistoryViewManager {
 			} else {
 				LOG.debug("Back to view: " + viewState.getPresenter());
 
-				viewState.getPresenter().go(viewState.getContainer(),
-						viewState.getParams());
+				viewState.getPresenter().go(viewState.getContainer(), viewState.getParams());
 				return viewState;
 			}
 
