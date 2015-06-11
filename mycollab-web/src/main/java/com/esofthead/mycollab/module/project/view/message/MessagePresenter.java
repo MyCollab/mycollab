@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.message;
 
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -32,52 +33,48 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class MessagePresenter extends AbstractPresenter<MessageContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MessagePresenter() {
-		super(MessageContainer.class);
-	}
+    public MessagePresenter() {
+        super(MessageContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
-			ProjectView projectViewContainer = (ProjectView) container;
-			projectViewContainer.gotoSubView(ProjectTypeConstants.MESSAGE);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+            ProjectView projectViewContainer = (ProjectView) container;
+            projectViewContainer.gotoSubView(ProjectTypeConstants.MESSAGE);
 
-			view.removeAllComponents();
+            view.removeAllComponents();
 
-			if (data instanceof MessageScreenData.Read) {
-				MessageReadPresenter presenter = PresenterResolver
-						.getPresenter(MessageReadPresenter.class);
-				presenter.go(view, data);
-			} else if (data instanceof MessageScreenData.Search) {
-				MessageListPresenter presenter = PresenterResolver
-						.getPresenter(MessageListPresenter.class);
-				presenter.go(view, data);
-			} else if (data == null) {
-				MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-				searchCriteria.setProjectids(new SetSearchField<>(
-						CurrentProjectVariables.getProjectId()));
-				MessageListPresenter presenter = PresenterResolver
-						.getPresenter(MessageListPresenter.class);
-				presenter.go(view, new ScreenData.Preview<>(searchCriteria));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            if (data instanceof MessageScreenData.Read) {
+                MessageReadPresenter presenter = PresenterResolver
+                        .getPresenter(MessageReadPresenter.class);
+                presenter.go(view, data);
+            } else if (data instanceof MessageScreenData.Search) {
+                MessageListPresenter presenter = PresenterResolver
+                        .getPresenter(MessageListPresenter.class);
+                presenter.go(view, data);
+            } else if (data == null) {
+                MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
+                searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                MessageListPresenter presenter = PresenterResolver
+                        .getPresenter(MessageListPresenter.class);
+                presenter.go(view, new ScreenData.Preview<>(searchCriteria));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	public void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
-		ScreenData pageAction = pageActionChain.pop();
-		onGo(container, pageAction);
-	}
+    @Override
+    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
+        ScreenData pageAction = pageActionChain.pop();
+        onGo(container, pageAction);
+    }
 
 }

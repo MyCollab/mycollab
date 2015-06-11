@@ -142,10 +142,8 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         BugSearchCriteria myBugsSearchCriteria = new BugSearchCriteria();
         myBugsSearchCriteria
                 .setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        myBugsSearchCriteria.setStatuses(new SetSearchField<>(
-                SearchField.AND, new String[]{BugStatus.InProgress.name(),
-                BugStatus.Open.name(), BugStatus.ReOpened.name(),
-                BugStatus.Resolved.name()}));
+        myBugsSearchCriteria.setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
+                BugStatus.Open.name(), BugStatus.ReOpened.name(), BugStatus.Resolved.name()));
         myBugsSearchCriteria.setAssignuser(new StringSearchField(AppContext
                 .getUsername()));
         myBugListWidget.setSearchCriteria(myBugsSearchCriteria);
@@ -157,10 +155,8 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
                 DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
                 .getTime()));
-        dueDefectsCriteria.setStatuses(new SetSearchField<>(
-                SearchField.AND, new String[]{BugStatus.InProgress.name(),
-                BugStatus.Open.name(), BugStatus.ReOpened.name(),
-                BugStatus.Resolved.name()}));
+        dueDefectsCriteria.setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
+                BugStatus.Open.name(), BugStatus.ReOpened.name(), BugStatus.Resolved.name()));
         dueBugWidget.setSearchCriteria(dueDefectsCriteria);
 
         BugSearchCriteria waitingApprovalCriteria = new BugSearchCriteria();
@@ -188,10 +184,8 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         unresolvedByAssigneeSearchCriteria.setProjectId(new NumberSearchField(
                 CurrentProjectVariables.getProjectId()));
         unresolvedByAssigneeSearchCriteria
-                .setStatuses(new SetSearchField<>(SearchField.AND,
-                        new String[]{BugStatus.InProgress.name(),
-                                BugStatus.Open.name(),
-                                BugStatus.ReOpened.name()}));
+                .setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
+                        BugStatus.Open.name(), BugStatus.ReOpened.name()));
         unresolvedByAssigneeWidget
                 .setSearchCriteria(unresolvedByAssigneeSearchCriteria);
         rightColumn.addComponent(unresolvedByAssigneeWidget);
@@ -202,10 +196,8 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         unresolvedByPrioritySearchCriteria.setProjectId(new NumberSearchField(
                 CurrentProjectVariables.getProjectId()));
         unresolvedByPrioritySearchCriteria
-                .setStatuses(new SetSearchField<>(SearchField.AND,
-                        new String[]{BugStatus.InProgress.name(),
-                                BugStatus.Open.name(),
-                                BugStatus.ReOpened.name()}));
+                .setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
+                        BugStatus.Open.name(), BugStatus.ReOpened.name()));
         unresolvedByPriorityWidget
                 .setSearchCriteria(unresolvedByPrioritySearchCriteria);
         rightColumn.addComponent(unresolvedByPriorityWidget);

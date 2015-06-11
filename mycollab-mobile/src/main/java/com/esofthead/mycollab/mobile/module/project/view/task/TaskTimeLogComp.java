@@ -16,12 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import java.util.Date;
-
-import com.esofthead.mycollab.core.arguments.BooleanSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogComp;
@@ -36,114 +31,107 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+import java.util.Date;
+
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
  */
 public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 
-	private static final long serialVersionUID = 8006444639083945910L;
+    private static final long serialVersionUID = 8006444639083945910L;
 
-	@Override
-	protected Double getTotalBillableHours(SimpleTask bean) {
-		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
-		criteria.setTypeId(new NumberSearchField(bean.getId()));
-		criteria.setIsBillable(new BooleanSearchField(true));
-		return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
-	}
+    @Override
+    protected Double getTotalBillableHours(SimpleTask bean) {
+        ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
+        criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
+        criteria.setTypeId(new NumberSearchField(bean.getId()));
+        criteria.setIsBillable(new BooleanSearchField(true));
+        return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
+    }
 
-	@Override
-	protected Double getTotalNonBillableHours(SimpleTask bean) {
-		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
-		criteria.setTypeId(new NumberSearchField(bean.getId()));
-		criteria.setIsBillable(new BooleanSearchField(false));
-		return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
-	}
+    @Override
+    protected Double getTotalNonBillableHours(SimpleTask bean) {
+        ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
+        criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
+        criteria.setTypeId(new NumberSearchField(bean.getId()));
+        criteria.setIsBillable(new BooleanSearchField(false));
+        return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
+    }
 
-	@Override
-	protected Double getRemainedHours(SimpleTask bean) {
-		if (bean.getRemainestimate() != null) {
-			return bean.getRemainestimate();
-		}
-		return 0d;
-	}
+    @Override
+    protected Double getRemainedHours(SimpleTask bean) {
+        if (bean.getRemainestimate() != null) {
+            return bean.getRemainestimate();
+        }
+        return 0d;
+    }
 
-	@Override
-	protected boolean hasEditPermission() {
-		return CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS);
-	}
+    @Override
+    protected boolean hasEditPermission() {
+        return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS);
+    }
 
-	@Override
-	protected void showEditTimeView(SimpleTask bean) {
-		EventBusFactory.getInstance().post(
-				new ShellEvent.PushView(this, new TaskTimeLogView(bean)));
-	}
+    @Override
+    protected void showEditTimeView(SimpleTask bean) {
+        EventBusFactory.getInstance().post(new ShellEvent.PushView(this, new TaskTimeLogView(bean)));
+    }
 
-	private static class TaskTimeLogView extends TimeLogEditView<SimpleTask> {
-		private static final long serialVersionUID = -5178708279456191875L;
+    private static class TaskTimeLogView extends TimeLogEditView<SimpleTask> {
+        private static final long serialVersionUID = -5178708279456191875L;
 
-		protected TaskTimeLogView(SimpleTask bean) {
-			super(bean);
-		}
+        protected TaskTimeLogView(SimpleTask bean) {
+            super(bean);
+        }
 
-		@Override
-		protected void saveTimeInvest(double spentHours, boolean isBillable,
-				Date forDate) {
-			ItemTimeLogging item = new ItemTimeLogging();
-			item.setLoguser(AppContext.getUsername());
-			item.setLogvalue(spentHours);
-			item.setTypeid(bean.getId());
-			item.setType(ProjectTypeConstants.TASK);
-			item.setSaccountid(AppContext.getAccountId());
-			item.setProjectid(CurrentProjectVariables.getProjectId());
-			item.setLogforday(forDate);
-			item.setIsbillable(isBillable);
+        @Override
+        protected void saveTimeInvest(double spentHours, boolean isBillable, Date forDate) {
+            ItemTimeLogging item = new ItemTimeLogging();
+            item.setLoguser(AppContext.getUsername());
+            item.setLogvalue(spentHours);
+            item.setTypeid(bean.getId());
+            item.setType(ProjectTypeConstants.TASK);
+            item.setSaccountid(AppContext.getAccountId());
+            item.setProjectid(CurrentProjectVariables.getProjectId());
+            item.setLogforday(forDate);
+            item.setIsbillable(isBillable);
 
-			itemTimeLoggingService.saveWithSession(item,
-					AppContext.getUsername());
-		}
+            itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
+        }
 
-		@Override
-		protected void updateTimeRemain(double newValue) {
-			ProjectTaskService taskService = ApplicationContextUtil
-					.getSpringBean(ProjectTaskService.class);
-			bean.setRemainestimate(newValue);
-			taskService.updateWithSession(bean, AppContext.getUsername());
-		}
+        @Override
+        protected void updateTimeRemain(double newValue) {
+            ProjectTaskService taskService = ApplicationContextUtil
+                    .getSpringBean(ProjectTaskService.class);
+            bean.setRemainestimate(newValue);
+            taskService.updateWithSession(bean, AppContext.getUsername());
+        }
 
-		@Override
-		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
-			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<Integer>(
-					CurrentProjectVariables.getProjectId()));
-			searchCriteria.setType(new StringSearchField(
-					ProjectTypeConstants.TASK));
-			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
-			return searchCriteria;
-		}
+        @Override
+        protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
+            ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
+            searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setType(new StringSearchField(
+                    ProjectTypeConstants.TASK));
+            searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
+            return searchCriteria;
+        }
 
-		@Override
-		protected double getEstimateRemainTime() {
-			if (bean.getRemainestimate() != null) {
-				return bean.getRemainestimate();
-			}
-			return 0;
-		}
+        @Override
+        protected double getEstimateRemainTime() {
+            if (bean.getRemainestimate() != null) {
+                return bean.getRemainestimate();
+            }
+            return 0;
+        }
 
-		@Override
-		protected boolean isEnableAdd() {
-			return CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.TASKS);
-		}
+        @Override
+        protected boolean isEnableAdd() {
+            return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS);
+        }
 
-	}
+    }
 
 }

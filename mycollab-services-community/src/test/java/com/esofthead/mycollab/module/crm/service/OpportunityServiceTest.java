@@ -80,8 +80,7 @@ public class OpportunityServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUsers() {
 		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
-				new String[]{"hai", "linh"}));
+		criteria.setAssignUsers(new SetSearchField<>("hai", "linh"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleOpportunity> opportunities = opportunityService

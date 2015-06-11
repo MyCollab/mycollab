@@ -16,14 +16,9 @@
  */
 package com.esofthead.mycollab.community.module.project.view.bug;
 
-import java.util.List;
-
-import org.jfree.data.general.DefaultPieDataset;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -40,75 +35,76 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.ComponentContainer;
+import org.jfree.data.general.DefaultPieDataset;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class ResolutionSummaryChartWidget extends
-		PieChartWrapper<BugSearchCriteria> implements
-		IBugResolutionSummaryChartWidget {
-	private static final long serialVersionUID = 1L;
+        PieChartWrapper<BugSearchCriteria> implements
+        IBugResolutionSummaryChartWidget {
+    private static final long serialVersionUID = 1L;
 
-	public ResolutionSummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-				BugResolution.class, width, height);
-	}
+    public ResolutionSummaryChartWidget(int width, int height) {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
+                BugResolution.class, width, height);
+    }
 
-	public ResolutionSummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-				BugResolution.class, 400, 280);
+    public ResolutionSummaryChartWidget() {
+        super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
+                BugResolution.class, 400, 280);
 
-	}
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public void addViewListener(ViewListener listener) {
-	}
+    @Override
+    public void addViewListener(ViewListener listener) {
+    }
 
-	@Override
-	protected DefaultPieDataset createDataset() {
-		// create the dataset...
-		final DefaultPieDataset dataset = new DefaultPieDataset();
+    @Override
+    protected DefaultPieDataset createDataset() {
+        // create the dataset...
+        final DefaultPieDataset dataset = new DefaultPieDataset();
 
-		BugService bugService = ApplicationContextUtil
-				.getSpringBean(BugService.class);
+        BugService bugService = ApplicationContextUtil
+                .getSpringBean(BugService.class);
 
-		List<GroupItem> groupItems = bugService
-				.getResolutionDefectsSummary(searchCriteria);
+        List<GroupItem> groupItems = bugService
+                .getResolutionDefectsSummary(searchCriteria);
 
-		BugResolution[] bugResolutions = OptionI18nEnum.bug_resolutions;
-		for (BugResolution resolution : bugResolutions) {
-			boolean isFound = false;
-			for (GroupItem item : groupItems) {
-				if (resolution.name().equals(item.getGroupid())) {
-					dataset.setValue(resolution.name(), item.getValue());
-					isFound = true;
-					break;
-				}
-			}
+        BugResolution[] bugResolutions = OptionI18nEnum.bug_resolutions;
+        for (BugResolution resolution : bugResolutions) {
+            boolean isFound = false;
+            for (GroupItem item : groupItems) {
+                if (resolution.name().equals(item.getGroupid())) {
+                    dataset.setValue(resolution.name(), item.getValue());
+                    isFound = true;
+                    break;
+                }
+            }
 
-			if (!isFound) {
-				dataset.setValue(resolution.name(), 0);
-			}
-		}
+            if (!isFound) {
+                dataset.setValue(resolution.name(), 0);
+            }
+        }
 
-		return dataset;
-	}
+        return dataset;
+    }
 
-	@Override
-	protected void onClickedDescription(String key) {
-		BugSearchCriteria searchCriteria = new BugSearchCriteria();
-		searchCriteria.setResolutions(new SetSearchField<>(SearchField.AND, new String[] { key }));
-		searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-		BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
-		EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
-	}
+    @Override
+    protected void onClickedDescription(String key) {
+        BugSearchCriteria searchCriteria = new BugSearchCriteria();
+        searchCriteria.setResolutions(new SetSearchField<>(key));
+        searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+        BugFilterParameter param = new BugFilterParameter(key + " Bug List", searchCriteria);
+        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, new BugScreenData.Search(param)));
+    }
 }

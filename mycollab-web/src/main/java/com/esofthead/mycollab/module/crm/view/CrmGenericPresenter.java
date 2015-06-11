@@ -28,7 +28,6 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class CrmGenericPresenter<V extends PageView> extends AbstractPresenter<V> {
-
     private static final long serialVersionUID = 1L;
 
     public CrmGenericPresenter(Class<V> viewClass) {

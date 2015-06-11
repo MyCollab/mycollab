@@ -141,7 +141,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[TaskEvent.GotoAdd] {
             @Subscribe def handle(event: TaskEvent.GotoAdd) {
-                val param: AnyRef = event.getData
+                val param: Any = event.getData
                 var data: TaskScreenData.Add = null
                 if (param.isInstanceOf[SimpleTask]) {
                     data = new TaskScreenData.Add(param.asInstanceOf[SimpleTask])
@@ -259,12 +259,12 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[BugEvent.GotoList] {
             @Subscribe def handle(event: BugEvent.GotoList) {
-                val params: AnyRef = event.getData
+                val params: Any = event.getData
                 if (params == null) {
                     val criteria: BugSearchCriteria = new BugSearchCriteria
                     criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
-                    criteria.setStatuses(new SetSearchField[String](SearchField.AND, Array[String](BugStatus.InProgress.name,
-                        BugStatus.Open.name, BugStatus.ReOpened.name): _*))
+                    criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name,
+                        BugStatus.Open.name, BugStatus.ReOpened.name))
                     val parameter: BugFilterParameter = new BugFilterParameter("Open Bugs", criteria)
                     projectView.gotoBugView(new BugScreenData.Search(parameter))
                 }

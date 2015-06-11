@@ -40,68 +40,66 @@ import com.vaadin.ui.TextField;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class OpportunitySimpleSearchPanel extends GenericSearchPanel<OpportunitySearchCriteria> {
-	private TextField textValueField;
-	private ActiveUserComboBox userBox;
-	private GridLayout layoutSearchPane;
+    private TextField textValueField;
+    private ActiveUserComboBox userBox;
+    private GridLayout layoutSearchPanel;
     private ValueComboBox group;
 
-	public OpportunitySimpleSearchPanel() {
+    public OpportunitySimpleSearchPanel() {
         createBasicSearchLayout();
     }
 
-	private void createBasicSearchLayout() {
-		layoutSearchPane = new GridLayout(3, 3);
-		layoutSearchPane.setSpacing(true);
+    private void createBasicSearchLayout() {
+        layoutSearchPanel = new GridLayout(3, 3);
+        layoutSearchPanel.setSpacing(true);
 
-		group = new ValueComboBox(false, "Name", "Account Name", "Sales Stage",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
-		group.select("Name");
-		group.setImmediate(true);
-		group.addValueChangeListener(new Property.ValueChangeListener() {
+        group = new ValueComboBox(false, "Name", "Account Name", "Sales Stage",
+                AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+        group.select("Name");
+        group.setImmediate(true);
+        group.addValueChangeListener(new Property.ValueChangeListener() {
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				removeComponents();
-				String searchType = (String) group.getValue();
-				if (searchType.equals("Name")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Account Name")) {
-					addTextFieldSearch();
-				} else if (searchType.equals("Sales Stage")) {
-					addTextFieldSearch();
-				} else if (searchType.equals(AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
-					addUserListSelectField();
-				}
-			}
-		});
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                removeComponents();
+                String searchType = (String) group.getValue();
+                if (searchType.equals("Name")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Account Name")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals("Sales Stage")) {
+                    addTextFieldSearch();
+                } else if (searchType.equals(AppContext
+                        .getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
+                    addUserListSelectField();
+                }
+            }
+        });
 
-		layoutSearchPane.addComponent(group, 1, 0);
-		layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
-		addTextFieldSearch();
+        layoutSearchPanel.addComponent(group, 1, 0);
+        layoutSearchPanel.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
+        addTextFieldSearch();
 
-		Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(FontAwesome.SEARCH);
-		searchBtn.addClickListener(new Button.ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				doSearch();
-			}
-		});
-		layoutSearchPane.addComponent(searchBtn, 2, 0);
-		layoutSearchPane.setComponentAlignment(searchBtn,
-				Alignment.MIDDLE_CENTER);
-		this.setCompositionRoot(layoutSearchPane);
-	}
+        Button searchBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setIcon(FontAwesome.SEARCH);
+        searchBtn.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(ClickEvent event) {
+                doSearch();
+            }
+        });
+        layoutSearchPanel.addComponent(searchBtn, 2, 0);
+        layoutSearchPanel.setComponentAlignment(searchBtn,
+                Alignment.MIDDLE_CENTER);
+        this.setCompositionRoot(layoutSearchPanel);
+    }
 
     private void doSearch() {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
@@ -121,17 +119,16 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
             if (userBox != null) {
                 String user = (String) userBox.getValue();
                 if (StringUtils.isNotBlank(user)) {
-                    searchCriteria
-                            .setAssignUsers(new SetSearchField<>(SearchField.AND, new String[] { user }));
+                    searchCriteria.setAssignUsers(new SetSearchField<>(user));
                 }
             }
         }
 
-       notifySearchHandler(searchCriteria);
+        notifySearchHandler(searchCriteria);
     }
 
-	private void addTextFieldSearch() {
-		textValueField = new TextField();
+    private void addTextFieldSearch() {
+        textValueField = new TextField();
         textValueField.addShortcutListener(new ShortcutListener("OpportunitySearchField", ShortcutAction.KeyCode
                 .ENTER, null) {
             @Override
@@ -139,24 +136,23 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
                 doSearch();
             }
         });
-		layoutSearchPane.addComponent(textValueField, 0, 0);
-		layoutSearchPane.setComponentAlignment(textValueField,
-				Alignment.MIDDLE_CENTER);
-	}
+        layoutSearchPanel.addComponent(textValueField, 0, 0);
+        layoutSearchPanel.setComponentAlignment(textValueField,
+                Alignment.MIDDLE_CENTER);
+    }
 
-	private void addUserListSelectField() {
-		userBox = new ActiveUserComboBox();
-		userBox.setImmediate(true);
-		layoutSearchPane.addComponent(userBox, 0, 0);
-		layoutSearchPane
-				.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
-	}
+    private void addUserListSelectField() {
+        userBox = new ActiveUserComboBox();
+        userBox.setImmediate(true);
+        layoutSearchPanel.addComponent(userBox, 0, 0);
+        layoutSearchPanel.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+    }
 
-	private void removeComponents() {
-		layoutSearchPane.removeComponent(0, 0);
-		userBox = null;
-		textValueField = null;
-	}
+    private void removeComponents() {
+        layoutSearchPanel.removeComponent(0, 0);
+        userBox = null;
+        textValueField = null;
+    }
 
     @Override
     public void setTotalCountNumber(int totalCountNumber) {

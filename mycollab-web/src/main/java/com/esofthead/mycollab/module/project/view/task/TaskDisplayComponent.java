@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -32,7 +31,10 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.form.ProjectItemViewField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.*;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
@@ -65,8 +67,7 @@ class TaskDisplayComponent extends CssLayout {
         criteria = new TaskSearchCriteria();
         criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
         criteria.setTaskListId(new NumberSearchField(taskList.getId()));
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name(),
-                        StatusI18nEnum.Pending.name()}));
+        criteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name(), StatusI18nEnum.Pending.name()));
     }
 
     private void showTaskGroupInfo() {
@@ -124,17 +125,14 @@ class TaskDisplayComponent extends CssLayout {
         this.taskDisplay = new TaskListDisplay();
         addComponent(taskDisplay);
 
-        this.createTaskBtn = new Button(
-                AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
+        this.createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(final Button.ClickEvent event) {
-                        TaskDisplayComponent.this
-                                .removeComponent(createTaskBtn.getParent());
-                        TaskAddPopup taskAddView = new TaskAddPopup(
-                                TaskDisplayComponent.this, taskList);
+                        TaskDisplayComponent.this.removeComponent(createTaskBtn.getParent());
+                        TaskAddPopup taskAddView = new TaskAddPopup(TaskDisplayComponent.this, taskList);
                         TaskDisplayComponent.this.addComponent(taskAddView);
                     }
                 });
@@ -171,8 +169,7 @@ class TaskDisplayComponent extends CssLayout {
         taskGroupFooter.setMargin(true);
         taskGroupFooter.addStyleName("task-list-footer");
         taskGroupFooter.addComponent(this.createTaskBtn);
-        taskGroupFooter.setComponentAlignment(this.createTaskBtn,
-                Alignment.MIDDLE_RIGHT);
+        taskGroupFooter.setComponentAlignment(this.createTaskBtn, Alignment.MIDDLE_RIGHT);
         this.addComponent(taskGroupFooter);
 
         Iterator<Component> comps = this.iterator();

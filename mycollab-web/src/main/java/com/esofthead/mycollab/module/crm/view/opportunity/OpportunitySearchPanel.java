@@ -72,7 +72,7 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         EventBusFactory.getInstance().post(new OpportunityEvent.GotoAdd(
-                                        OpportunitySearchPanel.this, null));
+                                OpportunitySearchPanel.this, null));
                     }
                 });
         createAccountBtn.setIcon(FontAwesome.PLUS);
@@ -170,12 +170,11 @@ public class OpportunitySearchPanel extends DefaultGenericSearchPanel<Opportunit
 
             if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
                 searchCriteria.setOpportunityName(new StringSearchField(
-                                SearchField.AND, this.nameField.getValue().trim()));
+                        SearchField.AND, this.nameField.getValue().trim()));
             }
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUsers(new SetSearchField<>(
-                                SearchField.AND, new String[]{AppContext.getUsername()}));
+                searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

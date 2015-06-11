@@ -31,45 +31,42 @@ import com.vaadin.ui.Component;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
-public class MilestoneRelatedBugView extends
-		AbstractRelatedListView<SimpleBug, BugSearchCriteria> {
+public class MilestoneRelatedBugView extends AbstractRelatedListView<SimpleBug, BugSearchCriteria> {
+    private static final long serialVersionUID = -7918478404907275472L;
 
-	private static final long serialVersionUID = -7918478404907275472L;
+    private SimpleMilestone milestone;
 
-	private SimpleMilestone milestone;
+    public MilestoneRelatedBugView() {
+        this.setCaption(AppContext.getMessage(BugI18nEnum.M_VIEW_RELATED_TITLE));
+        itemList = new BugListDisplay();
+        this.setContent(itemList);
+    }
 
-	public MilestoneRelatedBugView() {
-		this.setCaption(AppContext.getMessage(BugI18nEnum.M_VIEW_RELATED_TITLE));
-		itemList = new BugListDisplay();
-		this.setContent(itemList);
-	}
+    @Override
+    public void refresh() {
+        loadBugs();
+    }
 
-	@Override
-	public void refresh() {
-		loadBugs();
-	}
+    public void displayBugs(final SimpleMilestone targetMilestone) {
+        this.milestone = targetMilestone;
+        loadBugs();
+    }
 
-	public void displayBugs(final SimpleMilestone targetMilestone) {
-		this.milestone = targetMilestone;
-		loadBugs();
-	}
+    @Override
+    protected Component createRightComponent() {
+        return null;
+    }
 
-	@Override
-	protected Component createRightComponent() {
-		return null;
-	}
+    private void loadBugs() {
+        BugSearchCriteria criteria = new BugSearchCriteria();
 
-	private void loadBugs() {
-		BugSearchCriteria criteria = new BugSearchCriteria();
-
-		criteria.setProjectId(new NumberSearchField(SearchField.AND,
-				CurrentProjectVariables.getProjectId()));
-		criteria.setMilestoneIds(new SetSearchField<>(this.milestone
-				.getId()));
-		setSearchCriteria(criteria);
-	}
+        criteria.setProjectId(new NumberSearchField(SearchField.AND,
+                CurrentProjectVariables.getProjectId()));
+        criteria.setMilestoneIds(new SetSearchField<>(this.milestone
+                .getId()));
+        setSearchCriteria(criteria);
+    }
 
 }

@@ -34,52 +34,48 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.4.0
- *
  */
 public class MessagePresenter extends AbstractPresenter<MessageContainer> {
-	private static final long serialVersionUID = 2423914044838645060L;
+    private static final long serialVersionUID = 2423914044838645060L;
 
-	public MessagePresenter() {
-		super(MessageContainer.class);
-	}
+    public MessagePresenter() {
+        super(MessageContainer.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MESSAGES)) {
 
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
 
-			if (data instanceof MessageScreenData.Read) {
-				MessageReadPresenter presenter = PresenterResolver
-						.getPresenter(MessageReadPresenter.class);
-				presenter.go(container, data);
-			} else if (data instanceof MessageScreenData.Search) {
-				MessageListPresenter presenter = PresenterResolver
-						.getPresenter(MessageListPresenter.class);
-				presenter.go(container, data);
-			} else if (data instanceof MessageScreenData.Add) {
-				MessageAddPresenter presenter = PresenterResolver
-						.getPresenter(MessageAddPresenter.class);
-				presenter.go(container, data);
-			} else if (data == null) {
-				MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-				searchCriteria.setProjectids(new SetSearchField<>(
-						CurrentProjectVariables.getProjectId()));
-				MessageListPresenter presenter = PresenterResolver
-						.getPresenter(MessageListPresenter.class);
-				presenter.go(container,
-						new ScreenData.Preview<MessageSearchCriteria>(
-								searchCriteria));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            if (data instanceof MessageScreenData.Read) {
+                MessageReadPresenter presenter = PresenterResolver
+                        .getPresenter(MessageReadPresenter.class);
+                presenter.go(container, data);
+            } else if (data instanceof MessageScreenData.Search) {
+                MessageListPresenter presenter = PresenterResolver
+                        .getPresenter(MessageListPresenter.class);
+                presenter.go(container, data);
+            } else if (data instanceof MessageScreenData.Add) {
+                MessageAddPresenter presenter = PresenterResolver
+                        .getPresenter(MessageAddPresenter.class);
+                presenter.go(container, data);
+            } else if (data == null) {
+                MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
+                searchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                MessageListPresenter presenter = PresenterResolver
+                        .getPresenter(MessageListPresenter.class);
+                presenter.go(container,
+                        new ScreenData.Preview<>(
+                                searchCriteria));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

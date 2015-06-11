@@ -19,7 +19,6 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
@@ -46,105 +45,102 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 public class TaskListPresenter extends
-		AbstractListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
+        AbstractListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
 
-	private static final long serialVersionUID = -2899902106379842031L;
+    private static final long serialVersionUID = -2899902106379842031L;
 
-	public TaskListPresenter() {
-		super(TaskListView.class);
-	}
+    public TaskListPresenter() {
+        super(TaskListView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
-		view.addFormHandler(new DefaultPreviewFormHandler<SimpleTaskList>() {
+    @Override
+    protected void postInitView() {
+        super.postInitView();
+        view.addFormHandler(new DefaultPreviewFormHandler<SimpleTaskList>() {
 
-			@Override
-			public void onEdit(SimpleTaskList data) {
-				EventBusFactory.getInstance().post(
-						new TaskEvent.GotoListEdit(this, data));
-			}
+            @Override
+            public void onEdit(SimpleTaskList data) {
+                EventBusFactory.getInstance().post(
+                        new TaskEvent.GotoListEdit(this, data));
+            }
 
-			@Override
-			public void onDelete(final SimpleTaskList data) {
-				ConfirmDialog.show(
-						UI.getCurrent(),
-						AppContext
-								.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-						AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-						AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-						new ConfirmDialog.CloseListener() {
-							private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleTaskList data) {
+                ConfirmDialog.show(
+                        UI.getCurrent(),
+                        AppContext
+                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-							@Override
-							public void onClose(final ConfirmDialog dialog) {
-								if (dialog.isConfirmed()) {
-									final ProjectTaskListService taskListService = ApplicationContextUtil
-											.getSpringBean(ProjectTaskListService.class);
-									taskListService.removeWithSession(
-											data.getId(),
-											AppContext.getUsername(),
-											AppContext.getAccountId());
-									EventBusFactory.getInstance().post(
-											new ShellEvent.NavigateBack(this,
-													null));
-								}
-							}
-						});
-			}
+                            @Override
+                            public void onClose(final ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    final ProjectTaskListService taskListService = ApplicationContextUtil
+                                            .getSpringBean(ProjectTaskListService.class);
+                                    taskListService.removeWithSession(
+                                            data.getId(),
+                                            AppContext.getUsername(),
+                                            AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(
+                                            new ShellEvent.NavigateBack(this,
+                                                    null));
+                                }
+                            }
+                        });
+            }
 
-			@Override
-			public void onClone(SimpleTaskList data) {
-				final SimpleTaskList cloneData = (SimpleTaskList) data.copy();
-				cloneData.setId(null);
-				EventBusFactory.getInstance().post(
-						new TaskEvent.GotoListEdit(this, cloneData));
-			}
+            @Override
+            public void onClone(SimpleTaskList data) {
+                final SimpleTaskList cloneData = (SimpleTaskList) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(
+                        new TaskEvent.GotoListEdit(this, cloneData));
+            }
 
-		});
-	}
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canRead(ProjectRolePermissionCollections.TASKS)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_TASK));
 
-			if (data.getParams() != null && data.getParams() instanceof Integer) {
-				ProjectTaskListService searchService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskListService.class);
-				SimpleTaskList taskList = searchService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				view.setCaption(taskList.getName());
-				view.setBean(taskList);
+            if (data.getParams() != null && data.getParams() instanceof Integer) {
+                ProjectTaskListService searchService = ApplicationContextUtil
+                        .getSpringBean(ProjectTaskListService.class);
+                SimpleTaskList taskList = searchService.findById(
+                        (Integer) data.getParams(), AppContext.getAccountId());
+                view.setCaption(taskList.getName());
+                view.setBean(taskList);
 
-				TaskSearchCriteria criteria = new TaskSearchCriteria();
-				criteria.setProjectid(new NumberSearchField(
-						CurrentProjectVariables.getProjectId()));
-				criteria.setTaskListId(new NumberSearchField(taskList.getId()));
-				criteria.setStatuses(new SetSearchField<String>(
-						SearchField.AND, new String[] { "Open" }));
+                TaskSearchCriteria criteria = new TaskSearchCriteria();
+                criteria.setProjectid(new NumberSearchField(
+                        CurrentProjectVariables.getProjectId()));
+                criteria.setTaskListId(new NumberSearchField(taskList.getId()));
+                criteria.setStatuses(new SetSearchField<>("Open"));
 
-				super.onGo(container, data);
-				doSearch(criteria);
+                super.onGo(container, data);
+                doSearch(criteria);
 
-				AppContext.addFragment(
-						"project/task/task/list/"
-								+ GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
-								taskList.getId()),
-						AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                AppContext.addFragment(
+                        "project/task/task/list/"
+                                + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId(),
+                                taskList.getId()),
+                        AppContext.getMessage(TaskI18nEnum.M_VIEW_LIST_TITLE));
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

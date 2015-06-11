@@ -16,12 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
@@ -34,6 +31,8 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -60,11 +59,10 @@ public class AllActivityStreamPresenter extends
 		List<Integer> prjKeys = prjService.getProjectKeysUserInvolved(
 				AppContext.getUsername(), AppContext.getAccountId());
 		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
-				new String[] { ModuleNameConstants.PRJ }));
+		searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
 		searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
-		searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys.toArray(new Integer[0])));
+		searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[0])));
 		doSearch(searchCriteria);
 		AppContext.addFragment("project/activities/", AppContext
 				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));

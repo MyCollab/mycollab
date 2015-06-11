@@ -232,8 +232,7 @@ public class ProjectServiceImpl extends
         }
         if (projectMapper.countByExample(ex) > 0) {
             throw new UserInvalidInputException(
-                    "There is already project in the account has short name "
-                            + shortname);
+                    String.format("There is already project in the account has short name %s", shortname));
         }
     }
 
@@ -253,12 +252,10 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public List<Integer> getProjectKeysUserInvolved(String username,
-                                                    Integer sAccountId) {
+    public List<Integer> getProjectKeysUserInvolved(String username, Integer sAccountId) {
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         searchCriteria.setInvolvedMember(new StringSearchField(username));
-        searchCriteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Open.name()}));
+        searchCriteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getUserProjectKeys(searchCriteria);
     }
 
@@ -294,8 +291,7 @@ public class ProjectServiceImpl extends
     public Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId) {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setSaccountid(new NumberSearchField(sAccountId));
-        criteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Open.name()}));
+        criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getTotalCount(criteria);
     }
 
@@ -314,8 +310,7 @@ public class ProjectServiceImpl extends
     public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey int sAccountId) {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setInvolvedMember(new StringSearchField(SearchField.AND, username));
-        criteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Open.name()}));
+        criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getTotalCount(criteria);
     }
 }

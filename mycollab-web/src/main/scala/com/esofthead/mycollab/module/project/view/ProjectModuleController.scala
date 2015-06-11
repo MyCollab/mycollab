@@ -55,7 +55,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
         this.register(new ApplicationEventListener[TimeTrackingEvent.GotoTimeTrackingView]() {
             @Subscribe def handle(event: TimeTrackingEvent.GotoTimeTrackingView) {
                 val presenter: TimeTrackingSummaryPresenter = PresenterResolver.getPresenter(classOf[TimeTrackingSummaryPresenter])
-                presenter.go(container, new ScreenData[AnyRef](event.getData))
+                presenter.go(container, new ScreenData[Any](event.getData))
             }
         })
     }

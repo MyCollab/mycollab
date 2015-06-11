@@ -99,23 +99,18 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    bugSearchCriteria
-                            .setAssignuser(new StringSearchField(
-                                    SearchField.AND, assignee));
-                    final BugFilterParameter param = new BugFilterParameter(
-                            "Unresolved Bugs of " + assigneeFullName,
+                    bugSearchCriteria.setAssignuser(new StringSearchField(SearchField.AND, assignee));
+                    BugFilterParameter param = new BugFilterParameter("Unresolved Bugs of " + assigneeFullName,
                             bugSearchCriteria);
                     EventBusFactory.getInstance().post(
-                            new BugEvent.GotoList(this,
-                                    new BugScreenData.Search(param)));
+                            new BugEvent.GotoList(this, new BugScreenData.Search(param)));
                 }
             });
 
             this.setStyleName("link");
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            this.setIcon(UserAvatarControlFactory.createAvatarResource(
-                    assigneeAvatarId, 16));
+            this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
             this.setDescription(assigneeFullName);
         }
     }

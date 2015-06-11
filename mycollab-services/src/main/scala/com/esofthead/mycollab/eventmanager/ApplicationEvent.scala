@@ -26,9 +26,9 @@ import java.util.EventObject
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
-class ApplicationEvent(source: AnyRef, data: AnyRef) extends EventObject(source) {
+class ApplicationEvent(source: AnyRef, val data: Any) extends EventObject(source) {
 
-  def getData: AnyRef = {
+  def getData: Any = {
     return data
   }
 }

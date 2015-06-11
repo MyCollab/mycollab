@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.bug;
 
-import java.util.Date;
-
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -36,111 +34,109 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+import java.util.Date;
+
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 public class BugTimeLogComp extends TimeLogComp<SimpleBug> {
-	private static final long serialVersionUID = -7045421785222291708L;
+    private static final long serialVersionUID = -7045421785222291708L;
 
-	@Override
-	protected Double getTotalBillableHours(SimpleBug bean) {
-		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
-		criteria.setTypeId(new NumberSearchField(bean.getId()));
-		criteria.setIsBillable(new BooleanSearchField(true));
-		return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
-	}
+    @Override
+    protected Double getTotalBillableHours(SimpleBug bean) {
+        ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
+        criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
+        criteria.setTypeId(new NumberSearchField(bean.getId()));
+        criteria.setIsBillable(new BooleanSearchField(true));
+        return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
+    }
 
-	@Override
-	protected Double getTotalNonBillableHours(SimpleBug bean) {
-		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
-		criteria.setTypeId(new NumberSearchField(bean.getId()));
-		criteria.setIsBillable(new BooleanSearchField(false));
-		return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
-	}
+    @Override
+    protected Double getTotalNonBillableHours(SimpleBug bean) {
+        ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
+        criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
+        criteria.setTypeId(new NumberSearchField(bean.getId()));
+        criteria.setIsBillable(new BooleanSearchField(false));
+        return itemTimeLoggingService.getTotalHoursByCriteria(criteria);
+    }
 
-	@Override
-	protected Double getRemainedHours(SimpleBug bean) {
-		if (bean.getEstimateremaintime() != null) {
-			return bean.getEstimateremaintime();
-		}
-		return 0d;
-	}
+    @Override
+    protected Double getRemainedHours(SimpleBug bean) {
+        if (bean.getEstimateremaintime() != null) {
+            return bean.getEstimateremaintime();
+        }
+        return 0d;
+    }
 
-	@Override
-	protected boolean hasEditPermission() {
-		return CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS);
-	}
+    @Override
+    protected boolean hasEditPermission() {
+        return CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.BUGS);
+    }
 
-	@Override
-	protected void showEditTimeView(SimpleBug bean) {
-		EventBusFactory.getInstance().post(
-				new ShellEvent.PushView(this, new BugTimeLogView(bean)));
-	}
+    @Override
+    protected void showEditTimeView(SimpleBug bean) {
+        EventBusFactory.getInstance().post(
+                new ShellEvent.PushView(this, new BugTimeLogView(bean)));
+    }
 
-	private static class BugTimeLogView extends TimeLogEditView<SimpleBug> {
-		private static final long serialVersionUID = -482636222620345326L;
+    private static class BugTimeLogView extends TimeLogEditView<SimpleBug> {
+        private static final long serialVersionUID = -482636222620345326L;
 
-		BugTimeLogView(SimpleBug bean) {
-			super(bean);
-		}
+        BugTimeLogView(SimpleBug bean) {
+            super(bean);
+        }
 
-		@Override
-		protected void saveTimeInvest(double spentHours, boolean isBillable, Date forDate) {
-			ItemTimeLogging item = new ItemTimeLogging();
-			item.setLoguser(AppContext.getUsername());
-			item.setLogvalue(spentHours);
-			item.setTypeid(bean.getId());
-			item.setType(ProjectTypeConstants.BUG);
-			item.setSaccountid(AppContext.getAccountId());
-			item.setProjectid(CurrentProjectVariables.getProjectId());
-			item.setLogforday(forDate);
-			item.setIsbillable(isBillable);
+        @Override
+        protected void saveTimeInvest(double spentHours, boolean isBillable, Date forDate) {
+            ItemTimeLogging item = new ItemTimeLogging();
+            item.setLoguser(AppContext.getUsername());
+            item.setLogvalue(spentHours);
+            item.setTypeid(bean.getId());
+            item.setType(ProjectTypeConstants.BUG);
+            item.setSaccountid(AppContext.getAccountId());
+            item.setProjectid(CurrentProjectVariables.getProjectId());
+            item.setLogforday(forDate);
+            item.setIsbillable(isBillable);
 
-			itemTimeLoggingService.saveWithSession(item,
-					AppContext.getUsername());
-		}
+            itemTimeLoggingService.saveWithSession(item,
+                    AppContext.getUsername());
+        }
 
-		@Override
-		protected void updateTimeRemain(double newValue) {
-			BugService bugService = ApplicationContextUtil
-					.getSpringBean(BugService.class);
-			bean.setEstimateremaintime(newValue);
-			bugService.updateWithSession(bean, AppContext.getUsername());
-		}
+        @Override
+        protected void updateTimeRemain(double newValue) {
+            BugService bugService = ApplicationContextUtil
+                    .getSpringBean(BugService.class);
+            bean.setEstimateremaintime(newValue);
+            bugService.updateWithSession(bean, AppContext.getUsername());
+        }
 
-		@Override
-		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
-			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<Integer>(
-					CurrentProjectVariables.getProjectId()));
-			searchCriteria.setType(new StringSearchField(
-					ProjectTypeConstants.BUG));
-			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
-			return searchCriteria;
-		}
+        @Override
+        protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
+            ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
+            searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+            searchCriteria.setType(new StringSearchField(
+                    ProjectTypeConstants.BUG));
+            searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
+            return searchCriteria;
+        }
 
-		@Override
-		protected double getEstimateRemainTime() {
-			if (bean.getEstimateremaintime() != null) {
-				return bean.getEstimateremaintime();
-			}
-			return 0;
-		}
+        @Override
+        protected double getEstimateRemainTime() {
+            if (bean.getEstimateremaintime() != null) {
+                return bean.getEstimateremaintime();
+            }
+            return 0;
+        }
 
-		@Override
-		protected boolean isEnableAdd() {
-			return CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.BUGS);
-		}
+        @Override
+        protected boolean isEnableAdd() {
+            return CurrentProjectVariables
+                    .canWrite(ProjectRolePermissionCollections.BUGS);
+        }
 
-	}
+    }
 }

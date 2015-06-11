@@ -53,7 +53,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
     @throws(classOf[JobExecutionException])
     def executeJob(context: JobExecutionContext) {
         val criteria: UserSearchCriteria = new UserSearchCriteria
-        val statusField = new SetSearchField[String](Array(UserStatusConstants.EMAIL_NOT_VERIFIED): _*)
+        val statusField = new SetSearchField[String](UserStatusConstants.EMAIL_NOT_VERIFIED)
         criteria.setStatuses(statusField)
         criteria.setSaccountid(null)
 

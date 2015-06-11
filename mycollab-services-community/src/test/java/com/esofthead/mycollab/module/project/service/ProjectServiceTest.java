@@ -16,124 +16,118 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProjectServiceTest extends IntergrationServiceTest {
 
-	@Autowired
-	private ProjectService projectService;
+    @Autowired
+    private ProjectService projectService;
 
-	@Autowired
-	private ProjectActivityStreamService projectActivityStreamService;
+    @Autowired
+    private ProjectActivityStreamService projectActivityStreamService;
 
-	@DataSet
-	@Test
-	public void testSaveProject() {
-		Project project = new Project();
-		project.setSaccountid(1);
-		project.setName("Example");
-		project.setProjectstatus("Open");
-		project.setShortname("abc");
-		int projectId = projectService.saveWithSession(project, "admin");
-		assertThat(projectId).isGreaterThan(0);
-	}
+    @DataSet
+    @Test
+    public void testSaveProject() {
+        Project project = new Project();
+        project.setSaccountid(1);
+        project.setName("Example");
+        project.setProjectstatus("Open");
+        project.setShortname("abc");
+        int projectId = projectService.saveWithSession(project, "admin");
+        assertThat(projectId).isGreaterThan(0);
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@DataSet
-	@Test
-	public void testGetListProjects() {
-		List projects = projectService
-				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
-						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(projects.size(), 4);
-		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
-	}
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @DataSet
+    @Test
+    public void testGetListProjects() {
+        List projects = projectService
+                .findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
+                        null, 0, Integer.MAX_VALUE));
+        Assert.assertEquals(projects.size(), 4);
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+                tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@DataSet
-	@Test
-	public void testGetListProjectsByCriteria() {
-		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @DataSet
+    @Test
+    public void testGetListProjectsByCriteria() {
+        ProjectSearchCriteria criteria = new ProjectSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(1));
 
-		List projects = projectService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
-		assertThat(projects.size()).isEqualTo(4);
-		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
-	}
+        List projects = projectService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        criteria, 0, Integer.MAX_VALUE));
+        assertThat(projects.size()).isEqualTo(4);
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+                tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
+    }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@DataSet
-	@Test
-	public void testGetListProjectsByUsername() {
-		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-				"admin"));
-		criteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @DataSet
+    @Test
+    public void testGetListProjectsByUsername() {
+        ProjectSearchCriteria criteria = new ProjectSearchCriteria();
+        criteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+                "admin"));
+        criteria.setSaccountid(new NumberSearchField(1));
 
-		List projects = projectService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
+        List projects = projectService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        criteria, 0, Integer.MAX_VALUE));
 
-		assertThat(projects.size()).isEqualTo(2);
-		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-				tuple(2, "B"));
+        assertThat(projects.size()).isEqualTo(2);
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+                tuple(2, "B"));
 
-	}
+    }
 
-	@DataSet
-	@Test
-	public void testGetProjectsUserInvolved() {
-		List<SimpleProject> projects = projectService.getProjectsUserInvolved(
-				"admin", 1);
-		Assert.assertEquals(2, projects.size());
-		assertThat(projects.size()).isEqualTo(2);
-		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
-				tuple(2, "B"));
-	}
+    @DataSet
+    @Test
+    public void testGetProjectsUserInvolved() {
+        List<SimpleProject> projects = projectService.getProjectsUserInvolved(
+                "admin", 1);
+        Assert.assertEquals(2, projects.size());
+        assertThat(projects.size()).isEqualTo(2);
+        assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+                tuple(2, "B"));
+    }
 
-	@DataSet
-	@Test
-	public void testGetActivityStreams() {
-		ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
-		criteria.setModuleSet(new SetSearchField<>(
-				new String[] { ModuleNameConstants.PRJ }));
-		criteria.setExtraTypeIds(new SetSearchField<>(4));
-		criteria.setSaccountid(new NumberSearchField(1));
-		List<ProjectActivityStream> streams = projectActivityStreamService
-				.getProjectActivityStreams(new SearchRequest<>(
-						criteria));
+    @DataSet
+    @Test
+    public void testGetActivityStreams() {
+        ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
+        criteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
+        criteria.setExtraTypeIds(new SetSearchField<>(4));
+        criteria.setSaccountid(new NumberSearchField(1));
+        List<ProjectActivityStream> streams = projectActivityStreamService
+                .getProjectActivityStreams(new SearchRequest<>(
+                        criteria));
 
-		assertThat(streams.size()).isEqualTo(3);
-		assertThat(streams).extracting("type", "typeid", "itemKey").contains(
-				tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
-				tuple("Project-Risk", "1", null));
-	}
+        assertThat(streams.size()).isEqualTo(3);
+        assertThat(streams).extracting("type", "typeid", "itemKey").contains(
+                tuple("Project-Bug", "1", 20), tuple("Project-Task", "1", 10),
+                tuple("Project-Risk", "1", null));
+    }
 }

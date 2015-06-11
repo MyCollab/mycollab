@@ -41,67 +41,64 @@ import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @SuppressWarnings("serial")
 public class CallListDashlet extends Depot {
 
-	private CallTableDisplay tableItem;
+    private CallTableDisplay tableItem;
 
-	public CallListDashlet() {
-		super("My Calls", new VerticalLayout());
+    public CallListDashlet() {
+        super("My Calls", new VerticalLayout());
 
-		tableItem = new CallTableDisplay(new TableViewField(null, "isClosed",
-				UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-				new TableViewField(CallI18nEnum.FORM_SUBJECT, "subject",
-						UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
-						TaskI18nEnum.FORM_START_DATE, "startdate",
-						UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
-						ActivityI18nEnum.FORM_STATUS, "status",
-						UIConstants.TABLE_S_LABEL_WIDTH)));
+        tableItem = new CallTableDisplay(new TableViewField(null, "isClosed",
+                UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
+                new TableViewField(CallI18nEnum.FORM_SUBJECT, "subject",
+                        UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
+                        TaskI18nEnum.FORM_START_DATE, "startdate",
+                        UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
+                        ActivityI18nEnum.FORM_STATUS, "status",
+                        UIConstants.TABLE_S_LABEL_WIDTH)));
 
-		tableItem
-				.addTableListener(new TableClickListener() {
+        tableItem
+                .addTableListener(new TableClickListener() {
 
-					@Override
-					public void itemClick(final TableClickEvent event) {
-						final SimpleCall call = (SimpleCall) event.getData();
-						if ("isClosed".equals(event.getFieldName())) {
-							call.setIsclosed(true);
-							final CallService callService = ApplicationContextUtil
-									.getSpringBean(CallService.class);
-							callService.updateWithSession(call,
-									AppContext.getUsername());
-							display();
-						}
-					}
-				});
-		bodyContent.addComponent(tableItem);
+                    @Override
+                    public void itemClick(final TableClickEvent event) {
+                        final SimpleCall call = (SimpleCall) event.getData();
+                        if ("isClosed".equals(event.getFieldName())) {
+                            call.setIsclosed(true);
+                            final CallService callService = ApplicationContextUtil
+                                    .getSpringBean(CallService.class);
+                            callService.updateWithSession(call,
+                                    AppContext.getUsername());
+                            display();
+                        }
+                    }
+                });
+        bodyContent.addComponent(tableItem);
 
-		Button customizeViewBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        Button customizeViewBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
+            @Override
+            public void buttonClick(ClickEvent event) {
 
-			}
-		});
-		customizeViewBtn.setIcon(FontAwesome.ADJUST);
-		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
+            }
+        });
+        customizeViewBtn.setIcon(FontAwesome.ADJUST);
+        customizeViewBtn.setDescription("Layout Options");
+        customizeViewBtn.setStyleName(UIConstants.BUTTON_ICON_ONLY);
 
-		this.addHeaderElement(customizeViewBtn);
-	}
+        this.addHeaderElement(customizeViewBtn);
+    }
 
-	public void display() {
-		final CallSearchCriteria criteria = new CallSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setAssignUsers(new SetSearchField<>(
-				new String[] { AppContext.getUsername() }));
-		criteria.setIsClosed(BitSearchField.FALSE);
-		tableItem.setSearchCriteria(criteria);
-	}
+    public void display() {
+        final CallSearchCriteria criteria = new CallSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
+        criteria.setIsClosed(BitSearchField.FALSE);
+        tableItem.setSearchCriteria(criteria);
+    }
 }

@@ -126,7 +126,7 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
             if (userBox != null) {
                 String user = (String) userBox.getValue();
                 if (StringUtils.isNotBlank(user)) {
-                    searchCriteria.setAssignUsers(new SetSearchField<>(SearchField.AND, new String[]{user}));
+                    searchCriteria.setAssignUsers(new SetSearchField<>(user));
                 }
             }
         }

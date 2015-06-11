@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
@@ -37,7 +36,6 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 public class ProjectActivityStreamPresenter extends
@@ -59,13 +57,11 @@ public class ProjectActivityStreamPresenter extends
                             .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES));
             super.onGo(navigator, data);
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-            searchCriteria.setModuleSet(new SetSearchField<>(
-                    SearchField.AND, new String[]{ModuleNameConstants.PRJ}));
+            searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
             searchCriteria.setSaccountid(new NumberSearchField(AppContext
                     .getAccountId()));
 
-            searchCriteria.setExtraTypeIds(new SetSearchField<>(
-                    CurrentProjectVariables.getProjectId()));
+            searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             doSearch(searchCriteria);
             AppContext.addFragment("project/activities/"
                             + GenericLinkUtils.encodeParam(CurrentProjectVariables.getProjectId()),

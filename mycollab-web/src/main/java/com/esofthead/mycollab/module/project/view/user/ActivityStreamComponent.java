@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
@@ -71,8 +70,7 @@ public class ActivityStreamComponent extends CssLayout {
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             this.addComponent(activityStreamList);
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-            searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
-                    new String[]{ModuleNameConstants.PRJ}));
+            searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
             searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
                     .toArray(new Integer[prjKeys.size()])));
             searchCriteria.setSaccountid(new NumberSearchField(AppContext

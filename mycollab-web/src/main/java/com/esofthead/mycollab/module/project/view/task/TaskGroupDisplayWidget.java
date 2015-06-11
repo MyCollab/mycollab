@@ -88,7 +88,7 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
             searchCriteria = new TaskSearchCriteria();
             searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTaskListId(new NumberSearchField(taskList.getId()));
-            searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+            searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
 
             MHorizontalLayout headerElement = new MHorizontalLayout();
             headerElement.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -224,7 +224,7 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
                                                 ProjectTaskListService taskListService = ApplicationContextUtil
                                                         .getSpringBean(ProjectTaskListService.class);
                                                 taskListService.removeWithSession(taskList.getId(),
-                                                                AppContext.getUsername(), AppContext.getAccountId());
+                                                        AppContext.getUsername(), AppContext.getAccountId());
                                                 Component parentComp = TaskListDepot.this.getParent();
                                                 if (parentComp instanceof CssLayout) {
                                                     ((CssLayout) parentComp).removeComponent(TaskListDepot.this);

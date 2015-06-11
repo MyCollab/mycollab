@@ -84,7 +84,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[AccountEvent.GotoEdit]() {
             @Subscribe def handle(event: AccountEvent.GotoEdit) {
                 val presenter: AccountAddPresenter = PresenterResolver.getPresenter(classOf[AccountAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -92,7 +92,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @SuppressWarnings(Array("unchecked", "rawtypes"))
             @Subscribe def handle(event: AccountEvent.GotoRead) {
                 val presenter: AccountReadPresenter = PresenterResolver.getPresenter(classOf[AccountReadPresenter])
-                presenter.go(container, new ScreenData.Preview[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
     }
@@ -124,7 +124,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[ActivityEvent.TaskEdit]() {
             @Subscribe def handle(event: ActivityEvent.TaskEdit) {
                 val presenter: AssignmentAddPresenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -145,7 +145,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[ActivityEvent.MeetingEdit]() {
             @Subscribe def handle(event: ActivityEvent.MeetingEdit) {
                 val presenter: MeetingAddPresenter = PresenterResolver.getPresenter(classOf[MeetingAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -166,7 +166,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[ActivityEvent.CallEdit]() {
             @Subscribe def handle(event: ActivityEvent.CallEdit) {
                 val presenter: CallAddPresenter = PresenterResolver.getPresenter(classOf[CallAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -198,7 +198,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[CampaignEvent.GotoEdit]() {
             @Subscribe def handle(event: CampaignEvent.GotoEdit) {
                 val presenter: CampaignAddPresenter = PresenterResolver.getPresenter(classOf[CampaignAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -206,7 +206,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: CampaignEvent.GotoRead) {
                 val presenter: CampaignReadPresenter = PresenterResolver.getPresenter(classOf[CampaignReadPresenter])
-                presenter.go(container, new ScreenData.Preview[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
     }
@@ -231,7 +231,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[ContactEvent.GotoEdit]() {
             @Subscribe def handle(event: ContactEvent.GotoEdit) {
                 val presenter: ContactAddPresenter = PresenterResolver.getPresenter(classOf[ContactAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -239,7 +239,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: ContactEvent.GotoRead) {
                 val presenter: ContactReadPresenter = PresenterResolver.getPresenter(classOf[ContactReadPresenter])
-                presenter.go(container, new ScreenData.Preview[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
     }
@@ -289,14 +289,14 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[LeadEvent.GotoEdit]() {
             @Subscribe def handle(event: LeadEvent.GotoEdit) {
                 val presenter: LeadAddPresenter = PresenterResolver.getPresenter(classOf[LeadAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
         this.register(new ApplicationEventListener[LeadEvent.GotoRead]() {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: LeadEvent.GotoRead) {
-                val value: AnyRef = event.getData
+                val value: Any = event.getData
                 var lead: SimpleLead = null
                 if (value.isInstanceOf[Integer]) {
                     val leadService: LeadService = ApplicationContextUtil.getSpringBean(classOf[LeadService])
@@ -346,7 +346,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[OpportunityEvent.GotoEdit]() {
             @Subscribe def handle(event: OpportunityEvent.GotoEdit) {
                 val presenter: OpportunityAddPresenter = PresenterResolver.getPresenter(classOf[OpportunityAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -354,7 +354,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: OpportunityEvent.GotoRead) {
                 val presenter: OpportunityReadPresenter = PresenterResolver.getPresenter(classOf[OpportunityReadPresenter])
-                presenter.go(container, new ScreenData.Preview[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
 
@@ -362,7 +362,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: OpportunityEvent.GotoContactRoleEdit) {
                 val presenter: ContactRoleEditPresenter = PresenterResolver.getPresenter(classOf[ContactRoleEditPresenter])
-                presenter.go(container, new ScreenData[AnyRef](event.getData))
+                presenter.go(container, new ScreenData[Any](event.getData))
             }
         })
     }
@@ -387,7 +387,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[CaseEvent.GotoEdit]() {
             @Subscribe def handle(event: CaseEvent.GotoEdit) {
                 val presenter: CaseAddPresenter = PresenterResolver.getPresenter(classOf[CaseAddPresenter])
-                presenter.go(container, new ScreenData.Edit[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
@@ -395,7 +395,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: CaseEvent.GotoRead) {
                 val presenter: CaseReadPresenter = PresenterResolver.getPresenter(classOf[CaseReadPresenter])
-                presenter.go(container, new ScreenData.Preview[AnyRef](event.getData))
+                presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
     }

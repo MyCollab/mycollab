@@ -18,6 +18,10 @@ package com.esofthead.mycollab.module.crm.view.file;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+/**
+ * @author MyCollab Ltd
+ * @since 5.0.9
+ */
 public interface FileDashboardView extends PageView {
-	void displayFiles();
+    void displayFiles();
 }

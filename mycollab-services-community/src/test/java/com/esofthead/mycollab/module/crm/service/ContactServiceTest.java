@@ -68,8 +68,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 
 	private ContactSearchCriteria getCriteria() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
-				new String[]{"linh"}));
+		criteria.setAssignUsers(new SetSearchField<>("linh"));
 		criteria.setContactName(new StringSearchField(SearchField.AND, "Hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		return criteria;
@@ -98,8 +97,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUsers() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
-				new String[]{"linh", "hai"}));
+		criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
@@ -116,8 +114,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchLeadSources() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setLeadSources(new SetSearchField<>(SearchField.AND,
-				new String[]{"Email", "Campaign"}));
+		criteria.setLeadSources(new SetSearchField<>("Email", "Campaign"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService
@@ -187,8 +184,7 @@ public class ContactServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAnyCountries() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setCountries(new SetSearchField<>(SearchField.AND,
-				new String[]{"Viet nam", "America"}));
+		criteria.setCountries(new SetSearchField<>("Viet nam", "America"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleContact> contacts = contactService

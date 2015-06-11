@@ -16,18 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -37,7 +25,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -45,30 +32,28 @@ import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
-import com.esofthead.mycollab.module.user.dao.RolePermissionMapper;
-import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
-import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
-import com.esofthead.mycollab.module.user.dao.UserMapper;
-import com.esofthead.mycollab.module.user.dao.UserMapperExt;
-import com.esofthead.mycollab.module.user.domain.RolePermission;
-import com.esofthead.mycollab.module.user.domain.RolePermissionExample;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.User;
-import com.esofthead.mycollab.module.user.domain.UserAccount;
-import com.esofthead.mycollab.module.user.domain.UserAccountExample;
-import com.esofthead.mycollab.module.user.domain.UserAccountInvitation;
-import com.esofthead.mycollab.module.user.domain.UserExample;
+import com.esofthead.mycollab.module.user.dao.*;
+import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.esb.UserEndpoints;
 import com.esofthead.mycollab.module.user.esb.UserRemovedCommand;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.PermissionMap;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
@@ -97,7 +82,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public ICrudGenericDAO getCrudMapper() {
         return userMapper;
@@ -110,7 +95,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void saveUserAccount(SimpleUser record, Integer sAccountId,
-            String inviteUser) {
+                                String inviteUser) {
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
         // check if user email has already in this account yet
@@ -121,15 +106,15 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
                     .andUsernameEqualTo(record.getEmail())
                     .andAccountidEqualTo(sAccountId)
                     .andRegisterstatusIn(Arrays.asList(
-                                    RegisterStatusConstants.ACTIVE,
-                                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                                    RegisterStatusConstants.VERIFICATING));
+                            RegisterStatusConstants.ACTIVE,
+                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                            RegisterStatusConstants.VERIFICATING));
         } else {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
                     .andRegisterstatusIn(Arrays.asList(
-                                    RegisterStatusConstants.ACTIVE,
-                                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                                    RegisterStatusConstants.VERIFICATING));
+                            RegisterStatusConstants.ACTIVE,
+                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                            RegisterStatusConstants.VERIFICATING));
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
@@ -280,17 +265,17 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void massRemoveWithSession(List<String> primaryKeys,
-            String username, int accountId) {
+                                      String username, int accountId) {
         userMapperExt.removeKeysWithSession(primaryKeys);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public SimpleUser authentication(String username, String password,
-            String subDomain, boolean isPasswordEncrypt) {
+                                     String subDomain, boolean isPasswordEncrypt) {
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setUsername(new StringSearchField(username));
-		criteria.setRegisterStatuses(new SetSearchField<>(new String[]{RegisterStatusConstants.ACTIVE}));
+        criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(null);
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
@@ -304,7 +289,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         } else {
             SimpleUser user = users.get(0);
             if (user.getPassword() == null || !PasswordEncryptHelper.checkPassword(password,
-                            user.getPassword(), isPasswordEncrypt)) {
+                    user.getPassword(), isPasswordEncrypt)) {
                 LOG.debug(String.format("PASS: %s   %s", password, user.getPassword()));
                 throw new UserInvalidInputException("Invalid username or password");
             }
@@ -339,7 +324,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public SimpleUser findUserByUserNameInAccount(String username,
-            Integer accountId) {
+                                                  Integer accountId) {
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setUsername(new StringSearchField(username));
         criteria.setSaccountid(new NumberSearchField(accountId));
@@ -420,7 +405,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void updateUserAccountStatus(String username, Integer sAccountId,
-            String registerStatus) {
+                                        String registerStatus) {
         // Update status of user account
         UserAccount userAccount = new UserAccount();
         userAccount.setAccountid(sAccountId);
@@ -435,7 +420,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void updateUserAccountsStatus(List<String> usernames,
-            Integer sAccountId, String registerStatus) {
+                                         Integer sAccountId, String registerStatus) {
         for (String username : usernames) {
             updateUserAccountStatus(username, sAccountId, registerStatus);
         }
@@ -445,8 +430,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public int getTotalActiveUsersInAccount(Integer accountId) {
         UserSearchCriteria criteria = new UserSearchCriteria();
-        criteria.setRegisterStatuses(new SetSearchField<>(
-                new String[] { RegisterStatusConstants.ACTIVE }));
+        criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
         criteria.setSaccountid(new NumberSearchField(accountId));
         return userMapperExt.getTotalCount(criteria);
     }

@@ -115,8 +115,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
     public void showOpenAssignments() {
         searchCriteria = new ProjectGenericTaskSearchCriteria();
         searchCriteria.setIsOpenned(new SearchField());
-        searchCriteria.setProjectIds(new SetSearchField<>(
-                CurrentProjectVariables.getProjectId()));
+        searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         updateSearchResult();
     }
 

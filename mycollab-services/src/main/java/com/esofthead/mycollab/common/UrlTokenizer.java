@@ -33,7 +33,7 @@ public class UrlTokenizer {
 		remainStrVal = internalVal;
 	}
 
-	public int getInt() throws InvalidTokenException {
+	public Integer getInt() throws InvalidTokenException {
 		if (hasMoreTokens()) {
 			try {
 				return Integer.parseInt(getNextToken());

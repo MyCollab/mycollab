@@ -51,12 +51,9 @@ public class AccountServiceTest extends IntergrationServiceTest {
 	private AccountSearchCriteria getCriteria() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setAccountname(new StringSearchField(SearchField.AND, "xy"));
-		criteria.setAssignUsers(new SetSearchField<>(SearchField.AND,
-				new String[]{"hai79", "linhduong"}));
-		criteria.setIndustries(new SetSearchField<>(SearchField.AND,
-				new String[]{"a", "b"}));
-		criteria.setTypes(new SetSearchField<>(SearchField.AND,
-				new String[]{"a", "b"}));
+		criteria.setAssignUsers(new SetSearchField<>("hai79", "linhduong"));
+		criteria.setIndustries(new SetSearchField<>("a", "b"));
+		criteria.setTypes(new SetSearchField<>("a", "b"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		return criteria;
 	}
@@ -142,8 +139,7 @@ public class AccountServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testRemoveAccountBySearchCriteria() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
-		criteria.setIndustries(new SetSearchField<>(SearchField.AND,
-				new String[]{"a"}));
+		criteria.setIndustries(new SetSearchField<>("a"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		accountService.removeByCriteria(criteria, 1);

@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.UserScreenData;
@@ -30,49 +29,47 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class UserPresenter extends AbstractPresenter<UserContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UserPresenter() {
-		super(UserContainer.class);
-	}
+    public UserPresenter() {
+        super(UserContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
-		groupContainer.gotoSubView("Users");
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        UserPermissionManagementView groupContainer = (UserPermissionManagementView) container;
+        groupContainer.gotoSubView("Users");
 
-		if (data == null) {
-			UserListPresenter listPresenter = PresenterResolver
-					.getPresenter(UserListPresenter.class);
-			UserSearchCriteria criteria = new UserSearchCriteria();
-			criteria.setSaccountid(new NumberSearchField(AppContext
-					.getAccountId()));
-			criteria.setRegisterStatuses(new SetSearchField<>(SearchField.AND,
-					new String[] { RegisterStatusConstants.ACTIVE }));
-			listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
-		} else if (data instanceof UserScreenData.Read) {
-			UserReadPresenter presenter = PresenterResolver
-					.getPresenter(UserReadPresenter.class);
-			presenter.go(view.getWidget(), data);
-		} else if (data instanceof UserScreenData.Search) {
-			UserListPresenter presenter = PresenterResolver
-					.getPresenter(UserListPresenter.class);
-			presenter.go(view.getWidget(), data);
-		} else if (data instanceof UserScreenData.Add
-				|| data instanceof UserScreenData.Edit) {
-			UserAddPresenter presenter = PresenterResolver
-					.getPresenter(UserAddPresenter.class);
-			presenter.go(view.getWidget(), data);
-		}
-	}
+        if (data == null) {
+            UserListPresenter listPresenter = PresenterResolver
+                    .getPresenter(UserListPresenter.class);
+            UserSearchCriteria criteria = new UserSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext
+                    .getAccountId()));
+            criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
+            listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
+        } else if (data instanceof UserScreenData.Read) {
+            UserReadPresenter presenter = PresenterResolver
+                    .getPresenter(UserReadPresenter.class);
+            presenter.go(view.getWidget(), data);
+        } else if (data instanceof UserScreenData.Search) {
+            UserListPresenter presenter = PresenterResolver
+                    .getPresenter(UserListPresenter.class);
+            presenter.go(view.getWidget(), data);
+        } else if (data instanceof UserScreenData.Add
+                || data instanceof UserScreenData.Edit) {
+            UserAddPresenter presenter = PresenterResolver
+                    .getPresenter(UserAddPresenter.class);
+            presenter.go(view.getWidget(), data);
+        }
+    }
 }

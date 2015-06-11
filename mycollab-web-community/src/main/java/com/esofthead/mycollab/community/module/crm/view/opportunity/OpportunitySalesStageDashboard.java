@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.community.module.crm.view.opportunity;
 
-import java.util.List;
-
-import org.jfree.data.general.DefaultPieDataset;
-
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -35,75 +31,76 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.ComponentContainer;
+import org.jfree.data.general.DefaultPieDataset;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
 public class OpportunitySalesStageDashboard extends
-		PieChartWrapper<OpportunitySearchCriteria> implements
-		IOpportunitySalesStageDashboard {
-	private static final long serialVersionUID = 1L;
+        PieChartWrapper<OpportunitySearchCriteria> implements
+        IOpportunitySalesStageDashboard {
+    private static final long serialVersionUID = 1L;
 
-	public OpportunitySalesStageDashboard() {
-		this(400, 265);
-	}
+    public OpportunitySalesStageDashboard() {
+        this(400, 265);
+    }
 
-	public OpportunitySalesStageDashboard(final int width, final int height) {
-		super("Deals By Stages", width, height);
-	}
+    public OpportunitySalesStageDashboard(final int width, final int height) {
+        super("Deals By Stages", width, height);
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public void addViewListener(ViewListener listener) {
+    @Override
+    public void addViewListener(ViewListener listener) {
 
-	}
+    }
 
-	@Override
-	protected DefaultPieDataset createDataset() {
-		// create the dataset...
-		final DefaultPieDataset dataset = new DefaultPieDataset();
+    @Override
+    protected DefaultPieDataset createDataset() {
+        // create the dataset...
+        final DefaultPieDataset dataset = new DefaultPieDataset();
 
-		final OpportunityService opportunityService = ApplicationContextUtil
-				.getSpringBean(OpportunityService.class);
+        final OpportunityService opportunityService = ApplicationContextUtil
+                .getSpringBean(OpportunityService.class);
 
-		final List<GroupItem> groupItems = opportunityService
-				.getSalesStageSummary(searchCriteria);
+        final List<GroupItem> groupItems = opportunityService
+                .getSalesStageSummary(searchCriteria);
 
-		final String[] salesStages = CrmDataTypeFactory
-				.getOpportunitySalesStageList();
-		for (final String status : salesStages) {
-			boolean isFound = false;
-			for (final GroupItem item : groupItems) {
-				if (status.equals(item.getGroupid())) {
-					dataset.setValue(status, item.getValue());
-					isFound = true;
-					break;
-				}
-			}
+        final String[] salesStages = CrmDataTypeFactory
+                .getOpportunitySalesStageList();
+        for (final String status : salesStages) {
+            boolean isFound = false;
+            for (final GroupItem item : groupItems) {
+                if (status.equals(item.getGroupid())) {
+                    dataset.setValue(status, item.getValue());
+                    isFound = true;
+                    break;
+                }
+            }
 
-			if (!isFound) {
-				dataset.setValue(status, 0);
-			}
-		}
+            if (!isFound) {
+                dataset.setValue(status, 0);
+            }
+        }
 
-		return dataset;
-	}
+        return dataset;
+    }
 
-	@Override
-	protected void onClickedDescription(String key) {
-		final OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setSalesStages(new SetSearchField<String>(
-				SearchField.AND, new String[] { key }));
-		EventBusFactory.getInstance().post(
-				new OpportunityEvent.GotoList(this, searchCriteria));
-	}
+    @Override
+    protected void onClickedDescription(String key) {
+        final OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        searchCriteria.setSalesStages(new SetSearchField<>(key));
+        EventBusFactory.getInstance().post(
+                new OpportunityEvent.GotoList(this, searchCriteria));
+    }
 }

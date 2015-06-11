@@ -17,10 +17,9 @@
 package com.esofthead.mycollab.core.arguments;
 
 import com.esofthead.mycollab.core.IgnoreException;
+import com.esofthead.mycollab.core.utils.ArrayUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,21 +35,12 @@ public class SetSearchField<T> extends SearchField {
     public SetSearchField() {
     }
 
-    @SuppressWarnings("unchecked")
-    public SetSearchField(String oper, Collection<T> vals) {
-        this(oper, (T[]) vals.toArray());
-    }
-
-    public SetSearchField(T... values) {
-        this(SearchField.AND, values);
-    }
-
-    public SetSearchField(String oper, T... vals) {
-        if (!ArrayUtils.isEmpty(vals)) {
+    public SetSearchField(T... vals) {
+        if (ArrayUtils.isNotEmpty(vals)) {
             CollectionUtils.addAll(values, vals);
         }
 
-        this.operation = oper;
+        this.operation = SearchField.AND;
     }
 
     public Set<T> getValues() {

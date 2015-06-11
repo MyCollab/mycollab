@@ -16,62 +16,58 @@
  */
 package com.esofthead.mycollab.common.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
-import java.util.List;
-
+import com.esofthead.mycollab.common.domain.SimpleActivityStream;
+import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.test.DataSet;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ActivityStreamServiceTest extends IntergrationServiceTest {
 
-	@Autowired
-	protected ActivityStreamService activityStreamService;
+    @Autowired
+    protected ActivityStreamService activityStreamService;
 
-	@SuppressWarnings("unchecked")
-	@Test
-	@DataSet
-	public void testSearchActivityStreams() {
-		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
-				new String[] { "aa", "bb" }));
-		searchCriteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings("unchecked")
+    @Test
+    @DataSet
+    public void testSearchActivityStreams() {
+        ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+        searchCriteria.setModuleSet(new SetSearchField<>("aa", "bb"));
+        searchCriteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivityStream> activities = activityStreamService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleActivityStream> activities = activityStreamService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        searchCriteria, 0, Integer.MAX_VALUE));
 
-		assertThat(activities.size()).isEqualTo(3);
-	}
+        assertThat(activities.size()).isEqualTo(3);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Test
-	@DataSet
-	public void testQueryActivityWithComments() {
-		ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-		searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
-				new String[] { "bb" }));
-		searchCriteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings("unchecked")
+    @Test
+    @DataSet
+    public void testQueryActivityWithComments() {
+        ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+        searchCriteria.setModuleSet(new SetSearchField<>("bb"));
+        searchCriteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleActivityStream> activities = activityStreamService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
+        List<SimpleActivityStream> activities = activityStreamService
+                .findPagableListByCriteria(new SearchRequest<>(
+                        searchCriteria, 0, Integer.MAX_VALUE));
 
-		assertThat(activities.size()).isEqualTo(1);
-		assertThat(activities).extracting("saccountid", "module", "action")
-				.contains(tuple(1, "bb", "update"));
-	}
+        assertThat(activities.size()).isEqualTo(1);
+        assertThat(activities).extracting("saccountid", "module", "action")
+                .contains(tuple(1, "bb", "update"));
+    }
 }

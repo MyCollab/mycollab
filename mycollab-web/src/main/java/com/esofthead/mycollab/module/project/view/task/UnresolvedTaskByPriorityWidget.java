@@ -109,7 +109,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
         @Override
         public void buttonClick(final ClickEvent event) {
             String key = ((ButtonI18nComp) event.getButton()).getKey();
-            searchCriteria.setPriorities(new SetSearchField<>(new String[]{key}));
+            searchCriteria.setPriorities(new SetSearchField<>(key));
             TaskFilterParameter filterParam = new TaskFilterParameter(searchCriteria, "Task Filter by Priority: " + key);
             EventBusFactory.getInstance().post(new TaskEvent.Search(this, filterParam));
         }

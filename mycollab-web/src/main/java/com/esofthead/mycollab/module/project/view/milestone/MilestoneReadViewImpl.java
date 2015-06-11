@@ -279,7 +279,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             searchCriteria = new ProjectGenericTaskSearchCriteria();
             searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             searchCriteria.setIsOpenned(new SearchField());
-            searchCriteria.setTypes(new SetSearchField<>(new String[]{ProjectTypeConstants.BUG, ProjectTypeConstants.TASK}));
+            searchCriteria.setTypes(new SetSearchField<>(ProjectTypeConstants.BUG, ProjectTypeConstants.TASK));
             searchCriteria.setMilestoneId(new NumberSearchField(beanItem.getId()));
             updateSearchStatus();
         }
@@ -413,7 +413,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 layout.setColumnExpandRatio(1, 1.0f);
 
                 Label assigneeLbl = new Label(AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+                        .getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
                 assigneeLbl.setSizeUndefined();
                 layout.addComponent(assigneeLbl, 0, 1);
                 String assignUserName = (String) PropertyUtils.getProperty(

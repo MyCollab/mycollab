@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -42,8 +41,7 @@ public class ProjectActivityStreamComponent extends CssLayout {
         ProjectActivityStreamPagedList activityStreamList = new ProjectActivityStreamPagedList();
         this.addComponent(activityStreamList);
         final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-        searchCriteria.setModuleSet(new SetSearchField<>(SearchField.AND,
-                new String[]{ModuleNameConstants.PRJ}));
+        searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
         searchCriteria.setSaccountid(new NumberSearchField(AppContext
                 .getAccountId()));
 

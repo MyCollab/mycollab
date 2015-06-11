@@ -140,8 +140,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         bottomLayout.with(leftColumn, userAssignmentWidget).expand(leftColumn);
 
         ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
-        searchCriteria.setModuleSet(new SetSearchField<>(
-                SearchField.AND, new String[]{ModuleNameConstants.PRJ}));
+        searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
         searchCriteria.setCreatedUser(new StringSearchField(
                 SearchField.AND, previewForm.getBean().getUsername()));
         searchCriteria.setExtraTypeIds(new SetSearchField<>(
@@ -174,7 +173,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             HorizontalLayout blockContent = new HorizontalLayout();
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
-                            beanItem.getMemberAvatarId(), 100);
+                    beanItem.getMemberAvatarId(), 100);
             blockContent.addComponent(memberAvatar);
 
             MVerticalLayout memberInfo = new MVerticalLayout().withStyleName("member-info")
@@ -219,7 +218,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem.getStatus())) {
                 final VerticalLayout waitingNotLayout = new VerticalLayout();
                 Label infoStatus = new Label(AppContext
-                                .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
+                        .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 waitingNotLayout.addComponent(infoStatus);
 
@@ -235,7 +234,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                         projectMemberMapper.updateByPrimaryKeySelective(beanItem);
                         waitingNotLayout.removeAllComponents();
                         Label statusEmail = new Label(AppContext
-                                        .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
+                                .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
                         statusEmail.addStyleName("member-email");
                         waitingNotLayout.addComponent(statusEmail);
                     }
@@ -251,7 +250,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 memberInfo.addComponent(lastAccessTimeLbl);
             } else if (RegisterStatusConstants.VERIFICATING.equals(beanItem.getStatus())) {
                 Label infoStatus = new Label(AppContext
-                                .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
+                        .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 memberInfo.addComponent(infoStatus);
             }

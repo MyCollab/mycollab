@@ -117,9 +117,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
                                 .setSubject(new StringSearchField(
                                         SearchField.AND, strSearch));
                     } else if (searchType.equals("Status")) {
-                        searchCriteria
-                                .setStatuses(new SetSearchField<>(
-                                        SearchField.AND, new String[]{strSearch}));
+                        searchCriteria.setStatuses(new SetSearchField<>(strSearch));
                     }
                 }
             }
@@ -127,9 +125,7 @@ public class CaseSimpleSearchPanel extends GenericSearchPanel<CaseSearchCriteria
             if (userBox != null) {
                 String user = (String) userBox.getValue();
                 if (StringUtils.isNotBlank(user)) {
-                    searchCriteria
-                            .setAssignUsers(new SetSearchField<>(
-                                    SearchField.AND, new String[]{user}));
+                    searchCriteria.setAssignUsers(new SetSearchField<>(user));
                 }
             }
         }

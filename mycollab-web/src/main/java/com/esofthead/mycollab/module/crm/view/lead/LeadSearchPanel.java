@@ -166,8 +166,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
             }
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUsers(new SetSearchField<>(
-                                SearchField.AND, new String[]{AppContext.getUsername()}));
+                searchCriteria.setAssignUsers(new SetSearchField<>(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUsers(null);
             }

@@ -90,8 +90,7 @@ public class LeadServiceTest extends IntergrationServiceTest {
 	@DataSet
 	public void testSearchAssignUser() {
 		LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<>(SetSearchField.AND,
-				new String[]{"linh", "hai"}));
+		criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List<SimpleLead> leads = leadService

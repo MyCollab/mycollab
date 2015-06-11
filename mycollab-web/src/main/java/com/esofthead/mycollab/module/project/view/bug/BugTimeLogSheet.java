@@ -16,10 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.core.arguments.BooleanSearchField;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -51,8 +48,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 	@Override
 	protected Double getTotalBillableHours(SimpleBug bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<>(
-				CurrentProjectVariables.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(true));
@@ -62,8 +58,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 	@Override
 	protected Double getTotalNonBillableHours(SimpleBug bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectIds(new SetSearchField<>(
-				CurrentProjectVariables.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(false));
@@ -127,8 +122,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 		@Override
 		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
 			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectIds(new SetSearchField<>(
-					CurrentProjectVariables.getProjectId()));
+			searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
 			searchCriteria.setType(new StringSearchField(
 					ProjectTypeConstants.BUG));
 			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));

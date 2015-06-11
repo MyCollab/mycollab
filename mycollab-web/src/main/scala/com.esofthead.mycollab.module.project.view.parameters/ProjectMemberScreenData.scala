@@ -32,5 +32,5 @@ object ProjectMemberScreenData {
 
   class InviteProjectMembers extends ScreenData {}
 
-  class Read(params:Object) extends ScreenData[Object](params) {}
+  class Read(params:Any) extends ScreenData[Any](params) {}
 }

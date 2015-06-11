@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -315,7 +314,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
         private void doSearch() {
             messageSearchCriteria = new MessageSearchCriteria();
-            messageSearchCriteria.setProjectids(new SetSearchField<>(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            messageSearchCriteria.setProjectids(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
             messageSearchCriteria.setMessage(new StringSearchField(nameField.getValue()));
             notifySearchHandler(messageSearchCriteria);
         }

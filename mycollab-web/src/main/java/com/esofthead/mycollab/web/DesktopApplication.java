@@ -96,6 +96,8 @@ public class DesktopApplication extends MyCollabUI {
             return;
         }
 
+        EventBusFactory.getInstance().register(new ShellErrorHandler());
+
         mainWindowContainer = new MainWindowContainer();
         this.setContent(mainWindowContainer);
 
@@ -108,8 +110,6 @@ public class DesktopApplication extends MyCollabUI {
                         enter(event.getUriFragment());
                     }
                 });
-
-        EventBusFactory.getInstance().register(new ShellErrorHandler());
 
         String userAgent = request.getHeader("user-agent");
         if (isInNotSupportedBrowserList(userAgent.toLowerCase())) {

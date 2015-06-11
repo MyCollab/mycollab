@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import com.esofthead.mycollab.core.arguments.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.domain.criteria.FollowingTicketSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -135,8 +132,7 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 	public void testGetListProjectFollowingTicketOfTaskAndBug()
 			throws ParseException {
 		FollowingTicketSearchCriteria criteria = getCriteria();
-		criteria.setTypes(new SetSearchField<>(new String[] {
-				"Project-Task", "Project-Bug" }));
+		criteria.setTypes(new SetSearchField<>("Project-Task", "Project-Bug"));
 		List<FollowingTicket> projectFollowingTickets = projectFollowingTicketService
 				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));

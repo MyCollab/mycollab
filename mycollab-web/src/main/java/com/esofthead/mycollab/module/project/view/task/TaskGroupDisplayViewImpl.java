@@ -280,7 +280,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
             public void buttonClick(ClickEvent event) {
                 TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
                 searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                searchCriteria.setStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
+                searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
                 TaskFilterParameter taskFilter = new TaskFilterParameter(searchCriteria, "Task Search");
                 taskFilter.setAdvanceSearch(true);
                 moveToTaskSearch(taskFilter);
@@ -322,11 +322,11 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         implementTaskFilterButton();
         basicSearchView = new TaskSearchViewImpl();
         basicSearchView.getSearchHandlers().addSearchHandler(new SearchHandler<TaskSearchCriteria>() {
-                    @Override
-                    public void onSearch(TaskSearchCriteria criteria) {
-                        doSearch(criteria);
-                    }
-                });
+            @Override
+            public void onSearch(TaskSearchCriteria criteria) {
+                doSearch(criteria);
+            }
+        });
         basicSearchView.removeComponent(basicSearchView.getComponent(0));
 
         displayAdvancedView();
@@ -351,9 +351,9 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         if (exportType.equals(ReportExportType.PDF)) {
             exportFileName = "task_list.pdf";
         } else if (exportType.equals(ReportExportType.CSV)) {
-            exportFileName =  "task_list.csv";
+            exportFileName = "task_list.csv";
         } else {
-            exportFileName =  "task_list.xls";
+            exportFileName = "task_list.xls";
         }
         return new StreamResource(new ExportTaskListStreamResource(title, exportType,
                 ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
@@ -445,7 +445,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        searchCriteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name()}));
+        searchCriteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
 
         unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
 
@@ -494,13 +494,13 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
     private void displayActiveTasksOnly() {
         TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Open.name()}));
+        criteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         this.doSearch(criteria);
     }
 
     private void displayPendingTasksOnly() {
         TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Pending.name()}));
+        criteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Pending.name()));
         this.doSearch(criteria);
     }
 
@@ -511,7 +511,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
 
     private void displayInActiveTasks() {
         TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
-        criteria.setStatuses(new SetSearchField<>(SearchField.AND, new String[]{StatusI18nEnum.Closed.name()}));
+        criteria.setStatuses(new SetSearchField<>(StatusI18nEnum.Closed.name()));
         this.doSearch(criteria);
     }
 

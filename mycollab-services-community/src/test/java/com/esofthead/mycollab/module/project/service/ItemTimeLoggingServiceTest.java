@@ -52,8 +52,7 @@ public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.setIsBillable(new BooleanSearchField(false));
-		criteria.setLogUsers(new SetSearchField<>(SearchField.AND,
-				new String[]{"hai79", "nghiemle"}));
+		criteria.setLogUsers(new SetSearchField<>("hai79", "nghiemle"));
 		return criteria;
 	}
 

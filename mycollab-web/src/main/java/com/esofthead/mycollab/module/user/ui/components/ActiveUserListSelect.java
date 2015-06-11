@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -31,39 +29,38 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.ListSelect;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ActiveUserListSelect extends ListSelect {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<SimpleUser> userList;
+    private List<SimpleUser> userList;
 
-	@SuppressWarnings("unchecked")
-	public ActiveUserListSelect() {
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		this.setMultiSelect(true);
+    @SuppressWarnings("unchecked")
+    public ActiveUserListSelect() {
+        this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+        this.setMultiSelect(true);
 
-		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setRegisterStatuses(new SetSearchField<>(SearchField.AND,
-				new String[] { RegisterStatusConstants.ACTIVE }));
+        UserSearchCriteria criteria = new UserSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+                AppContext.getAccountId()));
+        criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
-		UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
-		userList = userService.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, Integer.MAX_VALUE));
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        userList = userService.findPagableListByCriteria(new SearchRequest<>(
+                criteria, 0, Integer.MAX_VALUE));
 
-		for (SimpleUser user : userList) {
-			this.addItem(user.getUsername());
-			this.setItemCaption(user.getUsername(), user.getDisplayName());
-			this.setItemIcon(user.getUsername(),
-					UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
-		}
+        for (SimpleUser user : userList) {
+            this.addItem(user.getUsername());
+            this.setItemCaption(user.getUsername(), user.getDisplayName());
+            this.setItemIcon(user.getUsername(),
+                    UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
+        }
 
-		this.setRows(4);
-	}
+        this.setRows(4);
+    }
 }
