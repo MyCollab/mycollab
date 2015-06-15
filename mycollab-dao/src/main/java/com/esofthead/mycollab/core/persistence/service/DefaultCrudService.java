@@ -32,116 +32,112 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 /**
  * The generic class that serves the basic operations in data access layer:
  * Create, Retrieve, Update and Delete.
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ *
  * @param <T>
  * @param <K>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
-public abstract class DefaultCrudService<K extends Serializable, T> implements
-		ICrudService<K, T> {
+public abstract class DefaultCrudService<K extends Serializable, T> implements ICrudService<K, T> {
 
-	public abstract ICrudGenericDAO<K, T> getCrudMapper();
+    public abstract ICrudGenericDAO<K, T> getCrudMapper();
 
-	private Method cacheUpdateMethod;
+    private Method cacheUpdateMethod;
 
-	@Override
-	public T findByPrimaryKey(K primaryKey, int accountId) {
-		return getCrudMapper().selectByPrimaryKey(primaryKey);
-	}
+    @Override
+    public T findByPrimaryKey(K primaryKey, Integer accountId) {
+        return getCrudMapper().selectByPrimaryKey(primaryKey);
+    }
 
-	@Override
-	public int saveWithSession(T record, String username) {
-		if (!StringUtils.isBlank(username)) {
-			try {
-				PropertyUtils.setProperty(record, "createduser", username);
-			} catch (Exception e) {
+    @Override
+    public Integer saveWithSession(T record, String username) {
+        if (!StringUtils.isBlank(username)) {
+            try {
+                PropertyUtils.setProperty(record, "createduser", username);
+            } catch (Exception e) {
 
-			}
-		}
+            }
+        }
 
-		try {
-			PropertyUtils.setProperty(record, "createdtime",
-					new GregorianCalendar().getTime());
-			PropertyUtils.setProperty(record, "lastupdatedtime",
-					new GregorianCalendar().getTime());
-		} catch (Exception e) {
-		}
+        try {
+            PropertyUtils.setProperty(record, "createdtime", new GregorianCalendar().getTime());
+            PropertyUtils.setProperty(record, "lastupdatedtime", new GregorianCalendar().getTime());
+        } catch (Exception e) {
+        }
 
-		getCrudMapper().insertAndReturnKey(record);
-		try {
-			return (Integer) PropertyUtils.getProperty(record, "id");
-		} catch (Exception e) {
-			return 0;
-		}
-	}
+        getCrudMapper().insertAndReturnKey(record);
+        try {
+            return (Integer) PropertyUtils.getProperty(record, "id");
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-	@Override
-	public int updateWithSession(T record, String username) {
-		try {
-			PropertyUtils.setProperty(record, "lastupdatedtime",
-					new GregorianCalendar().getTime());
-		} catch (Exception e) {
-		}
+    @Override
+    public Integer updateWithSession(T record, String username) {
+        try {
+            PropertyUtils.setProperty(record, "lastupdatedtime",
+                    new GregorianCalendar().getTime());
+        } catch (Exception e) {
+        }
 
-		if (cacheUpdateMethod == null) {
-			findCacheUpdateMethod();
-		}
-		try {
-			cacheUpdateMethod.invoke(getCrudMapper(), record);
-			return 1;
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			throw new MyCollabException(e);
-		}
-	}
+        if (cacheUpdateMethod == null) {
+            findCacheUpdateMethod();
+        }
+        try {
+            cacheUpdateMethod.invoke(getCrudMapper(), record);
+            return 1;
+        } catch (IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            throw new MyCollabException(e);
+        }
+    }
 
-	@SuppressWarnings("rawtypes")
-	private void findCacheUpdateMethod() {
-		ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
-		Class<? extends ICrudGenericDAO> crudMapperCls = crudMapper.getClass();
-		for (Method method : crudMapperCls.getMethods()) {
-			if ("updateByPrimaryKeyWithBLOBs".equals(method.getName())) {
-				cacheUpdateMethod = method;
-				return;
-			} else if ("updateByPrimaryKey".equals(method.getName())) {
-				cacheUpdateMethod = method;
-			}
-		}
-	}
+    @SuppressWarnings("rawtypes")
+    private void findCacheUpdateMethod() {
+        ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
+        Class<? extends ICrudGenericDAO> crudMapperCls = crudMapper.getClass();
+        for (Method method : crudMapperCls.getMethods()) {
+            if ("updateByPrimaryKeyWithBLOBs".equals(method.getName())) {
+                cacheUpdateMethod = method;
+                return;
+            } else if ("updateByPrimaryKey".equals(method.getName())) {
+                cacheUpdateMethod = method;
+            }
+        }
+    }
 
-	public int updateSelectiveWithSession(@CacheKey T record, String username) {
-		try {
-			PropertyUtils.setProperty(record, "lastupdatedtime",
-					new GregorianCalendar().getTime());
-		} catch (Exception e) {
-		}
-		return getCrudMapper().updateByPrimaryKeySelective(record);
-	}
+    public Integer updateSelectiveWithSession(@CacheKey T record, String username) {
+        try {
+            PropertyUtils.setProperty(record, "lastupdatedtime",
+                    new GregorianCalendar().getTime());
+        } catch (Exception e) {
+        }
+        return getCrudMapper().updateByPrimaryKeySelective(record);
+    }
 
-	@Override
-	public int removeWithSession(K primaryKey, String username, int accountId) {
-		if (username == null) {
-			return getCrudMapper().deleteByPrimaryKey(primaryKey);
-		} else {
-			return internalRemoveWithSession(primaryKey, username);
-		}
-	}
+    @Override
+    public Integer removeWithSession(K primaryKey, String username, Integer accountId) {
+        if (username == null) {
+            return getCrudMapper().deleteByPrimaryKey(primaryKey);
+        } else {
+            return internalRemoveWithSession(primaryKey, username);
+        }
+    }
 
-	protected int internalRemoveWithSession(K primaryKey, String username) {
-		return getCrudMapper().deleteByPrimaryKey(primaryKey);
-	}
+    protected int internalRemoveWithSession(K primaryKey, String username) {
+        return getCrudMapper().deleteByPrimaryKey(primaryKey);
+    }
 
-	@Override
-	public void massRemoveWithSession(List<K> primaryKeys, String username,
-			int accountId) {
-		getCrudMapper().removeKeysWithSession(primaryKeys);
-	}
+    @Override
+    public void massRemoveWithSession(List<K> primaryKeys, String username,
+                                      Integer accountId) {
+        getCrudMapper().removeKeysWithSession(primaryKeys);
+    }
 
-	@Override
-	public void massUpdateWithSession(T record, List<K> primaryKeys,
-			int accountId) {
-		getCrudMapper().massUpdateWithSession(record, primaryKeys);
-	}
+    @Override
+    public void massUpdateWithSession(T record, List<K> primaryKeys,
+                                      Integer accountId) {
+        getCrudMapper().massUpdateWithSession(record, primaryKeys);
+    }
 }

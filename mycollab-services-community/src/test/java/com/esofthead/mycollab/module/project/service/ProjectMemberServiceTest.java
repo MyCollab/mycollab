@@ -57,8 +57,7 @@ public class ProjectMemberServiceTest extends IntergrationServiceTest {
 	@DataSet
 	@Test
 	public void testGetActiveMembersInproject() {
-		List<SimpleUser> activeUsers = projectMemberService
-				.getActiveUsersInProject(1, 1);
+		List<SimpleUser> activeUsers = projectMemberService.getActiveUsersInProject(1, 1);
 		assertThat(activeUsers.size()).isEqualTo(1);
 		assertThat(activeUsers).extracting("username").contains("user1");
 	}

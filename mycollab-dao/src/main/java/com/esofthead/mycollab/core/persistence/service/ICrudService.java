@@ -40,7 +40,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@CacheEvict
-	int saveWithSession(@CacheKey T record, String username);
+	Integer saveWithSession(@CacheKey T record, String username);
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@CacheEvict
-	int updateWithSession(@CacheKey T record, String username);
+	Integer updateWithSession(@CacheKey T record, String username);
 
 	/**
 	 * 
@@ -58,7 +58,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@CacheEvict
-	int updateSelectiveWithSession(@CacheKey T record, String username);
+	Integer updateSelectiveWithSession(@CacheKey T record, String username);
 
 	/**
 	 * 
@@ -68,7 +68,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 */
 	@CacheEvict
 	void massUpdateWithSession(T record, List<K> primaryKeys,
-			@CacheKey int accountId);
+			@CacheKey Integer accountId);
 
 	/**
 	 * 
@@ -77,7 +77,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@Cacheable
-	T findByPrimaryKey(K primaryKey, @CacheKey int sAccountId);
+	T findByPrimaryKey(K primaryKey, @CacheKey Integer sAccountId);
 
 	/**
 	 * 
@@ -87,8 +87,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@CacheEvict
-	int removeWithSession(K primaryKey, String username,
-			@CacheKey int sAccountId);
+	Integer removeWithSession(K primaryKey, String username, @CacheKey Integer sAccountId);
 
 	/**
 	 * 
@@ -97,6 +96,5 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @param sAccountId
 	 */
 	@CacheEvict
-	void massRemoveWithSession(List<K> primaryKeys, String username,
-			@CacheKey int sAccountId);
+	void massRemoveWithSession(List<K> primaryKeys, String username, @CacheKey Integer sAccountId);
 }

@@ -34,9 +34,7 @@ import com.zaxxer.hikari.HikariDataSource;
  * 
  */
 public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DataSourceFactoryBean.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DataSourceFactoryBean.class);
 
 	private HikariDataSource dataSource;
 

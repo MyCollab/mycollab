@@ -69,7 +69,7 @@ public class ComponentServiceImpl extends
 	}
 
 	@Override
-	public int saveWithSession(Component record, String username) {
+	public Integer saveWithSession(Component record, String username) {
 		// check whether there is exiting record
 		ComponentExample ex = new ComponentExample();
 

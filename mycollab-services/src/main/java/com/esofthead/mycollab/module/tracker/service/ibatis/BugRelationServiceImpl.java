@@ -45,8 +45,8 @@ public class BugRelationServiceImpl extends DefaultCrudService<Integer, RelatedB
         return relatedBugMapper;
     }
 
-    public int saveWithSession(RelatedBug record, String username) {
-        int bugId = record.getBugid();
+    public Integer saveWithSession(RelatedBug record, String username) {
+        Integer bugId = record.getBugid();
         if (OptionI18nEnum.BugRelation.Duplicated.name().equals(record.getRelatetype())) {
             SimpleBug bug = bugService.findById(bugId, 0);
             if (bug != null) {

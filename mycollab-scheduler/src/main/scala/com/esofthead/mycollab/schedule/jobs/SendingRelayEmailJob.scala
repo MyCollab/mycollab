@@ -29,8 +29,6 @@ import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
-import scala.collection.mutable.ListBuffer
-
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
@@ -55,27 +53,24 @@ class SendingRelayEmailJob extends GenericQuartzJobBean {
                 val recipientVal: String = relayEmail.getRecipients
                 val recipientArr: Array[Array[String]] = JsonDeSerializer.fromJson(recipientVal, classOf[Array[Array[String]]])
                 try {
-                    val toMailList: ListBuffer[MailRecipientField] = scala.collection.mutable.ListBuffer[MailRecipientField]()
+                    var toMailList: Set[MailRecipientField] = Set[MailRecipientField]()
 
                     var i: Int = 0
                     while (i < recipientArr(0).length) {
-                        toMailList += (new MailRecipientField(recipientArr(0)(i), recipientArr(1)(i)))
+                        toMailList = toMailList + (new MailRecipientField(recipientArr(0)(i), recipientArr(1)(i)))
                         i = i + 1
                     }
 
                     extMailService.sendHTMLMail(relayEmail.getFromemail, relayEmail.getFromname, toMailList.toList, null, null, relayEmail
                         .getSubject, relayEmail.getBodycontent, null)
-                }
-                catch {
+                } catch {
                     case e: Exception => LOG.error("Error when send relay email", e)
                 }
-            }
-            else {
+            } else {
                 try {
                     val emailNotificationAction: SendingRelayEmailsAction = ApplicationContextUtil.getSpringBean(Class.forName(relayEmail.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailsAction]
                     emailNotificationAction.sendEmail(relayEmail)
-                }
-                catch {
+                } catch {
                     case e: ClassNotFoundException => throw new MyCollabException(e)
                 }
             }

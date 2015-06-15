@@ -70,19 +70,19 @@ public class MilestoneServiceImpl extends DefaultService<Integer, Milestone, Mil
 	}
 
 	@Override
-	public SimpleMilestone findById(int milestoneId, int sAccountId) {
+	public SimpleMilestone findById(Integer milestoneId, Integer sAccountId) {
 		return milestoneMapperExt.findById(milestoneId);
 	}
 
 	@Override
-	public int saveWithSession(Milestone record, String username) {
-		int recordId = super.saveWithSession(record, username);
+	public Integer saveWithSession(Milestone record, String username) {
+		Integer recordId = super.saveWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
 		return recordId;
 	}
 
 	@Override
-	public int updateWithSession(Milestone record, String username) {
+	public Integer updateWithSession(Milestone record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
 		return super.updateWithSession(record, username);
 	}

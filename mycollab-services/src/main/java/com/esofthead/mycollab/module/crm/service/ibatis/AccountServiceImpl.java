@@ -75,12 +75,12 @@ public class AccountServiceImpl extends
     }
 
     @Override
-    public SimpleAccount findById(int id, int accountId) {
+    public SimpleAccount findById(Integer id, Integer accountId) {
         return accountMapperExt.findById(id);
     }
 
     @Override
-    public int saveWithSession(Account record, String username) {
+    public Integer saveWithSession(Account record, String username) {
         int result = super.saveWithSession(record, username);
 
         if (record.getExtraData() != null

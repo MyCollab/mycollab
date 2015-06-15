@@ -33,5 +33,5 @@ public interface MilestoneService extends
 		IDefaultService<Integer, Milestone, MilestoneSearchCriteria> {
 
 	@Cacheable
-	SimpleMilestone findById(int milestoneId, @CacheKey int sAccountId);
+	SimpleMilestone findById(Integer milestoneId, @CacheKey Integer sAccountId);
 }

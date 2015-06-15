@@ -62,162 +62,159 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Watchable(userFieldName = "assignuser")
 @NotifyAgent(LeadRelayEmailNotificationAction.class)
 public class LeadServiceImpl extends
-		DefaultService<Integer, Lead, LeadSearchCriteria> implements
-		LeadService {
-    static  {
+        DefaultService<Integer, Lead, LeadSearchCriteria> implements
+        LeadService {
+    static {
         ClassInfoMap.put(LeadServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.LEAD));
     }
-	private static final Logger LOG = LoggerFactory.getLogger(LeadServiceImpl.class);
 
-	@Autowired
-	private LeadMapper leadMapper;
-	@Autowired
-	private LeadMapperExt leadMapperExt;
+    private static final Logger LOG = LoggerFactory.getLogger(LeadServiceImpl.class);
 
-	@Override
-	public ICrudGenericDAO<Integer, Lead> getCrudMapper() {
-		return leadMapper;
-	}
+    @Autowired
+    private LeadMapper leadMapper;
+    @Autowired
+    private LeadMapperExt leadMapperExt;
 
-	@Override
-	public ISearchableDAO<LeadSearchCriteria> getSearchMapper() {
-		return leadMapperExt;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Lead> getCrudMapper() {
+        return leadMapper;
+    }
 
-	@Override
-	public SimpleLead findById(int leadId, int sAccountId) {
-		return leadMapperExt.findById(leadId);
-	}
+    @Override
+    public ISearchableDAO<LeadSearchCriteria> getSearchMapper() {
+        return leadMapperExt;
+    }
 
-	@Override
-	public int saveWithSession(Lead lead, String username) {
-		int result = super.saveWithSession(lead, username);
-		if (lead.getExtraData() != null
-				&& (lead.getExtraData() instanceof SimpleCampaign)) {
-			CampaignLead associateLead = new CampaignLead();
-			associateLead.setCampaignid(((SimpleCampaign) lead.getExtraData())
-					.getId());
-			associateLead.setLeadid(lead.getId());
-			associateLead.setCreatedtime(new GregorianCalendar().getTime());
+    @Override
+    public SimpleLead findById(Integer leadId, Integer sAccountId) {
+        return leadMapperExt.findById(leadId);
+    }
 
-			CampaignService campaignService = ApplicationContextUtil
-					.getSpringBean(CampaignService.class);
-			campaignService.saveCampaignLeadRelationship(
-					Arrays.asList(associateLead), lead.getSaccountid());
-		} else if (lead.getExtraData() != null
-				&& lead.getExtraData() instanceof SimpleOpportunity) {
-			OpportunityLead associateLead = new OpportunityLead();
-			associateLead.setOpportunityid(((SimpleOpportunity) lead
-					.getExtraData()).getId());
-			associateLead.setLeadid(lead.getId());
-			associateLead.setCreatedtime(new GregorianCalendar().getTime());
+    @Override
+    public Integer saveWithSession(Lead lead, String username) {
+        Integer result = super.saveWithSession(lead, username);
+        if (lead.getExtraData() != null
+                && (lead.getExtraData() instanceof SimpleCampaign)) {
+            CampaignLead associateLead = new CampaignLead();
+            associateLead.setCampaignid(((SimpleCampaign) lead.getExtraData())
+                    .getId());
+            associateLead.setLeadid(lead.getId());
+            associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-			OpportunityService opportunityService = ApplicationContextUtil
-					.getSpringBean(OpportunityService.class);
-			opportunityService.saveOpportunityLeadRelationship(
-					Arrays.asList(associateLead), lead.getSaccountid());
-		}
-		return result;
-	}
+            CampaignService campaignService = ApplicationContextUtil
+                    .getSpringBean(CampaignService.class);
+            campaignService.saveCampaignLeadRelationship(
+                    Arrays.asList(associateLead), lead.getSaccountid());
+        } else if (lead.getExtraData() != null
+                && lead.getExtraData() instanceof SimpleOpportunity) {
+            OpportunityLead associateLead = new OpportunityLead();
+            associateLead.setOpportunityid(((SimpleOpportunity) lead
+                    .getExtraData()).getId());
+            associateLead.setLeadid(lead.getId());
+            associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
-	@Override
-	public void convertLead(SimpleLead lead, Opportunity opportunity,
-			String convertUser) {
+            OpportunityService opportunityService = ApplicationContextUtil
+                    .getSpringBean(OpportunityService.class);
+            opportunityService.saveOpportunityLeadRelationship(
+                    Arrays.asList(associateLead), lead.getSaccountid());
+        }
+        return result;
+    }
 
-		LOG.debug("Create new account and save it");
-		Account account = new Account();
-		account.setAccountname(lead.getAccountname());
-		account.setNumemployees(lead.getNoemployees());
-		account.setIndustry(lead.getIndustry());
-		account.setEmail(lead.getEmail());
-		account.setPhoneoffice(lead.getOfficephone());
-		account.setFax(lead.getFax());
-		account.setWebsite(lead.getWebsite());
-		account.setAssignuser(lead.getAssignuser());
-		account.setDescription(lead.getDescription());
-		account.setSaccountid(lead.getSaccountid());
+    @Override
+    public void convertLead(SimpleLead lead, Opportunity opportunity,
+                            String convertUser) {
 
-		AccountService accountService = ApplicationContextUtil
-				.getSpringBean(AccountService.class);
-		int accountId = accountService.saveWithSession(account, convertUser);
+        LOG.debug("Create new account and save it");
+        Account account = new Account();
+        account.setAccountname(lead.getAccountname());
+        account.setNumemployees(lead.getNoemployees());
+        account.setIndustry(lead.getIndustry());
+        account.setEmail(lead.getEmail());
+        account.setPhoneoffice(lead.getOfficephone());
+        account.setFax(lead.getFax());
+        account.setWebsite(lead.getWebsite());
+        account.setAssignuser(lead.getAssignuser());
+        account.setDescription(lead.getDescription());
+        account.setSaccountid(lead.getSaccountid());
 
-		LOG.debug("Create account lead relationship");
-		AccountLead accLead = new AccountLead();
-		accLead.setAccountid(accountId);
-		accLead.setLeadid(lead.getId());
-		accLead.setIsconvertrel(true);
+        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        Integer accountId = accountService.saveWithSession(account, convertUser);
 
-		accountService.saveAccountLeadRelationship(Arrays.asList(accLead),
-				lead.getSaccountid());
+        LOG.debug("Create account lead relationship");
+        AccountLead accLead = new AccountLead();
+        accLead.setAccountid(accountId);
+        accLead.setLeadid(lead.getId());
+        accLead.setIsconvertrel(true);
 
-		LOG.debug("Create new contact and save it");
-		Contact contact = new Contact();
-		contact.setPrefix(lead.getPrefixname());
-		contact.setFirstname(lead.getFirstname());
-		contact.setLastname(lead.getLastname());
-		contact.setTitle(lead.getTitle());
-		contact.setDepartment(lead.getDepartment());
-		contact.setAccountid(accountId);
-		contact.setSaccountid(lead.getSaccountid());
-		contact.setLeadsource(lead.getSource());
-		contact.setAssignuser(lead.getAssignuser());
-		contact.setOfficephone(lead.getOfficephone());
-		contact.setEmail(lead.getEmail());
-		contact.setSaccountid(lead.getSaccountid());
+        accountService.saveAccountLeadRelationship(Arrays.asList(accLead),
+                lead.getSaccountid());
 
-		ContactService contactService = ApplicationContextUtil
-				.getSpringBean(ContactService.class);
-		int contactId = contactService.saveWithSession(contact, convertUser);
-		LOG.debug("Create contact lead relationship");
-		ContactLead contactLead = new ContactLead();
-		contactLead.setContactid(contactId);
-		contactLead.setLeadid(lead.getId());
-		contactLead.setIsconvertrel(true);
-		contactService.saveContactLeadRelationship(Arrays.asList(contactLead),
-				lead.getSaccountid());
+        LOG.debug("Create new contact and save it");
+        Contact contact = new Contact();
+        contact.setPrefix(lead.getPrefixname());
+        contact.setFirstname(lead.getFirstname());
+        contact.setLastname(lead.getLastname());
+        contact.setTitle(lead.getTitle());
+        contact.setDepartment(lead.getDepartment());
+        contact.setAccountid(accountId);
+        contact.setSaccountid(lead.getSaccountid());
+        contact.setLeadsource(lead.getSource());
+        contact.setAssignuser(lead.getAssignuser());
+        contact.setOfficephone(lead.getOfficephone());
+        contact.setEmail(lead.getEmail());
+        contact.setSaccountid(lead.getSaccountid());
 
-		if (opportunity != null) {
-			opportunity.setAccountid(accountId);
-			opportunity.setSaccountid(lead.getSaccountid());
-			OpportunityService opportunityService = ApplicationContextUtil
-					.getSpringBean(OpportunityService.class);
-			int opportunityId = opportunityService.saveWithSession(opportunity,
-					convertUser);
+        ContactService contactService = ApplicationContextUtil
+                .getSpringBean(ContactService.class);
+        Integer contactId = contactService.saveWithSession(contact, convertUser);
+        LOG.debug("Create contact lead relationship");
+        ContactLead contactLead = new ContactLead();
+        contactLead.setContactid(contactId);
+        contactLead.setLeadid(lead.getId());
+        contactLead.setIsconvertrel(true);
+        contactService.saveContactLeadRelationship(Arrays.asList(contactLead),
+                lead.getSaccountid());
 
-			LOG.debug("Create new opportunity contact relationship");
-			ContactOpportunity oppContact = new ContactOpportunity();
-			oppContact.setContactid(contactId);
-			oppContact.setOpportunityid(opportunityId);
-			contactService.saveContactOpportunityRelationship(
-					Arrays.asList(oppContact), lead.getSaccountid());
+        if (opportunity != null) {
+            opportunity.setAccountid(accountId);
+            opportunity.setSaccountid(lead.getSaccountid());
+            OpportunityService opportunityService = ApplicationContextUtil
+                    .getSpringBean(OpportunityService.class);
+            int opportunityId = opportunityService.saveWithSession(opportunity,
+                    convertUser);
 
-			LOG.debug("Create new opportunity lead relationship");
-			OpportunityLead oppLead = new OpportunityLead();
-			oppLead.setLeadid(lead.getId());
-			oppLead.setOpportunityid(opportunityId);
-			oppLead.setIsconvertrel(true);
-			oppLead.setCreatedtime(new GregorianCalendar().getTime());
-			opportunityService.saveOpportunityLeadRelationship(
-					Arrays.asList(oppLead), lead.getSaccountid());
-		}
+            LOG.debug("Create new opportunity contact relationship");
+            ContactOpportunity oppContact = new ContactOpportunity();
+            oppContact.setContactid(contactId);
+            oppContact.setOpportunityid(opportunityId);
+            contactService.saveContactOpportunityRelationship(
+                    Arrays.asList(oppContact), lead.getSaccountid());
 
-	}
+            LOG.debug("Create new opportunity lead relationship");
+            OpportunityLead oppLead = new OpportunityLead();
+            oppLead.setLeadid(lead.getId());
+            oppLead.setOpportunityid(opportunityId);
+            oppLead.setIsconvertrel(true);
+            oppLead.setCreatedtime(new GregorianCalendar().getTime());
+            opportunityService.saveOpportunityLeadRelationship(
+                    Arrays.asList(oppLead), lead.getSaccountid());
+        }
 
-	@Override
-	public SimpleLead findConvertedLeadOfAccount(int accountId,
-			@CacheKey int sAccountId) {
-		return leadMapperExt.findConvertedLeadOfAccount(accountId);
-	}
+    }
 
-	@Override
-	public SimpleLead findConvertedLeadOfContact(int contactId,
-			@CacheKey int sAccountId) {
-		return leadMapperExt.findConvertedLeadOfContact(contactId);
-	}
+    @Override
+    public SimpleLead findConvertedLeadOfAccount(Integer accountId, @CacheKey Integer sAccountId) {
+        return leadMapperExt.findConvertedLeadOfAccount(accountId);
+    }
 
-	@Override
-	public SimpleLead findConvertedLeadOfOpportunity(int opportunity,
-			@CacheKey int sAccountId) {
-		return leadMapperExt.findConvertedLeadOfOpportunity(opportunity);
-	}
+    @Override
+    public SimpleLead findConvertedLeadOfContact(Integer contactId, @CacheKey Integer sAccountId) {
+        return leadMapperExt.findConvertedLeadOfContact(contactId);
+    }
+
+    @Override
+    public SimpleLead findConvertedLeadOfOpportunity(Integer opportunity, @CacheKey Integer sAccountId) {
+        return leadMapperExt.findConvertedLeadOfOpportunity(opportunity);
+    }
 }

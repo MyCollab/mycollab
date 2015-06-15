@@ -27,31 +27,27 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface ProjectService extends
-		IDefaultService<Integer, Project, ProjectSearchCriteria> {
+        IDefaultService<Integer, Project, ProjectSearchCriteria> {
 
-	@Cacheable
-	List<Integer> getProjectKeysUserInvolved(String username,
-			@CacheKey Integer sAccountId);
-	
-	@Cacheable
-	List<SimpleProject> getProjectsUserInvolved(String username,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    List<Integer> getProjectKeysUserInvolved(String username, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleProject findById(int projectId, @CacheKey int sAccountId);
+    @Cacheable
+    List<SimpleProject> getProjectsUserInvolved(String username, @CacheKey Integer sAccountId);
 
-	Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey int sAccountId);
+    @Cacheable
+    SimpleProject findById(Integer projectId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId);
+    Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey Integer sAccountId);
 
-	String getSubdomainOfProject(int projectId);
+    @Cacheable
+    Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId);
 
-	List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
+    String getSubdomainOfProject(Integer projectId);
+
+    List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
 }

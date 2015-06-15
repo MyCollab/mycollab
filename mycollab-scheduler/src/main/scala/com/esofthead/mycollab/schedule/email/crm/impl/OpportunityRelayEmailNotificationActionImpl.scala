@@ -188,7 +188,8 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
             if (opportunity.getAssignuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(opportunity.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(opportunity.getSaccountid), opportunity.getAssignuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(opportunity.getSaccountid),
+                    opportunity.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, opportunity.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -205,7 +206,8 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

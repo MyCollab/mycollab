@@ -17,7 +17,7 @@
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.4.7</vaadinVersion>
+        <vaadinVersion>7.4.8</vaadinVersion>
         <jettyVersion>9.3.0.RC1</jettyVersion>
         <mysqlVersion>5.1.35</mysqlVersion>
         <camelVersion>2.15.2</camelVersion>
@@ -464,6 +464,10 @@
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+        <repository>
+            <id>scalaz-repo</id>
+            <url>http://dl.bintray.com/scalaz/releases/</url>
         </repository>
         <repository>
             <id>repository.springsource.milestone</id>

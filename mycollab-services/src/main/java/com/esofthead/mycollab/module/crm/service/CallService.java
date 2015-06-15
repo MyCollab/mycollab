@@ -33,5 +33,5 @@ public interface CallService extends
 		IDefaultService<Integer, CallWithBLOBs, CallSearchCriteria> {
 
 	@Cacheable
-	SimpleCall findById(int callId, @CacheKey int sAccountId);
+	SimpleCall findById(Integer callId, @CacheKey Integer sAccountId);
 }

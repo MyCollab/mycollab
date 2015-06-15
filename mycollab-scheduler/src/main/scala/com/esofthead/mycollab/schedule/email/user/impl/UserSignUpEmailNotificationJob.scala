@@ -58,7 +58,8 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
         criteria.setSaccountid(null)
 
         import scala.collection.JavaConverters._
-        val users: List[SimpleUser] = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria, 0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
+        val users: List[SimpleUser] = userService.findPagableListByCriteria(new SearchRequest[UserSearchCriteria](criteria,
+            0, Integer.MAX_VALUE)).asScala.toList.asInstanceOf[List[SimpleUser]]
         if (users != null && users.nonEmpty) {
             for (user <- users) {
                 sendConfirmEmailToUser(user)
@@ -74,6 +75,10 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
         contentGenerator.putVariable("siteUrl", siteUrl)
         val confirmLink: String = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
         contentGenerator.putVariable("linkConfirm", confirmLink)
-        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null, contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale, UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)), contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName,
+            Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
+            contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+                UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
+            contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
     }
 }

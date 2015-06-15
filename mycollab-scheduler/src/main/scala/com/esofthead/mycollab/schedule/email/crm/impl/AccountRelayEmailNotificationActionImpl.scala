@@ -49,7 +49,8 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
     @Autowired var accountService: AccountService = _
     private val mapper = new AccountFieldNameMapper
 
-    override protected def getBeanInContext(context: MailContext[SimpleAccount]): SimpleAccount = accountService.findById(context.getTypeid.toInt, context.getSaccountid)
+    override protected def getBeanInContext(context: MailContext[SimpleAccount]): SimpleAccount = accountService.findById(
+        context.getTypeid.toInt, context.getSaccountid)
 
     override protected def getCreateSubjectKey: Enum[_] = AccountI18nEnum.MAIL_CREATE_ITEM_SUBJECT
 
@@ -92,7 +93,8 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
         put(Account.Field.alternatephone, AccountI18nEnum.FORM_OTHER_PHONE)
         put(Account.Field.industry, AccountI18nEnum.FORM_INDUSTRY)
         put(Account.Field.email, AccountI18nEnum.FORM_EMAIL)
-        put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, AccountI18nEnum.FORM_TYPE, classOf[OptionI18nEnum.AccountType]))
+        put(Account.Field.`type`, new I18nFieldFormat(Account.Field.`type`.name, AccountI18nEnum.FORM_TYPE,
+            classOf[OptionI18nEnum.AccountType]))
         put(Account.Field.ownership, AccountI18nEnum.FORM_OWNERSHIP)
         put(Account.Field.assignuser, new AssigneeFieldFormat(Account.Field.assignuser.name, GenericI18Enum.FORM_ASSIGNEE))
         put(Account.Field.annualrevenue, AccountI18nEnum.FORM_ANNUAL_REVENUE)
@@ -116,7 +118,8 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
             if (account.getAssignuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(account.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(account.getSaccountid), account.getAssignuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(
+                    MailUtils.getSiteUrl(account.getSaccountid), account.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, account.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -133,7 +136,8 @@ class AccountRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(
+                        MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

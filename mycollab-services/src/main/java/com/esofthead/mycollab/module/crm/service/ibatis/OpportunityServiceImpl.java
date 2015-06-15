@@ -90,8 +90,8 @@ public class OpportunityServiceImpl extends
 	}
 
 	@Override
-	public int saveWithSession(Opportunity opportunity, String username) {
-		int result = super.saveWithSession(opportunity, username);
+	public Integer saveWithSession(Opportunity opportunity, String username) {
+		Integer result = super.saveWithSession(opportunity, username);
 		if ((opportunity.getExtraData() != null)
 				&& (opportunity.getExtraData() instanceof SimpleContact)) {
 			ContactOpportunity associateOpportunity = new ContactOpportunity();

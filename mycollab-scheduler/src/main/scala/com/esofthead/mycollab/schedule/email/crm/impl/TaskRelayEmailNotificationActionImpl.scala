@@ -83,7 +83,8 @@ import org.springframework.stereotype.Component
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleTask]): SimpleTask = taskService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleTask]): SimpleTask = taskService.findById(context.getTypeid.toInt,
+        context.getSaccountid)
 
     class TaskFieldNameMapper extends ItemFieldMapper {
         put(Task.Field.subject, TaskI18nEnum.FORM_SUBJECT, isColSpan = true)
@@ -139,7 +140,8 @@ import org.springframework.stereotype.Component
             if (task.getAssignuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(task.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid), task.getAssignuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(task.getSaccountid),
+                    task.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, task.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -156,7 +158,8 @@ import org.springframework.stereotype.Component
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

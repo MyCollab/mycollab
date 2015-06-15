@@ -78,7 +78,7 @@ public class BugServiceImpl extends
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
-    public int saveWithSession(BugWithBLOBs record, String username) {
+    public Integer saveWithSession(BugWithBLOBs record, String username) {
         Lock lock = DistributionLockUtil.getLock("bug-"
                 + record.getSaccountid());
         try {
@@ -103,7 +103,7 @@ public class BugServiceImpl extends
     }
 
     @Override
-    public int updateWithSession(BugWithBLOBs record, String username) {
+    public Integer updateWithSession(BugWithBLOBs record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
                 ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class);
@@ -111,7 +111,7 @@ public class BugServiceImpl extends
     }
 
     @Override
-    public int updateSelectiveWithSession(BugWithBLOBs record, String username) {
+    public Integer updateSelectiveWithSession(BugWithBLOBs record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
                 ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class);
@@ -119,8 +119,8 @@ public class BugServiceImpl extends
     }
 
     @Override
-    public int removeWithSession(Integer primaryKey, String username,
-                                 int accountId) {
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
         CacheUtils.cleanCaches(accountId, ProjectService.class,
                 ProjectGenericTaskService.class, ProjectMemberService.class,
                 ProjectActivityStreamService.class,

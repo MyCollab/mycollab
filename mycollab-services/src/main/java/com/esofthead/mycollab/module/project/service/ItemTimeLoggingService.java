@@ -35,46 +35,45 @@ public interface ItemTimeLoggingService extends
 		IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
 
 	@Cacheable
-	Double getTotalHoursByCriteria(
-			@CacheKey ItemTimeLoggingSearchCriteria criteria);
+	Double getTotalHoursByCriteria(@CacheKey ItemTimeLoggingSearchCriteria criteria);
 
 	@CacheEvict
 	void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
-			@CacheKey int sAccountId);
+			@CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalBillableHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+	Double getTotalBillableHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalNonBillableHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+	Double getTotalNonBillableHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getRemainHoursByTaskList(int taskListId, @CacheKey int sAccountId);
+	Double getRemainHoursByTaskList(Integer taskListId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalBillableHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+	Double getTotalBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalNonBillableHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+	Double getTotalNonBillableHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getRemainHoursByMilestone(int milestoneId, @CacheKey int sAccountId);
+	Double getRemainHoursByMilestone(Integer milestoneId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalBillableHoursByComponent(int componentId, @CacheKey int sAccountId);
+	Double getTotalBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalNonBillableHoursByComponent(int componentId, @CacheKey int sAccountId);
+	Double getTotalNonBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getRemainHoursByComponent(int componentId, @CacheKey int sAccountId);
+	Double getRemainHoursByComponent(Integer componentId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalBillableHoursByVersion(int versionId, @CacheKey int sAccountId);
+	Double getTotalBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getTotalNonBillableHoursByVersion(int versionId, @CacheKey int sAccountId);
+	Double getTotalNonBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	Double getRemainHoursByVersion(int versionId, @CacheKey int sAccountId);
+	Double getRemainHoursByVersion(Integer versionId, @CacheKey Integer sAccountId);
 }

@@ -158,10 +158,9 @@ public class ContactServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(Contact contact, String username) {
-        int result = super.saveWithSession(contact, username);
-        if (contact.getExtraData() != null
-                && contact.getExtraData() instanceof SimpleCampaign) {
+    public Integer saveWithSession(Contact contact, String username) {
+        Integer result = super.saveWithSession(contact, username);
+        if (contact.getExtraData() != null && contact.getExtraData() instanceof SimpleCampaign) {
             CampaignContact associateContact = new CampaignContact();
             associateContact.setCampaignid(((SimpleCampaign) contact
                     .getExtraData()).getId());

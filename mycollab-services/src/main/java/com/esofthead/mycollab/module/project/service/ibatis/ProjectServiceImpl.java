@@ -65,16 +65,14 @@ import java.util.List;
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "id")
-public class ProjectServiceImpl extends
-        DefaultService<Integer, Project, ProjectSearchCriteria> implements
-        ProjectService {
+public class ProjectServiceImpl extends DefaultService<Integer, Project, ProjectSearchCriteria>
+        implements ProjectService {
 
     static {
         ClassInfoMap.put(ProjectServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT));
     }
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ProjectServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     @Autowired
     private ProjectMapper projectMapper;
@@ -106,21 +104,21 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public int updateWithSession(Project record, String username) {
+    public Integer updateWithSession(Project record, String username) {
         assertExistProjectShortnameInAccount(record.getId(), record.getShortname(),
                 record.getSaccountid());
         return super.updateWithSession(record, username);
     }
 
     @Override
-    public int saveWithSession(Project record, String username) {
+    public Integer saveWithSession(Project record, String username) {
         billingPlanCheckerService.validateAccountCanCreateMoreProject(record
                 .getSaccountid());
 
         assertExistProjectShortnameInAccount(null, record.getShortname(),
                 record.getSaccountid());
 
-        int projectId = super.saveWithSession(record, username);
+        Integer projectId = super.saveWithSession(record, username);
 
         // Add the first user to project
         ProjectMember projectMember = new ProjectMember();
@@ -145,23 +143,18 @@ public class ProjectServiceImpl extends
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
             if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-                    || permissionName
-                    .equals(ProjectRolePermissionCollections.ROLES)
-                    || permissionName
-                    .equals(ProjectRolePermissionCollections.MESSAGES)) {
-                permissionMapClient
-                        .addPath(
-                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                                AccessPermissionFlag.NO_ACCESS);
+                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)
+                    || permissionName.equals(ProjectRolePermissionCollections.MESSAGES)) {
+                permissionMapClient.addPath(
+                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                        AccessPermissionFlag.NO_ACCESS);
             } else {
-                permissionMapClient
-                        .addPath(
-                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                                AccessPermissionFlag.READ_ONLY);
+                permissionMapClient.addPath(
+                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                        AccessPermissionFlag.READ_ONLY);
             }
         }
-        projectRoleService.savePermission(projectId, clientRoleId,
-                permissionMapClient, record.getSaccountid());
+        projectRoleService.savePermission(projectId, clientRoleId, permissionMapClient, record.getSaccountid());
 
         // add consultant role to project
         LOG.debug("Add consultant role to project {}", record.getName());
@@ -177,17 +170,14 @@ public class ProjectServiceImpl extends
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
             if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-                    || permissionName
-                    .equals(ProjectRolePermissionCollections.ROLES)) {
-                permissionMapConsultant
-                        .addPath(
-                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                                AccessPermissionFlag.READ_ONLY);
+                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
+                permissionMapConsultant.addPath(
+                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                        AccessPermissionFlag.READ_ONLY);
             } else {
-                permissionMapConsultant
-                        .addPath(
-                                ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                                AccessPermissionFlag.ACCESS);
+                permissionMapConsultant.addPath(
+                        ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
+                        AccessPermissionFlag.ACCESS);
             }
         }
         projectRoleService.savePermission(projectId, consultantRoleId,
@@ -202,7 +192,6 @@ public class ProjectServiceImpl extends
 
         PermissionMap permissionMapAdmin = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-
             permissionMapAdmin.addPath(
                     ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
                     AccessPermissionFlag.ACCESS);
@@ -222,21 +211,19 @@ public class ProjectServiceImpl extends
     }
 
     private void assertExistProjectShortnameInAccount(Integer projectId, String shortname,
-                                                      int sAccountId) {
+                                                      Integer sAccountId) {
         ProjectExample ex = new ProjectExample();
         ProjectExample.Criteria criteria = ex.createCriteria();
-        criteria.andShortnameEqualTo(shortname)
-                .andSaccountidEqualTo(sAccountId);
+        criteria.andShortnameEqualTo(shortname).andSaccountidEqualTo(sAccountId);
         if (projectId != null) {
             criteria.andIdNotEqualTo(projectId);
         }
         if (projectMapper.countByExample(ex) > 0) {
-            throw new UserInvalidInputException(
-                    String.format("There is already project in the account has short name %s", shortname));
+            throw new UserInvalidInputException(String.format("There is already project in the account has short name %s", shortname));
         }
     }
 
-    private ProjectRole createProjectRole(int projectId, int sAccountId,
+    private ProjectRole createProjectRole(Integer projectId, Integer sAccountId,
                                           String roleName, String description) {
         ProjectRole projectRole = new ProjectRole();
         projectRole.setProjectid(projectId);
@@ -247,7 +234,7 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public SimpleProject findById(int projectId, int sAccountId) {
+    public SimpleProject findById(Integer projectId, Integer sAccountId) {
         return projectMapperExt.findProjectById(projectId);
     }
 
@@ -260,7 +247,7 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public String getSubdomainOfProject(int projectId) {
+    public String getSubdomainOfProject(Integer projectId) {
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
             return projectMapperExt.getSubdomainOfProject(projectId);
         } else {
@@ -269,8 +256,8 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public int removeWithSession(Integer projectId, String username,
-                                 int accountId) {
+    public Integer removeWithSession(Integer projectId, String username,
+                                     Integer accountId) {
         // notify listener project is removed, then silently remove project in
         // associate records
         try {
@@ -307,7 +294,7 @@ public class ProjectServiceImpl extends
     }
 
     @Override
-    public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey int sAccountId) {
+    public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey Integer sAccountId) {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.setInvolvedMember(new StringSearchField(SearchField.AND, username));
         criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));

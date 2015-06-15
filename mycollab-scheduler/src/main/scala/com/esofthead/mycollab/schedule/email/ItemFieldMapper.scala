@@ -18,14 +18,12 @@ package com.esofthead.mycollab.schedule.email
 
 import com.esofthead.mycollab.schedule.email.format.{DefaultFieldFormat, FieldFormat}
 
-import scala.collection.mutable._
-
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
 class ItemFieldMapper {
-    private val fieldNameMap: Map[String, FieldFormat] = Map()
+    private var fieldNameMap: Map[String, FieldFormat] = Map()
 
     def put(fieldName: Enum[_], displayName: Enum[_]): Unit = {
         fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName))
@@ -39,6 +37,10 @@ class ItemFieldMapper {
         fieldNameMap += (fieldName.name -> format)
     }
 
+    def keySet(): java.util.Set[String] = {
+        import scala.collection.JavaConverters._
+        fieldNameMap.keySet.asJava
+    }
 
     def hasField(fieldName: String): Boolean = fieldNameMap.contains(fieldName)
 

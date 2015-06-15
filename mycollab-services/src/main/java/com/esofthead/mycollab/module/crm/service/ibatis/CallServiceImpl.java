@@ -66,7 +66,7 @@ public class CallServiceImpl extends
     }
 
     @Override
-    public SimpleCall findById(int callId, int sAccountId) {
+    public SimpleCall findById(Integer callId, Integer sAccountId) {
         return callMapperExt.findById(callId);
     }
 
@@ -76,43 +76,43 @@ public class CallServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(CallWithBLOBs record, String username) {
-        int result = super.saveWithSession(record, username);
+    public Integer saveWithSession(CallWithBLOBs record, String username) {
+        Integer result = super.saveWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
         return result;
     }
 
     @Override
-    public int updateWithSession(CallWithBLOBs record, String username) {
-        int result = super.updateWithSession(record, username);
+    public Integer updateWithSession(CallWithBLOBs record, String username) {
+        Integer result = super.updateWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
         return result;
     }
 
     @Override
-    public int removeWithSession(Integer primaryKey, String username,
-                                 int accountId) {
-        int result = super.removeWithSession(primaryKey, username, accountId);
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        Integer result = super.removeWithSession(primaryKey, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
         return result;
     }
 
     @Override
-    public void removeByCriteria(CallSearchCriteria criteria, int accountId) {
+    public void removeByCriteria(CallSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
     public void massRemoveWithSession(List<Integer> primaryKeys,
-                                      String username, int accountId) {
+                                      String username, Integer accountId) {
         super.massRemoveWithSession(primaryKeys, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
     public void massUpdateWithSession(CallWithBLOBs record,
-                                      List<Integer> primaryKeys, int accountId) {
+                                      List<Integer> primaryKeys, Integer accountId) {
         super.massUpdateWithSession(record, primaryKeys, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }

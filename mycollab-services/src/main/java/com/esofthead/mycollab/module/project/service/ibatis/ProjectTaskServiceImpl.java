@@ -61,8 +61,7 @@ public class ProjectTaskServiceImpl extends
         ProjectTaskService {
 
     static {
-        ClassInfoMap.put(ProjectTaskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants
-                .TASK));
+        ClassInfoMap.put(ProjectTaskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK));
     }
 
     @Autowired
@@ -81,13 +80,13 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public SimpleTask findById(int taskId, int sAccountId) {
+    public SimpleTask findById(Integer taskId, Integer sAccountId) {
         return taskMapperExt.findTaskById(taskId);
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
-    public int saveWithSession(Task record, String username) {
+    public Integer saveWithSession(Task record, String username) {
         if ((record.getPercentagecomplete() != null)
                 && (record.getPercentagecomplete() == 100)) {
             record.setStatus(StatusI18nEnum.Closed.name());
@@ -122,7 +121,7 @@ public class ProjectTaskServiceImpl extends
 
     @Transactional
     @Override
-    public int updateWithSession(Task record, String username) {
+    public Integer updateWithSession(Task record, String username) {
         beforeUpdate(record);
         return super.updateWithSession(record, username);
     }
@@ -142,15 +141,15 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public int updateSelectiveWithSession(Task record, String username) {
+    public Integer updateSelectiveWithSession(Task record, String username) {
         beforeUpdate(record);
         return super.updateSelectiveWithSession(record, username);
     }
 
     @Override
-    public int removeWithSession(Integer primaryKey, String username,
-                                 int accountId) {
-        int result = super.removeWithSession(primaryKey, username, accountId);
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        Integer result = super.removeWithSession(primaryKey, username, accountId);
         CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
                 ProjectService.class, ProjectGenericTaskService.class,
                 ProjectActivityStreamService.class, MilestoneService.class,
@@ -170,15 +169,15 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public SimpleTask findByProjectAndTaskKey(int taskkey,
-                                              String projectShortName, int sAccountId) {
+    public SimpleTask findByProjectAndTaskKey(Integer taskkey,
+                                              String projectShortName, Integer sAccountId) {
         return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
                 sAccountId);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<SimpleTask> findSubTasks(int parentTaskId, int sAccountId) {
+    public List<SimpleTask> findSubTasks(Integer parentTaskId, Integer sAccountId) {
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
         searchCriteria.setParentTaskId(new NumberSearchField(parentTaskId));
@@ -187,7 +186,7 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public List<SimpleTask> findSubTasksOfGroup(int taskgroupId, @CacheKey int sAccountId) {
+    public List<SimpleTask> findSubTasksOfGroup(Integer taskgroupId, @CacheKey Integer sAccountId) {
         TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
         searchCriteria.setSaccountid(new NumberSearchField(sAccountId));
         searchCriteria.setTaskListId(new NumberSearchField(taskgroupId));

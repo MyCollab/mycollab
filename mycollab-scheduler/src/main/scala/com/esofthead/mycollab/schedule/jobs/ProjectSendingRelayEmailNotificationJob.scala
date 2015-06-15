@@ -24,6 +24,7 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -37,16 +38,21 @@ import org.springframework.stereotype.Component
 class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
+    @Autowired
+    var projectService: ProjectService = _
+
+    @Autowired
+    var relayNotificationService: RelayEmailNotificationService = _
+
     def executeJob(context: JobExecutionContext) {
-        val projectService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
         import scala.collection.JavaConverters._
         val relayEmaiNotifications: List[ProjectRelayEmailNotification] = projectService.findProjectRelayEmailNotifications.asScala.toList
-        val relayNotificationService: RelayEmailNotificationService = ApplicationContextUtil.getSpringBean(classOf[RelayEmailNotificationService])
         var emailNotificationAction: SendingRelayEmailNotificationAction = null
         for (notification <- relayEmaiNotifications) {
             try {
                 if (notification.getEmailhandlerbean != null) {
-                    emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).asInstanceOf[SendingRelayEmailNotificationAction]
+                    emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).
+                        asInstanceOf[SendingRelayEmailNotificationAction]
                     if (emailNotificationAction != null) {
                         if (MonitorTypeConstants.CREATE_ACTION == notification.getAction) {
                             emailNotificationAction.sendNotificationForCreateAction(notification)

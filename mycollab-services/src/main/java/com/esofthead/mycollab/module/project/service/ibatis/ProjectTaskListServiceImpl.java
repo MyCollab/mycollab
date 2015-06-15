@@ -38,7 +38,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -49,59 +48,59 @@ import org.springframework.transaction.annotation.Transactional;
 @Watchable(userFieldName = "owner", extraTypeId = "projectid")
 @NotifyAgent(ProjectTaskGroupRelayEmailNotificationAction.class)
 public class ProjectTaskListServiceImpl extends DefaultService<Integer, TaskList, TaskListSearchCriteria>
-		implements ProjectTaskListService {
+        implements ProjectTaskListService {
 
     static {
         ClassInfoMap.put(ProjectTaskListServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK_LIST));
     }
 
-	@Autowired
-	protected TaskListMapper projectTaskListMapper;
-	@Autowired
-	protected TaskListMapperExt projectTaskListMapperExt;
+    @Autowired
+    protected TaskListMapper projectTaskListMapper;
+    @Autowired
+    protected TaskListMapperExt projectTaskListMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, TaskList> getCrudMapper() {
-		return projectTaskListMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, TaskList> getCrudMapper() {
+        return projectTaskListMapper;
+    }
 
-	@Override
-	public ISearchableDAO<TaskListSearchCriteria> getSearchMapper() {
-		return projectTaskListMapperExt;
-	}
+    @Override
+    public ISearchableDAO<TaskListSearchCriteria> getSearchMapper() {
+        return projectTaskListMapperExt;
+    }
 
-	@Override
-	public SimpleTaskList findById(int taskListId, int sAccountId) {
-		return projectTaskListMapperExt.findTaskListById(taskListId);
-	}
+    @Override
+    public SimpleTaskList findById(Integer taskListId, Integer sAccountId) {
+        return projectTaskListMapperExt.findTaskListById(taskListId);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectGenericTaskService.class);
-		return super.removeWithSession(primaryKey, username, accountId);
-	}
+    @Override
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectGenericTaskService.class);
+        return super.removeWithSession(primaryKey, username, accountId);
+    }
 
-	@Override
-	public int saveWithSession(TaskList record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		return super.saveWithSession(record, username);
-	}
+    @Override
+    public Integer saveWithSession(TaskList record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        return super.saveWithSession(record, username);
+    }
 
-	@Override
-	public int updateWithSession(TaskList record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		return super.updateWithSession(record, username);
-	}
+    @Override
+    public Integer updateWithSession(TaskList record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        return super.updateWithSession(record, username);
+    }
 
-	@Override
-	public void updateTaskListIndex(TaskList[] taskLists, int sAccountId) {
-		for (TaskList taskList : taskLists) {
-			projectTaskListMapper.updateByPrimaryKeySelective(taskList);
-		}
-	}
+    @Override
+    public void updateTaskListIndex(TaskList[] taskLists, Integer sAccountId) {
+        for (TaskList taskList : taskLists) {
+            projectTaskListMapper.updateByPrimaryKeySelective(taskList);
+        }
+    }
 }

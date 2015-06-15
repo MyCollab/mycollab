@@ -45,7 +45,7 @@ public class TagServiceImpl extends DefaultCrudService<Integer, Tag> implements 
     }
 
     @Override
-    public int saveWithSession(Tag record, String username) {
+    public Integer saveWithSession(Tag record, String username) {
         TagExample ex = new TagExample();
         ex.createCriteria().andTypeEqualTo(record.getType()).andTypeidEqualTo(record.getTypeid()).andNameEqualTo
                 (record.getName());

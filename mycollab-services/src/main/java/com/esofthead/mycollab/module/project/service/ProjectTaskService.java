@@ -36,17 +36,17 @@ public interface ProjectTaskService extends
 		IDefaultService<Integer, Task, TaskSearchCriteria> {
 
 	@Cacheable
-	SimpleTask findById(int taskId, @CacheKey int sAccountId);
+	SimpleTask findById(Integer taskId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	List<SimpleTask> findSubTasksOfGroup(int taskgroupId, @CacheKey int sAccountId);
+	List<SimpleTask> findSubTasksOfGroup(Integer taskgroupId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	List<SimpleTask> findSubTasks(int parentTaskId, @CacheKey int sAccountId);
+	List<SimpleTask> findSubTasks(Integer parentTaskId, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	SimpleTask findByProjectAndTaskKey(int taskkey, String projectShortName,
-			@CacheKey int sAccountId);
+	SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName,
+			@CacheKey Integer sAccountId);
 
 	@Cacheable
 	List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);

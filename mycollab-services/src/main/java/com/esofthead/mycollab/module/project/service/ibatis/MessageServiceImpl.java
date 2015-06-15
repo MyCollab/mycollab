@@ -40,66 +40,63 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
 @Traceable(nameField = "title", extraFieldName = "projectid")
 @NotifyAgent(MessageRelayEmailNotificationAction.class)
-public class MessageServiceImpl extends
-		DefaultService<Integer, Message, MessageSearchCriteria> implements
-		MessageService {
+public class MessageServiceImpl extends DefaultService<Integer, Message, MessageSearchCriteria>
+        implements MessageService {
 
     static {
         ClassInfoMap.put(MessageServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MESSAGE));
     }
 
-	@Autowired
-	private MessageMapper messageMapper;
+    @Autowired
+    private MessageMapper messageMapper;
 
-	@Autowired
-	private MessageMapperExt messageMapperExt;
+    @Autowired
+    private MessageMapperExt messageMapperExt;
 
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
+    @Autowired
+    private RelayEmailNotificationService relayEmailNotificationService;
 
-	@Override
-	public ICrudGenericDAO<Integer, Message> getCrudMapper() {
-		return messageMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Message> getCrudMapper() {
+        return messageMapper;
+    }
 
-	@Override
-	public int saveWithSession(Message record, String username) {
-		int recordId = super.saveWithSession(record, username);
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectActivityStreamService.class);
-		return recordId;
-	}
+    @Override
+    public Integer saveWithSession(Message record, String username) {
+        Integer recordId = super.saveWithSession(record, username);
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectActivityStreamService.class);
+        return recordId;
+    }
 
-	@Override
-	public int updateWithSession(Message record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectActivityStreamService.class);
-		return super.updateWithSession(record, username);
-	}
+    @Override
+    public Integer updateWithSession(Message record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectActivityStreamService.class);
+        return super.updateWithSession(record, username);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
-		return super.removeWithSession(primaryKey, username, accountId);
-	}
+    @Override
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+        return super.removeWithSession(primaryKey, username, accountId);
+    }
 
-	@Override
-	public ISearchableDAO<MessageSearchCriteria> getSearchMapper() {
-		return messageMapperExt;
-	}
+    @Override
+    public ISearchableDAO<MessageSearchCriteria> getSearchMapper() {
+        return messageMapperExt;
+    }
 
-	@Override
-	public SimpleMessage findById(int messageId, int sAccountId) {
-		return messageMapperExt.findMessageById(messageId);
-	}
+    @Override
+    public SimpleMessage findById(Integer messageId, Integer sAccountId) {
+        return messageMapperExt.findMessageById(messageId);
+    }
 }

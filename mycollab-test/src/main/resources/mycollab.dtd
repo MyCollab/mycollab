@@ -1,16 +1,17 @@
 <!ELEMENT dataset (
-    JGROUPSPING*,
-    QRTZ_BLOB_TRIGGERS*,
-    QRTZ_CALENDARS*,
-    QRTZ_CRON_TRIGGERS*,
-    QRTZ_FIRED_TRIGGERS*,
-    QRTZ_JOB_DETAILS*,
-    QRTZ_LOCKS*,
-    QRTZ_PAUSED_TRIGGER_GRPS*,
-    QRTZ_SCHEDULER_STATE*,
-    QRTZ_SIMPLE_TRIGGERS*,
-    QRTZ_SIMPROP_TRIGGERS*,
-    QRTZ_TRIGGERS*,
+    ecm_journalglobal_revision*,
+    ecm_journaljournal*,
+    ecm_journallocal_revisions*,
+    ecm_p_versionbinval*,
+    ecm_p_versionbundle*,
+    ecm_p_versionnames*,
+    ecm_p_versionrefs*,
+    ecm_p_workspacebinval*,
+    ecm_p_workspacebundle*,
+    ecm_p_workspacenames*,
+    ecm_p_workspacerefs*,
+    ecm_s_fsentry*,
+    jgroupsping*,
     m_audit_log*,
     m_comment*,
     m_crm_account*,
@@ -30,7 +31,6 @@
     m_crm_lead*,
     m_crm_meeting*,
     m_crm_meeting_invitees*,
-    m_crm_note*,
     m_crm_notifications*,
     m_crm_opportunities_leads*,
     m_crm_opportunity*,
@@ -69,6 +69,17 @@
     m_tracker_query*,
     m_tracker_related_bug*,
     m_tracker_version*,
+    qrtz_blob_triggers*,
+    qrtz_calendars*,
+    qrtz_cron_triggers*,
+    qrtz_fired_triggers*,
+    qrtz_job_details*,
+    qrtz_locks*,
+    qrtz_paused_trigger_grps*,
+    qrtz_scheduler_state*,
+    qrtz_simple_triggers*,
+    qrtz_simprop_triggers*,
+    qrtz_triggers*,
     s_account*,
     s_account_settings*,
     s_account_theme*,
@@ -77,15 +88,14 @@
     s_country*,
     s_currency*,
     s_customer_feedback*,
+    s_favorite*,
     s_relay_email_notification*,
     s_relay_mail*,
-    s_report_bug_issue*,
     s_role_permission*,
     s_roles*,
     s_save_search_result*,
     s_table_customize_view*,
     s_tag*,
-    s_tag_relationship*,
     s_user*,
     s_user_account*,
     s_user_account_invitation*,
@@ -93,136 +103,101 @@
     s_user_permission*,
     s_user_preference*,
     s_user_tracking*,
-    schema_version*)>
+    schema_version*,
+    wiki_journalglobal_revision*,
+    wiki_journaljournal*,
+    wiki_journallocal_revisions*,
+    wiki_p_versionbinval*,
+    wiki_p_versionbundle*,
+    wiki_p_versionnames*,
+    wiki_p_versionrefs*,
+    wiki_p_workspacebinval*,
+    wiki_p_workspacebundle*,
+    wiki_p_workspacenames*,
+    wiki_p_workspacerefs*,
+    wiki_s_fsentry*)>
 
-<!ELEMENT JGROUPSPING EMPTY>
-<!ATTLIST JGROUPSPING
+<!ELEMENT ecm_journalglobal_revision EMPTY>
+<!ATTLIST ecm_journalglobal_revision
+    REVISION_ID CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_journaljournal EMPTY>
+<!ATTLIST ecm_journaljournal
+    REVISION_ID CDATA #REQUIRED
+    JOURNAL_ID CDATA #IMPLIED
+    PRODUCER_ID CDATA #IMPLIED
+    REVISION_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT ecm_journallocal_revisions EMPTY>
+<!ATTLIST ecm_journallocal_revisions
+    JOURNAL_ID CDATA #REQUIRED
+    REVISION_ID CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_versionbinval EMPTY>
+<!ATTLIST ecm_p_versionbinval
+    BINVAL_ID CDATA #REQUIRED
+    BINVAL_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_versionbundle EMPTY>
+<!ATTLIST ecm_p_versionbundle
+    NODE_ID CDATA #REQUIRED
+    BUNDLE_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_versionnames EMPTY>
+<!ATTLIST ecm_p_versionnames
+    ID CDATA #REQUIRED
+    NAME CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_versionrefs EMPTY>
+<!ATTLIST ecm_p_versionrefs
+    NODE_ID CDATA #REQUIRED
+    REFS_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_workspacebinval EMPTY>
+<!ATTLIST ecm_p_workspacebinval
+    BINVAL_ID CDATA #REQUIRED
+    BINVAL_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_workspacebundle EMPTY>
+<!ATTLIST ecm_p_workspacebundle
+    NODE_ID CDATA #REQUIRED
+    BUNDLE_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_workspacenames EMPTY>
+<!ATTLIST ecm_p_workspacenames
+    ID CDATA #REQUIRED
+    NAME CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_p_workspacerefs EMPTY>
+<!ATTLIST ecm_p_workspacerefs
+    NODE_ID CDATA #REQUIRED
+    REFS_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT ecm_s_fsentry EMPTY>
+<!ATTLIST ecm_s_fsentry
+    FSENTRY_PATH CDATA #REQUIRED
+    FSENTRY_NAME CDATA #REQUIRED
+    FSENTRY_DATA CDATA #IMPLIED
+    FSENTRY_LASTMOD CDATA #REQUIRED
+    FSENTRY_LENGTH CDATA #REQUIRED
+>
+
+<!ELEMENT jgroupsping EMPTY>
+<!ATTLIST jgroupsping
     own_addr CDATA #REQUIRED
     cluster_name CDATA #REQUIRED
     ping_data CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_BLOB_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_BLOB_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    BLOB_DATA CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_CALENDARS EMPTY>
-<!ATTLIST QRTZ_CALENDARS
-    SCHED_NAME CDATA #REQUIRED
-    CALENDAR_NAME CDATA #REQUIRED
-    CALENDAR CDATA #REQUIRED
->
-
-<!ELEMENT QRTZ_CRON_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_CRON_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    CRON_EXPRESSION CDATA #REQUIRED
-    TIME_ZONE_ID CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_FIRED_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_FIRED_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    ENTRY_ID CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    INSTANCE_NAME CDATA #REQUIRED
-    FIRED_TIME CDATA #REQUIRED
-    SCHED_TIME CDATA #REQUIRED
-    PRIORITY CDATA #REQUIRED
-    STATE CDATA #REQUIRED
-    JOB_NAME CDATA #IMPLIED
-    JOB_GROUP CDATA #IMPLIED
-    IS_NONCONCURRENT CDATA #IMPLIED
-    REQUESTS_RECOVERY CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_JOB_DETAILS EMPTY>
-<!ATTLIST QRTZ_JOB_DETAILS
-    SCHED_NAME CDATA #REQUIRED
-    JOB_NAME CDATA #REQUIRED
-    JOB_GROUP CDATA #REQUIRED
-    DESCRIPTION CDATA #IMPLIED
-    JOB_CLASS_NAME CDATA #REQUIRED
-    IS_DURABLE CDATA #REQUIRED
-    IS_NONCONCURRENT CDATA #REQUIRED
-    IS_UPDATE_DATA CDATA #REQUIRED
-    REQUESTS_RECOVERY CDATA #REQUIRED
-    JOB_DATA CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_LOCKS EMPTY>
-<!ATTLIST QRTZ_LOCKS
-    SCHED_NAME CDATA #REQUIRED
-    LOCK_NAME CDATA #REQUIRED
->
-
-<!ELEMENT QRTZ_PAUSED_TRIGGER_GRPS EMPTY>
-<!ATTLIST QRTZ_PAUSED_TRIGGER_GRPS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
->
-
-<!ELEMENT QRTZ_SCHEDULER_STATE EMPTY>
-<!ATTLIST QRTZ_SCHEDULER_STATE
-    SCHED_NAME CDATA #REQUIRED
-    INSTANCE_NAME CDATA #REQUIRED
-    LAST_CHECKIN_TIME CDATA #REQUIRED
-    CHECKIN_INTERVAL CDATA #REQUIRED
->
-
-<!ELEMENT QRTZ_SIMPLE_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_SIMPLE_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    REPEAT_COUNT CDATA #REQUIRED
-    REPEAT_INTERVAL CDATA #REQUIRED
-    TIMES_TRIGGERED CDATA #REQUIRED
->
-
-<!ELEMENT QRTZ_SIMPROP_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_SIMPROP_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    STR_PROP_1 CDATA #IMPLIED
-    STR_PROP_2 CDATA #IMPLIED
-    STR_PROP_3 CDATA #IMPLIED
-    INT_PROP_1 CDATA #IMPLIED
-    INT_PROP_2 CDATA #IMPLIED
-    LONG_PROP_1 CDATA #IMPLIED
-    LONG_PROP_2 CDATA #IMPLIED
-    DEC_PROP_1 CDATA #IMPLIED
-    DEC_PROP_2 CDATA #IMPLIED
-    BOOL_PROP_1 CDATA #IMPLIED
-    BOOL_PROP_2 CDATA #IMPLIED
->
-
-<!ELEMENT QRTZ_TRIGGERS EMPTY>
-<!ATTLIST QRTZ_TRIGGERS
-    SCHED_NAME CDATA #REQUIRED
-    TRIGGER_NAME CDATA #REQUIRED
-    TRIGGER_GROUP CDATA #REQUIRED
-    JOB_NAME CDATA #REQUIRED
-    JOB_GROUP CDATA #REQUIRED
-    DESCRIPTION CDATA #IMPLIED
-    NEXT_FIRE_TIME CDATA #IMPLIED
-    PREV_FIRE_TIME CDATA #IMPLIED
-    PRIORITY CDATA #IMPLIED
-    TRIGGER_STATE CDATA #REQUIRED
-    TRIGGER_TYPE CDATA #REQUIRED
-    START_TIME CDATA #REQUIRED
-    END_TIME CDATA #IMPLIED
-    CALENDAR_NAME CDATA #IMPLIED
-    MISFIRE_INSTR CDATA #IMPLIED
-    JOB_DATA CDATA #IMPLIED
 >
 
 <!ELEMENT m_audit_log EMPTY>
@@ -573,19 +548,6 @@
     isModerator CDATA #REQUIRED
     status CDATA #REQUIRED
     source CDATA #REQUIRED
->
-
-<!ELEMENT m_crm_note EMPTY>
-<!ATTLIST m_crm_note
-    id CDATA #REQUIRED
-    subject CDATA #REQUIRED
-    note CDATA #IMPLIED
-    type CDATA #IMPLIED
-    typeid CDATA #IMPLIED
-    createdTime CDATA #IMPLIED
-    createdUser CDATA #IMPLIED
-    sAccountId CDATA #REQUIRED
-    lastUpdatedTime CDATA #IMPLIED
 >
 
 <!ELEMENT m_crm_notifications EMPTY>
@@ -1035,6 +997,7 @@
     createdTime CDATA #IMPLIED
     lastUpdatedTime CDATA #IMPLIED
     avatarId CDATA #IMPLIED
+    contextAsk CDATA #IMPLIED
 >
 
 <!ELEMENT m_prj_risk EMPTY>
@@ -1271,6 +1234,129 @@
     prjKey CDATA #IMPLIED
 >
 
+<!ELEMENT qrtz_blob_triggers EMPTY>
+<!ATTLIST qrtz_blob_triggers
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    BLOB_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT qrtz_calendars EMPTY>
+<!ATTLIST qrtz_calendars
+    SCHED_NAME CDATA #REQUIRED
+    CALENDAR_NAME CDATA #REQUIRED
+    CALENDAR CDATA #REQUIRED
+>
+
+<!ELEMENT qrtz_cron_triggers EMPTY>
+<!ATTLIST qrtz_cron_triggers
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    CRON_EXPRESSION CDATA #REQUIRED
+    TIME_ZONE_ID CDATA #IMPLIED
+>
+
+<!ELEMENT qrtz_fired_triggers EMPTY>
+<!ATTLIST qrtz_fired_triggers
+    SCHED_NAME CDATA #REQUIRED
+    ENTRY_ID CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    INSTANCE_NAME CDATA #REQUIRED
+    FIRED_TIME CDATA #REQUIRED
+    SCHED_TIME CDATA #REQUIRED
+    PRIORITY CDATA #REQUIRED
+    STATE CDATA #REQUIRED
+    JOB_NAME CDATA #IMPLIED
+    JOB_GROUP CDATA #IMPLIED
+    IS_NONCONCURRENT CDATA #IMPLIED
+    REQUESTS_RECOVERY CDATA #IMPLIED
+>
+
+<!ELEMENT qrtz_job_details EMPTY>
+<!ATTLIST qrtz_job_details
+    SCHED_NAME CDATA #REQUIRED
+    JOB_NAME CDATA #REQUIRED
+    JOB_GROUP CDATA #REQUIRED
+    DESCRIPTION CDATA #IMPLIED
+    JOB_CLASS_NAME CDATA #REQUIRED
+    IS_DURABLE CDATA #REQUIRED
+    IS_NONCONCURRENT CDATA #REQUIRED
+    IS_UPDATE_DATA CDATA #REQUIRED
+    REQUESTS_RECOVERY CDATA #REQUIRED
+    JOB_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT qrtz_locks EMPTY>
+<!ATTLIST qrtz_locks
+    SCHED_NAME CDATA #REQUIRED
+    LOCK_NAME CDATA #REQUIRED
+>
+
+<!ELEMENT qrtz_paused_trigger_grps EMPTY>
+<!ATTLIST qrtz_paused_trigger_grps
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+>
+
+<!ELEMENT qrtz_scheduler_state EMPTY>
+<!ATTLIST qrtz_scheduler_state
+    SCHED_NAME CDATA #REQUIRED
+    INSTANCE_NAME CDATA #REQUIRED
+    LAST_CHECKIN_TIME CDATA #REQUIRED
+    CHECKIN_INTERVAL CDATA #REQUIRED
+>
+
+<!ELEMENT qrtz_simple_triggers EMPTY>
+<!ATTLIST qrtz_simple_triggers
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    REPEAT_COUNT CDATA #REQUIRED
+    REPEAT_INTERVAL CDATA #REQUIRED
+    TIMES_TRIGGERED CDATA #REQUIRED
+>
+
+<!ELEMENT qrtz_simprop_triggers EMPTY>
+<!ATTLIST qrtz_simprop_triggers
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    STR_PROP_1 CDATA #IMPLIED
+    STR_PROP_2 CDATA #IMPLIED
+    STR_PROP_3 CDATA #IMPLIED
+    INT_PROP_1 CDATA #IMPLIED
+    INT_PROP_2 CDATA #IMPLIED
+    LONG_PROP_1 CDATA #IMPLIED
+    LONG_PROP_2 CDATA #IMPLIED
+    DEC_PROP_1 CDATA #IMPLIED
+    DEC_PROP_2 CDATA #IMPLIED
+    BOOL_PROP_1 CDATA #IMPLIED
+    BOOL_PROP_2 CDATA #IMPLIED
+>
+
+<!ELEMENT qrtz_triggers EMPTY>
+<!ATTLIST qrtz_triggers
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    JOB_NAME CDATA #REQUIRED
+    JOB_GROUP CDATA #REQUIRED
+    DESCRIPTION CDATA #IMPLIED
+    NEXT_FIRE_TIME CDATA #IMPLIED
+    PREV_FIRE_TIME CDATA #IMPLIED
+    PRIORITY CDATA #IMPLIED
+    TRIGGER_STATE CDATA #REQUIRED
+    TRIGGER_TYPE CDATA #REQUIRED
+    START_TIME CDATA #REQUIRED
+    END_TIME CDATA #IMPLIED
+    CALENDAR_NAME CDATA #IMPLIED
+    MISFIRE_INSTR CDATA #IMPLIED
+    JOB_DATA CDATA #IMPLIED
+>
+
 <!ELEMENT s_account EMPTY>
 <!ATTLIST s_account
     id CDATA #REQUIRED
@@ -1387,6 +1473,18 @@
     reasonToBack CDATA #IMPLIED
 >
 
+<!ELEMENT s_favorite EMPTY>
+<!ATTLIST s_favorite
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    extraTypeId CDATA #IMPLIED
+    createdUser CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
 <!ELEMENT s_relay_email_notification EMPTY>
 <!ATTLIST s_relay_email_notification
     id CDATA #REQUIRED
@@ -1410,17 +1508,6 @@
     fromName CDATA #REQUIRED
     fromEmail CDATA #REQUIRED
     emailHandlerBean CDATA #IMPLIED
->
-
-<!ELEMENT s_report_bug_issue EMPTY>
-<!ATTLIST s_report_bug_issue
-    id CDATA #REQUIRED
-    sAccountId CDATA #IMPLIED
-    username CDATA #IMPLIED
-    userAgent CDATA #IMPLIED
-    errorTrace CDATA #REQUIRED
-    ipaddress CDATA #IMPLIED
-    country_code CDATA #IMPLIED
 >
 
 <!ELEMENT s_role_permission EMPTY>
@@ -1465,16 +1552,10 @@
 <!ATTLIST s_tag
     id CDATA #REQUIRED
     name CDATA #REQUIRED
-    sAccountId CDATA #REQUIRED
-    lowercasename CDATA #REQUIRED
->
-
-<!ELEMENT s_tag_relationship EMPTY>
-<!ATTLIST s_tag_relationship
-    id CDATA #REQUIRED
-    tagId CDATA #REQUIRED
     type CDATA #REQUIRED
-    typerid CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    extraTypeId CDATA #IMPLIED
 >
 
 <!ELEMENT s_user EMPTY>
@@ -1501,6 +1582,7 @@
     skypeContact CDATA #IMPLIED
     avatarId CDATA #IMPLIED
     status CDATA #IMPLIED
+    requestAd CDATA #IMPLIED
 >
 
 <!ELEMENT s_user_account EMPTY>
@@ -1574,5 +1656,81 @@
     installed_on CDATA #IMPLIED
     execution_time CDATA #REQUIRED
     success CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_journalglobal_revision EMPTY>
+<!ATTLIST wiki_journalglobal_revision
+    REVISION_ID CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_journaljournal EMPTY>
+<!ATTLIST wiki_journaljournal
+    REVISION_ID CDATA #REQUIRED
+    JOURNAL_ID CDATA #IMPLIED
+    PRODUCER_ID CDATA #IMPLIED
+    REVISION_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT wiki_journallocal_revisions EMPTY>
+<!ATTLIST wiki_journallocal_revisions
+    JOURNAL_ID CDATA #REQUIRED
+    REVISION_ID CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_versionbinval EMPTY>
+<!ATTLIST wiki_p_versionbinval
+    BINVAL_ID CDATA #REQUIRED
+    BINVAL_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_versionbundle EMPTY>
+<!ATTLIST wiki_p_versionbundle
+    NODE_ID CDATA #REQUIRED
+    BUNDLE_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_versionnames EMPTY>
+<!ATTLIST wiki_p_versionnames
+    ID CDATA #REQUIRED
+    NAME CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_versionrefs EMPTY>
+<!ATTLIST wiki_p_versionrefs
+    NODE_ID CDATA #REQUIRED
+    REFS_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_workspacebinval EMPTY>
+<!ATTLIST wiki_p_workspacebinval
+    BINVAL_ID CDATA #REQUIRED
+    BINVAL_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_workspacebundle EMPTY>
+<!ATTLIST wiki_p_workspacebundle
+    NODE_ID CDATA #REQUIRED
+    BUNDLE_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_workspacenames EMPTY>
+<!ATTLIST wiki_p_workspacenames
+    ID CDATA #REQUIRED
+    NAME CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_p_workspacerefs EMPTY>
+<!ATTLIST wiki_p_workspacerefs
+    NODE_ID CDATA #REQUIRED
+    REFS_DATA CDATA #REQUIRED
+>
+
+<!ELEMENT wiki_s_fsentry EMPTY>
+<!ATTLIST wiki_s_fsentry
+    FSENTRY_PATH CDATA #REQUIRED
+    FSENTRY_NAME CDATA #REQUIRED
+    FSENTRY_DATA CDATA #IMPLIED
+    FSENTRY_LASTMOD CDATA #REQUIRED
+    FSENTRY_LENGTH CDATA #REQUIRED
 >
 

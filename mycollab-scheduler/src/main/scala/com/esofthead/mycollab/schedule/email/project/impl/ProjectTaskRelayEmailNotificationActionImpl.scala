@@ -40,8 +40,6 @@ import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Service
 
-import scala.util.control.Breaks._
-
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
@@ -102,88 +100,42 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): List[SimpleUser] = {
+    protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): Set[SimpleUser] = {
         import scala.collection.JavaConverters._
         val notificationSettings: List[ProjectNotificationSetting] = projectNotificationService.findNotifications(notification.getProjectId, notification.getSaccountid).asScala.toList
-
-        val activeUsers: List[SimpleUser] = projectMemberService.getActiveUsersInProject(notification.getProjectId, notification.getSaccountid).asScala.toList
-
-        val inListUsers: List[SimpleUser] = notification.getNotifyUsers.asScala.toList
+        var notifyUsers: Set[SimpleUser] = notification.getNotifyUsers.asScala.toSet
 
         if (notificationSettings != null && notificationSettings.size > 0) {
-            import scala.collection.JavaConversions._
             for (notificationSetting <- notificationSettings) {
                 if (NotificationType.None.name == notificationSetting.getLevel) {
-                    {
-                        var i: Int = inListUsers.size - 1
-                        breakable {
-                            while (i >= 0) {
-                                {
-                                    val inUser: SimpleUser = inListUsers.get(i)
-                                    if ((inUser.getUsername != null) && (inUser.getUsername == notificationSetting.getUsername)) {
-                                        inListUsers.remove(i)
-                                        break()
-                                    }
-                                }
-                                i = i - 1
-                            }
-                        }
-                    }
+                    notifyUsers = notifyUsers.filter(notifyUser => !(notifyUser.getUsername == notificationSetting.getUsername))
                 }
                 else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
-                    var isAlreadyInList: Boolean = false
-                    breakable {
-                        for (user <- inListUsers) {
-                            if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                                isAlreadyInList = true
-                                break()
-                            }
-                        }
-                    }
-
-                    if (!isAlreadyInList) {
-                        val task: SimpleTask = projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
-                        if (task.getAssignuser != null && (task.getAssignuser == notificationSetting.getUsername)) {
-                            import scala.collection.JavaConversions._
-                            breakable {
-                                for (user <- activeUsers) {
-                                    if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                                        inListUsers.add(user)
-                                        break()
-                                    }
+                    val findResult: Option[SimpleUser] = notifyUsers.find(notifyUser => notifyUser.getUsername == notificationSetting.getUsername);
+                    findResult match {
+                        case None => {
+                            val task: SimpleTask = projectTaskService.findById(notification.getTypeid.toInt, notification.getSaccountid)
+                            if (notificationSetting.getUsername == task.getAssignuser) {
+                                val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
+                                    notificationSetting.getProjectid, notificationSetting.getSaccountid)
+                                if (prjMember != null) {
+                                    notifyUsers = notifyUsers + prjMember
                                 }
                             }
                         }
                     }
                 }
                 else if (NotificationType.Full.name == notificationSetting.getLevel) {
-                    var isAlreadyInList: Boolean = false
-                    breakable {
-                        for (user <- inListUsers) {
-                            if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                                isAlreadyInList = true
-                                break()
-                            }
-                        }
-                    }
-
-                    if (!isAlreadyInList) {
-                        import scala.collection.JavaConversions._
-
-                        breakable {
-                            for (user <- activeUsers) {
-                                if ((user.getUsername != null) && (user.getUsername == notificationSetting.getUsername)) {
-                                    inListUsers.add(user)
-                                    break()
-                                }
-                            }
-                        }
+                    val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
+                        notificationSetting.getProjectid, notificationSetting.getSaccountid)
+                    if (prjMember != null) {
+                        notifyUsers = notifyUsers + prjMember
                     }
                 }
             }
         }
 
-        inListUsers
+        notifyUsers
     }
 
     class TaskFieldNameMapper extends ItemFieldMapper {

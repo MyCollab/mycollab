@@ -55,15 +55,19 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
 
     protected def getItemName: String = StringUtils.trim(bean.getIssuename, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(ProblemI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+        ProblemI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(ProblemI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+        ProblemI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleProblem]): String = context.getMessage(ProblemI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+        ProblemI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleProblem]): SimpleProblem = problemService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleProblem]): SimpleProblem = problemService.findById(context.getTypeid.toInt,
+        context.getSaccountid)
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleProblem]) {
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
@@ -73,7 +77,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
 
         val summary: String = bean.getIssuename
         val summaryLink: String = ProjectLinkGenerator.generateProblemPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+            bean.getProjectid, emailNotification.getSaccountid)
 
         val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
@@ -95,7 +100,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
         put(Problem.Field.issuename, ProblemI18nEnum.FORM_NAME, isColSpan = true)
         put(Problem.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
         put(Problem.Field.datedue, new DateFieldFormat(Problem.Field.datedue.name, ProblemI18nEnum.FORM_DATE_DUE))
-        put(Problem.Field.status, new I18nFieldFormat(Problem.Field.status.name, ProblemI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
+        put(Problem.Field.status, new I18nFieldFormat(Problem.Field.status.name, ProblemI18nEnum.FORM_STATUS,
+            classOf[OptionI18nEnum.StatusI18nEnum]))
         put(Problem.Field.impact, ProblemI18nEnum.FORM_IMPACT)
         put(Problem.Field.priority, ProblemI18nEnum.FORM_PRIORITY)
         put(Problem.Field.assigntouser, new AssigneeFieldFormat(Problem.Field.assigntouser.name, GenericI18Enum.FORM_ASSIGNEE))
@@ -110,7 +116,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
             if (problem.getAssigntouser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(problem.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(problem.getSaccountid), problem.getAssigntouser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(problem.getSaccountid),
+                    problem.getAssigntouser)
                 val link: A = FormatUtils.newA(userLink, problem.getAssignedUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -127,7 +134,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write
@@ -144,7 +152,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
             if (problem.getRaisedbyuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(problem.getRaisedByUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(problem.getSaccountid), problem.getRaisedbyuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(problem.getSaccountid),
+                    problem.getRaisedbyuser)
                 val link: A = FormatUtils.newA(userLink, problem.getRaisedByUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -161,7 +170,8 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

@@ -29,40 +29,36 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ProjectMemberService extends
-		IDefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria> {
+public interface ProjectMemberService extends IDefaultService<Integer, ProjectMember, ProjectMemberSearchCriteria> {
 
-	@Cacheable
-	SimpleProjectMember findById(int memberId, @CacheKey int sAccountId);
+    @Cacheable
+    SimpleProjectMember findById(Integer memberId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	boolean isUserBelongToProject(String username, int projectId,
-			@CacheKey int sAccountId);
+    @Cacheable
+    boolean isUserBelongToProject(String username, Integer projectId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	SimpleProjectMember findMemberByUsername(String username, int projectId,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleProjectMember findMemberByUsername(String username, Integer projectId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<SimpleUser> getUsersNotInProject(int projectId,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    SimpleUser getActiveUserOfProject(String username, Integer projectId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<SimpleUser> getActiveUsersInProject(int projectId,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    List<SimpleUser> getUsersNotInProject(Integer projectId, @CacheKey Integer sAccountId);
 
-	@Cacheable
-	List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
-			@CacheKey Integer sAccountId);
+    @Cacheable
+    List<SimpleUser> getActiveUsersInProject(Integer projectId, @CacheKey Integer sAccountId);
 
-	void inviteProjectMembers(String[] email, int projectId, int projectRoleId,
-			String inviteUser, String inviteMessage, int sAccountId);
+    @Cacheable
+    List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds, @CacheKey Integer sAccountId);
 
-	@CacheEvict
-	void acceptProjectInvitationByNewUser(String email, String password,
-			Integer projectId, Integer projectRoleId, Integer sAccountId);
+    void inviteProjectMembers(String[] email, Integer projectId, Integer projectRoleId,
+                              String inviteUser, String inviteMessage, Integer sAccountId);
+
+    @CacheEvict
+    void acceptProjectInvitationByNewUser(String email, String password,
+                                          Integer projectId, Integer projectRoleId, Integer sAccountId);
 }

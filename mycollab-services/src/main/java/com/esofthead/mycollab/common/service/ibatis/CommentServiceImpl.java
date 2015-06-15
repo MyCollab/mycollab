@@ -51,8 +51,7 @@ public class CommentServiceImpl extends
         DefaultService<Integer, CommentWithBLOBs, CommentSearchCriteria> implements
         CommentService {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(CommentServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     @Autowired
     protected CommentMapper commentMapper;
@@ -77,14 +76,14 @@ public class CommentServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(CommentWithBLOBs record, String username) {
+    public Integer saveWithSession(CommentWithBLOBs record, String username) {
         return this.saveWithSession(record, username, null);
     }
 
     @Override
-    public int saveWithSession(CommentWithBLOBs record, String username,
+    public Integer saveWithSession(CommentWithBLOBs record, String username,
                                Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-        int saveId = super.saveWithSession(record, username);
+        Integer saveId = super.saveWithSession(record, username);
 
         if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
             CacheUtils

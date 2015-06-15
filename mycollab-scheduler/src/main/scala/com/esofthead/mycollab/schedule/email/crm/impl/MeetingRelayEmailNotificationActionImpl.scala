@@ -78,14 +78,17 @@ class MeetingRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmai
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleMeeting]): SimpleMeeting = meetingService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleMeeting]): SimpleMeeting = meetingService.findById(context.getTypeid.toInt,
+        context.getSaccountid)
 
     class MeetingFieldNameMapper extends ItemFieldMapper {
         put(MeetingWithBLOBs.Field.subject, MeetingI18nEnum.FORM_SUBJECT, isColSpan = true)
         put(MeetingWithBLOBs.Field.status, MeetingI18nEnum.FORM_STATUS)
-        put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name, MeetingI18nEnum.FORM_START_DATE_TIME))
+        put(MeetingWithBLOBs.Field.startdate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.startdate.name,
+            MeetingI18nEnum.FORM_START_DATE_TIME))
         put(MeetingWithBLOBs.Field.location, MeetingI18nEnum.FORM_LOCATION)
-        put(MeetingWithBLOBs.Field.enddate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.enddate.name, MeetingI18nEnum.FORM_END_DATE_TIME))
+        put(MeetingWithBLOBs.Field.enddate, new DateTimeFieldFormat(MeetingWithBLOBs.Field.enddate.name,
+            MeetingI18nEnum.FORM_END_DATE_TIME))
         put(MeetingWithBLOBs.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
     }
 

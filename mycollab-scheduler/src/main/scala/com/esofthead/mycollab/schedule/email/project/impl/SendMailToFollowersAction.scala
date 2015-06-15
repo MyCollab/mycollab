@@ -42,7 +42,7 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
     protected var siteUrl: String = _
 
     def sendNotificationForCreateAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -57,14 +57,17 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     contentGenerator.putVariable("userName", user.getDisplayName)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(getCreateSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemCreatedNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null,
+                        contentGenerator.generateSubjectContent(getCreateSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
+                            SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
     }
 
     def sendNotificationForUpdateAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -83,14 +86,17 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     }
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(getUpdateSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemUpdatedNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null,
+                        contentGenerator.generateSubjectContent(getUpdateSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemUpdatedNotifier.mt", context.getLocale,
+                            SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
     }
 
     def sendNotificationForCommentAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getListNotifyUsersWithFilter(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -104,7 +110,10 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     contentGenerator.putVariable("comment", context.getEmailNotification)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val toRecipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, toRecipients, null, null, contentGenerator.generateSubjectContent(getCommentSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemCommentNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, toRecipients,
+                        null, null, contentGenerator.generateSubjectContent(getCommentSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemCommentNotifier.mt", context.getLocale,
+                            SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
@@ -128,5 +137,5 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
 
     protected def getCommentSubject(context: MailContext[B]): String
 
-    protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): List[SimpleUser]
+    protected def getListNotifyUsersWithFilter(notification: ProjectRelayEmailNotification): Set[SimpleUser]
 }

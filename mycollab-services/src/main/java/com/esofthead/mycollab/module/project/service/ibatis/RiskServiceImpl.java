@@ -41,10 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
@@ -53,73 +51,73 @@ import java.util.List;
 @Watchable(userFieldName = "assigntouser", extraTypeId = "projectid")
 @NotifyAgent(ProjectRiskRelayEmailNotificationAction.class)
 public class RiskServiceImpl extends
-		DefaultService<Integer, Risk, RiskSearchCriteria> implements
-		RiskService {
+        DefaultService<Integer, Risk, RiskSearchCriteria> implements
+        RiskService {
 
     static {
         ClassInfoMap.put(RiskServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.RISK));
     }
 
-	@Autowired
-	private RiskMapper riskMapper;
+    @Autowired
+    private RiskMapper riskMapper;
 
-	@Autowired
-	private RiskMapperExt riskMapperExt;
+    @Autowired
+    private RiskMapperExt riskMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, Risk> getCrudMapper() {
-		return riskMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Risk> getCrudMapper() {
+        return riskMapper;
+    }
 
-	@Override
-	public ISearchableDAO<RiskSearchCriteria> getSearchMapper() {
-		return riskMapperExt;
-	}
+    @Override
+    public ISearchableDAO<RiskSearchCriteria> getSearchMapper() {
+        return riskMapperExt;
+    }
 
-	@Override
-	public SimpleRisk findById(int riskId, int sAccountId) {
-		return riskMapperExt.findRiskById(riskId);
-	}
+    @Override
+    public SimpleRisk findById(Integer riskId, Integer sAccountId) {
+        return riskMapperExt.findRiskById(riskId);
+    }
 
-	@Override
-	public int saveWithSession(Risk record, String username) {
-		int recordId = super.saveWithSession(record, username);
-		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		return recordId;
-	}
+    @Override
+    public Integer saveWithSession(Risk record, String username) {
+        Integer recordId = super.saveWithSession(record, username);
+        CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        return recordId;
+    }
 
-	@Override
-	public int updateWithSession(Risk record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectActivityStreamService.class);
-		return super.updateWithSession(record, username);
-	}
+    @Override
+    public Integer updateWithSession(Risk record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectActivityStreamService.class);
+        return super.updateWithSession(record, username);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectService.class,
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		return super.removeWithSession(primaryKey, username, accountId);
-	}
+    @Override
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectService.class,
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        return super.removeWithSession(primaryKey, username, accountId);
+    }
 
-	@Override
-	public void removeByCriteria(RiskSearchCriteria criteria, int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectService.class,
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		super.removeByCriteria(criteria, accountId);
-	}
+    @Override
+    public void removeByCriteria(RiskSearchCriteria criteria, Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectService.class,
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        super.removeByCriteria(criteria, accountId);
+    }
 
-	@Override
-	public void massRemoveWithSession(List<Integer> primaryKeys,
-			String username, int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectService.class,
-				ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class);
-		super.massRemoveWithSession(primaryKeys, username, accountId);
-	}
+    @Override
+    public void massRemoveWithSession(List<Integer> primaryKeys,
+                                      String username, Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectService.class,
+                ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class);
+        super.massRemoveWithSession(primaryKeys, username, accountId);
+    }
 }

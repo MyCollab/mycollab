@@ -43,8 +43,7 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
 		extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DefaultService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
 
 	public abstract ISearchableDAO<S> getSearchMapper();
 
@@ -63,14 +62,14 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 	}
 
 	@Override
-	public List findAbsoluteListByCriteria(S searchCriteria, int firstIndex,
-			int numberOfItems) {
+	public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex,
+										   Integer numberOfItems) {
 		return getSearchMapper().findPagableListByCriteria(searchCriteria,
 				new RowBounds(firstIndex, numberOfItems));
 	}
 
 	@Override
-	public void removeByCriteria(S criteria, int accountId) {
+	public void removeByCriteria(S criteria, Integer accountId) {
 		boolean isValid = false;
 		try {
 			PropertyDescriptor[] propertyDescriptors = PropertyUtils

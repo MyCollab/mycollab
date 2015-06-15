@@ -33,8 +33,8 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
 public interface ProjectTaskListService extends
 		IDefaultService<Integer, TaskList, TaskListSearchCriteria> {
 	@Cacheable
-	SimpleTaskList findById(int taskListId, @CacheKey int sAccountId);
+	SimpleTaskList findById(Integer taskListId, @CacheKey Integer sAccountId);
 
 	@CacheEvict
-	void updateTaskListIndex(TaskList[] taskLists, @CacheKey int sAccountId);
+	void updateTaskListIndex(TaskList[] taskLists, @CacheKey Integer sAccountId);
 }

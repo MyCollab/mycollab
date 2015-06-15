@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_account id="1" createdTime="2013-04-10 13:29:23"
+               paymentMethod="Credit Card" status="Active" />
+
+    <s_user username="admin" firstname="Nguyen" lastname="Hai"
+            middlename="Phuc" email="hainguyen@esofthead.com" />
+
+    <s_user username="user2" firstname="A" lastname="B"
+            email="user2@esofthead.com" />
+
+    <s_user_account id="1" isAccountOwner="1"
+                    registerStatus="Active" username="admin" accountId="1"
+                    registeredTime="2013-04-10 13:29:23" />
+
+    <s_user_account id="2" isAccountOwner="1"
+                    registerStatus="Active" username="user2" accountId="1"
+                    registeredTime="2013-04-10 13:29:23" />
+
+    <m_prj_project id="1" name="A" priority="1" shortname="ddd"
+                   projectStatus="Open" sAccountId="1" />
+
+    <m_prj_project id="2" name="B" priority="1" shortname="ccc"
+                   projectStatus="Open" homePage="http://esofthead.com" owner="admin"
+                   sAccountId="1" />
+
+    <m_prj_task id="1" projectid="1" taskindex="1" taskkey="1"
+                taskname="taskname1" sAccountId="1" percentagecomplete="20" />
+
+    <m_prj_task id="2" projectid="1" taskindex="1" taskkey="2"
+                taskname="taskname2" sAccountId="1" percentagecomplete="20" />
+
+    <m_tracker_bug status="Open" sAccountId="1" id="1"
+                   projectid="2" summary="AAA" bugkey="20" />
+
+    <m_monitor_item id="1" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="admin"/>
+    <m_monitor_item id="2" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="user2"/>
+    <m_monitor_item id="3" monitor_date="2013-04-10 13:29:23" type="Project-Task" typeid="1" sAccountId="1" user="user2"/>
+
+    <s_relay_email_notification id="1" sAccountId="1" type="Project-Task" typeid="1" action="Create" changeBy="admin"/>
+</dataset>

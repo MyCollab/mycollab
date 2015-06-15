@@ -76,43 +76,41 @@ public class MeetingServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(MeetingWithBLOBs record, String username) {
-        int result = super.saveWithSession(record, username);
+    public Integer saveWithSession(MeetingWithBLOBs record, String username) {
+        Integer result = super.saveWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
         return result;
     }
 
     @Override
-    public int updateWithSession(MeetingWithBLOBs record, String username) {
-        int result = super.updateWithSession(record, username);
+    public Integer updateWithSession(MeetingWithBLOBs record, String username) {
+        Integer result = super.updateWithSession(record, username);
         CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
         return result;
     }
 
     @Override
-    public int removeWithSession(Integer primaryKey, String username,
-                                 int accountId) {
-        int result = super.removeWithSession(primaryKey, username, accountId);
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        Integer result = super.removeWithSession(primaryKey, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
         return result;
     }
 
     @Override
-    public void removeByCriteria(MeetingSearchCriteria criteria, int accountId) {
+    public void removeByCriteria(MeetingSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void massRemoveWithSession(List<Integer> primaryKeys,
-                                      String username, int accountId) {
+    public void massRemoveWithSession(List<Integer> primaryKeys, String username, Integer accountId) {
         super.massRemoveWithSession(primaryKeys, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void massUpdateWithSession(MeetingWithBLOBs record,
-                                      List<Integer> primaryKeys, int accountId) {
+    public void massUpdateWithSession(MeetingWithBLOBs record, List<Integer> primaryKeys, Integer accountId) {
         super.massUpdateWithSession(record, primaryKeys, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }

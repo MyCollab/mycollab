@@ -55,11 +55,14 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
 
     protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+        bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+        bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+        bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
@@ -74,7 +77,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         val summary: String = bean.getRiskname
         val summaryLink: String = ProjectLinkGenerator.generateRiskPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
 
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+            bean.getProjectid, emailNotification.getSaccountid)
         val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
 
@@ -110,7 +114,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
             if (risk.getAssigntouser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(risk.getAssignToUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid), risk.getAssigntouser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
+                    risk.getAssigntouser)
                 val link: A = FormatUtils.newA(userLink, risk.getAssignedToUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -127,7 +132,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write
@@ -144,7 +150,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
             if (risk.getRaisedbyuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(risk.getRaisedByUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid), risk.getRaisedbyuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(risk.getSaccountid),
+                    risk.getRaisedbyuser)
                 val link: A = FormatUtils.newA(userLink, risk.getRaisedByUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -161,7 +168,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
             val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
             if (user != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                    user.getUsername)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                 val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                 FormatUtils.newLink(img, link).write

@@ -38,7 +38,7 @@ public interface AccountService extends
 		IDefaultService<Integer, Account, AccountSearchCriteria> {
 
 	@Cacheable
-	SimpleAccount findById(int id, @CacheKey int accountId);
+	SimpleAccount findById(Integer id, @CacheKey Integer accountId);
 
 	@CacheEvict
 	@CacheArgs(values={LeadService.class})

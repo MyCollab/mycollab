@@ -17,26 +17,16 @@
 
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import com.esofthead.mycollab.core.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.cache.CacheUtils;
-import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
@@ -58,9 +48,17 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -95,22 +93,22 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public SimpleProjectMember findById(int memberId, int sAccountId) {
+    public SimpleProjectMember findById(Integer memberId, Integer sAccountId) {
         return projectMemberMapperExt.findMemberById(memberId);
     }
 
     @Override
-    public List<SimpleUser> getUsersNotInProject(int projectId, Integer sAccountId) {
+    public List<SimpleUser> getUsersNotInProject(Integer projectId, Integer sAccountId) {
         return projectMemberMapperExt.getUsersNotInProject(projectId, sAccountId);
     }
 
     @Override
-    public SimpleProjectMember findMemberByUsername(String username, int projectId, Integer sAccountId) {
+    public SimpleProjectMember findMemberByUsername(String username, Integer projectId, Integer sAccountId) {
         return projectMemberMapperExt.findMemberByUsername(username, projectId);
     }
 
     @Override
-    public int removeWithSession(Integer primaryKey, String username, int accountId) {
+    public Integer removeWithSession(Integer primaryKey, String username, Integer accountId) {
         SimpleProjectMember projectMember = projectMemberMapperExt
                 .findMemberById(primaryKey);
         ProjectMapper projectMapper = ApplicationContextUtil.getSpringBean(ProjectMapper.class);
@@ -135,14 +133,14 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public List<SimpleUser> getActiveUsersInProject(int projectId, Integer sAccountId) {
+    public List<SimpleUser> getActiveUsersInProject(Integer projectId, Integer sAccountId) {
         return projectMemberMapperExt.getActiveUsersInProject(projectId, sAccountId);
     }
 
     @Override
-    public void inviteProjectMembers(String[] email, int projectId,
-            int projectRoleId, String inviteUser, String inviteMessage,
-            int sAccountId) {
+    public void inviteProjectMembers(String[] email, Integer projectId,
+                                     Integer projectRoleId, String inviteUser, String inviteMessage,
+                                     Integer sAccountId) {
         InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
                 ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
                 InviteProjectMembersCommand.class);
@@ -152,7 +150,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
 
     @Override
     public void acceptProjectInvitationByNewUser(String email, String password,
-            Integer projectId, Integer projectRoleId, Integer sAccountId) {
+                                                 Integer projectId, Integer projectRoleId, Integer sAccountId) {
 
         Date now = new GregorianCalendar().getTime();
         try {
@@ -186,8 +184,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         userAccount.setRegisteredtime(now);
         userAccount.setRoleid(systemGuestRoleId);
 
-        LOG.debug("Start save user account {}",
-                BeanUtility.printBeanObj(userAccount));
+        LOG.debug("Start save user account {}", BeanUtility.printBeanObj(userAccount));
         userAccountMapper.insert(userAccount);
 
         ProjectMember member = new ProjectMember();
@@ -205,8 +202,8 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public boolean isUserBelongToProject(String username, int projectId,
-            int sAccountId) {
+    public boolean isUserBelongToProject(String username, Integer projectId,
+                                         Integer sAccountId) {
         ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
         criteria.setSaccountid(new NumberSearchField(sAccountId));
@@ -215,9 +212,12 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
-            Integer sAccountId) {
-        return projectMemberMapperExt.getActiveUsersInProjects(projectIds,
-                sAccountId);
+    public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds, Integer sAccountId) {
+        return projectMemberMapperExt.getActiveUsersInProjects(projectIds, sAccountId);
+    }
+
+    @Override
+    public SimpleUser getActiveUserOfProject(String username, Integer projectId, @CacheKey Integer sAccountId) {
+        return projectMemberMapperExt.getActiveUserOfProject(username, projectId);
     }
 }

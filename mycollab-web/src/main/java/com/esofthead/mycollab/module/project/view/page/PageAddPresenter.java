@@ -51,7 +51,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(final Page page) {
+            public void onSave(Page page) {
                 savePage(page);
                 EventBusFactory.getInstance().post(new PageEvent.GotoRead(this, page));
             }
@@ -65,7 +65,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
             }
 
             @Override
-            public void onSaveAndNew(final Page page) {
+            public void onSaveAndNew(Page page) {
                 savePage(page);
                 EventBusFactory.getInstance().post(new PageEvent.GotoAdd(this, null));
             }

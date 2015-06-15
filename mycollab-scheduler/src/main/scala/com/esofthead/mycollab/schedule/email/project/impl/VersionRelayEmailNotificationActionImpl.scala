@@ -59,7 +59,8 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
 
         val summary: String = bean.getVersionname
         val summaryLink: String = ProjectLinkGenerator.generateBugComponentPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+            bean.getProjectid, emailNotification.getSaccountid)
 
         val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
@@ -79,19 +80,24 @@ class VersionRelayEmailNotificationActionImpl extends SendMailToAllMembersAction
 
     protected def getItemName: String = StringUtils.trim(bean.getDescription, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(
+        VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleVersion]): String = context.getMessage(
+        VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleVersion]): String = context.getMessage(VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleVersion]): String = context.getMessage(
+        VersionI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleVersion]): SimpleVersion = versionService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleVersion]): SimpleVersion = versionService.findById(context.getTypeid.toInt,
+        context.getSaccountid)
 
     class VersionFieldNameMapper extends ItemFieldMapper {
         put(Version.Field.description, GenericI18Enum.FORM_DESCRIPTION, isColSpan = true)
-        put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, VersionI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
+        put(Version.Field.status, new I18nFieldFormat(Version.Field.status.name, VersionI18nEnum.FORM_STATUS,
+            classOf[OptionI18nEnum.StatusI18nEnum]))
         put(Version.Field.versionname, VersionI18nEnum.FORM_NAME)
         put(Version.Field.duedate, new DateFieldFormat(Version.Field.duedate.name, VersionI18nEnum.FORM_DUE_DATE))
     }

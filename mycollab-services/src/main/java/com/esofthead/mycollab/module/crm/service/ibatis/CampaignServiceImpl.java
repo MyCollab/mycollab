@@ -80,8 +80,8 @@ public class CampaignServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(CampaignWithBLOBs campaign, String username) {
-        int result = super.saveWithSession(campaign, username);
+    public Integer saveWithSession(CampaignWithBLOBs campaign, String username) {
+        Integer result = super.saveWithSession(campaign, username);
         if (campaign.getExtraData() != null
                 && campaign.getExtraData() instanceof SimpleLead) {
             CampaignLead associateLead = new CampaignLead();

@@ -50,90 +50,85 @@ import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
 @Traceable(nameField = "forday", extraFieldName = "projectid")
-public class StandupReportServiceImpl
-		extends
-		DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
-		implements StandupReportService {
+public class StandupReportServiceImpl extends DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
+        implements StandupReportService {
     static {
         ClassInfoMap.put(StandupReportServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.STANDUP));
     }
 
-	@Autowired
-	private StandupReportMapper standupReportMapper;
+    @Autowired
+    private StandupReportMapper standupReportMapper;
 
-	@Autowired
-	private StandupReportMapperExt standupReportMapperExt;
+    @Autowired
+    private StandupReportMapperExt standupReportMapperExt;
 
-	@Override
-	public SimpleStandupReport findById(int standupId, int sAccountId) {
-		return standupReportMapperExt.findReportById(standupId);
-	}
+    @Override
+    public SimpleStandupReport findById(Integer standupId, Integer sAccountId) {
+        return standupReportMapperExt.findReportById(standupId);
+    }
 
-	@Override
-	public ICrudGenericDAO getCrudMapper() {
-		return standupReportMapper;
-	}
+    @Override
+    public ICrudGenericDAO getCrudMapper() {
+        return standupReportMapper;
+    }
 
-	@Override
-	public ISearchableDAO<StandupReportSearchCriteria> getSearchMapper() {
-		return standupReportMapperExt;
-	}
+    @Override
+    public ISearchableDAO<StandupReportSearchCriteria> getSearchMapper() {
+        return standupReportMapperExt;
+    }
 
-	@Override
-	public SimpleStandupReport findStandupReportByDateUser(int projectId,
-			String username, Date onDate, Integer sAccountId) {
-		StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(projectId));
-		criteria.setLogBy(new StringSearchField(SearchField.AND, username));
-		criteria.setOnDate(new DateSearchField(SearchField.AND, onDate));
-		List reports = standupReportMapperExt.findPagableListByCriteria(
-				criteria, new RowBounds(0, Integer.MAX_VALUE));
+    @Override
+    public SimpleStandupReport findStandupReportByDateUser(Integer projectId,
+                                                           String username, Date onDate, Integer sAccountId) {
+        StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
+        criteria.setProjectId(new NumberSearchField(projectId));
+        criteria.setLogBy(new StringSearchField(SearchField.AND, username));
+        criteria.setOnDate(new DateSearchField(SearchField.AND, onDate));
+        List reports = standupReportMapperExt.findPagableListByCriteria(
+                criteria, new RowBounds(0, Integer.MAX_VALUE));
 
-		if (CollectionUtils.isNotEmpty(reports)) {
-			return (SimpleStandupReport) reports.get(0);
-		}
+        if (CollectionUtils.isNotEmpty(reports)) {
+            return (SimpleStandupReport) reports.get(0);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public int saveWithSession(StandupReportWithBLOBs record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectActivityStreamService.class);
-		return super.saveWithSession(record, username);
-	}
+    @Override
+    public Integer saveWithSession(StandupReportWithBLOBs record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectActivityStreamService.class);
+        return super.saveWithSession(record, username);
+    }
 
-	@Override
-	public int updateWithSession(StandupReportWithBLOBs record, String username) {
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectActivityStreamService.class);
-		return super.updateWithSession(record, username);
-	}
+    @Override
+    public Integer updateWithSession(StandupReportWithBLOBs record, String username) {
+        CacheUtils.cleanCaches(record.getSaccountid(),
+                ProjectActivityStreamService.class);
+        return super.updateWithSession(record, username);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
-		return super.removeWithSession(primaryKey, username, accountId);
-	}
+    @Override
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+        return super.removeWithSession(primaryKey, username, accountId);
+    }
 
-	@Override
-	public List<GroupItem> getReportsCount(StandupReportSearchCriteria criteria) {
-		return standupReportMapperExt.getReportsCount(criteria);
-	}
+    @Override
+    public List<GroupItem> getReportsCount(StandupReportSearchCriteria criteria) {
+        return standupReportMapperExt.getReportsCount(criteria);
+    }
 
-	@Override
-	public List<SimpleUser> findUsersNotDoReportYet(int projectId, Date onDate,
-			@CacheKey Integer sAccountId) {
-		return standupReportMapperExt
-				.findUsersNotDoReportYet(projectId, onDate);
-	}
+    @Override
+    public List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate,
+                                                    @CacheKey Integer sAccountId) {
+        return standupReportMapperExt.findUsersNotDoReportYet(projectId, onDate);
+    }
 }

@@ -46,7 +46,8 @@ import org.springframework.stereotype.Service
  */
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleTaskList] with ProjectTaskGroupRelayEmailNotificationAction {
+class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMembersAction[SimpleTaskList] with
+ProjectTaskGroupRelayEmailNotificationAction {
 
     private val LOG = LoggerFactory.getLogger(classOf[ProjectTaskGroupRelayEmailNotificationActionImpl])
 
@@ -58,15 +59,19 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
     protected def getItemName: String = StringUtils.trim(bean.getName, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(TaskGroupI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(
+        TaskGroupI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(TaskGroupI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(
+        TaskGroupI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(TaskGroupI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleTaskList]): String = context.getMessage(
+        TaskGroupI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleTaskList]): SimpleTaskList = projectTaskListService.findById(context.getTypeid.toInt, context.getSaccountid)
+    protected def getBeanInContext(context: MailContext[SimpleTaskList]): SimpleTaskList = projectTaskListService.findById(
+        context.getTypeid.toInt, context.getSaccountid)
 
     protected def buildExtraTemplateVariables(context: MailContext[SimpleTaskList]) {
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
@@ -77,7 +82,8 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
 
         val summary: String = bean.getName
         val summaryLink: String = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(siteUrl, bean.getProjectid, bean.getId)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+            bean.getProjectid, emailNotification.getSaccountid)
 
         val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
@@ -109,7 +115,8 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
             if (taskList.getOwner != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(taskList.getOwnerAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(taskList.getSaccountid), taskList.getOwner)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(taskList.getSaccountid),
+                    taskList.getOwner)
                 val link: A = FormatUtils.newA(userLink, taskList.getOwnerFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -126,7 +133,8 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write
@@ -136,7 +144,8 @@ class ProjectTaskGroupRelayEmailNotificationActionImpl extends SendMailToAllMemb
         }
     }
 
-    class MilestoneFieldFormat(fieldName: String, displayName: Enum[_], isColSpan: Boolean) extends FieldFormat(fieldName, displayName, isColSpan) {
+    class MilestoneFieldFormat(fieldName: String, displayName: Enum[_], isColSpan: Boolean) extends FieldFormat(fieldName,
+        displayName, isColSpan) {
         def formatField(context: MailContext[_]): String = {
             val taskList: SimpleTaskList = context.wrappedBean.asInstanceOf[SimpleTaskList]
             if (taskList.getMilestoneid != null) {

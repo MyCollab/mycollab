@@ -59,7 +59,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
             for (user <- notifiers) {
                 val notifierFullName: String = user.getDisplayName
                 if (StringUtils.isBlank(notifierFullName)) {
-                    LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user), BeanUtility.printBeanObj(notification)))
+                    LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user),
+                        BeanUtility.printBeanObj(notification)))
                     return
                 }
                 val context: MailContext[B] = new MailContext[B](notification, user, siteUrl)
@@ -73,7 +74,9 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     buildExtraTemplateVariables(context)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                        null, null, contentGenerator.generateSubjectContent(subject),
+                        contentGenerator.generateBodyContent(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
@@ -87,7 +90,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
             for (user <- notifiers) {
                 val notifierFullName: String = user.getDisplayName
                 if (notifierFullName == null) {
-                    LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user), BeanUtility.printBeanObj(notification)))
+                    LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user),
+                        BeanUtility.printBeanObj(notification)))
                     return
                 }
                 contentGenerator.putVariable("userName", notifierFullName)
@@ -103,7 +107,9 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     contentGenerator.putVariable("mapper", getItemFieldMapper)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                        null, null, contentGenerator.generateSubjectContent(subject),
+                        contentGenerator.generateBodyContent(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
@@ -121,7 +127,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
 
                 breakable {
                     if (notifierFullName == null) {
-                        LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user), BeanUtility.printBeanObj(notification)))
+                        LOG.error("Can not find user {} of notification {}", Array[AnyRef](BeanUtility.printBeanObj(user),
+                            BeanUtility.printBeanObj(notification)))
                         break()
                     }
                 }
@@ -137,7 +144,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                 val recipients: List[MailRecipientField] = List(userMail)
                 extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, seqAsJavaList
                     (recipients), null, null,
-                    contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getNoteContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getNoteContentPath,
+                        context.getLocale, SiteConfiguration.getDefaultLocale), null)
             }
         }
     }

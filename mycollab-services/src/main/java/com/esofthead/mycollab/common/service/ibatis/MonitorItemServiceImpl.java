@@ -64,7 +64,7 @@ public class MonitorItemServiceImpl extends
     }
 
     @Override
-    public int saveWithSession(MonitorItem record, String username) {
+    public Integer saveWithSession(MonitorItem record, String username) {
         MonitorItemExample ex = new MonitorItemExample();
         ex.createCriteria().andTypeEqualTo(record.getType())
                 .andTypeidEqualTo(record.getTypeid())

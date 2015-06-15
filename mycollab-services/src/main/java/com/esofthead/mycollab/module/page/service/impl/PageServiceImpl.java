@@ -16,21 +16,16 @@
  */
 package com.esofthead.mycollab.module.page.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.nodetype.NodeType;
-import javax.jcr.version.Version;
-import javax.jcr.version.VersionHistory;
-import javax.jcr.version.VersionIterator;
-import javax.jcr.version.VersionManager;
-
+import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.ecm.ContentException;
+import com.esofthead.mycollab.module.ecm.NodesUtil;
+import com.esofthead.mycollab.module.page.domain.Folder;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.domain.PageResource;
+import com.esofthead.mycollab.module.page.domain.PageVersion;
+import com.esofthead.mycollab.module.page.service.PageService;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,17 +36,19 @@ import org.springframework.extensions.jcr.JcrTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
-import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.ecm.ContentException;
-import com.esofthead.mycollab.module.ecm.NodesUtil;
-import com.esofthead.mycollab.module.page.domain.Folder;
-import com.esofthead.mycollab.module.page.domain.Page;
-import com.esofthead.mycollab.module.page.domain.PageVersion;
-import com.esofthead.mycollab.module.page.domain.PageResource;
-import com.esofthead.mycollab.module.page.service.PageService;
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.nodetype.NodeType;
+import javax.jcr.version.Version;
+import javax.jcr.version.VersionHistory;
+import javax.jcr.version.VersionIterator;
+import javax.jcr.version.VersionManager;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * 
@@ -67,9 +64,6 @@ public class PageServiceImpl implements PageService {
 	@Qualifier("pageJcrTemplate")
 	@Autowired
 	private JcrTemplate jcrTemplate;
-
-	@Autowired
-	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override

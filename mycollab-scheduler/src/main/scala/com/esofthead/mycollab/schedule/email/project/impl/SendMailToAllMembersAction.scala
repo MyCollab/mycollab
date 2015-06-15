@@ -28,9 +28,6 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.schedule.email.{ItemFieldMapper, MailContext, SendingRelayEmailNotificationAction}
 import org.springframework.beans.factory.annotation.Autowired
 
-import scala.collection.mutable
-import scala.util.control.Breaks._
-
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
@@ -50,29 +47,24 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
 
     protected var siteUrl: String = _
 
-    private def getNotifyUsers(notification: ProjectRelayEmailNotification): List[SimpleUser] = {
+    private def getNotifyUsers(notification: ProjectRelayEmailNotification): Set[SimpleUser] = {
         import scala.collection.JavaConverters._
-        val usersInProject: mutable.Buffer[SimpleUser] = projectMemberService.getActiveUsersInProject(notification.getProjectId, notification.getSaccountid).asScala
-        val notificationSettings: List[ProjectNotificationSetting] = projectNotificationService.findNotifications(notification.getProjectId, notification.getSaccountid).asScala.toList
-        if (notificationSettings != null && notificationSettings.nonEmpty) {
+        var notifyUsers: Set[SimpleUser] = projectMemberService.getActiveUsersInProject(notification.getProjectId,
+            notification.getSaccountid).asScala.toSet
+        val notificationSettings: List[ProjectNotificationSetting] = projectNotificationService.findNotifications(notification.getProjectId,
+            notification.getSaccountid).asScala.toList
+        if (notificationSettings.nonEmpty) {
             for (setting <- notificationSettings) {
                 if ((NotificationType.None.name == setting.getLevel) || (NotificationType.Minimal.name == setting.getLevel)) {
-                    breakable {
-                        for (user <- usersInProject) {
-                            if (user.getUsername == setting.getUsername) {
-                                usersInProject.-(user)
-                                break()
-                            }
-                        }
-                    }
+                    notifyUsers = notifyUsers.filter(notifyUser => !(notifyUser.getUsername == setting.getUsername))
                 }
             }
         }
-        usersInProject.toList
+        notifyUsers
     }
 
     def sendNotificationForCreateAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -87,14 +79,17 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     contentGenerator.putVariable("userName", user.getDisplayName)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(getCreateSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemCreatedNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                        null, null, contentGenerator.generateSubjectContent(getCreateSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
+                            SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
     }
 
     def sendNotificationForUpdateAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -113,14 +108,17 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     }
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(getUpdateSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemUpdatedNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                        null, null, contentGenerator.generateSubjectContent(getUpdateSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemUpdatedNotifier.mt",
+                            context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
     }
 
     def sendNotificationForCommentAction(notification: SimpleRelayEmailNotification) {
-        val notifiers: List[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
+        val notifiers: Set[SimpleUser] = getNotifyUsers(notification.asInstanceOf[ProjectRelayEmailNotification])
         if (notifiers != null && notifiers.nonEmpty) {
             onInitAction(notification)
             import scala.collection.JavaConversions._
@@ -133,7 +131,10 @@ abstract class SendMailToAllMembersAction[B] extends SendingRelayEmailNotificati
                     contentGenerator.putVariable("comment", context.getEmailNotification)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients, null, null, contentGenerator.generateSubjectContent(getCommentSubject(context)), contentGenerator.generateBodyContent("templates/email/project/itemCommentNotifier.mt", context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                        null, null, contentGenerator.generateSubjectContent(getCommentSubject(context)),
+                        contentGenerator.generateBodyContent("templates/email/project/itemCommentNotifier.mt",
+                            context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }

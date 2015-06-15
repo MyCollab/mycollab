@@ -51,7 +51,8 @@ LeadRelayEmailNotificationAction {
     @Autowired var leadService: LeadService = _
     private val mapper = new LeadFieldNameMapper
 
-    override protected def getBeanInContext(context: MailContext[SimpleLead]): SimpleLead = leadService.findById(context.getTypeid.toInt, context.getSaccountid)
+    override protected def getBeanInContext(context: MailContext[SimpleLead]): SimpleLead = leadService.findById(context.getTypeid.toInt,
+        context.getSaccountid)
 
     override protected def getCreateSubjectKey: Enum[_] = LeadI18nEnum.MAIL_CREATE_ITEM_SUBJECT
 
@@ -122,7 +123,8 @@ LeadRelayEmailNotificationAction {
             if (lead.getAssignuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(lead.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(lead.getSaccountid), lead.getAssignuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(lead.getSaccountid),
+                    lead.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, lead.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -139,7 +141,8 @@ LeadRelayEmailNotificationAction {
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

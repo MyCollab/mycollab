@@ -202,7 +202,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public int updateWithSession(User record, String username) {
+    public Integer updateWithSession(User record, String username) {
         LOG.debug("Check whether there is exist email in system before");
         if ((record.getEmail()) != null
                 && !record.getUsername().equals(record.getEmail())) {
@@ -265,7 +265,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Override
     public void massRemoveWithSession(List<String> primaryKeys,
-                                      String username, int accountId) {
+                                      String username, Integer accountId) {
         userMapperExt.removeKeysWithSession(primaryKeys);
     }
 

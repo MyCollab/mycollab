@@ -25,59 +25,53 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 
 /**
- * 
+ * @param <S>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <S>
  */
 public interface ISearchableService<S extends SearchCriteria> extends IService {
-	/**
-	 * 
-	 * @param criteria
-	 * @return
-	 */
-	@Cacheable
-	int getTotalCount(@CacheKey S criteria);
+    /**
+     * @param criteria
+     * @return
+     */
+    @Cacheable
+    int getTotalCount(@CacheKey S criteria);
 
-	/**
-	 * 
-	 * @param searchRequest
-	 * @return
-	 */
-	@Cacheable
-	List findPagableListByCriteria(@CacheKey SearchRequest<S> searchRequest);
+    /**
+     * @param searchRequest
+     * @return
+     */
+    @Cacheable
+    List findPagableListByCriteria(@CacheKey SearchRequest<S> searchRequest);
 
-	/**
-	 * 
-	 * @param searchRequest
-	 * @return
-	 */
-	@Cacheable
-	List findAbsoluteListByCriteria(@CacheKey S searchCriteria, int firstIndex,
-			int numberOfItems);
+    /**
+     * @param searchCriteria
+     * @param firstIndex
+     * @param numberOfItems
+     * @return
+     */
+    @Cacheable
+    List findAbsoluteListByCriteria(@CacheKey S searchCriteria, Integer firstIndex,
+                                    Integer numberOfItems);
 
-	/**
-	 * 
-	 * @param criteria
-	 * @param sAccountId
-	 */
-	@CacheEvict
-	void removeByCriteria(S criteria, @CacheKey int sAccountId);
+    /**
+     * @param criteria
+     * @param sAccountId
+     */
+    @CacheEvict
+    void removeByCriteria(S criteria, @CacheKey Integer sAccountId);
 
-	/**
-	 * 
-	 * @param criteria
-	 * @return
-	 */
-	@Cacheable
-	Integer getNextItemKey(@CacheKey S criteria);
+    /**
+     * @param criteria
+     * @return
+     */
+    @Cacheable
+    Integer getNextItemKey(@CacheKey S criteria);
 
-	/**
-	 * 
-	 * @param criteria
-	 * @return
-	 */
-	@Cacheable
-	Integer getPreviousItemKey(@CacheKey S criteria);
+    /**
+     * @param criteria
+     * @return
+     */
+    @Cacheable
+    Integer getPreviousItemKey(@CacheKey S criteria);
 }

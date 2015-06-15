@@ -27,5 +27,5 @@ public interface ProblemService extends
 		IDefaultService<Integer, Problem, ProblemSearchCriteria> {
 
 	@Cacheable
-	SimpleProblem findById(int problemId, @CacheKey int sAccountId);
+	SimpleProblem findById(Integer problemId, @CacheKey Integer sAccountId);
 }

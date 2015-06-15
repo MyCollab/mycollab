@@ -48,10 +48,12 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAction[SimpleCase] with CaseRelayEmailNotificationAction {
     private val LOG = LoggerFactory.getLogger(classOf[CaseRelayEmailNotificationActionImpl])
+
     @Autowired var caseService: CaseService = _
     private val mapper = new CaseFieldNameMapper
 
-    override protected def getBeanInContext(context: MailContext[SimpleCase]): SimpleCase = caseService.findById(context.getTypeid.toInt, context.getSaccountid)
+    override protected def getBeanInContext(context: MailContext[SimpleCase]): SimpleCase = caseService.findById(
+        context.getTypeid.toInt, context.getSaccountid)
 
     override protected def getCreateSubjectKey: Enum[_] = CaseI18nEnum.MAIL_CREATE_ITEM_SUBJECT
 
@@ -145,7 +147,8 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
             if (simpleCase.getAssignuser != null) {
                 val userAvatarLink: String = MailUtils.getAvatarLink(simpleCase.getAssignUserAvatarId, 16)
                 val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
-                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(simpleCase.getSaccountid), simpleCase.getAssignuser)
+                val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(simpleCase.getSaccountid),
+                    simpleCase.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, simpleCase.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
             }
@@ -162,7 +165,8 @@ class CaseRelayEmailNotificationActionImpl extends CrmDefaultSendingRelayEmailAc
                 val user: SimpleUser = userService.findUserByUserNameInAccount(value, context.getUser.getAccountId)
                 if (user != null) {
                     val userAvatarLink: String = MailUtils.getAvatarLink(user.getAvatarid, 16)
-                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId), user.getUsername)
+                    val userLink: String = AccountLinkGenerator.generatePreviewFullUserLink(MailUtils.getSiteUrl(user.getAccountId),
+                        user.getUsername)
                     val img: Img = FormatUtils.newImg("avatar", userAvatarLink)
                     val link: A = FormatUtils.newA(userLink, user.getDisplayName)
                     FormatUtils.newLink(img, link).write

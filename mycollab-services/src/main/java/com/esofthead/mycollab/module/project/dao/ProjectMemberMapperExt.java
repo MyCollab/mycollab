@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.dao;
 
 import java.util.List;
 
+import com.esofthead.mycollab.core.cache.CacheKey;
 import org.apache.ibatis.annotations.Param;
 
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -27,25 +28,26 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearch
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public interface ProjectMemberMapperExt extends
-		ISearchableDAO<ProjectMemberSearchCriteria> {
-	SimpleProjectMember findMemberById(int memberId);
+        ISearchableDAO<ProjectMemberSearchCriteria> {
+    SimpleProjectMember findMemberById(int memberId);
 
-	List<SimpleUser> getUsersNotInProject(@Param("projectId") int projectId,
-			@Param("sAccountId") int sAccountId);
+    List<SimpleUser> getUsersNotInProject(@Param("projectId") int projectId,
+                                          @Param("sAccountId") int sAccountId);
 
-	List<SimpleUser> getActiveUsersInProject(@Param("projectId") int projectId,
-			@Param("sAccountId") int sAccountId);
+    List<SimpleUser> getActiveUsersInProject(@Param("projectId") int projectId,
+                                             @Param("sAccountId") int sAccountId);
 
-	SimpleProjectMember findMemberByUsername(
-			@Param("username") String username,
-			@Param("projectId") int projectId);
+    SimpleProjectMember findMemberByUsername(
+            @Param("username") String username,
+            @Param("projectId") int projectId);
 
-	List<SimpleUser> getActiveUsersInProjects(
-			@Param("projectIds") List<Integer> projectIds,
-			@Param("sAccountId") Integer sAccountId);
+    List<SimpleUser> getActiveUsersInProjects(
+            @Param("projectIds") List<Integer> projectIds,
+            @Param("sAccountId") Integer sAccountId);
+
+    SimpleUser getActiveUserOfProject(@Param("username") String username, @Param("projectId") Integer projectId);
 }

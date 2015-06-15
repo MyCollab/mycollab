@@ -63,9 +63,14 @@
 
         <dependency>
             <groupId>org.scalamock</groupId>
-            <artifactId>scalamock_2.11</artifactId>
+            <artifactId>scalamock-core_2.11</artifactId>
             <version>3.2.2</version>
-            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalamock</groupId>
+            <artifactId>scalamock-scalatest-support_2.11</artifactId>
+            <version>3.2.2</version>
         </dependency>
 
         <dependency>

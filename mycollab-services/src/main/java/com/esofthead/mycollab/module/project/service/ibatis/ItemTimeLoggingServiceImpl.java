@@ -47,180 +47,178 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 public class ItemTimeLoggingServiceImpl extends
-		DefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria>
-		implements ItemTimeLoggingService {
+        DefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria>
+        implements ItemTimeLoggingService {
 
-	@Autowired
-	private ItemTimeLoggingMapper itemTimeLoggingMapper;
+    @Autowired
+    private ItemTimeLoggingMapper itemTimeLoggingMapper;
 
-	@Autowired
-	private ItemTimeLoggingMapperExt itemTimeLoggingMapperExt;
+    @Autowired
+    private ItemTimeLoggingMapperExt itemTimeLoggingMapperExt;
 
-	@Autowired
-	private ActivityStreamService activityStreamService;
+    @Autowired
+    private ActivityStreamService activityStreamService;
 
-	@Autowired
-	private TaskListMapperExt projectTaskListMapperExt;
+    @Autowired
+    private TaskListMapperExt projectTaskListMapperExt;
 
-	@Autowired
-	private MilestoneMapperExt milestoneMapperExt;
+    @Autowired
+    private MilestoneMapperExt milestoneMapperExt;
 
-	@Autowired
-	private ComponentMapperExt componentMapperExt;
+    @Autowired
+    private ComponentMapperExt componentMapperExt;
 
-	@Autowired
-	private VersionMapperExt versionMapperExt;
+    @Autowired
+    private VersionMapperExt versionMapperExt;
 
-	@Override
-	public ICrudGenericDAO getCrudMapper() {
-		return itemTimeLoggingMapper;
-	}
+    @Override
+    public ICrudGenericDAO getCrudMapper() {
+        return itemTimeLoggingMapper;
+    }
 
-	@Override
-	public ISearchableDAO<ItemTimeLoggingSearchCriteria> getSearchMapper() {
-		return itemTimeLoggingMapperExt;
-	}
+    @Override
+    public ISearchableDAO<ItemTimeLoggingSearchCriteria> getSearchMapper() {
+        return itemTimeLoggingMapperExt;
+    }
 
-	@Override
-	public int saveWithSession(ItemTimeLogging record, String username) {
+    @Override
+    public Integer saveWithSession(ItemTimeLogging record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
-		return super.saveWithSession(record, username);
-	}
+        return super.saveWithSession(record, username);
+    }
 
-	@Override
-	public int updateWithSession(ItemTimeLogging record, String username) {
+    @Override
+    public Integer updateWithSession(ItemTimeLogging record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ItemTimeLoggingService.class, ProjectService.class);
-		return super.updateWithSession(record, username);
-	}
+        return super.updateWithSession(record, username);
+    }
 
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		CacheUtils.cleanCaches(accountId, ItemTimeLoggingService.class, ProjectService.class);
-		return super.removeWithSession(primaryKey, username, accountId);
-	}
+    @Override
+    public Integer removeWithSession(Integer primaryKey, String username,
+                                     Integer accountId) {
+        CacheUtils.cleanCaches(accountId, ItemTimeLoggingService.class, ProjectService.class);
+        return super.removeWithSession(primaryKey, username, accountId);
+    }
 
-	@Override
-	public Double getTotalHoursByCriteria(ItemTimeLoggingSearchCriteria criteria) {
-		Double value = itemTimeLoggingMapperExt
-				.getTotalHoursByCriteria(criteria);
-		return (value != null) ? value : 0;
-	}
+    @Override
+    public Double getTotalHoursByCriteria(ItemTimeLoggingSearchCriteria criteria) {
+        Double value = itemTimeLoggingMapperExt
+                .getTotalHoursByCriteria(criteria);
+        return (value != null) ? value : 0;
+    }
 
-	@Override
-	public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings,
-			@CacheKey int sAccountId) {
-		DataSource dataSource = ApplicationContextUtil
-				.getSpringBean(DataSource.class);
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		jdbcTemplate
-				.batchUpdate(
-						"insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "
-								+ "note) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-						new BatchPreparedStatementSetter() {
+    @Override
+    public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings,
+                                     @CacheKey Integer sAccountId) {
+        DataSource dataSource = ApplicationContextUtil
+                .getSpringBean(DataSource.class);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate
+                .batchUpdate(
+                        "insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "
+                                + "note) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        new BatchPreparedStatementSetter() {
 
-							@Override
-							public void setValues(PreparedStatement ps, int i)
-									throws SQLException {
-								ItemTimeLogging itemLogging = timeLoggings
-										.get(i);
-								ps.setInt(1, itemLogging.getProjectid());
-								ps.setString(2, itemLogging.getType());
+                            @Override
+                            public void setValues(PreparedStatement ps, int i)
+                                    throws SQLException {
+                                ItemTimeLogging itemLogging = timeLoggings
+                                        .get(i);
+                                ps.setInt(1, itemLogging.getProjectid());
+                                ps.setString(2, itemLogging.getType());
 
-								if (itemLogging.getTypeid() == null) {
-									ps.setNull(3, Types.INTEGER);
-								} else {
-									ps.setInt(3, itemLogging.getTypeid());
-								}
+                                if (itemLogging.getTypeid() == null) {
+                                    ps.setNull(3, Types.INTEGER);
+                                } else {
+                                    ps.setInt(3, itemLogging.getTypeid());
+                                }
 
-								ps.setDouble(4, itemLogging.getLogvalue());
-								ps.setString(5, itemLogging.getLoguser());
-								ps.setTimestamp(6, new Timestamp(
-										new GregorianCalendar().getTime()
-												.getTime()));
-								ps.setTimestamp(7, new Timestamp(
-										new GregorianCalendar().getTime()
-												.getTime()));
-								ps.setInt(8, itemLogging.getSaccountid());
-								ps.setTimestamp(9, new Timestamp(itemLogging
-										.getLogforday().getTime()));
-								ps.setBoolean(10, itemLogging.getIsbillable());
-								ps.setString(11, itemLogging.getCreateduser());
-								ps.setString(12, itemLogging.getNote());
-							}
+                                ps.setDouble(4, itemLogging.getLogvalue());
+                                ps.setString(5, itemLogging.getLoguser());
+                                ps.setTimestamp(6, new Timestamp(
+                                        new GregorianCalendar().getTime()
+                                                .getTime()));
+                                ps.setTimestamp(7, new Timestamp(
+                                        new GregorianCalendar().getTime()
+                                                .getTime()));
+                                ps.setInt(8, itemLogging.getSaccountid());
+                                ps.setTimestamp(9, new Timestamp(itemLogging
+                                        .getLogforday().getTime()));
+                                ps.setBoolean(10, itemLogging.getIsbillable());
+                                ps.setString(11, itemLogging.getCreateduser());
+                                ps.setString(12, itemLogging.getNote());
+                            }
 
-							@Override
-							public int getBatchSize() {
-								return timeLoggings.size();
-							}
-						});
-		CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
-	}
+                            @Override
+                            public int getBatchSize() {
+                                return timeLoggings.size();
+                            }
+                        });
+        CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
+    }
 
-	@Override
-	public Double getTotalBillableHoursByTaskList(int taskListId, int sAccountId) {
-		return projectTaskListMapperExt.getTotalBillableHours(taskListId);
-	}
+    @Override
+    public Double getTotalBillableHoursByTaskList(Integer taskListId, Integer sAccountId) {
+        return projectTaskListMapperExt.getTotalBillableHours(taskListId);
+    }
 
-	@Override
-	public Double getTotalNonBillableHoursByTaskList(int taskListId, int sAccountId) {
-		return projectTaskListMapperExt.getTotalNonBillableHours(taskListId);
-	}
+    @Override
+    public Double getTotalNonBillableHoursByTaskList(Integer taskListId, Integer sAccountId) {
+        return projectTaskListMapperExt.getTotalNonBillableHours(taskListId);
+    }
 
-	@Override
-	public Double getRemainHoursByTaskList(int taskListId, int sAccountId) {
-		return projectTaskListMapperExt.getRemainHours(taskListId);
-	}
+    @Override
+    public Double getRemainHoursByTaskList(Integer taskListId, Integer sAccountId) {
+        return projectTaskListMapperExt.getRemainHours(taskListId);
+    }
 
-	@Override
-	public Double getTotalBillableHoursByMilestone(int milestoneId, int sAccountId) {
-		return milestoneMapperExt.getTotalBillableHours(milestoneId);
-	}
+    @Override
+    public Double getTotalBillableHoursByMilestone(Integer milestoneId, Integer sAccountId) {
+        return milestoneMapperExt.getTotalBillableHours(milestoneId);
+    }
 
-	@Override
-	public Double getTotalNonBillableHoursByMilestone(int milestoneId, int sAccountId) {
-		return milestoneMapperExt.getTotalNonBillableHours(milestoneId);
-	}
+    @Override
+    public Double getTotalNonBillableHoursByMilestone(Integer milestoneId, Integer sAccountId) {
+        return milestoneMapperExt.getTotalNonBillableHours(milestoneId);
+    }
 
-	@Override
-	public Double getRemainHoursByMilestone(int milestoneId, int sAccountId) {
-		return milestoneMapperExt.getRemainHours(milestoneId);
-	}
+    @Override
+    public Double getRemainHoursByMilestone(Integer milestoneId, Integer sAccountId) {
+        return milestoneMapperExt.getRemainHours(milestoneId);
+    }
 
-	@Override
-	public Double getTotalBillableHoursByComponent(int componentId, @CacheKey int sAccountId) {
-		return componentMapperExt.getTotalBillableHours(componentId);
-	}
+    @Override
+    public Double getTotalBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId) {
+        return componentMapperExt.getTotalBillableHours(componentId);
+    }
 
-	@Override
-	public Double getTotalNonBillableHoursByComponent(int componentId, @CacheKey int sAccountId) {
-		return componentMapperExt.getTotalNonBillableHours(componentId);
-	}
+    @Override
+    public Double getTotalNonBillableHoursByComponent(Integer componentId, @CacheKey Integer sAccountId) {
+        return componentMapperExt.getTotalNonBillableHours(componentId);
+    }
 
-	@Override
-	public Double getRemainHoursByComponent(int componentId, @CacheKey int sAccountId) {
-		return componentMapperExt.getRemainHours(componentId);
-	}
+    @Override
+    public Double getRemainHoursByComponent(Integer componentId, @CacheKey Integer sAccountId) {
+        return componentMapperExt.getRemainHours(componentId);
+    }
 
-	@Override
-	public Double getTotalBillableHoursByVersion(int versionId, @CacheKey int sAccountId) {
-		return versionMapperExt.getTotalBillableHours(versionId);
-	}
+    @Override
+    public Double getTotalBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId) {
+        return versionMapperExt.getTotalBillableHours(versionId);
+    }
 
-	@Override
-	public Double getTotalNonBillableHoursByVersion(int versionId, @CacheKey int sAccountId) {
-		return versionMapperExt.getTotalNonBillableHours(versionId);
-	}
+    @Override
+    public Double getTotalNonBillableHoursByVersion(Integer versionId, @CacheKey Integer sAccountId) {
+        return versionMapperExt.getTotalNonBillableHours(versionId);
+    }
 
-	@Override
-	public Double getRemainHoursByVersion(int versionId, @CacheKey int sAccountId) {
-		return versionMapperExt.getRemainHours(versionId);
-	}
+    @Override
+    public Double getRemainHoursByVersion(Integer versionId, @CacheKey Integer sAccountId) {
+        return versionMapperExt.getRemainHours(versionId);
+    }
 }

@@ -74,48 +74,48 @@ public class TaskServiceImpl extends
 	}
 
 	@Override
-	public SimpleTask findById(int taskId, int sAccountId) {
+	public SimpleTask findById(Integer taskId, Integer sAccountId) {
 		return taskMapperExt.findById(taskId);
 	}
 
 	@Override
-	public int saveWithSession(Task record, String username) {
-		int result = super.saveWithSession(record, username);
+	public Integer saveWithSession(Task record, String username) {
+		Integer result = super.saveWithSession(record, username);
 		CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
 		return result;
 	}
 
 	@Override
-	public int updateWithSession(Task record, String username) {
-		int result = super.updateWithSession(record, username);
+	public Integer updateWithSession(Task record, String username) {
+		Integer result = super.updateWithSession(record, username);
 		CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
 		return result;
 	}
 
 	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int accountId) {
-		int result = super.removeWithSession(primaryKey, username, accountId);
+	public Integer removeWithSession(Integer primaryKey, String username,
+								 Integer accountId) {
+		Integer result = super.removeWithSession(primaryKey, username, accountId);
 		CacheUtils.cleanCaches(accountId, EventService.class);
 		return result;
 	}
 
 	@Override
-	public void removeByCriteria(TodoSearchCriteria criteria, int accountId) {
+	public void removeByCriteria(TodoSearchCriteria criteria, Integer accountId) {
 		super.removeByCriteria(criteria, accountId);
 		CacheUtils.cleanCaches(accountId, EventService.class);
 	}
 
 	@Override
 	public void massRemoveWithSession(List<Integer> primaryKeys,
-			String username, int accountId) {
+			String username, Integer accountId) {
 		super.massRemoveWithSession(primaryKeys, username, accountId);
 		CacheUtils.cleanCaches(accountId, EventService.class);
 	}
 
 	@Override
 	public void massUpdateWithSession(Task record, List<Integer> primaryKeys,
-			int accountId) {
+									  Integer accountId) {
 		super.massUpdateWithSession(record, primaryKeys, accountId);
 		CacheUtils.cleanCaches(accountId, EventService.class);
 	}
