@@ -55,14 +55,13 @@ public class AccountSelectionWindow extends Window {
         createAccountList();
 
         AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
-        accountSimpleSearchPanel
-                .addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
-                    @Override
-                    public void onSearch(AccountSearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
+        accountSimpleSearchPanel.addSearchHandler(new SearchHandler<AccountSearchCriteria>() {
+            @Override
+            public void onSearch(AccountSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-                });
+        });
         layout.addComponent(accountSimpleSearchPanel);
         layout.addComponent(tableItem);
         this.setContent(layout);
@@ -94,8 +93,7 @@ public class AccountSelectionWindow extends Window {
                                 new Button.ClickListener() {
 
                                     @Override
-                                    public void buttonClick(
-                                            final Button.ClickEvent event) {
+                                    public void buttonClick(Button.ClickEvent event) {
                                         fieldSelection.fireValueChange(account);
                                         AccountSelectionWindow.this.close();
                                     }

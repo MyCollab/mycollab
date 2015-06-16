@@ -109,68 +109,66 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         myProjectTab.setNavigatorStyleName("sidebar-menu");
         myProjectTab.setContainerStyleName("tab-content");
 
-        myProjectTab
-                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
-
-                    @Override
-                    public void selectedTabChange(SelectedTabChangeEvent event) {
-                        Tab tab = ((ProjectVerticalTabsheet) event.getSource()).getSelectedTab();
-                        String caption = ((TabImpl) tab).getTabId();
-                        if (ProjectTypeConstants.MESSAGE.equals(caption)) {
-                            messagePresenter.go(ProjectViewImpl.this, null);
-                        } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
-                            MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
-                            searchCriteria.setProjectId(new NumberSearchField(
-                                    SearchField.AND, CurrentProjectVariables.getProjectId()));
-                            gotoMilestoneView(new MilestoneScreenData.Search(searchCriteria));
-                        } else if (ProjectTypeConstants.TASK.equals(caption)) {
-                            taskPresenter.go(ProjectViewImpl.this, null);
-                        } else if (ProjectTypeConstants.BUG.equals(caption)) {
-                            gotoBugView(null);
-                        } else if (ProjectTypeConstants.RISK.equals(caption)) {
-                            RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
-                            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables
-                                    .getProjectId()));
-                            gotoRiskView(new RiskScreenData.Search(searchCriteria));
-                        } else if (ProjectTypeConstants.FILE.equals(caption)) {
-                            filePresenter.go(ProjectViewImpl.this,
-                                    new FileScreenData.GotoDashboard());
-                        } else if (ProjectTypeConstants.PAGE.equals(caption)) {
-                            pagePresenter.go(ProjectViewImpl.this,
-                                    new PageScreenData.Search(CurrentProjectVariables.getBasePagePath()));
-                        } else if (ProjectTypeConstants.PROBLEM.equals(caption)) {
-                            ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
-                            searchCriteria.setProjectId(new NumberSearchField(
-                                    SearchField.AND, CurrentProjectVariables.getProjectId()));
-                            problemPresenter.go(ProjectViewImpl.this, new ProblemScreenData.Search(searchCriteria));
-                        } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
-                            dashboardPresenter.go(ProjectViewImpl.this, null);
-                        } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
-                            ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                            criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
-                            gotoUsersAndGroup(new ProjectMemberScreenData.Search(criteria));
-                        } else if (ProjectTypeConstants.TIME.equals(caption)) {
-                            ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-                            searchCriteria
-                                    .setProjectIds(new SetSearchField<>(
-                                            CurrentProjectVariables.getProjectId()));
-                            searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
-                                    .getCurrentRangeDateOfWeekSearchField());
-                            gotoTimeTrackingView(new TimeTrackingScreenData.Search(
-                                    searchCriteria));
-                        } else if (ProjectTypeConstants.STANDUP.equals(caption)) {
-                            StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
-                            criteria.setProjectId(new NumberSearchField(
+        myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+            @Override
+            public void selectedTabChange(SelectedTabChangeEvent event) {
+                Tab tab = ((ProjectVerticalTabsheet) event.getSource()).getSelectedTab();
+                String caption = ((TabImpl) tab).getTabId();
+                if (ProjectTypeConstants.MESSAGE.equals(caption)) {
+                    messagePresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.MILESTONE.equals(caption)) {
+                    MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
+                    searchCriteria.setProjectId(new NumberSearchField(
+                            SearchField.AND, CurrentProjectVariables.getProjectId()));
+                    gotoMilestoneView(new MilestoneScreenData.Search(searchCriteria));
+                } else if (ProjectTypeConstants.TASK.equals(caption)) {
+                    taskPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.BUG.equals(caption)) {
+                    gotoBugView(null);
+                } else if (ProjectTypeConstants.RISK.equals(caption)) {
+                    RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
+                    searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables
+                            .getProjectId()));
+                    gotoRiskView(new RiskScreenData.Search(searchCriteria));
+                } else if (ProjectTypeConstants.FILE.equals(caption)) {
+                    filePresenter.go(ProjectViewImpl.this,
+                            new FileScreenData.GotoDashboard());
+                } else if (ProjectTypeConstants.PAGE.equals(caption)) {
+                    pagePresenter.go(ProjectViewImpl.this,
+                            new PageScreenData.Search(CurrentProjectVariables.getBasePagePath()));
+                } else if (ProjectTypeConstants.PROBLEM.equals(caption)) {
+                    ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
+                    searchCriteria.setProjectId(new NumberSearchField(
+                            SearchField.AND, CurrentProjectVariables.getProjectId()));
+                    problemPresenter.go(ProjectViewImpl.this, new ProblemScreenData.Search(searchCriteria));
+                } else if (ProjectTypeConstants.DASHBOARD.equals(caption)) {
+                    dashboardPresenter.go(ProjectViewImpl.this, null);
+                } else if (ProjectTypeConstants.MEMBER.equals(caption)) {
+                    ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                    criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
+                    gotoUsersAndGroup(new ProjectMemberScreenData.Search(criteria));
+                } else if (ProjectTypeConstants.TIME.equals(caption)) {
+                    ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
+                    searchCriteria
+                            .setProjectIds(new SetSearchField<>(
                                     CurrentProjectVariables.getProjectId()));
-                            criteria.setOnDate(new DateSearchField(
-                                    SearchField.AND, DateSearchField.EQUAL,
-                                    new GregorianCalendar().getTime()));
-                            standupPresenter.go(ProjectViewImpl.this,
-                                    new StandupScreenData.Search(criteria));
-                        }
-                    }
-                });
+                    searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
+                            .getCurrentRangeDateOfWeekSearchField());
+                    gotoTimeTrackingView(new TimeTrackingScreenData.Search(
+                            searchCriteria));
+                } else if (ProjectTypeConstants.STANDUP.equals(caption)) {
+                    StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
+                    criteria.setProjectId(new NumberSearchField(
+                            CurrentProjectVariables.getProjectId()));
+                    criteria.setOnDate(new DateSearchField(
+                            SearchField.AND, DateSearchField.EQUAL,
+                            new GregorianCalendar().getTime()));
+                    standupPresenter.go(ProjectViewImpl.this,
+                            new StandupScreenData.Search(criteria));
+                }
+            }
+        });
 
         VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
         contentWrapper.addStyleName("main-content");
@@ -191,8 +189,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
         topPanel.with(breadCrumb).withAlign(breadCrumb, Alignment.MIDDLE_LEFT).expand(breadCrumb);
 
         if (project.isProjectArchived()) {
-            Button activeProjectBtn = new Button(
-                    AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT),
+            Button activeProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT),
                     new ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
@@ -220,8 +217,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
             OptionPopupContent popupButtonsControl = new OptionPopupContent().withWidth("150px");
 
-            Button createPhaseBtn = new Button(
-                    AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
+            Button createPhaseBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
                     new Button.ClickListener() {
                         @Override
                         public void buttonClick(ClickEvent event) {
@@ -328,8 +324,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
             archiveProjectBtn.setIcon(FontAwesome.ARCHIVE);
             popupButtonsControl.addOption(archiveProjectBtn);
 
-            if (CurrentProjectVariables
-                    .canAccess(ProjectRolePermissionCollections.PROJECT)) {
+            if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PROJECT)) {
                 Button deleteProjectBtn = new Button(
                         AppContext
                                 .getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
@@ -415,10 +410,10 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
         if (CurrentProjectVariables.hasPhaseFeature()) {
             myProjectTab.addTab(constructProjectMilestoneComponent(),
-                            ProjectTypeConstants.MILESTONE, 3,
-                            AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
-                            GenericLinkUtils.URL_PREFIX_PARAM
-                                    + ProjectLinkGenerator.generateMilestonesLink(prjId));
+                    ProjectTypeConstants.MILESTONE, 3,
+                    AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
+                    GenericLinkUtils.URL_PREFIX_PARAM
+                            + ProjectLinkGenerator.generateMilestonesLink(prjId));
         } else {
             myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
         }

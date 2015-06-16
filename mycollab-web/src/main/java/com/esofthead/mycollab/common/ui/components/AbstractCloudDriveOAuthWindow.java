@@ -41,9 +41,8 @@ public abstract class AbstractCloudDriveOAuthWindow extends Window {
 				ExternalDriveConnectedListener.viewInitMethod);
 	}
 
-	public static interface ExternalDriveConnectedListener extends
-			EventListener, Serializable {
-		public static final Method viewInitMethod = ReflectTools.findMethod(
+	public interface ExternalDriveConnectedListener extends EventListener, Serializable {
+		Method viewInitMethod = ReflectTools.findMethod(
 				ExternalDriveConnectedListener.class, "connectedSuccess",
 				ExternalDriveConnectedEvent.class);
 

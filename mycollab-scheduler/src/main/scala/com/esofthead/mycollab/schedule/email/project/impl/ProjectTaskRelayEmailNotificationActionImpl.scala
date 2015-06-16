@@ -119,7 +119,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
                                 val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
                                     notificationSetting.getProjectid, notificationSetting.getSaccountid)
                                 if (prjMember != null) {
-                                    notifyUsers = notifyUsers + prjMember
+                                    notifyUsers += prjMember
                                 }
                             }
                         }
@@ -129,7 +129,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
                     val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
                         notificationSetting.getProjectid, notificationSetting.getSaccountid)
                     if (prjMember != null) {
-                        notifyUsers = notifyUsers + prjMember
+                        notifyUsers += prjMember
                     }
                 }
             }

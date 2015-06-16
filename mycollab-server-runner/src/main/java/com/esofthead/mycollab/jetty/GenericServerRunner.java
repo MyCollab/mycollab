@@ -32,7 +32,6 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.webapp.*;
 import org.slf4j.Logger;
@@ -41,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -51,6 +51,7 @@ import java.util.Properties;
  */
 public abstract class GenericServerRunner {
     private static final Logger LOG;
+
     static {
         LogConfig.initLog();
         LOG = LoggerFactory.getLogger(GenericServerRunner.class);
@@ -228,7 +229,7 @@ public abstract class GenericServerRunner {
             } else if (classpath.matches(osExprJarFile)) {
                 try {
                     LOG.info("Load jar file in path " + classpath);
-                    appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(new File(classpath).toURI().toURL()));
+                    appContext.getMetaData().getWebInfClassesDirs().add(new PathResource(new File(classpath).toURI().toURL()));
                 } catch (Exception e) {
                     LOG.error("Exception to resolve classpath: " + classpath, e);
                 }
@@ -242,7 +243,11 @@ public abstract class GenericServerRunner {
                 for (File file : files) {
                     if (file.getName().matches("mycollab-\\S+.jar$")) {
                         LOG.info("Load jar file " + file.getName());
-                        appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
+                        try {
+                            appContext.getMetaData().getWebInfClassesDirs().add(new PathResource(file.toURI()));
+                        } catch (IOException e) {
+                            LOG.error("Can not load resource " + file.toURI(), e);
+                        }
                     }
                 }
             }

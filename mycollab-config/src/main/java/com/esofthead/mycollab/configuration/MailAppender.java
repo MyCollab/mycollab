@@ -17,6 +17,10 @@
 package com.esofthead.mycollab.configuration;
 
 import ch.qos.logback.classic.net.SMTPAppender;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Layout;
+import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.MyCollabVersion;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -24,6 +28,22 @@ import org.apache.commons.lang3.StringUtils;
  * @since 5.0.5
  */
 public class MailAppender extends SMTPAppender {
+
+    @Override
+    protected Layout<ILoggingEvent> makeSubjectLayout(String subjectStr) {
+        if (subjectStr == null) {
+            String version;
+            if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+                version = "MyCollab Live";
+            } else {
+                version = "MyCollab " + MyCollabVersion.getVersion();
+            }
+            subjectStr = version + " - Error: %logger{20} - %m";
+        }
+
+        return super.makeSubjectLayout(subjectStr);
+    }
+
 
     @Override
     public void start() {

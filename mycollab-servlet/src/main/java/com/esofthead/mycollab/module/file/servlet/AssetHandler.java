@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.file.servlet;
 
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
 import org.slf4j.Logger;
@@ -55,8 +56,8 @@ public class AssetHandler extends GenericHttpServlet {
             response.setHeader("Content-Type", MimeTypesUtil.detectMimeType(path));
             response.setHeader("Content-Length", String.valueOf(inputStream.available()));
 
-            try(BufferedInputStream input = new BufferedInputStream(inputStream);
-                BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            try (BufferedInputStream input = new BufferedInputStream(inputStream);
+                 BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
                 byte[] buffer = new byte[8192];
                 int length;
                 while ((length = input.read(buffer)) > 0) {
@@ -64,7 +65,7 @@ public class AssetHandler extends GenericHttpServlet {
                 }
             }
         } else {
-            LOG.error("Can not find resource has path {}", path);
+            throw new ResourceNotFoundException("Can not find resource has path " + path);
         }
     }
 }

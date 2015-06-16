@@ -43,9 +43,6 @@ import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
-import scala.collection.mutable
-import scala.util.control.Breaks._
-
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
@@ -75,7 +72,8 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
 
         val summary = bean.getSummary
         val summaryLink: String = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName)
-        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
+        val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
+            bean.getProjectid, emailNotification.getSaccountid)
 
         val avatarId: String = if (projectMember != null) projectMember.getMemberAvatarId else ""
         val userAvatar: Img = LinkUtils.newAvatar(avatarId)
@@ -97,11 +95,14 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
 
     protected def getItemName: String = StringUtils.trim(bean.getSummary, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectname, context.getChangeByUserFullName, getItemName)
+    protected def getCreateSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+        bean.getProjectname, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectname, context.getChangeByUserFullName, getItemName)
+    protected def getUpdateSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+        bean.getProjectname, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectname, context.getChangeByUserFullName, getItemName)
+    protected def getCommentSubject(context: MailContext[SimpleBug]): String = context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+        bean.getProjectname, context.getChangeByUserFullName, getItemName)
 
     protected def getItemFieldMapper: ItemFieldMapper = mapper
 
@@ -118,14 +119,13 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
             else if (NotificationType.Minimal.name == notificationSetting.getLevel) {
                 val findResult: Option[SimpleUser] = notifyUsers.find(notifyUser => notifyUser.getUsername == notificationSetting.getUsername);
                 findResult match {
-                    case Some(user) => notifyUsers = notifyUsers + user
                     case None => {
                         val bug: SimpleBug = bugService.findById(notification.getTypeid.toInt, notification.getSaccountid)
                         if (notificationSetting.getUsername == bug.getAssignuser) {
                             val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
                                 notificationSetting.getProjectid, notificationSetting.getSaccountid)
                             if (prjMember != null) {
-                                notifyUsers = notifyUsers + prjMember
+                                notifyUsers += prjMember
                             }
                         }
                     }
@@ -135,7 +135,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
                 val prjMember: SimpleUser = projectMemberService.getActiveUserOfProject(notificationSetting.getUsername,
                     notificationSetting.getProjectid, notificationSetting.getSaccountid)
                 if (prjMember != null) {
-                    notifyUsers = notifyUsers + prjMember
+                    notifyUsers += prjMember
                 }
             }
         }

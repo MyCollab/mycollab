@@ -114,10 +114,8 @@ public class StreamDownloadResourceSupportExtDrive implements StreamResource.Str
 								.getResources(currentResource.getPath());
 					} else {
 						ExternalResourceService service = ResourceUtils
-								.getExternalResourceService(ResourceUtils
-										.getType(currentResource));
-						recurrResources = service
-								.getResources(ResourceUtils
+								.getExternalResourceService(ResourceUtils.getType(currentResource));
+						recurrResources = service.getResources(ResourceUtils
 										.getExternalDrive(currentResource),
 										currentResource.getPath());
 					}
@@ -145,8 +143,7 @@ public class StreamDownloadResourceSupportExtDrive implements StreamResource.Str
 		}
 	}
 
-	private void addFileToZip(String path, Content res, ZipOutputStream zip)
-			throws Exception {
+	private void addFileToZip(String path, Content res, ZipOutputStream zip) throws Exception {
 		byte[] buf = new byte[1024];
 		InputStream contentStream;
 		if (!res.isExternalResource()) {

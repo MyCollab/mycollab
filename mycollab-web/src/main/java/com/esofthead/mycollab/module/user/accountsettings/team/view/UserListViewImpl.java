@@ -99,7 +99,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         memberBlock.addStyleName("member-block");
 
         VerticalLayout blockContent = new VerticalLayout();
-        MHorizontalLayout blockTop = new MHorizontalLayout();
+        MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
         Image memberAvatar = UserAvatarControlFactory
                 .createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         blockTop.addComponent(memberAvatar);
@@ -147,7 +147,6 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         ButtonLinkLegacy userAccountLink = new ButtonLinkLegacy(member.getDisplayName());
         userAccountLink.addClickListener(new ClickListener() {
-
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -216,9 +215,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             memberInfo.addComponent(infoStatus);
         }
 
-        blockTop.addComponent(memberInfo);
-        blockTop.setExpandRatio(memberInfo, 1.0f);
-        blockTop.setWidth("100%");
+        blockTop.with(memberInfo).expand(memberInfo);
         blockContent.addComponent(blockTop);
 
         if (member.getRoleid() != null) {

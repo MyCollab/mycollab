@@ -16,102 +16,101 @@
  */
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
-import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.vaadin.events.ViewItemAction;
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
+import com.esofthead.mycollab.vaadin.events.ViewItemAction;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @SuppressWarnings("rawtypes")
 public abstract class DefaultMassEditActionHandler implements MassItemActionHandler {
-	private ListSelectionPresenter presenter;
+    private ListSelectionPresenter presenter;
 
-	public DefaultMassEditActionHandler(ListSelectionPresenter presenter) {
-		this.presenter = presenter;
-	}
+    public DefaultMassEditActionHandler(ListSelectionPresenter presenter) {
+        this.presenter = presenter;
+    }
 
-	@Override
-	public void onSelect(String id) {
-		if (ViewItemAction.DELETE_ACTION().equals(id)) {
-			ConfirmDialogExt
-					.show(UI.getCurrent(),
-							AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-									SiteConfiguration.getSiteName()),
-							AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
-							AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-							AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
+    @Override
+    public void onSelect(String id) {
+        if (ViewItemAction.DELETE_ACTION().equals(id)) {
+            ConfirmDialogExt.show(UI.getCurrent(),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                            SiteConfiguration.getSiteName()),
+                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                    new ConfirmDialog.Listener() {
+                        private static final long serialVersionUID = 1L;
 
-								@Override
-								public void onClose(ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										presenter.deleteSelectedItems();
-									}
-								}
-							});
-		} else {
-			onSelectExtra(id);
-		}
+                        @Override
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                presenter.deleteSelectedItems();
+                            }
+                        }
+                    });
+        } else {
+            onSelectExtra(id);
+        }
 
-	}
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public StreamResource buildStreamResource(ReportExportType exportType) {
-		String exportFileName;
-		switch (exportType) {
-			case CSV:
-				exportFileName = "export.csv"; break;
-			case PDF:
-				exportFileName = "export.pdf"; break;
-			case EXCEL:
-				exportFileName = "export.xlsx"; break;
-			default:
-				throw new MyCollabException("Do not support export type " + exportType);
-		}
+    @SuppressWarnings("unchecked")
+    @Override
+    public StreamResource buildStreamResource(ReportExportType exportType) {
+        String exportFileName;
+        switch (exportType) {
+            case CSV:
+                exportFileName = "export.csv";
+                break;
+            case PDF:
+                exportFileName = "export.pdf";
+                break;
+            case EXCEL:
+                exportFileName = "export.xlsx";
+                break;
+            default:
+                throw new MyCollabException("Do not support export type " + exportType);
+        }
 
-		AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-				.getView()).getPagedBeanTable();
-		if (presenter.isSelectAll) {
-			return new StreamResource(
-					new SimpleGridExportItemsStreamResource.AllItems(
-							getReportTitle(), new RpParameterBuilder(
-							pagedBeanTable.getDisplayColumns()),
-							exportType,
-							presenter.getSearchService(),
-							presenter.searchCriteria,
-							getReportModelClassType()), exportFileName);
-		} else {
-			return new StreamResource(
-					new SimpleGridExportItemsStreamResource.ListData(
-							getReportTitle(), new RpParameterBuilder(
-							pagedBeanTable.getDisplayColumns()),
-							exportType,
-							presenter.getSelectedItems(),
-							getReportModelClassType()), exportFileName);
-		}
-	}
+        AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
+                .getView()).getPagedBeanTable();
+        if (presenter.isSelectAll) {
+            return new StreamResource(
+                    new SimpleGridExportItemsStreamResource.AllItems(
+                            getReportTitle(), new RpParameterBuilder(
+                            pagedBeanTable.getDisplayColumns()),
+                            exportType,
+                            presenter.getSearchService(),
+                            presenter.searchCriteria,
+                            getReportModelClassType()), exportFileName);
+        } else {
+            return new StreamResource(
+                    new SimpleGridExportItemsStreamResource.ListData(
+                            getReportTitle(), new RpParameterBuilder(
+                            pagedBeanTable.getDisplayColumns()),
+                            exportType,
+                            presenter.getSelectedItems(),
+                            getReportModelClassType()), exportFileName);
+        }
+    }
 
-	protected abstract void onSelectExtra(String id);
+    protected abstract void onSelectExtra(String id);
 
-	protected abstract Class<?> getReportModelClassType();
+    protected abstract Class<?> getReportModelClassType();
 
-	protected abstract String getReportTitle();
+    protected abstract String getReportTitle();
 }

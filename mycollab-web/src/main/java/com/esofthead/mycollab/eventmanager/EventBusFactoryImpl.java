@@ -45,13 +45,12 @@ class EventBusFactoryImpl extends EventBusFactory {
         return eventBus;
     }
 
-    private static class SubscriberEventBusExceptionHandler implements
-            SubscriberExceptionHandler {
+    private static class SubscriberEventBusExceptionHandler implements SubscriberExceptionHandler {
 
         @Override
-        public void handleException(Throwable exception,
-                                    SubscriberExceptionContext context) {
-            EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(SubscriberEventBusExceptionHandler.this, exception));
+        public void handleException(Throwable exception, SubscriberExceptionContext context) {
+            EventBusFactory.getInstance().post(new ShellEvent.NotifyErrorEvent(
+                    SubscriberEventBusExceptionHandler.this, exception));
         }
     }
 }

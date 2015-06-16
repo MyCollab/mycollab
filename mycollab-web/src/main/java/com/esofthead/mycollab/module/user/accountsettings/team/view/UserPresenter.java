@@ -55,7 +55,8 @@ public class UserPresenter extends AbstractPresenter<UserContainer> {
             UserSearchCriteria criteria = new UserSearchCriteria();
             criteria.setSaccountid(new NumberSearchField(AppContext
                     .getAccountId()));
-            criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
+            criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE,
+                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING));
             listPresenter.go(view.getWidget(), new ScreenData.Search<>(criteria));
         } else if (data instanceof UserScreenData.Read) {
             UserReadPresenter presenter = PresenterResolver

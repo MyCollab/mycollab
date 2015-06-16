@@ -23,7 +23,8 @@
         <tr>
             <td style="padding: 10px 30px;">
             	<div><img src="${defaultUrls.cdn_url}icons/default_user_avatar_16.png" width="16" height="16"
-            	style="display: inline-block; vertical-align: top;"/>$!inviterName has invited you to collaborate on MyCollab.</div>
+            	style="display: inline-block; vertical-align: top;"/>$!inviterName has invited you to collaborate on
+            	MyCollab workspace.</div>
                 <p>Please, accept the invitation at:</p>
 				#linkBlock( $!urlAccept )
 				<p>or decline it and cancel further reminders at:</p>

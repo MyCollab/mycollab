@@ -18,23 +18,25 @@ package com.esofthead.mycollab.schedule.email
 
 import com.esofthead.mycollab.schedule.email.format.{DefaultFieldFormat, FieldFormat}
 
+import scala.collection.mutable._
+
 /**
  * @author MyCollab Ltd.
  * @since 4.6.0
  */
 class ItemFieldMapper {
-    private var fieldNameMap: Map[String, FieldFormat] = Map()
+    private val fieldNameMap: Map[String, FieldFormat] = LinkedHashMap()
 
     def put(fieldName: Enum[_], displayName: Enum[_]): Unit = {
-        fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName))
+        fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName))
     }
 
     def put(fieldName: Enum[_], displayName: Enum[_], isColSpan: Boolean): Unit = {
-        fieldNameMap += (fieldName.name() -> new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
+        fieldNameMap.put(fieldName.name(), new DefaultFieldFormat(fieldName.name, displayName, isColSpan))
     }
 
     def put(fieldName: Enum[_], format: FieldFormat): Unit = {
-        fieldNameMap += (fieldName.name -> format)
+        fieldNameMap.put(fieldName.name, format)
     }
 
     def keySet(): java.util.Set[String] = {

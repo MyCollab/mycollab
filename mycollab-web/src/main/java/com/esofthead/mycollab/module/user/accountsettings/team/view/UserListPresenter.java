@@ -32,37 +32,37 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @ViewPermission(permissionId = RolePermissionCollections.ACCOUNT_USER, impliedPermissionVal = AccessPermissionFlag.READ_ONLY)
 public class UserListPresenter extends AbstractPresenter<UserListView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UserListPresenter() {
-		super(UserListView.class);
-	}
+    public UserListPresenter() {
+        super(UserListView.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		UserContainer userContainer = (UserContainer) container;
-		userContainer.removeAllComponents();
-		userContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        UserContainer userContainer = (UserContainer) container;
+        userContainer.removeAllComponents();
+        userContainer.addComponent(view.getWidget());
 
-		UserSearchCriteria criteria;
-		if (data == null) {
-			criteria = new UserSearchCriteria();
-			criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-			criteria.setRegisterStatuses(new SetSearchField<>(
-					new String[] { RegisterStatusConstants.ACTIVE }));
-		} else {
-			criteria = (UserSearchCriteria) data.getParams();
-		}
+        UserSearchCriteria criteria;
+        if (data == null) {
+            criteria = new UserSearchCriteria();
+            criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+            criteria.setRegisterStatuses(new SetSearchField<>(
+                    new String[]{RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                            RegisterStatusConstants.VERIFICATING}));
+        } else {
+            criteria = (UserSearchCriteria) data.getParams();
+        }
 
-		view.setSearchCriteria(criteria);
+        view.setSearchCriteria(criteria);
 
-		AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
-		breadcrumb.gotoUserList();
-	}
+        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
+        breadcrumb.gotoUserList();
+    }
 }

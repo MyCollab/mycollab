@@ -34,8 +34,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  * @since 1.0
  * 
  */
-public interface StandupReportService
-extends
+public interface StandupReportService extends
 IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
 	@Cacheable
 	SimpleStandupReport findById(Integer standupId, @CacheKey Integer sAccountId);
@@ -45,8 +44,7 @@ IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
 			String username, Date onDate, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	List<GroupItem> getReportsCount(
-			@CacheKey StandupReportSearchCriteria criteria);
+	List<GroupItem> getReportsCount(@CacheKey StandupReportSearchCriteria criteria);
 
 	@Cacheable
 	List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate,

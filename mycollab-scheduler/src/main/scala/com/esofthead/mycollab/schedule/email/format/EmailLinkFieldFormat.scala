@@ -33,8 +33,7 @@ class EmailLinkFieldFormat(fieldName: String, displayName: Enum[_]) extends Fiel
         try {
             val value = PropertyUtils.getProperty(wrappedBean, fieldName)
             formatEmail(value.asInstanceOf[String])
-        }
-        catch {
+        } catch {
             case e: Any =>
                 LOG.error("Error", e)
                 new Span().write
@@ -46,8 +45,7 @@ class EmailLinkFieldFormat(fieldName: String, displayName: Enum[_]) extends Fiel
     private def formatEmail(value: String): String = {
         if (value == null) {
             new Span().write
-        }
-        else {
+        } else {
             val link: A = new A
             link.setStyle("text-decoration: none; color: rgb(36, 127, 211);")
             link.setHref("mailto:" + value.toString)

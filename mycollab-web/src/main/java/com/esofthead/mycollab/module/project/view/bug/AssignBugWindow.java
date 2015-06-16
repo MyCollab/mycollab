@@ -52,8 +52,7 @@ class AssignBugWindow extends Window {
     private final SimpleBug bug;
     private final IBugCallbackStatusComp callbackForm;
 
-    AssignBugWindow(final IBugCallbackStatusComp callbackForm,
-                    final SimpleBug bug) {
+    AssignBugWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
         super("Assign bug '" + bug.getSummary() + "'");
         this.setWidth("750px");
         this.setResizable(false);
@@ -74,7 +73,6 @@ class AssignBugWindow extends Window {
     }
 
     private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-
         private static final long serialVersionUID = 1L;
         private RichTextEditField commentArea;
 
@@ -86,7 +84,6 @@ class AssignBugWindow extends Window {
         }
 
         class FormLayoutFactory implements IFormLayoutFactory {
-
             private static final long serialVersionUID = 1L;
             private GridFormLayoutHelper informationLayout;
 
@@ -97,7 +94,7 @@ class AssignBugWindow extends Window {
 
                 layout.addComponent(this.informationLayout.getLayout());
 
-                final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
+                MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 
                 layout.addComponent(controlsBtn);
 
@@ -107,8 +104,7 @@ class AssignBugWindow extends Window {
                             private static final long serialVersionUID = 1L;
 
                             @Override
-                            public void buttonClick(
-                                    final Button.ClickEvent event) {
+                            public void buttonClick(final Button.ClickEvent event) {
 
                                 if (EditForm.this.validateForm()) {
                                     // Save bug status and assignee
@@ -133,13 +129,11 @@ class AssignBugWindow extends Window {
                                         comment.setSaccountid(AppContext
                                                 .getAccountId());
                                         comment.setType(ProjectTypeConstants.BUG);
-                                        comment.setTypeid(""
-                                                + AssignBugWindow.this.bug
-                                                .getId());
+                                        comment.setTypeid("" + bug.getId());
                                         comment.setExtratypeid(CurrentProjectVariables
                                                 .getProjectId());
 
-                                        final CommentService commentService = ApplicationContextUtil
+                                        CommentService commentService = ApplicationContextUtil
                                                 .getSpringBean(CommentService.class);
                                         commentService.saveWithSession(comment,
                                                 AppContext.getUsername());
@@ -154,11 +148,8 @@ class AssignBugWindow extends Window {
                 approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 approveBtn.setIcon(FontAwesome.SHARE);
                 approveBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-                controlsBtn.addComponent(approveBtn);
-                controlsBtn.setComponentAlignment(approveBtn,
-                        Alignment.MIDDLE_RIGHT);
 
-                final Button cancelBtn = new Button(
+                Button cancelBtn = new Button(
                         AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
@@ -170,19 +161,15 @@ class AssignBugWindow extends Window {
                             }
                         });
                 cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-                controlsBtn.addComponent(cancelBtn);
-                controlsBtn.setComponentAlignment(cancelBtn,
-                        Alignment.MIDDLE_LEFT);
+                controlsBtn.with(approveBtn, cancelBtn);
 
-                layout.setComponentAlignment(controlsBtn,
-                        Alignment.MIDDLE_RIGHT);
+                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
                 return layout;
             }
 
             @Override
-            public void attachField(final Object propertyId,
-                                    final Field<?> field) {
+            public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("assignuser")) {
                     this.informationLayout
                             .addComponent(field, AppContext

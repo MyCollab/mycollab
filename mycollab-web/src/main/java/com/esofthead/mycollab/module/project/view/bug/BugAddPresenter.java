@@ -63,7 +63,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public void onSave(final SimpleBug bug) {
+                    public void onSave(SimpleBug bug) {
                         int bugId = saveBug(bug);
                         EventBusFactory.getInstance().post(new BugEvent.GotoRead(this, bugId));
                     }
@@ -78,7 +78,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
                     }
 
                     @Override
-                    public void onSaveAndNew(final SimpleBug bug) {
+                    public void onSaveAndNew(SimpleBug bug) {
                         saveBug(bug);
                         EventBusFactory.getInstance().post(
                                 new BugEvent.GotoAdd(this, null));
@@ -88,8 +88,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.BUGS)) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.BUGS)) {
             BugContainer bugContainer = (BugContainer) container;
             bugContainer.removeAllComponents();
             bugContainer.addComponent(view.getWidget());

@@ -43,8 +43,7 @@ class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_ 
             else {
                 new Span().appendText(LocalizationHelper.getMessage(context.locale, enumKey, value.toString)).write
             }
-        }
-        catch {
+        } catch {
             case e: Any =>
                 LOG.error("Can not generate of object " + BeanUtility.printBeanObj(wrappedBean) + " field: " + fieldName + " and " + value, e)
                 new Span().write
@@ -54,8 +53,7 @@ class I18nFieldFormat(fieldName: String, displayName: Enum[_], enumKey: Class[_ 
     override def formatField(context: MailContext[_], value: String): String = {
         try {
             LocalizationHelper.getMessage(context.locale, enumKey, value.toString)
-        }
-        catch {
+        } catch {
             case e: Exception =>
                 LOG.error("Can not generate of object field: " + fieldName + " and " + value, e)
                 new Span().write

@@ -169,9 +169,9 @@ ProjectTaskGroupRelayEmailNotificationAction {
                 val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
                 val milestone: SimpleMilestone = milestoneService.findById(milestoneId, context.getUser.getAccountId)
                 if (milestone != null) {
-                    val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE));
-                    val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl, milestone
-                        .getProjectid, milestone.getId)
+                    val img: Text = new Text(ProjectResources.getFontIconHtml(ProjectTypeConstants.MILESTONE))
+                    val milestoneLink: String = ProjectLinkGenerator.generateMilestonePreviewFullLink(context.siteUrl,
+                        milestone.getProjectid, milestone.getId)
                     val link: A = FormatUtils.newA(milestoneLink, milestone.getName)
                     return FormatUtils.newLink(img, link).write
                 }

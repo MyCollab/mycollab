@@ -15,7 +15,6 @@
         </encoder>
     </appender>
     <appender name="email" class="com.esofthead.mycollab.configuration.MailAppender">
-        <subject>Error: %logger{20} - %m</subject>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%5p %c{1}:%L - %m%n</pattern>
         </layout>

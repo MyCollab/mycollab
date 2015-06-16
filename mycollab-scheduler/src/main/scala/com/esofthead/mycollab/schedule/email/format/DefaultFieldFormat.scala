@@ -43,8 +43,7 @@ class DefaultFieldFormat(fieldName: String, displayName: Enum[_], isColSpan: Boo
             else {
                 new Span().appendText(value.toString).write
             }
-        }
-        catch {
+        } catch {
             case e: Any =>
                 LOG.error("Can not generate email field: " + fieldName, e)
                 new Span().write

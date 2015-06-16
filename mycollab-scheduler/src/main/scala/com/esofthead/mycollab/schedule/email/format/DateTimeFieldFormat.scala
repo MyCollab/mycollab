@@ -39,14 +39,12 @@ class DateTimeFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
             val value = PropertyUtils.getProperty(wrappedBean, fieldName)
             if (value == null) {
                 new Span().write
-            }
-            else {
+            } else {
                 new Span().appendText(DateTimeUtils.formatDate(value.asInstanceOf[Date], LocaleHelper
                     .getDateFormatInstance(context.locale).getDateFormat, TimezoneMapper.getTimezone(context.user.getTimezone)))
                     .write
             }
-        }
-        catch {
+        } catch {
             case e: Any =>
                 LOG.error("Can not generate email field: " + fieldName, e)
                 new Span().write

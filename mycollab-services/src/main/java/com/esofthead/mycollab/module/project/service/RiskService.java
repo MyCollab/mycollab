@@ -23,8 +23,7 @@ import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
 
-public interface RiskService extends
-        IDefaultService<Integer, Risk, RiskSearchCriteria> {
+public interface RiskService extends IDefaultService<Integer, Risk, RiskSearchCriteria> {
     @Cacheable
     SimpleRisk findById(Integer riskId, @CacheKey Integer sAccountId);
 }

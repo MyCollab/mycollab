@@ -105,7 +105,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
                 val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
                 val criteria: UserSearchCriteria = new UserSearchCriteria
                 criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
-                criteria.setRegisterStatuses(new SetSearchField[String](SearchField.AND, RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING))
+                criteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING))
                 presenter.go(container, new UserScreenData.Search(criteria))
             }
         })

@@ -43,6 +43,7 @@ public class MonitorServiceTest extends IntergrationServiceTest {
         mon1.setType(ProjectTypeConstants.BUG);
         mon1.setTypeid(1);
         mon1.setExtratypeid(1);
+        mon1.setUser("hainguyen");
         List<MonitorItem> items = new ArrayList<>();
         items.add(mon1);
         monitorItemService.saveMonitorItems(items);

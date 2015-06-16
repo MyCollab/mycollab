@@ -48,8 +48,7 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
                 val currency: Currency = currencyService.getCurrency(value.asInstanceOf[Integer])
                 new Span().appendText(currency.getSymbol).write
             }
-        }
-        catch {
+        } catch {
             case e: Any =>
                 LOG.error("Can not generate email field: " + fieldName, e)
                 new Span().write
@@ -68,8 +67,7 @@ class CurrencyFieldFormat(fieldName: String, displayName: Enum[_]) extends Field
             if (currency != null) {
                 return currency.getFullname
             }
-        }
-        catch {
+        } catch {
             case e: Exception => LOG.error("Error", e)
         }
 

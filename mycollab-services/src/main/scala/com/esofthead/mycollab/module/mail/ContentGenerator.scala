@@ -37,70 +37,72 @@ import org.springframework.stereotype.Component
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class ContentGenerator extends IContentGenerator with InitializingBean {
-  private var templateContext: TemplateContext = _
-  @Autowired private val templateEngine: VelocityEngine = null
+    private var templateContext: TemplateContext = _
+    @Autowired private val templateEngine: VelocityEngine = null
 
-  @throws(classOf[Exception])
-  def afterPropertiesSet() {
-    templateContext = new TemplateContext
-    val sharingOptions = SharingOptions.getDefaultSharingOptions
-    val defaultUrls = Map[String, String](
-      "cdn_url" -> SiteConfiguration.getCdnUrl,
-      "facebook_url" -> sharingOptions.getFacebookUrl,
-      "google_url" -> sharingOptions.getGoogleplusUrl,
-      "linkedin_url" -> sharingOptions.getLinkedinUrl,
-      "twitter_url" -> sharingOptions.getTwitterUrl)
-    putVariable("defaultUrls", defaultUrls)
-  }
-
-  override def putVariable(key: String, value: Any): Unit = {
-    import scala.collection.JavaConversions._
-    value match {
-      case map: Map[_, _] => templateContext.put(key, mapAsJavaMap(map))
-      case list: List[_] => templateContext.put(key, seqAsJavaList(list))
-      case _ => templateContext.put(key, value)
-    }
-  }
-
-  override def generateBodyContent(templateFilePath: String): String = {
-    val writer = new StringWriter
-    val resourceStream = classOf[LocalizationHelper].getClassLoader.getResourceAsStream(templateFilePath)
-
-    var reader: Reader = null
-    try {
-      reader = new InputStreamReader(resourceStream, "UTF-8")
-    }
-    catch {
-      case e: UnsupportedEncodingException => reader = new InputStreamReader(resourceStream)
+    @throws(classOf[Exception])
+    def afterPropertiesSet() {
+        templateContext = new TemplateContext
+        val sharingOptions = SharingOptions.getDefaultSharingOptions
+        val defaultUrls = Map[String, String](
+            "cdn_url" -> SiteConfiguration.getCdnUrl,
+            "facebook_url" -> sharingOptions.getFacebookUrl,
+            "google_url" -> sharingOptions.getGoogleplusUrl,
+            "linkedin_url" -> sharingOptions.getLinkedinUrl,
+            "twitter_url" -> sharingOptions.getTwitterUrl)
+        putVariable("defaultUrls", defaultUrls)
     }
 
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-    writer.toString
-  }
-
-  override def generateBodyContent(templateFilePath: String, currentLocale: Locale): String = this.generateBodyContent(templateFilePath, currentLocale, null)
-
-  override def generateBodyContent(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String = {
-    val writer = new StringWriter
-    var reader = LocalizationHelper.templateReader(templateFilePath, currentLocale)
-    if (reader == null) {
-      if (defaultLocale == null) {
-        throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale)
-      }
-      reader = LocalizationHelper.templateReader(templateFilePath, defaultLocale)
-      if (reader == null) {
-        throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale + " and default locale " + defaultLocale)
-      }
+    override def putVariable(key: String, value: Any): Unit = {
+        import scala.collection.JavaConversions._
+        value match {
+            case map: Map[_, _] => templateContext.put(key, mapAsJavaMap(map))
+            case list: List[_] => templateContext.put(key, seqAsJavaList(list))
+            case _ => templateContext.put(key, value)
+        }
     }
 
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-    writer.toString
-  }
+    override def generateBodyContent(templateFilePath: String): String = {
+        val writer = new StringWriter
+        val resourceStream = classOf[LocalizationHelper].getClassLoader.getResourceAsStream(templateFilePath)
 
-  override def generateSubjectContent(subject: String): String = {
-    val writer = new StringWriter
-    val reader = new StringReader(subject)
-    templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-    writer.toString
-  }
+        var reader: Reader = null
+        try {
+            reader = new InputStreamReader(resourceStream, "UTF-8")
+        }
+        catch {
+            case e: UnsupportedEncodingException => reader = new InputStreamReader(resourceStream)
+        }
+
+        templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
+        writer.toString
+    }
+
+    override def generateBodyContent(templateFilePath: String, currentLocale: Locale): String =
+        this.generateBodyContent(templateFilePath, currentLocale, null)
+
+    override def generateBodyContent(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String = {
+        val writer = new StringWriter
+        var reader = LocalizationHelper.templateReader(templateFilePath, currentLocale)
+        if (reader == null) {
+            if (defaultLocale == null) {
+                throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale)
+            }
+            reader = LocalizationHelper.templateReader(templateFilePath, defaultLocale)
+            if (reader == null) {
+                throw new MyCollabException("Can not find file " + templateFilePath + " in locale " +
+                    currentLocale + " and default locale " + defaultLocale)
+            }
+        }
+
+        templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
+        writer.toString
+    }
+
+    override def generateSubjectContent(subject: String): String = {
+        val writer = new StringWriter
+        val reader = new StringReader(subject)
+        templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
+        writer.toString
+    }
 }

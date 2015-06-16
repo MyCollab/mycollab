@@ -337,7 +337,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
                     Date createdTime = billingAccount.getCreatedtime();
                     long timeDeviation = System.currentTimeMillis() - createdTime.getTime();
-                    int daysLeft = (int) Math.floor(timeDeviation / (double)(1000 * 60 * 60 * 24));
+                    int daysLeft = (int) Math.floor(timeDeviation / (double) (1000 * 60 * 60 * 24));
                     if (daysLeft > 30) {
                         BillingService billingService = ApplicationContextUtil.getSpringBean(BillingService.class);
                         BillingPlan freeBillingPlan = billingService.getFreeBillingPlan();

@@ -30,8 +30,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ProjectService extends
-        IDefaultService<Integer, Project, ProjectSearchCriteria> {
+public interface ProjectService extends IDefaultService<Integer, Project, ProjectSearchCriteria> {
 
     @Cacheable
     List<Integer> getProjectKeysUserInvolved(String username, @CacheKey Integer sAccountId);

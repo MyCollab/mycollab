@@ -47,13 +47,16 @@ Version 5.0.9
 -----------------------------
 **Library Upgrades**
 
-* Upgrade libraries: AspectJ, Jetty
+* Upgrade Vaadin to 7.4.8
+* Upgrade libraries: AspectJ, Jetty, MyBatis, Joda-Time, etc
 
 **Bug Fixes**
 
 * User can not upload non english file name document
 * Proper handling system roles
 * The resource paths still throw error in several cases
+* Email notification could be sent multiple times to the recipients
+* Some assets has wrong paths
 
 
 Version 5.0.8

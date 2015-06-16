@@ -168,10 +168,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         @Override
         public ComponentContainer getLayout() {
-            CssLayout memberBlock = new CssLayout();
-            memberBlock.addStyleName("member-block");
-
             HorizontalLayout blockContent = new HorizontalLayout();
+            blockContent.addStyleName("member-block");
             Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
                     beanItem.getMemberAvatarId(), 100);
             blockContent.addComponent(memberAvatar);
@@ -273,8 +271,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             blockContent.setExpandRatio(memberInfo, 1.0f);
             blockContent.setWidth("100%");
 
-            memberBlock.addComponent(blockContent);
-            return memberBlock;
+            return blockContent;
         }
 
         @Override

@@ -53,22 +53,23 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
 
     private val mapper = new ProjectFieldNameMapper
 
-    protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
+    override protected def getItemName: String = StringUtils.trim(bean.getRiskname, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-        bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    override protected def getCreateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
+        RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-        bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    override protected def getUpdateSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
+        RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleRisk]): String = context.getMessage(RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-        bean.getProjectName, context.getChangeByUserFullName, getItemName)
+    override protected def getCommentSubject(context: MailContext[SimpleRisk]): String = context.getMessage(
+        RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getItemFieldMapper: ItemFieldMapper = mapper
+    override protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleRisk]): SimpleRisk = riskService.findById(context.getTypeid.toInt, context.getSaccountid)
+    override protected def getBeanInContext(context: MailContext[SimpleRisk]): SimpleRisk = riskService.findById(
+        context.getTypeid.toInt, context.getSaccountid)
 
-    protected def buildExtraTemplateVariables(context: MailContext[SimpleRisk]) {
+    override protected def buildExtraTemplateVariables(context: MailContext[SimpleRisk]) {
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
         val relatedProject: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
         val currentProject = new WebItem(relatedProject.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl,
@@ -101,7 +102,8 @@ class ProjectRiskRelayEmailNotificationActionImpl extends SendMailToAllMembersAc
         put(Risk.Field.probalitity, RiskI18nEnum.FORM_PROBABILITY)
         put(Risk.Field.consequence, RiskI18nEnum.FORM_CONSEQUENCE)
         put(Risk.Field.datedue, new DateFieldFormat(Risk.Field.datedue.name, RiskI18nEnum.FORM_DATE_DUE))
-        put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, RiskI18nEnum.FORM_STATUS, classOf[OptionI18nEnum.StatusI18nEnum]))
+        put(Risk.Field.status, new I18nFieldFormat(Risk.Field.status.name, RiskI18nEnum.FORM_STATUS,
+            classOf[OptionI18nEnum.StatusI18nEnum]))
         put(Risk.Field.assigntouser, new AssigneeFieldFormat(Risk.Field.assigntouser.name, GenericI18Enum.FORM_ASSIGNEE))
         put(Risk.Field.raisedbyuser, new RaisedByFieldFormat(Risk.Field.raisedbyuser.name, RiskI18nEnum.FORM_RAISED_BY))
         put(Risk.Field.response, RiskI18nEnum.FORM_RESPONSE, isColSpan = true)

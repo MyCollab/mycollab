@@ -53,23 +53,23 @@ class ProjectProblemRelayEmailNotificationActionImpl extends SendMailToAllMember
 
     private val mapper = new ProjectFieldNameMapper
 
-    protected def getItemName: String = StringUtils.trim(bean.getIssuename, 100)
+    override protected def getItemName: String = StringUtils.trim(bean.getIssuename, 100)
 
-    protected def getCreateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+    override protected def getCreateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
         ProblemI18nEnum.MAIL_CREATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getUpdateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+    override protected def getUpdateSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
         ProblemI18nEnum.MAIL_UPDATE_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getCommentSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
+    override protected def getCommentSubject(context: MailContext[SimpleProblem]): String = context.getMessage(
         ProblemI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, bean.getProjectName, context.getChangeByUserFullName, getItemName)
 
-    protected def getItemFieldMapper: ItemFieldMapper = mapper
+    override protected def getItemFieldMapper: ItemFieldMapper = mapper
 
-    protected def getBeanInContext(context: MailContext[SimpleProblem]): SimpleProblem = problemService.findById(context.getTypeid.toInt,
-        context.getSaccountid)
+    override protected def getBeanInContext(context: MailContext[SimpleProblem]): SimpleProblem = problemService.
+        findById(context.getTypeid.toInt, context.getSaccountid)
 
-    protected def buildExtraTemplateVariables(context: MailContext[SimpleProblem]) {
+    override protected def buildExtraTemplateVariables(context: MailContext[SimpleProblem]) {
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
         val relatedProject: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
         val currentProject = new WebItem(relatedProject.getName, ProjectLinkGenerator.generateProjectFullLink(siteUrl,
