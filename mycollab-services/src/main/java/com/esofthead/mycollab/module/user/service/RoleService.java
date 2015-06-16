@@ -33,11 +33,11 @@ import com.esofthead.mycollab.security.PermissionMap;
 public interface RoleService extends
 		IDefaultService<Integer, Role, RoleSearchCriteria> {
 	@CacheEvict
-	void savePermission(int roleId, PermissionMap permissionMap,
-			@CacheKey int sAccountId);
+	void savePermission(Integer roleId, PermissionMap permissionMap,
+			@CacheKey Integer sAccountId);
 
 	@Cacheable
-	SimpleRole findById(int roleId, @CacheKey int sAccountId);
+	SimpleRole findById(Integer roleId, @CacheKey Integer sAccountId);
 
 	@Cacheable
 	Integer getSystemRoleId(String systemRoleName, @CacheKey Integer sAccountId);

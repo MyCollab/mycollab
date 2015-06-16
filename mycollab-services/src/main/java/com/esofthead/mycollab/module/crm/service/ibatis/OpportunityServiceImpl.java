@@ -16,17 +16,9 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import com.esofthead.mycollab.common.interceptor.aspect.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -35,23 +27,23 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.dao.OpportunityLeadMapper;
 import com.esofthead.mycollab.module.crm.dao.OpportunityMapper;
 import com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt;
-import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
-import com.esofthead.mycollab.module.crm.domain.Opportunity;
-import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
-import com.esofthead.mycollab.module.crm.domain.OpportunityLeadExample;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.*;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
@@ -60,101 +52,101 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Watchable(userFieldName = "assignuser")
 @NotifyAgent(OpportunityRelayEmailNotificationAction.class)
 public class OpportunityServiceImpl extends
-		DefaultService<Integer, Opportunity, OpportunitySearchCriteria>
-		implements OpportunityService {
+        DefaultService<Integer, Opportunity, OpportunitySearchCriteria>
+        implements OpportunityService {
 
     static {
         ClassInfoMap.put(OpportunityServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.OPPORTUNITY));
     }
 
-	@Autowired
-	private OpportunityMapper opportunityMapper;
-	@Autowired
-	private OpportunityMapperExt opportunityMapperExt;
-	@Autowired
-	private OpportunityLeadMapper opportunityLeadMapper;
+    @Autowired
+    private OpportunityMapper opportunityMapper;
+    @Autowired
+    private OpportunityMapperExt opportunityMapperExt;
+    @Autowired
+    private OpportunityLeadMapper opportunityLeadMapper;
 
-	@Override
-	public ICrudGenericDAO<Integer, Opportunity> getCrudMapper() {
-		return opportunityMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Opportunity> getCrudMapper() {
+        return opportunityMapper;
+    }
 
-	@Override
-	public ISearchableDAO<OpportunitySearchCriteria> getSearchMapper() {
-		return opportunityMapperExt;
-	}
+    @Override
+    public ISearchableDAO<OpportunitySearchCriteria> getSearchMapper() {
+        return opportunityMapperExt;
+    }
 
-	@Override
-	public SimpleOpportunity findById(int opportunityId, int sAccountId) {
-		return opportunityMapperExt.findById(opportunityId);
-	}
+    @Override
+    public SimpleOpportunity findById(Integer opportunityId, Integer sAccountId) {
+        return opportunityMapperExt.findById(opportunityId);
+    }
 
-	@Override
-	public Integer saveWithSession(Opportunity opportunity, String username) {
-		Integer result = super.saveWithSession(opportunity, username);
-		if ((opportunity.getExtraData() != null)
-				&& (opportunity.getExtraData() instanceof SimpleContact)) {
-			ContactOpportunity associateOpportunity = new ContactOpportunity();
-			associateOpportunity.setOpportunityid(opportunity.getId());
-			associateOpportunity.setContactid(((SimpleContact) opportunity
-					.getExtraData()).getId());
-			associateOpportunity.setCreatedtime(new GregorianCalendar()
-					.getTime());
-			ContactService contactService = ApplicationContextUtil
-					.getSpringBean(ContactService.class);
-			contactService.saveContactOpportunityRelationship(
-					Arrays.asList(associateOpportunity),
-					opportunity.getSaccountid());
-		}
-		return result;
-	}
+    @Override
+    public Integer saveWithSession(Opportunity opportunity, String username) {
+        Integer result = super.saveWithSession(opportunity, username);
+        if ((opportunity.getExtraData() != null)
+                && (opportunity.getExtraData() instanceof SimpleContact)) {
+            ContactOpportunity associateOpportunity = new ContactOpportunity();
+            associateOpportunity.setOpportunityid(opportunity.getId());
+            associateOpportunity.setContactid(((SimpleContact) opportunity
+                    .getExtraData()).getId());
+            associateOpportunity.setCreatedtime(new GregorianCalendar()
+                    .getTime());
+            ContactService contactService = ApplicationContextUtil
+                    .getSpringBean(ContactService.class);
+            contactService.saveContactOpportunityRelationship(
+                    Arrays.asList(associateOpportunity),
+                    opportunity.getSaccountid());
+        }
+        return result;
+    }
 
-	@Override
-	public List<GroupItem> getSalesStageSummary(
-			OpportunitySearchCriteria criteria) {
-		return opportunityMapperExt.getSalesStageSummary(criteria);
-	}
+    @Override
+    public List<GroupItem> getSalesStageSummary(
+            OpportunitySearchCriteria criteria) {
+        return opportunityMapperExt.getSalesStageSummary(criteria);
+    }
 
-	@Override
-	public List<GroupItem> getLeadSourcesSummary(
-			OpportunitySearchCriteria criteria) {
-		return opportunityMapperExt.getLeadSourcesSummary(criteria);
-	}
+    @Override
+    public List<GroupItem> getLeadSourcesSummary(
+            OpportunitySearchCriteria criteria) {
+        return opportunityMapperExt.getLeadSourcesSummary(criteria);
+    }
 
-	@Override
-	public List<GroupItem> getPipeline(
-			@CacheKey OpportunitySearchCriteria criteria) {
-		return opportunityMapperExt.getPipeline(criteria);
-	}
+    @Override
+    public List<GroupItem> getPipeline(
+            @CacheKey OpportunitySearchCriteria criteria) {
+        return opportunityMapperExt.getPipeline(criteria);
+    }
 
-	@Override
-	public void saveOpportunityLeadRelationship(
-			List<OpportunityLead> associateLeads, Integer sAccountId) {
-		for (OpportunityLead associateLead : associateLeads) {
-			OpportunityLeadExample ex = new OpportunityLeadExample();
-			ex.createCriteria()
-					.andOpportunityidEqualTo(associateLead.getOpportunityid())
-					.andLeadidEqualTo(associateLead.getLeadid());
-			if (opportunityLeadMapper.countByExample(ex) == 0) {
-				opportunityLeadMapper.insert(associateLead);
-			}
-		}
-	}
+    @Override
+    public void saveOpportunityLeadRelationship(
+            List<OpportunityLead> associateLeads, Integer sAccountId) {
+        for (OpportunityLead associateLead : associateLeads) {
+            OpportunityLeadExample ex = new OpportunityLeadExample();
+            ex.createCriteria()
+                    .andOpportunityidEqualTo(associateLead.getOpportunityid())
+                    .andLeadidEqualTo(associateLead.getLeadid());
+            if (opportunityLeadMapper.countByExample(ex) == 0) {
+                opportunityLeadMapper.insert(associateLead);
+            }
+        }
+    }
 
-	@Override
-	public void removeOpportunityLeadRelationship(
-			OpportunityLead associateLead, Integer sAccountId) {
-		OpportunityLeadExample ex = new OpportunityLeadExample();
-		ex.createCriteria()
-				.andOpportunityidEqualTo(associateLead.getOpportunityid())
-				.andLeadidEqualTo(associateLead.getLeadid());
-		opportunityLeadMapper.deleteByExample(ex);
-	}
+    @Override
+    public void removeOpportunityLeadRelationship(
+            OpportunityLead associateLead, Integer sAccountId) {
+        OpportunityLeadExample ex = new OpportunityLeadExample();
+        ex.createCriteria()
+                .andOpportunityidEqualTo(associateLead.getOpportunityid())
+                .andLeadidEqualTo(associateLead.getLeadid());
+        opportunityLeadMapper.deleteByExample(ex);
+    }
 
-	@Override
-	public SimpleOpportunity findOpportunityAssoWithConvertedLead(int leadId,
-			@CacheKey int accountId) {
-		return opportunityMapperExt
-				.findOpportunityAssoWithConvertedLead(leadId);
-	}
+    @Override
+    public SimpleOpportunity findOpportunityAssoWithConvertedLead(Integer leadId,
+                                                                  @CacheKey Integer accountId) {
+        return opportunityMapperExt
+                .findOpportunityAssoWithConvertedLead(leadId);
+    }
 }

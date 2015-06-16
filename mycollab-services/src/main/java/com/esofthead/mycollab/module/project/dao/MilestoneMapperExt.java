@@ -29,7 +29,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MilestoneMapperExt extends ISearchableDAO<MilestoneSearchCriteria> {
 
-    SimpleMilestone findById(int milestoneId);
+    SimpleMilestone findById(Integer milestoneId);
 
     Double getTotalBillableHours(@Param("milestoneid") int milestoneId);
 

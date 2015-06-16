@@ -21,5 +21,5 @@ import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 
 public interface RoleMapperExt extends ISearchableDAO<RoleSearchCriteria> {
-    SimpleRole findById(int roleId);
+    SimpleRole findById(Integer roleId);
 }

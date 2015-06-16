@@ -33,5 +33,5 @@ public interface MeetingService extends
 		IDefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> {
 
 	@Cacheable
-	SimpleMeeting findById(int meetingId, @CacheKey int sAccountId);
+	SimpleMeeting findById(Integer meetingId, @CacheKey Integer sAccountId);
 }

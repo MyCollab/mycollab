@@ -40,7 +40,7 @@ public interface CampaignService extends
 		IDefaultService<Integer, CampaignWithBLOBs, CampaignSearchCriteria> {
 
 	@Cacheable
-	SimpleCampaign findById(int campaignId, @CacheKey int sAccountId);
+	SimpleCampaign findById(Integer campaignId, @CacheKey Integer sAccountId);
 
 	@CacheEvict
 	@CacheArgs(values = { AccountService.class })

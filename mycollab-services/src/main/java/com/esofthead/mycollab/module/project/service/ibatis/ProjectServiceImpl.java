@@ -134,17 +134,13 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         ProjectRole clientRole = createProjectRole(projectId,
                 record.getSaccountid(), "Client", "Default role for client");
 
-        int clientRoleId = projectRoleService.saveWithSession(clientRole,
-                username);
+        int clientRoleId = projectRoleService.saveWithSession(clientRole, username);
 
         PermissionMap permissionMapClient = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
-            if (permissionName.equals(ProjectRolePermissionCollections.USERS)
-                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)
-                    || permissionName.equals(ProjectRolePermissionCollections.MESSAGES)) {
+            if (permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
                 permissionMapClient.addPath(
                         ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
                         AccessPermissionFlag.NO_ACCESS);

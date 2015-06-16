@@ -26,5 +26,5 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 public interface VersionService extends
 		IDefaultService<Integer, Version, VersionSearchCriteria> {
 	@Cacheable
-	SimpleVersion findById(int versionId, @CacheKey int sAccountId);
+	SimpleVersion findById(Integer versionId, @CacheKey Integer sAccountId);
 }

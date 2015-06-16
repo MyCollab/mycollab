@@ -28,5 +28,5 @@ public interface ComponentService extends
 		IDefaultService<Integer, Component, ComponentSearchCriteria> {
 
 	@Cacheable
-	SimpleComponent findById(int componentId, @CacheKey int sAccountId);
+	SimpleComponent findById(Integer componentId, @CacheKey Integer sAccountId);
 }

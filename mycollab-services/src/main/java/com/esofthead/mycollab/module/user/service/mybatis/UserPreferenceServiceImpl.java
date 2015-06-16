@@ -52,13 +52,13 @@ public class UserPreferenceServiceImpl extends
 	}
 
 	@Override
-	public UserPreference getPreferenceOfUser(String username, int accountId) {
+	public UserPreference getPreferenceOfUser(String username, Integer accountId) {
 		UserPreferenceExample ex = new UserPreferenceExample();
 		ex.createCriteria().andUsernameEqualTo(username)
 				.andSaccountidEqualTo(accountId);
 		List<UserPreference> userPreferences = userPreferenceMapper
 				.selectByExample(ex);
-		UserPreference pref = null;
+		UserPreference pref;
 
 		if (CollectionUtils.isNotEmpty(userPreferences)) {
 			pref = userPreferences.get(0);

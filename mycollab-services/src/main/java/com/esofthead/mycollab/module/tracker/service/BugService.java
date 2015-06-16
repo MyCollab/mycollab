@@ -37,11 +37,11 @@ public interface BugService extends
 		IDefaultService<Integer, BugWithBLOBs, BugSearchCriteria> {
 
 	@Cacheable
-	SimpleBug findById(int bugid, @CacheKey int sAccountId);
+	SimpleBug findById(Integer bugid, @CacheKey Integer sAccountId);
 
 	@Cacheable
-	SimpleBug findByProjectAndBugKey(int bugKey, String projectShortName,
-			@CacheKey int sAccountId);
+	SimpleBug findByProjectAndBugKey(Integer bugKey, String projectShortName,
+			@CacheKey Integer sAccountId);
 
 	@Cacheable
 	List<GroupItem> getStatusSummary(@CacheKey BugSearchCriteria criteria);

@@ -66,7 +66,7 @@ public class MeetingServiceImpl extends
     }
 
     @Override
-    public SimpleMeeting findById(int meetingId, int sAccountId) {
+    public SimpleMeeting findById(Integer meetingId, Integer sAccountId) {
         return meetingMapperExt.findById(meetingId);
     }
 

@@ -28,7 +28,7 @@ public interface ContactMapperExt extends
 		ISearchableDAO<ContactSearchCriteria>,
 		IMassUpdateDAO<Contact, ContactSearchCriteria> {
 
-	SimpleContact findById(int contactId);
+	SimpleContact findById(Integer contactId);
 
-	SimpleContact findContactAssoWithConvertedLead(@Param("leadId") int leadId);
+	SimpleContact findContactAssoWithConvertedLead(@Param("leadId") Integer leadId);
 }

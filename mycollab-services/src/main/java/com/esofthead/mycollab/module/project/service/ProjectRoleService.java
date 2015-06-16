@@ -29,9 +29,9 @@ public interface ProjectRoleService extends
 		IDefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria> {
 
 	@CacheEvict
-	void savePermission(int projectId, int roleId, PermissionMap permissionMap,
+	void savePermission(Integer projectId, Integer roleId, PermissionMap permissionMap,
 			@CacheKey Integer sAccountId);
 
 	@Cacheable
-	SimpleProjectRole findById(int roleId, @CacheKey int sAccountId);
+	SimpleProjectRole findById(Integer roleId, @CacheKey Integer sAccountId);
 }

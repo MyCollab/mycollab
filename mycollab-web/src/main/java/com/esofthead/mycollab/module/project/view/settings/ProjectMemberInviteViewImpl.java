@@ -39,8 +39,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -50,6 +50,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
+import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
@@ -94,7 +95,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         });
 
         AddViewLayout userAddLayout = new AddViewLayout(AppContext
-                        .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
+                .getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
                 FontAwesome.USER);
 
         userAddLayout.addHeaderRight(createButtonControls());
@@ -109,9 +110,9 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
         messageArea = new TextArea();
         messageArea.setValue(AppContext
-                        .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
+                .getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
         informationLayout.addComponent(messageArea, AppContext
-                        .getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
+                .getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
         userAddLayout.addBody(informationLayout.getLayout());
         userAddLayout.addBottomControls(createBottomPanel());
@@ -121,15 +122,14 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
     private Layout createButtonControls() {
         MHorizontalLayout controlButtons = new MHorizontalLayout();
 
-        Button inviteBtn = new Button(
-                AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
+        Button inviteBtn = new Button(AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(ClickEvent event) {
                         roleId = (Integer) roleComboBox.getValue();
-                        BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>)roleComboBox.getItem(roleId);
+                        BeanItem<SimpleProjectRole> item = (BeanItem<SimpleProjectRole>) roleComboBox.getItem(roleId);
                         String roleName = (item != null) ? item.getBean().getRolename() : "";
                         ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<>(
                                 ProjectMemberInviteViewImpl.this,
@@ -142,8 +142,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         inviteBtn.setIcon(FontAwesome.SEND);
         controlButtons.addComponent(inviteBtn);
 
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -164,8 +163,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
 
     private Layout createBottomPanel() {
         VerticalLayout permissionsPanel = new VerticalLayout();
-        Label organizationHeader = new Label(
-                AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+        Label organizationHeader = new Label(AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
         organizationHeader.setStyleName("h2");
         permissionsPanel.addComponent(organizationHeader);
 
@@ -189,15 +187,15 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                 for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                     String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                     projectFormHelper.addComponent(new Label(AppContext.getPermissionCaptionValue(
-                                    permissionMap, permissionPath)), AppContext
-                                    .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
+                            permissionMap, permissionPath)), AppContext
+                            .getMessage(RolePermissionI18nEnum.valueOf(permissionPath)), 0, i);
                 }
             }
         } else {
             for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
                 final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
                 projectFormHelper.addComponent(new Label(AppContext
-                                .getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
+                        .getMessage(SecurityI18nEnum.ACCESS)), permissionPath, 0, i);
             }
         }
     }
@@ -215,7 +213,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
             this.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
             this.addStyleName("member-token");
             suggestField = new SuggestField();
-            suggestField.setWidth("350px");
+            suggestField.setWidth("100%");
             suggestField.setHeight("32px");
             suggestField.setInputPrompt(AppContext
                     .getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
@@ -268,7 +266,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
                     String address = (String) token;
                     addToken(generateToken(address));
                 } else if (token instanceof SimpleUser) {
-                    SimpleUser user = (SimpleUser)token;
+                    SimpleUser user = (SimpleUser) token;
                     if (!inviteEmails.contains(user.getEmail())) {
                         addToken(generateToken(user));
                         inviteEmails.add(user.getEmail());
@@ -285,7 +283,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         }
 
         private Component generateToken(final String email) {
-            final Button btn =new Button(email, FontAwesome.TIMES);
+            final Button btn = new Button(email, FontAwesome.TIMES);
             btn.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
@@ -298,7 +296,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         }
 
         private Component generateToken(final SimpleUser user) {
-            final Button btn =new Button("", FontAwesome.TIMES);
+            final Button btn = new Button("", FontAwesome.TIMES);
             btn.setCaptionAsHtml(true);
             btn.setCaption((new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16))).write() + " " + user
                     .getDisplayName());

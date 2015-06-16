@@ -124,8 +124,8 @@ public class AccountServiceImpl extends
     }
 
     @Override
-    public SimpleAccount findAccountAssoWithConvertedLead(int leadId,
-                                                          int accountId) {
+    public SimpleAccount findAccountAssoWithConvertedLead(Integer leadId,
+                                                          Integer accountId) {
         return accountMapperExt.findAccountAssoWithConvertedLead(leadId);
     }
 

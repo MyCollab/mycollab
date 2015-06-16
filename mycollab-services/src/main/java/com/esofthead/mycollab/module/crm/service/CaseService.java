@@ -33,5 +33,5 @@ public interface CaseService extends
 		IDefaultService<Integer, CaseWithBLOBs, CaseSearchCriteria> {
 
 	@Cacheable
-	SimpleCase findById(int caseId, @CacheKey int sAccountId);
+	SimpleCase findById(Integer caseId, @CacheKey Integer sAccountId);
 }

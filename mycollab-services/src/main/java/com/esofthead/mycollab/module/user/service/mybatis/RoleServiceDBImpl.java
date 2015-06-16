@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
-import java.util.List;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -29,80 +23,79 @@ import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.user.dao.RoleMapper;
 import com.esofthead.mycollab.module.user.dao.RoleMapperExt;
 import com.esofthead.mycollab.module.user.dao.RolePermissionMapper;
-import com.esofthead.mycollab.module.user.domain.Role;
-import com.esofthead.mycollab.module.user.domain.RoleExample;
-import com.esofthead.mycollab.module.user.domain.RolePermission;
-import com.esofthead.mycollab.module.user.domain.RolePermissionExample;
-import com.esofthead.mycollab.module.user.domain.SimpleRole;
+import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.security.PermissionMap;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 public class RoleServiceDBImpl extends
-		DefaultService<Integer, Role, RoleSearchCriteria> implements
-		RoleService {
+        DefaultService<Integer, Role, RoleSearchCriteria> implements
+        RoleService {
 
-	@Autowired
-	private RoleMapper roleMapper;
-	@Autowired
-	private RoleMapperExt roleMapperExt;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private RoleMapperExt roleMapperExt;
 
-	@Autowired
-	private RolePermissionMapper rolePermissionMapper;
+    @Autowired
+    private RolePermissionMapper rolePermissionMapper;
 
-	@Override
-	public ICrudGenericDAO<Integer, Role> getCrudMapper() {
-		return roleMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Role> getCrudMapper() {
+        return roleMapper;
+    }
 
-	@Override
-	public ISearchableDAO<RoleSearchCriteria> getSearchMapper() {
-		return roleMapperExt;
-	}
+    @Override
+    public ISearchableDAO<RoleSearchCriteria> getSearchMapper() {
+        return roleMapperExt;
+    }
 
-	@Override
-	public void savePermission(int roleId, PermissionMap permissionMap,
-			int accountid) {
-		String perVal = permissionMap.toJsonString();
+    @Override
+    public void savePermission(Integer roleId, PermissionMap permissionMap,
+                               Integer accountid) {
+        String perVal = permissionMap.toJsonString();
 
-		RolePermissionExample ex = new RolePermissionExample();
-		ex.createCriteria().andRoleidEqualTo(roleId);
+        RolePermissionExample ex = new RolePermissionExample();
+        ex.createCriteria().andRoleidEqualTo(roleId);
 
-		RolePermission rolePer = new RolePermission();
-		rolePer.setRoleid(roleId);
-		rolePer.setRoleval(perVal);
+        RolePermission rolePer = new RolePermission();
+        rolePer.setRoleid(roleId);
+        rolePer.setRoleval(perVal);
 
-		int data = rolePermissionMapper.countByExample(ex);
-		if (data > 0) {
-			rolePermissionMapper.updateByExampleSelective(rolePer, ex);
-		} else {
-			rolePermissionMapper.insert(rolePer);
-		}
-	}
+        int data = rolePermissionMapper.countByExample(ex);
+        if (data > 0) {
+            rolePermissionMapper.updateByExampleSelective(rolePer, ex);
+        } else {
+            rolePermissionMapper.insert(rolePer);
+        }
+    }
 
-	@Override
-	public SimpleRole findById(int roleId, int sAccountId) {
-		return roleMapperExt.findById(roleId);
-	}
+    @Override
+    public SimpleRole findById(Integer roleId, Integer sAccountId) {
+        return roleMapperExt.findById(roleId);
+    }
 
-	@Override
-	public Integer getSystemRoleId(String systemRoleName,
-			@CacheKey Integer sAccountId) {
-		RoleExample ex = new RoleExample();
-		ex.createCriteria().andRolenameEqualTo(systemRoleName)
-				.andIssystemroleEqualTo(Boolean.TRUE);
-		List<Role> roles = roleMapper.selectByExample(ex);
-		if (CollectionUtils.isNotEmpty(roles)) {
-			return roles.get(0).getId();
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public Integer getSystemRoleId(String systemRoleName,
+                                   @CacheKey Integer sAccountId) {
+        RoleExample ex = new RoleExample();
+        ex.createCriteria().andRolenameEqualTo(systemRoleName)
+                .andIssystemroleEqualTo(Boolean.TRUE);
+        List<Role> roles = roleMapper.selectByExample(ex);
+        if (CollectionUtils.isNotEmpty(roles)) {
+            return roles.get(0).getId();
+        } else {
+            return null;
+        }
+    }
 }

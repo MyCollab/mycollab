@@ -29,11 +29,11 @@ import java.util.List;
  */
 public interface TagService extends ICrudService<Integer, Tag> {
     @Cacheable
-    List<Tag> findTags(String type, String typeId, @CacheKey int accountId);
+    List<Tag> findTags(String type, String typeId, @CacheKey Integer accountId);
 
     @Cacheable
-    List<Tag> findTagsInAccount(String name, String[] types, @CacheKey int accountId);
+    List<Tag> findTagsInAccount(String name, String[] types, @CacheKey Integer accountId);
 
     @Cacheable
-    List<Tag> findTagsInProject(int projectId, @CacheKey int accountId);
+    List<Tag> findTagsInProject(Integer projectId, @CacheKey Integer accountId);
 }

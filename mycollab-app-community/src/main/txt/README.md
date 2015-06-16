@@ -25,7 +25,7 @@ MyCollab requires a running Java Runtime Environment (7 or greater), Java comman
 
 Please have a look at MyCollab requirements
 
-* [http://community.mycollab.com/installation-guideline/](http://community.mycollab.com/installation-guideline/)
+* [https://community.mycollab.com/installation-guideline/](https://community.mycollab.com/installation-guideline/)
 
 Installation
 ============

@@ -64,7 +64,7 @@ public class ComponentServiceImpl extends
 	}
 
 	@Override
-	public SimpleComponent findById(int componentId, int sAccountId) {
+	public SimpleComponent findById(Integer componentId, Integer sAccountId) {
 		return componentMapperExt.findComponentById(componentId);
 	}
 

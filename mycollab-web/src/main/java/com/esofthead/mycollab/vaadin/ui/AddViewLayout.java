@@ -28,7 +28,6 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 2.0
  */
 public class AddViewLayout extends CustomLayoutExt {
-
     private static final long serialVersionUID = 1L;
 
     private Resource viewIcon;

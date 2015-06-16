@@ -40,7 +40,7 @@ public interface ContactService extends
 		IDefaultService<Integer, Contact, ContactSearchCriteria> {
 
 	@Cacheable
-	SimpleContact findById(int contactId, @CacheKey int sAccountId);
+	SimpleContact findById(Integer contactId, @CacheKey Integer sAccountId);
 
 	@CacheEvict
 	@CacheArgs(values = { OpportunityService.class,
@@ -74,5 +74,5 @@ public interface ContactService extends
 	@CacheEvict
 	@Cacheable
 	SimpleContact findContactAssoWithConvertedLead(int leadId,
-			@CacheKey int accountId);
+			@CacheKey Integer accountId);
 }

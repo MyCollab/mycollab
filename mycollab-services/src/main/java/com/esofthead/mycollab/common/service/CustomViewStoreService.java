@@ -31,7 +31,7 @@ import com.esofthead.mycollab.core.persistence.service.ICrudService;
 public interface CustomViewStoreService extends
 		ICrudService<Integer, CustomViewStore> {
 	@Cacheable
-	CustomViewStore getViewLayoutDef(@CacheKey int accountId, String username,
+	CustomViewStore getViewLayoutDef(@CacheKey Integer accountId, String username,
 			String viewId);
 
 	@CacheEvict

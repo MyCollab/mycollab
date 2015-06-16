@@ -31,7 +31,7 @@ public interface OpportunityMapperExt extends
 		ISearchableDAO<OpportunitySearchCriteria>,
 		IMassUpdateDAO<Opportunity, OpportunitySearchCriteria> {
 
-	SimpleOpportunity findById(int opportunityId);
+	SimpleOpportunity findById(Integer opportunityId);
 
 	List<GroupItem> getSalesStageSummary(
 			@Param("searchCriteria") OpportunitySearchCriteria criteria);

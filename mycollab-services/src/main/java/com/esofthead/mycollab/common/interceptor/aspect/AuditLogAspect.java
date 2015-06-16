@@ -90,9 +90,9 @@ public class AuditLogAspect {
                 Method findMethod;
                 Object oldValue;
                 try {
-                    findMethod = cls.getMethod("findById", int.class, int.class);
+                    findMethod = cls.getMethod("findById", Integer.class, Integer.class);
                 } catch (Exception e) {
-                    findMethod = cls.getMethod("findByPrimaryKey", Serializable.class, int.class, int.class);
+                    findMethod = cls.getMethod("findByPrimaryKey", Integer.class, Integer.class);
                 }
                 oldValue = findMethod.invoke(service, typeid, sAccountId);
                 String key = bean.toString() + ClassInfoMap.getType(cls) + typeid;

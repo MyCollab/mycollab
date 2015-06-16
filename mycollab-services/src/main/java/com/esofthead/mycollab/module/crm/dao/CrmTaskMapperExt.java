@@ -21,5 +21,5 @@ import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 
 public interface CrmTaskMapperExt extends ISearchableDAO<TodoSearchCriteria> {
-	SimpleTask findById(int taskId);
+	SimpleTask findById(Integer taskId);
 }

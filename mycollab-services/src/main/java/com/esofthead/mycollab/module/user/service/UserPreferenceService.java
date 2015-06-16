@@ -30,5 +30,5 @@ import com.esofthead.mycollab.module.user.domain.UserPreference;
 public interface UserPreferenceService extends
 		ICrudService<Integer, UserPreference> {
 	@Cacheable
-	UserPreference getPreferenceOfUser(String username, @CacheKey int accountId);
+	UserPreference getPreferenceOfUser(String username, @CacheKey Integer accountId);
 }

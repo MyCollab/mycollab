@@ -171,7 +171,7 @@ public class BugServiceImpl extends
     }
 
     @Override
-    public SimpleBug findById(int bugId, int sAccountId) {
+    public SimpleBug findById(Integer bugId, Integer sAccountId) {
         return bugMapperExt.getBugById(bugId);
     }
 
@@ -182,8 +182,8 @@ public class BugServiceImpl extends
     }
 
     @Override
-    public SimpleBug findByProjectAndBugKey(int bugKey,
-                                            String projectShortName, int sAccountId) {
+    public SimpleBug findByProjectAndBugKey(Integer bugKey,
+                                            String projectShortName, Integer sAccountId) {
         return bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName,
                 sAccountId);
     }

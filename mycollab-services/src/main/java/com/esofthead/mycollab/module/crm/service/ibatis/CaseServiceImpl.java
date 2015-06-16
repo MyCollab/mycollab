@@ -66,7 +66,7 @@ public class CaseServiceImpl extends
     }
 
     @Override
-    public SimpleCase findById(int caseId, int sAccountId) {
+    public SimpleCase findById(Integer caseId, Integer sAccountId) {
         return caseMapperExt.findById(caseId);
     }
 }

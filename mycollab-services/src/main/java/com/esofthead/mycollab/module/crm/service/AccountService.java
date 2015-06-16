@@ -51,6 +51,6 @@ public interface AccountService extends
 			@CacheKey Integer accountId);
 
 	@Cacheable
-	SimpleAccount findAccountAssoWithConvertedLead(int leadId,
-			@CacheKey int accountId);
+	SimpleAccount findAccountAssoWithConvertedLead(Integer leadId,
+			@CacheKey Integer accountId);
 }

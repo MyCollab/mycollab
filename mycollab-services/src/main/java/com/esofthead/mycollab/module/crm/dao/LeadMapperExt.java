@@ -33,12 +33,12 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 public interface LeadMapperExt extends ISearchableDAO<LeadSearchCriteria>,
 		IMassUpdateDAO<Lead, LeadSearchCriteria> {
 
-	SimpleLead findById(int leadId);
+	SimpleLead findById(Integer leadId);
 
-	SimpleLead findConvertedLeadOfAccount(@Param("accountId") int accountId);
+	SimpleLead findConvertedLeadOfAccount(@Param("accountId") Integer accountId);
 
-	SimpleLead findConvertedLeadOfContact(@Param("contactId") int contactId);
+	SimpleLead findConvertedLeadOfContact(@Param("contactId") Integer contactId);
 
 	SimpleLead findConvertedLeadOfOpportunity(
-			@Param("opportunityId") int opportunity);
+			@Param("opportunityId") Integer opportunity);
 }

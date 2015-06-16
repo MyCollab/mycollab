@@ -77,7 +77,7 @@ public class ContactServiceImpl extends
     }
 
     @Override
-    public SimpleContact findById(int contactId, int sAccountId) {
+    public SimpleContact findById(Integer contactId, Integer sAccountId) {
         SimpleContact contact = contactMapperExt.findById(contactId);
         return contact;
     }
@@ -153,7 +153,7 @@ public class ContactServiceImpl extends
 
     @Override
     public SimpleContact findContactAssoWithConvertedLead(int leadId,
-                                                          @CacheKey int accountId) {
+                                                          @CacheKey Integer accountId) {
         return contactMapperExt.findContactAssoWithConvertedLead(leadId);
     }
 

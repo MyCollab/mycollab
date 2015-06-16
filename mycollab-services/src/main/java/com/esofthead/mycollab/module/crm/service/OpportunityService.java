@@ -39,7 +39,7 @@ public interface OpportunityService extends
 		IDefaultService<Integer, Opportunity, OpportunitySearchCriteria> {
 
 	@Cacheable
-	SimpleOpportunity findById(int opportunityId, @CacheKey int sAccountId);
+	SimpleOpportunity findById(Integer opportunityId, @CacheKey Integer sAccountId);
 
 	@Cacheable
 	List<GroupItem> getSalesStageSummary(
@@ -63,6 +63,6 @@ public interface OpportunityService extends
 			@CacheKey Integer sAccountId);
 
 	@Cacheable
-	SimpleOpportunity findOpportunityAssoWithConvertedLead(int leadId,
-			@CacheKey int accountId);
+	SimpleOpportunity findOpportunityAssoWithConvertedLead(Integer leadId,
+			@CacheKey Integer accountId);
 }

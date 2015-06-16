@@ -75,7 +75,7 @@ public class CampaignServiceImpl extends
     }
 
     @Override
-    public SimpleCampaign findById(int campaignId, int sAccountUd) {
+    public SimpleCampaign findById(Integer campaignId, Integer sAccountUd) {
         return campaignMapperExt.findById(campaignId);
     }
 

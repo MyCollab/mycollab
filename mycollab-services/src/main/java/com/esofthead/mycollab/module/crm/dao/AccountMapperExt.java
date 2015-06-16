@@ -34,7 +34,7 @@ public interface AccountMapperExt extends
 		ISearchableDAO<AccountSearchCriteria>,
 		IMassUpdateDAO<Account, AccountSearchCriteria> {
 
-	SimpleAccount findById(int accountId);
+	SimpleAccount findById(Integer accountId);
 
-	SimpleAccount findAccountAssoWithConvertedLead(@Param("leadId") int leadId);
+	SimpleAccount findAccountAssoWithConvertedLead(@Param("leadId") Integer leadId);
 }

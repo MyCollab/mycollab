@@ -59,21 +59,21 @@ public class TagServiceImpl extends DefaultCrudService<Integer, Tag> implements 
     }
 
     @Override
-    public List<Tag> findTags(String type, String typeId, int accountId) {
+    public List<Tag> findTags(String type, String typeId, Integer accountId) {
         TagExample ex = new TagExample();
         ex.createCriteria().andTypeEqualTo(type).andTypeidEqualTo(typeId);
         return tagMapper.selectByExample(ex);
     }
 
     @Override
-    public List<Tag> findTagsInAccount(String name, String[] types, @CacheKey int accountId) {
+    public List<Tag> findTagsInAccount(String name, String[] types, @CacheKey Integer accountId) {
         TagExample ex = new TagExample();
         ex.createCriteria().andNameLike(name).andTypeIn(Arrays.asList(types)).andSaccountidEqualTo(accountId);
         return tagMapper.selectByExample(ex);
     }
 
     @Override
-    public List<Tag> findTagsInProject(int projectId, @CacheKey int accountId) {
+    public List<Tag> findTagsInProject(Integer projectId, @CacheKey Integer accountId) {
         TagExample ex = new TagExample();
         ex.createCriteria().andExtratypeidEqualTo(projectId).andSaccountidEqualTo(accountId);
         return tagMapper.selectByExample(ex);
