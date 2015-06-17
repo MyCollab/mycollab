@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.esofthead.mycollab.external</groupId>
+            <artifactId>image4j-core</artifactId>
+            <version>0.7.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>ch.qos.cal10n</groupId>
             <artifactId>cal10n-api</artifactId>
             <version>0.8.1</version>

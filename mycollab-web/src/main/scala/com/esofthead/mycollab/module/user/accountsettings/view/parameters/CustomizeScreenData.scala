@@ -26,7 +26,7 @@ import scala.beans.BeanProperty
  */
 object CustomizeScreenData {
 
-    class ThemeCustomize() extends ScreenData[Object](null) {}
+    class GotoMainPage() extends ScreenData[Object](null) {}
 
     class LogoUpload(params: Object, @BeanProperty var extraParam: Object) extends ScreenData[Object](params) {}
 

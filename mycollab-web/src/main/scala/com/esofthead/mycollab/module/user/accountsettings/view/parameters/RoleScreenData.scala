@@ -26,11 +26,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object RoleScreenData {
 
-  class Read(params:Integer) extends ScreenData[Integer](params) {}
+    class Read(params: Integer) extends ScreenData[Integer](params) {}
 
-  class Add(params:Role) extends ScreenData[Role](params) {}
+    class Add(params: Role) extends ScreenData[Role](params) {}
 
-  class Edit(params:Role) extends ScreenData[Role](params) {}
+    class Edit(params: Role) extends ScreenData[Role](params) {}
 
-  class Search(params:RoleSearchCriteria) extends ScreenData[RoleSearchCriteria](params) {}
+    class Search(params: RoleSearchCriteria) extends ScreenData[RoleSearchCriteria](params) {}
+
 }

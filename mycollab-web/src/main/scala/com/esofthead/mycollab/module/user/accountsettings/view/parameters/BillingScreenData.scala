@@ -24,11 +24,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object BillingScreenData {
 
-  class CancelAccount(params:Object) extends ScreenData[Object](params){
-    def this() = this(null)
-  }
+    class CancelAccount(params: Object) extends ScreenData[Object](params) {
+        def this() = this(null)
+    }
 
-  class BillingSummary(params:Object) extends ScreenData[Object](params){
-    def this() = this(null)
-  }
+    class BillingSummary(params: Object) extends ScreenData[Object](params) {
+        def this() = this(null)
+    }
+
 }

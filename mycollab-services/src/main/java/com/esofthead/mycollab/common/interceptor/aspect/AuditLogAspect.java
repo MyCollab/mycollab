@@ -52,10 +52,9 @@ import java.util.GregorianCalendar;
 @Component
 @Configurable
 public class AuditLogAspect {
-
     private static final Logger LOG = LoggerFactory.getLogger(AuditLogAspect.class);
-    private static BasicCache<Object, Object> caches = LocalCacheManager
-            .getCache();
+
+    private static BasicCache<Object, Object> caches = LocalCacheManager.getCache();
 
     @Autowired
     protected AuditLogService auditLogService;
@@ -70,9 +69,7 @@ public class AuditLogAspect {
     private RelayEmailNotificationService relayEmailNotificationService;
 
     @Before("(execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) || (execution(public * com.esofthead.mycollab..service..*.updateSelectiveWithSession(..)))) && args(bean, username)")
-    public void traceBeforeUpdateActivity(JoinPoint joinPoint, Object bean,
-                                          String username) {
-
+    public void traceBeforeUpdateActivity(JoinPoint joinPoint, Object bean, String username) {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
 
@@ -106,9 +103,7 @@ public class AuditLogAspect {
     }
 
     @AfterReturning("(execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) || (execution(public * com.esofthead.mycollab..service..*.updateSelectiveWithSession(..))))  && args(bean, username)")
-    public void traceAfterUpdateActivity(JoinPoint joinPoint, Object bean,
-                                         String username) {
-
+    public void traceAfterUpdateActivity(JoinPoint joinPoint, Object bean, String username) {
         Advised advised = (Advised) joinPoint.getThis();
         Class<?> cls = advised.getTargetSource().getTargetClass();
 
@@ -121,9 +116,7 @@ public class AuditLogAspect {
                         ActivityStreamConstants.ACTION_UPDATE);
                 activityStreamId = activityStreamService.save(activity);
             } catch (Exception e) {
-                LOG.error(
-                        "Error when save activity for save action of service "
-                                + cls.getName(), e);
+                LOG.error("Error when save activity for save action of service " + cls.getName(), e);
             }
         }
 
@@ -132,13 +125,11 @@ public class AuditLogAspect {
             if (watchableAnnotation != null) {
                 String monitorType = ClassInfoMap.getType(cls);
                 Integer sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
-                int typeId = (Integer) PropertyUtils.getProperty(bean,
-                        "id");
+                int typeId = (Integer) PropertyUtils.getProperty(bean, "id");
 
                 Integer extraTypeId = null;
                 if (!"".equals(watchableAnnotation.extraTypeId())) {
-                    extraTypeId = (Integer) PropertyUtils.getProperty(bean,
-                            watchableAnnotation.extraTypeId());
+                    extraTypeId = (Integer) PropertyUtils.getProperty(bean, watchableAnnotation.extraTypeId());
                 }
 
                 MonitorItem monitorItem = new MonitorItem();
@@ -153,13 +144,11 @@ public class AuditLogAspect {
                 // check whether the current user is in monitor list, if
                 // not add him in
                 if (!watchableAnnotation.userFieldName().equals("")) {
-                    String moreUser = (String) PropertyUtils.getProperty(bean,
-                            watchableAnnotation.userFieldName());
+                    String moreUser = (String) PropertyUtils.getProperty(bean, watchableAnnotation.userFieldName());
                     if (moreUser != null && !moreUser.equals(username)) {
                         monitorItem.setId(null);
                         monitorItem.setUser(moreUser);
-                        monitorItemService.saveWithSession(monitorItem,
-                                moreUser);
+                        monitorItemService.saveWithSession(monitorItem, moreUser);
                     }
                 }
             }
@@ -167,10 +156,8 @@ public class AuditLogAspect {
             NotifyAgent notifyAgent = cls.getAnnotation(NotifyAgent.class);
             if (notifyAgent != null) {
                 Integer sAccountId = (Integer) PropertyUtils.getProperty(bean, "saccountid");
-                Integer auditLogId = saveAuditLog(cls, bean, username, sAccountId,
-                        activityStreamId);
-                int typeId = (Integer) PropertyUtils.getProperty(bean,
-                        "id");
+                Integer auditLogId = saveAuditLog(cls, bean, username, sAccountId, activityStreamId);
+                Integer typeId = (Integer) PropertyUtils.getProperty(bean, "id");
                 // Save notification email
                 RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
                 relayNotification.setChangeby(username);
@@ -185,14 +172,11 @@ public class AuditLogAspect {
 
                 relayNotification.setAction(MonitorTypeConstants.UPDATE_ACTION);
 
-                relayEmailNotificationService.saveWithSession(
-                        relayNotification, username);
+                relayEmailNotificationService.saveWithSession(relayNotification, username);
             }
         } catch (Exception e) {
-            LOG.error(
-                    "Error when save audit for save action of service "
-                            + cls.getName() + "and bean: "
-                            + BeanUtility.printBeanObj(bean), e);
+            LOG.error("Error when save audit for save action of service "
+                    + cls.getName() + "and bean: " + BeanUtility.printBeanObj(bean), e);
         }
     }
 
@@ -226,11 +210,9 @@ public class AuditLogAspect {
                     return auditLogService.saveWithSession(auditLog, "");
                 }
             } catch (Exception e) {
-                LOG.error(
-                        "Error when save audit for save action of service "
-                                + targetCls.getName() + "and bean: "
-                                + BeanUtility.printBeanObj(bean)
-                                + " and changeset is " + changeSet, e);
+                LOG.error("Error when save audit for save action of service "
+                        + targetCls.getName() + "and bean: " + BeanUtility.printBeanObj(bean)
+                        + " and changeset is " + changeSet, e);
                 return null;
             }
         }

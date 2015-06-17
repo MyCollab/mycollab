@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.view
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.DeploymentMode
-import com.esofthead.mycollab.core.arguments.{SetSearchField, SearchField, NumberSearchField}
+import com.esofthead.mycollab.core.arguments.{NumberSearchField, SearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter
@@ -26,13 +26,13 @@ import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustom
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter
-import com.esofthead.mycollab.module.user.accountsettings.view.events.{SetupEvent, AccountCustomizeEvent, ProfileEvent, AccountBillingEvent}
+import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, AccountCustomizeEvent, ProfileEvent, SetupEvent}
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters._
-import com.esofthead.mycollab.module.user.domain.{Role, SimpleUser}
 import com.esofthead.mycollab.module.user.domain.criteria.{RoleSearchCriteria, UserSearchCriteria}
+import com.esofthead.mycollab.module.user.domain.{Role, SimpleUser}
 import com.esofthead.mycollab.module.user.events.{RoleEvent, UserEvent}
 import com.esofthead.mycollab.vaadin.AppContext
-import com.esofthead.mycollab.vaadin.mvp.{PresenterResolver, AbstractController}
+import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
 
 /**
@@ -50,7 +50,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
         bindSetupEvents()
     }
 
-    private def bindBillingEvents() {
+    private def bindBillingEvents(): Unit = {
         this.register(new ApplicationEventListener[AccountBillingEvent.CancelAccount]() {
             @Subscribe def handle(event: AccountBillingEvent.CancelAccount) {
                 val presenter: IBillingPresenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
@@ -65,7 +65,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
     }
 
-    private def bindProfileEvents() {
+    private def bindProfileEvents(): Unit = {
         this.register(new ApplicationEventListener[ProfileEvent.GotoUploadPhoto]() {
             @Subscribe def handle(event: ProfileEvent.GotoUploadPhoto) {
                 val presenter: ProfilePresenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
@@ -80,7 +80,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
     }
 
-    private def bindUserEvents() {
+    private def bindUserEvents(): Unit = {
         this.register(new ApplicationEventListener[UserEvent.GotoAdd]() {
             @Subscribe def handle(event: UserEvent.GotoAdd) {
                 val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
@@ -111,7 +111,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
     }
 
-    private def bindRoleEvents() {
+    private def bindRoleEvents(): Unit = {
         this.register(new ApplicationEventListener[RoleEvent.GotoAdd]() {
             @Subscribe def handle(event: RoleEvent.GotoAdd) {
                 val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
@@ -141,17 +141,17 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
     }
 
-    private def bindCustomizeEvents() {
-        this.register(new ApplicationEventListener[AccountCustomizeEvent.GotoCustomize]() {
-            @Subscribe def handle(event: AccountCustomizeEvent.GotoCustomize) {
+    private def bindCustomizeEvents(): Unit = {
+        this.register(new ApplicationEventListener[AccountCustomizeEvent.GotoMainPage]() {
+            @Subscribe def handle(event: AccountCustomizeEvent.GotoMainPage) {
                 val presenter: ICustomizePresenter = PresenterResolver.getPresenter(classOf[ICustomizePresenter])
-                val screenData: CustomizeScreenData.ThemeCustomize = new CustomizeScreenData.ThemeCustomize()
+                val screenData: CustomizeScreenData.GotoMainPage = new CustomizeScreenData.GotoMainPage()
                 presenter.go(container, screenData)
             }
         })
     }
 
-    private def bindSetupEvents() {
+    private def bindSetupEvents(): Unit = {
         this.register(new ApplicationEventListener[SetupEvent.GotoSetupPage]() {
             @Subscribe def handle(event: SetupEvent.GotoSetupPage) {
                 val presenter: SetupPresenter = PresenterResolver.getPresenter(classOf[SetupPresenter])

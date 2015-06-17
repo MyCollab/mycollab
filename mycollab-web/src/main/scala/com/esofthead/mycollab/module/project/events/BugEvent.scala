@@ -24,14 +24,14 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object BugEvent {
 
-  class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoDashboard(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoAdd(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoEdit(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoList(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoRead(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

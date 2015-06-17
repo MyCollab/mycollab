@@ -23,6 +23,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  * @since 5.0.5
  */
 object SetupEvent {
-  class GotoSetupPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+    class GotoSetupPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
 }

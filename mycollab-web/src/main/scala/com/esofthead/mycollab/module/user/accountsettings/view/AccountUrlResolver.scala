@@ -68,7 +68,7 @@ class AccountUrlResolver extends UrlResolver {
 
     private class CustomizeUrlResolver extends AccountUrlResolver {
         protected override def handlePage(params: String*) {
-            EventBusFactory.getInstance.post(new AccountCustomizeEvent.GotoCustomize(this, null))
+            EventBusFactory.getInstance.post(new AccountCustomizeEvent.GotoMainPage(this, null))
         }
     }
 

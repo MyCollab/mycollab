@@ -23,7 +23,9 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  * @since 5.0.5
  */
 object ProfileEvent {
-  class GotoProfileView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
 
-  class GotoUploadPhoto(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoProfileView(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
+    class GotoUploadPhoto(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

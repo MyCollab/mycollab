@@ -24,5 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object ProfileScreenData {
 
-  class UploadPhoto(params: Array[Byte]) extends ScreenData[Array[Byte]](params) {}
+    class UploadPhoto(params: Array[Byte]) extends ScreenData[Array[Byte]](params) {}
+
 }

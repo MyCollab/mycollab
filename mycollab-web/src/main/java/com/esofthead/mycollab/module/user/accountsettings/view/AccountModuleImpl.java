@@ -138,7 +138,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                             null);
                 } else if (SettingUIConstants.CUSTOMIZATION.equals(tabId)) {
                     customizePresenter.go(AccountModuleImpl.this,
-                            new CustomizeScreenData.ThemeCustomize());
+                            new CustomizeScreenData.GotoMainPage());
                 } else if (SettingUIConstants.SETUP.equals(tabId)) {
                     setupPresenter.go(AccountModuleImpl.this, null);
                 }
@@ -176,7 +176,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     }
 
     @Override
-    public void gotoSubView(final String viewId) {
+    public void gotoSubView(String viewId) {
         this.accountTab.selectTab(viewId);
     }
 

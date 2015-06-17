@@ -24,5 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object FollowingTicketEvent {
 
-  class GotoMyFollowingItems(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+    class GotoMyFollowingItems(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

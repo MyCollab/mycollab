@@ -46,4 +46,6 @@
     <inherits name="org.vaadin.suggestfield.WidgetSet" />
 
     <inherits name="org.vaadin.sliderpanel.WidgetSet" />
+
+    <inherits name="org.vaadin.jonatan.contexthelp.widgetset.ContexthelpWidgetset" />
 </module>

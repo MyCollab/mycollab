@@ -24,5 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent
  */
 object CustomizeUIEvent {
 
-  class UpdateFeaturesList(source: AnyRef) extends ApplicationEvent(source, null) {}
+    class UpdateFeaturesList(source: AnyRef) extends ApplicationEvent(source, null) {}
+
 }

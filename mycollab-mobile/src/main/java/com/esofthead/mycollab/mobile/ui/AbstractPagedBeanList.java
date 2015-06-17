@@ -167,9 +167,8 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 		return this.listContainer;
 	}
 
-	public static interface RowDisplayHandler<B> {
+	public interface RowDisplayHandler<B> {
 
 		Component generateRow(B obj, int rowIndex);
-
 	}
 }

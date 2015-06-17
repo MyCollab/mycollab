@@ -91,7 +91,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 			PageActionChain pageActionChain) {
 		ScreenData<?> pageAction = pageActionChain.peek();
 
-		IPresenter<?> presenter = null;
+		IPresenter<?> presenter;
 		if (ClassUtils.instanceOf(pageAction,
 				ProjectScreenData.GotoDashboard.class)) {
 			presenter = PresenterResolver

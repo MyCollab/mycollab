@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view.parameters
 
-import com.esofthead.mycollab.module.user.domain.{User, SimpleUser}
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria
+import com.esofthead.mycollab.module.user.domain.{SimpleUser, User}
 import com.esofthead.mycollab.vaadin.mvp.ScreenData
 
 /**
@@ -26,11 +26,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData
  */
 object UserScreenData {
 
-  class Read(params:String) extends ScreenData[String](params) {}
+    class Read(params: String) extends ScreenData[String](params) {}
 
-  class Add(params:SimpleUser) extends ScreenData[SimpleUser](params) {}
+    class Add(params: SimpleUser) extends ScreenData[SimpleUser](params) {}
 
-  class Edit(params:User) extends ScreenData[User](params) {}
+    class Edit(params: User) extends ScreenData[User](params) {}
 
-  class Search(params:UserSearchCriteria) extends ScreenData[UserSearchCriteria](params) {}
+    class Search(params: UserSearchCriteria) extends ScreenData[UserSearchCriteria](params) {}
+
 }

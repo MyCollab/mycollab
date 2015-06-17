@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
     <context id="MySQL" targetRuntime="MyBatis3">
 
-        <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
+        <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin"/>
 
         <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab"
-            driverClass="com.mysql.jdbc.Driver" password="esofthead321"
-            userId="root" />
+                        driverClass="com.mysql.jdbc.Driver" password="esofthead321"
+                        userId="root"/>
 
         <javaModelGenerator targetPackage="com.esofthead.mycollab.common.domain"
-            targetProject="src/main/java">
+                            targetProject="src/main/java">
 
             <property name="rootClass"
-                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+                      value="com.esofthead.mycollab.core.arguments.ValuedBean"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="."
-            targetProject="src/main/resources/sqlMap/common" />
+                         targetProject="src/main/resources/sqlMap/common"/>
 
         <javaClientGenerator targetPackage="com.esofthead.mycollab.common.dao"
-            targetProject="src/main/java" type="XMLMAPPER">
+                             targetProject="src/main/java" type="XMLMAPPER">
 
-            <property name="exampleMethodVisibility" value="public" />
+            <property name="exampleMethodVisibility" value="public"/>
 
             <property name="rootInterface"
-                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+                      value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO"/>
         </javaClientGenerator>
 
         <table domainObjectName="Currency" schema="mycollab"
-            tableName="s_currency" />
+               tableName="s_currency"/>
 
         <table domainObjectName="MonitorItem" schema="mycollab"
-            tableName="m_monitor_item" />
+               tableName="m_monitor_item"/>
 
         <table domainObjectName="ActivityStream" schema="mycollab"
-            tableName="s_activitystream" />
+               tableName="s_activitystream"/>
 
         <table domainObjectName="ReportBugIssue" schema="mycollab"
-            tableName="s_report_bug_issue" />
+               tableName="s_report_bug_issue"/>
 
         <table domainObjectName="Comment" schema="mycollab"
-            tableName="m_comment" />
+               tableName="m_comment"/>
 
         <table domainObjectName="CustomerFeedback" schema="mycollab"
-            tableName="s_customer_feedback" />
+               tableName="s_customer_feedback"/>
 
         <table domainObjectName="RelayEmail" schema="mycollab"
-            tableName="s_relay_mail" />
+               tableName="s_relay_mail"/>
 
         <table domainObjectName="RelayEmailNotification" schema="mycollab"
-            tableName="s_relay_email_notification" />
+               tableName="s_relay_email_notification"/>
 
         <table schema="mycollab" tableName="m_audit_log"
-            domainObjectName="AuditLog" />
+               domainObjectName="AuditLog"/>
 
         <table schema="mycollab" tableName="s_save_search_result"
-            domainObjectName="SaveSearchResult" />
+               domainObjectName="SaveSearchResult"/>
 
         <table schema="mycollab" tableName="s_table_customize_view"
-            domainObjectName="CustomViewStore" />
+               domainObjectName="CustomViewStore"/>
 
         <table schema="mycollab" tableName="s_tag"
-            domainObjectName="Tag" />
+               domainObjectName="Tag"/>
 
         <table schema="mycollab" tableName="s_favorite"
-               domainObjectName="FavoriteItem" />
+               domainObjectName="FavoriteItem"/>
     </context>
 
 </generatorConfiguration>

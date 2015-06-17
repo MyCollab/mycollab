@@ -36,108 +36,100 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class TrackerContainer extends AbstractPageView {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private BugDashboardPresenter dashboardPresenter;
 
-	private BugDashboardPresenter dashboardPresenter;
+    private BugPresenter bugPresenter;
 
-	private BugPresenter bugPresenter;
+    private ComponentPresenter componentPresenter;
 
-	private ComponentPresenter componentPresenter;
+    private VersionPresenter versionPresenter;
 
-	private VersionPresenter versionPresenter;
+    private final TabSheetDecorator myProjectTab;
 
-	private final TabSheetDecorator myProjectTab;
+    private String selectedTabId = "";
 
-	private String selectedTabId = "";
+    public TrackerContainer() {
+        this.myProjectTab = new TabSheetDecorator();
+        this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
+        this.addComponent(myProjectTab);
+        this.setWidth("100%");
+        this.buildComponents();
+    }
 
-	public TrackerContainer() {
-		this.myProjectTab = new TabSheetDecorator();
-		this.myProjectTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
-		this.addComponent(myProjectTab);
-		this.setWidth("100%");
-		this.buildComponents();
-	}
+    private void buildComponents() {
+        dashboardPresenter = PresenterResolver
+                .getPresenter(BugDashboardPresenter.class);
 
-	private void buildComponents() {
-		dashboardPresenter = PresenterResolver
-				.getPresenter(BugDashboardPresenter.class);
+        this.myProjectTab.addTab(this.dashboardPresenter.getView(),
+                AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD));
 
-		this.myProjectTab.addTab(this.dashboardPresenter.getView(),
-				AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD));
+        bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
+        this.myProjectTab.addTab(bugPresenter.getView(),
+                AppContext.getMessage(BugI18nEnum.TAB_BUG));
 
-		bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
-		this.myProjectTab.addTab(bugPresenter.getView(),
-				AppContext.getMessage(BugI18nEnum.TAB_BUG));
+        componentPresenter = PresenterResolver
+                .getPresenter(ComponentPresenter.class);
+        this.myProjectTab.addTab(componentPresenter.getView(),
+                AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
 
-		componentPresenter = PresenterResolver
-				.getPresenter(ComponentPresenter.class);
-		this.myProjectTab.addTab(componentPresenter.getView(),
-				AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
+        versionPresenter = PresenterResolver
+                .getPresenter(VersionPresenter.class);
+        this.myProjectTab.addTab(versionPresenter.getView(),
+                AppContext.getMessage(BugI18nEnum.TAB_VERSION));
 
-		versionPresenter = PresenterResolver
-				.getPresenter(VersionPresenter.class);
-		this.myProjectTab.addTab(versionPresenter.getView(),
-				AppContext.getMessage(BugI18nEnum.TAB_VERSION));
+        this.myProjectTab
+                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-		this.myProjectTab
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+                    @Override
+                    public void selectedTabChange(SelectedTabChangeEvent event) {
+                        Tab tab = ((TabSheetDecorator) event.getTabSheet()).getSelectedTabInfo();
+                        String caption = tab.getCaption();
+                        SimpleProject project = CurrentProjectVariables.getProject();
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((TabSheetDecorator) event
-								.getTabSheet()).getSelectedTabInfo();
-						final String caption = tab.getCaption();
-						final SimpleProject project = CurrentProjectVariables
-								.getProject();
+                        if (AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD)
+                                .equals(caption)
+                                && !AppContext.getMessage(
+                                BugI18nEnum.TAB_DASHBOARD).equals(
+                                selectedTabId)) {
+                            dashboardPresenter.go(TrackerContainer.this, null);
+                        } else if (AppContext.getMessage(BugI18nEnum.TAB_BUG).equals(caption)
+                                && !AppContext.getMessage(BugI18nEnum.TAB_BUG)
+                                .equals(selectedTabId)) {
+                            BugSearchCriteria criteria = new BugSearchCriteria();
+                            criteria.setProjectId(new NumberSearchField(project
+                                    .getId()));
+                            bugPresenter.go(TrackerContainer.this,
+                                    new BugScreenData.Search(
+                                            new BugFilterParameter("All Bugs",
+                                                    criteria)));
+                        } else if (AppContext.getMessage(
+                                BugI18nEnum.TAB_COMPONENT).equals(caption)
+                                && !AppContext.getMessage(
+                                BugI18nEnum.TAB_COMPONENT).equals(
+                                selectedTabId)) {
+                            componentPresenter.go(TrackerContainer.this, null);
+                        } else if (AppContext.getMessage(
+                                BugI18nEnum.TAB_VERSION).equals(caption)
+                                && !AppContext.getMessage(
+                                BugI18nEnum.TAB_VERSION).equals(
+                                selectedTabId)) {
+                            versionPresenter.go(TrackerContainer.this, null);
+                        }
+                        selectedTabId = "";
+                    }
+                });
+    }
 
-						if (AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD)
-								.equals(caption)
-								&& !AppContext.getMessage(
-										BugI18nEnum.TAB_DASHBOARD).equals(
-										selectedTabId)) {
-							dashboardPresenter.go(TrackerContainer.this, null);
-						} else if (AppContext.getMessage(BugI18nEnum.TAB_BUG)
-								.equals(caption)
-								&& !AppContext.getMessage(BugI18nEnum.TAB_BUG)
-										.equals(selectedTabId)) {
-							final BugSearchCriteria criteria = new BugSearchCriteria();
-							criteria.setProjectId(new NumberSearchField(project
-									.getId()));
-							bugPresenter.go(TrackerContainer.this,
-									new BugScreenData.Search(
-											new BugFilterParameter("All Bugs",
-													criteria)));
-						} else if (AppContext.getMessage(
-								BugI18nEnum.TAB_COMPONENT).equals(caption)
-								&& !AppContext.getMessage(
-										BugI18nEnum.TAB_COMPONENT).equals(
-										selectedTabId)) {
-							componentPresenter.go(TrackerContainer.this, null);
-						} else if (AppContext.getMessage(
-								BugI18nEnum.TAB_VERSION).equals(caption)
-								&& !AppContext.getMessage(
-										BugI18nEnum.TAB_VERSION).equals(
-										selectedTabId)) {
-							versionPresenter.go(TrackerContainer.this, null);
-						}
-						selectedTabId = "";
-					}
-				});
-	}
-
-	public Component gotoSubView(final String name) {
-		selectedTabId = name;
-		final PageView component = (PageView) this.myProjectTab.selectTab(name)
-				.getComponent();
-		return component;
-	}
+    public Component gotoSubView(String name) {
+        selectedTabId = name;
+        return myProjectTab.selectTab(name).getComponent();
+    }
 }

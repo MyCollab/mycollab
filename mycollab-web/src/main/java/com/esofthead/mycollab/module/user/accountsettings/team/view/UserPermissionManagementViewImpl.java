@@ -29,58 +29,56 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 @ViewComponent
 public class UserPermissionManagementViewImpl extends AbstractPageView
-		implements UserPermissionManagementView {
-	private static final long serialVersionUID = 1L;
-	private TabSheetDecorator groupTab;
-	private UserPresenter userPresenter;
-	private RolePresenter rolePresenter;
+        implements UserPermissionManagementView {
+    private static final long serialVersionUID = 1L;
+    private TabSheetDecorator groupTab;
+    private UserPresenter userPresenter;
+    private RolePresenter rolePresenter;
 
-	public UserPermissionManagementViewImpl() {
-		groupTab = new TabSheetDecorator();
-		groupTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
+    public UserPermissionManagementViewImpl() {
+        groupTab = new TabSheetDecorator();
+        groupTab.setStyleName(UIConstants.THEME_TAB_STYLE3);
 
-		this.addComponent(groupTab);
+        this.addComponent(groupTab);
 
-		buildComponents();
-	}
+        buildComponents();
+    }
 
-	private void buildComponents() {
-		userPresenter = PresenterResolver.getPresenter(UserPresenter.class);
-		groupTab.addTab(userPresenter.getView(), "Users");
+    private void buildComponents() {
+        userPresenter = PresenterResolver.getPresenter(UserPresenter.class);
+        groupTab.addTab(userPresenter.getView(), "Users");
 
-		rolePresenter = PresenterResolver.getPresenter(RolePresenter.class);
-		groupTab.addTab(rolePresenter.getView(), "Roles");
+        rolePresenter = PresenterResolver.getPresenter(RolePresenter.class);
+        groupTab.addTab(rolePresenter.getView(), "Roles");
 
-		groupTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-			private static final long serialVersionUID = 1L;
+        groupTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void selectedTabChange(SelectedTabChangeEvent event) {
-				Tab tab = ((TabSheetDecorator) event.getTabSheet())
-						.getSelectedTabInfo();
-				String caption = tab.getCaption();
-				if ("Users".equals(caption)) {
-					userPresenter.go(UserPermissionManagementViewImpl.this, null);
-				} else if ("Roles".equals(caption)) {
-					rolePresenter.go(UserPermissionManagementViewImpl.this, null);
-				}
-			}
-		});
+            @Override
+            public void selectedTabChange(SelectedTabChangeEvent event) {
+                Tab tab = ((TabSheetDecorator) event.getTabSheet())
+                        .getSelectedTabInfo();
+                String caption = tab.getCaption();
+                if ("Users".equals(caption)) {
+                    userPresenter.go(UserPermissionManagementViewImpl.this, null);
+                } else if ("Roles".equals(caption)) {
+                    rolePresenter.go(UserPermissionManagementViewImpl.this, null);
+                }
+            }
+        });
 
-		userPresenter.go(this, null);
+        userPresenter.go(this, null);
 
-	}
+    }
 
-	@Override
-	public Component gotoSubView(String name) {
-		PageView component = (PageView) groupTab.selectTab(name).getComponent();
-		return component;
-	}
+    @Override
+    public Component gotoSubView(String name) {
+        return groupTab.selectTab(name).getComponent();
+    }
 
 }

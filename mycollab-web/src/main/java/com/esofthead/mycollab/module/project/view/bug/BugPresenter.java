@@ -30,49 +30,47 @@ import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class BugPresenter extends AbstractPresenter<BugContainer> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public BugPresenter() {
-		super(BugContainer.class);
-	}
+    public BugPresenter() {
+        super(BugContainer.class);
+    }
 
-	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
+    @Override
+    public void go(ComponentContainer container, ScreenData<?> data) {
+        super.go(container, data, false);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		TrackerContainer trackerContainer = (TrackerContainer) container;
-		trackerContainer.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_BUG));
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        TrackerContainer trackerContainer = (TrackerContainer) container;
+        trackerContainer.gotoSubView(AppContext.getMessage(BugI18nEnum.TAB_BUG));
 
-		view.removeAllComponents();
+        view.removeAllComponents();
 
-		AbstractPresenter<?> presenter ;
+        AbstractPresenter<?> presenter;
 
-		if (data instanceof BugScreenData.Add
-				|| data instanceof BugScreenData.Edit) {
-			presenter = PresenterResolver.getPresenter(BugAddPresenter.class);
-		} else if (data instanceof BugScreenData.Read) {
-			presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
-		} else if (data == null || data instanceof BugScreenData.Search) {
-			BugSearchCriteria criteria = new BugSearchCriteria();
-			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-					.getProjectId()));
-			data = new BugScreenData.Search(new BugFilterParameter("All Bugs",
-					criteria));
-			presenter = PresenterResolver.getPresenter(BugListPresenter.class);
-		} else {
-			throw new MyCollabException("Do not support screen data");
-		}
+        if (data instanceof BugScreenData.Add
+                || data instanceof BugScreenData.Edit) {
+            presenter = PresenterResolver.getPresenter(BugAddPresenter.class);
+        } else if (data instanceof BugScreenData.Read) {
+            presenter = PresenterResolver.getPresenter(BugReadPresenter.class);
+        } else if (data == null || data instanceof BugScreenData.Search) {
+            BugSearchCriteria criteria = new BugSearchCriteria();
+            criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
+                    .getProjectId()));
+            data = new BugScreenData.Search(new BugFilterParameter("All Bugs",
+                    criteria));
+            presenter = PresenterResolver.getPresenter(BugListPresenter.class);
+        } else {
+            throw new MyCollabException("Do not support screen data");
+        }
 
-		presenter.go(view, data);
-	}
+        presenter.go(view, data);
+    }
 
 }
