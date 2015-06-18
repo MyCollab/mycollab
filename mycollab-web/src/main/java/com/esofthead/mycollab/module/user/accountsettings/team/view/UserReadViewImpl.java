@@ -81,6 +81,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         Label userName = new Label(user.getDisplayName()
                 + (StringUtils.isEmpty(nickName) ? "" : (String.format(" ( %s )", nickName))));
         userName.setStyleName("h1");
+        userName.addStyleName(UIConstants.WORD_WRAP);
         userWrapper.addComponent(userName);
 
         basicLayout.addComponent(userWrapper);
@@ -122,7 +123,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
     protected Layout createTopPanel() {
         PreviewFormControlsGenerator<User> controlGenerator = new PreviewFormControlsGenerator<>(previewForm);
-        return controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED, RolePermissionCollections.ACCOUNT_USER);
+        return controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED |
+                CLONE_BTN_PRESENTED, RolePermissionCollections.ACCOUNT_USER);
     }
 
     @Override

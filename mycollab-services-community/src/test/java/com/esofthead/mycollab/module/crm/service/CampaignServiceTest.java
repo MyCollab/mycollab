@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -41,9 +44,8 @@ public class CampaignServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testSearchByCriteria() {
-        List<SimpleCampaign> campaigns = campaignService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
+                new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);
         assertThat(campaigns).extracting("id", "campaignname", "status")
@@ -54,18 +56,17 @@ public class CampaignServiceTest extends IntergrationServiceTest {
     @DataSet
     @Test
     public void testGetTotalCounts() {
-        List<SimpleCampaign> campaigns = campaignService
-                .findPagableListByCriteria(new SearchRequest<>(
-                        getCriteria(), 0, Integer.MAX_VALUE));
+        List<SimpleCampaign> campaigns = campaignService.findPagableListByCriteria(
+                new SearchRequest<>(getCriteria(), 0, Integer.MAX_VALUE));
 
         assertThat(campaigns.size()).isEqualTo(2);
     }
 
     private CampaignSearchCriteria getCriteria() {
         CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-        criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
-        criteria.setCampaignName(new StringSearchField(SearchField.AND, "A"));
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
+        criteria.setAssignUser(new StringSearchField("hai79"));
+        criteria.setCampaignName(new StringSearchField("A"));
+        criteria.setSaccountid(new NumberSearchField(1));
         criteria.setAssignUsers(new SetSearchField<>("hai79", "linh"));
         criteria.setStatuses(new SetSearchField<>("a", "b"));
         criteria.setTypes(new SetSearchField<>("a", "b"));

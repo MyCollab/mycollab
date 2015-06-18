@@ -40,13 +40,10 @@ public class ProjectActivityStreamComponent extends CssLayout {
         this.removeAllComponents();
         ProjectActivityStreamPagedList activityStreamList = new ProjectActivityStreamPagedList();
         this.addComponent(activityStreamList);
-        final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
+        ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext
-                .getAccountId()));
-
-        searchCriteria.setExtraTypeIds(new SetSearchField<>(
-                CurrentProjectVariables.getProjectId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
         activityStreamList.setSearchCriteria(searchCriteria);
     }
 }

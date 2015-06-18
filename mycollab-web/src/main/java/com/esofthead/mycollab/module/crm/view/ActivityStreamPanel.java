@@ -27,6 +27,7 @@ import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -251,9 +252,8 @@ public class ActivityStreamPanel extends CssLayout {
                 }
             }
 
-            final Label activityLink = new Label(content.toString(),
-                    ContentMode.HTML);
-            final CssLayout streamWrapper = new CssLayout();
+            Label activityLink = new Label(content.toString(), ContentMode.HTML);
+            CssLayout streamWrapper = new CssLayout();
             streamWrapper.setWidth("100%");
             streamWrapper.addStyleName("stream-wrapper");
             streamWrapper.addComponent(activityLink);
@@ -267,8 +267,7 @@ public class ActivityStreamPanel extends CssLayout {
             this.controlBarWrapper.setStyleName("page-controls");
             ButtonGroup controlBtns = new ButtonGroup();
             controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
-            Button prevBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
+            Button prevBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = -94021599166105307L;
 
@@ -282,8 +281,7 @@ public class ActivityStreamPanel extends CssLayout {
             prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             prevBtn.setWidth("64px");
 
-            Button nextBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
+            Button nextBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 3095522916508256018L;
 
@@ -321,7 +319,8 @@ public class ActivityStreamPanel extends CssLayout {
             Img userAvatar = new Img("", StorageManager.getAvatarLink(
                     activityStream.getCreatedUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(
-                    AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(activityStream.getCreatedUserFullName());
+                    AppContext.getSiteUrl(), activityStream.getCreateduser())).appendText(StringUtils.trim
+                    (activityStream.getCreatedUserFullName(), 30, true));
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));

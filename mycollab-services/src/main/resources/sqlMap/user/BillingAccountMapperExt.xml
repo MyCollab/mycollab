@@ -34,6 +34,7 @@
         SELECT s_account.id, s_account.createdTime, s_account.billingPlanId,
             s_account.accountName, s_account.status, s_account.paymentMethod, s_account.pricing,
             s_account.pricingEffectFrom, s_account.pricingEffectTo,
+            s_account.sitename, s_account.logoPath, s_account.defaultTimezone,
             s_billing_plan.id AS billingPlan_id, s_billing_plan.billingType AS
             billingPlan_billingType, s_billing_plan.numUsers AS
             billingPlan_numUsers, s_billing_plan.volume AS billingPlan_volume, 

@@ -17,9 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui.grid;
 
 import com.esofthead.mycollab.vaadin.ui.MultiSelectComp;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd
@@ -40,7 +38,7 @@ class GridCellWrapper extends HorizontalLayout {
 
         if (component instanceof MultiSelectComp) {
             component.setWidth("200px");
-        } else {
+        } else if (component instanceof AbstractTextField || component instanceof RichTextArea) {
             component.setWidth("100%");
         }
         super.addComponent(component);

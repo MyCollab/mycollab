@@ -46,11 +46,6 @@ public class ProjectFollowingTicketServiceTest extends IntergrationServiceTest {
 	@Autowired
 	private ProjectFollowingTicketService projectFollowingTicketService;
 
-	@Before
-	public void init() {
-		SiteConfiguration.loadInstance(8080);
-	}
-
 	private FollowingTicketSearchCriteria getCriteria() {
 		FollowingTicketSearchCriteria criteria = new FollowingTicketSearchCriteria();
 		criteria.setExtraTypeIds(new SetSearchField<>(1, 2));

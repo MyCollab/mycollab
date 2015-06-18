@@ -96,11 +96,9 @@ public class OpportunitySalesStageDashboard extends
 
     @Override
     protected void onClickedDescription(String key) {
-        final OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
+        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         searchCriteria.setSalesStages(new SetSearchField<>(key));
-        EventBusFactory.getInstance().post(
-                new OpportunityEvent.GotoList(this, searchCriteria));
+        EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, searchCriteria));
     }
 }

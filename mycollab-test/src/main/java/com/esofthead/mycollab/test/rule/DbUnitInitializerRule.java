@@ -47,8 +47,7 @@ import com.esofthead.mycollab.test.TestException;
  *
  */
 public class DbUnitInitializerRule implements TestRule {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(DbUnitInitializerRule.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DbUnitInitializerRule.class);
 
 	@Override
 	public Statement apply(Statement base, Description description) {
@@ -82,7 +81,7 @@ public class DbUnitInitializerRule implements TestRule {
 		private void setUp() {
 
 			// Load dataset from xml file
-			IDataSet dataSet = null;
+			IDataSet dataSet;
 			String classFileName = this.testClass.getName();
 			String xmlFile = classFileName.replace('.', '/') + ".xml";
 
@@ -95,11 +94,9 @@ public class DbUnitInitializerRule implements TestRule {
 					throw new TestException(e);
 				}
 			} else {
-				stream = getClass().getClassLoader().getResourceAsStream(
-						xmlFile);
+				stream = getClass().getClassLoader().getResourceAsStream(xmlFile);
 			}
-			Assert.assertNotNull("Can not find resource " + xmlFile
-					+ ". Stream is " + stream, stream);
+			Assert.assertNotNull(String.format("Can not find resource %s. Stream is %s", xmlFile, stream), stream);
 
 			try {
 				FlatXmlDataSetBuilder dataSetBuilder = new FlatXmlDataSetBuilder();
@@ -119,8 +116,7 @@ public class DbUnitInitializerRule implements TestRule {
 						dbConf.getDriverClassName(), dbConf.getJdbcUrl(),
 						dbConf.getUsername(), dbConf.getPassword());
 
-				this.databaseTester
-						.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+				this.databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
 				this.databaseTester.setDataSet(dataSet);
 				this.databaseTester.onSetup();
 			} catch (Exception e) {
@@ -142,7 +138,6 @@ public class DbUnitInitializerRule implements TestRule {
 	}
 
 	private static class DbUnitTester extends JdbcDatabaseTester {
-
 		public DbUnitTester(String driverClass, String connectionUrl,
 				String username, String password) throws ClassNotFoundException {
 			super(driverClass, connectionUrl, username, password);
@@ -151,11 +146,8 @@ public class DbUnitInitializerRule implements TestRule {
 		public IDatabaseConnection getConnection() throws Exception {
 			IDatabaseConnection connection = super.getConnection();
 			DatabaseConfig config = connection.getConfig();
-
-			config.setProperty(
-					DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
-			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
-					new MySqlDataTypeFactory());
+			config.setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, true);
+			config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
 			return connection;
 		}
 	}

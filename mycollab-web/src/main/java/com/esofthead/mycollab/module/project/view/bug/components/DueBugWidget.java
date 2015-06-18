@@ -92,8 +92,7 @@ public class DueBugWidget extends BugDisplayWidget {
                     AppContext.getMessage(BugI18nEnum.FORM_STATUS),
                     AppContext.getMessage(BugStatus.class, bug.getStatus()), AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE));
             Div footer = new Div().setStyle("width:100%").setCSSClass("footer2");
-            Span bugInfoTxt = new Span().appendText(bugInfo).setTitle(AppContext.formatDate
-                    (bug.getDuedate()));
+            Div bugInfoTxt = new Div().appendText(bugInfo).setTitle(AppContext.formatDate(bug.getDuedate()));
             if (StringUtils.isBlank(bug.getAssignuser())) {
                 footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"));
             } else {

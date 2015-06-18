@@ -68,7 +68,6 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
         private SimpleTaskList taskList;
         private PopupButton taskListActionControl;
         private TaskDisplayComponent taskDisplayComponent;
-
         private Button toogleBtn;
 
         private TaskListDepot(SimpleTaskList taskListParam) {
@@ -159,8 +158,7 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
             readBtn.setEnabled(CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(readBtn);
 
-            Button editBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -171,15 +169,13 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
                                     new TaskListEvent.GotoEdit(event, taskList));
                         }
                     });
-            editBtn.setEnabled(CurrentProjectVariables
-                    .canWrite(ProjectRolePermissionCollections.TASKS));
+            editBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             editBtn.setIcon(FontAwesome.EDIT);
             actionBtnLayout.addOption(editBtn);
 
             Enum actionEnum = (taskList.isArchieved()) ? GenericI18Enum.BUTTON_REOPEN : GenericI18Enum.BUTTON_CLOSE;
 
-            toogleBtn = new Button(
-                    AppContext.getMessage(actionEnum),
+            toogleBtn = new Button(AppContext.getMessage(actionEnum),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 

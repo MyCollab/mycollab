@@ -64,8 +64,7 @@ class BasicInfoChangeWindow extends Window {
         this.setModal(true);
         this.initUI();
         this.center();
-        this.setCaption(AppContext
-                .getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
+        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
     }
 
     private void initUI() {
@@ -105,8 +104,8 @@ class BasicInfoChangeWindow extends Window {
         mainLayout.setComponentAlignment(passInfo.getLayout(),
                 Alignment.TOP_LEFT);
 
-        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
-        final Button cancelBtn = new Button(
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        Button cancelBtn = new Button(
                 AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -118,8 +117,7 @@ class BasicInfoChangeWindow extends Window {
                 });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -139,13 +137,11 @@ class BasicInfoChangeWindow extends Window {
     }
 
     private void changeUserInfo() {
-
         this.txtLastName.removeStyleName("errorField");
         this.txtEmail.removeStyleName("errorField");
 
         if (this.txtLastName.getValue().equals("")) {
-            NotificationUtil
-                    .showErrorNotification("The last name must be not null!");
+            NotificationUtil.showErrorNotification("The last name must be not null!");
             this.txtLastName.addStyleName("errorField");
             return;
         }

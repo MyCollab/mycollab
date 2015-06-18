@@ -94,13 +94,10 @@ public class OpportunityLeadSourceDashboard extends
 
     @Override
     protected void onClickedDescription(String key) {
-        final OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
+        OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         searchCriteria.setLeadSources(new SetSearchField<>(key));
-        EventBusFactory.getInstance().post(
-                new OpportunityEvent.GotoList(this, searchCriteria));
-
+        EventBusFactory.getInstance().post(new OpportunityEvent.GotoList(this, searchCriteria));
     }
 
 }

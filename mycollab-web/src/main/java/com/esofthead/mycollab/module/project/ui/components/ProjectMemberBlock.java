@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -41,7 +42,7 @@ public class ProjectMemberBlock extends MVerticalLayout{
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(), username))
-                .appendText(displayName);
+                .appendText(StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));

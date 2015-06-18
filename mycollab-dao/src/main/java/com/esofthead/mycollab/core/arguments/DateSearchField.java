@@ -16,53 +16,55 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import java.util.Date;
-
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 
+import java.util.Date;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class DateSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
-	
-	public static final String LESSTHAN = "<";
-	public static final String LESSTHANEQUAL = "<=";
-	public static final String GREATERTHAN = ">";
-	public static final String GREATERTHANEQUAL = ">=";
-	public static final String EQUAL = "=";
-	public static final String NOTEQUAL = "<>";
+    private static final long serialVersionUID = 1L;
 
-	private Date value;
-	private String comparison;
+    public static final String LESSTHAN = "<";
+    public static final String LESSTHANEQUAL = "<=";
+    public static final String GREATERTHAN = ">";
+    public static final String GREATERTHANEQUAL = ">=";
+    public static final String EQUAL = "=";
+    public static final String NOTEQUAL = "<>";
 
-	public DateSearchField(String oper, Date value) {
-		this(oper, DateTimeSearchField.LESSTHAN, value);
-	}
+    private Date value;
+    private String comparison;
 
-	public DateSearchField(String oper, String comparision, Date dateVal) {
-		this.operation = oper;
-		this.comparison = comparision;
-		this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils
-				.convertTimeFromSystemTimezoneToUTC(dateVal.getTime()));
-	}
+    public DateSearchField(Date value) {
+        this(SearchField.AND, value, LESSTHAN);
+    }
 
-	public Date getValue() {
-		return value;
-	}
+    public DateSearchField(Date value, String comparison) {
+        this(AND, value, comparison);
+    }
 
-	public void setValue(Date value) {
-		this.value = value;
-	}
+    public DateSearchField(String oper, Date dateVal, String comparision) {
+        this.operation = oper;
+        this.comparison = comparision;
+        this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils
+                .convertTimeFromSystemTimezoneToUTC(dateVal.getTime()));
+    }
 
-	public String getComparison() {
-		return comparison;
-	}
+    public Date getValue() {
+        return value;
+    }
 
-	public void setComparison(String comparison) {
-		this.comparison = comparison;
-	}
+    public void setValue(Date value) {
+        this.value = value;
+    }
+
+    public String getComparison() {
+        return comparison;
+    }
+
+    public void setComparison(String comparison) {
+        this.comparison = comparison;
+    }
 }

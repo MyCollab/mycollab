@@ -79,7 +79,6 @@ public class BugHistoryList extends HistoryLogComponent {
 
     public BugHistoryList() {
         super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
-        this.setMargin(true);
     }
 
     @Override

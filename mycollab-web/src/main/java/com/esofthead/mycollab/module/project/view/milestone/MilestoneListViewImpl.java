@@ -221,8 +221,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         taskSettingPopupBtn.setWidth("20px");
         OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
-        Button editButton = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+        Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -282,11 +281,11 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         layoutHelper.addComponent(
                 new ELabel(AppContext.formatDate(milestone.getStartdate())),
                 AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
-                0, 0, Alignment.MIDDLE_LEFT);
+                0, 0, Alignment.TOP_LEFT);
         layoutHelper.addComponent(
                 new ELabel(AppContext.formatDate(milestone.getEnddate())),
                 AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD),
-                0, 1, Alignment.MIDDLE_LEFT);
+                0, 1, Alignment.TOP_LEFT);
 
         CssLayout linkWrapper = new CssLayout();
         linkWrapper.setWidth("100%");
@@ -294,7 +293,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
                 milestone.getOwnerAvatarId(), milestone.getOwnerFullName()));
         layoutHelper.addComponent(linkWrapper,
                 AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 2,
-                Alignment.MIDDLE_LEFT);
+                Alignment.TOP_LEFT);
 
         ProgressBarIndicator progressTask = new ProgressBarIndicator(
                 milestone.getNumTasks(), milestone.getNumOpenTasks());
@@ -302,7 +301,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         layoutHelper.addComponent(progressTask,
                 AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3,
-                Alignment.MIDDLE_LEFT);
+                Alignment.TOP_LEFT);
 
         ProgressBarIndicator progressBug = new ProgressBarIndicator(
                 milestone.getNumBugs(), milestone.getNumOpenBugs());
@@ -310,7 +309,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
 
         layoutHelper.addComponent(progressBug,
                 AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4,
-                Alignment.MIDDLE_LEFT);
+                Alignment.TOP_LEFT);
         GridLayout milestoneInfoLayout = layoutHelper.getLayout();
         milestoneInfoLayout.setWidth("100%");
         milestoneInfoLayout.setMargin(false);

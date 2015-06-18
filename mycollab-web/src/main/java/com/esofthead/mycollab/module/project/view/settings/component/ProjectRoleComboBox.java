@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -30,57 +28,48 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.ui.ComboBox;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ProjectRoleComboBox extends ComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private List<SimpleProjectRole> roleList;
+    private List<SimpleProjectRole> roleList;
 
-	@SuppressWarnings("unchecked")
-	public ProjectRoleComboBox() {
-		super();
-		this.setImmediate(true);
-		this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+    @SuppressWarnings("unchecked")
+    public ProjectRoleComboBox() {
+        super();
+        this.setImmediate(true);
+        this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 
-		ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
+        ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
-		ProjectRoleService roleService = ApplicationContextUtil
-				.getSpringBean(ProjectRoleService.class);
-		roleList = roleService
-				.findPagableListByCriteria(new SearchRequest<ProjectRoleSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
+        ProjectRoleService roleService = ApplicationContextUtil
+                .getSpringBean(ProjectRoleService.class);
+        roleList = roleService.findPagableListByCriteria(new SearchRequest<>(
+                criteria, 0, Integer.MAX_VALUE));
 
-		BeanContainer<String, SimpleProjectRole> beanItem = new BeanContainer<String, SimpleProjectRole>(
-				SimpleProjectRole.class);
-		beanItem.setBeanIdProperty("id");
+        BeanContainer<String, SimpleProjectRole> beanItem = new BeanContainer<>(SimpleProjectRole.class);
+        beanItem.setBeanIdProperty("id");
 
-		for (SimpleProjectRole role : roleList) {
-			beanItem.addBean(role);
-		}
+        for (SimpleProjectRole role : roleList) {
+            beanItem.addBean(role);
+        }
 
-		SimpleProjectRole ownerRole = new SimpleProjectRole();
-		ownerRole.setId(-1);
-		ownerRole.setRolename("Project Owner");
-		beanItem.addBean(ownerRole);
-
-		this.setNullSelectionAllowed(false);
-		this.setContainerDataSource(beanItem);
-		this.setItemCaptionPropertyId("rolename");
-		if (roleList.size() > 0) {
-			SimpleProjectRole role = roleList.get(0);
-			this.setValue(role.getId());
-		} else {
-			this.setValue(-1);
-		}
-	}
+        this.setNullSelectionAllowed(false);
+        this.setContainerDataSource(beanItem);
+        this.setItemCaptionPropertyId("rolename");
+        if (roleList.size() > 0) {
+            SimpleProjectRole role = roleList.get(0);
+            this.setValue(role.getId());
+        } else {
+            this.setValue(-1);
+        }
+    }
 
 }

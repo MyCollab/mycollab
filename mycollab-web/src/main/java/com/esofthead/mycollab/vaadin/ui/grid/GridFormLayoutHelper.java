@@ -27,10 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class GridFormLayoutHelper implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,8 +88,7 @@ public class GridFormLayoutHelper implements Serializable {
                 this.captionAlignment);
     }
 
-    public void addComponent(Component field, String caption,
-                             int columns, int rows) {
+    public void addComponent(Component field, String caption, int columns, int rows) {
         this.addComponent(field, caption, columns, rows, 1,
                 this.fieldControlWidth, captionAlignment);
     }
@@ -117,7 +114,7 @@ public class GridFormLayoutHelper implements Serializable {
     public GridCellWrapper buildCell(String caption, int columns, int rows,
                                      int colspan, String width, Alignment alignment) {
         if (StringUtils.isNotBlank(caption)) {
-            Label captionLbl = new Label(caption + ":");
+            Label captionLbl = new Label(caption);
             MHorizontalLayout captionWrapper = new MHorizontalLayout().withSpacing(false).withMargin(true)
                     .withWidth(this.defaultCaptionWidth).withHeight("100%").withStyleName("gridform-caption").with(captionLbl)
                     .withAlign(captionLbl, alignment);
@@ -146,17 +143,15 @@ public class GridFormLayoutHelper implements Serializable {
     }
 
     /**
-     *
      * @param caption
      * @return null if it can not find the component wrapper associates with
-     *         <code>caption</code>
+     * <code>caption</code>
      */
     public GridCellWrapper getComponentWrapper(String caption) {
         return fieldCaptionMappings.get(caption);
     }
 
-    public Component addComponentNoWrapper(Component field, String caption,
-                                           int columns, int rows) {
+    public Component addComponentNoWrapper(Component field, String caption, int columns, int rows) {
         if (caption != null) {
             Label l = new Label(caption);
             l.setWidth(this.defaultCaptionWidth);

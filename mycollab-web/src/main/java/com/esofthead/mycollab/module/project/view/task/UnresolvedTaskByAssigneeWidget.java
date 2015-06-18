@@ -25,6 +25,9 @@ import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
+import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
@@ -70,13 +73,8 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
                 String assignUserFullName = item.getGroupid() == null ? "" : item.getGroupname();
 
                 if (StringUtils.isBlank(assignUserFullName)) {
-                    String displayName = item.getGroupid();
-                    int index = displayName != null ? displayName.indexOf("@") : 0;
-                    if (index > 0) {
-                        assignUserFullName = displayName.substring(0, index);
-                    } else {
-                        assignUserFullName = AppContext.getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
-                    }
+                    assignUserFullName = com.esofthead.mycollab.core.utils.StringUtils.extractNameFromEmail(item
+                            .getGroupid());
                 }
 
                 TaskAssigneeLink userLbl = new TaskAssigneeLink(assignUser, item.getExtraValue(), assignUserFullName);
@@ -111,8 +109,13 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
             this.setStyleName("link");
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
-            this.setDescription(assigneeFullName);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
+            UserService service = ApplicationContextUtil
+                    .getSpringBean(UserService.class);
+            SimpleUser user = service.findUserByUserNameInAccount(assignee,
+                    AppContext.getAccountId());
+            this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
+                    AppContext.getSiteUrl(), AppContext.getTimezone()));
         }
     }
 }

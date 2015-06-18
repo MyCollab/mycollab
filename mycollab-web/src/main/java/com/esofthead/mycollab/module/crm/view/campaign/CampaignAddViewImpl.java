@@ -56,13 +56,12 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm)
-				.createButtonControls();
+		return new EditFormControlsGenerator<>(editForm).createButtonControls();
 	}
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleCampaign> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleCampaign>();
+		return new AdvancedEditBeanForm<>();
 	}
 
 	@Override

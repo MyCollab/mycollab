@@ -94,8 +94,7 @@ public class ActiveUserComboBox extends ListSelect {
         this.setRows(1);
 
         UserSearchCriteria criteria = new UserSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);

@@ -62,7 +62,7 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date d = df.parse("2014-01-23 10:49:49");
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-        criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+        criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
         List<ProjectGenericTask> tasks = genericTaskService
@@ -82,7 +82,7 @@ public class GenericTaskServiceTest extends IntergrationServiceTest {
         Date d = df.parse("2014-01-23 10:49:49");
 
         ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-        criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+        criteria.setDueDate(new DateSearchField(d));
         criteria.setProjectIds(new SetSearchField<>(1));
         criteria.setSaccountid(new NumberSearchField(1));
         List<ProjectGenericTask> taskList = genericTaskService

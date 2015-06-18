@@ -88,8 +88,8 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
                                                            String username, Date onDate, Integer sAccountId) {
         StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
         criteria.setProjectId(new NumberSearchField(projectId));
-        criteria.setLogBy(new StringSearchField(SearchField.AND, username));
-        criteria.setOnDate(new DateSearchField(SearchField.AND, onDate));
+        criteria.setLogBy(new StringSearchField(username));
+        criteria.setOnDate(new DateSearchField(onDate));
         List reports = standupReportMapperExt.findPagableListByCriteria(
                 criteria, new RowBounds(0, Integer.MAX_VALUE));
 

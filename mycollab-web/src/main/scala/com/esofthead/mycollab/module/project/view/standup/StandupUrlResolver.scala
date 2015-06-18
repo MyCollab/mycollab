@@ -65,10 +65,10 @@ class StandupUrlResolver extends ProjectUrlResolver {
             standupSearchCriteria.setProjectId(new NumberSearchField(projectId))
             if (token.hasMoreTokens) {
                 val date: Date = parseDate(token.getString)
-                standupSearchCriteria.setOnDate(new DateSearchField(SearchField.AND, date))
+                standupSearchCriteria.setOnDate(new DateSearchField(date))
             }
             else {
-                standupSearchCriteria.setOnDate(new DateSearchField(SearchField.AND, new GregorianCalendar().getTime))
+                standupSearchCriteria.setOnDate(new DateSearchField(new GregorianCalendar().getTime))
             }
             val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new StandupScreenData.Search(standupSearchCriteria))

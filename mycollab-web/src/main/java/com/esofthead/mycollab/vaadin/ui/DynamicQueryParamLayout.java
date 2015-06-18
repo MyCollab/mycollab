@@ -16,144 +16,135 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.server.FontAwesome;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel.SearchLayout;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
+import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
+ * @param <S>
  * @author MyCollab Ltd.
  * @since 4.0
- * 
- * @param <S>
  */
 public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends SearchLayout<S> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected String type;
-	protected BuildCriterionComponent<S> buildCriterionComp;
-	protected ComponentContainer header;
+    protected String type;
+    protected BuildCriterionComponent<S> buildCriterionComp;
+    protected ComponentContainer header;
 
-	public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent,
-			String type) {
-		super(parent, "advancedSearch");
-		setStyleName("advancedSearchLayout");
+    public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent,
+                                   String type) {
+        super(parent, "advancedSearch");
+        setStyleName("advancedSearchLayout");
 
-		this.type = type;
-		initLayout();
-	}
+        this.type = type;
+        initLayout();
+    }
 
-	protected void initLayout() {
-		header = constructHeader();
-		ComponentContainer body = constructBody();
-		ComponentContainer footer = constructFooter();
-		this.addComponent(header, "advSearchHeader");
-		this.addComponent(body, "advSearchBody");
-		this.addComponent(footer, "advSearchFooter");
-	}
+    protected void initLayout() {
+        header = constructHeader();
+        ComponentContainer body = constructBody();
+        ComponentContainer footer = constructFooter();
+        this.addComponent(header, "advSearchHeader");
+        this.addComponent(body, "advSearchBody");
+        this.addComponent(footer, "advSearchFooter");
+    }
 
-	@Override
-	protected void addHeaderRight(Component c) {
-		if (this.header == null)
-			return;
+    @Override
+    protected void addHeaderRight(Component c) {
+        if (this.header == null)
+            return;
 
-		this.header.addComponent(c);
-	}
+        this.header.addComponent(c);
+    }
 
-	private HorizontalLayout createButtonControls() {
-		MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
+    private HorizontalLayout createButtonControls() {
+        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
 
-		final Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						DynamicQueryParamLayout.this.callSearchAction();
-					}
-				});
-		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(FontAwesome.SEARCH);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        DynamicQueryParamLayout.this.callSearchAction();
+                    }
+                });
+        searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        searchBtn.setIcon(FontAwesome.SEARCH);
 
-		buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
+        buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
-		final Button clearBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						clearFields();
-					}
-				});
-		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        clearFields();
+                    }
+                });
+        clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-		buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
+        buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
 
-		final Button basicSearchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+        Button basicSearchBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
-								.moveToBasicSearchLayout();
-					}
-				});
-		basicSearchBtn.setStyleName("link");
-		buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
-		return buttonControls;
-	}
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        ((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
+                                .moveToBasicSearchLayout();
+                    }
+                });
+        basicSearchBtn.setStyleName("link");
+        buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
+        return buttonControls;
+    }
 
-	protected void clearFields() {
+    protected void clearFields() {
 
-	}
+    }
 
-	@Override
-	protected S fillUpSearchCriteria() {
-		return buildCriterionComp.fillupSearchCriteria();
-	}
+    @Override
+    protected S fillUpSearchCriteria() {
+        return buildCriterionComp.fillupSearchCriteria();
+    }
 
-	protected abstract Class<S> getType();
+    protected abstract Class<S> getType();
 
-	public abstract ComponentContainer constructHeader();
+    public abstract ComponentContainer constructHeader();
 
-	public abstract Param[] getParamFields();
+    public abstract Param[] getParamFields();
 
-	public ComponentContainer constructBody() {
-		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(), getType(), type) {
-			private static final long serialVersionUID = 1L;
+    public ComponentContainer constructBody() {
+        buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(), getType(), type) {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Component buildPropertySearchComp(String fieldId) {
-				return buildSelectionComp(fieldId);
-			}
-		};
-		return buildCriterionComp;
-	}
+            @Override
+            protected Component buildPropertySearchComp(String fieldId) {
+                return buildSelectionComp(fieldId);
+            }
+        };
+        return buildCriterionComp;
+    }
 
-	public ComponentContainer constructFooter() {
-		HorizontalLayout buttonControls = createButtonControls();
-		buttonControls.setMargin(new MarginInfo(false, true, false, true));
-		return buttonControls;
-	}
+    public ComponentContainer constructFooter() {
+        HorizontalLayout buttonControls = createButtonControls();
+        buttonControls.setMargin(new MarginInfo(false, true, false, true));
+        return buttonControls;
+    }
 
-	protected Component buildSelectionComp(String fieldId) {
-		return null;
-	}
+    protected Component buildSelectionComp(String fieldId) {
+        return null;
+    }
 }

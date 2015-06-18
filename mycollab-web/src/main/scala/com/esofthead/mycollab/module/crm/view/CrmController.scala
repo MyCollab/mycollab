@@ -58,7 +58,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindCrmEvents(): Unit = {
         this.register(new ApplicationEventListener[CrmEvent.GotoHome]() {
             @Subscribe def handle(event: CrmEvent.GotoHome) {
-                val presenter: CrmHomePresenter = PresenterResolver.getPresenter(classOf[CrmHomePresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CrmHomePresenter])
                 presenter.go(container, null)
             }
         })
@@ -67,16 +67,16 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindAccountEvents(): Unit = {
         this.register(new ApplicationEventListener[AccountEvent.GotoList]() {
             @Subscribe def handle(event: AccountEvent.GotoList) {
-                val presenter: AccountListPresenter = PresenterResolver.getPresenter(classOf[AccountListPresenter])
-                val criteria: AccountSearchCriteria = new AccountSearchCriteria
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[AccountListPresenter])
+                val criteria = new AccountSearchCriteria
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ScreenData.Search[AccountSearchCriteria](criteria))
             }
         })
 
         this.register(new ApplicationEventListener[AccountEvent.GotoAdd]() {
             @Subscribe def handle(event: AccountEvent.GotoAdd) {
-                val presenter: AccountAddPresenter = PresenterResolver.getPresenter(classOf[AccountAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AccountAddPresenter])
                 presenter.go(container, new ScreenData.Add[SimpleAccount](new SimpleAccount))
             }
         })
@@ -91,7 +91,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[AccountEvent.GotoRead]() {
             @SuppressWarnings(Array("unchecked", "rawtypes"))
             @Subscribe def handle(event: AccountEvent.GotoRead) {
-                val presenter: AccountReadPresenter = PresenterResolver.getPresenter(classOf[AccountReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AccountReadPresenter])
                 presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
@@ -100,79 +100,79 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindActivityEvents(): Unit = {
         this.register(new ApplicationEventListener[ActivityEvent.GotoCalendar]() {
             @Subscribe def handle(event: ActivityEvent.GotoCalendar) {
-                val presenter: ActivityCalendarPresenter = PresenterResolver.getPresenter(classOf[ActivityCalendarPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ActivityCalendarPresenter])
                 presenter.go(container, new ActivityScreenData.GotoCalendar)
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.GotoTodoList]() {
             @Subscribe def handle(event: ActivityEvent.GotoTodoList) {
-                val presenter: ActivityListPresenter = PresenterResolver.getPresenter(classOf[ActivityListPresenter])
-                val searchCriteria: ActivitySearchCriteria = new ActivitySearchCriteria
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[ActivityListPresenter])
+                val searchCriteria = new ActivitySearchCriteria
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ActivityScreenData.GotoActivityList(searchCriteria))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.TaskAdd]() {
             @Subscribe def handle(event: ActivityEvent.TaskAdd) {
-                val presenter: AssignmentAddPresenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
                 presenter.go(container, new AssignmentScreenData.Add(new SimpleTask))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.TaskEdit]() {
             @Subscribe def handle(event: ActivityEvent.TaskEdit) {
-                val presenter: AssignmentAddPresenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AssignmentAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.TaskRead]() {
             @Subscribe def handle(event: ActivityEvent.TaskRead) {
-                val presenter: AssignmentReadPresenter = PresenterResolver.getPresenter(classOf[AssignmentReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[AssignmentReadPresenter])
                 presenter.go(container, new AssignmentScreenData.Read(event.getData.asInstanceOf[Integer]))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.MeetingAdd]() {
             @Subscribe def handle(event: ActivityEvent.MeetingAdd) {
-                val presenter: MeetingAddPresenter = PresenterResolver.getPresenter(classOf[MeetingAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[MeetingAddPresenter])
                 presenter.go(container, new MeetingScreenData.Add(new SimpleMeeting))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.MeetingEdit]() {
             @Subscribe def handle(event: ActivityEvent.MeetingEdit) {
-                val presenter: MeetingAddPresenter = PresenterResolver.getPresenter(classOf[MeetingAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[MeetingAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.MeetingRead]() {
             @Subscribe def handle(event: ActivityEvent.MeetingRead) {
-                val presenter: MeetingReadPresenter = PresenterResolver.getPresenter(classOf[MeetingReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[MeetingReadPresenter])
                 presenter.go(container, new MeetingScreenData.Read(event.getData.asInstanceOf[Integer]))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.CallAdd]() {
             @Subscribe def handle(event: ActivityEvent.CallAdd) {
-                val presenter: CallAddPresenter = PresenterResolver.getPresenter(classOf[CallAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CallAddPresenter])
                 presenter.go(container, new CallScreenData.Add(new SimpleCall))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.CallEdit]() {
             @Subscribe def handle(event: ActivityEvent.CallEdit) {
-                val presenter: CallAddPresenter = PresenterResolver.getPresenter(classOf[CallAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CallAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
 
         this.register(new ApplicationEventListener[ActivityEvent.CallRead]() {
             @Subscribe def handle(event: ActivityEvent.CallRead) {
-                val presenter: CallReadPresenter = PresenterResolver.getPresenter(classOf[CallReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CallReadPresenter])
                 presenter.go(container, new CallScreenData.Read(event.getData.asInstanceOf[Integer]))
             }
         })
@@ -181,23 +181,23 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindCampaignEvents(): Unit = {
         this.register(new ApplicationEventListener[CampaignEvent.GotoList]() {
             @Subscribe def handle(event: CampaignEvent.GotoList) {
-                val presenter: CampaignListPresenter = PresenterResolver.getPresenter(classOf[CampaignListPresenter])
-                val searchCriteria: CampaignSearchCriteria = new CampaignSearchCriteria
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[CampaignListPresenter])
+                val searchCriteria = new CampaignSearchCriteria
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ScreenData.Search[CampaignSearchCriteria](searchCriteria))
             }
         })
 
         this.register(new ApplicationEventListener[CampaignEvent.GotoAdd]() {
             @Subscribe def handle(event: CampaignEvent.GotoAdd) {
-                val presenter: CampaignAddPresenter = PresenterResolver.getPresenter(classOf[CampaignAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CampaignAddPresenter])
                 presenter.go(container, new ScreenData.Add[SimpleCampaign](new SimpleCampaign))
             }
         })
 
         this.register(new ApplicationEventListener[CampaignEvent.GotoEdit]() {
             @Subscribe def handle(event: CampaignEvent.GotoEdit) {
-                val presenter: CampaignAddPresenter = PresenterResolver.getPresenter(classOf[CampaignAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CampaignAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
@@ -205,7 +205,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[CampaignEvent.GotoRead]() {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: CampaignEvent.GotoRead) {
-                val presenter: CampaignReadPresenter = PresenterResolver.getPresenter(classOf[CampaignReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CampaignReadPresenter])
                 presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
@@ -214,23 +214,23 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindContactEvents(): Unit = {
         this.register(new ApplicationEventListener[ContactEvent.GotoList]() {
             @Subscribe def handle(event: ContactEvent.GotoList) {
-                val presenter: ContactListPresenter = PresenterResolver.getPresenter(classOf[ContactListPresenter])
-                val searchCriteria: ContactSearchCriteria = new ContactSearchCriteria
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[ContactListPresenter])
+                val searchCriteria = new ContactSearchCriteria
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ScreenData.Search[ContactSearchCriteria](searchCriteria))
             }
         })
 
         this.register(new ApplicationEventListener[ContactEvent.GotoAdd]() {
             @Subscribe def handle(event: ContactEvent.GotoAdd) {
-                val presenter: ContactAddPresenter = PresenterResolver.getPresenter(classOf[ContactAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ContactAddPresenter])
                 presenter.go(container, new ScreenData.Add[SimpleContact](new SimpleContact))
             }
         })
 
         this.register(new ApplicationEventListener[ContactEvent.GotoEdit]() {
             @Subscribe def handle(event: ContactEvent.GotoEdit) {
-                val presenter: ContactAddPresenter = PresenterResolver.getPresenter(classOf[ContactAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ContactAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })

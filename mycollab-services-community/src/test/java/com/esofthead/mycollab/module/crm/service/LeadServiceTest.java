@@ -16,88 +16,80 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
-import java.util.List;
-
+import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.test.DataSet;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LeadServiceTest extends IntergrationServiceTest {
 
-	@Autowired
-	protected LeadService leadService;
+    @Autowired
+    protected LeadService leadService;
 
-	@SuppressWarnings("unchecked")
-	@DataSet
-	@Test
-	public void testSearchByCriteria() {
-		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<>(
-						getCriteria(), 0, 2));
-		assertThat(leads.size()).isEqualTo(2);
-		assertThat(leads).extracting("id", "source").contains(
-				tuple(1, "Cold Call"), tuple(2, "Employee"));
-	}
+    @SuppressWarnings("unchecked")
+    @DataSet
+    @Test
+    public void testSearchByCriteria() {
+        List<SimpleLead> leads = leadService.findPagableListByCriteria(
+                new SearchRequest<>(getCriteria(), 0, 2));
+        assertThat(leads.size()).isEqualTo(2);
+        assertThat(leads).extracting("id", "source").contains(
+                tuple(1, "Cold Call"), tuple(2, "Employee"));
+    }
 
-	@DataSet
-	@Test
-	public void testGetTotalCounts() {
-		Assert.assertEquals(2, leadService.getTotalCount(getCriteria()));
-	}
+    @DataSet
+    @Test
+    public void testGetTotalCounts() {
+        Assert.assertEquals(2, leadService.getTotalCount(getCriteria()));
+    }
 
-	private LeadSearchCriteria getCriteria() {
-		LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setLeadName(new StringSearchField(SearchField.AND, "Nguyen"));
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
-		return criteria;
-	}
+    private LeadSearchCriteria getCriteria() {
+        LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setLeadName(new StringSearchField("Nguyen"));
+        criteria.setSaccountid(new NumberSearchField(1));
+        return criteria;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Test
-	@DataSet
-	public void testSearchLeadName() {
-		LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setLeadName(new StringSearchField(SearchField.AND,
-				"Nguyen Hai"));
-		criteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings("unchecked")
+    @Test
+    @DataSet
+    public void testSearchLeadName() {
+        LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setLeadName(new StringSearchField(SearchField.AND,
+                "Nguyen Hai"));
+        criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, 2));
-		assertThat(leads.size()).isEqualTo(1);
-		assertThat(leads).extracting("id", "source").contains(
-				tuple(1, "Cold Call"));
-	}
+        List<SimpleLead> leads = leadService.findPagableListByCriteria(
+                new SearchRequest<>(criteria, 0, 2));
+        assertThat(leads.size()).isEqualTo(1);
+        assertThat(leads).extracting("id", "source").contains(
+                tuple(1, "Cold Call"));
+    }
 
-	@SuppressWarnings("unchecked")
-	@Test
-	@DataSet
-	public void testSearchAssignUser() {
-		LeadSearchCriteria criteria = new LeadSearchCriteria();
-		criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
-		criteria.setSaccountid(new NumberSearchField(1));
+    @SuppressWarnings("unchecked")
+    @Test
+    @DataSet
+    public void testSearchAssignUser() {
+        LeadSearchCriteria criteria = new LeadSearchCriteria();
+        criteria.setAssignUsers(new SetSearchField<>("linh", "hai"));
+        criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleLead> leads = leadService
-				.findPagableListByCriteria(new SearchRequest<>(
-						criteria, 0, 2));
-		assertThat(leads.size()).isEqualTo(2);
-		assertThat(leads).extracting("id", "source").contains(
-				tuple(1, "Cold Call"), tuple(2, "Employee"));
-	}
+        List<SimpleLead> leads = leadService
+                .findPagableListByCriteria(new SearchRequest<>(criteria, 0, 2));
+        assertThat(leads.size()).isEqualTo(2);
+        assertThat(leads).extracting("id", "source").contains(
+                tuple(1, "Cold Call"), tuple(2, "Employee"));
+    }
 }

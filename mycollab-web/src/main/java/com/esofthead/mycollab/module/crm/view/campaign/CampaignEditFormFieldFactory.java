@@ -49,13 +49,9 @@ class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
 	protected Field<?> onCreateField(Object propertyId) {
 
 		if ("type".equals(propertyId)) {
-			CampaignTypeComboBox typeCombo = new CampaignTypeComboBox();
-			typeCombo.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			return typeCombo;
+			return new CampaignTypeComboBox();
 		} else if ("status".equals(propertyId)) {
-			CampaignStatusComboBox statusCombo = new CampaignStatusComboBox();
-			statusCombo.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			return statusCombo;
+			return new CampaignStatusComboBox();
 		} else if ("campaignname".equals(propertyId)) {
 			TextField tf = new TextField();
 			if (isValidateForm) {

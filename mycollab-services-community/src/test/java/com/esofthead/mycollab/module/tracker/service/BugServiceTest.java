@@ -154,13 +154,10 @@ public class BugServiceTest extends IntergrationServiceTest {
 		date.set(Calendar.MONTH, 0);
 		date.set(Calendar.DAY_OF_MONTH, 2);
 
-		criteria.setUpdatedDate(new DateSearchField(SearchField.AND, date
-				.getTime()));
+		criteria.setUpdatedDate(new DateSearchField(date.getTime()));
 
-		assertThat(
-				bugService.findPagableListByCriteria(
-						new SearchRequest<>(criteria, 0,
-								Integer.MAX_VALUE)).size()).isEqualTo(0);
+		assertThat(bugService.findPagableListByCriteria(
+						new SearchRequest<>(criteria, 0, Integer.MAX_VALUE)).size()).isEqualTo(0);
 	}
 
 	@DataSet

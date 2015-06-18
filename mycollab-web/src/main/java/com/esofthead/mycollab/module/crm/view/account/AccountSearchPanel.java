@@ -39,26 +39,24 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchCriteria> {
 
-	private static Param[] paramFields = new Param[] {
-			AccountSearchCriteria.p_accountName,
-			AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
-			AccountSearchCriteria.p_numemployees,
-			AccountSearchCriteria.p_assignee,
-			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
-			AccountSearchCriteria.p_assignee,
-			AccountSearchCriteria.p_billingCountry,
-			AccountSearchCriteria.p_shippingCountry,
-			AccountSearchCriteria.p_anyCity,
-			AccountSearchCriteria.p_createdtime,
-			AccountSearchCriteria.p_lastupdatedtime };
+    private static Param[] paramFields = new Param[]{
+            AccountSearchCriteria.p_accountName,
+            AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
+            AccountSearchCriteria.p_numemployees,
+            AccountSearchCriteria.p_assignee,
+            AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
+            AccountSearchCriteria.p_assignee,
+            AccountSearchCriteria.p_billingCountry,
+            AccountSearchCriteria.p_shippingCountry,
+            AccountSearchCriteria.p_anyCity,
+            AccountSearchCriteria.p_createdtime,
+            AccountSearchCriteria.p_lastupdatedtime};
 
     @Override
     protected HeaderWithFontAwesome buildSearchTitle() {
@@ -68,8 +66,7 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
 
     @Override
     protected void buildExtraControls() {
-		Button createAccountBtn = new Button(
-                AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
+        Button createAccountBtn = new Button(AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
                 new Button.ClickListener() {
                     @Override
                     public void buttonClick(final ClickEvent event) {
@@ -85,56 +82,56 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
     }
 
     @Override
-	protected BasicSearchLayout<AccountSearchCriteria> createBasicSearchLayout() {
-		return new AccountBasicSearchLayout();
-	}
+    protected BasicSearchLayout<AccountSearchCriteria> createBasicSearchLayout() {
+        return new AccountBasicSearchLayout();
+    }
 
-	@Override
-	protected SearchLayout<AccountSearchCriteria> createAdvancedSearchLayout() {
-		return new AccountAdvancedSearchLayout();
-	}
+    @Override
+    protected SearchLayout<AccountSearchCriteria> createAdvancedSearchLayout() {
+        return new AccountAdvancedSearchLayout();
+    }
 
-	private class AccountAdvancedSearchLayout extends DynamicQueryParamLayout<AccountSearchCriteria> {
+    private class AccountAdvancedSearchLayout extends DynamicQueryParamLayout<AccountSearchCriteria> {
 
-		public AccountAdvancedSearchLayout() {
-			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
-		}
+        public AccountAdvancedSearchLayout() {
+            super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
+        }
 
-		@Override
-		public ComponentContainer constructHeader() {
-			return AccountSearchPanel.this.constructHeader();
-		}
+        @Override
+        public ComponentContainer constructHeader() {
+            return AccountSearchPanel.this.constructHeader();
+        }
 
-		@Override
-		public Param[] getParamFields() {
-			return paramFields;
-		}
+        @Override
+        public Param[] getParamFields() {
+            return paramFields;
+        }
 
-		@Override
-		protected Class<AccountSearchCriteria> getType() {
-			return AccountSearchCriteria.class;
-		}
+        @Override
+        protected Class<AccountSearchCriteria> getType() {
+            return AccountSearchCriteria.class;
+        }
 
-		@Override
-		protected Component buildSelectionComp(String fieldId) {
-			if ("account-assignuser".equals(fieldId)) {
-				return new ActiveUserListSelect();
-			}
-			return null;
-		}
-	}
+        @Override
+        protected Component buildSelectionComp(String fieldId) {
+            if ("account-assignuser".equals(fieldId)) {
+                return new ActiveUserListSelect();
+            }
+            return null;
+        }
+    }
 
-	private class AccountBasicSearchLayout extends BasicSearchLayout<AccountSearchCriteria> {
-		private TextField nameField;
-		private CheckBox myItemCheckbox;
+    private class AccountBasicSearchLayout extends BasicSearchLayout<AccountSearchCriteria> {
+        private TextField nameField;
+        private CheckBox myItemCheckbox;
 
-		public AccountBasicSearchLayout() {
-			super(AccountSearchPanel.this);
-		}
+        public AccountBasicSearchLayout() {
+            super(AccountSearchPanel.this);
+        }
 
-		@Override
-		public ComponentContainer constructBody() {
-			MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
+        @Override
+        public ComponentContainer constructBody() {
+            MHorizontalLayout basicSearchBody = new MHorizontalLayout().withMargin(true);
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
                     new ShortcutListener("AccountSearchRequest", ShortcutAction.KeyCode.ENTER, null) {
@@ -143,67 +140,67 @@ public class AccountSearchPanel extends DefaultGenericSearchPanel<AccountSearchC
                             callSearchAction();
                         }
                     });
-			nameField.setInputPrompt("Query by account name");
-			nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+            nameField.setInputPrompt("Query by account name");
+            nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 
-			basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(nameField).withAlign(nameField, Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			this.myItemCheckbox.setWidth("75px");
+            this.myItemCheckbox = new CheckBox(AppContext.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+            this.myItemCheckbox.setWidth("75px");
 
-			basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
+            basicSearchBody.with(myItemCheckbox).withAlign(myItemCheckbox, Alignment.MIDDLE_CENTER);
 
-			Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
-			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(FontAwesome.SEARCH);
-			searchBtn.addClickListener(new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AccountBasicSearchLayout.this.callSearchAction();
-				}
-			});
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            searchBtn.setIcon(FontAwesome.SEARCH);
+            searchBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    AccountBasicSearchLayout.this.callSearchAction();
+                }
+            });
 
-			basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
+            basicSearchBody.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_LEFT);
 
-			Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-			cancelBtn.addClickListener(new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					nameField.setValue("");
-				}
-			});
-			basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+            cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+            cancelBtn.addClickListener(new Button.ClickListener() {
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    nameField.setValue("");
+                }
+            });
+            basicSearchBody.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-			Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
-					new Button.ClickListener() {
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							AccountSearchPanel.this.moveToAdvancedSearchLayout();
-						}
-					});
-			advancedSearchBtn.setStyleName("link");
-			basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
-			return basicSearchBody;
-		}
+            Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+                    new Button.ClickListener() {
+                        @Override
+                        public void buttonClick(final ClickEvent event) {
+                            AccountSearchPanel.this.moveToAdvancedSearchLayout();
+                        }
+                    });
+            advancedSearchBtn.setStyleName("link");
+            basicSearchBody.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
+            return basicSearchBody;
+        }
 
-		@Override
-		public ComponentContainer constructHeader() {
-			return AccountSearchPanel.this.constructHeader();
-		}
+        @Override
+        public ComponentContainer constructHeader() {
+            return AccountSearchPanel.this.constructHeader();
+        }
 
-		@Override
-		protected AccountSearchCriteria fillUpSearchCriteria() {
-			AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
-			searchCriteria.setAccountname(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
-			if (this.myItemCheckbox.getValue()) {
-				searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
-			} else {
-				searchCriteria.setAssignUsers(null);
-			}
+        @Override
+        protected AccountSearchCriteria fillUpSearchCriteria() {
+            AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
+            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+            searchCriteria.setAccountname(new StringSearchField(SearchField.AND, this.nameField.getValue().trim()));
+            if (this.myItemCheckbox.getValue()) {
+                searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+            } else {
+                searchCriteria.setAssignUsers(null);
+            }
 
-			return searchCriteria;
-		}
-	}
+            return searchCriteria;
+        }
+    }
 }

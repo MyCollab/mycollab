@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -102,10 +103,8 @@ public class ProjectActivityStreamPagedList extends
         try {
             for (ProjectActivityStream activityStream : currentListData) {
                 if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
-                    ProjectPageService pageService = ApplicationContextUtil
-                            .getSpringBean(ProjectPageService.class);
-                    Page page = pageService.getPage(activityStream.getTypeid(),
-                            AppContext.getUsername());
+                    ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
+                    Page page = pageService.getPage(activityStream.getTypeid(), AppContext.getUsername());
                     if (page != null) {
                         activityStream.setNamefield(page.getSubject());
                     }
@@ -121,24 +120,20 @@ public class ProjectActivityStreamPagedList extends
                     currentDate = itemCreatedDate;
                 }
                 StringBuffer content = new StringBuffer();
-                String itemType = AppContext
-                        .getMessage(ProjectLocalizationTypeMap
-                                .getType(activityStream.getType()));
+                String itemType = AppContext.getMessage(ProjectLocalizationTypeMap
+                        .getType(activityStream.getType()));
                 String assigneeParam = buildAssigneeValue(activityStream);
                 String itemParam = buildItemValue(activityStream);
 
-                if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
-                        .getAction())) {
-                    content.append(AppContext
-                            .getMessage(
-                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-                                    assigneeParam, itemType, itemParam));
+                if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
+                    content.append(AppContext.getMessage(
+                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                            assigneeParam, itemType, itemParam));
                 } else if (ActivityStreamConstants.ACTION_UPDATE
                         .equals(activityStream.getAction())) {
-                    content.append(AppContext
-                            .getMessage(
-                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-                                    assigneeParam, itemType, itemParam));
+                    content.append(AppContext.getMessage(
+                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                            assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append(ProjectAuditLogStreamGenerator
                                 .generatorDetailChangeOfActivity(activityStream));
@@ -180,7 +175,7 @@ public class ProjectActivityStreamPagedList extends
 
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        userLink.appendText(activityStream.getCreatedUserFullName());
+        userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
                 TooltipHelper.buildDivTooltipEnable(uid));

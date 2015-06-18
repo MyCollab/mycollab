@@ -38,6 +38,8 @@ public class ApplicationProperties {
 
     private static Properties properties;
 
+    public static final String MYCOLLAB_PORT = "mycollab.port";
+
     public static final String DB_USERNAME = "db.username";
     public static final String DB_PASSWORD = "db.password";
     public static final String DB_DRIVER_CLASS = "db.driverClassName";

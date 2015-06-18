@@ -26,83 +26,69 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.event.LayoutEvents;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
-public class TaskGroupListDisplay
-		extends
-		DefaultPagedBeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
+public class TaskGroupListDisplay extends
+        DefaultPagedBeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
+    private static final long serialVersionUID = -9048439116024747065L;
 
-	private static final long serialVersionUID = -9048439116024747065L;
+    public TaskGroupListDisplay() {
+        super(ApplicationContextUtil.getSpringBean(ProjectTaskListService.class),
+                new TaskGroupRowDisplayHandler());
+        this.addStyleName("task-group-list");
+    }
 
-	public TaskGroupListDisplay() {
-		super(ApplicationContextUtil
-				.getSpringBean(ProjectTaskListService.class),
-				new TaskGroupRowDisplayHandler());
-		this.addStyleName("task-group-list");
-	}
+    private static class TaskGroupRowDisplayHandler implements RowDisplayHandler<SimpleTaskList> {
 
-	private static class TaskGroupRowDisplayHandler implements
-			RowDisplayHandler<SimpleTaskList> {
+        @Override
+        public Component generateRow(final SimpleTaskList taskList, int rowIndex) {
+            HorizontalLayout taskListLayout = new HorizontalLayout();
+            taskListLayout.setStyleName("task-list-layout");
+            taskListLayout.setWidth("100%");
+            taskListLayout.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
 
-		@Override
-		public Component generateRow(final SimpleTaskList taskList, int rowIndex) {
-			HorizontalLayout taskListLayout = new HorizontalLayout();
-			taskListLayout.setStyleName("task-list-layout");
-			taskListLayout.setWidth("100%");
-			taskListLayout
-					.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                private static final long serialVersionUID = -3495723609008813660L;
 
-						private static final long serialVersionUID = -3495723609008813660L;
+                @Override
+                public void layoutClick(
+                        LayoutEvents.LayoutClickEvent event) {
+                    EventBusFactory.getInstance().post(new TaskEvent.GoInsideList(this, taskList.getId()));
+                }
+            });
 
-						@Override
-						public void layoutClick(
-								LayoutEvents.LayoutClickEvent event) {
-							EventBusFactory.getInstance().post(
-									new TaskEvent.GoInsideList(this, taskList
-											.getId()));
-						}
-					});
+            VerticalLayout taskListInfo = new VerticalLayout();
+            taskListInfo.setStyleName("task-list-info");
+            Label b = new Label(taskList.getName());
+            b.setWidth("100%");
+            b.setStyleName("task-list-name");
+            taskListInfo.addComponent(b);
 
-			VerticalLayout taskListInfo = new VerticalLayout();
-			taskListInfo.setStyleName("task-list-info");
-			Label b = new Label(taskList.getName());
-			b.setWidth("100%");
-			b.setStyleName("task-list-name");
-			taskListInfo.addComponent(b);
+            Label taskListUpdateTime = new Label(AppContext.getMessage(
+                    DayI18nEnum.LAST_UPDATED_ON,
+                    AppContext.formatDateTime(taskList.getLastupdatedtime())));
+            taskListUpdateTime.setWidthUndefined();
+            taskListUpdateTime.setStyleName("last-updated-time");
+            taskListInfo.addComponent(taskListUpdateTime);
+            taskListLayout.addComponent(taskListInfo);
 
-			Label taskListUpdateTime = new Label(AppContext.getMessage(
-					DayI18nEnum.LAST_UPDATED_ON,
-					AppContext.formatDateTime(taskList.getLastupdatedtime())));
-			taskListUpdateTime.setWidthUndefined();
-			taskListUpdateTime.setStyleName("last-updated-time");
-			taskListInfo.addComponent(taskListUpdateTime);
-			taskListLayout.addComponent(taskListInfo);
+            if (taskList.getNumOpenTasks() > 0) {
+                Label activeTasksNum = new Label(taskList.getNumOpenTasks() + "");
+                activeTasksNum.setWidthUndefined();
+                activeTasksNum.setStyleName("active-task-num");
+                taskListLayout.addComponent(activeTasksNum);
+                taskListLayout.setComponentAlignment(activeTasksNum,
+                        Alignment.MIDDLE_LEFT);
+            }
+            taskListLayout.setExpandRatio(taskListInfo, 1.0f);
+            taskListLayout.addStyleName("list-item");
 
-			if (taskList.getNumOpenTasks() > 0) {
-				Label activeTasksNum = new Label(taskList.getNumOpenTasks()
-						+ "");
-				activeTasksNum.setWidthUndefined();
-				activeTasksNum.setStyleName("active-task-num");
-				taskListLayout.addComponent(activeTasksNum);
-				taskListLayout.setComponentAlignment(activeTasksNum,
-						Alignment.MIDDLE_LEFT);
-			}
-			taskListLayout.setExpandRatio(taskListInfo, 1.0f);
-			taskListLayout.addStyleName("list-item");
+            return taskListLayout;
+        }
 
-			return taskListLayout;
-		}
-
-	}
+    }
 
 }

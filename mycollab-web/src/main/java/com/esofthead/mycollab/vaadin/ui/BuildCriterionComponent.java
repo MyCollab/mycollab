@@ -47,8 +47,7 @@ import java.util.*;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public class BuildCriterionComponent<S extends SearchCriteria> extends
-        MVerticalLayout {
+public class BuildCriterionComponent<S extends SearchCriteria> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private Param[] paramFields;
@@ -60,28 +59,26 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
     private MVerticalLayout searchContainer;
     private MHorizontalLayout controlsBtn;
 
-    public BuildCriterionComponent(Param[] paramFields, Class<S> type,
-                                   String searchCategory) {
+    public BuildCriterionComponent(Param[] paramFields, Class<S> type, String searchCategory) {
         this.paramFields = paramFields;
         this.type = type;
         this.searchCategory = searchCategory;
 
         MHorizontalLayout headerBox = new MHorizontalLayout()
                 .withMargin(new MarginInfo(true, false, true, true));
-        headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        headerBox.setDefaultComponentAlignment(Alignment.TOP_LEFT);
         this.addComponent(headerBox);
 
         Label filterLbl = new Label(AppContext.getMessage(GenericI18Enum.OPT_SAVED_FILTER));
-        headerBox.with(filterLbl).withAlign(filterLbl, Alignment.MIDDLE_LEFT);
+        headerBox.with(filterLbl).withAlign(filterLbl, Alignment.TOP_LEFT);
 
         filterBox = new MHorizontalLayout();
-        headerBox.with(filterBox).withAlign(filterBox, Alignment.MIDDLE_LEFT);
+        headerBox.with(filterBox).withAlign(filterBox, Alignment.TOP_LEFT);
 
         buildFilterBox(null);
 
         this.searchContainer = new MVerticalLayout().withMargin(false);
-        this.searchContainer
-                .setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        this.searchContainer.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
         controlsBtn = new MHorizontalLayout().withMargin(true);
 
@@ -134,8 +131,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
         queryTextField.setWidth("125px");
         filterBox.addComponent(queryTextField);
 
-        Button saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -251,7 +247,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
             this.index = index;
             this.setSpacing(true);
             this.setMargin(new MarginInfo(false, true, false, true));
-            this.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+            this.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
             indexLbl = new Label(index + "");
             indexLbl.setWidth("70px");

@@ -187,14 +187,14 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[RiskEvent.GotoRead] {
             @Subscribe def handle(event: RiskEvent.GotoRead) {
-                val data: RiskScreenData.Read = new RiskScreenData.Read(event.getData.asInstanceOf[Integer])
+                val data = new RiskScreenData.Read(event.getData.asInstanceOf[Integer])
                 projectView.gotoRiskView(data)
             }
         })
         this.register(new ApplicationEventListener[RiskEvent.GotoList] {
             @Subscribe def handle(event: RiskEvent.GotoList) {
-                val criteria: RiskSearchCriteria = new RiskSearchCriteria
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+                val criteria = new RiskSearchCriteria
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
                 projectView.gotoRiskView(new RiskScreenData.Search(criteria))
             }
         })
@@ -262,7 +262,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
                 val params: Any = event.getData
                 if (params == null) {
                     val criteria: BugSearchCriteria = new BugSearchCriteria
-                    criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+                    criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
                     criteria.setStatuses(new SetSearchField[String](BugStatus.InProgress.name,
                         BugStatus.Open.name, BugStatus.ReOpened.name))
                     val parameter: BugFilterParameter = new BugFilterParameter("Open Bugs", criteria)
@@ -278,19 +278,19 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[BugComponentEvent.GotoAdd] {
             @Subscribe def handle(event: BugComponentEvent.GotoAdd) {
-                val data: ComponentScreenData.Add = new ComponentScreenData.Add(new Component)
+                val data = new ComponentScreenData.Add(new Component)
                 projectView.gotoBugView(data)
             }
         })
         this.register(new ApplicationEventListener[BugComponentEvent.GotoEdit] {
             @Subscribe def handle(event: BugComponentEvent.GotoEdit) {
-                val data: ComponentScreenData.Edit = new ComponentScreenData.Edit(event.getData.asInstanceOf[Component])
+                val data = new ComponentScreenData.Edit(event.getData.asInstanceOf[Component])
                 projectView.gotoBugView(data)
             }
         })
         this.register(new ApplicationEventListener[BugComponentEvent.GotoRead] {
             @Subscribe def handle(event: BugComponentEvent.GotoRead) {
-                val data: ComponentScreenData.Read = new ComponentScreenData.Read(event.getData.asInstanceOf[Integer])
+                val data = new ComponentScreenData.Read(event.getData.asInstanceOf[Integer])
                 projectView.gotoBugView(data)
             }
         })
@@ -362,8 +362,8 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[MilestoneEvent.GotoList] {
             @Subscribe def handle(event: MilestoneEvent.GotoList) {
-                val criteria: MilestoneSearchCriteria = new MilestoneSearchCriteria
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
+                val criteria = new MilestoneSearchCriteria
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
                 projectView.gotoMilestoneView(new MilestoneScreenData.Search(criteria))
             }
         })
@@ -389,9 +389,9 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[StandUpEvent.GotoList] {
             @Subscribe def handle(event: StandUpEvent.GotoList) {
-                val criteria: StandupReportSearchCriteria = new StandupReportSearchCriteria
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
-                criteria.setOnDate(new DateSearchField(SearchField.AND, new GregorianCalendar().getTime))
+                val criteria = new StandupReportSearchCriteria
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
+                criteria.setOnDate(new DateSearchField(new GregorianCalendar().getTime))
                 projectView.gotoStandupReportView(new StandupScreenData.Search(criteria))
             }
         })
@@ -400,21 +400,21 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     private def bindUserGroupEvents(): Unit = {
         this.register(new ApplicationEventListener[ProjectRoleEvent.GotoList] {
             @Subscribe def handle(event: ProjectRoleEvent.GotoList) {
-                val project: SimpleProject = CurrentProjectVariables.getProject
-                val criteria: ProjectRoleSearchCriteria = new ProjectRoleSearchCriteria
+                val project = CurrentProjectVariables.getProject
+                val criteria = new ProjectRoleSearchCriteria
                 criteria.setProjectId(new NumberSearchField(project.getId))
                 projectView.gotoUsersAndGroup(new ProjectRoleScreenData.Search(criteria))
             }
         })
         this.register(new ApplicationEventListener[ProjectRoleEvent.GotoAdd] {
             @Subscribe def handle(event: ProjectRoleEvent.GotoAdd) {
-                val data: ProjectRoleScreenData.Add = new ProjectRoleScreenData.Add(new ProjectRole)
+                val data = new ProjectRoleScreenData.Add(new ProjectRole)
                 projectView.gotoUsersAndGroup(data)
             }
         })
         this.register(new ApplicationEventListener[ProjectRoleEvent.GotoEdit] {
             @Subscribe def handle(event: ProjectRoleEvent.GotoEdit) {
-                val data: ProjectRoleScreenData.Add = new ProjectRoleScreenData.Add(event.getData.asInstanceOf[ProjectRole])
+                val data = new ProjectRoleScreenData.Add(event.getData.asInstanceOf[ProjectRole])
                 projectView.gotoUsersAndGroup(data)
             }
         })

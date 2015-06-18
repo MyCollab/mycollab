@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.4.7";
+	content: "7.4.8";
 }
 
 .v-generated-body {
@@ -7948,6 +7948,13 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	border: 1px solid #CFCFCF;
 }
 
+.readViewLayout .readViewHeader {
+	padding: 10px 5px 10px 18px;
+	background: none repeat-x left top #EEEEEE;
+	border-radius: 0px;
+	border-bottom: 1px solid #CFCFCF;
+}
+
 .readViewLayout .readViewHeader .headerName {
 	font-size: 18px;
 	color: #303030;
@@ -7968,13 +7975,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .readViewLayout .v-label-h2.no-border {
 	border: none;
-}
-
-.readViewHeader {
-	padding: 10px 5px 10px 18px;
-	background: none repeat-x left top #EEEEEE;
-	border-radius: 0px;
-	border-bottom: 1px solid #CFCFCF;
 }
 
 .readViewBottomControls .v-verticallayout {
@@ -8007,7 +8007,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .addview-layout {
-	background-color: #f5f5f5;
+	background-color: #FFFFFF;
 	padding: 0px;
 	border-radius: 0;
 }
@@ -8021,7 +8021,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .control-buttons.v-margin-right {
-	padding-right: 0;
+	padding-right: 0px;
 }
 
 .control-buttons.v-margin-bottom {
@@ -8967,6 +8967,94 @@ div.v-button.token-field:hover {
 
 div .gantt .bar {
 	height: 31px;
+}
+
+.taskgroup-header {
+	padding: 7px 10px 7px 18px;
+	border: 1px solid #CFCFCF;
+	background-color: #e4e4e4;
+}
+
+.taskadd-popup {
+	border-width: 0px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+}
+
+.taskadd-popup .popup-header {
+	border-bottom: 1px solid #CFCFCF;
+	background-color: floralwhite;
+}
+
+.taskadd-popup .popup-header.v-margin-top {
+	padding-top: 8px;
+}
+
+.taskadd-popup .popup-header.v-margin-right {
+	padding-right: 0px;
+}
+
+.taskadd-popup .popup-header.v-margin-bottom {
+	padding-bottom: 8px;
+}
+
+.taskadd-popup .popup-header.v-margin-left {
+	padding-left: 18px;
+}
+
+.taskadd-popup .popup-footer.v-margin-top {
+	padding-top: 5px;
+}
+
+.taskadd-popup .popup-footer.v-margin-right {
+	padding-right: 5px;
+}
+
+.taskadd-popup .popup-footer.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.taskadd-popup .popup-footer.v-margin-left {
+	padding-left: 15px;
+}
+
+.taskadd-popup .v-tabsheet {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-bottom: 1px solid #CFCFCF;
+}
+
+.taskadd-popup .v-tabsheet .v-tabsheet-content {
+	padding-bottom: 0px;
+}
+
+.task-list .taskadd-popup .colored-gridlayout {
+	border: none;
+}
+
+.v-tabsheet-content .task-list .task-list-footer {
+	border-width: 1px 0px 0px;
+}
+
+.v-tabsheet-content .depotComp.task-list .task-list-footer {
+	border-width: 0px 1px 1px;
+}
+
+.v-tabsheet-content .task-list .v-table-header-wrap, .v-tabsheet-content .task-list .v-table-body-wrapper {
+	border-width: 1px 0px 0px;
+}
+
+.v-tabsheet-content .depotComp.task-list .v-table-header-wrap {
+	border-width: 1px 1px 0px;
+}
+
+.v-tabsheet-content .depotComp.task-list .v-table-body-wrapper {
+	border-width: 1px;
+}
+
+.v-tabsheet-content .task-list .v-csslayout-comp-header {
+	padding: 5px;
 }
 
 html {
@@ -10296,27 +10384,6 @@ input.v-textfield-errorField {
 	border: 1px solid #CFCFCF;
 }
 
-.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header {
-	border-color: #CFCFCF;
-	border-width: 0px 0px 1px 0px;
-	border-style: solid;
-	padding: 8px 0px 8px 18px;
-}
-
-.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header .h2 {
-	border: none;
-	padding: 0px;
-	background-color: transparent;
-	vertical-align: middle;
-	display: inline-block;
-	*display: inline;
-	margin-right: 3px;
-}
-
-.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header .v-button {
-	vertical-align: middle;
-}
-
 .accountViewContainer .sidebar-menu .v-nativebutton {
 	font-size: 14px;
 	padding: 0px;
@@ -10333,23 +10400,15 @@ input.v-textfield-errorField {
 	box-shadow: none;
 }
 
-.v-csslayout-account-dashboard {
-	border-color: #8f8f8f;
-	border-style: solid;
-	border-width: 1px 0px 0px 1px;
+.accountViewContainer .container-wrap.main-content .top-panel {
 	background-color: #FFF;
-	padding: 6px;
+	border-bottom: 1px solid #CFCFCF;
+	padding: 10px 30px;
 }
 
 .crmContainer .container-wrap .tab-content, .accountViewContainer .container-wrap .tab-content {
 	border-width: 1px 0px 0px 1px;
 	padding: 0px;
-}
-
-.accountViewContainer .container-wrap.main-content .top-panel {
-	background-color: #FFF;
-	border-bottom: 1px solid #CFCFCF;
-	padding: 10px 30px;
 }
 
 .depotComp.v-margin-top {
@@ -11443,94 +11502,6 @@ div.v-stylecalendar .weekdays TD {
 
 .task-list-footer.v-margin-left {
 	padding-left: 5px;
-}
-
-.popup-footer.v-margin-top {
-	padding-top: 5px;
-}
-
-.popup-footer.v-margin-right {
-	padding-right: 5px;
-}
-
-.popup-footer.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.popup-footer.v-margin-left {
-	padding-left: 15px;
-}
-
-.taskgroup-header {
-	padding: 7px 10px 7px 18px;
-	border: 1px solid #CFCFCF;
-	background-color: #e4e4e4;
-}
-
-.taskadd-popup {
-	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-}
-
-.taskadd-popup .popup-header {
-	border-bottom: 1px solid #CFCFCF;
-	background-color: floralwhite;
-}
-
-.taskadd-popup .popup-header.v-margin-top {
-	padding-top: 8px;
-}
-
-.taskadd-popup .popup-header.v-margin-right {
-	padding-right: 0px;
-}
-
-.taskadd-popup .popup-header.v-margin-bottom {
-	padding-bottom: 8px;
-}
-
-.taskadd-popup .popup-header.v-margin-right {
-	padding-left: 18px;
-}
-
-.taskadd-popup .v-tabsheet {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.taskadd-popup .v-tabsheet .v-tabsheet-content {
-	padding-bottom: 0px;
-}
-
-.task-list .taskadd-popup .colored-gridlayout {
-	border: none;
-}
-
-.v-tabsheet-content .task-list .task-list-footer {
-	border-width: 1px 0px 0px;
-}
-
-.v-tabsheet-content .depotComp.task-list .task-list-footer {
-	border-width: 0px 1px 1px;
-}
-
-.v-tabsheet-content .task-list .v-table-header-wrap, .v-tabsheet-content .task-list .v-table-body-wrapper {
-	border-width: 1px 0px 0px;
-}
-
-.v-tabsheet-content .depotComp.task-list .v-table-header-wrap {
-	border-width: 1px 1px 0px;
-}
-
-.v-tabsheet-content .depotComp.task-list .v-table-body-wrapper {
-	border-width: 1px;
-}
-
-.v-tabsheet-content .task-list .v-csslayout-comp-header {
-	padding: 5px;
 }
 
 div.v-ratingstars-wrapper {

@@ -90,8 +90,7 @@ public class ProjectLinkBuilder {
                 AppContext.getSiteUrl(), projectId, problemId);
     }
 
-    public static String generateProjectMemberFullLink(int projectId,
-                                                       String memberName) {
+    public static String generateProjectMemberFullLink(int projectId, String memberName) {
         return ProjectLinkGenerator.generateProjectMemberFullLink(
                 AppContext.getSiteUrl(), projectId, memberName);
     }

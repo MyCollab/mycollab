@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -150,20 +151,14 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                     gotoUsersAndGroup(new ProjectMemberScreenData.Search(criteria));
                 } else if (ProjectTypeConstants.TIME.equals(caption)) {
                     ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-                    searchCriteria
-                            .setProjectIds(new SetSearchField<>(
-                                    CurrentProjectVariables.getProjectId()));
-                    searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
-                            .getCurrentRangeDateOfWeekSearchField());
-                    gotoTimeTrackingView(new TimeTrackingScreenData.Search(
-                            searchCriteria));
+                    searchCriteria.setProjectIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+                    searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria.getCurrentRangeDateOfWeekSearchField());
+                    gotoTimeTrackingView(new TimeTrackingScreenData.Search(searchCriteria));
                 } else if (ProjectTypeConstants.STANDUP.equals(caption)) {
                     StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
                     criteria.setProjectId(new NumberSearchField(
                             CurrentProjectVariables.getProjectId()));
-                    criteria.setOnDate(new DateSearchField(
-                            SearchField.AND, DateSearchField.EQUAL,
-                            new GregorianCalendar().getTime()));
+                    criteria.setOnDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS(), DateSearchField.EQUAL));
                     standupPresenter.go(ProjectViewImpl.this,
                             new StandupScreenData.Search(criteria));
                 }
@@ -325,9 +320,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
             popupButtonsControl.addOption(archiveProjectBtn);
 
             if (CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PROJECT)) {
-                Button deleteProjectBtn = new Button(
-                        AppContext
-                                .getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
+                Button deleteProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
                         new Button.ClickListener() {
                             @Override
                             public void buttonClick(ClickEvent event) {

@@ -105,8 +105,7 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
 
     private void doSearch() {
         searchCriteria = new ContactSearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(
-                SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();
         if (StringUtils.isNotBlank(searchType)) {
@@ -115,11 +114,11 @@ public class ContactSimpleSearchPanel extends GenericSearchPanel<ContactSearchCr
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setContactName(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setContactName(new StringSearchField(strSearch));
                     } else if (searchType.equals("Email")) {
-                        searchCriteria.setAnyEmail(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setAnyEmail(new StringSearchField(strSearch));
                     } else if (searchType.equals("Phone")) {
-                        searchCriteria.setAnyPhone(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setAnyPhone(new StringSearchField(strSearch));
                     }
                 }
             }

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.jetty;
 
+import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.LogConfig;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -50,12 +51,7 @@ import java.util.Properties;
  * @since 1.0
  */
 public abstract class GenericServerRunner {
-    private static final Logger LOG;
-
-    static {
-        LogConfig.initLog();
-        LOG = LoggerFactory.getLogger(GenericServerRunner.class);
-    }
+    private static final Logger LOG = LoggerFactory.getLogger(GenericServerRunner.class);
 
     private Server server;
     private int port = 8080;
@@ -112,6 +108,8 @@ public abstract class GenericServerRunner {
             }
         }
 
+        System.setProperty(ApplicationProperties.MYCOLLAB_PORT, port + "");
+        LogConfig.initLog();
         execute();
     }
 
@@ -176,7 +174,6 @@ public abstract class GenericServerRunner {
     }
 
     private DataSource buildDataSource() {
-        SiteConfiguration.loadInstance(port);
         DatabaseConfiguration dbConf = SiteConfiguration.getDatabaseConfiguration();
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(dbConf.getDriverClass());

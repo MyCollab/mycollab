@@ -23,6 +23,7 @@ import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -65,7 +66,7 @@ public class ActivityStreamComponent extends CssLayout {
         this.activityStreamList = new ProjectActivityStreamPagedList2();
     }
 
-    public void showFeeds(final List<Integer> prjKeys) {
+    public void showFeeds(List<Integer> prjKeys) {
         this.removeAllComponents();
         if (CollectionUtils.isNotEmpty(prjKeys)) {
             this.addComponent(activityStreamList);
@@ -112,13 +113,9 @@ public class ActivityStreamComponent extends CssLayout {
 
             try {
                 for (ProjectActivityStream activityStream : currentListData) {
-                    if (ProjectTypeConstants.PAGE.equals(activityStream
-                            .getType())) {
-                        ProjectPageService pageService = ApplicationContextUtil
-                                .getSpringBean(ProjectPageService.class);
-                        Page page = pageService.getPage(
-                                activityStream.getTypeid(),
-                                AppContext.getUsername());
+                    if (ProjectTypeConstants.PAGE.equals(activityStream.getType())) {
+                        ProjectPageService pageService = ApplicationContextUtil.getSpringBean(ProjectPageService.class);
+                        Page page = pageService.getPage(activityStream.getTypeid(), AppContext.getUsername());
                         if (page != null) {
                             activityStream.setNamefield(page.getSubject());
                         }
@@ -128,8 +125,7 @@ public class ActivityStreamComponent extends CssLayout {
                     if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
                         currentFeedBlock = new CssLayout();
                         currentFeedBlock.setStyleName("feed-block");
-                        feedBlocksPut(currentDate, itemCreatedDate,
-                                currentFeedBlock);
+                        feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
                         currentDate = itemCreatedDate;
                     }
 
@@ -143,44 +139,36 @@ public class ActivityStreamComponent extends CssLayout {
                     String itemLink = buildItemValue(activityStream);
                     String projectLink = buildProjectValue(activityStream);
 
-                    if (ActivityStreamConstants.ACTION_CREATE
-                            .equals(activityStream.getAction())) {
-                        if (ProjectTypeConstants.PROJECT.equals(activityStream
-                                .getType())) {
-                            content.append(AppContext
-                                    .getMessage(
-                                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-                                            assigneeValue, type, projectLink));
+                    if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
+                        if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
+                            content.append(AppContext.getMessage(
+                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                                    assigneeValue, type, projectLink));
                         } else {
-                            content.append(AppContext
-                                    .getMessage(
-                                            ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
-                                            assigneeValue, type, itemLink, projectLink));
+                            content.append(AppContext.getMessage(
+                                    ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                                    assigneeValue, type, itemLink, projectLink));
                         }
 
                     } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
                         if (ProjectTypeConstants.PROJECT.equals(activityStream.getType())) {
-                            content.append(AppContext
-                                    .getMessage(
-                                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-                                            assigneeValue, type, projectLink));
+                            content.append(AppContext.getMessage(
+                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                                    assigneeValue, type, projectLink));
                         } else {
-                            content.append(AppContext
-                                    .getMessage(
-                                            ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-                                            assigneeValue, type, itemLink, projectLink));
+                            content.append(AppContext.getMessage(
+                                    ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                                    assigneeValue, type, itemLink, projectLink));
                         }
                         if (activityStream.getAssoAuditLog() != null) {
                             content.append(ProjectAuditLogStreamGenerator
                                     .generatorDetailChangeOfActivity(activityStream));
                         }
-                    } else if (ActivityStreamConstants.ACTION_COMMENT
-                            .equals(activityStream.getAction())) {
-                        content.append(AppContext
-                                .getMessage(
-                                        ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
-                                        assigneeValue, type, itemLink,
-                                        projectLink));
+                    } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                        content.append(AppContext.getMessage(
+                                ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                                assigneeValue, type, itemLink,
+                                projectLink));
 
                         if (activityStream.getAssoAuditLog() != null) {
                             content.append("<p><ul><li>\"")
@@ -212,7 +200,7 @@ public class ActivityStreamComponent extends CssLayout {
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(activityStream.getCreatedUserFullName());
+            userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 
             div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
                     TooltipHelper.buildDivTooltipEnable(uid));
@@ -227,8 +215,7 @@ public class ActivityStreamComponent extends CssLayout {
             itemLink.setId("tag" + uid);
 
             if (ProjectTypeConstants.TASK.equals(activityStream.getType())
-                    || ProjectTypeConstants.BUG
-                    .equals(activityStream.getType())) {
+                    || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
                         activityStream.getProjectShortName(),
                         activityStream.getExtratypeid(),

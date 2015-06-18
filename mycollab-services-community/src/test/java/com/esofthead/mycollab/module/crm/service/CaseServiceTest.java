@@ -58,14 +58,13 @@ public class CaseServiceTest extends IntergrationServiceTest {
     @Test
     public void testGetSearchCriteria() {
         CaseSearchCriteria criteria = new CaseSearchCriteria();
-        criteria.setAccountId(new NumberSearchField(SearchField.AND, 1));
-        criteria.setAssignUser(new StringSearchField(SearchField.AND, "admin"));
-        criteria.setSubject(new StringSearchField(SearchField.AND, "a"));
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
+        criteria.setAccountId(new NumberSearchField(1));
+        criteria.setAssignUser(new StringSearchField("admin"));
+        criteria.setSubject(new StringSearchField("a"));
+        criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new SearchRequest<CaseSearchCriteria>(null, 0,
-                        Integer.MAX_VALUE));
+                new SearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status")
@@ -81,8 +80,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new SearchRequest<CaseSearchCriteria>(null, 0,
-                        Integer.MAX_VALUE));
+                new SearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status")
@@ -98,8 +96,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new SearchRequest<CaseSearchCriteria>(null, 0,
-                        Integer.MAX_VALUE));
+                new SearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status")
@@ -115,8 +112,7 @@ public class CaseServiceTest extends IntergrationServiceTest {
         criteria.setSaccountid(new NumberSearchField(1));
 
         List<SimpleCase> cases = caseService.findPagableListByCriteria(
-                new SearchRequest<CaseSearchCriteria>(null, 0,
-                        Integer.MAX_VALUE));
+                new SearchRequest<CaseSearchCriteria>(null, 0, Integer.MAX_VALUE));
 
         assertThat(cases.size()).isEqualTo(2);
         assertThat(cases).extracting("id", "subject", "status")

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.contact;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Contact;
@@ -114,11 +113,9 @@ public class ContactOpportunityListComp
     }
 
     private void loadOpportunities() {
-        final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                AppContext.getAccountId()));
-        criteria.setContactId(new NumberSearchField(SearchField.AND, contact
-                .getId()));
+        OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+        criteria.setContactId(new NumberSearchField(contact.getId()));
         setSearchCriteria(criteria);
     }
 
@@ -152,17 +149,12 @@ public class ContactOpportunityListComp
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                     SiteConfiguration.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
@@ -172,18 +164,12 @@ public class ContactOpportunityListComp
                                         ContactService contactService = ApplicationContextUtil
                                                 .getSpringBean(ContactService.class);
                                         ContactOpportunity associateOpportunity = new ContactOpportunity();
-                                        associateOpportunity
-                                                .setContactid(contact.getId());
-                                        associateOpportunity
-                                                .setOpportunityid(opportunity
-                                                        .getId());
-                                        contactService
-                                                .removeContactOpportunityRelationship(
-                                                        associateOpportunity,
-                                                        AppContext
-                                                                .getAccountId());
-                                        ContactOpportunityListComp.this
-                                                .refresh();
+                                        associateOpportunity.setContactid(contact.getId());
+                                        associateOpportunity.setOpportunityid(opportunity.getId());
+                                        contactService.removeContactOpportunityRelationship(
+                                                associateOpportunity,
+                                                AppContext.getAccountId());
+                                        ContactOpportunityListComp.this.refresh();
                                     }
                                 }
                             });
@@ -195,22 +181,18 @@ public class ContactOpportunityListComp
             blockContent.addComponent(btnDelete);
             blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-            Label opportunityName = new Label("Name: <a href='"
-                    + SiteConfiguration.getSiteUrl(AppContext.getUser()
-                    .getSubdomain())
-                    + CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.OPPORTUNITY, opportunity.getId())
-                    + "'>" + opportunity.getOpportunityname() + "</a>",
+            Label opportunityName = new Label(String.format("Name: <a href='%s%s'>%s</a>",
+                    SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()),
+                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.OPPORTUNITY, opportunity.getId()),
+                    opportunity.getOpportunityname()),
                     ContentMode.HTML);
 
             opportunityInfo.addComponent(opportunityName);
 
-            Label opportunityAmount = new Label(
-                    "Amount: "
+            Label opportunityAmount = new Label("Amount: "
                             + (opportunity.getAmount() != null ? opportunity
                             .getAmount() : ""));
-            if (opportunity.getCurrency() != null
-                    && opportunity.getAmount() != null) {
+            if (opportunity.getCurrency() != null && opportunity.getAmount() != null) {
                 opportunityAmount.setValue(opportunityAmount.getValue()
                         + opportunity.getCurrency().getSymbol());
             }

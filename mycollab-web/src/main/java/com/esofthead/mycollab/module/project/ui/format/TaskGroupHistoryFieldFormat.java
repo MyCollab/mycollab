@@ -48,8 +48,7 @@ import com.vaadin.ui.Label;
  */
 public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(TaskGroupHistoryFieldFormat.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TaskGroupHistoryFieldFormat.class);
 
 	@Override
 	public Component toVaadinComponent(String value) {

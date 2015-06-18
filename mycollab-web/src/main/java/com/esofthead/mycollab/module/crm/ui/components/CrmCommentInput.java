@@ -43,7 +43,6 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.GregorianCalendar;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -81,8 +80,7 @@ public class CrmCommentInput extends MHorizontalLayout {
         uploadExt.addComponent(attachments);
         controlsLayout.with(uploadExt).withAlign(uploadExt, Alignment.TOP_LEFT).expand(uploadExt);
 
-        final Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
+        final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -93,8 +91,7 @@ public class CrmCommentInput extends MHorizontalLayout {
                 });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button newCommentBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_POST),
+        final Button newCommentBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -110,16 +107,12 @@ public class CrmCommentInput extends MHorizontalLayout {
                         comment.setType(type.toString());
                         comment.setTypeid(typeId);
 
-                        final CommentService commentService = ApplicationContextUtil
+                        CommentService commentService = ApplicationContextUtil
                                 .getSpringBean(CommentService.class);
-                        int commentId = commentService.saveWithSession(comment,
-                                AppContext.getUsername(), emailHandler);
+                        int commentId = commentService.saveWithSession(comment, AppContext.getUsername(), emailHandler);
 
-                        String attachmentPath = AttachmentUtils
-                                .getCommentAttachmentPath(typeVal,
-                                        AppContext.getAccountId(),
-                                        null,
-                                        typeId, commentId);
+                        String attachmentPath = AttachmentUtils.getCommentAttachmentPath(typeVal,
+                                AppContext.getAccountId(), null, typeId, commentId);
 
                         if (!"".equals(attachmentPath)) {
                             attachments.saveContentsToRepo(attachmentPath);

@@ -77,8 +77,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 boolean isOverdueOption = overdueSelection.getValue();
                 if (isOverdueOption) {
-                    searchCriteria.setDueDate(new DateSearchField(DateSearchField.AND,
-                            DateTimeUtils.getCurrentDateWithoutMS()));
+                    searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
                 } else {
                     searchCriteria.setDueDate(null);
                 }
@@ -202,7 +201,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(task.getAssignUserFullName());
+            userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
 

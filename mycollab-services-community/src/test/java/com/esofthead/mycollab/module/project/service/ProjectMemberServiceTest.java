@@ -16,88 +16,80 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Before;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.test.DataSet;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.service.IntergrationServiceTest;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ProjectMemberServiceTest extends IntergrationServiceTest {
-	@Autowired
-	private ProjectMemberService projectMemberService;
+    @Autowired
+    private ProjectMemberService projectMemberService;
 
-	@Before
-	public void init() {
-		SiteConfiguration.loadInstance(8080);
-	}
+    @DataSet
+    @Test
+    public void testAcceptProjectMemberAcceptInvitation() {
+        projectMemberService.acceptProjectInvitationByNewUser(
+                "baohan@esofthead.com", "123", 1, 1, 1);
 
-	@DataSet
-	@Test
-	public void testAcceptProjectMemberAcceptInvitation() {
-		projectMemberService.acceptProjectInvitationByNewUser(
-				"baohan@esofthead.com", "123", 1, 1, 1);
+        SimpleProjectMember member = projectMemberService.findMemberByUsername(
+                "baohan@esofthead.com", 1, 1);
+        assertThat(member.getUsername()).isEqualTo("baohan@esofthead.com");
+    }
 
-		SimpleProjectMember member = projectMemberService.findMemberByUsername(
-				"baohan@esofthead.com", 1, 1);
-		assertThat(member.getUsername()).isEqualTo("baohan@esofthead.com");
-	}
+    @DataSet
+    @Test
+    public void testGetActiveMembersInproject() {
+        List<SimpleUser> activeUsers = projectMemberService.getActiveUsersInProject(1, 1);
+        assertThat(activeUsers.size()).isEqualTo(1);
+        assertThat(activeUsers).extracting("username").contains("user1");
+    }
 
-	@DataSet
-	@Test
-	public void testGetActiveMembersInproject() {
-		List<SimpleUser> activeUsers = projectMemberService.getActiveUsersInProject(1, 1);
-		assertThat(activeUsers.size()).isEqualTo(1);
-		assertThat(activeUsers).extracting("username").contains("user1");
-	}
+    @DataSet
+    @Test
+    public void testGetMembersNotInProject() {
+        List<SimpleUser> users = projectMemberService
+                .getUsersNotInProject(1, 1);
 
-	@DataSet
-	@Test
-	public void testGetMembersNotInProject() {
-		List<SimpleUser> users = projectMemberService
-				.getUsersNotInProject(1, 1);
+        assertThat(users.size()).isEqualTo(2);
+        assertThat(users).extracting("username").contains("user2", "user3");
+    }
 
-		assertThat(users.size()).isEqualTo(2);
-		assertThat(users).extracting("username").contains("user2", "user3");
-	}
+    @DataSet
+    @Test
+    public void testGetProjectMembersInProjects() {
+        List<SimpleUser> users = projectMemberService.getActiveUsersInProjects(
+                Arrays.asList(1, 2), 1);
+        assertThat(users.size()).isEqualTo(3);
+        assertThat(users).extracting("username").contains("user1", "user2",
+                "user3");
+    }
 
-	@DataSet
-	@Test
-	public void testGetProjectMembersInProjects() {
-		List<SimpleUser> users = projectMemberService.getActiveUsersInProjects(
-				Arrays.asList(1, 2), 1);
-		assertThat(users.size()).isEqualTo(3);
-		assertThat(users).extracting("username").contains("user1", "user2",
-				"user3");
-	}
+    @DataSet
+    @Test
+    public void testGetUsersNotInProjects() {
+        List<SimpleUser> users = projectMemberService
+                .getUsersNotInProject(1, 1);
+        assertThat(users.size()).isEqualTo(2);
+        assertThat(users).extracting("username").contains("user2", "user3");
+    }
 
-	@DataSet
-	@Test
-	public void testGetUsersNotInProjects() {
-		List<SimpleUser> users = projectMemberService
-				.getUsersNotInProject(1, 1);
-		assertThat(users.size()).isEqualTo(2);
-		assertThat(users).extracting("username").contains("user2", "user3");
-	}
-
-	@DataSet
-	@Test
-	public void testFindMemberByUsername() {
-		SimpleProjectMember member = projectMemberService.findMemberByUsername(
-				"user1", 1, 1);
-		assertThat(member.getProjectid()).isEqualTo(1);
-		assertThat(member.getStatus()).isEqualTo("Active");
-		assertThat(member.getUsername()).isEqualTo("user1");
-	}
+    @DataSet
+    @Test
+    public void testFindMemberByUsername() {
+        SimpleProjectMember member = projectMemberService.findMemberByUsername(
+                "user1", 1, 1);
+        assertThat(member.getProjectid()).isEqualTo(1);
+        assertThat(member.getStatus()).isEqualTo("Active");
+        assertThat(member.getUsername()).isEqualTo("user1");
+    }
 }

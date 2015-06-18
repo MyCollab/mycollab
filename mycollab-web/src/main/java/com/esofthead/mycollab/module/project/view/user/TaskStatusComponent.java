@@ -83,8 +83,7 @@ public class TaskStatusComponent extends MVerticalLayout {
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 boolean isOverdueOption = overdueSelection.getValue();
                 if (isOverdueOption) {
-                    searchCriteria.setDueDate(new DateSearchField(DateSearchField.AND,
-                            DateTimeUtils.getCurrentDateWithoutMS()));
+                    searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
                 } else {
                     searchCriteria.setDueDate(null);
                 }
@@ -138,7 +137,7 @@ public class TaskStatusComponent extends MVerticalLayout {
     private static class GenericTaskRowDisplayHandler implements AbstractBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
         @Override
         public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
-            final MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(false).withWidth
+            MHorizontalLayout layout = new MHorizontalLayout().withSpacing(false).withMargin(false).withWidth
                     ("100%").withStyleName("prj-list-row");
 
             MHorizontalLayout shortPrjLayout = new MHorizontalLayout().withHeight("100%").withStyleName
@@ -223,16 +222,13 @@ public class TaskStatusComponent extends MVerticalLayout {
 
             userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(task.getAssignUserFullName());
+            userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
 
-            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter
-                            .EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt),
-                    userAvatar, DivLessFormatter
-                            .EMPTY_SPACE(), userLink,
-                    DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(),
+                    DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
+                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
 
             return div;
         }

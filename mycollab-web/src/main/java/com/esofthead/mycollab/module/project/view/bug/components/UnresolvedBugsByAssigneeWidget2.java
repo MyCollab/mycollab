@@ -27,6 +27,9 @@ import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
@@ -111,7 +114,12 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
             this.setWidth("110px");
             this.addStyleName(UIConstants.TEXT_ELLIPSIS);
             this.setIcon(UserAvatarControlFactory.createAvatarResource(assigneeAvatarId, 16));
-            this.setDescription(assigneeFullName);
+            UserService service = ApplicationContextUtil
+                    .getSpringBean(UserService.class);
+            SimpleUser user = service.findUserByUserNameInAccount(assignee,
+                    AppContext.getAccountId());
+            this.setDescription(CommonTooltipGenerator.generateTooltipUser(AppContext.getUserLocale(), user,
+                    AppContext.getSiteUrl(), AppContext.getTimezone()));
         }
     }
 }

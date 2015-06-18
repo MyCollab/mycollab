@@ -127,12 +127,9 @@ public class ProjectMemberReadPresenter extends
 						ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 						SimpleProject project = (SimpleProject) MyCollabSession
 								.getVariable("project");
-						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, project.getId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
+						criteria.setProjectId(new NumberSearchField(project.getId()));
+						criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+						criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 						criteria.setStatus(new StringSearchField(
 								ProjectMemberStatusConstants.ACTIVE));
 

@@ -54,7 +54,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.themes.Reindeer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -146,10 +145,12 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
         headerContent.addStyleName("projectfeed-hdr-content");
 
         Label headerLabel = new Label(AppContext.getUser().getDisplayName());
-        headerLabel.setStyleName(Reindeer.LABEL_H1);
+        headerLabel.setStyleName("h1");
+        headerLabel.addStyleName(UIConstants.WORD_WRAP);
 
-        MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false));
-        headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT);
+        MHorizontalLayout headerContentTop = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true,
+                false)).withWidth("100%");
+        headerContentTop.with(headerLabel).withAlign(headerLabel, Alignment.TOP_LEFT).expand(headerLabel);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
             Button createProjectBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
@@ -163,7 +164,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                     });
             createProjectBtn.setIcon(FontAwesome.PLUS);
             createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-            headerContentTop.with(createProjectBtn).withAlign(createProjectBtn, Alignment.MIDDLE_LEFT);
+            headerContentTop.with(createProjectBtn).withAlign(createProjectBtn, Alignment.TOP_RIGHT);
         }
 
         SearchTextField searchTextField = new SearchTextField() {
@@ -172,7 +173,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 displaySearchResult(value);
             }
         };
-        headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.MIDDLE_RIGHT);
+        headerContentTop.with(searchTextField).withAlign(searchTextField, Alignment.TOP_RIGHT);
 
         followingTicketsLink = new LabelLink(AppContext.getMessage(
                 FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0), AppContext.getSiteUrl() + "#project/following");
@@ -233,7 +234,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
     private void displayFollowingTicketsCount() {
         // show following ticket numbers
         MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
-        searchCriteria.setUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+        searchCriteria.setUser(new StringSearchField(AppContext.getUsername()));
         searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
         MonitorItemService monitorService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         int followingItemsCount = monitorService.getTotalCount(searchCriteria);

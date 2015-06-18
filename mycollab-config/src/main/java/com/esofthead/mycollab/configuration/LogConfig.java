@@ -23,7 +23,6 @@ import com.esofthead.mycollab.core.utils.FileUtils;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.file.Files;
 
 /**
  * @author MyCollab Ltd
@@ -49,7 +48,7 @@ public class LogConfig {
                 configurator.setContext(loggerContext);
                 configurator.doConfigure(inputStream); // loads logback file
             } catch (Exception e) {
-               throw new MyCollabException(e);
+                throw new MyCollabException(e);
             } finally {
                 try {
                     inputStream.close();

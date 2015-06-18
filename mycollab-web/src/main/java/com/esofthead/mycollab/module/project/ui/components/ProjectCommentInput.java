@@ -43,7 +43,6 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.GregorianCalendar;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -56,19 +55,16 @@ public class ProjectCommentInput extends MHorizontalLayout {
     private String typeId;
     private Integer extraTypeId;
 
-    ProjectCommentInput(
-            final ReloadableComponent component,
-            final String typeVal,
-            final Integer extraTypeIdVal,
-            final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
+    ProjectCommentInput(final ReloadableComponent component, final String typeVal,
+                        Integer extraTypeIdVal, final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
         super();
         this.withMargin(new MarginInfo(false, true, false, false)).withWidth("100%").withStyleName("message");
 
         SimpleUser currentUser = AppContext.getUser();
-        ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(), currentUser.getDisplayName());
+        ProjectMemberBlock userBlock = new ProjectMemberBlock(currentUser.getUsername(), currentUser.getAvatarid(),
+                currentUser.getDisplayName());
 
-        MVerticalLayout textAreaWrap = new MVerticalLayout().withWidth("100%")
-                .withStyleName("message-container");
+        MVerticalLayout textAreaWrap = new MVerticalLayout().withWidth("100%").withStyleName("message-container");
         this.with(userBlock, textAreaWrap).expand(textAreaWrap);
 
         type = typeVal;

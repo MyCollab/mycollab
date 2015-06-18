@@ -328,8 +328,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                     boolean isOverdueOption = overdueSelection.getValue();
                     if (isOverdueOption) {
-                        searchCriteria.setDueDate(new DateSearchField(DateSearchField.AND,
-                                DateTimeUtils.getCurrentDateWithoutMS()));
+                        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS()));
                     } else {
                         searchCriteria.setDueDate(null);
                     }

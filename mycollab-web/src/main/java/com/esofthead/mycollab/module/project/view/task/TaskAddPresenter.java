@@ -58,7 +58,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void onSave(final Task item) {
+            public void onSave(Task item) {
                 int taskId = save(item);
                 EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, taskId));
             }

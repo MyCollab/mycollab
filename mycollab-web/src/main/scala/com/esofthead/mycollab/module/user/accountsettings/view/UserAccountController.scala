@@ -53,13 +53,13 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindBillingEvents(): Unit = {
         this.register(new ApplicationEventListener[AccountBillingEvent.CancelAccount]() {
             @Subscribe def handle(event: AccountBillingEvent.CancelAccount) {
-                val presenter: IBillingPresenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
                 presenter.go(container, new BillingScreenData.CancelAccount)
             }
         })
         this.register(new ApplicationEventListener[AccountBillingEvent.GotoSummary]() {
             @Subscribe def handle(event: AccountBillingEvent.GotoSummary) {
-                val presenter: IBillingPresenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[IBillingPresenter])
                 presenter.go(container, new BillingScreenData.BillingSummary)
             }
         })
@@ -68,13 +68,13 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindProfileEvents(): Unit = {
         this.register(new ApplicationEventListener[ProfileEvent.GotoUploadPhoto]() {
             @Subscribe def handle(event: ProfileEvent.GotoUploadPhoto) {
-                val presenter: ProfilePresenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
                 presenter.go(container, new ProfileScreenData.UploadPhoto(event.getData.asInstanceOf[Array[Byte]]))
             }
         })
         this.register(new ApplicationEventListener[ProfileEvent.GotoProfileView]() {
             @Subscribe def handle(event: ProfileEvent.GotoProfileView) {
-                val presenter: ProfilePresenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProfilePresenter])
                 presenter.go(container, null)
             }
         })
@@ -83,28 +83,28 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindUserEvents(): Unit = {
         this.register(new ApplicationEventListener[UserEvent.GotoAdd]() {
             @Subscribe def handle(event: UserEvent.GotoAdd) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
                 presenter.go(container, new UserScreenData.Add(new SimpleUser))
             }
         })
         this.register(new ApplicationEventListener[UserEvent.GotoEdit]() {
             @Subscribe def handle(event: UserEvent.GotoEdit) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
-                val user: SimpleUser = event.getData.asInstanceOf[SimpleUser]
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val user = event.getData.asInstanceOf[SimpleUser]
                 presenter.go(container, new UserScreenData.Edit(user))
             }
         })
         this.register(new ApplicationEventListener[UserEvent.GotoRead]() {
             @Subscribe def handle(event: UserEvent.GotoRead) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
                 presenter.go(container, new UserScreenData.Read(event.getData.asInstanceOf[String]))
             }
         })
         this.register(new ApplicationEventListener[UserEvent.GotoList]() {
             @Subscribe def handle(event: UserEvent.GotoList) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
-                val criteria: UserSearchCriteria = new UserSearchCriteria
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val criteria = new UserSearchCriteria
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 criteria.setRegisterStatuses(new SetSearchField[String](RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL, RegisterStatusConstants.VERIFICATING))
                 presenter.go(container, new UserScreenData.Search(criteria))
             }
@@ -114,14 +114,14 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindRoleEvents(): Unit = {
         this.register(new ApplicationEventListener[RoleEvent.GotoAdd]() {
             @Subscribe def handle(event: RoleEvent.GotoAdd) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
                 presenter.go(container, new RoleScreenData.Add(new Role))
             }
         })
         this.register(new ApplicationEventListener[RoleEvent.GotoEdit]() {
             @Subscribe def handle(event: RoleEvent.GotoEdit) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
-                val role: Role = event.getData.asInstanceOf[Role]
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val role = event.getData.asInstanceOf[Role]
                 presenter.go(container, new RoleScreenData.Edit(role))
             }
         })
@@ -133,9 +133,9 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
         this.register(new ApplicationEventListener[RoleEvent.GotoList]() {
             @Subscribe def handle(event: RoleEvent.GotoList) {
-                val presenter: UserPermissionManagementPresenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
-                val criteria: RoleSearchCriteria = new RoleSearchCriteria
-                criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[UserPermissionManagementPresenter])
+                val criteria = new RoleSearchCriteria
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new RoleScreenData.Search(criteria))
             }
         })
@@ -144,8 +144,8 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindCustomizeEvents(): Unit = {
         this.register(new ApplicationEventListener[AccountCustomizeEvent.GotoMainPage]() {
             @Subscribe def handle(event: AccountCustomizeEvent.GotoMainPage) {
-                val presenter: ICustomizePresenter = PresenterResolver.getPresenter(classOf[ICustomizePresenter])
-                val screenData: CustomizeScreenData.GotoMainPage = new CustomizeScreenData.GotoMainPage()
+                val presenter = PresenterResolver.getPresenter(classOf[ICustomizePresenter])
+                val screenData = new CustomizeScreenData.GotoMainPage()
                 presenter.go(container, screenData)
             }
         })
@@ -154,7 +154,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
     private def bindSetupEvents(): Unit = {
         this.register(new ApplicationEventListener[SetupEvent.GotoSetupPage]() {
             @Subscribe def handle(event: SetupEvent.GotoSetupPage) {
-                val presenter: SetupPresenter = PresenterResolver.getPresenter(classOf[SetupPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[SetupPresenter])
                 presenter.go(container, null)
             }
         })

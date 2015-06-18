@@ -228,8 +228,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
                 @Override
                 public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                     if (overdueSelection.getValue()) {
-                        searchCriteria.setDueDate(new DateSearchField(SearchField.AND, DateSearchField.LESSTHAN,
-                                DateTimeUtils.getCurrentDateWithoutMS()));
+                        searchCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS(), DateSearchField.LESSTHAN));
                     } else {
                         searchCriteria.setDueDate(null);
                     }

@@ -37,8 +37,7 @@ import java.util.UUID;
 public class UserLink extends Label {
     private static final long serialVersionUID = 1L;
 
-    public UserLink(String username, String userAvatarId,
-                    String displayName) {
+    public UserLink(String username, String userAvatarId, String displayName) {
         if (StringUtils.isBlank(username)) {
             return;
         }
@@ -47,7 +46,7 @@ public class UserLink extends Label {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username))
-                .appendText(displayName);
+                .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));

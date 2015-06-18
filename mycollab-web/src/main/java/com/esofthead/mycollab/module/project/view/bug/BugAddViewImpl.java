@@ -54,8 +54,7 @@ import java.util.List;
  * @since 1.0
  */
 @ViewComponent
-public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
-        BugAddView {
+public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements BugAddView {
     private static final long serialVersionUID = 1L;
 
     private ProjectFormAttachmentUploadField attachmentUploadField;

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.user.view;
 import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.jetty.GenericServerRunner;
 import com.esofthead.mycollab.jetty.ServerInstance;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.shell.events.ShellEvent;

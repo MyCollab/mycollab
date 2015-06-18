@@ -34,8 +34,7 @@ import java.util.UUID;
  * @version 5.0.4
  */
 public class ProjectMemberLink extends Label {
-    public ProjectMemberLink(String username, String userAvatarId,
-                    String displayName) {
+    public ProjectMemberLink(String username, String userAvatarId, String displayName) {
         if (StringUtils.isBlank(username)) {
             return;
         }
@@ -44,7 +43,7 @@ public class ProjectMemberLink extends Label {
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(), username))
-                .appendText(displayName);
+                .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));

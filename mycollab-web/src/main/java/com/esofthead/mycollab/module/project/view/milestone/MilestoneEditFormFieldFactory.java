@@ -84,18 +84,6 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			progressTask.setWidth("100%");
 			taskComp.addComponentField(progressTask);
 			return taskComp;
-		} else if (propertyId.equals("numOpenBugs")) {
-			final ContainerHorizontalViewField bugComp = new ContainerHorizontalViewField();
-			final int numOpenBugs = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
-					.getBean()).getNumOpenBugs() : 0;
-			final int numBugs = (attachForm.getBean() instanceof SimpleMilestone) ? ((SimpleMilestone) attachForm
-					.getBean()).getNumBugs() : 0;
-
-			final ProgressBarIndicator progressBug = new ProgressBarIndicator(
-					numBugs, numOpenBugs);
-			progressBug.setWidth("100%");
-			bugComp.addComponentField(progressBug);
-			return bugComp;
 		}
 
 		return null;

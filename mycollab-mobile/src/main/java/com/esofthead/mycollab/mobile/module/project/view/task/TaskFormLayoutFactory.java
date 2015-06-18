@@ -42,8 +42,7 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 	public ComponentContainer getLayout() {
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
-		Label header = new Label(
-				AppContext.getMessage(TaskI18nEnum.M_FORM_READ_TITLE));
+		Label header = new Label(AppContext.getMessage(TaskI18nEnum.M_FORM_READ_TITLE));
 		header.setStyleName("h2");
 		layout.addComponent(header);
 

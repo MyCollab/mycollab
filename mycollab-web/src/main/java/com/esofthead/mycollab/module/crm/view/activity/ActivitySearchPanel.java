@@ -184,8 +184,7 @@ public class ActivitySearchPanel extends DefaultGenericSearchPanel<ActivitySearc
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-                            AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             return searchCriteria;
         }
     }

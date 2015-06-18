@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -152,9 +153,8 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements BugDas
         leftColumn.addComponent(dueBugWidget);
         BugSearchCriteria dueDefectsCriteria = new BugSearchCriteria();
         dueDefectsCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-        dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
-                DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
-                .getTime()));
+        dueDefectsCriteria.setDueDate(new DateSearchField(DateTimeUtils.getCurrentDateWithoutMS(),
+                DateTimeSearchField.LESSTHANEQUAL));
         dueDefectsCriteria.setStatuses(new SetSearchField<>(BugStatus.InProgress.name(),
                 BugStatus.Open.name(), BugStatus.ReOpened.name(), BugStatus.Resolved.name()));
         dueBugWidget.setSearchCriteria(dueDefectsCriteria);

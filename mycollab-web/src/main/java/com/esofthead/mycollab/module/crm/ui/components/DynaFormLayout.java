@@ -24,8 +24,8 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,104 +34,100 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class DynaFormLayout implements IFormLayoutFactory {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
-	private DynaForm dynaForm;
-	private VerticalLayout layout = new VerticalLayout();
+    private DynaForm dynaForm;
+    private VerticalLayout layout = new VerticalLayout();
 
-	private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
-	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
+    private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
+    private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
-	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-		MasterFormService formService = ApplicationContextUtil
-				.getSpringBean(MasterFormService.class);
-		DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
-				moduleName);
+    public DynaFormLayout(String moduleName, DynaForm defaultForm) {
+        MasterFormService formService = ApplicationContextUtil
+                .getSpringBean(MasterFormService.class);
+        DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
+                moduleName);
 
-		this.dynaForm = (form != null) ? form : defaultForm;
+        this.dynaForm = (form != null) ? form : defaultForm;
 
-		LOG.debug("Fill fields of originSection to map field");
+        LOG.debug("Fill fields of originSection to map field");
 
-		int sectionCount = dynaForm.getSectionCount();
-		for (int i = 0; i < sectionCount; i++) {
-			DynaSection section = dynaForm.getSection(i);
-			if (section.isDeletedSection()) {
-				continue;
-			}
-			int fieldCount = section.getFieldCount();
-			for (int j = 0; j < fieldCount; j++) {
-				AbstractDynaField dynaField = section.getField(j);
-				if (dynaField.isCustom()) {
-					fieldMappings.put(
-							"customfield." + dynaField.getFieldName(),
-							dynaField);
-				} else {
-					fieldMappings.put(dynaField.getFieldName(), dynaField);
-				}
+        int sectionCount = dynaForm.getSectionCount();
+        for (int i = 0; i < sectionCount; i++) {
+            DynaSection section = dynaForm.getSection(i);
+            if (section.isDeletedSection()) {
+                continue;
+            }
+            int fieldCount = section.getFieldCount();
+            for (int j = 0; j < fieldCount; j++) {
+                AbstractDynaField dynaField = section.getField(j);
+                if (dynaField.isCustom()) {
+                    fieldMappings.put("customfield." + dynaField.getFieldName(), dynaField);
+                } else {
+                    fieldMappings.put(dynaField.getFieldName(), dynaField);
+                }
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	@Override
-	public ComponentContainer getLayout() {
-		int sectionCount = dynaForm.getSectionCount();
-		sectionMappings = new HashMap<>();
+    @Override
+    public ComponentContainer getLayout() {
+        int sectionCount = dynaForm.getSectionCount();
+        sectionMappings = new HashMap<>();
 
-		for (int i = 0; i < sectionCount; i++) {
-			DynaSection section = dynaForm.getSection(i);
-			if (section.isDeletedSection()) {
-				continue;
-			}
-			Label header = new Label(section.getHeader());
-			header.setStyleName("h2");
-			layout.addComponent(header);
+        for (int i = 0; i < sectionCount; i++) {
+            DynaSection section = dynaForm.getSection(i);
+            if (section.isDeletedSection()) {
+                continue;
+            }
+            Label header = new Label(section.getHeader());
+            header.setStyleName("h2");
+            layout.addComponent(header);
 
-			GridFormLayoutHelper gridLayout;
+            GridFormLayoutHelper gridLayout;
 
-			if (section.isDeletedSection() || section.getFieldCount() == 0) {
-				continue;
-			}
+            if (section.isDeletedSection() || section.getFieldCount() == 0) {
+                continue;
+            }
 
-			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, section.getFieldCount());
-			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, (section.getFieldCount() + 3) / 2);
-			} else {
-				throw new MyCollabException(
-						"Does not support attachForm layout except 1 or 2 columns");
-			}
-			layout.addComponent(gridLayout.getLayout());
+            if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, section.getFieldCount());
+            } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+                gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, (section.getFieldCount() + 3) / 2);
+            } else {
+                throw new MyCollabException(
+                        "Does not support attachForm layout except 1 or 2 columns");
+            }
+            layout.addComponent(gridLayout.getLayout());
 
-			sectionMappings.put(section, gridLayout);
-		}
-		return layout;
-	}
+            sectionMappings.put(section, gridLayout);
+        }
+        return layout;
+    }
 
-	@Override
-	public void attachField(Object propertyId, Field<?> field) {
-		AbstractDynaField dynaField = fieldMappings.get(propertyId);
-		if (dynaField != null) {
-			DynaSection section = dynaField.getOwnSection();
-			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
+    @Override
+    public void attachField(Object propertyId, Field<?> field) {
+        AbstractDynaField dynaField = fieldMappings.get(propertyId);
+        if (dynaField != null) {
+            DynaSection section = dynaField.getOwnSection();
+            GridFormLayoutHelper gridLayout = sectionMappings.get(section);
 
-			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
-						dynaField.getFieldIndex(), 2, "100%",
-						Alignment.TOP_LEFT);
-			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout.addComponent(field, dynaField.getDisplayName(),
-						dynaField.getFieldIndex() % 2,
-						dynaField.getFieldIndex() / 2);
-			}
-		}
-	}
+            if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+                gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
+                        dynaField.getFieldIndex(), 2, "100%",
+                        Alignment.TOP_LEFT);
+            } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+                gridLayout.addComponent(field, dynaField.getDisplayName(),
+                        dynaField.getFieldIndex() % 2,
+                        dynaField.getFieldIndex() / 2);
+            }
+        }
+    }
 }
