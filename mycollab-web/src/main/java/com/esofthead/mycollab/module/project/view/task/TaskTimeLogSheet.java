@@ -71,14 +71,12 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 
     @Override
     protected boolean hasEditPermission() {
-        return CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS);
+        return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS);
     }
 
     @Override
     protected void showEditTimeWindow(SimpleTask bean) {
         UI.getCurrent().addWindow(new TaskTimeLogEditWindow(bean));
-
     }
 
     @SuppressWarnings("serial")
@@ -87,11 +85,10 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
             super(bean);
             this.setModal(true);
             this.setCaption(AppContext.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
-            this.setModal(true);
             this.addCloseListener(new CloseListener() {
                 @Override
                 public void windowClose(CloseEvent e) {
-                    TaskTimeLogSheet.this.displayTime(TaskTimeLogEditWindow.this.bean);
+                    displayTime(TaskTimeLogEditWindow.this.bean);
                 }
             });
         }

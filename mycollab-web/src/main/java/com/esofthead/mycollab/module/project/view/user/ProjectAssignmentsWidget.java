@@ -51,7 +51,6 @@ import com.vaadin.ui.*;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import javax.tools.Tool;
 import java.util.Date;
 import java.util.UUID;
 
@@ -105,8 +104,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
                 .withAlign(myItemsSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
         header.addStyleName("panel-header");
 
-        taskList = new DefaultBeanPagedList<>(
-                ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
+        taskList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(ProjectGenericTaskService.class),
                 new TaskRowDisplayHandler(), 10);
         this.with(header, taskList);
     }
@@ -156,8 +154,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
                 footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
                         AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
             } else {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }
 
 
@@ -199,7 +196,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
 

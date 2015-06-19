@@ -141,7 +141,7 @@ public class ProjectRoleSearchPanel extends DefaultGenericSearchPanel<ProjectRol
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             ProjectRoleSearchCriteria searchCriteria = new ProjectRoleSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setRolename(new StringSearchField(nameField.getValue()));
             return searchCriteria;
         }

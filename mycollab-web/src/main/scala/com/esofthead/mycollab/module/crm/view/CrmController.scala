@@ -238,7 +238,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[ContactEvent.GotoRead]() {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: ContactEvent.GotoRead) {
-                val presenter: ContactReadPresenter = PresenterResolver.getPresenter(classOf[ContactReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ContactReadPresenter])
                 presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
@@ -247,7 +247,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindDocumentEvents(): Unit = {
         this.register(new ApplicationEventListener[DocumentEvent.GotoDashboard]() {
             @Subscribe def handle(event: DocumentEvent.GotoDashboard) {
-                val presenter: FileDashboardPresenter = PresenterResolver.getPresenter(classOf[FileDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[FileDashboardPresenter])
                 presenter.go(container, null)
             }
         })
@@ -256,14 +256,14 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindSettingEvents(): Unit = {
         this.register(new ApplicationEventListener[CrmSettingEvent.GotoNotificationSetting]() {
             @Subscribe def handle(event: CrmSettingEvent.GotoNotificationSetting) {
-                val presenter: CrmSettingPresenter = PresenterResolver.getPresenter(classOf[CrmSettingPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CrmSettingPresenter])
                 presenter.go(container, new NotificationSettingScreenData.Read)
             }
         })
 
         this.register(new ApplicationEventListener[CrmSettingEvent.GotoCustomViewSetting]() {
             @Subscribe def handle(event: CrmSettingEvent.GotoCustomViewSetting) {
-                val presenter: CrmSettingPresenter = PresenterResolver.getPresenter(classOf[CrmSettingPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[CrmSettingPresenter])
                 presenter.go(container, new CustomViewScreenData.Read)
             }
         })
@@ -272,23 +272,23 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindLeadEvents(): Unit = {
         this.register(new ApplicationEventListener[LeadEvent.GotoList]() {
             @Subscribe def handle(event: LeadEvent.GotoList) {
-                val presenter: LeadListPresenter = PresenterResolver.getPresenter(classOf[LeadListPresenter])
-                val searchCriteria: LeadSearchCriteria = new LeadSearchCriteria
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                val presenter = PresenterResolver.getPresenter(classOf[LeadListPresenter])
+                val searchCriteria = new LeadSearchCriteria
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ScreenData.Search[LeadSearchCriteria](searchCriteria))
             }
         })
 
         this.register(new ApplicationEventListener[LeadEvent.GotoAdd]() {
             @Subscribe def handle(event: LeadEvent.GotoAdd) {
-                val presenter: LeadAddPresenter = PresenterResolver.getPresenter(classOf[LeadAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[LeadAddPresenter])
                 presenter.go(container, new ScreenData.Add[SimpleLead](new SimpleLead))
             }
         })
 
         this.register(new ApplicationEventListener[LeadEvent.GotoEdit]() {
             @Subscribe def handle(event: LeadEvent.GotoEdit) {
-                val presenter: LeadAddPresenter = PresenterResolver.getPresenter(classOf[LeadAddPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[LeadAddPresenter])
                 presenter.go(container, new ScreenData.Edit[Any](event.getData))
             }
         })
@@ -299,7 +299,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
                 val value: Any = event.getData
                 var lead: SimpleLead = null
                 if (value.isInstanceOf[Integer]) {
-                    val leadService: LeadService = ApplicationContextUtil.getSpringBean(classOf[LeadService])
+                    val leadService = ApplicationContextUtil.getSpringBean(classOf[LeadService])
                     lead = leadService.findById(value.asInstanceOf[Integer], AppContext.getAccountId)
                 }
                 else if (value.isInstanceOf[SimpleLead]) {
@@ -309,11 +309,11 @@ class CrmController(val container: CrmModule) extends AbstractController {
                     throw new MyCollabException("Do not support such param type")
                 }
                 if ("Converted" == lead.getStatus) {
-                    val presenter: LeadConvertReadPresenter = PresenterResolver.getPresenter(classOf[LeadConvertReadPresenter])
+                    val presenter = PresenterResolver.getPresenter(classOf[LeadConvertReadPresenter])
                     presenter.go(container, new ScreenData.Preview[AnyRef](lead))
                 }
                 else {
-                    val presenter: LeadReadPresenter = PresenterResolver.getPresenter(classOf[LeadReadPresenter])
+                    val presenter = PresenterResolver.getPresenter(classOf[LeadReadPresenter])
                     presenter.go(container, new ScreenData.Preview[AnyRef](lead))
                 }
             }
@@ -323,14 +323,14 @@ class CrmController(val container: CrmModule) extends AbstractController {
     private def bindOpportunityEvents(): Unit = {
         this.register(new ApplicationEventListener[OpportunityEvent.GotoList]() {
             @Subscribe def handle(event: OpportunityEvent.GotoList) {
-                val presenter: OpportunityListPresenter = PresenterResolver.getPresenter(classOf[OpportunityListPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[OpportunityListPresenter])
                 var searchCriteria: OpportunitySearchCriteria = null
                 if (event.getData != null) {
                     searchCriteria = event.getData.asInstanceOf[OpportunitySearchCriteria]
                 }
                 else {
                     searchCriteria = new OpportunitySearchCriteria
-                    searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                    searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 }
                 presenter.go(container, new ScreenData.Search[OpportunitySearchCriteria](searchCriteria))
             }
@@ -353,7 +353,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
         this.register(new ApplicationEventListener[OpportunityEvent.GotoRead]() {
             @Subscribe
             @SuppressWarnings(Array("unchecked", "rawtypes")) def handle(event: OpportunityEvent.GotoRead) {
-                val presenter: OpportunityReadPresenter = PresenterResolver.getPresenter(classOf[OpportunityReadPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[OpportunityReadPresenter])
                 presenter.go(container, new ScreenData.Preview[Any](event.getData))
             }
         })
@@ -372,7 +372,7 @@ class CrmController(val container: CrmModule) extends AbstractController {
             @Subscribe def handle(event: CaseEvent.GotoList) {
                 val presenter: CaseListPresenter = PresenterResolver.getPresenter(classOf[CaseListPresenter])
                 val searchCriteria: CaseSearchCriteria = new CaseSearchCriteria
-                searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId))
+                searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId))
                 presenter.go(container, new ScreenData.Search[CaseSearchCriteria](searchCriteria))
             }
         })

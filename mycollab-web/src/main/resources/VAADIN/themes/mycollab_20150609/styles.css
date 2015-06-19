@@ -10875,21 +10875,6 @@ td.v-tabsheet-spacertd div {
 	vertical-align: top;
 }
 
-.stream-wrapper {
-	background-color: #F5F5F5;
-	padding: 5px;
-	border-width: 0px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-}
-
-.stream-wrapper  > .v-csslayout-margin {
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	height: 100%;
-}
-
 .v-table-header-wrap {
 	background: none no-repeat 0 0 #EEEEEE;
 	border-radius: 0px;
@@ -12012,13 +11997,28 @@ div.v-ratingstars-bar {
 	line-height: 27px;
 }
 
+.stream-wrapper {
+	background-color: #F5F5F5;
+	padding: 5px;
+	border-width: 0px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+}
+
+.stream-wrapper  > .v-csslayout-margin {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height: 100%;
+}
+
 .stream-wrapper .v-label {
 	line-height: 24px;
 }
 
 .stream-wrapper .v-label img {
 	display: inline-block;
-	vertical-align: bottom;
+	vertical-align: top;
 }
 
 .v-label > img {

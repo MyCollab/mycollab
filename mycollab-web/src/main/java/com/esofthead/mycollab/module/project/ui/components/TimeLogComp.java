@@ -33,75 +33,71 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.3
- *
  */
 public abstract class TimeLogComp<V extends ValuedBean> extends MVerticalLayout {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected ItemTimeLoggingService itemTimeLoggingService;
+    protected ItemTimeLoggingService itemTimeLoggingService;
 
-	protected TimeLogComp() {
-		this.itemTimeLoggingService = ApplicationContextUtil
-				.getSpringBean(ItemTimeLoggingService.class);
-	}
+    protected TimeLogComp() {
+        this.itemTimeLoggingService = ApplicationContextUtil
+                .getSpringBean(ItemTimeLoggingService.class);
+    }
 
-	public void displayTime(final V bean) {
-		this.removeAllComponents();
-		this.withMargin(new MarginInfo(false, false, false, true));
+    public void displayTime(final V bean) {
+        this.removeAllComponents();
+        this.withMargin(new MarginInfo(false, false, false, true));
 
-		HorizontalLayout header = new MHorizontalLayout();
+        HorizontalLayout header = new MHorizontalLayout();
 
-		Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
-				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
-		dateInfoHeader.setStyleName("info-hdr");
-		header.addComponent(dateInfoHeader);
+        Label dateInfoHeader = new Label(FontAwesome.CLOCK_O.getHtml() + " " +
+                AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME), ContentMode.HTML);
+        dateInfoHeader.setStyleName("info-hdr");
+        header.addComponent(dateInfoHeader);
 
-		if (hasEditPermission()) {
-			Button editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+        if (hasEditPermission()) {
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							showEditTimeWindow(bean);
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            showEditTimeWindow(bean);
+                        }
+                    });
+            editBtn.setStyleName("link");
+            editBtn.addStyleName("info-hdr");
+            header.addComponent(editBtn);
+        }
 
-						}
-					});
-			editBtn.setStyleName("link");
-			editBtn.addStyleName("info-hdr");
-			header.addComponent(editBtn);
-		}
+        this.addComponent(header);
 
-		this.addComponent(header);
+        MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, false, false, true));
 
-		MVerticalLayout layout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, false, false, true));
+        double billableHours = getTotalBillableHours(bean);
+        double nonBillableHours = getTotalNonBillableHours(bean);
+        double remainHours = getRemainedHours(bean);
+        layout.addComponent(new Label(String.format(
+                AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS),
+                billableHours)));
+        layout.addComponent(new Label(String.format(AppContext
+                        .getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS),
+                nonBillableHours)));
+        layout.addComponent(new Label(String.format(
+                AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS),
+                remainHours)));
+        this.addComponent(layout);
+    }
 
-		double billableHours = getTotalBillableHours(bean);
-		double nonBillableHours = getTotalNonBillableHours(bean);
-		double remainHours = getRemainedHours(bean);
-		layout.addComponent(new Label(String.format(
-				AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS),
-				billableHours)));
-		layout.addComponent(new Label(String.format(AppContext
-				.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS),
-				nonBillableHours)));
-		layout.addComponent(new Label(String.format(
-				AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS),
-				remainHours)));
-		this.addComponent(layout);
-	}
+    protected abstract Double getTotalBillableHours(V bean);
 
-	protected abstract Double getTotalBillableHours(V bean);
+    protected abstract Double getTotalNonBillableHours(V bean);
 
-	protected abstract Double getTotalNonBillableHours(V bean);
+    protected abstract Double getRemainedHours(V bean);
 
-	protected abstract Double getRemainedHours(V bean);
+    protected abstract boolean hasEditPermission();
 
-	protected abstract boolean hasEditPermission();
-
-	protected abstract void showEditTimeWindow(V bean);
+    protected abstract void showEditTimeWindow(V bean);
 }

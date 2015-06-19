@@ -47,7 +47,7 @@ public class UserLink extends Label {
         Img userAvatar = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username))
                 .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
-        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         this.setValue(div.write());

@@ -108,7 +108,7 @@ public class ProjectSearchItemsViewImpl extends AbstractPageView implements Proj
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(item.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(item.getProjectId(), item
                         .getCreatedUser())).appendText(item.getCreatedUserDisplayName());
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, item.getCreatedUser()));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, item.getCreatedUser()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
                 div.appendChild(createdByTxt, DivLessFormatter.EMPTY_SPACE(), userAvatar, DivLessFormatter.EMPTY_SPACE(),

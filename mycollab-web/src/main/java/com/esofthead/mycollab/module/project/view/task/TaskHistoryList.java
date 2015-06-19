@@ -22,61 +22,59 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.TaskGroupHistoryFieldFormat;
-import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.utils.FieldGroupFormatter;
 import com.esofthead.mycollab.utils.FieldGroupFormatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class TaskHistoryList extends HistoryLogComponent {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final FieldGroupFormatter taskFormatter;
+    public static final FieldGroupFormatter taskFormatter;
 
-	static {
-		taskFormatter = new FieldGroupFormatter();
-		taskFormatter.generateFieldDisplayHandler("taskname",
-				TaskI18nEnum.FORM_TASK_NAME);
-		taskFormatter.generateFieldDisplayHandler("startdate",
-				TaskI18nEnum.FORM_START_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
-		taskFormatter.generateFieldDisplayHandler("enddate",
-				TaskI18nEnum.FORM_END_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
-		taskFormatter.generateFieldDisplayHandler("actualstartdate",
-				TaskI18nEnum.FORM_ACTUAL_START_DATE,
-				FieldGroupFormatter.DATE_FIELD);
-		taskFormatter.generateFieldDisplayHandler("actualenddate",
-				TaskI18nEnum.FORM_ACTUAL_END_DATE,
-				FieldGroupFormatter.DATE_FIELD);
-		taskFormatter.generateFieldDisplayHandler("deadline",
-				TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.PRETTY_DATE_FIELD);
-		taskFormatter.generateFieldDisplayHandler("priority",
-				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(TaskPriority.class));
-        taskFormatter.generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
-		taskFormatter.generateFieldDisplayHandler("isestimated",
-				TaskI18nEnum.FORM_IS_ESTIMATED);
-		taskFormatter.generateFieldDisplayHandler("remainestimate",
-				TaskI18nEnum.FORM_REMAIN_ESTIMATE);
-		taskFormatter.generateFieldDisplayHandler("assignuser",
-				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
-		taskFormatter.generateFieldDisplayHandler("tasklistid",
-				TaskI18nEnum.FORM_TASKGROUP, new TaskGroupHistoryFieldFormat());
-		taskFormatter.generateFieldDisplayHandler("percentagecomplete",
-				TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
-		taskFormatter.generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES);
-	}
+    static {
+        taskFormatter = new FieldGroupFormatter();
+        taskFormatter.generateFieldDisplayHandler("taskname", TaskI18nEnum.FORM_TASK_NAME);
+        taskFormatter.generateFieldDisplayHandler("startdate",
+                TaskI18nEnum.FORM_START_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
+        taskFormatter.generateFieldDisplayHandler("enddate",
+                TaskI18nEnum.FORM_END_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
+        taskFormatter.generateFieldDisplayHandler("actualstartdate",
+                TaskI18nEnum.FORM_ACTUAL_START_DATE,
+                FieldGroupFormatter.DATE_FIELD);
+        taskFormatter.generateFieldDisplayHandler("actualenddate",
+                TaskI18nEnum.FORM_ACTUAL_END_DATE,
+                FieldGroupFormatter.DATE_FIELD);
+        taskFormatter.generateFieldDisplayHandler("deadline",
+                TaskI18nEnum.FORM_DEADLINE, FieldGroupFormatter.PRETTY_DATE_FIELD);
+        taskFormatter.generateFieldDisplayHandler("priority",
+                TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(TaskPriority.class));
+        taskFormatter.generateFieldDisplayHandler("status", TaskI18nEnum.FORM_STATUS,
+                new I18nHistoryFieldFormat(OptionI18nEnum.StatusI18nEnum.class));
+        taskFormatter.generateFieldDisplayHandler("isestimated",
+                TaskI18nEnum.FORM_IS_ESTIMATED);
+        taskFormatter.generateFieldDisplayHandler("remainestimate",
+                TaskI18nEnum.FORM_REMAIN_ESTIMATE);
+        taskFormatter.generateFieldDisplayHandler("assignuser",
+                GenericI18Enum.FORM_ASSIGNEE, new ProjectMemberHistoryFieldFormat());
+        taskFormatter.generateFieldDisplayHandler("tasklistid",
+                TaskI18nEnum.FORM_TASKGROUP, new TaskGroupHistoryFieldFormat());
+        taskFormatter.generateFieldDisplayHandler("percentagecomplete",
+                TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
+        taskFormatter.generateFieldDisplayHandler("notes", TaskI18nEnum.FORM_NOTES);
+    }
 
-	public TaskHistoryList() {
-		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
-	}
+    public TaskHistoryList() {
+        super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
+    }
 
-	@Override
-	protected FieldGroupFormatter buildFormatter() {
-		return taskFormatter;
-	}
+    @Override
+    protected FieldGroupFormatter buildFormatter() {
+        return taskFormatter;
+    }
 }

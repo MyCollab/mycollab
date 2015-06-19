@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
-import org.vaadin.dialogs.ConfirmDialog;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -29,7 +24,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -40,143 +34,143 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.esofthead.mycollab.vaadin.mvp.LoadPolicy;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TaskReadPresenter() {
-		super(TaskReadView.class);
-	}
+    public TaskReadPresenter() {
+        super(TaskReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		this.view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleTask>() {
+    @Override
+    protected void postInitView() {
+        this.view.getPreviewFormHandlers().addFormHandler(
+                new DefaultPreviewFormHandler<SimpleTask>() {
 
-					@Override
-					public void onAssign(final SimpleTask data) {
-						UI.getCurrent().addWindow(new AssignTaskWindow(data));
-					}
+                    @Override
+                    public void onAssign(final SimpleTask data) {
+                        UI.getCurrent().addWindow(new AssignTaskWindow(data));
+                    }
 
-					@Override
-					public void onEdit(final SimpleTask data) {
-						EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
-					}
+                    @Override
+                    public void onEdit(final SimpleTask data) {
+                        EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
+                    }
 
-					@Override
-					public void onAdd(SimpleTask data) {
-						EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
-					}
+                    @Override
+                    public void onAdd(SimpleTask data) {
+                        EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
+                    }
 
-					@Override
-					public void onDelete(final SimpleTask data) {
-						ConfirmDialogExt.show(UI.getCurrent(),
-								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-										SiteConfiguration.getSiteName()),
-								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
+                    @Override
+                    public void onDelete(final SimpleTask data) {
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                        SiteConfiguration.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
 
-									@Override
-									public void onClose(
-											final ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											ProjectTaskService taskService = ApplicationContextUtil
-													.getSpringBean(ProjectTaskService.class);
-											taskService.removeWithSession(data.getId(),
-													AppContext.getUsername(), AppContext.getAccountId());
-											EventBusFactory.getInstance()
-													.post(new TaskListEvent.GotoTaskListScreen(this, null));
-										}
-									}
-								});
-					}
+                                    @Override
+                                    public void onClose(
+                                            final ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            ProjectTaskService taskService = ApplicationContextUtil
+                                                    .getSpringBean(ProjectTaskService.class);
+                                            taskService.removeWithSession(data.getId(),
+                                                    AppContext.getUsername(), AppContext.getAccountId());
+                                            EventBusFactory.getInstance()
+                                                    .post(new TaskListEvent.GotoTaskListScreen(this, null));
+                                        }
+                                    }
+                                });
+                    }
 
-					@Override
-					public void onClone(final SimpleTask data) {
-						Task cloneData = (Task) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
-					}
+                    @Override
+                    public void onClone(final SimpleTask data) {
+                        Task cloneData = (Task) data.copy();
+                        cloneData.setId(null);
+                        EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
+                    }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
-					}
+                    @Override
+                    public void onCancel() {
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+                    }
 
-					@Override
-					public void gotoNext(SimpleTask data) {
-						ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    @Override
+                    public void gotoNext(SimpleTask data) {
+                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-						TaskSearchCriteria criteria = new TaskSearchCriteria();
-						SimpleProject project = (SimpleProject) MyCollabSession.getVariable("project");
-						criteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
-						criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
-						Integer nextId = taskService.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+                        TaskSearchCriteria criteria = new TaskSearchCriteria();
+                        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                        Integer nextId = taskService.getNextItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoLastRecordNotification();
+                        }
 
-					}
+                    }
 
-					@Override
-					public void gotoPrevious(final SimpleTask data) {
-						ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    @Override
+                    public void gotoPrevious(final SimpleTask data) {
+                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-						TaskSearchCriteria criteria = new TaskSearchCriteria();
-						SimpleProject project = (SimpleProject) MyCollabSession.getVariable("project");
-						criteria.setProjectid(new NumberSearchField(SearchField.AND, project.getId()));
-						criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-						Integer nextId = taskService.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+                        TaskSearchCriteria criteria = new TaskSearchCriteria();
+                        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                        Integer nextId = taskService.getNextItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoFirstRecordNotification();
+                        }
+                    }
+                });
+    }
 
-	@Override
-	protected void onGo(final ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
-			TaskContainer taskContainer = (TaskContainer) container;
-			taskContainer.removeAllComponents();
+    @Override
+    protected void onGo(final ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
+            TaskContainer taskContainer = (TaskContainer) container;
+            taskContainer.removeAllComponents();
 
-			taskContainer.addComponent(this.view.getWidget());
-			if (data.getParams() instanceof Integer) {
-				ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-				SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
+            taskContainer.addComponent(this.view.getWidget());
+            if (data.getParams() instanceof Integer) {
+                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
-				if (task != null) {
-					this.view.previewItem(task);
+                if (task != null) {
+                    this.view.previewItem(task);
 
-					ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-					breadCrumb.gotoTaskRead(task);
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                    ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                    breadCrumb.gotoTaskRead(task);
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

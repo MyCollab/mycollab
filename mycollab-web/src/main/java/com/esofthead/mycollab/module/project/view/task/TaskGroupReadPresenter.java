@@ -41,132 +41,123 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class TaskGroupReadPresenter extends
-		AbstractPresenter<TaskGroupReadView> {
+        AbstractPresenter<TaskGroupReadView> {
 
-	public TaskGroupReadPresenter() {
-		super(TaskGroupReadView.class);
-	}
+    public TaskGroupReadPresenter() {
+        super(TaskGroupReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleTaskList>() {
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(
+                new DefaultPreviewFormHandler<SimpleTaskList>() {
 
-					@Override
-					public void onAssign(SimpleTaskList data) {
-						UI.getCurrent().addWindow(
-								new AssignTaskGroupWindow(data));
-					}
+                    @Override
+                    public void onAssign(SimpleTaskList data) {
+                        UI.getCurrent().addWindow(
+                                new AssignTaskGroupWindow(data));
+                    }
 
-					@Override
-					public void onAdd(SimpleTaskList data) {
-						EventBusFactory.getInstance().post(
-								new TaskListEvent.GotoAdd(this, null));
-					}
+                    @Override
+                    public void onAdd(SimpleTaskList data) {
+                        EventBusFactory.getInstance().post(
+                                new TaskListEvent.GotoAdd(this, null));
+                    }
 
-					@Override
-					public void onEdit(SimpleTaskList data) {
-						EventBusFactory.getInstance().post(
-								new TaskListEvent.GotoEdit(this, data));
-					}
+                    @Override
+                    public void onEdit(SimpleTaskList data) {
+                        EventBusFactory.getInstance().post(
+                                new TaskListEvent.GotoEdit(this, data));
+                    }
 
-					@Override
-					public void onDelete(SimpleTaskList data) {
-						ProjectTaskListService taskListService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskListService.class);
-						taskListService.removeWithSession(data.getId(),
-								AppContext.getUsername(),
-								AppContext.getAccountId());
-						EventBusFactory.getInstance()
-								.post(new TaskListEvent.GotoTaskListScreen(
-										this, null));
-					}
+                    @Override
+                    public void onDelete(SimpleTaskList data) {
+                        ProjectTaskListService taskListService = ApplicationContextUtil
+                                .getSpringBean(ProjectTaskListService.class);
+                        taskListService.removeWithSession(data.getId(),
+                                AppContext.getUsername(),
+                                AppContext.getAccountId());
+                        EventBusFactory.getInstance()
+                                .post(new TaskListEvent.GotoTaskListScreen(
+                                        this, null));
+                    }
 
-					@Override
-					public void onClone(SimpleTaskList data) {
-						TaskList cloneData = (TaskList) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new TaskListEvent.GotoEdit(this, cloneData));
-					}
+                    @Override
+                    public void onClone(SimpleTaskList data) {
+                        TaskList cloneData = (TaskList) data.copy();
+                        cloneData.setId(null);
+                        EventBusFactory.getInstance().post(
+                                new TaskListEvent.GotoEdit(this, cloneData));
+                    }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance()
-								.post(new TaskListEvent.GotoTaskListScreen(
-										this, null));
-					}
+                    @Override
+                    public void onCancel() {
+                        EventBusFactory.getInstance()
+                                .post(new TaskListEvent.GotoTaskListScreen(
+                                        this, null));
+                    }
 
-					@Override
-					public void gotoNext(SimpleTaskList data) {
-						ProjectTaskListService tasklistService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskListService.class);
-						TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = tasklistService
-								.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new TaskListEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+                    @Override
+                    public void gotoNext(SimpleTaskList data) {
+                        ProjectTaskListService tasklistService = ApplicationContextUtil
+                                .getSpringBean(ProjectTaskListService.class);
+                        TaskListSearchCriteria criteria = new TaskListSearchCriteria();
+                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                        Integer nextId = tasklistService.getNextItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(
+                                    new TaskListEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoLastRecordNotification();
+                        }
 
-					}
+                    }
 
-					@Override
-					public void gotoPrevious(SimpleTaskList data) {
-						ProjectTaskListService tasklistService = ApplicationContextUtil
-								.getSpringBean(ProjectTaskListService.class);
-						TaskListSearchCriteria criteria = new TaskListSearchCriteria();
-						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = tasklistService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new TaskListEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+                    @Override
+                    public void gotoPrevious(SimpleTaskList data) {
+                        ProjectTaskListService tasklistService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+                        TaskListSearchCriteria criteria = new TaskListSearchCriteria();
+                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                        Integer nextId = tasklistService.getPreviousItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(new TaskListEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoFirstRecordNotification();
+                        }
+                    }
+                });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
-			TaskContainer taskContainer = (TaskContainer) container;
-			taskContainer.removeAllComponents();
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canRead(ProjectRolePermissionCollections.TASKS)) {
+            TaskContainer taskContainer = (TaskContainer) container;
+            taskContainer.removeAllComponents();
 
-			taskContainer.addComponent(view.getWidget());
+            taskContainer.addComponent(view.getWidget());
 
-			if (data.getParams() instanceof Integer) {
-				ProjectTaskListService taskService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskListService.class);
-				SimpleTaskList taskgroup = taskService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				view.previewItem(taskgroup);
+            if (data.getParams() instanceof Integer) {
+                ProjectTaskListService taskService = ApplicationContextUtil
+                        .getSpringBean(ProjectTaskListService.class);
+                SimpleTaskList taskgroup = taskService.findById(
+                        (Integer) data.getParams(), AppContext.getAccountId());
+                view.previewItem(taskgroup);
 
-				ProjectBreadcrumb breadCrumb = ViewManager
-						.getCacheComponent(ProjectBreadcrumb.class);
-				breadCrumb.gotoTaskGroupRead(taskgroup);
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                ProjectBreadcrumb breadCrumb = ViewManager
+                        .getCacheComponent(ProjectBreadcrumb.class);
+                breadCrumb.gotoTaskGroupRead(taskgroup);
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

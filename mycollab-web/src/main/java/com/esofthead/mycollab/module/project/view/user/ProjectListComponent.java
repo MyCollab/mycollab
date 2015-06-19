@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -75,8 +74,7 @@ public class ProjectListComponent extends MVerticalLayout {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-                searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-                        AppContext.getUsername()));
+                searchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
                 searchCriteria.setProjectStatuses(new SetSearchField<>(
                         new String[]{StatusI18nEnum.Open.name()}));
                 searchCriteria.setProjectName(new StringSearchField(searchField.getValue()));
@@ -131,8 +129,7 @@ public class ProjectListComponent extends MVerticalLayout {
         headerPopupButton.setCaption(String.format("[%s] %s", CurrentProjectVariables.getShortName(), CurrentProjectVariables.getProject().getName()));
         headerPopupButton.setDescription(CurrentProjectVariables.getProject().getName());
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-        searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-                AppContext.getUsername()));
+        searchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
         searchCriteria.setProjectStatuses(new SetSearchField<>(
                 new String[]{StatusI18nEnum.Open.name()}));
         int count = projectList.setSearchCriteria(searchCriteria);

@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -97,7 +96,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, assignee));
+                    searchCriteria.setAssignUser(new StringSearchField(assignee));
                     TaskFilterParameter filterParam = new TaskFilterParameter(
                             searchCriteria, AppContext.getMessage(
                             TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,

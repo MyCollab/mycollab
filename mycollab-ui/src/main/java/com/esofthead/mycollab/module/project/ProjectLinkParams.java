@@ -60,7 +60,7 @@ public class ProjectLinkParams {
 		}
 	}
 
-	public static int getItemKey(String param) {
+	public static Integer getItemKey(String param) {
 		int index = param.indexOf("-");
 		if (index > 0) {
 			return Integer.parseInt(param.substring(index + 1));

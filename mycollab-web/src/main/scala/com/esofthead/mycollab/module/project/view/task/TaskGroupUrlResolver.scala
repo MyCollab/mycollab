@@ -37,10 +37,10 @@ class TaskGroupUrlResolver extends ProjectUrlResolver {
 
     private class ReadUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val taskgroupId: Int = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val taskgroupId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskGroupScreenData.Read(taskgroupId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -49,11 +49,11 @@ class TaskGroupUrlResolver extends ProjectUrlResolver {
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val taskgroupId: Int = token.getInt
-            val taskGroupService: ProjectTaskListService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskListService])
-            val taskgroup: SimpleTaskList = taskGroupService.findById(taskgroupId, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = token.getInt
+            val taskgroupId = token.getInt
+            val taskGroupService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskListService])
+            val taskgroup = taskGroupService.findById(taskgroupId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskGroupScreenData.Edit(taskgroup))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }

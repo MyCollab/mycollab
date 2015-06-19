@@ -51,7 +51,6 @@ public class MilestoneListPresenter extends
 
 	public MilestoneListPresenter() {
 		super(MilestoneListView.class, MilestoneListNoItemView.class);
-
 		milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
 	}
 
@@ -72,8 +71,7 @@ public class MilestoneListPresenter extends
 
 			if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
 				searchCriteria = new MilestoneSearchCriteria();
-				searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
-						CurrentProjectVariables.getProjectId()));
+				searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 			} else {
 				searchCriteria = (MilestoneSearchCriteria) data.getParams();
 			}

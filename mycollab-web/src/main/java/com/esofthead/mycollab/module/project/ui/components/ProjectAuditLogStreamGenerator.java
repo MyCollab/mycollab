@@ -60,15 +60,12 @@ public class ProjectAuditLogStreamGenerator {
 				new AuditLogPrinter(versionFormatter));
 	}
 
-	public static String generatorDetailChangeOfActivity(
-			SimpleActivityStream activityStream) {
+	public static String generatorDetailChangeOfActivity(SimpleActivityStream activityStream) {
 
 		if (activityStream.getAssoAuditLog() != null) {
-			AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream
-					.getType());
+			AuditLogPrinter auditLogHandler = auditPrinters.get(activityStream.getType());
 			if (auditLogHandler != null) {
-				return auditLogHandler.generateChangeSet(activityStream
-						.getAssoAuditLog());
+				return auditLogHandler.generateChangeSet(activityStream.getAssoAuditLog());
 			}
 
 		}

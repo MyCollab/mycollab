@@ -259,8 +259,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                 placeHolder.setWidth("60px");
                 this.addComponent(placeHolder, 1, 0);
             } else {
-                operatorSelectionBox = new ValueComboBox(false,
-                        SearchField.AND, SearchField.OR);
+                operatorSelectionBox = new ValueComboBox(false, SearchField.AND, SearchField.OR);
                 operatorSelectionBox.setWidth("60px");
                 this.addComponent(operatorSelectionBox, 1, 0);
             }

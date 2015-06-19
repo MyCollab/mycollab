@@ -118,7 +118,7 @@ public class LeadSimpleSearchPanel extends GenericSearchPanel<LeadSearchCriteria
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setLeadName(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setLeadName(new StringSearchField(strSearch));
                     }
                 }
             }

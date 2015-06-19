@@ -198,7 +198,7 @@ public class ActivityStreamComponent extends CssLayout {
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, activityStream.getCreateduser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 

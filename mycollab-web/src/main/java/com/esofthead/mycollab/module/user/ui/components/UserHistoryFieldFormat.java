@@ -61,7 +61,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 			Img userAvatar = new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16));
 			A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), user.getUsername()))
 					.appendText(user.getDisplayName());
-			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, user.getUsername()));
+			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, user.getUsername()));
 			userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 			div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
 			return new Label(div.write(), ContentMode.HTML);

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
@@ -137,8 +136,7 @@ public class RoleSearchPanel extends DefaultGenericSearchPanel<RoleSearchCriteri
         protected SearchCriteria fillUpSearchCriteria() {
             RoleSearchCriteria searchCriteria = new RoleSearchCriteria();
             if (StringUtils.isNotBlank(this.nameField.getValue())) {
-                searchCriteria.setRoleName(new StringSearchField(SearchField.AND,
-                                this.nameField.getValue()));
+                searchCriteria.setRoleName(new StringSearchField(this.nameField.getValue()));
             }
             return searchCriteria;
         }

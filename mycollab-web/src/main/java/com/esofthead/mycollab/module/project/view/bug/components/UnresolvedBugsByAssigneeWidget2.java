@@ -102,7 +102,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    bugSearchCriteria.setAssignuser(new StringSearchField(SearchField.AND, assignee));
+                    bugSearchCriteria.setAssignuser(new StringSearchField(assignee));
                     BugFilterParameter param = new BugFilterParameter("Unresolved Bugs of " + assigneeFullName,
                             bugSearchCriteria);
                     EventBusFactory.getInstance().post(

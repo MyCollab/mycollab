@@ -110,57 +110,47 @@ public class ProjectActivityStreamPagedList extends
                     }
                 }
 
-                final Date itemCreatedDate = activityStream.getCreatedtime();
+                Date itemCreatedDate = activityStream.getCreatedtime();
 
                 if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
                     currentFeedBlock = new CssLayout();
                     currentFeedBlock.setStyleName("feed-block");
-                    feedBlocksPut(currentDate, itemCreatedDate,
-                            currentFeedBlock);
+                    feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
                     currentDate = itemCreatedDate;
                 }
                 StringBuffer content = new StringBuffer();
-                String itemType = AppContext.getMessage(ProjectLocalizationTypeMap
-                        .getType(activityStream.getType()));
+                String itemType = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
                 String assigneeParam = buildAssigneeValue(activityStream);
                 String itemParam = buildItemValue(activityStream);
 
                 if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(
-                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
-                } else if (ActivityStreamConstants.ACTION_UPDATE
-                        .equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(
-                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+                } else if (ActivityStreamConstants.ACTION_UPDATE.equals(activityStream.getAction())) {
+                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append(ProjectAuditLogStreamGenerator
                                 .generatorDetailChangeOfActivity(activityStream));
                     }
-                } else if (ActivityStreamConstants.ACTION_COMMENT
-                        .equals(activityStream.getAction())) {
-                    content.append(AppContext
-                            .getMessage(
-                                    ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
-                                    assigneeParam, itemType, itemParam));
+                } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
+                    content.append(AppContext.getMessage(
+                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                            assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
-                        content.append("<p><ul><li>\"")
-                                .append(activityStream.getAssoAuditLog()
-                                        .getChangeset())
-                                .append("\"</li></ul></p>");
+                        content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()
+                                .getChangeset()).append("\"</li></ul></p>");
                     }
 
                 }
-                final Label actionLbl = new Label(content.toString(),
-                        ContentMode.HTML);
-                final CssLayout streamWrapper = new CssLayout();
+                Label actionLbl = new Label(content.toString(), ContentMode.HTML);
+                CssLayout streamWrapper = new CssLayout();
                 streamWrapper.setWidth("100%");
                 streamWrapper.addStyleName("stream-wrapper");
                 streamWrapper.addComponent(actionLbl);
                 currentFeedBlock.addComponent(streamWrapper);
             }
-        } catch (final Exception e) {
+        } catch (Exception e) {
             throw new MyCollabException(e);
         }
     }
@@ -173,7 +163,7 @@ public class ProjectActivityStreamPagedList extends
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
-        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, activityStream.getCreateduser()));
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, activityStream.getCreateduser()));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         userLink.appendText(StringUtils.trim(activityStream.getCreatedUserFullName(), 30, true));
 

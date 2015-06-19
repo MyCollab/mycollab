@@ -35,8 +35,8 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
 
     private class DashboardUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskGroupScreenData.GotoDashboard)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -44,8 +44,8 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
 
     private class FilterUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskGroupScreenData.GotoDashboard)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }

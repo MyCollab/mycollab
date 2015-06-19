@@ -344,7 +344,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                 .getProject().getName() : "");
 
         TaskListSearchCriteria tasklistSearchCriteria = new TaskListSearchCriteria();
-        tasklistSearchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProject().getId()));
+        tasklistSearchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProject().getId()));
 
         String exportFileName;
 

@@ -17,7 +17,10 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -140,8 +143,7 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
                     LeadBasicSearchLayout.this.nameField.setValue("");
                 }
             });
-            layout.with(cancelBtn)
-                    .withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
+            layout.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
             Button advancedSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
                     new Button.ClickListener() {
@@ -159,10 +161,10 @@ public class LeadSearchPanel extends DefaultGenericSearchPanel<LeadSearchCriteri
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-            searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
             if (StringUtils.isNotBlank(this.nameField.getValue().trim())) {
-                searchCriteria.setLeadName(new StringSearchField(SearchField.AND, this.nameField.getValue()));
+                searchCriteria.setLeadName(new StringSearchField(this.nameField.getValue()));
             }
 
             if (this.myItemCheckbox.getValue()) {

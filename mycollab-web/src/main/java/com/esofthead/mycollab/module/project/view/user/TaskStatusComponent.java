@@ -220,7 +220,7 @@ public class TaskStatusComponent extends MVerticalLayout {
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
 

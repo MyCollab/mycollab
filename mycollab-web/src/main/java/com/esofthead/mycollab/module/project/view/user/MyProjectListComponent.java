@@ -56,8 +56,7 @@ public class MyProjectListComponent extends MVerticalLayout {
         withSpacing(false).withMargin(new MarginInfo(true, false, true, false));
         this.addStyleName("myprojectlist");
 
-        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
-                false, true)).withHeight("34px");
+        MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withHeight("34px");
         header.addStyleName("panel-header");
         titleLbl = new Label(AppContext.getMessage(
                 ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
@@ -137,26 +136,21 @@ public class MyProjectListComponent extends MVerticalLayout {
 
     private ProjectSearchCriteria getAllProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-                AppContext.getUsername()));
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
         return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-                AppContext.getUsername()));
-        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Open.name()}));
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
         return prjSearchCriteria;
     }
 
     private ProjectSearchCriteria getArchivedProjectsSearchCriteria() {
         ProjectSearchCriteria prjSearchCriteria = new ProjectSearchCriteria();
-        prjSearchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-                AppContext.getUsername()));
-        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Archived.name()}));
+        prjSearchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
+        prjSearchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Archived.name()}));
         return prjSearchCriteria;
     }
 

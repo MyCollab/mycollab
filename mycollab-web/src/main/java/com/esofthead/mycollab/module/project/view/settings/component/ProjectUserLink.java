@@ -49,7 +49,7 @@ public class ProjectUserLink extends Label {
         A memberLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 CurrentProjectVariables.getProjectId(), username)).appendText(com.esofthead.mycollab.core.utils
                 .StringUtils.trim(displayName, 30, true));
-        memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+        memberLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
         memberLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(avatarLink, DivLessFormatter.EMPTY_SPACE(), memberLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         this.setValue(div.write());

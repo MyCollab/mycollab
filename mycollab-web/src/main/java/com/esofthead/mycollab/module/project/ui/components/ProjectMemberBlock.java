@@ -43,7 +43,7 @@ public class ProjectMemberBlock extends MVerticalLayout{
         DivLessFormatter div = new DivLessFormatter();
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(CurrentProjectVariables.getProjectId(), username))
                 .appendText(StringUtils.trim(displayName, 30, true));
-        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+        userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
         div.appendChild(userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
         Label userLbl = new Label(div.write(), ContentMode.HTML);

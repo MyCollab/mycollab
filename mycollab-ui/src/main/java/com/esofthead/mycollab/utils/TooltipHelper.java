@@ -43,7 +43,7 @@ public class TooltipHelper {
         return div1;
     }
 
-    public static String userHoverJsDunction(String uid, String user) {
+    public static String userHoverJsFunction(String uid, String user) {
         String arg3 = "'" + uid + "'";
         String arg4 = "'" + user + "'";
         String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";

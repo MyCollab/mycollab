@@ -161,10 +161,10 @@ public class BugSearchPanel extends DefaultGenericSearchPanel<BugSearchCriteria>
         @Override
         protected BugSearchCriteria fillUpSearchCriteria() {
             searchCriteria = new BugSearchCriteria();
-            searchCriteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setSummary(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignuser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+                searchCriteria.setAssignuser(new StringSearchField(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignuser(null);
             }

@@ -99,8 +99,9 @@ public class DueBugWidget extends BugDisplayWidget {
                 String uid = UUID.randomUUID().toString();
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(bug
-                        .getProjectid(), bug.getAssignuser())).appendText(bug.getAssignuserFullName());
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, bug.getAssignuser()));
+                        .getProjectid(), bug.getAssignuser())).appendText(com.esofthead.mycollab.core.utils
+                        .StringUtils.trim(bug.getAssignuserFullName(), 30, true));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, bug.getAssignuser()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), userAvatar, DivLessFormatter.EMPTY_SPACE()
                         , userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));

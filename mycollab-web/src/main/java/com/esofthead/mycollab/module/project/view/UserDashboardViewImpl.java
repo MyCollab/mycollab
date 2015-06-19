@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -265,7 +264,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements UserD
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(projectItem.getCreatedUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(projectItem.getProjectId(), projectItem
                         .getCreatedUser())).appendText(projectItem.getCreatedUserDisplayName());
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, projectItem.getCreatedUser()));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, projectItem.getCreatedUser()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 Text belongPrjTxt = new Text(" - Project: ");
                 A projectLink = new A().setHref(ProjectLinkBuilder.generateProjectFullLink(projectItem.getProjectId()))

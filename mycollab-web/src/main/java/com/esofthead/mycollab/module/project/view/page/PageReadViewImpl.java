@@ -269,7 +269,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(member.getMemberAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
                         .getProjectid(), member.getUsername())).appendText(member.getMemberFullName());
-                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, member.getUsername()));
+                userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, member.getUsername()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;Created by: "), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
                         DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));

@@ -79,8 +79,8 @@ class ProjectUrlResolver extends UrlResolver {
 
     class ProjectTagUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProjectScreenData.GotoTagList(null))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -91,8 +91,8 @@ class ProjectUrlResolver extends UrlResolver {
             if (params.length == 0) {
                 EventBusFactory.getInstance.post(new ShellEvent.GotoProjectModule(this, null))
             } else {
-                val projectId: Int = new UrlTokenizer(params(0)).getInt
-                val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId))
+                val projectId = new UrlTokenizer(params(0)).getInt
+                val chain = new PageActionChain(new ProjectScreenData.Goto(projectId))
                 EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
             }
         }
@@ -108,7 +108,7 @@ class ProjectUrlResolver extends UrlResolver {
 
     private class TimeTrackingResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val prjService: ProjectService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
+            val prjService = ApplicationContextUtil.getSpringBean(classOf[ProjectService])
             val prjKeys: java.util.List[Integer] = prjService.getProjectKeysUserInvolved(AppContext.getUsername, AppContext.getAccountId)
             EventBusFactory.getInstance.post(new TimeTrackingEvent.GotoTimeTrackingView(this, prjKeys))
         }

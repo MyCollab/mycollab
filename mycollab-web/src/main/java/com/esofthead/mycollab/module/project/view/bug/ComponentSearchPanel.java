@@ -151,11 +151,11 @@ public class ComponentSearchPanel extends DefaultGenericSearchPanel<ComponentSea
         @Override
         protected SearchCriteria fillUpSearchCriteria() {
             ComponentSearchCriteria searchCriteria = new ComponentSearchCriteria();
-            searchCriteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+            searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setComponentName(new StringSearchField(this.nameField.getValue().trim()));
 
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setUserlead(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+                searchCriteria.setUserlead(new StringSearchField(AppContext.getUsername()));
             } else {
                 searchCriteria.setUserlead(null);
             }

@@ -45,7 +45,6 @@ import com.esofthead.mycollab.utils.TooltipHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.hp.gagawa.java.elements.A;
@@ -301,7 +300,7 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectid(), task.getAssignuser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignuser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignuser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(task.getAssignUserFullName());
 

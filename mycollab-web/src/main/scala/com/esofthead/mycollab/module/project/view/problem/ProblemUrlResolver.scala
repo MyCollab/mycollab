@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.problem
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.core.arguments.NumberSearchField
 import com.esofthead.mycollab.eventmanager.EventBusFactory
-import com.esofthead.mycollab.module.project.domain.{SimpleProblem, Problem}
+import com.esofthead.mycollab.module.project.domain.Problem
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.ProblemService
@@ -41,10 +41,10 @@ class ProblemUrlResolver extends ProjectUrlResolver {
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val problemSearchCriteria: ProblemSearchCriteria = new ProblemSearchCriteria
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val problemSearchCriteria = new ProblemSearchCriteria
             problemSearchCriteria.setProjectId(new NumberSearchField(projectId))
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProblemScreenData.Search(problemSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -52,10 +52,10 @@ class ProblemUrlResolver extends ProjectUrlResolver {
 
     private class PreviewUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val problemId: Int = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val problemId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProblemScreenData.Read(problemId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -63,8 +63,8 @@ class ProblemUrlResolver extends ProjectUrlResolver {
 
     private class AddUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Int = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProblemScreenData.Add(new Problem))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -72,12 +72,12 @@ class ProblemUrlResolver extends ProjectUrlResolver {
 
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Int = token.getInt
-            val problemId: Int = token.getInt
-            val problemService: ProblemService = ApplicationContextUtil.getSpringBean(classOf[ProblemService])
-            val problem: SimpleProblem = problemService.findById(problemId, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val problemId = token.getInt
+            val problemService = ApplicationContextUtil.getSpringBean(classOf[ProblemService])
+            val problem = problemService.findById(problemId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ProblemScreenData.Edit(problem))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }

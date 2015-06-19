@@ -51,11 +51,9 @@ public class UrlLinkViewField extends CustomField<String> {
 		if (StringUtils.isBlank(url)) {
 			Label lbl = new Label("&nbsp;");
 			lbl.setContentMode(ContentMode.HTML);
-			lbl.setWidth("100%");
 			return lbl;
 		} else {
 			final Link link = new UrlLink(url);
-			link.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			return link;
 		}
 	}

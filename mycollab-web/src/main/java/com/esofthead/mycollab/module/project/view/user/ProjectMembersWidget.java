@@ -131,7 +131,7 @@ public class ProjectMembersWidget extends MVerticalLayout {
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     member.getProjectid(), member.getUsername()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, member.getUsername()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, member.getUsername()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(member.getMemberFullName());
 

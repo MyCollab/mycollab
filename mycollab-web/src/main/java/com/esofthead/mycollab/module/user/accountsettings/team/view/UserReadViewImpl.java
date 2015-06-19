@@ -30,6 +30,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.*;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -186,11 +187,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            private MVerticalLayout contactInformation = new MVerticalLayout().withMargin(false);
-            private MVerticalLayout contactInformationTitle = new MVerticalLayout().withMargin(false);
-
-            private MVerticalLayout advanceInformation = new MVerticalLayout().withMargin(false);
-            private MVerticalLayout advanceInformationTitle = new MVerticalLayout().withMargin(false);
+            private GridFormLayoutHelper contactLayout = new GridFormLayoutHelper(1, 5, "100%", "120px");
+            private GridFormLayoutHelper advancedInfoLayout = new GridFormLayoutHelper(1, 3, "100%", "120px");
 
             @Override
             public ComponentContainer getLayout() {
@@ -205,9 +203,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                 contactSeparator.setAttribute("style", separatorStyle);
                 layout.addComponent(new Label(contactSeparator.write(), ContentMode.HTML));
 
-                MHorizontalLayout contactInformationWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false));
-                contactInformationWrapper.with(contactInformationTitle, contactInformation);
-                layout.addComponent(contactInformationWrapper);
+                layout.with(contactLayout.getLayout(), new Label());
 
                 Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
                 advanceInfoHeaderLbl.addStyleName("h1");
@@ -216,9 +212,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
                 Div advancSeparator = new Div();
                 advancSeparator.setAttribute("style", separatorStyle);
                 layout.addComponent(new Label(advancSeparator.write(), ContentMode.HTML));
-                MHorizontalLayout advancedInformationWrapper = new MHorizontalLayout().withMargin(new MarginInfo(false, false, true, false));
-                advancedInformationWrapper.with(advanceInformationTitle, advanceInformation);
-                layout.addComponent(advancedInformationWrapper);
+                layout.addComponent(advancedInfoLayout.getLayout());
 
                 return layout;
             }
@@ -226,34 +220,21 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_WEBSITE)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_COMPANY)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_COUNTRY)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    this.contactInformationTitle.addComponent(new Label(AppContext
-                            .getMessage(UserI18nEnum.FORM_WORK_PHONE)));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    this.contactInformationTitle.addComponent(new Label(AppContext
-                            .getMessage(UserI18nEnum.FORM_HOME_PHONE)));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
-                    this.contactInformationTitle.addComponent(new Label("Facebook"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {
-                    this.contactInformationTitle.addComponent(new Label("Twitter"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Twitter", 0, 3);
                 } else if (propertyId.equals("skypecontact")) {
-                    this.contactInformationTitle.addComponent(new Label("Skype"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Skype", 0, 4);
                 }
             }
         }

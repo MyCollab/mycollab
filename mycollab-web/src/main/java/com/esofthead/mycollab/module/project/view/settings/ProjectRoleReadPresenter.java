@@ -21,18 +21,14 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.user.events.RoleEvent;
-import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
@@ -46,14 +42,13 @@ import com.vaadin.ui.UI;
 import org.vaadin.dialogs.ConfirmDialog;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadView> {
     private static final long serialVersionUID = 1L;
 
-	private ProjectRoleService projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
+    private ProjectRoleService projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
 
     public ProjectRoleReadPresenter() {
         super(ProjectRoleReadView.class);
@@ -116,15 +111,11 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
                     @Override
                     public void gotoNext(SimpleProjectRole data) {
                         ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-                        SimpleProject project = CurrentProjectVariables.getProject();
-                        criteria.setProjectId(new NumberSearchField(
-                                SearchField.AND, project.getId()));
-                        criteria.setId(new NumberSearchField(data.getId(),
-                                NumberSearchField.GREATER));
+                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                         Integer nextId = projectRoleService.getNextItemKey(criteria);
                         if (nextId != null) {
-                            EventBusFactory.getInstance()
-                                    .post(new ProjectRoleEvent.GotoRead(this, nextId));
+                            EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
                         } else {
                             NotificationUtil.showGotoLastRecordNotification();
                         }
@@ -133,8 +124,7 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
                     @Override
                     public void gotoPrevious(SimpleProjectRole data) {
                         ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-                        SimpleProject project = CurrentProjectVariables.getProject();
-                        criteria.setProjectId(new NumberSearchField(SearchField.AND, project.getId()));
+                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
                         criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
                         Integer nextId = projectRoleService.getPreviousItemKey(criteria);
                         if (nextId != null) {

@@ -35,7 +35,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
     private def bindProjectEvents(): Unit = {
         this.register(new ApplicationEventListener[ProjectEvent.GotoMyProject]() {
             @Subscribe override def handle(event: GotoMyProject): Unit = {
-                val presenter: ProjectViewPresenter = PresenterResolver.getPresenter(classOf[ProjectViewPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProjectViewPresenter])
                 presenter.handleChain(container, event.getData.asInstanceOf[PageActionChain])
             }
         })
@@ -44,7 +44,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
     private def bindFollowingTicketEvents(): Unit = {
         this.register(new ApplicationEventListener[FollowingTicketEvent.GotoMyFollowingItems]() {
             @Subscribe def handle(event: FollowingTicketEvent.GotoMyFollowingItems) {
-                val presenter: FollowingTicketPresenter = PresenterResolver.getPresenter(classOf[FollowingTicketPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[FollowingTicketPresenter])
                 presenter.go(container, new FollowingTicketsScreenData.GotoMyFollowingItems(event.getData
                     .asInstanceOf[java.util.List[Integer]]))
             }
@@ -54,7 +54,7 @@ class ProjectModuleController(val container: ProjectModule) extends AbstractCont
     private def bindTimeTrackingEvents(): Unit = {
         this.register(new ApplicationEventListener[TimeTrackingEvent.GotoTimeTrackingView]() {
             @Subscribe def handle(event: TimeTrackingEvent.GotoTimeTrackingView) {
-                val presenter: TimeTrackingSummaryPresenter = PresenterResolver.getPresenter(classOf[TimeTrackingSummaryPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[TimeTrackingSummaryPresenter])
                 presenter.go(container, new ScreenData[Any](event.getData))
             }
         })

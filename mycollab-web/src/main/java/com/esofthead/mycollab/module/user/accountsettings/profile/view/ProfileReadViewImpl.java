@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlSocialNetworkLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.hp.gagawa.java.elements.Div;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -177,25 +178,21 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
         private class FormLayoutFactory implements IFormLayoutFactory {
             private static final long serialVersionUID = 1L;
 
-            private MVerticalLayout contactInformation = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-            private MVerticalLayout contactInformationTitle = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-
-            private MVerticalLayout advanceInformation = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
-            private MVerticalLayout advanceInformationTitle = new MVerticalLayout().withMargin(new MarginInfo(false, true, true, false));
+            private GridFormLayoutHelper contactLayout = new GridFormLayoutHelper(1, 5, "100%", "120px");
+            private GridFormLayoutHelper advancedInfoLayout = new GridFormLayoutHelper(1, 3, "100%", "120px");
 
             @Override
             public ComponentContainer getLayout() {
-                MVerticalLayout layout = new MVerticalLayout().withSpacing(false).withMargin(false);
+                MVerticalLayout layout = new MVerticalLayout().withSpacing(true).withMargin(false);
                 layout.addComponent(avatarAndPass);
 
-                String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 3px; margin-bottom: 10px";
+                String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 0px; margin-bottom: 10px";
                 MHorizontalLayout contactInformationHeader = new MHorizontalLayout();
+                contactInformationHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
                 Label contactInformationHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
                 contactInformationHeaderLbl.addStyleName("h1");
-                contactInformationHeader.with(contactInformationHeaderLbl).withAlign(contactInformationHeaderLbl, Alignment.MIDDLE_LEFT);
 
-                Button btnChangeContactInfo = new Button(
-                        AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+                Button btnChangeContactInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -205,16 +202,14 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                             }
                         });
                 btnChangeContactInfo.addStyleName("link");
-                contactInformationHeader.with(btnChangeContactInfo).withAlign(btnChangeContactInfo, Alignment.MIDDLE_LEFT);
+                contactInformationHeader.with(contactInformationHeaderLbl, btnChangeContactInfo);
 
                 layout.addComponent(contactInformationHeader);
                 Div contactSeparator = new Div();
                 contactSeparator.setAttribute("style", separatorStyle);
                 layout.addComponent(new Label(contactSeparator.write(), ContentMode.HTML));
 
-                MHorizontalLayout contactInformationWrapper = new MHorizontalLayout();
-                contactInformationWrapper.with(contactInformationTitle, contactInformation);
-                layout.addComponent(contactInformationWrapper);
+                layout.with(contactLayout.getLayout(), new Label());
 
                 MHorizontalLayout advanceInfoHeader = new MHorizontalLayout();
                 Label advanceInfoHeaderLbl = new Label(AppContext.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
@@ -226,8 +221,6 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                 Div advanceSeparator = new Div();
                 advanceSeparator.setAttribute("style", separatorStyle);
                 layout.addComponent(new Label(advanceSeparator.write(), ContentMode.HTML));
-                MHorizontalLayout advancedInformationWrapper = new MHorizontalLayout();
-                advancedInformationWrapper.with(advanceInformationTitle, advanceInformation);
 
                 Button btnChangeAdvanceInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                         new Button.ClickListener() {
@@ -240,41 +233,28 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
                         });
                 btnChangeAdvanceInfo.addStyleName("link");
                 advanceInfoHeader.with(btnChangeAdvanceInfo).withAlign(btnChangeAdvanceInfo, Alignment.MIDDLE_LEFT);
-                layout.addComponent(advancedInformationWrapper);
+                layout.addComponent(advancedInfoLayout.getLayout());
                 return layout;
             }
 
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if (propertyId.equals("website")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_WEBSITE)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
                 } else if (propertyId.equals("company")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_COMPANY)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
                 } else if (propertyId.equals("country")) {
-                    this.advanceInformationTitle.addComponent(new Label(
-                            AppContext.getMessage(UserI18nEnum.FORM_COUNTRY)));
-                    this.advanceInformation.addComponent(field);
+                    advancedInfoLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
                 } else if (propertyId.equals("workphone")) {
-                    this.contactInformationTitle.addComponent(new Label(AppContext
-                                    .getMessage(UserI18nEnum.FORM_WORK_PHONE)));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
                 } else if (propertyId.equals("homephone")) {
-                    this.contactInformationTitle.addComponent(new Label(AppContext
-                                    .getMessage(UserI18nEnum.FORM_HOME_PHONE)));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
                 } else if (propertyId.equals("facebookaccount")) {
-                    this.contactInformationTitle.addComponent(new Label("Facebook"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Facebook", 0, 2);
                 } else if (propertyId.equals("twitteraccount")) {
-                    this.contactInformationTitle.addComponent(new Label("Twitter"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Twitter", 0, 3);
                 } else if (propertyId.equals("skypecontact")) {
-                    this.contactInformationTitle.addComponent(new Label("Skype"));
-                    this.contactInformation.addComponent(field);
+                    contactLayout.addComponent(field, "Skype", 0, 4);
                 }
             }
         }

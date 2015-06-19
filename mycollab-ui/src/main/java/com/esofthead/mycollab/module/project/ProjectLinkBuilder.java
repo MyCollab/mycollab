@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -105,8 +106,8 @@ public class ProjectLinkBuilder {
             Img userAvatar = new Img("", StorageManager.getAvatarLink(
                     member.getMemberAvatarId(), 16));
             A link = new A().setId("tag" + uid).setHref(generateProjectMemberFullLink(projectId,
-                    member.getUsername())).appendText(member.getDisplayName());
-            link.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, username));
+                    member.getUsername())).appendText(StringUtils.trim(member.getDisplayName(), 30, true));
+            link.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
             link.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             return new DivLessFormatter().appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), link,
                     DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();

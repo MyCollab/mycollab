@@ -103,7 +103,7 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
 
     private void doSearch() {
         OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-        searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 
         String searchType = (String) group.getValue();
         if (StringUtils.isNotBlank(searchType)) {
@@ -111,7 +111,7 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
                 String strSearch = textValueField.getValue();
                 if (StringUtils.isNotBlank(strSearch)) {
                     if (searchType.equals("Name")) {
-                        searchCriteria.setOpportunityName(new StringSearchField(SearchField.AND, strSearch));
+                        searchCriteria.setOpportunityName(new StringSearchField(strSearch));
                     }
                 }
             }
@@ -129,8 +129,8 @@ public class OpportunitySimpleSearchPanel extends GenericSearchPanel<Opportunity
 
     private void addTextFieldSearch() {
         textValueField = new TextField();
-        textValueField.addShortcutListener(new ShortcutListener("OpportunitySearchField", ShortcutAction.KeyCode
-                .ENTER, null) {
+        textValueField.addShortcutListener(new ShortcutListener("OpportunitySearchField",
+                ShortcutAction.KeyCode.ENTER, null) {
             @Override
             public void handleAction(Object o, Object o1) {
                 doSearch();

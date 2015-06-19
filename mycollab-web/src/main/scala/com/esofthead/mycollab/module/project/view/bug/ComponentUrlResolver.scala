@@ -22,7 +22,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
 import com.esofthead.mycollab.module.project.view.parameters.{ComponentScreenData, ProjectScreenData}
-import com.esofthead.mycollab.module.tracker.domain.{SimpleComponent, Component}
+import com.esofthead.mycollab.module.tracker.domain.Component
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria
 import com.esofthead.mycollab.module.tracker.service.ComponentService
 import com.esofthead.mycollab.spring.ApplicationContextUtil
@@ -41,10 +41,10 @@ class ComponentUrlResolver extends ProjectUrlResolver {
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val componentSearchCriteria: ComponentSearchCriteria = new ComponentSearchCriteria
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val componentSearchCriteria = new ComponentSearchCriteria
             componentSearchCriteria.setProjectid(new NumberSearchField(projectId))
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ComponentScreenData.Search(componentSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -52,8 +52,8 @@ class ComponentUrlResolver extends ProjectUrlResolver {
 
     private class AddUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ComponentScreenData.Add(new Component))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -61,10 +61,10 @@ class ComponentUrlResolver extends ProjectUrlResolver {
 
     private class PreviewUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Integer = token.getInt
-            val componentId: Integer = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val componentId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new ComponentScreenData.Read(componentId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -72,13 +72,12 @@ class ComponentUrlResolver extends ProjectUrlResolver {
 
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Integer = token.getInt
-            val componentId: Integer = token.getInt
-            val componentService: ComponentService = ApplicationContextUtil.getSpringBean(classOf[ComponentService])
-            val component: SimpleComponent = componentService.findById(componentId, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new ComponentScreenData.Edit(component))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val componentId = token.getInt
+            val componentService = ApplicationContextUtil.getSpringBean(classOf[ComponentService])
+            val component = componentService.findById(componentId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new ComponentScreenData.Edit(component))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

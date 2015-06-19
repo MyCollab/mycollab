@@ -334,7 +334,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     bug.getProjectid(), bug.getAssignuser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, bug.getAssignuser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, bug.getAssignuser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             userLink.appendText(bug.getAssignuserFullName());
 

@@ -50,7 +50,7 @@ public class ActiveUserMultiSelectComp extends MultiSelectComp<SimpleUser> {
     @Override
     protected List<SimpleUser> createData() {
         UserSearchCriteria criteria = new UserSearchCriteria();
-        criteria.setSaccountid(new NumberSearchField(SearchField.AND, AppContext.getAccountId()));
+        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         criteria.setRegisterStatuses(new SetSearchField<>(RegisterStatusConstants.ACTIVE));
 
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);

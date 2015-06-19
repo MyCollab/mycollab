@@ -284,15 +284,14 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     }
 
     @Override
-    public List<SimpleProject> getProjectsUserInvolved(String username,
-                                                       Integer sAccountId) {
+    public List<SimpleProject> getProjectsUserInvolved(String username, Integer sAccountId) {
         return projectMapperExt.getProjectsUserInvolved(username, sAccountId);
     }
 
     @Override
     public Integer getTotalActiveProjectsOfInvolvedUsers(String username, @CacheKey Integer sAccountId) {
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-        criteria.setInvolvedMember(new StringSearchField(SearchField.AND, username));
+        criteria.setInvolvedMember(new StringSearchField(username));
         criteria.setProjectStatuses(new SetSearchField<>(StatusI18nEnum.Open.name()));
         return projectMapperExt.getTotalCount(criteria);
     }

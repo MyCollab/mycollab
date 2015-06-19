@@ -65,17 +65,17 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
     private def bindProjectEvents(): Unit = {
         this.register(new ApplicationEventListener[ProjectEvent.GotoEdit] {
             @Subscribe def handle(event: ProjectEvent.GotoEdit) {
-                val project: SimpleProject = event.getData.asInstanceOf[SimpleProject]
+                val project = event.getData.asInstanceOf[SimpleProject]
                 CurrentProjectVariables.setProject(project)
-                val presenter: ProjectDashboardPresenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
                 presenter.go(projectView, new ProjectScreenData.Edit(project))
             }
         })
 
         this.register(new ApplicationEventListener[ProjectEvent.GotoTagListView] {
             @Subscribe def handle(event: ProjectEvent.GotoTagListView) {
-                val tag: Tag = event.getData.asInstanceOf[Tag]
-                val presenter: ProjectDashboardPresenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+                val tag = event.getData.asInstanceOf[Tag]
+                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
                 presenter.go(projectView, new ProjectScreenData.GotoTagList(tag))
             }
         })
@@ -83,7 +83,7 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         this.register(new ApplicationEventListener[ProjectEvent.GotoProjectSearchItemsView] {
             @Subscribe def handle(event: ProjectEvent.GotoProjectSearchItemsView): Unit = {
                 val value = event.getData.asInstanceOf[String]
-                val presenter: ProjectDashboardPresenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
+                val presenter = PresenterResolver.getPresenter(classOf[ProjectDashboardPresenter])
                 presenter.go(projectView, new SearchItem(value))
             }
         })
@@ -217,10 +217,10 @@ class ProjectController(val projectView: ProjectView) extends AbstractController
         })
         this.register(new ApplicationEventListener[ProblemEvent.GotoList] {
             @Subscribe def handle(event: ProblemEvent.GotoList) {
-                val criteria: ProblemSearchCriteria = new ProblemSearchCriteria
-                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId))
-                val data: ProblemScreenData.Search = new ProblemScreenData.Search(criteria)
-                val presenter: IProblemPresenter = PresenterResolver.getPresenter(classOf[IProblemPresenter])
+                val criteria = new ProblemSearchCriteria
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId))
+                val data = new ProblemScreenData.Search(criteria)
+                val presenter = PresenterResolver.getPresenter(classOf[IProblemPresenter])
                 presenter.go(projectView, data)
             }
         })

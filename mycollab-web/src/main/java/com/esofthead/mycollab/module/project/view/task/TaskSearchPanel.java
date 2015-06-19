@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -173,7 +172,7 @@ public class TaskSearchPanel extends DefaultGenericSearchPanel<TaskSearchCriteri
             searchCriteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
             searchCriteria.setTaskName(new StringSearchField(this.nameField.getValue().trim()));
             if (this.myItemCheckbox.getValue()) {
-                searchCriteria.setAssignUser(new StringSearchField(SearchField.AND, AppContext.getUsername()));
+                searchCriteria.setAssignUser(new StringSearchField(AppContext.getUsername()));
             } else {
                 searchCriteria.setAssignUser(null);
             }

@@ -43,10 +43,10 @@ class TaskUrlResolver extends ProjectUrlResolver {
             var projectId: Integer = 0
             var taskId: Integer = 0
             if (ProjectLinkParams.isValidParam(params(0))) {
-                val prjShortName: String = ProjectLinkParams.getProjectShortName(params(0))
-                val itemKey: Integer = ProjectLinkParams.getItemKey(params(0))
-                val taskService: ProjectTaskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
-                val task: SimpleTask = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
+                val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
+                val itemKey = ProjectLinkParams.getItemKey(params(0))
+                val taskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
+                val task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
                 if (task != null) {
                     projectId = task.getProjectid
                     taskId = task.getId
@@ -66,16 +66,16 @@ class TaskUrlResolver extends ProjectUrlResolver {
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
             var task: SimpleTask = null
-            val taskService: ProjectTaskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
+            val taskService = ApplicationContextUtil.getSpringBean(classOf[ProjectTaskService])
             if (ProjectLinkParams.isValidParam(params(0))) {
-                val prjShortName: String = ProjectLinkParams.getProjectShortName(params(0))
-                val itemKey: Integer = ProjectLinkParams.getItemKey(params(0))
+                val prjShortName = ProjectLinkParams.getProjectShortName(params(0))
+                val itemKey = ProjectLinkParams.getItemKey(params(0))
                 task = taskService.findByProjectAndTaskKey(itemKey, prjShortName, AppContext.getAccountId)
             }
             else {
                 throw new MyCollabException("Can not find task link " + params(0))
             }
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(task.getProjectid),
+            val chain = new PageActionChain(new ProjectScreenData.Goto(task.getProjectid),
                 new TaskScreenData.Edit(task))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -83,8 +83,8 @@ class TaskUrlResolver extends ProjectUrlResolver {
 
     private class AddUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskScreenData.Add(new SimpleTask))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }

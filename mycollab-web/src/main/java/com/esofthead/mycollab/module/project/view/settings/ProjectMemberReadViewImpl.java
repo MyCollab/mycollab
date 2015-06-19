@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.*;
@@ -141,12 +142,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
         ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
         searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-        searchCriteria.setCreatedUser(new StringSearchField(
-                SearchField.AND, previewForm.getBean().getUsername()));
-        searchCriteria.setExtraTypeIds(new SetSearchField<>(
-                CurrentProjectVariables.getProjectId()));
-        searchCriteria.setSaccountid(new NumberSearchField(AppContext
-                .getAccountId()));
+        searchCriteria.setCreatedUser(new StringSearchField(previewForm.getBean().getUsername()));
+        searchCriteria.setExtraTypeIds(new SetSearchField<>(CurrentProjectVariables.getProjectId()));
+        searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
         activityStreamList.setSearchCriteria(searchCriteria);
     }
 
@@ -162,8 +160,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         return new ProjectMemberFormFieldFactory(previewForm);
     }
 
-    protected class ProjectMemberReadLayoutFactory implements
-            IFormLayoutFactory {
+    protected class ProjectMemberReadLayoutFactory implements IFormLayoutFactory {
         private static final long serialVersionUID = 8833593761607165873L;
 
         @Override
@@ -350,11 +347,10 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
                 }
             });
 
-            MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true,
-                    false, true)).withHeight("34px").with
-                    (titleLbl, overdueSelection, isOpenSelection).withAlign
-                    (titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT).withAlign
-                    (isOpenSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
+            MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).
+                    withHeight("34px").with(titleLbl, overdueSelection, isOpenSelection).
+                    withAlign(titleLbl, Alignment.MIDDLE_LEFT).withAlign(overdueSelection, Alignment.MIDDLE_RIGHT).
+                    withAlign(isOpenSelection, Alignment.MIDDLE_RIGHT).expand(titleLbl);
             header.addStyleName("panel-header");
 
             taskList = new DefaultBeanPagedList<>(
@@ -378,13 +374,11 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         }
     }
 
-    public static class TaskRowDisplayHandler implements
-            DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
+    public static class TaskRowDisplayHandler implements DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
         @Override
-        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask,
-                                     int rowIndex) {
-            final CssLayout layout = new CssLayout();
+        public Component generateRow(AbstractBeanPagedList host, ProjectGenericTask genericTask, int rowIndex) {
+            CssLayout layout = new CssLayout();
             layout.setWidth("100%");
             layout.setStyleName("list-row");
 
@@ -403,12 +397,10 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             Date dueDate = genericTask.getDueDate();
             if (dueDate != null) {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE,
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
                         AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
             } else {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }
 
             if (genericTask.getAssignUser() != null) {
@@ -424,17 +416,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
             A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType())
-                    || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getExtraTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
             } else {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getTypeId() + ""));
+                        task.getProjectShortName(), task.getProjectId(), task.getType(), task.getTypeId() + ""));
             }
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
@@ -453,18 +440,15 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));
 
-            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsDunction(uid, task.getAssignUser()));
+            userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, task.getAssignUser()));
             userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            userLink.appendText(task.getAssignUserFullName());
+            userLink.appendText(StringUtils.trim(task.getAssignUserFullName(), 30, true));
 
             String assigneeTxt = AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ";
 
-            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter
-                            .EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt),
-                    userAvatar, DivLessFormatter
-                            .EMPTY_SPACE(), userLink,
-                    DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(), DivLessFormatter.EMPTY_SPACE(),
+                    DivLessFormatter.EMPTY_SPACE(), new Text(assigneeTxt), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,
+                    DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
 
             return div;
         }

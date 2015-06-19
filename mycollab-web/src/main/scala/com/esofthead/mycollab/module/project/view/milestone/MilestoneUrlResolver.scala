@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.project.view.milestone
 import com.esofthead.mycollab.common.UrlTokenizer
 import com.esofthead.mycollab.core.arguments.NumberSearchField
 import com.esofthead.mycollab.eventmanager.EventBusFactory
+import com.esofthead.mycollab.module.project.domain.Milestone
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria
-import com.esofthead.mycollab.module.project.domain.{Milestone, SimpleMilestone}
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.service.MilestoneService
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
@@ -41,10 +41,10 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
     private class ListUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val milestoneSearchCriteria: MilestoneSearchCriteria = new MilestoneSearchCriteria
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val milestoneSearchCriteria = new MilestoneSearchCriteria
             milestoneSearchCriteria.setProjectId(new NumberSearchField(projectId))
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new MilestoneScreenData.Search(milestoneSearchCriteria))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -52,8 +52,8 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
     private class AddUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val projectId: Integer = new UrlTokenizer(params(0)).getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new MilestoneScreenData.Add(new Milestone))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
@@ -61,24 +61,22 @@ class MilestoneUrlResolver extends ProjectUrlResolver {
 
     private class EditUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Integer = token.getInt
-            val milestoneid: Integer = token.getInt
-            val milestoneService: MilestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
-            val milestone: SimpleMilestone = milestoneService.findById(milestoneid, AppContext.getAccountId)
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new MilestoneScreenData.Edit(milestone))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val milestoneId = token.getInt
+            val milestoneService = ApplicationContextUtil.getSpringBean(classOf[MilestoneService])
+            val milestone = milestoneService.findById(milestoneId, AppContext.getAccountId)
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Edit(milestone))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
 
     private class PreviewUrlResolver extends ProjectUrlResolver {
         protected override def handlePage(params: String*) {
-            val token: UrlTokenizer = new UrlTokenizer(params(0))
-            val projectId: Integer = token.getInt
-            val milestoneid: Integer = token.getInt
-            val chain: PageActionChain = new PageActionChain(new ProjectScreenData.Goto(projectId),
-                new MilestoneScreenData.Read(milestoneid))
+            val token = new UrlTokenizer(params(0))
+            val projectId = token.getInt
+            val milestoneId = token.getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId), new MilestoneScreenData.Read(milestoneId))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }
