@@ -98,7 +98,7 @@ If you want to customize MyCollab, following links are useful to you:
 ## Support
 Contact the MyCollab team at:
 * Our growing FAQ https://community.mycollab.com/faq/
-* Our Q&A page [https://www.mycollab.com/qa/](https://www.mycollab.com/qa/)
+* Our help page [http://support.mycollab.com/](http://support.mycollab.com/)
 * Our web form [https://www.mycollab.com/contact/](https://www.mycollab.com/contact/)
 
 ## License & Author

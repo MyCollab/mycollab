@@ -16,33 +16,31 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import java.io.Serializable;
-
-
 import com.vaadin.ui.ComponentContainer;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import java.io.Serializable;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @SuppressWarnings("serial")
 public abstract class AbstractPageView extends MVerticalLayout implements PageView, Serializable {
 
-	public AbstractPageView() {
-		this.withStyleName("page-view").withSpacing(false).withMargin(false);
-	}
+    public AbstractPageView() {
+        this.withStyleName("page-view").withSpacing(false).withMargin(false);
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void addViewListener(ViewListener listener) {
-		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener, ViewListener.viewInitMethod);
-	}
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void addViewListener(ViewListener listener) {
+        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener,
+                ViewListener.viewInitMethod);
+    }
 }

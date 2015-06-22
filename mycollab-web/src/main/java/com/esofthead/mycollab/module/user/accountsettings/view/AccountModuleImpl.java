@@ -28,9 +28,9 @@ import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresen
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.CustomizeScreenData;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
+import com.esofthead.mycollab.premium.module.user.accountsettings.view.UserAccountController;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
@@ -134,11 +134,9 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                     billingPresenter.go(AccountModuleImpl.this,
                             new BillingScreenData.BillingSummary());
                 } else if (SettingUIConstants.USERS.equals(tabId)) {
-                    userPermissionPresenter.go(AccountModuleImpl.this,
-                            null);
+                    userPermissionPresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.CUSTOMIZATION.equals(tabId)) {
-                    customizePresenter.go(AccountModuleImpl.this,
-                            new CustomizeScreenData.GotoMainPage());
+                    customizePresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.SETUP.equals(tabId)) {
                     setupPresenter.go(AccountModuleImpl.this, null);
                 }

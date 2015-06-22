@@ -25,144 +25,125 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.UserError;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class LoginViewImpl extends AbstractPageView implements LoginView {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LoginViewImpl() {
-		this.addComponent(new LoginForm());
-	}
+    public LoginViewImpl() {
+        this.addComponent(new LoginForm());
+    }
 
-	class LoginForm extends CustomComponent {
-		private static final long serialVersionUID = 1L;
+    class LoginForm extends CustomComponent {
+        private static final long serialVersionUID = 1L;
 
-		private final TextField usernameField;
-		private final PasswordField passwordField;
-		private final CheckBox rememberMe;
+        private final TextField usernameField;
+        private final PasswordField passwordField;
+        private final CheckBox rememberMe;
 
-		public LoginForm() {
-			final CustomLayout custom = CustomLayoutExt
-					.createLayout("loginForm");
-			custom.addStyleName("customLoginForm");
-			usernameField = new TextField(
-					AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
+        public LoginForm() {
+            final CustomLayout custom = CustomLayoutExt.createLayout("loginForm");
+            custom.addStyleName("customLoginForm");
+            usernameField = new TextField(AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
 
-			custom.addComponent(usernameField, "usernameField");
+            custom.addComponent(usernameField, "usernameField");
 
-			passwordField = new PasswordField(
-					AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD));
-			StringLengthValidator passwordValidator = new StringLengthValidator(
-					"Password length must be greater than 6", 6,
-					Integer.MAX_VALUE, false);
-			passwordField.addValidator(passwordValidator);
-			passwordField.addShortcutListener(new ShortcutListener("Signin",
-					ShortcutAction.KeyCode.ENTER, null) {
-				private static final long serialVersionUID = 5094514575531426118L;
+            passwordField = new PasswordField(AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD));
+            StringLengthValidator passwordValidator = new StringLengthValidator(
+                    "Password length must be greater than 6", 6, Integer.MAX_VALUE, false);
+            passwordField.addValidator(passwordValidator);
+            passwordField.addShortcutListener(new ShortcutListener("Signin",
+                    ShortcutAction.KeyCode.ENTER, null) {
+                private static final long serialVersionUID = 5094514575531426118L;
 
-				@Override
-				public void handleAction(Object sender, Object target) {
-					if (target == passwordField) {
-						try {
-							custom.removeComponent("customErrorMsg");
-							LoginViewImpl.this
-									.fireEvent(new ViewEvent<>(
-											LoginViewImpl.this, new PlainLogin(
-													usernameField.getValue(),
-													passwordField.getValue(),
-													rememberMe.getValue())));
-						} catch (MyCollabException e) {
-							custom.addComponent(new Label(e.getMessage()),
-									"customErrorMsg");
+                @Override
+                public void handleAction(Object sender, Object target) {
+                    if (target == passwordField) {
+                        try {
+                            custom.removeComponent("customErrorMsg");
+                            LoginViewImpl.this.fireEvent(new ViewEvent<>(
+                                    LoginViewImpl.this, new PlainLogin(
+                                    usernameField.getValue(),
+                                    passwordField.getValue(),
+                                    rememberMe.getValue())));
+                        } catch (MyCollabException e) {
+                            custom.addComponent(new Label(e.getMessage()),
+                                    "customErrorMsg");
 
-						} catch (Exception e) {
-							throw new MyCollabException(e);
-						}
-					}
-				}
-			});
+                        } catch (Exception e) {
+                            throw new MyCollabException(e);
+                        }
+                    }
+                }
+            });
 
-			custom.addComponent(passwordField, "passwordField");
+            custom.addComponent(passwordField, "passwordField");
 
-			rememberMe = new CheckBox(
-					AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD),
-					false);
-			custom.addComponent(rememberMe, "rememberMe");
+            rememberMe = new CheckBox(AppContext.getMessage(
+                    ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
+            custom.addComponent(rememberMe, "rememberMe");
 
-			Button loginBtn = new Button(
-					AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            Button loginBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							try {
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            try {
+                                custom.removeComponent("customErrorMsg");
 
-								custom.removeComponent("customErrorMsg");
+                                LoginViewImpl.this.fireEvent(new ViewEvent<>(
+                                        LoginViewImpl.this, new PlainLogin(
+                                        usernameField.getValue(),
+                                        passwordField.getValue(),
+                                        rememberMe.getValue())));
+                            } catch (MyCollabException e) {
+                                custom.addComponent(new Label(e.getMessage()),
+                                        "customErrorMsg");
+                            } catch (Exception e) {
+                                throw new MyCollabException(e);
+                            }
+                        }
+                    });
 
-								LoginViewImpl.this.fireEvent(new ViewEvent<>(
-										LoginViewImpl.this, new PlainLogin(
-												usernameField.getValue(),
-												passwordField.getValue(),
-												rememberMe.getValue())));
-							} catch (MyCollabException e) {
-								custom.addComponent(new Label(e.getMessage()),
-										"customErrorMsg");
+            loginBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+            custom.addComponent(loginBtn, "loginButton");
 
-							} catch (Exception e) {
-								throw new MyCollabException(e);
-							}
-						}
-					});
+            Button forgotPasswordBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-			loginBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
-			custom.addComponent(loginBtn, "loginButton");
+                        @Override
+                        public void buttonClick(ClickEvent event) {
+                            EventBusFactory.getInstance().post(
+                                    new ShellEvent.GotoForgotPasswordPage(this, null));
+                        }
+                    });
+            forgotPasswordBtn.setStyleName("link");
+            custom.addComponent(forgotPasswordBtn, "forgotLink");
 
-			Button forgotPasswordBtn = new Button(
-					AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            if (ServerInstance.getInstance().isFirstTimeRunner()) {
+                LoginForm.this.setComponentError(new UserError(
+                        "For the first time using MyCollab, the default email/password is admin@mycollab.com/admin123. You should change email/password when you access MyCollab successfully."));
+                ServerInstance.getInstance().setIsFirstTimeRunner(false);
+            }
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBusFactory.getInstance().post(
-									new ShellEvent.GotoForgotPasswordPage(this,
-											null));
-						}
-					});
-			forgotPasswordBtn.setStyleName("link");
-			custom.addComponent(forgotPasswordBtn, "forgotLink");
-
-			if (ServerInstance.getInstance().isFirstTimeRunner()) {
-				LoginForm.this
-						.setComponentError(new UserError(
-								"For the first time using MyCollab, the default email/password is admin@mycollab.com/admin123. You should change email/password when you access MyCollab successfully."));
-				ServerInstance.getInstance().setIsFirstTimeRunner(false);
-			}
-
-			this.setCompositionRoot(custom);
-			this.setHeight("100%");
-		}
-	}
+            this.setCompositionRoot(custom);
+            this.setHeight("100%");
+        }
+    }
 }

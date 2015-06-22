@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
@@ -31,6 +29,7 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -41,9 +40,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
+import java.util.Arrays;
+
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 

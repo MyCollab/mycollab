@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.view
+package com.esofthead.mycollab.premium.module.user.accountsettings.view
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.DeploymentMode
-import com.esofthead.mycollab.core.arguments.{NumberSearchField, SearchField, SetSearchField}
+import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter
@@ -26,11 +26,12 @@ import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustom
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter
-import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, AccountCustomizeEvent, ProfileEvent, SetupEvent}
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters._
+import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule
 import com.esofthead.mycollab.module.user.domain.criteria.{RoleSearchCriteria, UserSearchCriteria}
 import com.esofthead.mycollab.module.user.domain.{Role, SimpleUser}
 import com.esofthead.mycollab.module.user.events.{RoleEvent, UserEvent}
+import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, AccountCustomizeEvent, ProfileEvent, SetupEvent}
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.{BillingScreenData, ProfileScreenData, RoleScreenData, UserScreenData}
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
@@ -145,8 +146,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
         this.register(new ApplicationEventListener[AccountCustomizeEvent.GotoMainPage]() {
             @Subscribe def handle(event: AccountCustomizeEvent.GotoMainPage) {
                 val presenter = PresenterResolver.getPresenter(classOf[ICustomizePresenter])
-                val screenData = new CustomizeScreenData.GotoMainPage()
-                presenter.go(container, screenData)
+                presenter.go(container, null)
             }
         })
     }

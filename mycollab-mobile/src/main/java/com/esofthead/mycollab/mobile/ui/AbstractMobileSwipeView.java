@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewEvent;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.Component;
@@ -24,39 +25,38 @@ import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Inc.
- * 
  * @since 4.3.1
  */
 public class AbstractMobileSwipeView extends MobileNavigationView implements PageView {
-	private static final long serialVersionUID = -5179416042698544018L;
+    private static final long serialVersionUID = -5179416042698544018L;
 
-	public AbstractMobileSwipeView() {
-		super();
-		this.setStyleName("mobilenavview");
+    public AbstractMobileSwipeView() {
+        super();
+        this.setStyleName("mobilenavview");
         this.setToggleButton(true);
-	}
+    }
 
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
+    @Override
+    public ComponentContainer getWidget() {
+        return this;
+    }
 
-	@Override
-	public void addViewListener(ViewListener listener) {
-		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,
-				ViewListener.viewInitMethod);
-	}
+    @Override
+    public void addViewListener(ViewListener listener) {
+        addListener(ViewEvent.VIEW_IDENTIFIER(), ViewEvent.class, listener,
+                ViewListener.viewInitMethod);
+    }
 
-	@Override
-	public NavigationManager getNavigationManager() {
-		Component parent = this.getParent();
-		while (parent != null) {
-			if (parent instanceof NavigationManager)
-				return (NavigationManager) parent;
-			else
-				parent = parent.getParent();
-		}
-		return null;
-	}
+    @Override
+    public NavigationManager getNavigationManager() {
+        Component parent = this.getParent();
+        while (parent != null) {
+            if (parent instanceof NavigationManager)
+                return (NavigationManager) parent;
+            else
+                parent = parent.getParent();
+        }
+        return null;
+    }
 
 }

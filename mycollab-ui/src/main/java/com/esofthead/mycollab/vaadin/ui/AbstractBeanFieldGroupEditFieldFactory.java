@@ -57,8 +57,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
         this(form, true);
     }
 
-    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form,
-                                                  boolean isValidateForm) {
+    public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
         this.attachForm = form;
         this.fieldGroup = new FieldGroup();
         this.fieldGroup.setBuffered(true);
@@ -66,8 +65,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 
         if (isValidateForm) {
             this.fieldGroup.addCommitHandler(this);
-            validation = ApplicationContextUtil
-                    .getSpringBean(LocalValidatorFactoryBean.class);
+            validation = ApplicationContextUtil.getSpringBean(LocalValidatorFactoryBean.class);
         }
     }
 

@@ -267,8 +267,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
                 .findOpportunityAssoWithConvertedLead(lead.getId(),
                         AppContext.getAccountId());
         if (opportunity != null) {
-            Button opportunityLink = new Button(
-                    opportunity.getOpportunityname(),
+            Button opportunityLink = new Button(opportunity.getOpportunityname(),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 

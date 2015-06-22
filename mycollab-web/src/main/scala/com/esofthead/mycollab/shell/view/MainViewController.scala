@@ -18,13 +18,14 @@ package com.esofthead.mycollab.shell.view
 
 import com.esofthead.mycollab.core.utils.ScalaUtils
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
-import com.esofthead.mycollab.module.crm.view.{CrmModuleScreenData, CrmModulePresenter}
+import com.esofthead.mycollab.module.crm.view.{CrmModulePresenter, CrmModuleScreenData}
 import com.esofthead.mycollab.module.file.view.{FileModuleScreenData, IFileModulePresenter}
 import com.esofthead.mycollab.module.project.view.ProjectModulePresenter
 import com.esofthead.mycollab.module.project.view.parameters.ProjectModuleScreenData
-import com.esofthead.mycollab.module.user.accountsettings.view.{AccountModuleScreenData, AccountModulePresenter}
+import com.esofthead.mycollab.module.user.accountsettings.view.AccountModulePresenter
+import com.esofthead.mycollab.premium.module.user.accountsettings.view.AccountModuleScreenData
 import com.esofthead.mycollab.shell.events.ShellEvent
-import com.esofthead.mycollab.vaadin.mvp.{PresenterResolver, AbstractController}
+import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
 
 /**
@@ -45,7 +46,7 @@ class MainViewController(val container: MainView) extends AbstractController {
         this.register(new ApplicationEventListener[ShellEvent.GotoProjectModule]() {
             @Subscribe def handle(event: ShellEvent.GotoProjectModule) {
                 val prjPresenter: ProjectModulePresenter = PresenterResolver.getPresenter(classOf[ProjectModulePresenter])
-                val screenData: ProjectModuleScreenData.GotoModule = new ProjectModuleScreenData.GotoModule (ScalaUtils.stringConvertSeqToArray(event.getData))
+                val screenData: ProjectModuleScreenData.GotoModule = new ProjectModuleScreenData.GotoModule(ScalaUtils.stringConvertSeqToArray(event.getData))
                 prjPresenter.go(container, screenData)
             }
         })

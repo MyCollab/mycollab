@@ -31,7 +31,6 @@ import com.esofthead.mycollab.shell.view.SystemUIChecker;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.*;
-import com.esofthead.mycollab.vaadin.mvp.PageView.ViewEvent;
 import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.Hr;
@@ -77,7 +76,7 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
                 List<String> inviteEmails = inviteMembers.getEmails();
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
                     projectMemberService.inviteProjectMembers(
-                            inviteEmails.toArray(new String[0]),
+                            inviteEmails.toArray(new String[inviteEmails.size()]),
                             CurrentProjectVariables.getProjectId(),
                             inviteMembers.getRoleId(),
                             AppContext.getUsername(),
@@ -169,29 +168,29 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
             MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
 
             Button addNewBtn = new Button("Invite more member(s)", new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(GetStartedInstructionWindow.this, null));
-                            GetStartedInstructionWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoInviteMembers(GetStartedInstructionWindow.this, null));
+                    GetStartedInstructionWindow.this.close();
+                }
+            });
             addNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 
             Button doneBtn = new Button("Done", new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            ViewState viewState = HistoryViewManager.back();
-                            if (viewState instanceof NullViewState) {
-                                EventBusFactory.getInstance().post(
-                                        new UserEvent.GotoList(this, null));
-                            }
-                            GetStartedInstructionWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    ViewState viewState = HistoryViewManager.back();
+                    if (viewState instanceof NullViewState) {
+                        EventBusFactory.getInstance().post(
+                                new UserEvent.GotoList(this, null));
+                    }
+                    GetStartedInstructionWindow.this.close();
+                }
+            });
             doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             controlsBtn.with(addNewBtn, doneBtn);
             contentLayout.with(controlsBtn).withAlign(controlsBtn, Alignment.MIDDLE_RIGHT);

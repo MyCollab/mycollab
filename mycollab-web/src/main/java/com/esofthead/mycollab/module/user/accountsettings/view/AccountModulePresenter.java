@@ -25,30 +25,27 @@ import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 public class AccountModulePresenter extends AbstractPresenter<AccountModule> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AccountModulePresenter() {
-		super(AccountModule.class);
-	}
+    public AccountModulePresenter() {
+        super(AccountModule.class);
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		MainView mainView = (MainView) container;
-		mainView.addModule(view);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.ACCOUNT);
+        MainView mainView = (MainView) container;
+        mainView.addModule(view);
 
-		String[] params = (String[]) data.getParams();
-		if (params == null || params.length == 0) {
-			view.gotoUserProfilePage();
-		} else {
-			DesktopApplication.rootUrlResolver.getSubResolver("account").handle(params);
-		}
-
-		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.ACCOUNT);
-	}
+        String[] params = (String[]) data.getParams();
+        if (params == null || params.length == 0) {
+            view.gotoUserProfilePage();
+        } else {
+            DesktopApplication.rootUrlResolver.getSubResolver("account").handle(params);
+        }
+    }
 }

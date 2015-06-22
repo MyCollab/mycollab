@@ -150,6 +150,10 @@ a.pending {
 	color: #108e2a;
 }
 
+.colored-gridlayout {
+	border-bottom: 1px solid #CFCFCF;
+}
+
 .colored-gridlayout .gridform-caption.v-margin-top, .colored-gridlayout .gridform-field.v-margin-top {
 	padding-top: 8px;
 }
@@ -162,7 +166,7 @@ a.pending {
 	padding-bottom: 8px;
 }
 
-.colored-gridlayout .gridform-caption.v-margin-left {
+.colored-gridlayout .gridform-caption.v-margin-left, .colored-gridlayout .gridform-field.v-margin-left {
 	padding-left: 18px;
 }
 
@@ -194,6 +198,10 @@ a.pending {
 
 .colored-gridlayout  > div > div.first-row {
 	border-top: none;
+}
+
+.colored-gridlayout .v-gridlayout-margin .gridform-field .v-csslayout.select-bg > .v-csslayout-margin {
+	padding: 0px;
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem {
@@ -7367,6 +7375,10 @@ a.pending {
 	color: #108e2a;
 }
 
+.colored-gridlayout {
+	border-bottom: 1px solid #CFCFCF;
+}
+
 .colored-gridlayout .gridform-caption.v-margin-top, .colored-gridlayout .gridform-field.v-margin-top {
 	padding-top: 8px;
 }
@@ -7379,7 +7391,7 @@ a.pending {
 	padding-bottom: 8px;
 }
 
-.colored-gridlayout .gridform-caption.v-margin-left {
+.colored-gridlayout .gridform-caption.v-margin-left, .colored-gridlayout .gridform-field.v-margin-left {
 	padding-left: 18px;
 }
 
@@ -7411,6 +7423,10 @@ a.pending {
 
 .colored-gridlayout  > div > div.first-row {
 	border-top: none;
+}
+
+.colored-gridlayout .v-gridlayout-margin .gridform-field .v-csslayout.select-bg > .v-csslayout-margin {
+	padding: 0px;
 }
 
 .v-filterselect-suggestpopup .gwt-MenuItem {
@@ -8004,6 +8020,18 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .readview-layout .preview-form-wrap {
 	border: solid 1px #CFCFCF;
+}
+
+.lead-convert-window {
+	padding-bottom: 5px;
+}
+
+.lead-convert-window .colored-gridlayout > div > div.first-row {
+	border-top: 1px solid #C8C8C8;
+}
+
+.lead-convert-window .v-checkbox input[type="checkbox"] {
+	margin-left: 0px;
 }
 
 .addview-layout {
@@ -9031,6 +9059,34 @@ div .gantt .bar {
 
 .task-list .taskadd-popup .colored-gridlayout {
 	border: none;
+}
+
+.task-list .colored-gridlayout {
+	border-width: 0px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+}
+
+.task-list-footer {
+	border-width: 0px 1px 1px 1px;
+	border-style: solid;
+	border-color: #CFCFCF;
+}
+
+.task-list-footer.v-margin-top {
+	padding-top: 5px;
+}
+
+.task-list-footer.v-margin-right {
+	padding-right: 5px;
+}
+
+.task-list-footer.v-margin-bottom {
+	padding-bottom: 5px;
+}
+
+.task-list-footer.v-margin-left {
+	padding-left: 5px;
 }
 
 .v-tabsheet-content .task-list .task-list-footer {
@@ -11457,38 +11513,6 @@ div.v-stylecalendar .weekdays TD {
 	margin-left: 2px;
 }
 
-.colored-gridlayout {
-	border-bottom: 1px solid #CFCFCF;
-}
-
-.task-list .colored-gridlayout {
-	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-}
-
-.task-list-footer {
-	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
-}
-
-.task-list-footer.v-margin-top {
-	padding-top: 5px;
-}
-
-.task-list-footer.v-margin-right {
-	padding-right: 5px;
-}
-
-.task-list-footer.v-margin-bottom {
-	padding-bottom: 5px;
-}
-
-.task-list-footer.v-margin-left {
-	padding-left: 5px;
-}
-
 div.v-ratingstars-wrapper {
 	border: 0px;
 	padding: 0px;
@@ -11839,10 +11863,6 @@ div.v-ratingstars-bar {
 
 .v-label > hr {
 	margin: 0px;
-}
-
-.colored-gridlayout .v-gridlayout-margin .gridform-field .v-csslayout.select-bg > .v-csslayout-margin {
-	padding: 0px;
 }
 
 .taskgroup-reorder .v-verticallayout-margin {
@@ -12381,18 +12401,6 @@ div.v-ratingstars-bar {
 	font-size: 16px;
 	font-family: FontAwesome;
 	content: "\f00c";
-}
-
-.lead-convert-window {
-	padding-bottom: 5px;
-}
-
-.lead-convert-window .colored-gridlayout > div > div.first-row {
-	border-top: 1px solid #C8C8C8;
-}
-
-.lead-convert-window .v-checkbox input[type="checkbox"] {
-	margin-left: 0px;
 }
 
 .v-filterselect .v-icon {

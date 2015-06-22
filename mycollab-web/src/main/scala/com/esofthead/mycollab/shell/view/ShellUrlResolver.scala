@@ -19,7 +19,7 @@ package com.esofthead.mycollab.shell.view
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver
 import com.esofthead.mycollab.module.file.view.FileUrlResolver
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
-import com.esofthead.mycollab.module.user.accountsettings.view.AccountUrlResolver
+import com.esofthead.mycollab.premium.module.user.accountsettings.view.AccountUrlResolver
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver
 import org.apache.commons.lang3.StringUtils
 

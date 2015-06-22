@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -129,8 +129,7 @@ class AdvancedInfoChangeWindow extends Window {
         userService.updateWithSession(this.user, AppContext.getUsername());
 
         EventBusFactory.getInstance().post(
-                new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this,
-                        null));
+                new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this, null));
         AdvancedInfoChangeWindow.this.close();
 
         Page.getCurrent().getJavaScript().execute("window.location.reload();");

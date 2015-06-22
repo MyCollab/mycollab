@@ -44,11 +44,13 @@ import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.jonatan.contexthelp.ContextHelp;
 
 import javax.servlet.http.Cookie;
 import java.util.Collection;
@@ -67,9 +69,11 @@ public class DesktopApplication extends MyCollabUI {
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     private MainWindowContainer mainWindowContainer;
+    private final ContextHelp contextHelp = new ContextHelp();
 
     @Override
     protected void init(VaadinRequest request) {
+        contextHelp.extend(this);
         GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
                 (GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
@@ -271,6 +275,10 @@ public class DesktopApplication extends MyCollabUI {
         }
 
         return null;
+    }
+
+    public static void addContextHelp(Component comp, String message) {
+        ((DesktopApplication)UI.getCurrent()).contextHelp.addHelpForComponent(comp, message);
     }
 
     private static Throwable getExceptionType(Throwable e,

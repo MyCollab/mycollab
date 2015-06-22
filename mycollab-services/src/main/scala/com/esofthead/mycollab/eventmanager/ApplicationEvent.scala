@@ -18,6 +18,8 @@ package com.esofthead.mycollab.eventmanager
 
 import java.util.EventObject
 
+import scala.beans.BeanProperty
+
 /**
  * Serves as a parent for all application level events. It holds the source that
  * triggered the event and enforces each event implementation to provide an
@@ -26,9 +28,4 @@ import java.util.EventObject
  * @author MyCollab Ltd.
  * @since 5.0.3
  */
-class ApplicationEvent(source: AnyRef, val data: Any) extends EventObject(source) {
-
-  def getData: Any = {
-    return data
-  }
-}
+class ApplicationEvent(source: AnyRef, @BeanProperty val data: Any) extends EventObject(source) {}

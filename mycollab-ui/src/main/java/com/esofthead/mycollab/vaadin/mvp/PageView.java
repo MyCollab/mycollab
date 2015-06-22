@@ -26,31 +26,19 @@ import java.lang.reflect.Method;
 import java.util.EventListener;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public interface PageView extends ComponentContainer, CacheableComponent {
 
-	ComponentContainer getWidget();
+    ComponentContainer getWidget();
 
-	<E> void addViewListener(ViewListener<E> listener);
+    <E> void addViewListener(ViewListener<E> listener);
 
-	interface ViewListener<E> extends EventListener, Serializable {
-		Method viewInitMethod = ReflectTools.findMethod(
-				ViewListener.class, "receiveEvent", ViewEvent.class);
+    interface ViewListener<E> extends EventListener, Serializable {
+        Method viewInitMethod = ReflectTools.findMethod(
+                ViewListener.class, "receiveEvent", ViewEvent.class);
 
-		void receiveEvent(ViewEvent<E> event);
-	}
-
-	class ViewEvent<E> extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
-
-		public static final String VIEW_IDENTIFIER = "viewevent";
-
-		public ViewEvent(Object source, E data) {
-			super(source, data);
-		}
-	}
+        void receiveEvent(ViewEvent<E> event);
+    }
 }

@@ -16,22 +16,23 @@
  */
 package com.esofthead.mycollab.module.user.domain;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class SimpleBillingAccount extends BillingAccount {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private BillingPlan billingPlan;
+    @NotBindable
+    private BillingPlan billingPlan;
 
-	public BillingPlan getBillingPlan() {
-		return billingPlan;
-	}
+    public BillingPlan getBillingPlan() {
+        return billingPlan;
+    }
 
-	public void setBillingPlan(BillingPlan billingPlan) {
-		this.billingPlan = billingPlan;
-	}
+    public void setBillingPlan(BillingPlan billingPlan) {
+        this.billingPlan = billingPlan;
+    }
 }

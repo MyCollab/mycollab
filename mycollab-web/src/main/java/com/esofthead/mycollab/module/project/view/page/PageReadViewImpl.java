@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.domain.PageVersion;
@@ -268,7 +269,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp<Page> implements P
             if (member != null) {
                 Img userAvatar = new Img("", StorageManager.getAvatarLink(member.getMemberAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(member
-                        .getProjectid(), member.getUsername())).appendText(member.getMemberFullName());
+                        .getProjectid(), member.getUsername())).appendText(StringUtils.trim(member.getMemberFullName(), 30, true));
                 userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, member.getUsername()));
                 userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
                 footer.appendChild(lastUpdatedTimeTxt, new Text("&nbsp;-&nbsp;Created by: "), userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink,

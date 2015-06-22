@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.view
+package com.esofthead.mycollab.premium.module.user.accountsettings.view
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.DeploymentMode
@@ -34,11 +34,11 @@ class AccountUrlResolver extends UrlResolver {
         this.addSubResolver("billing", new BillingUrlResolver)
         this.addSubResolver("user", new UserUrlResolver)
         this.addSubResolver("role", new RoleUrlResolver)
-        this.addSubResolver("customization", new CustomizeUrlResolver)
-        if (SiteConfiguration.getDeploymentMode eq DeploymentMode.standalone) {
+        this.addSubResolver("setting", new CustomizeUrlResolver)
+        if (SiteConfiguration.getDeploymentMode == DeploymentMode.standalone) {
             this.addSubResolver("setup", new SetupUrlResolver)
         }
-        return this
+        this
     }
 
     override def handle(params: String*) {
