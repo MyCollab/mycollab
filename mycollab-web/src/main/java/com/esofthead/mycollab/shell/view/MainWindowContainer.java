@@ -17,12 +17,12 @@
 package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
@@ -33,10 +33,8 @@ import com.vaadin.ui.UI;
 import javax.servlet.http.Cookie;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class MainWindowContainer extends CssLayout {
     private static final long serialVersionUID = 1L;
@@ -44,7 +42,7 @@ public class MainWindowContainer extends CssLayout {
     private boolean isAutoLogin;
 
     public MainWindowContainer() {
-        this.setCaption(SiteConfiguration.getSiteName());
+        this.setCaption(AppContext.getSiteName());
         isAutoLogin = true;
         ControllerRegistry.addController(new ShellController(this));
         this.setDefaultView();

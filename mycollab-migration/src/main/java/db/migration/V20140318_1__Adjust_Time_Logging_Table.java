@@ -25,8 +25,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @since 1.0
  *
  */
-public class V20140318_1__Adjust_Time_Logging_Table implements
-		SpringJdbcMigration {
+public class V20140318_1__Adjust_Time_Logging_Table implements SpringJdbcMigration {
 
 	@Override
 	public void migrate(JdbcTemplate jdbcTemplate) throws Exception {

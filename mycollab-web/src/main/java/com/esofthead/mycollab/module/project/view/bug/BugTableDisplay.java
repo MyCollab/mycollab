@@ -133,7 +133,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                             } else if ("delete".equals(value)) {
                                 ConfirmDialogExt.show(UI.getCurrent(),
                                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                                SiteConfiguration.getSiteName()),
+                                                AppContext.getSiteName()),
                                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),

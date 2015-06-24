@@ -67,8 +67,6 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.GregorianCalendar;
-
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -293,7 +291,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                         public void buttonClick(ClickEvent event) {
                             controlsBtn.setPopupVisible(false);
                             ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE, SiteConfiguration.getSiteName()),
+                                    AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE, AppContext.getSiteName()),
                                     AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                     AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -326,7 +324,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                             public void buttonClick(ClickEvent event) {
                                 controlsBtn.setPopupVisible(false);
                                 ConfirmDialogExt.show(UI.getCurrent(),
-                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                                         AppContext.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),

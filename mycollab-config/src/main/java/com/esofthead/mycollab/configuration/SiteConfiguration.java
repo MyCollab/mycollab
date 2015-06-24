@@ -156,7 +156,7 @@ public class SiteConfiguration {
         return getInstance().noreplyEmail;
     }
 
-    public static String getSiteName() {
+    public static String getDefaultSiteName() {
         return getInstance().siteName;
     }
 

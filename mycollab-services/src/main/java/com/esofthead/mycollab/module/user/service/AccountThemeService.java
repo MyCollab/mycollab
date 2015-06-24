@@ -16,20 +16,23 @@
  */
 package com.esofthead.mycollab.module.user.service;
 
+import com.esofthead.mycollab.core.cache.CacheEvict;
+import com.esofthead.mycollab.core.cache.CacheKey;
+import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
-public interface AccountThemeService extends
-		ICrudService<Integer, AccountTheme> {
-	AccountTheme getAccountTheme(int saccountid);
+public interface AccountThemeService extends ICrudService<Integer, AccountTheme> {
+    @Cacheable
+    AccountTheme findTheme(@CacheKey Integer sAccountId);
 
-	AccountTheme getDefaultTheme();
+    @Cacheable
+    AccountTheme findDefaultTheme(@CacheKey Integer sAccountId);
 
-	void saveAccountTheme(AccountTheme theme, int saccountid);
+    @CacheEvict
+    void removeTheme(@CacheKey Integer sAccountId);
 }

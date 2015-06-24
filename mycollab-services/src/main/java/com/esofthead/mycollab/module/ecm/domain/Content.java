@@ -19,95 +19,91 @@ package com.esofthead.mycollab.module.ecm.domain;
 import java.util.Calendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class Content extends Resource {
-	private String title = "";
-	private String description = "";
-	private Calendar lastModified;
-	private String lastModifiedBy;
-	private String mimeType;
-	private String thumbnail;
-	private String thumbnailMobile;
+    private String title = "";
+    private String description = "";
+    private Calendar lastModified;
+    private String lastModifiedBy;
+    private String mimeType;
+    private String thumbnail;
+    private String thumbnailMobile;
 
-	public Content() {
-		super();
-	}
+    public Content() {
+        super();
+    }
 
-	public Content(String path) {
-		super();
-		this.setPath(path);
-	}
+    public Content(String path) {
+        super();
+        this.setPath(path);
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Calendar getLastModified() {
-		return lastModified;
-	}
+    public Calendar getLastModified() {
+        return lastModified;
+    }
 
-	public void setLastModified(Calendar lastModified) {
-		this.lastModified = lastModified;
-	}
+    public void setLastModified(Calendar lastModified) {
+        this.lastModified = lastModified;
+    }
 
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
 
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
 
-	public String getMimeType() {
-		return mimeType;
-	}
+    public String getMimeType() {
+        return mimeType;
+    }
 
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
-	}
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 
-	public String getThumbnail() {
-		return thumbnail;
-	}
+    public String getThumbnail() {
+        return thumbnail;
+    }
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
-	public String getThumbnailMobile() {
-		return thumbnail;
-	}
+    public String getThumbnailMobile() {
+        return thumbnail;
+    }
 
-	public void setThumbnailMobile(String thumbnailMobile) {
-		this.thumbnailMobile = thumbnailMobile;
-	}
+    public void setThumbnailMobile(String thumbnailMobile) {
+        this.thumbnailMobile = thumbnailMobile;
+    }
 
-	public static Content buildContentInstance(Integer accountId,
-			String objectPath) {
-		String newPath = ((accountId == null) ? "" : accountId + "/")
-				+ objectPath;
-		Content content = new Content();
-		content.setDescription("");
-		content.setPath(newPath);
-		int index = newPath.lastIndexOf("/");
-		String name = (index > 0) ? newPath.substring(index) : newPath;
-		content.setName(name);
-		return content;
-	}
+    public static Content buildContentInstance(Integer accountId, String objectPath) {
+        String newPath = ((accountId == null) ? "" : accountId + "/") + objectPath;
+        Content content = new Content();
+        content.setDescription("");
+        content.setPath(newPath);
+        int index = newPath.lastIndexOf("/");
+        String name = (index > 0) ? newPath.substring(index) : newPath;
+        content.setName(name);
+        return content;
+    }
 }

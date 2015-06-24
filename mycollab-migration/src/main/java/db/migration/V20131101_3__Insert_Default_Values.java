@@ -38,8 +38,7 @@ import com.esofthead.mycollab.security.PermissionMap;
  * 
  */
 public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(V20131101_3__Insert_Default_Values.class);
+	private static final Logger LOG = LoggerFactory.getLogger(V20131101_3__Insert_Default_Values.class);
 
 	public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
 		LOG.info("Set up initial values");
@@ -75,8 +74,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		accountParameters.put("billingPlanId", billingPlanId);
 		accountParameters.put("paymentMethod", "None");
 		accountParameters.put("subdomain", "");
-		Number accountId = accountJdbcInsert
-				.executeAndReturnKey(accountParameters);
+		Number accountId = accountJdbcInsert.executeAndReturnKey(accountParameters);
 
 		LOG.debug("Insert default users");
 		SimpleJdbcInsert userJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
@@ -174,9 +172,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		LOG.debug("Associate permission with guest role");
 		SqlParameterSource guestRolePermissionParameters = new MapSqlParameterSource()
 				.addValue("roleid", guestRoleId).addValue(
-						"roleVal",
-						PermissionMap.buildGuestPermissionCollection()
-								.toJsonString());
+						"roleVal", PermissionMap.buildGuestPermissionCollection().toJsonString());
 		rolePermissionJdbcInsert.execute(guestRolePermissionParameters);
 	}
 }

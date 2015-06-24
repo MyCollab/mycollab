@@ -142,11 +142,11 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         topSlider.setHeight("300px");
         topSlider.addStyleName("helpPanel");
         Label helpLink = new Label(new Div().appendChild(new Text(FontAwesome.LIFE_SAVER.getHtml()), DivLessFormatter.EMPTY_SPACE(),
-                new A("https://www.mycollab.com/help/", "_blank").appendText("Knowledge Base >>")).write(), ContentMode.HTML);
+                new A("http://support.mycollab.com/forum/42576-knowledge-base/", "_blank").appendText("Knowledge Base >>")).write(), ContentMode.HTML);
         Label helpDesc = new Label("Our detail guidance on how to use MyCollab features. All common questions are " +
                 "raised and answered");
         Label supportLink = new Label(new Div().appendChild(new Text(FontAwesome.CHILD.getHtml()), DivLessFormatter.EMPTY_SPACE(),
-                new A("https://www.mycollab.com/qa/", "_blank").appendText("Support >>")).write(), ContentMode.HTML);
+                new A("http://support.mycollab.com/", "_blank").appendText("Support >>")).write(), ContentMode.HTML);
         Label supportDesc = new Label("If you have any issue that could not be found the answer, please send your " +
                 "question to us. All questions will be answered without 1 business day");
         Label contactLink = new Label(new Div().appendChild(new Text(FontAwesome.FAX.getHtml()), DivLessFormatter.EMPTY_SPACE(),
@@ -215,7 +215,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         layout.setWidth("100%");
 
         Button accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
-                ThemeManager.loadLogoPath(AppContext.getAccountId()), 150);
+                AppContext.getBillingAccount().getLogopath(), 150);
 
         accountLogo.addClickListener(new ClickListener() {
             private static final long serialVersionUID = 1L;

@@ -84,8 +84,7 @@ public class TrackerContainer extends AbstractPageView {
         this.myProjectTab.addTab(versionPresenter.getView(),
                 AppContext.getMessage(BugI18nEnum.TAB_VERSION));
 
-        this.myProjectTab
-                .addSelectedTabChangeListener(new SelectedTabChangeListener() {
+        this.myProjectTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -94,11 +93,8 @@ public class TrackerContainer extends AbstractPageView {
                         String caption = tab.getCaption();
                         SimpleProject project = CurrentProjectVariables.getProject();
 
-                        if (AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD)
-                                .equals(caption)
-                                && !AppContext.getMessage(
-                                BugI18nEnum.TAB_DASHBOARD).equals(
-                                selectedTabId)) {
+                        if (AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD).equals(caption)
+                                && !AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD).equals(selectedTabId)) {
                             dashboardPresenter.go(TrackerContainer.this, null);
                         } else if (AppContext.getMessage(BugI18nEnum.TAB_BUG).equals(caption)
                                 && !AppContext.getMessage(BugI18nEnum.TAB_BUG)

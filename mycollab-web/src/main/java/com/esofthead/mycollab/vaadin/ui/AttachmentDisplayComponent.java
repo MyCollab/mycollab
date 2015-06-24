@@ -121,7 +121,7 @@ public class AttachmentDisplayComponent extends CssLayout {
             public void buttonClick(ClickEvent event) {
                 ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
                                 GenericI18Enum.DIALOG_DELETE_TITLE,
-                                SiteConfiguration.getSiteName()), AppContext
+                                AppContext.getSiteName()), AppContext
                                 .getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),

@@ -74,7 +74,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     buildExtraTemplateVariables(context)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.generateSubjectContent(subject),
                         contentGenerator.generateBodyContent(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
@@ -107,7 +107,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     contentGenerator.putVariable("mapper", getItemFieldMapper)
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
-                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, recipients,
+                    extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
                         null, null, contentGenerator.generateSubjectContent(subject),
                         contentGenerator.generateBodyContent(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
@@ -142,7 +142,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                 val subject: String = context.getMessage(getCommentSubjectKey, context.getChangeByUserFullName, getItemName)
                 val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                 val recipients: List[MailRecipientField] = List(userMail)
-                extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, seqAsJavaList
+                extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
                     (recipients), null, null,
                     contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getNoteContentPath,
                         context.getLocale, SiteConfiguration.getDefaultLocale), null)

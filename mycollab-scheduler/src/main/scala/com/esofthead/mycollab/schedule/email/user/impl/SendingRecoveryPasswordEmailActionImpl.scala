@@ -57,9 +57,9 @@ class SendingRecoveryPasswordEmailActionImpl extends SendingRecoveryPasswordEmai
             val recipient: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
             val lst: List[MailRecipientField] = List[MailRecipientField](recipient)
             import scala.collection.JavaConversions._
-            extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName, lst, null, null,
+            extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, lst, null, null,
                 contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(locale, UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
-                    SiteConfiguration.getSiteName)),
+                    SiteConfiguration.getDefaultSiteName)),
                 contentGenerator.generateBodyContent("templates/email/user/userRecoveryPasswordNotifier.mt", locale,
                     SiteConfiguration.getDefaultLocale), null)
         }

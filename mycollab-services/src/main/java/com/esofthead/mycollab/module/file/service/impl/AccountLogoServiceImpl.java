@@ -16,20 +16,6 @@
  */
 package com.esofthead.mycollab.module.file.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
-import javax.imageio.ImageIO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -39,90 +25,92 @@ import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.AccountThemeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 
 @Service
 public class AccountLogoServiceImpl implements AccountLogoService {
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AccountLogoServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccountLogoServiceImpl.class);
 
-	@Autowired
-	private ResourceService resourceService;
+    @Autowired
+    private ResourceService resourceService;
 
-	@Autowired
-	private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
-	@Autowired
-	private AccountThemeService themeService;
+    @Autowired
+    private AccountThemeService themeService;
 
-	private static final int PIXELS_150 = 150;
-	private static final int PIXELS_100 = 100;
-	private static final int PIXELS_64 = 64;
+    private static final int PIXELS_150 = 150;
+    private static final int PIXELS_100 = 100;
+    private static final int PIXELS_64 = 64;
 
-	private static final int[] SUPPORT_SIZES = { PIXELS_150, PIXELS_100,
-			PIXELS_64 };
+    private static final int[] SUPPORT_SIZES = {PIXELS_150, PIXELS_100, PIXELS_64};
 
-	@Override
-	public String uploadLogo(String uploadedUser, BufferedImage logo,
-			String logoId, Integer saccountid) {
-		UserAccountExample ex = new UserAccountExample();
-		ex.createCriteria().andAccountidEqualTo(saccountid)
-				.andIsaccountownerEqualTo(true);
-		List<UserAccount> userAccounts = userAccountMapper.selectByExample(ex);
-		if (userAccounts == null || userAccounts.size() == 0) {
-			throw new MyCollabException(
-					"There's no account associated with provided id");
-		}
-		String username = userAccounts.get(0).getUsername();
+    @Override
+    public String uploadLogo(String uploadedUser, BufferedImage logo, String logoId, Integer saccountid) {
+        UserAccountExample ex = new UserAccountExample();
+        ex.createCriteria().andAccountidEqualTo(saccountid).andIsaccountownerEqualTo(true);
+        List<UserAccount> userAccounts = userAccountMapper.selectByExample(ex);
+        if (userAccounts == null || userAccounts.size() == 0) {
+            throw new MyCollabException(
+                    "There's no account associated with provided id");
+        }
+        String username = userAccounts.get(0).getUsername();
 
-		// Construct new logoid
-		String randomString = UUID.randomUUID().toString();
-		String newLogoId = username + "_" + randomString;
+        // Construct new logoid
+        String randomString = UUID.randomUUID().toString();
+        String newLogoId = username + "_" + randomString;
 
-		for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-			uploadLogoToStorage(uploadedUser, logo, newLogoId, SUPPORT_SIZES[i]);
-		}
+        for (int i = 0; i < SUPPORT_SIZES.length; i++) {
+            uploadLogoToStorage(uploadedUser, logo, newLogoId, SUPPORT_SIZES[i]);
+        }
 
-		// save logo id
-		// AccountTheme accountTheme = themeService.getAccountTheme(saccountid);
-		// accountTheme.setLogopath(newLogoId);
-		// themeService.saveAccountTheme(accountTheme, saccountid);
+        // save logo id
+        // AccountTheme accountTheme = themeService.getAccountTheme(saccountid);
+        // accountTheme.setLogopath(newLogoId);
+        // themeService.saveAccountTheme(accountTheme, saccountid);
 
-		// Delete old logo
-		if (logoId != null) {
-			for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-				try {
-					resourceService.removeResource("logo/" + logoId + "_"
-							+ SUPPORT_SIZES[i] + ".png", uploadedUser,
-							saccountid);
-				} catch (Exception e) {
-					LOG.error("Error while delete old logo", e);
-				}
-			}
-		}
+        // Delete old logo
+        if (logoId != null) {
+            for (int i = 0; i < SUPPORT_SIZES.length; i++) {
+                try {
+                    resourceService.removeResource(String.format("logo/%s_%d.png", logoId, SUPPORT_SIZES[i]),
+                            uploadedUser, saccountid);
+                } catch (Exception e) {
+                    LOG.error("Error while delete old logo", e);
+                }
+            }
+        }
 
-		return newLogoId;
-	}
+        return newLogoId;
+    }
 
-	private void uploadLogoToStorage(String uploadedUser, BufferedImage image,
-			String logoId, int width) {
-		BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width
-				/ image.getWidth());
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(scaleImage, "png", outStream);
-		} catch (IOException e) {
-			throw new MyCollabException("Error while write image to stream", e);
-		}
-		resourceService.saveContent(
-				Content.buildContentInstance(null, "logo/" + logoId + "_"
-						+ width + ".png"), uploadedUser,
-				new ByteArrayInputStream(outStream.toByteArray()), null);
-	}
+    private void uploadLogoToStorage(String uploadedUser, BufferedImage image, String logoId, int width) {
+        BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width / image.getWidth());
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(scaleImage, "png", outStream);
+        } catch (IOException e) {
+            throw new MyCollabException("Error while write image to stream", e);
+        }
+        resourceService.saveContent(
+                Content.buildContentInstance(null, String.format("logo/%s_%d.png", logoId, width)),
+                uploadedUser, new ByteArrayInputStream(outStream.toByteArray()), null);
+    }
 }

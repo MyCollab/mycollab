@@ -162,7 +162,7 @@ public class AccountCaseListComp extends
                 @Override
                 public void buttonClick(Button.ClickEvent clickEvent) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -190,7 +190,7 @@ public class AccountCaseListComp extends
             Label caseSubject = new Label(String.format("Subject: <a href='%s%s'>%s</a>",
                     SiteConfiguration.getSiteUrl(AppContext.getUser().getSubdomain()),
                     CrmLinkGenerator.generateCrmItemLink(
-                    CrmTypeConstants.CASE, oneCase.getId()), oneCase.getSubject()),
+                            CrmTypeConstants.CASE, oneCase.getId()), oneCase.getSubject()),
                     ContentMode.HTML);
 
             caseInfo.addComponent(caseSubject);

@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -246,7 +245,7 @@ public class TaskTableDisplay extends DefaultPagedBeanTable<ProjectTaskService, 
                             @Override
                             public void buttonClick(ClickEvent event) {
                                 ConfirmDialogExt.show(UI.getCurrent(),
-                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, SiteConfiguration.getSiteName()),
+                                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),

@@ -23,7 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/account-admin")
 @LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 public enum AdminI18nEnum {
-	VIEW_PROFILE, VIEW_BILLING, VIEW_CUSTOMIZE, VIEW_USERS_AND_ROLES, VIEW_SETUP,
+	VIEW_PROFILE, VIEW_BILLING, VIEW_SETTING, VIEW_USERS_AND_ROLES, VIEW_SETUP,
 
 	TAB_USER, TAB_ROLE
 }

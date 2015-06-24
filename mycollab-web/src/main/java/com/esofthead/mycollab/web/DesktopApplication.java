@@ -147,7 +147,7 @@ public class DesktopApplication extends MyCollabUI {
         if (usageBillingException != null) {
             if (AppContext.isAdmin()) {
                 ConfirmDialogExt.show(UI.getCurrent(),
-                        AppContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, SiteConfiguration.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.WINDOW_ATTENTION_TITLE, AppContext.getSiteName()),
                         AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),

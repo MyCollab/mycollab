@@ -74,7 +74,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void onDelete(final SimpleAccount data) {
 						ConfirmDialogExt.show(UI.getCurrent(),
 								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-										SiteConfiguration.getSiteName()),
+										AppContext.getSiteName()),
 								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
 								AppContext.getMessage(GenericI18Enum.BUTTON_NO),

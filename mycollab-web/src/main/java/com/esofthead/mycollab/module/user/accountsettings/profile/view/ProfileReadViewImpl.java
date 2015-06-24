@@ -112,9 +112,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
         HorizontalLayout userWrapper = new HorizontalLayout();
 
-        Label userName = new Label(AppContext.getUser().getDisplayName());
-        userName.setStyleName("h1");
-        userWrapper.addComponent(userName);
+        Label usernameLbl = new Label(AppContext.getUser().getDisplayName());
+        usernameLbl.setStyleName("h1");
+        userWrapper.addComponent(usernameLbl);
 
         Button btnChangeBasicInfo = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                 new Button.ClickListener() {

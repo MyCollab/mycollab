@@ -114,7 +114,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                 AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
         accountTab.addTab(constructThemeComponent(), SettingUIConstants.CUSTOMIZATION,
-                AppContext.getMessage(AdminI18nEnum.VIEW_CUSTOMIZE));
+                AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
             accountTab.addTab(constructSetupComponent(), SettingUIConstants.SETUP,

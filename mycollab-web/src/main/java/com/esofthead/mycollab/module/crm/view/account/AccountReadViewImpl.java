@@ -147,8 +147,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
         peopleInfoComp = new PeopleInfoComp();
         basicInfo.addComponent(peopleInfoComp);
 
-        compFollowers = new CrmFollowersComp<>(
-                CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
+        compFollowers = new CrmFollowersComp<>(CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
         basicInfo.addComponent(compFollowers);
 
         navigatorWrapper.addComponentAsFirst(basicInfo);

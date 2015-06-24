@@ -54,9 +54,6 @@
         <table domainObjectName="UserInformation" schema="mycollab"
                tableName="s_user_information"/>
 
-        <table domainObjectName="AccountSettings" schema="mycollab"
-               tableName="s_account_settings"/>
-
         <table domainObjectName="UserPreference" schema="mycollab"
                tableName="s_user_preference"/>
 

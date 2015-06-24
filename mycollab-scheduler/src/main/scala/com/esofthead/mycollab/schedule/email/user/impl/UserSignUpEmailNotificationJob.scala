@@ -75,7 +75,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
         contentGenerator.putVariable("siteUrl", siteUrl)
         val confirmLink: String = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
         contentGenerator.putVariable("linkConfirm", confirmLink)
-        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getSiteName,
+        extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
             Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
             contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
                 UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),

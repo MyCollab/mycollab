@@ -94,6 +94,8 @@ public class AppContext implements Serializable {
      */
     private String subDomain;
 
+    private String siteName;
+
     /**
      * id of account of current user. This value is valid only for on-demand
      * edition. Though other editions also use this id in all of queries but if
@@ -183,6 +185,10 @@ public class AppContext implements Serializable {
         billingAccount = null;
     }
 
+    public static String getSiteName() {
+        return getInstance().siteName;
+    }
+
     public static Locale getUserLocale() {
         return getInstance().userLocale;
     }
@@ -211,8 +217,7 @@ public class AppContext implements Serializable {
             Enum key = Enum.valueOf(enumCls, option);
             return getMessage(key, objects);
         } catch (Exception e) {
-            LOG.error("Can not find resource key " + option
-                    + " and enum class " + enumCls.getName(), e);
+            LOG.debug("Can not find resource key " + option + " and enum class " + enumCls.getName(), e);
             return option;
         }
     }
@@ -233,8 +238,7 @@ public class AppContext implements Serializable {
      */
     public void initDomain(String domain) {
         this.subDomain = domain;
-        BillingAccountService billingService = ApplicationContextUtil
-                .getSpringBean(BillingAccountService.class);
+        BillingAccountService billingService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
         BillingAccount account = billingService.getAccountByDomain(domain);
 
@@ -242,23 +246,27 @@ public class AppContext implements Serializable {
             throw new SubDomainNotExistException(AppContext.getMessage(
                     ErrorI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
         } else {
-            LOG.debug("Get billing account {} of subDomain {}",
-                    BeanUtility.printBeanObj(account), domain);
+            if (org.apache.commons.lang3.StringUtils.isBlank(account.getSitename())) {
+                siteName = SiteConfiguration.getDefaultSiteName();
+            } else {
+                siteName = account.getSitename();
+            }
+
+            LOG.debug("Get billing account {} of subDomain {}", BeanUtility.printBeanObj(account), domain);
             accountId = account.getId();
         }
 
-        EventBusFactory.getInstance()
-                .register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-                            private static final long serialVersionUID = 1L;
+        EventBusFactory.getInstance().register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+            private static final long serialVersionUID = 1L;
 
-                            @Subscribe
-                            @Override
-                            public void handle(UserProfileChangeEvent event) {
-                                if ("avatarid".equals(event.getFieldChange())) {
-                                    session.setAvatarid((String) event.getData());
-                                }
-                            }
-                        });
+            @Subscribe
+            @Override
+            public void handle(UserProfileChangeEvent event) {
+                if ("avatarid".equals(event.getFieldChange())) {
+                    session.setAvatarid((String) event.getData());
+                }
+            }
+        });
     }
 
     /**
@@ -512,7 +520,7 @@ public class AppContext implements Serializable {
     public static void addFragment(String fragment, String windowTitle) {
         Page.getCurrent().setUriFragment(fragment, false);
         Page.getCurrent().setTitle(
-                String.format("%s [%s]", StringUtils.trim(windowTitle, 150), SiteConfiguration.getSiteName()));
+                String.format("%s [%s]", StringUtils.trim(windowTitle, 150), AppContext.getSiteName()));
         googleAnalyticsService.trackPageView(fragment);
     }
 }

@@ -151,17 +151,12 @@ public class CampaignAccountListComp extends
             btnDelete.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    SiteConfiguration.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_YES),
-                            AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_NO),
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
                                 private static final long serialVersionUID = 1L;
 
@@ -171,15 +166,11 @@ public class CampaignAccountListComp extends
                                         CampaignService campaignService = ApplicationContextUtil
                                                 .getSpringBean(CampaignService.class);
                                         CampaignAccount associateAccount = new CampaignAccount();
-                                        associateAccount.setAccountid(account
-                                                .getId());
-                                        associateAccount.setCampaignid(campaign
-                                                .getId());
-                                        campaignService
-                                                .removeCampaignAccountRelationship(
-                                                        associateAccount,
-                                                        AppContext
-                                                                .getAccountId());
+                                        associateAccount.setAccountid(account.getId());
+                                        associateAccount.setCampaignid(campaign.getId());
+                                        campaignService.removeCampaignAccountRelationship(
+                                                associateAccount,
+                                                AppContext.getAccountId());
                                         CampaignAccountListComp.this.refresh();
                                     }
                                 }
