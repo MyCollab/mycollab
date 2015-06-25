@@ -24,6 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.IPresenter;
  * @since 4.1
  * 
  */
-public interface ICustomizePresenter extends IPresenter<ICustomizeContainer> {
+public interface ICustomizePresenter extends IPresenter<ISettingContainer> {
 
 }

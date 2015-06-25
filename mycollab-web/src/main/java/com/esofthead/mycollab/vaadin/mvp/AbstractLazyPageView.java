@@ -15,6 +15,52 @@
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
+ * This file is part of mycollab-web.
+ *
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * This file is part of mycollab-ui.
+ *
+ * mycollab-ui is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-ui is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
  * This file is part of mycollab-ui.
  *
  * mycollab-ui is free software: you can redistribute it and/or modify
@@ -32,7 +78,7 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.UI;
@@ -94,7 +140,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements L
             this.center();
             this.setModal(true);
 
-            Image loadingIcon = new Image(null, MyCollabResource.newResource(WebResourceIds._lazy_load_icon));
+            Image loadingIcon = new Image(null, new AssetResource(WebResourceIds._lazy_load_icon));
             this.setContent(loadingIcon);
         }
     }

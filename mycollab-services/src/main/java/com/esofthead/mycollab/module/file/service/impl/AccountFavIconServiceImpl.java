@@ -17,19 +17,18 @@
 package com.esofthead.mycollab.module.file.service.impl;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.PathUtils;
-import com.esofthead.mycollab.module.file.service.AccountLogoService;
+import com.esofthead.mycollab.module.file.service.AccountFavIconService;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.sf.image4j.codec.ico.ICOEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,13 +36,11 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1
+ * @author MyCollab Ltd
+ * @since 5.0.10
  */
-
 @Service
-public class AccountLogoServiceImpl implements AccountLogoService {
-    private static final Logger LOG = LoggerFactory.getLogger(AccountLogoServiceImpl.class);
+public class AccountFavIconServiceImpl implements AccountFavIconService {
 
     @Autowired
     private ResourceService resourceService;
@@ -51,54 +48,39 @@ public class AccountLogoServiceImpl implements AccountLogoService {
     @Autowired
     private BillingAccountService billingAccountService;
 
-
-    private static final int[] SUPPORT_SIZES = {150, 100, 64};
-
     @Override
-    public String upload(String uploadedUser, BufferedImage image, Integer sAccountId) {
+    public String upload(String uploadedUser, BufferedImage logo, Integer sAccountId) {
+        if (logo.getWidth() != logo.getHeight()) {
+            int min = Math.min(logo.getWidth(), logo.getHeight());
+            logo = logo.getSubimage(0, 0, min, min);
+        }
         BillingAccount account = billingAccountService.getAccountById(sAccountId);
         if (account == null) {
             throw new MyCollabException(
                     "There's no account associated with provided id " + sAccountId);
         }
 
+        logo = ImageUtil.scaleImage(logo, 32, 32);
         // Construct new logoid
         String newLogoId = UUID.randomUUID().toString();
-
-        for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-            uploadLogoToStorage(uploadedUser, image, newLogoId, SUPPORT_SIZES[i], sAccountId);
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        try {
+            ICOEncoder.write(logo, outStream);
+        } catch (IOException e) {
+            throw new UserInvalidInputException("Can not convert file to ico format", e);
         }
+        Content logoContent = new Content();
+        logoContent.setPath(PathUtils.buildFavIconPath(sAccountId, newLogoId));
+        logoContent.setName(newLogoId);
+        resourceService.saveContent(logoContent, uploadedUser, new ByteArrayInputStream(outStream.toByteArray()), null);
 
-        // account old logo
-        if (account.getLogopath() != null) {
-            for (int i = 0; i < SUPPORT_SIZES.length; i++) {
-                try {
-                    resourceService.removeResource(PathUtils.buildLogoPath(sAccountId, account.getLogopath(),
-                            SUPPORT_SIZES[i]), uploadedUser, sAccountId);
-                } catch (Exception e) {
-                    LOG.error("Error while delete old logo", e);
-                }
-            }
-        }
+        //remove the old favicon
+        resourceService.removeResource(PathUtils.buildFavIconPath(sAccountId, account.getFaviconpath()),
+                uploadedUser, sAccountId);
 
-        // save logo id
-        account.setLogopath(newLogoId);
+        account.setFaviconpath(newLogoId);
         billingAccountService.updateSelectiveWithSession(account, uploadedUser);
 
         return newLogoId;
-    }
-
-    private void uploadLogoToStorage(String uploadedUser, BufferedImage image, String logoId, int width, Integer sAccountId) {
-        BufferedImage scaleImage = ImageUtil.scaleImage(image, (float) width / image.getWidth());
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(scaleImage, "png", outStream);
-        } catch (IOException e) {
-            throw new MyCollabException("Error while write image to stream", e);
-        }
-        Content logoContent = new Content();
-        logoContent.setPath(PathUtils.buildLogoPath(sAccountId, logoId, width));
-        logoContent.setName(logoId + "_" + width);
-        resourceService.saveContent(logoContent, uploadedUser, new ByteArrayInputStream(outStream.toByteArray()), null);
     }
 }

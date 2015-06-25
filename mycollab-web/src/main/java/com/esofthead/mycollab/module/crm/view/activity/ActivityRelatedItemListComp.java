@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -30,125 +28,124 @@ import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
+import java.util.Arrays;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
  */
 public class ActivityRelatedItemListComp extends
-		RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
-	private static final long serialVersionUID = 1L;
+        RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
+    private static final long serialVersionUID = 1L;
 
-	private final boolean allowCreateNew;
+    private final boolean allowCreateNew;
 
-	public ActivityRelatedItemListComp(final boolean allowCreateNew) {
-		this.allowCreateNew = allowCreateNew;
+    public ActivityRelatedItemListComp(final boolean allowCreateNew) {
+        this.allowCreateNew = allowCreateNew;
 
-		initUI();
-	}
+        initUI();
+    }
 
-	private void initUI() {
-		if (allowCreateNew) {
-			HorizontalLayout buttonLayout = new HorizontalLayout();
-			buttonLayout.setSpacing(true);
-			final Button newTaskBtn = new Button("New Task",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+    private void initUI() {
+        if (allowCreateNew) {
+            HorizontalLayout buttonLayout = new HorizontalLayout();
+            buttonLayout.setSpacing(true);
+            final Button newTaskBtn = new Button("New Task",
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							fireNewRelatedItem("task");
-						}
-					});
-			newTaskBtn.setIcon(FontAwesome.PLUS);
-			newTaskBtn.setEnabled(AppContext
-					.canWrite(RolePermissionCollections.CRM_TASK));
-			newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			buttonLayout.addComponent(newTaskBtn);
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            fireNewRelatedItem("task");
+                        }
+                    });
+            newTaskBtn.setIcon(FontAwesome.PLUS);
+            newTaskBtn.setEnabled(AppContext
+                    .canWrite(RolePermissionCollections.CRM_TASK));
+            newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+            buttonLayout.addComponent(newTaskBtn);
 
-			final Button newCallBtn = new Button("New Call",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button newCallBtn = new Button("New Call",
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							fireNewRelatedItem("call");
-						}
-					});
-			newCallBtn.setIcon(FontAwesome.PLUS);
-			newCallBtn.setEnabled(AppContext
-					.canWrite(RolePermissionCollections.CRM_CALL));
-			newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			buttonLayout.addComponent(newCallBtn);
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            fireNewRelatedItem("call");
+                        }
+                    });
+            newCallBtn.setIcon(FontAwesome.PLUS);
+            newCallBtn.setEnabled(AppContext
+                    .canWrite(RolePermissionCollections.CRM_CALL));
+            newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            buttonLayout.addComponent(newCallBtn);
 
-			final Button newMeetingBtn = new Button("New Meeting",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            final Button newMeetingBtn = new Button("New Meeting",
+                    new Button.ClickListener() {
+                        private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							fireNewRelatedItem("call");
-						}
-					});
-			newMeetingBtn.setIcon(FontAwesome.PLUS);
-			newMeetingBtn.setEnabled(AppContext
-					.canWrite(RolePermissionCollections.CRM_MEETING));
-			newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			buttonLayout.addComponent(newMeetingBtn);
+                        @Override
+                        public void buttonClick(final Button.ClickEvent event) {
+                            fireNewRelatedItem("call");
+                        }
+                    });
+            newMeetingBtn.setIcon(FontAwesome.PLUS);
+            newMeetingBtn.setEnabled(AppContext
+                    .canWrite(RolePermissionCollections.CRM_MEETING));
+            newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+            buttonLayout.addComponent(newMeetingBtn);
 
-			this.addComponent(buttonLayout);
-			this.addStyleName("activity-realated-content");
-		}
+            this.addComponent(buttonLayout);
+            this.addStyleName("activity-realated-content");
+        }
 
-		tableItem = new ActivityTableDisplay(Arrays.asList(new TableViewField(
-				ActivityI18nEnum.FORM_SUBJECT, "subject",
-				UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-				ActivityI18nEnum.FORM_STATUS, "status",
-				UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
-				TaskI18nEnum.FORM_START_DATE, "startDate",
-				UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
-				TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
-				UIConstants.TABLE_DATE_TIME_WIDTH)));
+        tableItem = new ActivityTableDisplay(Arrays.asList(new TableViewField(
+                ActivityI18nEnum.FORM_SUBJECT, "subject",
+                UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+                ActivityI18nEnum.FORM_STATUS, "status",
+                UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
+                TaskI18nEnum.FORM_START_DATE, "startDate",
+                UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
+                TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
+                UIConstants.TABLE_DATE_TIME_WIDTH)));
 
-		tableItem.addTableListener(new TableClickListener() {
-			private static final long serialVersionUID = 1L;
+        tableItem.addTableListener(new TableClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void itemClick(final TableClickEvent event) {
-				final SimpleActivity simpleEvent = (SimpleActivity) event
-						.getData();
-				if (CrmTypeConstants.TASK.equals(simpleEvent.getEventType())) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.TaskRead(this, simpleEvent
-									.getId()));
-				} else if (CrmTypeConstants.MEETING.equals(simpleEvent
-						.getEventType())) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.MeetingRead(this, simpleEvent
-									.getId()));
-				} else if (CrmTypeConstants.CALL.equals(simpleEvent
-						.getEventType())) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.CallRead(this, simpleEvent
-									.getId()));
-				}
-			}
-		});
+            @Override
+            public void itemClick(final TableClickEvent event) {
+                final SimpleActivity simpleEvent = (SimpleActivity) event
+                        .getData();
+                if (CrmTypeConstants.TASK.equals(simpleEvent.getEventType())) {
+                    EventBusFactory.getInstance().post(
+                            new ActivityEvent.TaskRead(this, simpleEvent
+                                    .getId()));
+                } else if (CrmTypeConstants.MEETING.equals(simpleEvent
+                        .getEventType())) {
+                    EventBusFactory.getInstance().post(
+                            new ActivityEvent.MeetingRead(this, simpleEvent
+                                    .getId()));
+                } else if (CrmTypeConstants.CALL.equals(simpleEvent
+                        .getEventType())) {
+                    EventBusFactory.getInstance().post(
+                            new ActivityEvent.CallRead(this, simpleEvent
+                                    .getId()));
+                }
+            }
+        });
 
-		this.addComponent(tableItem);
-	}
+        this.addComponent(tableItem);
+    }
 
-	@Override
-	public void refresh() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    @Override
+    public void refresh() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

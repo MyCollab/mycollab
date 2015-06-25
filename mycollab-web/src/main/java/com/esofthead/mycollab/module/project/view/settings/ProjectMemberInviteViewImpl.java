@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -50,7 +50,6 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.suggestfield.BeanSuggestionConverter;
 import org.vaadin.suggestfield.SuggestField;
 import org.vaadin.suggestfield.client.SuggestFieldSuggestion;
@@ -298,7 +297,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements Pro
         private Component generateToken(final SimpleUser user) {
             final Button btn = new Button("", FontAwesome.TIMES);
             btn.setCaptionAsHtml(true);
-            btn.setCaption((new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16))).write() + " " + user
+            btn.setCaption((new Img("", Storage.getAvatarPath(user.getAvatarid(), 16))).write() + " " + user
                     .getDisplayName());
             btn.addClickListener(new Button.ClickListener() {
                 @Override

@@ -26,8 +26,6 @@ object AccountCustomizeEvent {
     
     class GotoMainPage(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
     
-    class GotoUploadLogo(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
-    
     class SaveTheme(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
     
     class ResetTheme(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.page.servlet;
 
-import com.esofthead.mycollab.configuration.StorageConfiguration;
-import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.servlet.GenericHttpServlet;
@@ -38,69 +36,65 @@ import java.io.PrintWriter;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.4.0
- *
  */
 @WebServlet(urlPatterns = "/page/upload", name = "pageUploadServlet")
 @MultipartConfig(maxFileSize = 24657920, maxRequestSize = 24657920, fileSizeThreshold = 1024)
 public class FileUploadServlet extends GenericHttpServlet {
 
-	private static final Logger LOG = LoggerFactory.getLogger(FileUploadServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileUploadServlet.class);
 
-	@Autowired
-	private ResourceService resourceService;
+    @Autowired
+    private ResourceService resourceService;
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		String path = request.getParameter("path");
+    @Override
+    protected void onHandleRequest(HttpServletRequest request,
+                                   HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String path = request.getParameter("path");
 
-		String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
+        String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
 
-		// Create path components to save the file
-		final Part filePart = request.getPart("upload");
-		final String fileName = getFileName(filePart);
-		if (fileName == null) {
-			return;
-		}
-		PrintWriter writer = response.getWriter();
-		try (InputStream fileContent = filePart.getInputStream()) {
-			Content content = new Content(path + "/" + fileName);
-			resourceService.saveContent(content, "", fileContent, 1);
+        // Create path components to save the file
+        final Part filePart = request.getPart("upload");
+        final String fileName = getFileName(filePart);
+        if (fileName == null) {
+            return;
+        }
+        PrintWriter writer = response.getWriter();
+        try (InputStream fileContent = filePart.getInputStream()) {
+            Content content = new Content(path + "/" + fileName);
+            resourceService.saveContent(content, "", fileContent, 1);
 
-			String filePath = "";
-			StorageConfiguration storageConfiguration = StorageManager.getConfiguration();
-			storageConfiguration.getResourcePath(content.getPath());
+            String filePath = "";
 
-			String responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('%s','%s','%s');</script></body></html>";
-			responseHtml = String.format(responseHtml, ckEditorFuncNum, filePath, "");
-			writer.write(responseHtml);
-		}catch (FileNotFoundException fne) {
-			writer.println("You either did not specify a file to upload or are "
-					+ "trying to upload a file to a protected or nonexistent "
-					+ "location.");
-			writer.println("<br/> ERROR: " + fne.getMessage());
+            String responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('%s','%s','%s');</script></body></html>";
+            responseHtml = String.format(responseHtml, ckEditorFuncNum, filePath, "");
+            writer.write(responseHtml);
+        } catch (FileNotFoundException fne) {
+            writer.println("You either did not specify a file to upload or are "
+                    + "trying to upload a file to a protected or nonexistent "
+                    + "location.");
+            writer.println("<br/> ERROR: " + fne.getMessage());
 
-			LOG.error("Problems during file upload. Error: {0}", new Object[] { fne.getMessage() });
-		}
-	}
+            LOG.error("Problems during file upload. Error: {0}", new Object[]{fne.getMessage()});
+        }
+    }
 
-	private String getFileName(final Part part) {
-		for (String content : part.getHeader("content-disposition").split(";")) {
-			if (content.trim().startsWith("filename")) {
-				String fileName = content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-				int index;
-				if ((index = fileName.lastIndexOf(".")) != -1) {
-					fileName = fileName.substring(0, index - 1)
-							+ (new GregorianCalendar().getTimeInMillis())
-							+ fileName.substring(index);
-					return fileName;
-				}
-			}
-		}
-		return null;
-	}
+    private String getFileName(final Part part) {
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                String fileName = content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+                int index;
+                if ((index = fileName.lastIndexOf(".")) != -1) {
+                    fileName = fileName.substring(0, index - 1)
+                            + (new GregorianCalendar().getTimeInMillis())
+                            + fileName.substring(index);
+                    return fileName;
+                }
+            }
+        }
+        return null;
+    }
 }

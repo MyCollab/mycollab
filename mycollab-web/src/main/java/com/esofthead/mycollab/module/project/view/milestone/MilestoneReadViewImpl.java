@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -352,7 +352,7 @@ public class MilestoneReadViewImpl extends AbstractPreviewItemComp<SimpleMilesto
             }
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+            Img userAvatar = new Img("", Storage.getAvatarPath(
                     task.getAssignUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectId(), task.getAssignUser()));

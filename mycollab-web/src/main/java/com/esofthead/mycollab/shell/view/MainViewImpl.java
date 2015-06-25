@@ -214,7 +214,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         layout.setHeight("40px");
         layout.setWidth("100%");
 
-        Button accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
+        Button accountLogo = AccountAssetsResolver.createAccountLogoImageComponent(
                 AppContext.getBillingAccount().getLogopath(), 150);
 
         accountLogo.addClickListener(new ClickListener() {
@@ -241,7 +241,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         serviceMenu.addStyleName("topNavPopup");
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
-                MyCollabResource.newResource(WebResourceIds._16_project),
+                new AssetResource(WebResourceIds._16_project),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -254,7 +254,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
-                MyCollabResource.newResource(WebResourceIds._16_customer),
+                new AssetResource(WebResourceIds._16_customer),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -265,7 +265,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
-                MyCollabResource.newResource(WebResourceIds._16_document),
+                new AssetResource(WebResourceIds._16_document),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -276,7 +276,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
-                MyCollabResource.newResource(WebResourceIds._16_account),
+                new AssetResource(WebResourceIds._16_account),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 

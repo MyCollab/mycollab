@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.community.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizeContainer;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingContainer;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
 
@@ -27,8 +27,8 @@ import com.esofthead.mycollab.vaadin.ui.NotPresentedView;
  * 
  */
 @ViewComponent
-public class CustomizeContainer extends NotPresentedView implements
-		ICustomizeContainer {
+public class SettingContainer extends NotPresentedView implements
+		ISettingContainer {
 	private static final long serialVersionUID = 4147841913888171040L;
 
 }

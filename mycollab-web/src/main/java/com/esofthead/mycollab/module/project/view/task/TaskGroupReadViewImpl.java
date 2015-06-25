@@ -19,8 +19,11 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.configuration.StorageManager;
-import com.esofthead.mycollab.core.arguments.*;
+import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.core.arguments.DateSearchField;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -295,7 +298,7 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
             }
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
-            Img userAvatar = new Img("", StorageManager.getAvatarLink(
+            Img userAvatar = new Img("", Storage.getAvatarPath(
                     task.getAssignUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     task.getProjectid(), task.getAssignuser()));
@@ -327,7 +330,7 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
             this.withMargin(new MarginInfo(false, false, false, true));
 
             Label peopleInfoHeader = new Label(FontAwesome.USER.getHtml() + " " + AppContext
-                            .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
+                    .getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE), ContentMode.HTML);
             peopleInfoHeader.setStyleName("info-hdr");
             this.addComponent(peopleInfoHeader);
 
@@ -337,7 +340,7 @@ public class TaskGroupReadViewImpl extends AbstractPreviewItemComp<SimpleTaskLis
             layout.setMargin(new MarginInfo(false, false, false, true));
             try {
                 Label createdLbl = new Label(AppContext
-                                .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+                        .getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
                 createdLbl.setSizeUndefined();
                 layout.addComponent(createdLbl, 0, 0);
 

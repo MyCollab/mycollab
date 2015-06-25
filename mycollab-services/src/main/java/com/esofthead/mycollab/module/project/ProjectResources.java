@@ -73,63 +73,63 @@ public class ProjectResources {
 
 	public static String getIconResourceLink12ByBugSeverity(String severity) {
 		String iconseverity = MyCollabAssets
-				.newResourceLink(B_SEVERITY_MINOR_IMG_12);
+				.newAssetLink(B_SEVERITY_MINOR_IMG_12);
 
 		if (BugSeverity.Critical.name().equals(severity)) {
 			iconseverity = MyCollabAssets
-					.newResourceLink(B_SEVERITY_CRITICAL_IMG_12);
+					.newAssetLink(B_SEVERITY_CRITICAL_IMG_12);
 		} else if (BugSeverity.Major.name().equals(severity)) {
 			iconseverity = MyCollabAssets
-					.newResourceLink(B_SEVERITY_MAJOR_IMG_12);
+					.newAssetLink(B_SEVERITY_MAJOR_IMG_12);
 		} else if (BugSeverity.Minor.name().equals(severity)) {
 			iconseverity = MyCollabAssets
-					.newResourceLink(B_SEVERITY_MINOR_IMG_12);
+					.newAssetLink(B_SEVERITY_MINOR_IMG_12);
 		} else if (BugSeverity.Trivial.name().equals(severity)) {
 			iconseverity = MyCollabAssets
-					.newResourceLink(B_SEVERITY_TRIVIAL_IMG_12);
+					.newAssetLink(B_SEVERITY_TRIVIAL_IMG_12);
 		}
 		return iconseverity;
 	}
 
 	public static String getIconResourceLink12ByBugPriority(String priority) {
 		String iconPriority = MyCollabAssets
-				.newResourceLink(B_PRIORITY_MAJOR_IMG_12);
+				.newAssetLink(B_PRIORITY_MAJOR_IMG_12);
 
 		if (BugPriority.Blocker.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(B_PRIORITY_BLOCKER_IMG_12);
+					.newAssetLink(B_PRIORITY_BLOCKER_IMG_12);
 		} else if (BugPriority.Critical.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(B_PRIORITY_CRITICAL_IMG_12);
+					.newAssetLink(B_PRIORITY_CRITICAL_IMG_12);
 		} else if (BugPriority.Major.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(B_PRIORITY_MAJOR_IMG_12);
+					.newAssetLink(B_PRIORITY_MAJOR_IMG_12);
 		} else if (BugPriority.Minor.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(B_PRIORITY_MINOR_IMG_12);
+					.newAssetLink(B_PRIORITY_MINOR_IMG_12);
 		} else if (BugPriority.Trivial.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(B_PRIORITY_TRIVIAL_IMG_12);
+					.newAssetLink(B_PRIORITY_TRIVIAL_IMG_12);
 		}
 		return iconPriority;
 	}
 
 	public static String getIconResourceLink12ByTaskPriority(String priority) {
 		String iconPriority = MyCollabAssets
-				.newResourceLink(T_PRIORITY_HIGHT_IMG);
+				.newAssetLink(T_PRIORITY_HIGHT_IMG);
 
 		if (TaskPriority.Urgent.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(T_PRIORITY_URGENT_IMG);
+					.newAssetLink(T_PRIORITY_URGENT_IMG);
 		} else if (TaskPriority.High.name().equals(priority)) {
-			iconPriority = MyCollabAssets.newResourceLink(T_PRIORITY_HIGHT_IMG);
+			iconPriority = MyCollabAssets.newAssetLink(T_PRIORITY_HIGHT_IMG);
 		} else if (TaskPriority.Medium.name().equals(priority)) {
 			iconPriority = MyCollabAssets
-					.newResourceLink(T_PRIORITY_MEDIUM_IMG);
+					.newAssetLink(T_PRIORITY_MEDIUM_IMG);
 		} else if (TaskPriority.Low.name().equals(priority)) {
-			iconPriority = MyCollabAssets.newResourceLink(T_PRIORITY_LOW_IMG);
+			iconPriority = MyCollabAssets.newAssetLink(T_PRIORITY_LOW_IMG);
 		} else if (TaskPriority.None.name().equals(priority)) {
-			iconPriority = MyCollabAssets.newResourceLink(T_PRIORITY_NONE_IMG);
+			iconPriority = MyCollabAssets.newAssetLink(T_PRIORITY_NONE_IMG);
 		}
 		return iconPriority;
 	}

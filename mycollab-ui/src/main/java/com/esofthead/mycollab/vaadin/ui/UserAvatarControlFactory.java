@@ -16,50 +16,46 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.esofthead.mycollab.vaadin.resources.VaadinResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.themes.BaseTheme;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class UserAvatarControlFactory {
-	public static Image createUserAvatarEmbeddedComponent(String avatarId, int size) {
-		Image embedded = new Image(null, createAvatarResource(avatarId, size));
-		return embedded;
-	}
+    public static Image createUserAvatarEmbeddedComponent(String avatarId, int size) {
+        return new Image(null, createAvatarResource(avatarId, size));
+    }
 
-	public static Image createUserAvatarEmbeddedComponent(String avatarId, int size, String tooltip) {
-		Image embedded = new Image(null, createAvatarResource(avatarId, size));
-		embedded.setDescription(tooltip);
-		return embedded;
-	}
+    public static Image createUserAvatarEmbeddedComponent(String avatarId, int size, String tooltip) {
+        Image embedded = new Image(null, createAvatarResource(avatarId, size));
+        embedded.setDescription(tooltip);
+        return embedded;
+    }
 
-	public static Button createUserAvatarEmbeddedButton(String avatarId, int size) {
-		Button embedded = new Button();
-		embedded.setIcon(createAvatarResource(avatarId, size));
-		embedded.setStyleName(BaseTheme.BUTTON_LINK);
-		return embedded;
+    public static Button createUserAvatarEmbeddedButton(String avatarId, int size) {
+        Button embedded = new Button();
+        embedded.setIcon(createAvatarResource(avatarId, size));
+        embedded.setStyleName(BaseTheme.BUTTON_LINK);
+        return embedded;
 
-	}
+    }
 
-	public static Resource createAvatarResource(String avatarId, int size) {
-		if (avatarId == null) {
-			return MyCollabResource.newResource(String.format("icons/default_user_avatar_%d.png", size));
-		}
-		return VaadinResourceManager.getResourceManager().getAvatarResource(
-				avatarId, size);
-	}
+    public static Resource createAvatarResource(String avatarId, int size) {
+        if (avatarId == null) {
+            return new AssetResource(String.format("icons/default_user_avatar_%d.png", size));
+        }
+        return VaadinResource.getInstance().getAvatarResource(avatarId, size);
+    }
 
-	public static Button createUserAvatarButtonLink(String userAvatarId, String fullName) {
-		Button button = new Button();
-		button.setIcon(createAvatarResource(userAvatarId, 48));
-		button.setStyleName("link");
-		return button;
-	}
+    public static Button createUserAvatarButtonLink(String userAvatarId, String fullName) {
+        Button button = new Button();
+        button.setIcon(createAvatarResource(userAvatarId, 48));
+        button.setStyleName("link");
+        return button;
+    }
 }

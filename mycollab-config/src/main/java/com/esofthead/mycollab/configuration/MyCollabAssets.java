@@ -37,23 +37,23 @@ public abstract class MyCollabAssets {
 		}
 	}
 
-	protected abstract String generateResourceLink(String resourceId);
+	protected abstract String generateAssetLink(String resourceId);
 
-	public static String newResourceLink(String resourceId) {
-		return impl.generateResourceLink(resourceId);
+	public static String newAssetLink(String resourceId) {
+		return impl.generateAssetLink(resourceId);
 	}
 
 	public static class S3 extends MyCollabAssets {
 
 		@Override
-		protected String generateResourceLink(String resourceId) {
+		protected String generateAssetLink(String resourceId) {
 			return SiteConfiguration.getCdnUrl() + resourceId;
 		}
 	}
 
 	public static class Local extends MyCollabAssets {
 		@Override
-		protected String generateResourceLink(String resourceId) {
+		protected String generateAssetLink(String resourceId) {
 			return String.format("%s%s?v=%s", SiteConfiguration.getCdnUrl(), resourceId, MyCollabVersion.getVersion());
 		}
 

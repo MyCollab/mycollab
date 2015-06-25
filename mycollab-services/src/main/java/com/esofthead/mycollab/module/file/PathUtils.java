@@ -14,17 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.service;
-
-import java.awt.image.BufferedImage;
-
-import com.esofthead.mycollab.core.persistence.service.IService;
+package com.esofthead.mycollab.module.file;
 
 /**
- * @author MyCollab Ltd.
- * @since 4.1.2
- * 
+ * @author MyCollab Ltd
+ * @since 5.0.10
  */
-public interface AccountLogoService extends IService {
-	String upload(String uploadedUser, BufferedImage logo, Integer sAccountId);
+public class PathUtils {
+    public static String buildPath(Integer sAccountId, String objectPath) {
+        return ((sAccountId == null) ? "" : sAccountId + "/") + objectPath;
+    }
+
+    public static String buildLogoPath(Integer sAccountId, String logoFileName, Integer logoSize) {
+        return String.format("%s/.assets/%s_%d.png", sAccountId, logoFileName, logoSize);
+    }
+
+    public static String buildFavIconPath(Integer sAccountId, String favIconFileName) {
+        return String.format("%s/.assets/%s.ico", sAccountId, favIconFileName);
+    }
 }

@@ -40,8 +40,7 @@ import com.esofthead.mycollab.module.user.service.BillingAccountService;
  * 
  */
 @Service
-public class BillingAccountServiceImpl extends
-		DefaultCrudService<Integer, BillingAccount> implements
+public class BillingAccountServiceImpl extends DefaultCrudService<Integer, BillingAccount> implements
 		BillingAccountService {
 
 	@Autowired
@@ -68,9 +67,8 @@ public class BillingAccountServiceImpl extends
 			ex.createCriteria().andSubdomainEqualTo(domain);
 		}
 
-		List<BillingAccount> accounts = billingAccountMapper
-				.selectByExample(ex);
-		if ((accounts == null) || accounts.size() == 0) {
+		List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
+		if (accounts == null || accounts.size() == 0) {
 			return null;
 		} else {
 			return accounts.get(0);
@@ -85,9 +83,8 @@ public class BillingAccountServiceImpl extends
 			ex.createCriteria().andIdEqualTo(accountId);
 		}
 
-		List<BillingAccount> accounts = billingAccountMapper
-				.selectByExample(ex);
-		if ((accounts == null) || accounts.size() == 0) {
+		List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
+		if (accounts == null || accounts.size() == 0) {
 			return null;
 		} else {
 			return accounts.get(0);

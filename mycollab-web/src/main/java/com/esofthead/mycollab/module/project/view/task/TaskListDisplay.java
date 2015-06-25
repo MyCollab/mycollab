@@ -18,8 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -102,7 +101,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, task.getId() + ""));
             taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
 
-            String avatarLink = StorageManager.getAvatarLink(task.getAssignUserAvatarId(), 16);
+            String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
 
             Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),

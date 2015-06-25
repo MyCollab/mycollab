@@ -17,37 +17,32 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class BugSeverityComboBox extends I18nValueComboBox {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public BugSeverityComboBox() {
-		super();
-		this.setNullSelectionAllowed(false);
-		this.setCaption(null);
-		this.loadData(Arrays.asList(OptionI18nEnum.bug_severities));
+    public BugSeverityComboBox() {
+        super();
+        this.setNullSelectionAllowed(false);
+        this.setCaption(null);
+        this.loadData(Arrays.asList(OptionI18nEnum.bug_severities));
 
-		this.setItemIcon(BugSeverity.Critical.name(), MyCollabResource
-				.newResource(ProjectResources.B_SEVERITY_CRITICAL_IMG_12));
-		this.setItemIcon(BugSeverity.Major.name(), MyCollabResource
-				.newResource(ProjectResources.B_SEVERITY_MAJOR_IMG_12));
-		this.setItemIcon(BugSeverity.Minor.name(), MyCollabResource
-				.newResource(ProjectResources.B_SEVERITY_MINOR_IMG_12));
-		this.setItemIcon(BugSeverity.Trivial.name(), MyCollabResource
-				.newResource(ProjectResources.B_SEVERITY_TRIVIAL_IMG_12));
+        this.setItemIcon(BugSeverity.Critical.name(), new AssetResource(ProjectResources.B_SEVERITY_CRITICAL_IMG_12));
+        this.setItemIcon(BugSeverity.Major.name(), new AssetResource(ProjectResources.B_SEVERITY_MAJOR_IMG_12));
+        this.setItemIcon(BugSeverity.Minor.name(), new AssetResource(ProjectResources.B_SEVERITY_MINOR_IMG_12));
+        this.setItemIcon(BugSeverity.Trivial.name(), new AssetResource(ProjectResources.B_SEVERITY_TRIVIAL_IMG_12));
 
-	}
+    }
 }

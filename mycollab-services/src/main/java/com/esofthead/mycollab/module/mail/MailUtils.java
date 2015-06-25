@@ -17,36 +17,34 @@
 package com.esofthead.mycollab.module.mail;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class MailUtils {
-	public static String getSiteUrl(Integer sAccountId) {
-		String siteUrl = "";
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			BillingAccountService billingAccountService = ApplicationContextUtil
-					.getSpringBean(BillingAccountService.class);
-			BillingAccount account = billingAccountService
-					.getAccountById(sAccountId);
-			if (account != null) {
-				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
-			}
-		} else {
-			siteUrl = SiteConfiguration.getSiteUrl("");
-		}
-		return siteUrl;
-	}
+    public static String getSiteUrl(Integer sAccountId) {
+        String siteUrl = "";
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            BillingAccountService billingAccountService = ApplicationContextUtil
+                    .getSpringBean(BillingAccountService.class);
+            BillingAccount account = billingAccountService
+                    .getAccountById(sAccountId);
+            if (account != null) {
+                siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
+            }
+        } else {
+            siteUrl = SiteConfiguration.getSiteUrl("");
+        }
+        return siteUrl;
+    }
 
-	public static String getAvatarLink(String userAvatarId, int size) {
-		return StorageManager.getAvatarLink(userAvatarId, size);
-	}
+    public static String getAvatarLink(String userAvatarId, int size) {
+        return Storage.getAvatarPath(userAvatarId, size);
+    }
 }

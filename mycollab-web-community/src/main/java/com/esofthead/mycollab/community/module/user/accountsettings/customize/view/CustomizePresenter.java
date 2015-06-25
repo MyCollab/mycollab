@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.community.module.user.accountsettings.customize.view;
 
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizeContainer;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingContainer;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
@@ -30,18 +30,18 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.1
  * 
  */
-public class CustomizePresenter extends AbstractPresenter<ICustomizeContainer>
+public class CustomizePresenter extends AbstractPresenter<ISettingContainer>
 		implements ICustomizePresenter {
 	private static final long serialVersionUID = -2484673053224403662L;
 
 	public CustomizePresenter() {
-		super(ICustomizeContainer.class);
+		super(ISettingContainer.class);
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView(SettingUIConstants.CUSTOMIZATION);
+		accountContainer.gotoSubView(SettingUIConstants.SETTING);
 	}
 }

@@ -513,7 +513,7 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	position: absolute;
 	display: none;
 	background-color: #FDFDEE;
-	z-index: 3000;
+	z-index: 10001;
 	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
 }

@@ -55,10 +55,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 4.3.3
- *
  */
 public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout {
     private static final long serialVersionUID = 1L;
@@ -76,8 +74,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
 
     public ProjectFollowersComp(String type, String permissionItem) {
         super();
-        monitorItemService = ApplicationContextUtil
-                .getSpringBean(MonitorItemService.class);
+        monitorItemService = ApplicationContextUtil.getSpringBean(MonitorItemService.class);
         this.type = type;
         this.permissionItem = permissionItem;
     }
@@ -94,8 +91,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         header.addComponent(followerHeader);
 
         if (hasEditPermission()) {
-            Button editBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+            Button editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
@@ -155,8 +151,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         this.addComponent(layout);
 
         int totalFollowers = getTotalFollowers(bean);
-        followersBtn = new Button(AppContext.getMessage(
-                FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers),
+        followersBtn = new Button(AppContext.getMessage(FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers),
                 new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -165,7 +160,6 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                         if (hasReadPermission()) {
                             showEditWatchersWindow(bean);
                         }
-
                     }
                 });
         followersBtn.setStyleName("link");
@@ -187,8 +181,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
     }
 
     private void showEditWatchersWindow(V bean) {
-        UI.getCurrent().addWindow(
-                new CompFollowersEditWindow(hasEditPermission()));
+        UI.getCurrent().addWindow(new CompFollowersEditWindow(hasEditPermission()));
     }
 
     private boolean isUserWatching(V bean) {
@@ -255,33 +248,28 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
         public CompFollowersEditWindow(boolean isEdit) {
             this.setModal(true);
             this.setResizable(false);
-            this.setCaption(AppContext
-                    .getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
+            this.setCaption(AppContext.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
             this.setWidth("600px");
 
             MVerticalLayout content = new MVerticalLayout();
             this.setContent(content);
 
             if (isEdit) {
-                MHorizontalLayout headerPanel = new MHorizontalLayout().withSpacing(true);
+                MHorizontalLayout headerPanel = new MHorizontalLayout();
                 content.addComponent(headerPanel);
 
                 final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();
                 headerPanel.addComponent(memberSelection);
-                Button btnSave = new Button(
-                        AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW),
+                Button btnSave = new Button(AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
                             @Override
                             public void buttonClick(ClickEvent event) {
-
-                                List<SimpleProjectMember> members = memberSelection
-                                        .getSelectedItems();
+                                List<SimpleProjectMember> members = memberSelection.getSelectedItems();
 
                                 for (ProjectMember member : members) {
-                                    ProjectFollowersComp.this.followItem(
-                                            member.getUsername(), bean);
+                                    followItem(member.getUsername(), bean);
                                 }
 
                                 memberSelection.resetComp();
@@ -304,8 +292,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 });
             }
 
-            tableItem = new DefaultPagedBeanTable<>(
-                    ApplicationContextUtil
+            tableItem = new DefaultPagedBeanTable<>(ApplicationContextUtil
                             .getSpringBean(MonitorItemService.class),
                     SimpleMonitorItem.class,
                     Arrays.asList(
@@ -323,7 +310,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 @Override
                 public com.vaadin.ui.Component generateCell(Table source,
                                                             final Object itemId, Object columnId) {
-                    final SimpleMonitorItem monitorItem = tableItem
+                    SimpleMonitorItem monitorItem = tableItem
                             .getBeanByIndex(itemId);
 
                     return new ProjectUserLink(monitorItem.getUser(),
@@ -339,7 +326,7 @@ public class ProjectFollowersComp<V extends ValuedBean> extends MVerticalLayout 
                 @Override
                 public com.vaadin.ui.Component generateCell(Table source,
                                                             Object itemId, Object columnId) {
-                    final MonitorItem monitorItem = tableItem
+                    MonitorItem monitorItem = tableItem
                             .getBeanByIndex(itemId);
                     return new ELabel().prettyDateTime(monitorItem.getMonitorDate());
                 }

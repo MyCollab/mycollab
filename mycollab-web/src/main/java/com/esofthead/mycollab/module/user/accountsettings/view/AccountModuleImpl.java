@@ -113,7 +113,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         accountTab.addTab(constructUserRoleComponent(), SettingUIConstants.USERS,
                 AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
-        accountTab.addTab(constructThemeComponent(), SettingUIConstants.CUSTOMIZATION,
+        accountTab.addTab(constructThemeComponent(), SettingUIConstants.SETTING,
                 AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
@@ -135,7 +135,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                             new BillingScreenData.BillingSummary());
                 } else if (SettingUIConstants.USERS.equals(tabId)) {
                     userPermissionPresenter.go(AccountModuleImpl.this, null);
-                } else if (SettingUIConstants.CUSTOMIZATION.equals(tabId)) {
+                } else if (SettingUIConstants.SETTING.equals(tabId)) {
                     customizePresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.SETUP.equals(tabId)) {
                     setupPresenter.go(AccountModuleImpl.this, null);

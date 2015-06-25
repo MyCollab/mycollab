@@ -34,7 +34,7 @@ class AccountUrlResolver extends UrlResolver {
         this.addSubResolver("billing", new BillingUrlResolver)
         this.addSubResolver("user", new UserUrlResolver)
         this.addSubResolver("role", new RoleUrlResolver)
-        this.addSubResolver("setting", new CustomizeUrlResolver)
+        this.addSubResolver("setting", new SettingUrlResolver)
         if (SiteConfiguration.getDeploymentMode == DeploymentMode.standalone) {
             this.addSubResolver("setup", new SetupUrlResolver)
         }
@@ -66,7 +66,7 @@ class AccountUrlResolver extends UrlResolver {
         }
     }
 
-    private class CustomizeUrlResolver extends AccountUrlResolver {
+    private class SettingUrlResolver extends AccountUrlResolver {
         protected override def handlePage(params: String*) {
             EventBusFactory.getInstance.post(new AccountCustomizeEvent.GotoMainPage(this, null))
         }

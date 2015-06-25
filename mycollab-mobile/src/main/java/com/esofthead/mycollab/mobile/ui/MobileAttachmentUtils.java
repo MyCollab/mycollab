@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -42,152 +42,151 @@ import java.util.Map;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
 public class MobileAttachmentUtils {
-	private static final Logger LOG = LoggerFactory.getLogger(MobileAttachmentUtils.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(MobileAttachmentUtils.class.getName());
 
-	public static final String ATTACHMENT_NAME_PREFIX = "attachment_";
+    public static final String ATTACHMENT_NAME_PREFIX = "attachment_";
 
-	private static final Resource DEFAULT_SOURCE = MyCollabResource.newResource("icons/docs-256.png");
+    private static final Resource DEFAULT_SOURCE = new AssetResource("icons/docs-256.png");
 
-	public static Component renderAttachmentRow(final Content attachment) {
-		String docName = attachment.getPath();
-		int lastIndex = docName.lastIndexOf("/");
-		MHorizontalLayout attachmentRow = new MHorizontalLayout().withWidth("100%").withStyleName("attachment-row");
-		attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+    public static Component renderAttachmentRow(final Content attachment) {
+        String docName = attachment.getPath();
+        int lastIndex = docName.lastIndexOf("/");
+        MHorizontalLayout attachmentRow = new MHorizontalLayout().withWidth("100%").withStyleName("attachment-row");
+        attachmentRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		CssLayout thumbnailWrap = new CssLayout();
-		thumbnailWrap.setWidth("25px");
-		thumbnailWrap.setHeight("40px");
-		thumbnailWrap.setStyleName("thumbnail-wrap");
+        CssLayout thumbnailWrap = new CssLayout();
+        thumbnailWrap.setWidth("25px");
+        thumbnailWrap.setHeight("40px");
+        thumbnailWrap.setStyleName("thumbnail-wrap");
 
-		Image thumbnail = new Image(null);
-		if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
-			thumbnail.setSource(DEFAULT_SOURCE);
-		} else {
-			thumbnail.setSource(VaadinResourceManager.getResourceManager()
-					.getImagePreviewResource(attachment.getThumbnail()));
-		}
-		thumbnail.setWidth("100%");
-		thumbnailWrap.addComponent(thumbnail);
-		attachmentRow.addComponent(thumbnailWrap);
+        Image thumbnail = new Image(null);
+        if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
+            thumbnail.setSource(DEFAULT_SOURCE);
+        } else {
+            thumbnail.setSource(VaadinResource.getInstance()
+                    .getResource(attachment.getThumbnail()));
+        }
+        thumbnail.setWidth("100%");
+        thumbnailWrap.addComponent(thumbnail);
+        attachmentRow.addComponent(thumbnailWrap);
 
-		if (lastIndex != -1) {
-			docName = docName.substring(lastIndex + 1, docName.length());
-		}
+        if (lastIndex != -1) {
+            docName = docName.substring(lastIndex + 1, docName.length());
+        }
 
-		if (MimeTypesUtil.isImageType(docName)) {
-			Button b = new Button(attachment.getTitle(),
-					new Button.ClickListener() {
+        if (MimeTypesUtil.isImageType(docName)) {
+            Button b = new Button(attachment.getTitle(),
+                    new Button.ClickListener() {
 
-						private static final long serialVersionUID = -1713187920922886934L;
+                        private static final long serialVersionUID = -1713187920922886934L;
 
-						@Override
-						public void buttonClick(Button.ClickEvent event) {
-							AttachmentPreviewView previewView = new AttachmentPreviewView(
-									VaadinResourceManager.getResourceManager()
-											.getImagePreviewResource(attachment.getPath()));
-							EventBusFactory.getInstance().post(
-									new ShellEvent.PushView(this, previewView));
-						}
-					});
-			b.setWidth("100%");
-			attachmentRow.addComponent(b);
-			attachmentRow.setExpandRatio(b, 1.0f);
-		} else {
-			Label l = new Label(attachment.getTitle());
-			l.setWidth("100%");
-			attachmentRow.addComponent(l);
-			attachmentRow.setExpandRatio(l, 1.0f);
-		}
-		return attachmentRow;
-	}
+                        @Override
+                        public void buttonClick(Button.ClickEvent event) {
+                            AttachmentPreviewView previewView = new AttachmentPreviewView(
+                                    VaadinResource.getInstance()
+                                            .getResource(attachment.getPath()));
+                            EventBusFactory.getInstance().post(
+                                    new ShellEvent.PushView(this, previewView));
+                        }
+                    });
+            b.setWidth("100%");
+            attachmentRow.addComponent(b);
+            attachmentRow.setExpandRatio(b, 1.0f);
+        } else {
+            Label l = new Label(attachment.getTitle());
+            l.setWidth("100%");
+            attachmentRow.addComponent(l);
+            attachmentRow.setExpandRatio(l, 1.0f);
+        }
+        return attachmentRow;
+    }
 
-	public static Component renderAttachmentFieldRow(final Content attachment, Button.ClickListener additionalListener) {
-		String docName = attachment.getPath();
-		int lastIndex = docName.lastIndexOf("/");
-		if (lastIndex != -1) {
-			docName = docName.substring(lastIndex + 1, docName.length());
-		}
+    public static Component renderAttachmentFieldRow(final Content attachment, Button.ClickListener additionalListener) {
+        String docName = attachment.getPath();
+        int lastIndex = docName.lastIndexOf("/");
+        if (lastIndex != -1) {
+            docName = docName.substring(lastIndex + 1, docName.length());
+        }
 
-		final HorizontalLayout attachmentLayout = new HorizontalLayout();
-		attachmentLayout.setSpacing(true);
-		attachmentLayout.setStyleName("attachment-row");
-		attachmentLayout.setWidth("100%");
-		attachmentLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        final HorizontalLayout attachmentLayout = new HorizontalLayout();
+        attachmentLayout.setSpacing(true);
+        attachmentLayout.setStyleName("attachment-row");
+        attachmentLayout.setWidth("100%");
+        attachmentLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		CssLayout thumbnailWrap = new CssLayout();
-		thumbnailWrap.setWidth("25px");
-		thumbnailWrap.setHeight("40px");
-		thumbnailWrap.setStyleName("thumbnail-wrap");
+        CssLayout thumbnailWrap = new CssLayout();
+        thumbnailWrap.setWidth("25px");
+        thumbnailWrap.setHeight("40px");
+        thumbnailWrap.setStyleName("thumbnail-wrap");
 
-		Image thumbnail = new Image(null);
-		if (org.apache.commons.lang3.StringUtils.isBlank(attachment
-				.getThumbnail())) {
-			thumbnail.setSource(DEFAULT_SOURCE);
-		} else {
-			thumbnail.setSource(VaadinResourceManager.getResourceManager()
-					.getImagePreviewResource(attachment.getThumbnail()));
-		}
-		thumbnail.setWidth("100%");
-		thumbnailWrap.addComponent(thumbnail);
-		attachmentLayout.addComponent(thumbnailWrap);
+        Image thumbnail = new Image(null);
+        if (org.apache.commons.lang3.StringUtils.isBlank(attachment
+                .getThumbnail())) {
+            thumbnail.setSource(DEFAULT_SOURCE);
+        } else {
+            thumbnail.setSource(VaadinResource.getInstance()
+                    .getResource(attachment.getThumbnail()));
+        }
+        thumbnail.setWidth("100%");
+        thumbnailWrap.addComponent(thumbnail);
+        attachmentLayout.addComponent(thumbnailWrap);
 
-		Label attachmentLink = new Label(docName);
-		attachmentLayout.addComponent(attachmentLink);
-		attachmentLayout.setExpandRatio(attachmentLink, 1.0f);
+        Label attachmentLink = new Label(docName);
+        attachmentLayout.addComponent(attachmentLink);
+        attachmentLayout.setExpandRatio(attachmentLink, 1.0f);
 
-		Button removeAttachment = new Button(
+        Button removeAttachment = new Button(
                 String.format("<span aria-hidden=\"true\" data-icon=\"%s\"></span>", IconConstants.DELETE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+                new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						ConfirmDialog.show(UI.getCurrent(),
-								AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        ConfirmDialog.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.CloseListener() {
+                                    private static final long serialVersionUID = 1L;
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											ResourceService attachmentService = ApplicationContextUtil
-													.getSpringBean(ResourceService.class);
-											attachmentService.removeResource(attachment.getPath(),
-													AppContext.getUsername(), AppContext.getAccountId());
-											((ComponentContainer) attachmentLayout.getParent())
-													.removeComponent(attachmentLayout);
-										}
-									}
-								});
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            ResourceService attachmentService = ApplicationContextUtil
+                                                    .getSpringBean(ResourceService.class);
+                                            attachmentService.removeResource(attachment.getPath(),
+                                                    AppContext.getUsername(), AppContext.getAccountId());
+                                            ((ComponentContainer) attachmentLayout.getParent())
+                                                    .removeComponent(attachmentLayout);
+                                        }
+                                    }
+                                });
 
-					}
-				});
-		if (additionalListener != null) {
-			removeAttachment.addClickListener(additionalListener);
-		}
-		removeAttachment.setHtmlContentAllowed(true);
-		removeAttachment.setStyleName("link");
-		attachmentLayout.addComponent(removeAttachment);
+                    }
+                });
+        if (additionalListener != null) {
+            removeAttachment.addClickListener(additionalListener);
+        }
+        removeAttachment.setHtmlContentAllowed(true);
+        removeAttachment.setStyleName("link");
+        attachmentLayout.addComponent(removeAttachment);
 
-		return attachmentLayout;
-	}
+        return attachmentLayout;
+    }
 
-	public static Component renderAttachmentFieldRow(Content attachment) {
-		return renderAttachmentFieldRow(attachment, null);
-	}
+    public static Component renderAttachmentFieldRow(Content attachment) {
+        return renderAttachmentFieldRow(attachment, null);
+    }
 
-	public static void saveContentsToRepo(String attachmentPath,
-			Map<String, File> fileStores) {
-		if (MapUtils.isNotEmpty(fileStores)) {
+    public static void saveContentsToRepo(String attachmentPath,
+                                          Map<String, File> fileStores) {
+        if (MapUtils.isNotEmpty(fileStores)) {
             ResourceService resourceService = ApplicationContextUtil
                     .getSpringBean(ResourceService.class);
-			for (Map.Entry<String, File> entry : fileStores.entrySet()) {
+            for (Map.Entry<String, File> entry : fileStores.entrySet()) {
                 try {
                     String fileExt = "";
                     String fileName = entry.getKey();
@@ -243,14 +242,14 @@ public class MobileAttachmentUtils {
                 } catch (FileNotFoundException e) {
                     LOG.error("Error when attach content in UI", e);
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 
-	public static Content constructContent(String fileName, String path) {
-		Content content = new Content(path + "/" + fileName);
-		content.setTitle(fileName);
-		content.setDescription("");
-		return content;
-	}
+    public static Content constructContent(String fileName, String path) {
+        Content content = new Content(path + "/" + fileName);
+        content.setTitle(fileName);
+        content.setDescription("");
+        return content;
+    }
 }

@@ -24,7 +24,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -76,11 +76,11 @@ public class ActivityRootView extends AbstractPageView {
     private void buildComponents() {
         activityTabs.addTab(constructCalendarView(), "calendar",
                 AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
-                MyCollabResource.newResource("icons/22/crm/calendar.png"));
+                new AssetResource("icons/22/crm/calendar.png"));
 
         activityTabs.addTab(constructActivityListView(), "activities",
                 AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
-                MyCollabResource.newResource("icons/22/crm/activitylist.png"));
+                new AssetResource("icons/22/crm/activitylist.png"));
 
         activityTabs
                 .addSelectedTabChangeListener(new SelectedTabChangeListener() {

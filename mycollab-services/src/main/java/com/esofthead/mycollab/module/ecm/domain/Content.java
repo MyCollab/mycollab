@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.ecm.domain;
 
+import com.esofthead.mycollab.module.file.PathUtils;
+
 import java.util.Calendar;
 
 /**
@@ -97,7 +99,7 @@ public class Content extends Resource {
     }
 
     public static Content buildContentInstance(Integer accountId, String objectPath) {
-        String newPath = ((accountId == null) ? "" : accountId + "/") + objectPath;
+        String newPath = PathUtils.buildPath(accountId, objectPath);
         Content content = new Content();
         content.setDescription("");
         content.setPath(newPath);

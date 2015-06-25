@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -25,7 +24,7 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
+import com.esofthead.mycollab.vaadin.resources.VaadinResource;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Span;
@@ -41,15 +40,13 @@ import org.vaadin.dialogs.ConfirmDialog;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 2.0
- *
  */
 public class AttachmentDisplayComponent extends CssLayout {
     private static final long serialVersionUID = 1L;
 
-    private static final Resource DEFAULT_SOURCE = MyCollabResource.newResource(WebResourceIds._docs_256);
+    private static final Resource DEFAULT_SOURCE = new AssetResource(WebResourceIds._docs_256);
 
     public AttachmentDisplayComponent(List<Content> attachments) {
         for (Content attachment : attachments) {
@@ -77,8 +74,8 @@ public class AttachmentDisplayComponent extends CssLayout {
         if (org.apache.commons.lang3.StringUtils.isBlank(attachment.getThumbnail())) {
             thumbnail.setSource(DEFAULT_SOURCE);
         } else {
-            thumbnail.setSource(VaadinResourceManager.getResourceManager()
-                    .getImagePreviewResource(attachment.getThumbnail()));
+            thumbnail.setSource(VaadinResource.getInstance()
+                    .getResource(attachment.getThumbnail()));
         }
 
         Div contentTooltip = new Div().appendChild(new Span().appendText(docName).setStyle("font-weight:bold"));
@@ -97,8 +94,8 @@ public class AttachmentDisplayComponent extends CssLayout {
 
                 @Override
                 public void click(MouseEvents.ClickEvent event) {
-                    Resource previewResource = VaadinResourceManager
-                            .getResourceManager().getImagePreviewResource(
+                    Resource previewResource = VaadinResource
+                            .getInstance().getResource(
                                     attachment.getPath());
                     UI.getCurrent().addWindow(new AttachmentPreviewWindow(previewResource));
                 }
@@ -148,7 +145,7 @@ public class AttachmentDisplayComponent extends CssLayout {
         attachmentLayout.addComponent(trashBtn, "top: 9px; left: 9px; z-index: 1;");
 
         Button downloadBtn = new Button();
-        FileDownloader fileDownloader = new FileDownloader(VaadinResourceManager.getResourceManager()
+        FileDownloader fileDownloader = new FileDownloader(VaadinResource.getInstance()
                 .getStreamResource(attachment.getPath()));
         fileDownloader.extend(downloadBtn);
 

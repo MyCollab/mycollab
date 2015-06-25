@@ -24,18 +24,18 @@ import com.hp.gagawa.java.elements.{Div, Text}
  */
 class DivLessFormatter extends Div {
 
-  override def write: String = {
-    val b: StringBuffer = new StringBuffer
-    if ((this.children != null) && (this.children.size > 0)) {
-      import scala.collection.JavaConversions._
-      for (child <- this.children) {
-        b.append(child.write)
-      }
+    override def write: String = {
+        val b: StringBuffer = new StringBuffer
+        if ((this.children != null) && (this.children.size > 0)) {
+            import scala.collection.JavaConversions._
+            for (child <- this.children) {
+                b.append(child.write)
+            }
+        }
+        return b.toString
     }
-    return b.toString
-  }
 }
 
 object DivLessFormatter {
-  val EMPTY_SPACE = new Text("&nbsp;")
+    val EMPTY_SPACE = new Text("&nbsp;")
 }

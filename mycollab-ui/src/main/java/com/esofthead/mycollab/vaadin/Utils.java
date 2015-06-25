@@ -14,25 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.ui;
+package com.esofthead.mycollab.vaadin;
 
-import com.esofthead.mycollab.configuration.MyCollabAssets;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Resource;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServletRequest;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.0.10
  */
-public class MyCollabResource {
-
-	public static Resource newResource(String resourceId) {
-		return new ExternalResource(newResourceLink(resourceId));
-	}
-
-	public static String newResourceLink(String resourceId) {
-		return MyCollabAssets.newResourceLink(resourceId);
-	}
+public class Utils {
+    public static String getSubDomain(VaadinRequest request) {
+        VaadinServletRequest servletRequest = (VaadinServletRequest) request;
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            return servletRequest.getServerName().split("\\.")[0];
+        } else {
+            return servletRequest.getServerName();
+        }
+    }
 }

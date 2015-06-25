@@ -81,8 +81,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public Folder createNewFolder(String baseFolderPath, String folderName,
-			String createdBy) {
+	public Folder createNewFolder(String baseFolderPath, String folderName, String createdBy) {
 		String folderPath = baseFolderPath + "/" + folderName;
 		Folder folder = new Folder(folderPath);
 		folder.setName(folderName);

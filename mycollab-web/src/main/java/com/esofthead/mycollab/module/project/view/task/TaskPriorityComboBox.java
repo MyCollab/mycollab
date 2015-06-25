@@ -16,39 +16,32 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.Arrays;
-
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+
+import java.util.Arrays;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class TaskPriorityComboBox extends I18nValueComboBox {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TaskPriorityComboBox() {
-		this.setNullSelectionAllowed(false);
+    public TaskPriorityComboBox() {
+        this.setNullSelectionAllowed(false);
 
-		this.loadData(Arrays.asList(TaskPriority.Urgent, TaskPriority.High,
-				TaskPriority.Medium, TaskPriority.Low, TaskPriority.None));
+        this.loadData(Arrays.asList(TaskPriority.Urgent, TaskPriority.High,
+                TaskPriority.Medium, TaskPriority.Low, TaskPriority.None));
 
-		this.setItemIcon(TaskPriority.High.name(), MyCollabResource
-				.newResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
-		this.setItemIcon(TaskPriority.Low.name(), MyCollabResource
-				.newResource(ProjectResources.T_PRIORITY_LOW_IMG));
-		this.setItemIcon(TaskPriority.Medium.name(), MyCollabResource
-				.newResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
-		this.setItemIcon(TaskPriority.None.name(), MyCollabResource
-				.newResource(ProjectResources.T_PRIORITY_NONE_IMG));
-		this.setItemIcon(TaskPriority.Urgent.name(), MyCollabResource
-				.newResource(ProjectResources.T_PRIORITY_URGENT_IMG));
+        this.setItemIcon(TaskPriority.High.name(), new AssetResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
+        this.setItemIcon(TaskPriority.Low.name(), new AssetResource(ProjectResources.T_PRIORITY_LOW_IMG));
+        this.setItemIcon(TaskPriority.Medium.name(), new AssetResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
+        this.setItemIcon(TaskPriority.None.name(), new AssetResource(ProjectResources.T_PRIORITY_NONE_IMG));
+        this.setItemIcon(TaskPriority.Urgent.name(), new AssetResource(ProjectResources.T_PRIORITY_URGENT_IMG));
 
-		this.setValue(this.getItemIds().iterator().next());
-	}
+        this.setValue(this.getItemIds().iterator().next());
+    }
 }

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.shell.view.components;
 
 import com.esofthead.mycollab.core.MyCollabVersion;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.AssetResource;
 import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -50,7 +50,7 @@ public class AboutWindow extends Window {
         MHorizontalLayout content = new MHorizontalLayout().withMargin(true).withWidth("100%");
         this.setContent(content);
 
-        Image about = new Image("", MyCollabResource.newResource(WebResourceIds._about));
+        Image about = new Image("", new AssetResource(WebResourceIds._about));
         MVerticalLayout rightPanel = new MVerticalLayout();
         Label versionLbl = new Label(String.format("MyCollab Community Edition %s", MyCollabVersion.getVersion()));
         versionLbl.addStyleName("h2");
@@ -62,7 +62,7 @@ public class AboutWindow extends Window {
         osLbl.addStyleName("wordWrap");
         Div licenseDiv = new Div().appendChild(new Text("Powered by: "))
                 .appendChild(new A("https://www.mycollab.com")
-                .appendText("MyCollab")).appendChild(new Text(". Open source under GPL license"));
+                        .appendText("MyCollab")).appendChild(new Text(". Open source under GPL license"));
         Label licenseLbl = new Label(licenseDiv.write(), ContentMode.HTML);
         Label copyRightLbl = new Label(String.format("&copy; %s - %s MyCollab Ltd. All rights reserved", "2011",
                 new GregorianCalendar().get(Calendar.YEAR) + ""), ContentMode.HTML);

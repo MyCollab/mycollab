@@ -24,6 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 4.1
  * 
  */
-public interface ICustomizeContainer extends PageView {
+public interface ISettingContainer extends PageView {
 
 }

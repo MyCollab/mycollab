@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
@@ -34,7 +34,10 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.elements.*;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Text;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -97,7 +100,7 @@ public class DueBugWidget extends BugDisplayWidget {
                 footer.appendChild(bugInfoTxt, DivLessFormatter.EMPTY_SPACE(), new Text("None"));
             } else {
                 String uid = UUID.randomUUID().toString();
-                Img userAvatar = new Img("", StorageManager.getAvatarLink(bug.getAssignUserAvatarId(), 16));
+                Img userAvatar = new Img("", Storage.getAvatarPath(bug.getAssignUserAvatarId(), 16));
                 A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(bug
                         .getProjectid(), bug.getAssignuser())).appendText(com.esofthead.mycollab.core.utils
                         .StringUtils.trim(bug.getAssignuserFullName(), 30, true));

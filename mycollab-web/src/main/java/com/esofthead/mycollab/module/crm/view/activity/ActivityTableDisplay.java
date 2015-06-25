@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -39,7 +39,6 @@ import com.hp.gagawa.java.elements.*;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -414,10 +413,9 @@ public class ActivityTableDisplay extends
                                                     .appendChild(
                                                             new Img(
                                                                     "",
-                                                                    StorageManager
-                                                                            .getAvatarLink(
-                                                                                    event.getAssignUserAvatarId(),
-                                                                                    16)))
+                                                                    Storage.getAvatarPath(
+                                                                            event.getAssignUserAvatarId(),
+                                                                            16)))
                                                     .appendText(
                                                             StringUtils
                                                                     .trimHtmlTags(event

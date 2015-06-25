@@ -16,32 +16,16 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.themes.BaseTheme;
+import com.esofthead.mycollab.configuration.MyCollabAssets;
+import com.vaadin.server.ExternalResource;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.1
- * 
+ * @author MyCollab Ltd
+ * @since 5.0.10
  */
-public class AccountLogoFactory {
-	public static Button createAccountLogoImageComponent(String logoId, int size) {
-		Button logo = new Button();
-		logo.setStyleName(BaseTheme.BUTTON_LINK);
-		logo.setIcon(createLogoResource(logoId, size));
-		return logo;
+public class AssetResource extends ExternalResource {
 
-	}
-
-	public static Resource createLogoResource(String logoId, int size) {
-		if (logoId == null) {
-			return MyCollabResource.newResource("icons/logo.png");
-		}
-
-		return VaadinResourceManager.getResourceManager().getLogoResource(
-				logoId, size);
-	}
+    public AssetResource(String resourceId) {
+        super(MyCollabAssets.newAssetLink(resourceId));
+    }
 }

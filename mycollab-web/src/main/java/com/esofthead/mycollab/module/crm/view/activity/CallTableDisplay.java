@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import java.util.List;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
@@ -27,89 +25,84 @@ import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.LabelLink;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  */
 public class CallTableDisplay extends
-		DefaultPagedBeanTable<CallService, CallSearchCriteria, SimpleCall> {
-	private static final long serialVersionUID = 1L;
+        DefaultPagedBeanTable<CallService, CallSearchCriteria, SimpleCall> {
+    private static final long serialVersionUID = 1L;
 
-	public CallTableDisplay(List<TableViewField> displayColumns) {
-		this(null, displayColumns);
-	}
+    public CallTableDisplay(TableViewField requireColumn,
+                            List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(CallService.class), SimpleCall.class,
+                requireColumn, displayColumns);
 
-	public CallTableDisplay(TableViewField requireColumn,
-			List<TableViewField> displayColumns) {
-		super(ApplicationContextUtil.getSpringBean(CallService.class), SimpleCall.class,
-				requireColumn, displayColumns);
+        this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-		this.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        final Object itemId, Object columnId) {
+                final SimpleCall call = CallTableDisplay.this
+                        .getBeanByIndex(itemId);
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					final Object itemId, Object columnId) {
-				final SimpleCall call = CallTableDisplay.this
-						.getBeanByIndex(itemId);
-				
-				LabelLink b = new LabelLink(call.getSubject(),
-						CrmLinkBuilder.generateCallPreviewLinkFul(call
-								.getId()));	
+                LabelLink b = new LabelLink(call.getSubject(),
+                        CrmLinkBuilder.generateCallPreviewLinkFul(call
+                                .getId()));
 
-				if ("Held".equals(call.getStatus())) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				}
-				return b;
+                if ("Held".equals(call.getStatus())) {
+                    b.addStyleName(UIConstants.LINK_COMPLETED);
+                }
+                return b;
 
-			}
-		});
+            }
+        });
 
-		this.addGeneratedColumn("isClosed", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("isClosed", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					final Object itemId, Object columnId) {
-				final SimpleCall call = CallTableDisplay.this
-						.getBeanByIndex(itemId);
-				Button b = new Button(null, new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        final Object itemId, Object columnId) {
+                final SimpleCall call = CallTableDisplay.this
+                        .getBeanByIndex(itemId);
+                Button b = new Button(null, new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								CallTableDisplay.this, call, "isClosed"));
-					}
-				});
-				b.setIcon(FontAwesome.TRASH_O);
-				b.setStyleName("link");
-				b.setDescription("Close this call");
-				return b;
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        fireTableEvent(new TableClickEvent(
+                                CallTableDisplay.this, call, "isClosed"));
+                    }
+                });
+                b.setIcon(FontAwesome.TRASH_O);
+                b.setStyleName("link");
+                b.setDescription("Close this call");
+                return b;
 
-			}
-		});
+            }
+        });
 
-		this.addGeneratedColumn("startdate", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("startdate", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					final Object itemId, Object columnId) {
-				final SimpleCall call = CallTableDisplay.this
-						.getBeanByIndex(itemId);
-				return new Label(AppContext.formatDateTime(call.getStartdate()));
+            @Override
+            public com.vaadin.ui.Component generateCell(Table source,
+                                                        final Object itemId, Object columnId) {
+                final SimpleCall call = CallTableDisplay.this
+                        .getBeanByIndex(itemId);
+                return new Label(AppContext.formatDateTime(call.getStartdate()));
 
-			}
-		});
-	}
+            }
+        });
+    }
 }

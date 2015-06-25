@@ -16,48 +16,46 @@
  */
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
-import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_MODULE;
-
-import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.module.file.view.IFileModule;
 import com.esofthead.mycollab.module.project.view.ProjectModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
+import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
+
+import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_MODULE;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ModuleHelper {
 
-	public static void setCurrentModule(IModule module) {
-		MyCollabSession.putVariable(CURRENT_MODULE, module);
-	}
+    public static void setCurrentModule(IModule module) {
+        MyCollabSession.putVariable(CURRENT_MODULE, module);
+    }
 
-	public static IModule getCurrentModule() {
-		return (IModule) MyCollabSession.getVariable(CURRENT_MODULE);
-	}
+    public static IModule getCurrentModule() {
+        return (IModule) MyCollabSession.getVariable(CURRENT_MODULE);
+    }
 
-	public static boolean isCurrentProjectModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof ProjectModule);
-	}
+    public static boolean isCurrentProjectModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (module instanceof ProjectModule);
+    }
 
-	public static boolean isCurrentCrmModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof CrmModule);
-	}
+    public static boolean isCurrentCrmModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (module instanceof CrmModule);
+    }
 
-	public static boolean isCurrentFileModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module.getClass().isAssignableFrom(IFileModule.class));
-	}
+    public static boolean isCurrentFileModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (IFileModule.class.isAssignableFrom(module.getClass()));
+    }
 
-	public static boolean isCurrentAccountModule() {
-		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof AccountModule);
-	}
+    public static boolean isCurrentAccountModule() {
+        IModule module = getCurrentModule();
+        return (module != null) && (module instanceof AccountModule);
+    }
 }

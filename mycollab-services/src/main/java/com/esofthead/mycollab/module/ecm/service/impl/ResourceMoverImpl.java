@@ -37,8 +37,7 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 @Service
 public class ResourceMoverImpl implements ResourceMover {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ResourceMoverImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceMoverImpl.class);
 
 	@Autowired
 	private ResourceService resourceService;
@@ -48,8 +47,8 @@ public class ResourceMoverImpl implements ResourceMover {
 		String destMovePath = destRes.getPath() + "/" + srcRes.getName();
 
 		if (srcRes instanceof Folder) {
-			Folder createdFolder = null;
-			List<Resource> lstRes = null;
+			Folder createdFolder;
+			List<Resource> lstRes;
 
 			if (ResourceUtils.getType(destRes) != ResourceType.MyCollab) {
 				ExternalResourceService destService = ResourceUtils

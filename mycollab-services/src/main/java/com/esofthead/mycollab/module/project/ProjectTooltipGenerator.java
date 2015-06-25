@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
@@ -127,7 +127,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, task.getAssignuser())
                     : "";
-            String assignUserAvatarLink = StorageManager.getAvatarLink(
+            String assignUserAvatarLink = Storage.getAvatarPath(
                     task.getAssignUserAvatarId(), 16);
             Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     task.getAssignUserFullName());
@@ -237,7 +237,7 @@ public class ProjectTooltipGenerator {
                     BugI18nEnum.FORM_LOG_BY));
             String logbyUserLink = (bug.getLogby() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, bug.getLogby()) : "";
-            String logbyAvatarLink = StorageManager.getAvatarLink(
+            String logbyAvatarLink = Storage.getAvatarPath(
                     bug.getLoguserAvatarId(), 16);
             Td cell62 = buildCellLink(logbyUserLink, logbyAvatarLink,
                     bug.getLoguserFullName());
@@ -246,7 +246,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (bug.getAssignuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, bug.getAssignuser())
                     : "";
-            String assignUserAvatarLink = StorageManager.getAvatarLink(
+            String assignUserAvatarLink = Storage.getAvatarPath(
                     bug.getAssignUserAvatarId(), 16);
             Td cell64 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     bug.getAssignuserFullName());
@@ -295,7 +295,7 @@ public class ProjectTooltipGenerator {
             String raisedUserLink = (risk.getRaisedbyuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             risk.getRaisedbyuser()) : "";
-            String raisedUserAvatarLink = StorageManager.getAvatarLink(
+            String raisedUserAvatarLink = Storage.getAvatarPath(
                     risk.getRaisedByUserAvatarId(), 16);
             Td cell12 = buildCellLink(raisedUserLink, raisedUserAvatarLink,
                     risk.getRaisedByUserFullName());
@@ -311,7 +311,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (risk.getAssigntouser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             risk.getAssigntouser()) : "";
-            String assignUserAvatarLink = StorageManager.getAvatarLink(
+            String assignUserAvatarLink = Storage.getAvatarPath(
                     risk.getAssignToUserAvatarId(), 16);
             Td cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     risk.getAssignedToUserFullName());
@@ -383,7 +383,7 @@ public class ProjectTooltipGenerator {
             String raisedByUserLink = (problem.getRaisedbyuser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             problem.getRaisedbyuser()) : "";
-            String raisedByUserAvatarLink = StorageManager.getAvatarLink(
+            String raisedByUserAvatarLink = Storage.getAvatarPath(
                     problem.getRaisedByUserAvatarId(), 16);
             Td cell12 = buildCellLink(raisedByUserLink, raisedByUserAvatarLink,
                     problem.getRaisedByUserFullName());
@@ -399,7 +399,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (problem.getAssigntouser() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             problem.getAssigntouser()) : "";
-            String assignUserAvatarLink = StorageManager.getAvatarLink(
+            String assignUserAvatarLink = Storage.getAvatarPath(
                     problem.getAssignUserAvatarId(), 16);
             Td cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     problem.getAssignedUserFullName());
@@ -507,7 +507,7 @@ public class ProjectTooltipGenerator {
             String leadLink = (component.getUserlead() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL,
                             component.getUserlead()) : "";
-            String leadAvatarLink = StorageManager.getAvatarLink(
+            String leadAvatarLink = Storage.getAvatarPath(
                     component.getUserLeadAvatarId(), 16);
             Td cell32 = buildCellLink(leadLink, leadAvatarLink,
                     component.getUserLeadFullName());
@@ -545,7 +545,7 @@ public class ProjectTooltipGenerator {
             String ownerLink = (taskList.getOwner() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, taskList.getOwner())
                     : "";
-            String ownerAvatarLink = StorageManager.getAvatarLink(
+            String ownerAvatarLink = Storage.getAvatarPath(
                     taskList.getOwnerAvatarId(), 16);
             Td cell32 = buildCellLink(ownerLink, ownerAvatarLink,
                     taskList.getOwnerFullName());
@@ -681,7 +681,7 @@ public class ProjectTooltipGenerator {
             String assignUserLink = (milestone.getOwner() != null) ? AccountLinkGenerator
                     .generatePreviewFullUserLink(siteURL, milestone.getOwner())
                     : "";
-            String assignUserAvatarLink = StorageManager.getAvatarLink(
+            String assignUserAvatarLink = Storage.getAvatarPath(
                     milestone.getOwnerAvatarId(), 16);
             Td cell24 = buildCellLink(assignUserLink, assignUserAvatarLink,
                     milestone.getOwnerFullName());

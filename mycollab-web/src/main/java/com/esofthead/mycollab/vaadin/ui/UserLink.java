@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.utils.TooltipHelper;
@@ -44,7 +44,7 @@ public class UserLink extends Label {
         this.setContentMode(ContentMode.HTML);
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageManager.getAvatarLink(userAvatarId, 16));
+        Img userAvatar = new Img("", Storage.getAvatarPath(userAvatarId, 16));
         A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username))
                 .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));

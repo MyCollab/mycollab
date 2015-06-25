@@ -40,8 +40,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
     @Override
     public ComponentContainer getLayout() {
         if (userAvatarIcon == null) {
-            userAvatarIcon = MyCollabResource
-                    .newResource(WebResourceIds._default_user_avatar_24);
+            userAvatarIcon = new AssetResource(WebResourceIds._default_user_avatar_24);
         }
         ReadViewLayout userAddLayout = new DefaultReadViewLayout(this.title);
 

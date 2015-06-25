@@ -32,7 +32,6 @@ import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
  *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class SiteConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(SiteConfiguration.class);
@@ -84,8 +83,6 @@ public class SiteConfiguration {
         if (!instance.appUrl.endsWith("/")) {
             instance.appUrl += "/";
         }
-
-        StorageManager.loadStorageConfig();
 
         instance.endecryptPassword = ApplicationProperties.getString(
                 BI_ENDECRYPT_PASSWORD, "esofthead321");

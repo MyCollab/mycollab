@@ -18,13 +18,12 @@ package com.esofthead.mycollab.vaadin.resources.file;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.configuration.FileStorageConfiguration;
+import com.esofthead.mycollab.configuration.FileStorage;
 import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FileResource;
 
@@ -39,7 +38,7 @@ class FileStreamDownloadResource extends FileResource {
     private static final Logger LOG = LoggerFactory.getLogger(FileStreamDownloadResource.class);
 
     FileStreamDownloadResource(String documentPath) {
-        super(new File(FileStorageConfiguration.baseContentFolder, documentPath));
+        super(new File(FileStorage.baseContentFolder, documentPath));
     }
 
     @Override

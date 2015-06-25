@@ -17,11 +17,8 @@
 package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.common.SessionIdGenerator;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,22 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.3.2
- *
  */
 public abstract class MyCollabUI extends UI {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(MyCollabUI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MyCollabUI.class);
 
-	static {
-		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
-			@Override
-			public Integer getGroupId() {
-				return AppContext.getAccountId();
-			}
+    static {
+        GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
+            @Override
+            public Integer getGroupId() {
+                return AppContext.getAccountId();
+            }
 
             @Override
             public String getGroupRequestedUser() {
@@ -53,53 +48,48 @@ public abstract class MyCollabUI extends UI {
             }
         });
 
-		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
-			@Override
-			public String getSessionIdApp() {
-				return UI.getCurrent().toString();
-			}
-		});
-	}
-
-	/**
-	 * Context of current logged in user
-	 */
-	protected AppContext currentContext;
-
-	protected String initialSubDomain = "1";
-	protected String initialUrl = "";
-	private Map<String, Object> attributes = new HashMap<>();
-
-	public String getInitialUrl() {
-		return initialUrl;
-	}
-
-	public void setInitialUrl(String value) {
-		this.initialUrl = value;
-	}
-
-	protected void postSetupApp(VaadinRequest request) {
-		VaadinServletRequest servletRequest = (VaadinServletRequest) request;
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			initialSubDomain = servletRequest.getServerName().split("\\.")[0];
-		} else {
-			initialSubDomain = servletRequest.getServerName();
-		}
+        SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
+            @Override
+            public String getSessionIdApp() {
+                return UI.getCurrent().toString();
+            }
+        });
     }
 
-	public void setAttribute(String key, Object value) {
-		attributes.put(key, value);
-	}
+    /**
+     * Context of current logged in user
+     */
+    protected AppContext currentContext;
 
-	public Object getAttribute(String key) {
-		return attributes.get(key);
-	}
+    protected String initialSubDomain = "1";
+    protected String initialUrl = "";
+    private Map<String, Object> attributes = new HashMap<>();
 
-	@Override
-	public void close() {
-		LOG.debug("Application is closed. Clean all resources");
-		currentContext.clearSessionVariables();
-		currentContext = null;
-		super.close();
-	}
+    public String getInitialUrl() {
+        return initialUrl;
+    }
+
+    public void setInitialUrl(String value) {
+        this.initialUrl = value;
+    }
+
+    final protected void postSetupApp(VaadinRequest request) {
+        initialSubDomain = Utils.getSubDomain(request);
+    }
+
+    public void setAttribute(String key, Object value) {
+        attributes.put(key, value);
+    }
+
+    public Object getAttribute(String key) {
+        return attributes.get(key);
+    }
+
+    @Override
+    public void close() {
+        LOG.debug("Application is closed. Clean all resources");
+        currentContext.clearSessionVariables();
+        currentContext = null;
+        super.close();
+    }
 }

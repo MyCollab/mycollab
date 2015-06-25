@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -158,7 +158,7 @@ public class ProjectActivityStreamPagedList extends
     private String buildAssigneeValue(SimpleActivityStream activityStream) {
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
-        Img userAvatar = new Img("", StorageManager.getAvatarLink(
+        Img userAvatar = new Img("", Storage.getAvatarPath(
                 activityStream.getCreatedUserAvatarId(), 16));
         A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                 activityStream.getExtratypeid(), activityStream.getCreateduser()));

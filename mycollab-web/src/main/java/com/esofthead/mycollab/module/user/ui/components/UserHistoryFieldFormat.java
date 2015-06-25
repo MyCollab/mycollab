@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import com.esofthead.mycollab.configuration.StorageManager;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.html.FormatUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
@@ -58,7 +58,7 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 		if (user != null) {
 			String uid = UUID.randomUUID().toString();
 			DivLessFormatter div = new DivLessFormatter();
-			Img userAvatar = new Img("", StorageManager.getAvatarLink(user.getAvatarid(), 16));
+			Img userAvatar = new Img("", Storage.getAvatarPath(user.getAvatarid(), 16));
 			A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), user.getUsername()))
 					.appendText(user.getDisplayName());
 			userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, user.getUsername()));

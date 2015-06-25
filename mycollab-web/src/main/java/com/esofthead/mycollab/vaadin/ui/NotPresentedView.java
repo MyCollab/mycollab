@@ -17,45 +17,40 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.hp.gagawa.java.elements.Text;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class NotPresentedView extends AbstractPageView {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public NotPresentedView() {
-		this.setHeight("370px");
-		this.setWidth("100%");
-		VerticalLayout layoutWapper = new VerticalLayout();
-		layoutWapper.setWidth("100%");
+    public NotPresentedView() {
+        this.setHeight("370px");
+        this.setWidth("100%");
+        VerticalLayout layoutWapper = new VerticalLayout();
+        layoutWapper.setWidth("100%");
 
-		VerticalLayout layout = new VerticalLayout();
-		final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
+        VerticalLayout layout = new VerticalLayout();
+        final Label titleIcon = new Label(FontAwesome.EXCLAMATION_CIRCLE.getHtml(), ContentMode.HTML);
         titleIcon.setStyleName("warning-icon");
         titleIcon.setSizeUndefined();
-		layout.addComponent(titleIcon);
-		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
+        layout.addComponent(titleIcon);
+        layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_CENTER);
 
-		Label label = new Label("The feature is not presented for this edition");
-		label.setStyleName("h2_community");
-		layout.addComponent(label);
-		layout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
+        Label label = new Label("The feature is not presented for this edition");
+        label.setStyleName("h2_community");
+        layout.addComponent(label);
+        layout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
 
-		layoutWapper.addComponent(layout);
-		layoutWapper.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-		this.addComponent(layoutWapper);
-		this.setComponentAlignment(layoutWapper, Alignment.MIDDLE_CENTER);
-	}
+        layoutWapper.addComponent(layout);
+        layoutWapper.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+        this.addComponent(layoutWapper);
+        this.setComponentAlignment(layoutWapper, Alignment.MIDDLE_CENTER);
+    }
 }

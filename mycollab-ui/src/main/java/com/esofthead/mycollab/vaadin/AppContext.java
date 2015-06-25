@@ -48,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

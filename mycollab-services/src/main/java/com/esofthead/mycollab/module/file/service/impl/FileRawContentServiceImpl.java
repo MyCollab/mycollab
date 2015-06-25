@@ -27,7 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.configuration.FileStorageConfiguration;
+import com.esofthead.mycollab.configuration.FileStorage;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
@@ -41,13 +41,12 @@ public class FileRawContentServiceImpl implements RawContentService {
 
     private static final int BUFFER_SIZE = 1024;
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(FileRawContentServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileRawContentServiceImpl.class);
 
     private File baseFolder;
 
     public FileRawContentServiceImpl() {
-        baseFolder = FileStorageConfiguration.baseContentFolder;
+        baseFolder = FileStorage.baseContentFolder;
     }
 
     @Override
@@ -108,16 +107,12 @@ public class FileRawContentServiceImpl implements RawContentService {
     public void renamePath(String oldPath, String newPath) {
         File file = new File(baseFolder, oldPath);
         if (file.exists()) {
-            boolean result = file
-                    .renameTo(new File(baseFolder + "/" + newPath));
+            boolean result = file.renameTo(new File(baseFolder + "/" + newPath));
             if (!result) {
-                LOG.error("Can not rename old path {} to new path {}", oldPath,
-                        newPath);
+                LOG.error("Can not rename old path {} to new path {}", oldPath, newPath);
             }
         } else {
-            LOG.error(
-                    "Can not rename old path {} to new path {} because file is not existed",
-                    oldPath, newPath);
+            LOG.error("Can not rename old path {} to new path {} because file is not existed", oldPath, newPath);
         }
     }
 

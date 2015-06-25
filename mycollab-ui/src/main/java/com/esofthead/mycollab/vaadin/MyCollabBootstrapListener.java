@@ -17,31 +17,43 @@
 package com.esofthead.mycollab.vaadin;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.MyCollabVersion;
+import com.esofthead.mycollab.module.user.domain.BillingAccount;
+import com.esofthead.mycollab.module.user.service.BillingAccountService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class MyCollabBootstrapListener implements BootstrapListener {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public void modifyBootstrapFragment(BootstrapFragmentResponse response) {
-	}
+    @Override
+    public void modifyBootstrapFragment(BootstrapFragmentResponse response) {
+    }
 
-	@Override
-	public void modifyBootstrapPage(BootstrapPageResponse response) {
-		response.getDocument().head()
-				.append("<meta name=\"robots\" content=\"nofollow\" />");
+    @Override
+    public void modifyBootstrapPage(BootstrapPageResponse response) {
+        String domain = Utils.getSubDomain(response.getRequest());
+        BillingAccountService billingService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+
+        BillingAccount account = billingService.getAccountByDomain(domain);
+        if (account != null) {
+            String favIconPath = Storage.getFavIconPath(account.getId(), account.getFaviconpath());
+            response.getDocument().head().getElementsByAttributeValue("rel", "shortcut icon").attr("href", favIconPath);
+            response.getDocument().head().getElementsByAttributeValue("rel", "icon").attr("href", favIconPath);
+        }
+
+        response.getDocument().head().append("<meta name=\"robots\" content=\"nofollow\" />");
+
         response.getDocument().head()
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/jquery-1.10.2.min.js\"></script>", SiteConfiguration.getCdnUrl()));
         response.getDocument().head()
                 .append(String.format("<script type=\"text/javascript\" src=\"%sjs/stickytooltip.js?v=%s\"></script>", SiteConfiguration.getCdnUrl(), MyCollabVersion.getVersion()));
-	}
+    }
 }
