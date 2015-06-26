@@ -33,7 +33,8 @@ public class SettingAssetsManager {
         resources.put(SettingUIConstants.PROFILE, FontAwesome.BOOK);
         resources.put(SettingUIConstants.BILLING, FontAwesome.CREDIT_CARD);
         resources.put(SettingUIConstants.USERS, FontAwesome.USERS);
-        resources.put(SettingUIConstants.SETTING, FontAwesome.MAGIC);
+        resources.put(SettingUIConstants.GENERAL_SETTING, FontAwesome.GEAR);
+        resources.put(SettingUIConstants.THEME_CUSTOMIZE, FontAwesome.MAGIC);
         resources.put(SettingUIConstants.SETUP, FontAwesome.WRENCH);
     }
 

@@ -47,9 +47,7 @@ import java.util.List;
 @Auditable()
 @Watchable(userFieldName = "assignuser")
 @NotifyAgent(CallRelayEmailNotificationAction.class)
-public class CallServiceImpl extends
-        DefaultService<Integer, CallWithBLOBs, CallSearchCriteria> implements
-        CallService {
+public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, CallSearchCriteria> implements CallService {
     static {
         ClassInfoMap.put(CallServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.CALL));
     }

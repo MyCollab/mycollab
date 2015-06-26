@@ -20,7 +20,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.SettingCommonI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
@@ -57,15 +57,14 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     private ProfilePresenter profilePresenter;
     private UserPermissionManagementPresenter userPermissionPresenter;
     private IBillingPresenter billingPresenter;
-    private ICustomizePresenter customizePresenter;
+    private ISettingPresenter customizePresenter;
     private SetupPresenter setupPresenter;
 
     public AccountModuleImpl() {
         super(true);
         ControllerRegistry.addController(new UserAccountController(this));
         this.setWidth("100%");
-        this.addStyleName("main-content-wrapper");
-        this.addStyleName("accountViewContainer");
+        this.addStyleName("main-content-wrapper accountViewContainer");
 
         MHorizontalLayout topPanel = new MHorizontalLayout().withWidth("100%").withStyleName("top-panel")
                 .withMargin(new MarginInfo(true, true, true, false));
@@ -113,7 +112,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
         accountTab.addTab(constructUserRoleComponent(), SettingUIConstants.USERS,
                 AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES));
 
-        accountTab.addTab(constructThemeComponent(), SettingUIConstants.SETTING,
+        accountTab.addTab(constructThemeComponent(), SettingUIConstants.GENERAL_SETTING,
                 AppContext.getMessage(AdminI18nEnum.VIEW_SETTING));
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
@@ -135,7 +134,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
                             new BillingScreenData.BillingSummary());
                 } else if (SettingUIConstants.USERS.equals(tabId)) {
                     userPermissionPresenter.go(AccountModuleImpl.this, null);
-                } else if (SettingUIConstants.SETTING.equals(tabId)) {
+                } else if (SettingUIConstants.GENERAL_SETTING.equals(tabId)) {
                     customizePresenter.go(AccountModuleImpl.this, null);
                 } else if (SettingUIConstants.SETUP.equals(tabId)) {
                     setupPresenter.go(AccountModuleImpl.this, null);
@@ -168,8 +167,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements AccountMod
     }
 
     private ComponentContainer constructThemeComponent() {
-        this.customizePresenter = PresenterResolver
-                .getPresenter(ICustomizePresenter.class);
+        this.customizePresenter = PresenterResolver.getPresenter(ISettingPresenter.class);
         return this.customizePresenter.getView();
     }
 

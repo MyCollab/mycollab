@@ -24,9 +24,9 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
@@ -49,38 +49,33 @@ import java.util.Set;
  */
 @SuppressWarnings("serial")
 class ContactInfoChangeWindow extends Window {
-
     private TextField txtWorkPhone = new TextField();
     private TextField txtHomePhone = new TextField();
     private TextField txtFaceBook = new TextField();
     private TextField txtTwitter = new TextField();
     private TextField txtSkype = new TextField();
-    private final Validator validation;
+    private Validator validation;
 
-    private final User user;
+    private User user;
 
-    public ContactInfoChangeWindow(final User user) {
+    ContactInfoChangeWindow(User user) {
         this.user = user;
         this.setWidth("450px");
         this.setResizable(false);
         this.setModal(true);
-        this.validation = ApplicationContextUtil
-                .getSpringBean(LocalValidatorFactoryBean.class);
+        this.validation = ApplicationContextUtil.getSpringBean(LocalValidatorFactoryBean.class);
         this.initUI();
         this.center();
-        this.setCaption(AppContext
-                .getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
+        this.setCaption(AppContext.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
     }
 
     private void initUI() {
-        final MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
+        MVerticalLayout mainLayout = new MVerticalLayout().withMargin(new MarginInfo(false, false, true, false)).withWidth("100%");
 
-        final GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
+        GridFormLayoutHelper passInfo = GridFormLayoutHelper.defaultFormLayoutHelper(1, 6);
 
-        passInfo.addComponent(txtWorkPhone,
-                AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
-        passInfo.addComponent(txtHomePhone,
-                AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
+        passInfo.addComponent(txtWorkPhone, AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
+        passInfo.addComponent(txtHomePhone, AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
         passInfo.addComponent(txtFaceBook, "Facebook", 0, 2);
         passInfo.addComponent(txtTwitter, "Twitter", 0, 3);
         passInfo.addComponent(txtSkype, "Skype", 0, 4);
@@ -96,13 +91,11 @@ class ContactInfoChangeWindow extends Window {
         this.txtSkype.setValue(this.user.getSkypecontact() == null ? ""
                 : this.user.getSkypecontact());
         mainLayout.addComponent(passInfo.getLayout());
-        mainLayout.setComponentAlignment(passInfo.getLayout(),
-                Alignment.TOP_LEFT);
+        mainLayout.setComponentAlignment(passInfo.getLayout(), Alignment.TOP_LEFT);
 
-        final MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
+        MHorizontalLayout hlayoutControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        final Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -113,8 +106,7 @@ class ContactInfoChangeWindow extends Window {
                 });
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -130,29 +122,23 @@ class ContactInfoChangeWindow extends Window {
 
         mainLayout.with(hlayoutControls).withAlign(hlayoutControls, Alignment.MIDDLE_RIGHT);
 
-        this.setModal(true);
         this.setContent(mainLayout);
     }
 
     public boolean validateForm(final Object data) {
-        final Set<ConstraintViolation<Object>> violations = this.validation
-                .validate(data);
+        Set<ConstraintViolation<Object>> violations = this.validation.validate(data);
         if (violations.size() > 0) {
             final StringBuilder errorMsg = new StringBuilder();
 
-            for (@SuppressWarnings("rawtypes")
-            final ConstraintViolation violation : violations) {
+            for (@SuppressWarnings("rawtypes") ConstraintViolation violation : violations) {
                 errorMsg.append(violation.getMessage()).append("<br/>");
 
-                if (violation.getPropertyPath() != null
-                        && !violation.getPropertyPath().toString().equals("")) {
-                    if (violation.getPropertyPath().toString()
-                            .equals("workphone")) {
+                if (violation.getPropertyPath() != null && !violation.getPropertyPath().toString().equals("")) {
+                    if (violation.getPropertyPath().toString().equals("workphone")) {
                         this.txtWorkPhone.addStyleName("errorField");
                     }
 
-                    if (violation.getPropertyPath().toString()
-                            .equals("homephone")) {
+                    if (violation.getPropertyPath().toString().equals("homephone")) {
                         this.txtHomePhone.addStyleName("errorField");
                     }
                 }
@@ -175,17 +161,14 @@ class ContactInfoChangeWindow extends Window {
         this.user.setTwitteraccount(this.txtTwitter.getValue());
         this.user.setSkypecontact(this.txtSkype.getValue());
 
-        if (this.validateForm(this.user)) {
-            final UserService userService = ApplicationContextUtil
-                    .getSpringBean(UserService.class);
+        if (validateForm(this.user)) {
+            UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
             userService.updateWithSession(this.user, AppContext.getUsername());
 
-            EventBusFactory.getInstance().post(
-                    new ProfileEvent.GotoProfileView(
-                            ContactInfoChangeWindow.this, null));
-            ContactInfoChangeWindow.this.close();
-            Page.getCurrent().getJavaScript()
-                    .execute("window.location.reload();");
+            EventBusFactory.getInstance().post(new ProfileEvent.GotoProfileView(
+                    ContactInfoChangeWindow.this, null));
+            close();
+            Page.getCurrent().getJavaScript().execute("window.location.reload();");
         }
 
     }

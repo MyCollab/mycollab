@@ -47,9 +47,13 @@ Version 5.0.10
 -----------------------------
 **Library Upgrades**
 
+* Upgrade Vaadin to 7.5.0
+* Upgrade other libraries: Tika
+
 **Improvements & New Features**
 
 * Make the UI more consistent and minor UI improvements
+* Other general improvements
 
 **Bug Fixes**
 

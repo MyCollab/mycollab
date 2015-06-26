@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -176,13 +175,10 @@ public class MessageListViewImpl extends AbstractPageView implements
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    ConfirmDialogExt.show(
-                            UI.getCurrent(),
-                            AppContext.getMessage(
-                                    GenericI18Enum.DIALOG_DELETE_TITLE,
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
                                     AppContext.getSiteName()),
-                            AppContext
-                                    .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                             new ConfirmDialog.Listener() {
@@ -191,7 +187,7 @@ public class MessageListViewImpl extends AbstractPageView implements
                                 @Override
                                 public void onClose(final ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        final MessageService messageService = ApplicationContextUtil
+                                        MessageService messageService = ApplicationContextUtil
                                                 .getSpringBean(MessageService.class);
                                         messageService.removeWithSession(
                                                 message.getId(),
@@ -206,10 +202,9 @@ public class MessageListViewImpl extends AbstractPageView implements
             });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
-            deleteBtn.setEnabled(CurrentProjectVariables
-                    .canAccess(ProjectRolePermissionCollections.MESSAGES));
+            deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-            final MHorizontalLayout rightHeader = new MHorizontalLayout();
+            MHorizontalLayout rightHeader = new MHorizontalLayout();
             rightHeader.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
             rightHeader.with(timePostLbl, deleteBtn);
 
@@ -217,16 +212,15 @@ public class MessageListViewImpl extends AbstractPageView implements
 
             rowLayout.addComponent(messageHeader);
 
-            final SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
+            SafeHtmlLabel messageContent = new SafeHtmlLabel(message.getMessage());
             messageContent.setStyleName("message-body");
             rowLayout.addComponent(messageContent);
 
-            final MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification");
+            MHorizontalLayout notification = new MHorizontalLayout().withStyleName("notification");
             notification.setSizeUndefined();
             if (message.getCommentsCount() > 0) {
-                final MHorizontalLayout commentNotification = new MHorizontalLayout();
-                final Label commentCountLbl = new Label(
-                        Integer.toString(message.getCommentsCount()));
+                MHorizontalLayout commentNotification = new MHorizontalLayout();
+                Label commentCountLbl = new Label(Integer.toString(message.getCommentsCount()));
                 commentCountLbl.setStyleName("comment-count");
                 commentCountLbl.setSizeUndefined();
                 commentNotification.addComponent(commentCountLbl);
@@ -238,14 +232,12 @@ public class MessageListViewImpl extends AbstractPageView implements
             }
             ResourceService attachmentService = ApplicationContextUtil
                     .getSpringBean(ResourceService.class);
-            List<Content> attachments = attachmentService
-                    .getContents(AttachmentUtils
-                            .getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                                    message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
+            List<Content> attachments = attachmentService.getContents(AttachmentUtils
+                    .getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                            message.getProjectid(), ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentNotification = new HorizontalLayout();
-                Label attachmentCountLbl = new Label(
-                        Integer.toString(attachments.size()));
+                Label attachmentCountLbl = new Label(Integer.toString(attachments.size()));
                 attachmentCountLbl.setStyleName("attachment-count");
                 attachmentCountLbl.setSizeUndefined();
                 attachmentNotification.addComponent(attachmentCountLbl);
@@ -285,8 +277,7 @@ public class MessageListViewImpl extends AbstractPageView implements
             basicSearchBody.setSizeUndefined();
 
             nameField = ShortcutExtension.installShortcutAction(new TextField(),
-                    new ShortcutListener("MessageTextSearch", ShortcutAction.KeyCode.ENTER,
-                            null) {
+                    new ShortcutListener("MessageTextSearch", ShortcutAction.KeyCode.ENTER, null) {
                         @Override
                         public void handleAction(Object o, Object o1) {
                             doSearch();
@@ -294,8 +285,7 @@ public class MessageListViewImpl extends AbstractPageView implements
                     });
             nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 
-            final Button searchBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
+            Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
             searchBtn.addClickListener(new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -323,7 +313,7 @@ public class MessageListViewImpl extends AbstractPageView implements
     private final class TopMessagePanel extends MVerticalLayout {
         private static final long serialVersionUID = 1L;
         private MessageSearchPanel messageSearchPanel;
-        private HorizontalLayout messagePanelBody;
+        private MHorizontalLayout messagePanelBody;
 
         public TopMessagePanel() {
             this.withWidth("100%").withStyleName("message-toppanel");
@@ -379,25 +369,21 @@ public class MessageListViewImpl extends AbstractPageView implements
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            MessageListViewImpl.this
-                                    .setCriteria(searchCriteria);
+                            MessageListViewImpl.this.setCriteria(searchCriteria);
                         }
                     });
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             controls.with(cancelBtn).withAlign(cancelBtn, Alignment.TOP_RIGHT);
 
-            Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_POST),
+            Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_POST),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(final ClickEvent event) {
-                            final Message message = new Message();
-                            message.setProjectid(CurrentProjectVariables
-                                    .getProjectId());
-                            message.setPosteddate(new GregorianCalendar()
-                                    .getTime());
+                            Message message = new Message();
+                            message.setProjectid(CurrentProjectVariables.getProjectId());
+                            message.setPosteddate(new GregorianCalendar().getTime());
                             if (!titleField.getValue().trim().equals("")) {
                                 message.setTitle(titleField.getValue());
                                 message.setMessage(ckEditorTextField.getValue());
@@ -406,10 +392,9 @@ public class MessageListViewImpl extends AbstractPageView implements
                                 message.setIsstick(chkIsStick.getValue());
                                 MessageListViewImpl.this.fireSaveItem(message);
 
-                                String attachmentPath = AttachmentUtils
-                                        .getProjectEntityAttachmentPath(
-                                                AppContext.getAccountId(), message.getProjectid(),
-                                                ProjectTypeConstants.MESSAGE, "" + message.getId());
+                                String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(
+                                        AppContext.getAccountId(), message.getProjectid(),
+                                        ProjectTypeConstants.MESSAGE, "" + message.getId());
                                 attachments.saveContentsToRepo(attachmentPath);
                             } else {
                                 titleField.addStyleName("errorField");
@@ -432,8 +417,7 @@ public class MessageListViewImpl extends AbstractPageView implements
             this.messagePanelBody.addComponent(this.messageSearchPanel);
 
             if (!MessageListViewImpl.this.isEmpty) {
-                Button createMessageBtn = new Button(
-                        AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
+                Button createMessageBtn = new Button(AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
                         new Button.ClickListener() {
                             private static final long serialVersionUID = 1L;
 
@@ -456,6 +440,12 @@ public class MessageListViewImpl extends AbstractPageView implements
         public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
             return this.messageSearchPanel;
         }
+    }
+
+    public void createAddMessageLayout() {
+        removeAllComponents();
+        topMessagePanel.createAddMessageLayout();
+        addComponent(topMessagePanel);
     }
 
     private class MessageListNoItemView extends ProjectListNoItemView {
@@ -495,11 +485,5 @@ public class MessageListViewImpl extends AbstractPageView implements
         protected boolean hasPermission() {
             return CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MESSAGES);
         }
-    }
-
-    public void createAddMessageLayout() {
-        removeAllComponents();
-        topMessagePanel.createAddMessageLayout();
-        addComponent(topMessagePanel);
     }
 }

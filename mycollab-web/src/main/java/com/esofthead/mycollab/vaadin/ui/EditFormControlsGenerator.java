@@ -49,6 +49,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
     public HorizontalLayout createButtonControls(boolean isSaveBtnVisible, boolean isSaveAndNewBtnVisible,
                                                  boolean isCancelBtnVisible) {
         MHorizontalLayout layout = new MHorizontalLayout().withStyleName("addNewControl");
+        layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         layout.setSizeUndefined();
 
         if (isSaveBtnVisible) {
@@ -67,7 +68,6 @@ public class EditFormControlsGenerator<T> implements Serializable {
             saveBtn.setIcon(FontAwesome.SAVE);
             saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             layout.addComponent(saveBtn);
-            layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
         }
 
         if (isSaveAndNewBtnVisible) {
@@ -86,7 +86,6 @@ public class EditFormControlsGenerator<T> implements Serializable {
             saveAndNewBtn.setIcon(FontAwesome.SHARE_ALT);
             saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             layout.addComponent(saveAndNewBtn);
-            layout.setComponentAlignment(saveAndNewBtn, Alignment.MIDDLE_CENTER);
         }
 
         if (isCancelBtnVisible) {
@@ -103,7 +102,6 @@ public class EditFormControlsGenerator<T> implements Serializable {
             cancelBtn.setIcon(FontAwesome.MINUS);
             cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
             layout.addComponent(cancelBtn);
-            layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
         }
 
         return layout;

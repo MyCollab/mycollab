@@ -39,8 +39,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     protected BuildCriterionComponent<S> buildCriterionComp;
     protected ComponentContainer header;
 
-    public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent,
-                                   String type) {
+    public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent, String type) {
         super(parent, "advancedSearch");
         setStyleName("advancedSearchLayout");
 
@@ -66,7 +65,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     }
 
     private HorizontalLayout createButtonControls() {
-        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(true);
+        MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
         Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
                 new Button.ClickListener() {
@@ -95,8 +94,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
 
         buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
 
-        Button basicSearchBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+        Button basicSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -139,9 +137,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     }
 
     public ComponentContainer constructFooter() {
-        HorizontalLayout buttonControls = createButtonControls();
-        buttonControls.setMargin(new MarginInfo(false, true, false, true));
-        return buttonControls;
+        return createButtonControls();
     }
 
     protected Component buildSelectionComp(String fieldId) {

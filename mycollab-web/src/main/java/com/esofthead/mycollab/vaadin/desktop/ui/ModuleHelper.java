@@ -20,7 +20,9 @@ import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.module.file.view.IFileModule;
 import com.esofthead.mycollab.module.project.view.ProjectModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 
 import static com.esofthead.mycollab.vaadin.ui.MyCollabSession.CURRENT_MODULE;
@@ -57,5 +59,16 @@ public class ModuleHelper {
     public static boolean isCurrentAccountModule() {
         IModule module = getCurrentModule();
         return (module != null) && (module instanceof AccountModule);
+    }
+
+    public static IModule getModuleOwner(PageView view) {
+        if (view == null) {
+            return null;
+        }
+        if (view instanceof IModule) {
+            return (IModule)view;
+        } else {
+            return getModuleOwner((PageView)view.getParent());
+        }
     }
 }

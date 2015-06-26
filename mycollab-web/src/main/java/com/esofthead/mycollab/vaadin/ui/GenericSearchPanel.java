@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
@@ -27,144 +24,105 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @SuppressWarnings("serial")
 public abstract class GenericSearchPanel<S extends SearchCriteria> extends CustomComponent implements
         HasSearchHandlers<S> {
 
-	private List<SearchHandler<S>> searchHandlers;
+    private List<SearchHandler<S>> searchHandlers;
 
-	private Component headerRight;
+    private Component headerRight;
 
-	@Override
-	public void addSearchHandler(final SearchHandler<S> handler) {
-		if (this.searchHandlers == null) {
-			this.searchHandlers = new ArrayList<>();
-		}
-		this.searchHandlers.add(handler);
-	}
+    @Override
+    public void addSearchHandler(final SearchHandler<S> handler) {
+        if (this.searchHandlers == null) {
+            this.searchHandlers = new ArrayList<>();
+        }
+        this.searchHandlers.add(handler);
+    }
 
-	public void notifySearchHandler(final S criteria) {
-		if (this.searchHandlers != null) {
-			for (final SearchHandler<S> handler : this.searchHandlers) {
-				handler.onSearch(criteria);
-			}
-		}
-	}
+    public void notifySearchHandler(final S criteria) {
+        if (this.searchHandlers != null) {
+            for (SearchHandler<S> handler : this.searchHandlers) {
+                handler.onSearch(criteria);
+            }
+        }
+    }
 
-	@Override
-	protected void setCompositionRoot(Component compositionRoot) {
-		super.setCompositionRoot(compositionRoot);
-		addHeaderRight(headerRight);
-	}
+    @Override
+    protected void setCompositionRoot(Component compositionRoot) {
+        super.setCompositionRoot(compositionRoot);
+        addHeaderRight(headerRight);
+    }
 
-	public void addHeaderRight(Component c) {
-		if (c != null)
-			this.headerRight = c;
-		else
-			return;
+    public void addHeaderRight(Component c) {
+        if (c != null)
+            this.headerRight = c;
+        else
+            return;
 
-		Component root = getCompositionRoot();
-		if (root != null) {
-			((SearchLayout<?>) root).addHeaderRight(this.headerRight);
-		}
-	}
+        Component root = getCompositionRoot();
+        if (root != null) {
+            ((SearchLayout<?>) root).addHeaderRight(this.headerRight);
+        }
+    }
 
-	abstract public static class SearchLayout<S extends SearchCriteria> extends
-			CustomLayoutExt {
-		protected GenericSearchPanel<S> searchPanel;
+    abstract public static class SearchLayout<S extends SearchCriteria> extends CustomLayoutExt {
+        protected GenericSearchPanel<S> searchPanel;
 
-		public SearchLayout(final GenericSearchPanel<S> parent,
-				final String layoutName) {
-			super(layoutName);
-			this.searchPanel = parent;
-		}
+        public SearchLayout(GenericSearchPanel<S> parent, String layoutName) {
+            super(layoutName);
+            this.searchPanel = parent;
+        }
 
-		public void callSearchAction() {
-			final S searchCriteria = this.fillUpSearchCriteria();
-			this.searchPanel.notifySearchHandler(searchCriteria);
-		}
+        public void callSearchAction() {
+            final S searchCriteria = this.fillUpSearchCriteria();
+            this.searchPanel.notifySearchHandler(searchCriteria);
+        }
 
-		abstract protected S fillUpSearchCriteria();
+        abstract protected S fillUpSearchCriteria();
 
-		abstract protected void addHeaderRight(Component c);
+        abstract protected void addHeaderRight(Component c);
 
-	}
+    }
 
-	abstract public static class BasicSearchLayout<S extends SearchCriteria>
-			extends SearchLayout<S> {
-		private static final long serialVersionUID = 1L;
-		protected ComponentContainer header;
-		protected ComponentContainer body;
+    abstract public static class BasicSearchLayout<S extends SearchCriteria> extends SearchLayout<S> {
+        private static final long serialVersionUID = 1L;
+        protected ComponentContainer header;
+        protected ComponentContainer body;
 
-		public BasicSearchLayout(final GenericSearchPanel<S> parent) {
-			super(parent, "basicSearch");
-			this.setStyleName("basicSearchLayout");
-			this.initLayout();
-		}
+        public BasicSearchLayout(final GenericSearchPanel<S> parent) {
+            super(parent, "basicSearch");
+            this.setStyleName("basicSearchLayout");
+            this.initLayout();
+        }
 
-		protected void initLayout() {
-			this.header = this.constructHeader();
-			this.body = this.constructBody();
+        protected void initLayout() {
+            this.header = this.constructHeader();
+            this.body = this.constructBody();
             if (header != null) {
                 this.addComponent(this.header, "basicSearchHeader");
             }
 
-			this.addComponent(this.body, "basicSearchBody");
-		}
+            this.addComponent(this.body, "basicSearchBody");
+        }
 
-		@Override
-		protected void addHeaderRight(Component c) {
-			if (this.header == null)
-				return;
+        @Override
+        protected void addHeaderRight(Component c) {
+            if (this.header == null)
+                return;
 
-			this.header.addComponent(c);
-		}
+            this.header.addComponent(c);
+        }
 
-		abstract public ComponentContainer constructHeader();
+        abstract public ComponentContainer constructHeader();
 
-		abstract public ComponentContainer constructBody();
-	}
-
-	abstract public static class AdvancedSearchLayout<S extends SearchCriteria>
-			extends SearchLayout<S> {
-
-		protected ComponentContainer header;
-		protected ComponentContainer body;
-		protected ComponentContainer footer;
-
-		public AdvancedSearchLayout(final GenericSearchPanel<S> parent) {
-			super(parent, "advancedSearch");
-			this.setStyleName("advancedSearchLayout");
-			this.initLayout();
-		}
-
-		protected void initLayout() {
-			this.header = this.constructHeader();
-			this.body = this.constructBody();
-			this.footer = this.constructFooter();
-			this.addComponent(this.header, "advSearchHeader");
-			this.addComponent(this.body, "advSearchBody");
-			this.addComponent(this.footer, "advSearchFooter");
-		}
-
-		@Override
-		protected void addHeaderRight(Component c) {
-			if (this.header == null)
-				return;
-
-			this.header.addComponent(c);
-		}
-
-		public abstract ComponentContainer constructHeader();
-
-		public abstract ComponentContainer constructBody();
-
-		public abstract ComponentContainer constructFooter();
-	}
+        abstract public ComponentContainer constructBody();
+    }
 }

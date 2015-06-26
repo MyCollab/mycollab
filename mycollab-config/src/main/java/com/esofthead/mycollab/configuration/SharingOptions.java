@@ -21,10 +21,10 @@ import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
 /**
  * MyCollab offers its social links in emails and all sharing options are kept
  * in this bean.
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
- * 
+ *
  */
 public class SharingOptions {
 	private static SharingOptions instance;

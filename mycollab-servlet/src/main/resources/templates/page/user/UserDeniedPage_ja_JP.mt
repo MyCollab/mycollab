@@ -21,7 +21,7 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Deny invitation page</h1>
+					<h1>Oops, so sad!</h1>
 				<hr size="1">
 				<div >
 						We regret you do not want to use MyCollab any longer. We're very glad to show you what things which My Collab Online Tools can help your business. Welcome and take a look.

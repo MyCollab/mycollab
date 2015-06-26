@@ -21,13 +21,13 @@ UserDeniedPage.mt<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Please Feedback To Inviter</h1>
+					<h1>Oops, so sad</h1>
 				</div>
 				<hr size="1" >
 				<hr size="1" >
 
 				<div>
-					<p>Oops! We are sorry because you do not want to join MyCollab. Could you please drop some lines to tell reason to the inviter?
+					<p>We are sorry because you do not want to join MyCollab. Could you please drop some lines to tell reason to the inviter?
 					</p>
 					<div>
                     <textarea id="message" style="width:767px; height:130px" >

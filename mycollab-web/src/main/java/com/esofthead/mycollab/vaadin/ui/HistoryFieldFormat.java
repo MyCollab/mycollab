@@ -25,7 +25,17 @@ import com.vaadin.ui.Component;
  * 
  */
 public interface HistoryFieldFormat {
+	/**
+	 *
+	 * @param value
+	 * @return
+	 */
 	Component toVaadinComponent(String value);
 
+	/**
+	 *
+	 * @param value
+	 * @return
+	 */
 	String toString(String value);
 }

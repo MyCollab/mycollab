@@ -18,6 +18,7 @@ package com.esofthead.mycollab.configuration;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,8 @@ import java.io.*;
  * @since 5.0.5
  */
 public class LogConfig {
-    public static void initLog() {
+
+    public static void initMyCollabLog() {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         loggerContext.reset();
         JoranConfigurator configurator = new JoranConfigurator();

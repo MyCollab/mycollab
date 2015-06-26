@@ -183,7 +183,9 @@ public class ProfileReadViewImpl extends AbstractPageView implements ProfileRead
 
             @Override
             public ComponentContainer getLayout() {
-                MVerticalLayout layout = new MVerticalLayout().withSpacing(true).withMargin(false);
+                contactLayout.getLayout().setSpacing(true);
+                advancedInfoLayout.getLayout().setSpacing(true);
+                MVerticalLayout layout = new MVerticalLayout().withMargin(false);
                 layout.addComponent(avatarAndPass);
 
                 String separatorStyle = "width: 100%; height: 1px; background-color: #CFCFCF; margin-top: 0px; margin-bottom: 10px";

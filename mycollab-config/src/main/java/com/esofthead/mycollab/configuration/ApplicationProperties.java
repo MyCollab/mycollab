@@ -110,6 +110,9 @@ public class ApplicationProperties {
     }
 
     public static String getString(String key, String defaultValue) {
+        if (properties == null) {
+            return defaultValue;
+        }
         return properties.getProperty(key, defaultValue);
     }
 }

@@ -89,9 +89,7 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
     }
 
     @Override
-    public void handleChain(ComponentContainer container,
-                            PageActionChain pageActionChain) {
-
+    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
         onGo(container, pageAction);
     }

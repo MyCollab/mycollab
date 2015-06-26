@@ -72,7 +72,9 @@ h3 {
                 <h3>Welcome to the MyCollab setup wizard. Please fill in the information below to complete the installation process.<h3>
                 <h4>MyCollab is well tested on various platforms include Windows, Linux and MacOS. We have been
                 spending countless hours to do the installation testing on
-                as many machines as possible. If you can not install MyCollab successfully, please raise your case in our <a href="https://www.mycollab.com/qa/" target="_blank">Q&A page</a></h4>
+                as many machines as possible. If you can not install MyCollab successfully, please raise your case in
+                 our <a href="http://support.mycollab.com/list/42580-general-help/" target="_blank">Support
+                 page</a></h4>
             </div>
             <hr size="1" style="margin: 20px 0 1px 0; ">
             <div id="mainContent">

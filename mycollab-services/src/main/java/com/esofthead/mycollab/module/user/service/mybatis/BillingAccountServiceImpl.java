@@ -16,13 +16,9 @@
  */
 package com.esofthead.mycollab.module.user.service.mybatis;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
@@ -32,63 +28,75 @@ import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.BillingAccountExample;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 public class BillingAccountServiceImpl extends DefaultCrudService<Integer, BillingAccount> implements
-		BillingAccountService {
+        BillingAccountService {
 
-	@Autowired
-	private BillingAccountMapper billingAccountMapper;
+    @Autowired
+    private BillingAccountMapper billingAccountMapper;
 
-	@Autowired
-	private BillingAccountMapperExt billingAccountMapperExt;
+    @Autowired
+    private BillingAccountMapperExt billingAccountMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, BillingAccount> getCrudMapper() {
-		return billingAccountMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, BillingAccount> getCrudMapper() {
+        return billingAccountMapper;
+    }
 
-	@Override
-	public SimpleBillingAccount getBillingAccountById(int accountId) {
-		return billingAccountMapperExt.getBillingAccountById(accountId);
-	}
+    @Override
+    public SimpleBillingAccount getBillingAccountById(int accountId) {
+        return billingAccountMapperExt.getBillingAccountById(accountId);
+    }
 
-	@Override
-	public BillingAccount getAccountByDomain(String domain) {
-		BillingAccountExample ex = new BillingAccountExample();
+    @Override
+    public Integer updateSelectiveWithSession(@CacheKey BillingAccount record, String username) {
+        try {
+            return super.updateSelectiveWithSession(record, username);
+        } catch (DuplicateKeyException e) {
+            throw new UserInvalidInputException("The domain " + record.getSubdomain() + " is already used");
+        }
+    }
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			ex.createCriteria().andSubdomainEqualTo(domain);
-		}
+    @Override
+    public BillingAccount getAccountByDomain(String domain) {
+        BillingAccountExample ex = new BillingAccountExample();
 
-		List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
-		if (accounts == null || accounts.size() == 0) {
-			return null;
-		} else {
-			return accounts.get(0);
-		}
-	}
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            ex.createCriteria().andSubdomainEqualTo(domain);
+        }
 
-	@Override
-	public BillingAccount getAccountById(@CacheKey Integer accountId) {
-		BillingAccountExample ex = new BillingAccountExample();
+        List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
+        if (accounts == null || accounts.size() == 0) {
+            return null;
+        } else {
+            return accounts.get(0);
+        }
+    }
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-			ex.createCriteria().andIdEqualTo(accountId);
-		}
+    @Override
+    public BillingAccount getAccountById(@CacheKey Integer accountId) {
+        BillingAccountExample ex = new BillingAccountExample();
 
-		List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
-		if (accounts == null || accounts.size() == 0) {
-			return null;
-		} else {
-			return accounts.get(0);
-		}
-	}
+        if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+            ex.createCriteria().andIdEqualTo(accountId);
+        }
+
+        List<BillingAccount> accounts = billingAccountMapper.selectByExample(ex);
+        if (accounts == null || accounts.size() == 0) {
+            return null;
+        } else {
+            return accounts.get(0);
+        }
+    }
 
 }

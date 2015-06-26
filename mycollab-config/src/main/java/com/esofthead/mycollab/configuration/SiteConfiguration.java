@@ -56,7 +56,7 @@ public class SiteConfiguration {
     private Locale defaultLocale;
     private List<Locale> supportedLanguages;
 
-    static {
+    public static void loadConfiguration() {
         int serverPort = Integer.parseInt(System.getProperty(ApplicationProperties.MYCOLLAB_PORT, "8080"));
         ApplicationProperties.loadProps();
         instance = new SiteConfiguration();

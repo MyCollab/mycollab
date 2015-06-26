@@ -3,27 +3,27 @@
 
 ## Introduction
 
-MyCollab has bundle three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
+MyCollab is the free and open source collaboration tools, it has three existing modules: Project Management, CRM and Document Management. Intuitive UI, rich features, high performance and stable are the advantages compare with various popular tools in the market such as Redmine, Bugzilla, Mantis etc. This open source is included into a trusted commercial product that is deployed on hundreds of companies' servers.
 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm8.staticflickr.com/7628/16887333257_13dbb12d14_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm8.staticflickr.com/7628/16887333257_8c2e628113_m.jpg" alt="Project Dashboard">
+      <a href="https://farm1.staticflickr.com/256/18556210843_16d900880d_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm1.staticflickr.com/256/18556210843_225c41e768.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8713/16906942258_662a2e8263_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm9.staticflickr.com/8713/16906942258_4988369db6_m.jpg" alt="Bug Dashboard">
+      <a href="https://farm4.staticflickr.com/3738/19180391431_0f46d6dfca_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm4.staticflickr.com/3738/19180391431_70f1943f31.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm8.staticflickr.com/7717/16887333327_99300b47d5_o.png" target="_blank" title="Page Editor">
-      <img src="https://farm8.staticflickr.com/7717/16887333327_7e63f7bc70_m.jpg" alt="Page Editor">
+    <a href="https://farm1.staticflickr.com/388/19180392981_85a8e769aa_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://farm1.staticflickr.com/388/19180392981_c224874354.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,25 +31,25 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm9.staticflickr.com/8715/17068773436_01d5f24e9d_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm9.staticflickr.com/8715/17068773436_a10b27b1e9_m.jpg" alt="Page Editor">
+    <a href="https://farm1.staticflickr.com/561/19171041642_9494ded858_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm1.staticflickr.com/561/19171041642_a54823d23c.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>
     </td>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8581/16414549727_a580a39234_o.png" target="_blank" title="Crm Dashboard">
-        <img src="https://farm9.staticflickr.com/8581/16414549727_b99d82c131_m.jpg" alt="Crm Dashboard">
+      <a href="https://farm1.staticflickr.com/277/19171045472_847e5f21dd_o.png" target="_blank" title="File Management">
+        <img src="https://farm1.staticflickr.com/277/19171045472_55ab79f6fd.jpg" alt="File Management">
       </a>
       <br />
       <em>CRM Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm9.staticflickr.com/8610/16434669088_d67688ee20_o.png" target="_blank" title="View Account">
-        <img src="https://farm9.staticflickr.com/8610/16434669088_9bb103e793_m.jpg" alt="View Account">
+      <a href="https://farm1.staticflickr.com/294/19150684216_141eeef56f_o.png" target="_blank" title="Customer Account">
+        <img src="https://farm1.staticflickr.com/294/19150684216_be0df53e01.jpg" alt="Customer Account">
       </a>
       <br />
-      <em>Detail Account</em>
+      <em>Customer Account</em>
     </td>
   </tr>
 </table>
@@ -76,7 +76,7 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * People and Permission management
   * Support English and Japanese, more languages will be added in future
 
-We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organizations to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs, and we hope you will find it useful!
+We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organizations to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs!
 
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).

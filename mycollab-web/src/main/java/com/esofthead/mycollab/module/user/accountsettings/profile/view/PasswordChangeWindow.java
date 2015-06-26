@@ -76,8 +76,7 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.addComponent(lbInstruct2);
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
-		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 3,
-				"300px", "180px");
+		GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 3, "300px", "180px");
 
 		txtNewPassword = new PasswordField();
 		passInfo.addComponent(txtNewPassword, "New Password", 0, 0);

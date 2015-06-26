@@ -61,8 +61,7 @@ public class AttachmentPanel extends VerticalLayout implements
     private ResourceService resourceService;
 
     public AttachmentPanel() {
-        resourceService = ApplicationContextUtil
-                .getSpringBean(ResourceService.class);
+        resourceService = ApplicationContextUtil.getSpringBean(ResourceService.class);
         this.setSpacing(true);
     }
 
@@ -112,8 +111,7 @@ public class AttachmentPanel extends VerticalLayout implements
         List<Content> attachments = resourceService.getContents(attachmentPath);
         if (CollectionUtils.isNotEmpty(attachments)) {
             for (Content attachment : attachments) {
-                this.addComponent(AttachmentDisplayComponent
-                        .constructAttachmentRow(attachment));
+                this.addComponent(AttachmentDisplayComponent.constructAttachmentRow(attachment));
             }
         }
     }
@@ -159,9 +157,8 @@ public class AttachmentPanel extends VerticalLayout implements
                                     AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                         }
                     } else {
-                        resourceService.saveContent(
-                                constructContent(fileName, attachmentPath), AppContext.getUsername(),
-                                new FileInputStream(file), AppContext.getAccountId());
+                        resourceService.saveContent(constructContent(fileName, attachmentPath),
+                                AppContext.getUsername(), new FileInputStream(file), AppContext.getAccountId());
                     }
 
                 } catch (FileNotFoundException e) {
@@ -201,17 +198,15 @@ public class AttachmentPanel extends VerticalLayout implements
     }
 
     @Override
-    public void receiveFile(File file, String fileName, String mimeType,
-                            long length) {
+    public void receiveFile(File file, String fileName, String mimeType, long length) {
         if (fileStores == null) {
             fileStores = new HashMap<>();
         }
         if (fileStores.containsKey(fileName)) {
-            NotificationUtil.showWarningNotification("File " + fileName
-                    + " is already existed.");
+            NotificationUtil.showWarningNotification("File " + fileName + " is existed.");
         } else {
             LOG.debug("Store file " + fileName + " in path "
-                    + file.getAbsolutePath() + " is exist: " + file.exists());
+                    + file.getAbsolutePath() + " is existed: " + file.exists());
             fileStores.put(fileName, file);
             displayFileName(file, fileName);
         }

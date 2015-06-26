@@ -36,19 +36,6 @@ public class EmailTokenField extends CssLayout {
 		super();
 	}
 
-	private int getItemIndexInListToEmail(MailRecipientField item) {
-		for (int i = 0; i < lstMailToken.size(); i++) {
-			MailRecipientField recipient = lstMailToken.get(i);
-			if (item.getEmail().equals(recipient.getEmail())
-					&& item.getName().equals(recipient.getName())) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-
-
 	public List<MailRecipientField> getListRecipient() {
 		return lstMailToken;
 	}

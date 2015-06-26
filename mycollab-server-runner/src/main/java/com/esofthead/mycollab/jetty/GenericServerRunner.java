@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.jetty;
 
+import ch.qos.logback.classic.Level;
 import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.LogConfig;
@@ -40,8 +41,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Properties;
 
 /**
@@ -87,6 +90,8 @@ public abstract class GenericServerRunner {
      * @throws Exception
      */
     void run(String[] args) throws Exception {
+        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.setLevel(Level.INFO);
         ServerInstance.getInstance().registerInstance(this);
         System.setProperty("org.eclipse.jetty.annotations.maxWait", "180");
 
@@ -109,7 +114,6 @@ public abstract class GenericServerRunner {
         }
 
         System.setProperty(ApplicationProperties.MYCOLLAB_PORT, port + "");
-        LogConfig.initLog();
         execute();
     }
 
@@ -117,9 +121,12 @@ public abstract class GenericServerRunner {
         server = new Server(port);
         contexts = new ContextHandlerCollection();
 
+        boolean alreadySetup = false;
+
         if (!checkConfigFileExist()) {
             System.err
-                    .println("It seems this is the first time you run MyCollab. For complete installation, you must open the browser and type address http://localhost:"
+                    .println("It seems this is the first time you run MyCollab. For complete installation, you must " +
+                            "open the browser and type address http://<your server name>:"
                             + port
                             + " and complete the steps to install MyCollab.");
             installationContextHandler = new ServletContextHandler(
@@ -142,6 +149,7 @@ public abstract class GenericServerRunner {
             server.setStopAtShutdown(true);
             contexts.setHandlers(new Handler[]{installationContextHandler});
         } else {
+            alreadySetup = true;
             WebAppContext appContext = initWebAppContext();
             ServletContextHandler upgradeContextHandler = new ServletContextHandler(
                     ServletContextHandler.SESSIONS);
@@ -155,6 +163,10 @@ public abstract class GenericServerRunner {
         server.setHandler(contexts);
         server.start();
 
+        if (!alreadySetup) {
+            openDefaultWebBrowserForInstallation();
+        }
+
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
@@ -163,6 +175,17 @@ public abstract class GenericServerRunner {
         });
 
         server.join();
+    }
+
+    private void openDefaultWebBrowserForInstallation() {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URI("http://localhost:" + port));
+            } catch (Exception e) {
+                //do nothing, while user can install MyCollab on the remote server
+            }
+        }
     }
 
     void upgrade(File upgradeFile) {
@@ -186,7 +209,7 @@ public abstract class GenericServerRunner {
         dsProperties.setProperty("prepStmtCacheSize", "250");
         dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
         dsProperties.setProperty("useServerPrepStmts", "true");
-        dsProperties.setProperty("maximumPoolSize", "50");
+        dsProperties.setProperty("maximumPoolSize", "20");
         dataSource.setDataSourceProperties(dsProperties);
         return dataSource;
     }
@@ -198,6 +221,8 @@ public abstract class GenericServerRunner {
     }
 
     private WebAppContext initWebAppContext() {
+        SiteConfiguration.loadConfiguration();
+        LogConfig.initMyCollabLog();
         String webAppDirLocation = detectWebApp();
         LOG.debug("Detect web location: {}", webAppDirLocation);
         appContext = buildContext(webAppDirLocation);

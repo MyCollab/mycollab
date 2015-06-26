@@ -162,6 +162,15 @@ public class ThemeManager {
                             + "; border-color: #"
                             + getBorderColor(accountTheme.getActionbtn())
                             + "; }");
+
+            Page.getCurrent().getStyles().add(".crm-toolbar .quickadd-btn .v-button-caption:before { " +
+                    "background-color: #" + accountTheme.getActionbtn() + ";}");
+
+            Page.getCurrent().getStyles().add(".v-button.add-project-btn {background-color: #" + accountTheme
+                    .getActionbtn() + ";}");
+
+            Page.getCurrent().getStyles().add(".upload-field .v-upload-immediate .v-button {background-color: #"  +
+                    accountTheme.getActionbtn() + ";}");
         }
 
         if (accountTheme.getActionbtntext() != null) {

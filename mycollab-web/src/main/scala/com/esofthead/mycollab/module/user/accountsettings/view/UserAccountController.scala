@@ -22,16 +22,17 @@ import com.esofthead.mycollab.core.arguments.{NumberSearchField, SetSearchField}
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter
-import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ISettingPresenter
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter
 import com.esofthead.mycollab.module.user.accountsettings.setup.view.SetupPresenter
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule
+import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, ProfileEvent, SettingEvent, SetupEvent}
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.SettingExtScreenData.{GeneralSetting, ThemeCustomize}
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.{BillingScreenData, ProfileScreenData, RoleScreenData, UserScreenData}
 import com.esofthead.mycollab.module.user.domain.criteria.{RoleSearchCriteria, UserSearchCriteria}
 import com.esofthead.mycollab.module.user.domain.{Role, SimpleUser}
 import com.esofthead.mycollab.module.user.events.{RoleEvent, UserEvent}
-import com.esofthead.mycollab.module.user.accountsettings.view.events.{AccountBillingEvent, AccountCustomizeEvent, ProfileEvent, SetupEvent}
-import com.esofthead.mycollab.module.user.accountsettings.view.parameters.{BillingScreenData, ProfileScreenData, RoleScreenData, UserScreenData}
 import com.esofthead.mycollab.vaadin.AppContext
 import com.esofthead.mycollab.vaadin.mvp.{AbstractController, PresenterResolver}
 import com.google.common.eventbus.Subscribe
@@ -45,7 +46,7 @@ class UserAccountController(container: AccountModule) extends AbstractController
     bindBillingEvents()
     bindRoleEvents()
     bindUserEvents()
-    bindCustomizeEvents()
+    bingSettingEvents()
 
     if (SiteConfiguration.getDeploymentMode eq DeploymentMode.standalone) {
         bindSetupEvents()
@@ -142,11 +143,18 @@ class UserAccountController(container: AccountModule) extends AbstractController
         })
     }
 
-    private def bindCustomizeEvents(): Unit = {
-        this.register(new ApplicationEventListener[AccountCustomizeEvent.GotoMainPage]() {
-            @Subscribe def handle(event: AccountCustomizeEvent.GotoMainPage) {
-                val presenter = PresenterResolver.getPresenter(classOf[ICustomizePresenter])
-                presenter.go(container, null)
+    private def bingSettingEvents(): Unit = {
+        this.register(new ApplicationEventListener[SettingEvent.GotoGeneralSetting]() {
+            @Subscribe def handle(event: SettingEvent.GotoGeneralSetting) {
+                val presenter = PresenterResolver.getPresenter(classOf[ISettingPresenter])
+                presenter.go(container, new GeneralSetting())
+            }
+        })
+
+        this.register(new ApplicationEventListener[SettingEvent.GotoTheme]() {
+            @Subscribe def handle(event: SettingEvent.GotoTheme) {
+                val presenter = PresenterResolver.getPresenter(classOf[ISettingPresenter])
+                presenter.go(container, new ThemeCustomize())
             }
         })
     }

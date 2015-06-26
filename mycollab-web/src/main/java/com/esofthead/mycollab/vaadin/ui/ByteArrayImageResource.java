@@ -41,14 +41,4 @@ public class ByteArrayImageResource extends StreamResource {
 
 		this.setMIMEType(mimeType);
 	}
-
-	public void setImageData(final byte[] imageData) {
-		this.setStreamSource(new StreamResource.StreamSource() {
-			private static final long serialVersionUID = 1L;
-
-			public InputStream getStream() {
-				return new ByteArrayInputStream(imageData);
-			}
-		});
-	}
 }

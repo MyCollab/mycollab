@@ -142,9 +142,10 @@ a {
 
 .v-button {
 	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;
 	border-radius: 1px;
-	padding: 10px 8px 10px 8px;
-	opacity: 0.9;
+	padding: 10px 15px;
 	cursor: pointer;
 	border: none;
 }

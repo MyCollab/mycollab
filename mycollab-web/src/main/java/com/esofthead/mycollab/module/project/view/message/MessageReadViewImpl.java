@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -90,14 +89,14 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         this.message = item;
         previewForm.setFormLayoutFactory(new FormLayoutFactory());
         previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
-                        previewForm) {
-                    private static final long serialVersionUID = 1L;
+                previewForm) {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    protected Field<?> onCreateField(Object propertyId) {
-                        return null;
-                    }
-                });
+            @Override
+            protected Field<?> onCreateField(Object propertyId) {
+                return null;
+            }
+        });
         previewForm.setBean(item);
     }
 
@@ -212,8 +211,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                     .getSpringBean(ResourceService.class);
             List<Content> attachments = attachmentService
                     .getContents(AttachmentUtils.getProjectEntityAttachmentPath(
-                                    AppContext.getAccountId(), message.getProjectid(),
-                                    ProjectTypeConstants.MESSAGE, "" + message.getId()));
+                            AppContext.getAccountId(), message.getProjectid(),
+                            ProjectTypeConstants.MESSAGE, "" + message.getId()));
             if (CollectionUtils.isNotEmpty(attachments)) {
                 HorizontalLayout attachmentField = new HorizontalLayout();
                 Button attachmentIcon = new Button(null, FontAwesome.PAPERCLIP);
@@ -221,7 +220,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 attachmentField.addComponent(attachmentIcon);
 
                 Label lbAttachment = new Label(AppContext
-                                .getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
+                        .getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
                 attachmentField.addComponent(lbAttachment);
 
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory

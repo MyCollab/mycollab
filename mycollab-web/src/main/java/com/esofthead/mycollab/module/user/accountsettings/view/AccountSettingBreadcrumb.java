@@ -139,10 +139,17 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements CacheableCom
                 "Edit User " + user.getUsername());
     }
 
-    public void gotoSettingPage() {
+    public void gotoGeneralSetting() {
         this.select(0);
         this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING)));
-        AppContext.addFragment("account/setting", AppContext
+        AppContext.addFragment("account/setting/general", AppContext
+                .getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING));
+    }
+
+    public void gotoMakeTheme() {
+        this.select(0);
+        this.addLink(new Button(AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING)));
+        AppContext.addFragment("account/setting/theme", AppContext
                 .getMessage(AccountBreadcrumbI18nEnum.VIEW_SETTING));
     }
 

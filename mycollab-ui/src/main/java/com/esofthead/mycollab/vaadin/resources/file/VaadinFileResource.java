@@ -16,19 +16,52 @@
  */
 package com.esofthead.mycollab.vaadin.resources.file;
 
+import com.esofthead.mycollab.configuration.FileStorage;
 import com.esofthead.mycollab.vaadin.resources.VaadinResource;
+import com.vaadin.server.DownloadStream;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.1
- *
  */
 public class VaadinFileResource extends VaadinResource {
 
-	@Override
-	public Resource getStreamResource(String documentPath) {
-		return new FileStreamDownloadResource(documentPath);
-	}
+    private static final Logger LOG = LoggerFactory.getLogger(VaadinFileResource.class);
+
+    @Override
+    public Resource getStreamResource(String documentPath) {
+        return new FileStreamDownloadResource(documentPath);
+    }
+
+    static class FileStreamDownloadResource extends FileResource {
+        private static final long serialVersionUID = 1L;
+
+        FileStreamDownloadResource(String documentPath) {
+            super(new File(FileStorage.baseContentFolder, documentPath));
+        }
+
+        @Override
+        public DownloadStream getStream() {
+            final String fileName = getFilename().replaceAll(" ", "_").replaceAll("-", "_");
+            try {
+                FileInputStream inStream = new FileInputStream(getSourceFile());
+                DownloadStream ds = new DownloadStream(inStream, getMIMEType(), fileName);
+                ds.setParameter("Content-Disposition", "attachment; filename=" + fileName);
+                ds.setCacheTime(0);
+                return ds;
+            } catch (IOException e) {
+                LOG.error("Error to create download stream", e);
+                return null;
+            }
+        }
+
+    }
 }

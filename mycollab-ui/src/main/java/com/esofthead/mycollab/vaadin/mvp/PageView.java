@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.util.ReflectTools;
 
