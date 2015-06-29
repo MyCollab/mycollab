@@ -8,22 +8,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/256/18556210843_16d900880d_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm1.staticflickr.com/256/18556210843_225c41e768.jpg" alt="Project Dashboard">
+      <a href="https://farm1.staticflickr.com/322/19253847982_55913d71ac_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm1.staticflickr.com/322/19253847982_1191736c3a.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3738/19180391431_0f46d6dfca_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm4.staticflickr.com/3738/19180391431_70f1943f31.jpg" alt="Bug Dashboard">
+      <a href="https://farm1.staticflickr.com/507/19233705566_2b090d73fc_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm1.staticflickr.com/507/19233705566_e81a67a02c.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/388/19180392981_85a8e769aa_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://farm1.staticflickr.com/388/19180392981_c224874354.jpg" alt="Task Dashboard">
+    <a href="https://farm1.staticflickr.com/403/18639248263_92accd2640_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://farm1.staticflickr.com/403/18639248263_4ed11a71e0.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,22 +31,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/561/19171041642_9494ded858_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm1.staticflickr.com/561/19171041642_a54823d23c.jpg" alt="Page Editor">
+    <a href="https://farm1.staticflickr.com/557/19072194008_c6a2634fdc_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm1.staticflickr.com/557/19072194008_20c2c724ff.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/277/19171045472_847e5f21dd_o.png" target="_blank" title="File Management">
-        <img src="https://farm1.staticflickr.com/277/19171045472_55ab79f6fd.jpg" alt="File Management">
+      <a href="https://farm1.staticflickr.com/506/19072182090_1fbdd4a17e_o.png" target="_blank" title="File Management">
+        <img src="https://farm1.staticflickr.com/506/19072182090_d479400636.jpg" alt="File Management">
       </a>
       <br />
-      <em>CRM Dashboard</em>
+      <em>Project File Management</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/294/19150684216_141eeef56f_o.png" target="_blank" title="Customer Account">
-        <img src="https://farm1.staticflickr.com/294/19150684216_be0df53e01.jpg" alt="Customer Account">
+      <a href="https://farm1.staticflickr.com/414/18639243183_e1f459a779_o.png" target="_blank" title="Customer Account">
+        <img src="https://farm1.staticflickr.com/414/18639243183_8b3f79f287.jpg" alt="Customer Account">
       </a>
       <br />
       <em>Customer Account</em>
@@ -85,6 +85,8 @@ Please take a look at MyCollab requirements:
     [https://community.mycollab.com/installation-guideline/](https://community.mycollab.com/installation-guideline/)
 
 ## Installation
+
+The current MyCollab version is 5.0.10 released on 29th June, 2015. It is the final release of 5.0.x branch, and we started the new branch 5.1.x for the new features of MyCollab which mainly focus in mobile devices, reporting and customize options for on-demand edition.
 
 1. Download MyCollab binary - https://community.mycollab.com/download/
 2. Follow installation guideline at https://community.mycollab.com/installation-guideline/
