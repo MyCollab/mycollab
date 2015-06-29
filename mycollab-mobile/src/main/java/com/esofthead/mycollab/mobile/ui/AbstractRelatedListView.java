@@ -32,7 +32,6 @@ import com.vaadin.ui.Component;
  */
 public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 		extends AbstractMobilePageView implements IRelatedListHandlers<T> {
-
 	private static final long serialVersionUID = 1L;
 
 	protected Set<RelatedListHandler<T>> handlers;
@@ -52,7 +51,7 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 	@Override
 	public void addRelatedListHandler(final RelatedListHandler<T> handler) {
 		if (handlers == null) {
-			handlers = new HashSet<RelatedListHandler<T>>();
+			handlers = new HashSet<>();
 		}
 
 		handlers.add(handler);
@@ -66,9 +65,9 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 		}
 	}
 
-	public void fireSelectedRelatedItems(final Set selectedItems) {
+	public void fireSelectedRelatedItems(Set<T> selectedItems) {
 		if (handlers != null) {
-			for (final RelatedListHandler handler : handlers) {
+			for (RelatedListHandler<T> handler : handlers) {
 				handler.selectAssociateItems(selectedItems);
 			}
 		}

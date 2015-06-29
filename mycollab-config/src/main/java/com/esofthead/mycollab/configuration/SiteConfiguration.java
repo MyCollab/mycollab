@@ -122,6 +122,9 @@ public class SiteConfiguration {
     }
 
     private static SiteConfiguration getInstance() {
+        if (instance == null) {
+            loadConfiguration();
+        }
         return instance;
     }
 
