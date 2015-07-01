@@ -24,11 +24,11 @@ import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
-import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
-import com.esofthead.mycollab.module.user.domain.UserAccountInvitationExample;
+import com.esofthead.mycollab.module.user.domain.UserAccount;
+import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -42,104 +42,101 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @WebServlet(name = "acceptUserInvitationServlet", urlPatterns = "/user/confirm_invite/*")
 public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
-	private static final Logger LOG = LoggerFactory.getLogger(AcceptInvitationPage.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AcceptInvitationPage.class);
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private UserAccountMapper userAccountMapper;
+    @Autowired
+    private UserAccountMapper userAccountMapper;
 
-	@Autowired
-	private UserAccountInvitationMapper userAccountInvitationMapper;
+    @Override
+    protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String pathInfo = request.getPathInfo();
 
-	@Override
-	protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String pathInfo = request.getPathInfo();
+        String subDomain = "";
+        String loginURL = request.getContextPath() + "/";
 
-		String subDomain = "";
-		String loginURL = request.getContextPath() + "/";
+        try {
+            if (pathInfo != null) {
+                UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
 
-		try {
-			if (pathInfo != null) {
-				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+                Integer accountId = urlTokenizer.getInt();
+                String username = urlTokenizer.getString();
+                if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
+                    subDomain = urlTokenizer.getString();
+                }
 
-				int accountId = urlTokenizer.getInt();
-				String username = urlTokenizer.getString();
-				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-					subDomain = urlTokenizer.getString();
-				}
-
-				User user = userService.findUserByUserName(username);
+                User user = userService.findUserByUserName(username);
                 if (user == null) {
                     PageGeneratorUtil.responeUserNotExistPage(response,
                             username, request.getContextPath() + "/");
                     return;
                 } else {
-					if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
-						user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
-						userService.updateWithSession(user, "");
-					}
+                    if (!UserStatusConstants.EMAIL_VERIFIED.equals(user.getStatus())) {
+                        user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+                        userService.updateWithSession(user, "");
+                    }
 
-					SimpleUser userInAccount = userService.findUserByUserNameInAccount(username, accountId);
+                    SimpleUser userInAccount = userService.findUserByUserNameInAccount(username, accountId);
 
-					if (userInAccount == null) {
-						PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
-						return;
-					} else {
-						if (userInAccount.getRegisterstatus().equals(RegisterStatusConstants.ACTIVE)) {
-							LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
-							response.sendRedirect(request.getContextPath() + "/");
-							return;
-						} else {
-							// remove account invitation
-							UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
-							userAccountInvitationExample.createCriteria().andUsernameEqualTo(username)
-									.andAccountidEqualTo(accountId);
-							userAccountInvitationMapper.deleteByExample(userAccountInvitationExample);
+                    if (userInAccount == null) {
+                        PageGeneratorUtil.responeUserNotExistPage(response, username, request.getContextPath() + "/");
+                        return;
+                    } else {
+                        if (userInAccount.getRegisterstatus().equals(RegisterStatusConstants.ACTIVE)) {
+                            LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
+                            response.sendRedirect(request.getContextPath() + "/");
+                            return;
+                        } else {
+                            UserAccount userAccount = new UserAccount();
+                            userAccount.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+                            userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+                            UserAccountExample userAccountExample = new UserAccountExample();
+                            userAccountExample.createCriteria().andAccountidEqualTo(accountId).andUsernameEqualTo(username);
+                            userAccountMapper.updateByExampleSelective(userAccount, userAccountExample);
 
-							if (StringUtils.isBlank(user.getPassword())) {
-								LOG.debug(
-										"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
-										user.getUsername(), BeanUtility.printBeanObj(user));
-								// forward to page create password for new user
-								String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subDomain));
+                            if (StringUtils.isBlank(user.getPassword())) {
+                                LOG.debug(
+                                        "User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
+                                        user.getUsername(), BeanUtility.printBeanObj(user));
+                                // forward to page create password for new user
+                                String redirectURL = String.format("%suser/confirm_invite/update_info/", SiteConfiguration.getSiteUrl(subDomain));
 
-								Map<String, Object> context = new HashMap<>();
-								context.put("username", username);
-								context.put("accountId", accountId);
-								context.put("email", user.getEmail());
-								context.put("redirectURL", redirectURL);
-								context.put("loginURL", loginURL);
-								String html = generatePageByTemplate(response.getLocale(), "templates/page/user/FillUserInformation.mt", context);
-								PrintWriter out = response.getWriter();
-								out.print(html);
-								return;
-							} else {
-								LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
-								// redirect to account site
-								userService.updateUserAccountStatus(username, accountId, RegisterStatusConstants.ACTIVE);
-								response.sendRedirect(request.getContextPath() + "/");
-								return;
-							}
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+                                Map<String, Object> context = new HashMap<>();
+                                context.put("username", username);
+                                context.put("accountId", accountId);
+                                context.put("email", user.getEmail());
+                                context.put("redirectURL", redirectURL);
+                                context.put("loginURL", loginURL);
+                                String html = generatePageByTemplate(response.getLocale(), "templates/page/user/FillUserInformation.mt", context);
+                                PrintWriter out = response.getWriter();
+                                out.print(html);
+                            } else {
+                                LOG.debug("Forward user {} to page {}", user.getUsername(), request.getContextPath());
+                                // redirect to account site
+                                userService.updateUserAccountStatus(username, accountId, RegisterStatusConstants.ACTIVE);
+                                response.sendRedirect(request.getContextPath() + "/");
+                            }
+                        }
+                    }
+                }
+            } else {
+                throw new ResourceNotFoundException();
+            }
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
 }

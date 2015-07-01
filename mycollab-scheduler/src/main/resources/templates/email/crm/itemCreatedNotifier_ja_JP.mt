@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新しいアイテムが作成されます</title>
+<title>New item</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-<body style="background-color: rgb(235, 236, 237); font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
+<body style="background-color: ${styles.background}; font: ${styles.font}; color: #4e4e4e; padding: 0px 0px;">
     #macro( hyperLink $displayName $webLink )
-        <a href="$webLink" style="color: rgb(36, 127, 211); text-decoration: none; white-space: normal;">$displayName</a>
+        <a href="$webLink" style="color: ${styles.link_color}; white-space: normal;">$displayName</a>
     #end
     
     #macro( messageBlock $messageContent )
@@ -18,11 +18,11 @@
         </div>
     #end
     
-    <table width="800" cellpadding="0" cellspacing="0" border="0" style="font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
+    <table width="800" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto;">
        <tr>
             <td>
-                <div style="padding: 10px 30px; background-color: rgb(106, 201, 228);">
-                    <img src="${defaultUrls.cdn_url}icons/logo_email.png" alt="The power productivity tool for your organization" width="130" height="30"
+                <div style="padding: 10px 30px;">
+                    <img src="${defaultUrls.cdn_url}icons/logo.png" alt="The power productivity tool for your organization" width="130" height="30"
                     style="margin: 0px; padding: 0px;">
                 </div>
             </td>           
@@ -34,7 +34,8 @@
                 #hyperLink( $summary $summaryLink )
                 </b></p>
                 #if( $mapper )
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 11px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 10px 0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 12px; margin: 10px
+                0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
                     #set($currentRowElements = 0)
                     #foreach( $key in $mapper.keySet() )
                         #set($fieldFormat=$mapper.getFieldLabel($key))
@@ -64,7 +65,7 @@
                 #end
             </td>
         </tr>
-        #parse("templates/email/footer_ja_JP.mt")
+        #parse("templates/email/footer_en_US.mt")
     </table>
 </body>
 </html>

@@ -35,14 +35,14 @@ trait IContentGenerator {
      * @param subject
      * @return
      */
-    def generateSubjectContent(subject: String): String
+    def parseString(subject: String): String
 
     /**
      *
      * @param templateFilePath
      * @return
      */
-    def generateBodyContent(templateFilePath: String): String
+    def parseFile(templateFilePath: String): String
 
     /**
      *
@@ -50,7 +50,7 @@ trait IContentGenerator {
      * @param currentLocale
      * @return
      */
-    def generateBodyContent(templateFilePath: String, currentLocale: Locale): String
+    def parseFile(templateFilePath: String, currentLocale: Locale): String
 
     /**
      *
@@ -59,5 +59,5 @@ trait IContentGenerator {
      * @param defaultLocale
      * @return
      */
-    def generateBodyContent(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String
+    def parseFile(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String
 }

@@ -42,20 +42,11 @@
         <table domainObjectName="UserAccount" schema="mycollab"
                tableName="s_user_account"/>
 
-        <table domainObjectName="UserAccountInvitation" schema="mycollab"
-               tableName="s_user_account_invitation"/>
-
         <table domainObjectName="RolePermission" schema="mycollab"
                tableName="s_role_permission"/>
 
         <table domainObjectName="UserPermission" schema="mycollab"
                tableName="s_user_permission"/>
-
-        <table domainObjectName="UserInformation" schema="mycollab"
-               tableName="s_user_information"/>
-
-        <table domainObjectName="UserPreference" schema="mycollab"
-               tableName="s_user_preference"/>
 
         <table schema="mycollab" tableName="s_user_tracking"
                domainObjectName="UserTracking"/>

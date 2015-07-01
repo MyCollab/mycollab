@@ -54,12 +54,12 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     }
 
     @Override
-    public SimpleBillingAccount getBillingAccountById(int accountId) {
+    public SimpleBillingAccount getBillingAccountById(Integer accountId) {
         return billingAccountMapperExt.getBillingAccountById(accountId);
     }
 
     @Override
-    public Integer updateSelectiveWithSession(@CacheKey BillingAccount record, String username) {
+    public Integer updateSelectiveWithSession(BillingAccount record, String username) {
         try {
             return super.updateSelectiveWithSession(record, username);
         } catch (DuplicateKeyException e) {
@@ -84,7 +84,7 @@ public class BillingAccountServiceImpl extends DefaultCrudService<Integer, Billi
     }
 
     @Override
-    public BillingAccount getAccountById(@CacheKey Integer accountId) {
+    public BillingAccount getAccountById(Integer accountId) {
         BillingAccountExample ex = new BillingAccountExample();
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {

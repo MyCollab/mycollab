@@ -18,12 +18,13 @@ package com.esofthead.mycollab.module.user.view;
 
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
+import com.esofthead.mycollab.module.user.domain.UserAccount;
+import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -38,7 +39,7 @@ import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * @author MyCollab Ltd.
@@ -74,23 +75,20 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
             ((DesktopApplication) UI.getCurrent()).rememberPassword(username, password);
         }
 
-        BillingAccountService billingAccountService = ApplicationContextUtil
-                .getSpringBean(BillingAccountService.class);
+        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
 
-        SimpleBillingAccount billingAccount = billingAccountService
-                .getBillingAccountById(AppContext.getAccountId());
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
 
         LOG.debug(String.format("Get billing account successfully: %s", BeanUtility.printBeanObj(billingAccount)));
 
-        UserPreferenceService preferenceService = ApplicationContextUtil
-                .getSpringBean(UserPreferenceService.class);
-        UserPreference pref = preferenceService.getPreferenceOfUser(username, AppContext.getAccountId());
+        AppContext.getInstance().setSessionVariables(user, billingAccount);
 
-        LOG.debug(String.format("Login to system successfully. Save user and preference %s to session", pref));
-
-        AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
-        pref.setLastaccessedtime(new Date());
-        preferenceService.updateWithSession(pref, AppContext.getUsername());
+        UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+        UserAccount userAccount = new UserAccount();
+        userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+        UserAccountExample ex = new UserAccountExample();
+        ex.createCriteria().andAccountidEqualTo(billingAccount.getId()).andUsernameEqualTo(user.getUsername());
+        userAccountMapper.updateByExampleSelective(userAccount, ex);
         EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(this, null));
     }
 

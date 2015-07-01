@@ -2,39 +2,32 @@
 <!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
 <dataset>
     <s_user username="hainguyen@esofthead.com" firstname="Nguyen"
-        lastname="Hai" email="hainguyen@esofthead.com" />
+            lastname="Hai" email="hainguyen@esofthead.com"/>
 
     <s_user username="linhduong@esofthead.com" firstname="Duong"
-        lastname="Linh" email="linhduong@esofthead.com" />
+            lastname="Linh" email="linhduong@esofthead.com"/>
 
     <s_user username="huynguyen@esofthead.com" firstname="Nguyen"
-        lastname="Huy" email="huynguyen@esofthead.com" />
+            lastname="Huy" email="huynguyen@esofthead.com"/>
 
     <s_user username="test@esofthead.com" firstname="Nguyen"
-        lastname="Huy" email="huynguyen@esofthead.com" />
+            lastname="Huy" email="huynguyen@esofthead.com"/>
 
-    <s_roles rolename="Dev" sAccountId="1" id="1" />
-
-    <s_user_preference sAccountId="1" id="1"
-        username="hainguyen@esofthead.com" lastAccessedTime="2014-02-20 10:17:06" />
-    <s_user_preference sAccountId="1" id="2"
-        username="linhduong@esofthead.com" lastAccessedTime="2014-02-19 10:17:06" />
-    <s_user_preference sAccountId="1" id="3"
-        username="huynguyen@esofthead.com" lastAccessedTime="2014-02-19 10:17:06" />
+    <s_roles rolename="Dev" sAccountId="1" id="1"/>
 
     <s_user_account id="1" username="hainguyen@esofthead.com"
-        accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 00:00:00"
-        registerStatus="Active" />
+                    accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 00:00:00"
+                    registerStatus="Active"/>
 
     <s_user_account id="2" username="linhduong@esofthead.com"
-        accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
-        registerStatus="Active" />
+                    accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
+                    registerStatus="Active"/>
 
     <s_user_account id="3" isAccountOwner="1" roleId="1"
-        registerStatus="Active" username="huynguyen@esofthead.com"
-        accountId="1" registeredTime="2013-08-08 00:00:00" />
+                    registerStatus="Active" username="huynguyen@esofthead.com"
+                    accountId="1" registeredTime="2013-08-08 00:00:00"/>
 
     <s_user_account id="4" username="test@esofthead.com"
-        accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
-        registerStatus="Pending" />
+                    accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
+                    registerStatus="Pending"/>
 </dataset>

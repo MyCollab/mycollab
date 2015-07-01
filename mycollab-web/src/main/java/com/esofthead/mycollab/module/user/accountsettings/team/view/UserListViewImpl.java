@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
@@ -60,26 +59,22 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
     @SuppressWarnings("unchecked")
     @Override
     public void setSearchCriteria(UserSearchCriteria searchCriteria) {
+        this.removeAllComponents();
         UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
         List<SimpleUser> userAccountList = userService
                 .findPagableListByCriteria(new SearchRequest<>(searchCriteria, 0, Integer.MAX_VALUE));
 
-        this.removeAllComponents();
-        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false)
-                .withMargin(new MarginInfo(true, false, true, false)).withStyleName(UIConstants.HEADER_VIEW)
-                .withWidth("100%");
-        Button createBtn = new Button("Invite user",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        MHorizontalLayout header = new MHorizontalLayout().withSpacing(false).withMargin(new MarginInfo(true, false, true, false))
+                .withStyleName(UIConstants.HEADER_VIEW).withWidth("100%");
+        Button createBtn = new Button("Invite user", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new UserEvent.GotoAdd(this, null));
-                    }
-                });
-        createBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.ACCOUNT_USER));
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                EventBusFactory.getInstance().post(new UserEvent.GotoAdd(this, null));
+            }
+        });
+        createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setIcon(FontAwesome.PLUS);
 
@@ -100,15 +95,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
         VerticalLayout blockContent = new VerticalLayout();
         MHorizontalLayout blockTop = new MHorizontalLayout().withWidth("100%");
-        Image memberAvatar = UserAvatarControlFactory
-                .createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
+        Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
         blockTop.addComponent(memberAvatar);
 
         VerticalLayout memberInfo = new VerticalLayout();
 
         MHorizontalLayout layoutButtonDelete = new MHorizontalLayout().withWidth("100%");
-        layoutButtonDelete.setVisible(AppContext
-                .canWrite(RolePermissionCollections.ACCOUNT_USER));
+        layoutButtonDelete.setVisible(AppContext.canWrite(RolePermissionCollections.ACCOUNT_USER));
 
         Button deleteBtn = new Button();
         deleteBtn.addClickListener(new Button.ClickListener() {
@@ -127,13 +120,10 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                             @Override
                             public void onClose(ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    UserService userService = ApplicationContextUtil
-                                            .getSpringBean(UserService.class);
-                                    userService.pendingUserAccounts(Arrays
-                                                    .asList(member.getUsername()),
+                                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                                    userService.pendingUserAccounts(Arrays.asList(member.getUsername()),
                                             AppContext.getAccountId());
-                                    EventBusFactory.getInstance()
-                                            .post(new UserEvent.GotoList(UserListViewImpl.this, null));
+                                    EventBusFactory.getInstance().post(new UserEvent.GotoList(UserListViewImpl.this, null));
                                 }
                             }
                         });
@@ -152,8 +142,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             @Override
             public void buttonClick(ClickEvent event) {
                 EventBusFactory.getInstance().post(
-                        new UserEvent.GotoRead(UserListViewImpl.this, member
-                                .getUsername()));
+                        new UserEvent.GotoRead(UserListViewImpl.this, member.getUsername()));
             }
         });
 
@@ -172,8 +161,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
         memberSinceLabel.setWidth("100%");
         memberInfo.addComponent(memberSinceLabel);
 
-        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member
-                .getRegisterstatus())) {
+        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member.getRegisterstatus())) {
             final VerticalLayout waitingNotLayout = new VerticalLayout();
             Label infoStatus = new Label("Waiting for accept invitation");
             infoStatus.addStyleName("member-email");
@@ -185,15 +173,11 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    UserService userService = ApplicationContextUtil
-                            .getSpringBean(UserService.class);
-                    userService.updateUserAccountStatus(
-                            member.getUsername(),
-                            member.getAccountId(),
-                            RegisterStatusConstants.VERIFICATING);
+                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                    userService.updateUserAccountStatus(member.getUsername(),
+                            member.getAccountId(), RegisterStatusConstants.VERIFICATING);
                     waitingNotLayout.removeAllComponents();
-                    Label statusEmail = new Label(
-                            "Sending invitation email");
+                    Label statusEmail = new Label("Sent invitation email");
                     statusEmail.addStyleName("member-email");
                     waitingNotLayout.addComponent(statusEmail);
                 }
@@ -201,15 +185,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             resendInvitationLink.addStyleName("member-email");
             waitingNotLayout.addComponent(resendInvitationLink);
             memberInfo.addComponent(waitingNotLayout);
-        } else if (RegisterStatusConstants.ACTIVE.equals(member
-                .getRegisterstatus())) {
+        } else if (RegisterStatusConstants.ACTIVE.equals(member.getRegisterstatus())) {
             ELabel lastAccessTimeLbl = new ELabel("Logged in "
                     + AppContext.formatPrettyTime(member.getLastaccessedtime())).withDescription(AppContext
                     .formatDateTime(member.getLastaccessedtime()));
             lastAccessTimeLbl.addStyleName("member-email");
             memberInfo.addComponent(lastAccessTimeLbl);
-        } else if (RegisterStatusConstants.VERIFICATING.equals(member
-                .getRegisterstatus())) {
+        } else if (RegisterStatusConstants.VERIFICATING.equals(member.getRegisterstatus())) {
             Label infoStatus = new Label("Sending invitation email");
             infoStatus.addStyleName("member-email");
             memberInfo.addComponent(infoStatus);
@@ -230,14 +212,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
             }
             memberRole.setSizeUndefined();
             blockContent.addComponent(memberRole);
-            blockContent.setComponentAlignment(memberRole,
-                    Alignment.MIDDLE_RIGHT);
+            blockContent.setComponentAlignment(memberRole, Alignment.MIDDLE_RIGHT);
         } else if (Boolean.TRUE.equals(member.getIsAccountOwner())) {
             Label memberRole = new Label("<a style=\"color: #B00000;\">Account Owner</a>", ContentMode.HTML);
             memberRole.setSizeUndefined();
             blockContent.addComponent(memberRole);
-            blockContent.setComponentAlignment(memberRole,
-                    Alignment.MIDDLE_RIGHT);
+            blockContent.setComponentAlignment(memberRole, Alignment.MIDDLE_RIGHT);
         } else {
             Label lbl = new Label();
             lbl.setHeight("10px");

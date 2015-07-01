@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
@@ -30,44 +29,40 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public abstract class VelocityWebServletRequestHandler extends GenericHttpServlet {
 
-	@Autowired
-	private TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngine templateEngine;
 
-	protected TemplateContext pageContext = new TemplateContext();
+    protected TemplateContext pageContext = new TemplateContext();
 
-	public String generatePageByTemplate(Locale locale, String templatePath,
-			Map<String, Object> params) {
-		Reader reader = LocalizationHelper.templateReader(templatePath, locale);
+    public String generatePageByTemplate(Locale locale, String templatePath,
+                                         Map<String, Object> params) {
+        Reader reader = LocalizationHelper.templateReader(templatePath, locale);
 
-		if (params != null) {
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				pageContext.put(entry.getKey(), entry.getValue());
-			}
-		}
+        if (params != null) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                pageContext.put(entry.getKey(), entry.getValue());
+            }
+        }
 
-		Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
+        defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+        defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 
-		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();
+        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
+        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
+        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
+        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
 
-		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
-		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
-		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
-		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
+        pageContext.put("defaultUrls", defaultUrls);
 
-		pageContext.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		templateEngine.evaluate(pageContext, writer, "log task", reader);
-		return writer.toString();
-	}
+        StringWriter writer = new StringWriter();
+        templateEngine.evaluate(pageContext, writer, "log task", reader);
+        return writer.toString();
+    }
 }

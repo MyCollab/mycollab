@@ -16,11 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.shell;
 
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -36,9 +31,7 @@ import com.esofthead.mycollab.mobile.shell.ui.MainViewPresenter;
 import com.esofthead.mycollab.mobile.ui.IMobileView;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,155 +42,128 @@ import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 3.0
- * 
  */
 public class ShellController extends AbstractController {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ShellController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShellController.class);
 
-	final private NavigationManager mainNav;
+    final private NavigationManager mainNav;
 
-	public ShellController(NavigationManager navigationManager) {
-		this.mainNav = navigationManager;
-		bind();
-	}
+    public ShellController(NavigationManager navigationManager) {
+        this.mainNav = navigationManager;
+        bind();
+    }
 
-	private void bind() {
-		this.register(new ApplicationEventListener<ShellEvent.GotoLoginView>() {
-			private static final long serialVersionUID = 1L;
+    private void bind() {
+        this.register(new ApplicationEventListener<ShellEvent.GotoLoginView>() {
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.GotoLoginView event) {
-				LoginPresenter presenter = PresenterResolver
-						.getPresenter(LoginPresenter.class);
-				presenter.go(mainNav, null);
-			}
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.GotoLoginView event) {
+                LoginPresenter presenter = PresenterResolver
+                        .getPresenter(LoginPresenter.class);
+                presenter.go(mainNav, null);
+            }
 
-		});
+        });
 
-		this.register(new ApplicationEventListener<UserEvent.PlainLogin>() {
-			private static final long serialVersionUID = -6601631757376496199L;
+        this.register(new ApplicationEventListener<UserEvent.PlainLogin>() {
+            private static final long serialVersionUID = -6601631757376496199L;
 
-			@Subscribe
-			@Override
-			public void handle(UserEvent.PlainLogin event) {
-				String[] data = (String[]) event.getData();
-				try {
-					doLogin(data[0], data[1], Boolean.valueOf(data[2]));
-				} catch (MyCollabException exception) {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoLoginView(this, null));
-				}
-			}
-		});
-		this.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
-			private static final long serialVersionUID = 1L;
+            @Subscribe
+            @Override
+            public void handle(UserEvent.PlainLogin event) {
+                String[] data = (String[]) event.getData();
+                try {
+                    doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+                } catch (MyCollabException exception) {
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoLoginView(this, null));
+                }
+            }
+        });
+        this.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.GotoMainPage event) {
-				MainViewPresenter presenter = PresenterResolver
-						.getPresenter(MainViewPresenter.class);
-				presenter.go(mainNav, null);
-			}
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.GotoMainPage event) {
+                MainViewPresenter presenter = PresenterResolver.getPresenter(MainViewPresenter.class);
+                presenter.go(mainNav, null);
+            }
 
-		});
-		this.register(new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
-			private static final long serialVersionUID = 1L;
+        });
+        this.register(new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.GotoCrmModule event) {
-				CrmModulePresenter presenter = PresenterResolver
-						.getPresenter(CrmModulePresenter.class);
-				presenter.go(mainNav, null);
-			}
-		});
-		this.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
-			private static final long serialVersionUID = 1L;
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.GotoCrmModule event) {
+                CrmModulePresenter presenter = PresenterResolver.getPresenter(CrmModulePresenter.class);
+                presenter.go(mainNav, null);
+            }
+        });
+        this.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
+            private static final long serialVersionUID = 1L;
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.GotoProjectModule event) {
-				ProjectModulePresenter presenter = PresenterResolver
-						.getPresenter(ProjectModulePresenter.class);
-				presenter.go(mainNav, null);
-			}
-		});
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.GotoProjectModule event) {
+                ProjectModulePresenter presenter = PresenterResolver.getPresenter(ProjectModulePresenter.class);
+                presenter.go(mainNav, null);
+            }
+        });
 
-		this.register(new ApplicationEventListener<ShellEvent.PushView>() {
+        this.register(new ApplicationEventListener<ShellEvent.PushView>() {
 
-			private static final long serialVersionUID = 1305847008958371404L;
+            private static final long serialVersionUID = 1305847008958371404L;
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.PushView event) {
-				if (event.getData() instanceof Component) {
-					if (event.getData() instanceof IMobileView) {
-						((IMobileView) event.getData())
-								.setPreviousComponent(mainNav
-										.getCurrentComponent());
-					}
-					mainNav.navigateTo((Component) event.getData());
-				}
-			}
-		});
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.PushView event) {
+                if (event.getData() instanceof Component) {
+                    if (event.getData() instanceof IMobileView) {
+                        ((IMobileView) event.getData())
+                                .setPreviousComponent(mainNav.getCurrentComponent());
+                    }
+                    mainNav.navigateTo((Component) event.getData());
+                }
+            }
+        });
 
-		this.register(new ApplicationEventListener<ShellEvent.NavigateBack>() {
+        this.register(new ApplicationEventListener<ShellEvent.NavigateBack>() {
+            private static final long serialVersionUID = -6304448506502272165L;
 
-			private static final long serialVersionUID = -6304448506502272165L;
+            @Subscribe
+            @Override
+            public void handle(ShellEvent.NavigateBack event) {
+                mainNav.navigateBack();
+            }
+        });
+    }
 
-			@Subscribe
-			@Override
-			public void handle(ShellEvent.NavigateBack event) {
-				mainNav.navigateBack();
-			}
-		});
-	}
+    public static void doLogin(String username, String password, boolean isRememberPassword) throws MyCollabException {
+        UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+        SimpleUser user = userService.authentication(username, password, AppContext.getSubDomain(), false);
+        BillingAccountService billingAccountService = ApplicationContextUtil.getSpringBean(BillingAccountService.class);
+        SimpleBillingAccount billingAccount = billingAccountService.getBillingAccountById(AppContext.getAccountId());
 
-	public static void doLogin(String username, String password,
-			boolean isRememberPassword) throws MyCollabException {
-		UserService userService = ApplicationContextUtil
-				.getSpringBean(UserService.class);
-		SimpleUser user = userService.authentication(username, password,
-				AppContext.getSubDomain(), false);
+        LOG.debug("Get billing account successfully: " + BeanUtility.printBeanObj(billingAccount));
 
-		BillingAccountService billingAccountService = ApplicationContextUtil
-				.getSpringBean(BillingAccountService.class);
+        if (isRememberPassword) {
+            LocalStorage storage = LocalStorage.get();
+            String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
+            storage.put(MobileApplication.LOGIN_DATA, storeVal);
+        }
 
-		SimpleBillingAccount billingAccount = billingAccountService
-				.getBillingAccountById(AppContext.getAccountId());
-
-		LOG.debug("Get billing account successfully: "
-				+ BeanUtility.printBeanObj(billingAccount));
-
-		UserPreferenceService preferenceService = ApplicationContextUtil
-				.getSpringBean(UserPreferenceService.class);
-		UserPreference pref = preferenceService.getPreferenceOfUser(username,
-				AppContext.getAccountId());
-
-		LOG.debug("Login to system successfully. Save user and preference "
-				+ pref + " to session");
-
-		if (isRememberPassword) {
-			LocalStorage storage = LocalStorage.get();
-			String storeVal = username + "$"
-					+ PasswordEncryptHelper.encryptText(password);
-			storage.put(MobileApplication.LOGIN_DATA, storeVal);
-		}
-
-		AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
-		pref.setLastaccessedtime(new Date());
-		preferenceService.updateWithSession(pref, AppContext.getUsername());
-		EventBusFactory.getInstance().post(
-				new ShellEvent.GotoMainPage(UI.getCurrent(), null));
-	}
+        AppContext.getInstance().setSessionVariables(user, billingAccount);
+        EventBusFactory.getInstance().post(new ShellEvent.GotoMainPage(UI.getCurrent(), null));
+    }
 }

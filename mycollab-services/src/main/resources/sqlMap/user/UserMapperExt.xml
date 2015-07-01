@@ -10,6 +10,8 @@
         <result column="roleid" jdbcType="INTEGER" property="roleid" />
         <result column="isAccountOwner" jdbcType="BIT" property="isAccountOwner" />
         <result column="accountId" jdbcType="INTEGER" property="accountId" />
+        <result column="inviteUser" jdbcType="VARCHAR" property="inviteUser" />
+        <result column="lastModuleVisit" jdbcType="VARCHAR" property="lastModuleVisit" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -90,7 +92,7 @@
             
             #ifnotnull($searchCriteria.registerStatuses)
                 ${searchCriteria.registerStatuses.operation}
-                (SELECT COUNT(*)
+                EXISTS (SELECT 1
                     FROM s_user_account 
                     WHERE
                         s_user.username=s_user_account.username AND
@@ -98,7 +100,7 @@
                         #repeat(${searchCriteria.registerStatuses.values} $registerStatus "," "(" ")")
                             @{registerStatus}
                         #end
-                ) > 0
+                    LIMIT 1)
             #end
             
             #totalCountExpr($searchCriteria.extraFields)
@@ -108,17 +110,17 @@
     <sql id="selectUser">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.middlename, s_user.lastname, s_user.nickname, s_user.dateofbirth, 
-            s_user.email, s_user.website, s_user_preference.lastAccessedTime, s_user.company,
+            s_user.email, s_user.website, s_user.company,
             s_user.timezone, s_user.language, s_user.country, s_user.workPhone, s_user.homePhone,
             s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
             s_user.password, s_user.avatarId, s_user.status, s_user.requestAd, s_account.subdomain AS subdomain,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
-            s_user_account.registerStatus, s_user_account.registeredTime
+            s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,
+            s_user_account.lastModuleVisit
         FROM s_user 
                 INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
                 INNER JOIN s_account ON (s_user_account.accountId = s_account.id)
                 LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
-                LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=s_user_account.accountId)
         ]]>
     </sql>
 

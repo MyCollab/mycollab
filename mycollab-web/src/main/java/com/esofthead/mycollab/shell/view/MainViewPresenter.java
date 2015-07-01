@@ -18,7 +18,7 @@ package com.esofthead.mycollab.shell.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -29,7 +29,6 @@ import com.vaadin.ui.UI;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -52,14 +51,14 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
             }
             DesktopApplication.rootUrlResolver.navigateByFragement(url);
         } else {
-            UserPreference pref = AppContext.getUserPreference();
-            if (ModuleNameConstants.CRM.equals(pref.getLastmodulevisit())) {
+            SimpleUser pref = AppContext.getUser();
+            if (ModuleNameConstants.CRM.equals(pref.getLastModuleVisit())) {
                 EventBusFactory.getInstance().post(
                         new ShellEvent.GotoCrmModule(this, null));
-            } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastmodulevisit())) {
+            } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastModuleVisit())) {
                 EventBusFactory.getInstance().post(
                         new ShellEvent.GotoUserAccountModule(this, null));
-            } else if (ModuleNameConstants.FILE.equals(pref.getLastmodulevisit())) {
+            } else if (ModuleNameConstants.FILE.equals(pref.getLastModuleVisit())) {
                 EventBusFactory.getInstance().post(
                         new ShellEvent.GotoFileModule(this, null));
             } else {

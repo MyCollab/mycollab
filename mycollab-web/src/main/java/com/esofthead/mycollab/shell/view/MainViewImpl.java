@@ -21,7 +21,6 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.notification.*;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -36,7 +35,6 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18n
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.SettingAssetsManager;
 import com.esofthead.mycollab.module.user.ui.SettingUIConstants;
@@ -215,15 +213,15 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
             @Override
             public void buttonClick(final ClickEvent event) {
-                UserPreference pref = AppContext.getUserPreference();
-                if (pref.getLastmodulevisit() == null
-                        || ModuleNameConstants.PRJ.equals(pref.getLastmodulevisit())) {
+                String lastModuleVisited = AppContext.getUser().getLastModuleVisit();
+                if (lastModuleVisited == null
+                        || ModuleNameConstants.PRJ.equals(lastModuleVisited)) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
-                } else if (ModuleNameConstants.CRM.equals(pref.getLastmodulevisit())) {
+                } else if (ModuleNameConstants.CRM.equals(lastModuleVisited)) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoCrmModule(this, null));
-                } else if (ModuleNameConstants.ACCOUNT.equals(pref.getLastmodulevisit())) {
+                } else if (ModuleNameConstants.ACCOUNT.equals(lastModuleVisited)) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, null));
-                } else if (ModuleNameConstants.FILE.equals(pref.getLastmodulevisit())) {
+                } else if (ModuleNameConstants.FILE.equals(lastModuleVisited)) {
                     EventBusFactory.getInstance().post(new ShellEvent.GotoFileModule(this, null));
                 }
             }
@@ -694,19 +692,18 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
             // add listener to listen the change avatar or user information to
             // update top menu
-            EventBusFactory.getInstance().register(
-                    new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-                        private static final long serialVersionUID = 1L;
+            EventBusFactory.getInstance().register(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+                private static final long serialVersionUID = 1L;
 
-                        @Subscribe
-                        @Override
-                        public void handle(UserProfileChangeEvent event) {
-                            if ("avatarid".equals(event.getFieldChange())) {
-                                UserAvatarComp.this.removeAllComponents();
-                                addUserAvatar();
-                            }
-                        }
-                    });
+                @Subscribe
+                @Override
+                public void handle(UserProfileChangeEvent event) {
+                    if ("avatarid".equals(event.getFieldChange())) {
+                        UserAvatarComp.this.removeAllComponents();
+                        addUserAvatar();
+                    }
+                }
+            });
         }
 
         private void addUserAvatar() {

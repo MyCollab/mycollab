@@ -14,46 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-config.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.configuration;
+package com.esofthead.mycollab.configuration
+
+import scala.beans.BeanProperty
 
 /**
- * Bean contains database configuration
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-public class DatabaseConfiguration {
-
-	private String driverClass;
-
-	private String dbUrl;
-
-	private String user;
-
-	private String password;
-
-	DatabaseConfiguration(String driverClass, String dbUrl, String user,
-			String password) {
-		this.user = user;
-		this.driverClass = driverClass;
-		this.dbUrl = dbUrl;
-		this.password = password;
-	}
-
-	public String getDriverClass() {
-		return driverClass;
-	}
-
-	public String getDbUrl() {
-		return dbUrl;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
+class DatabaseConfiguration(@BeanProperty val driverClass:String, @BeanProperty val dbUrl:String,
+                            @BeanProperty val user:String, @BeanProperty val password:String) {
+    
 }

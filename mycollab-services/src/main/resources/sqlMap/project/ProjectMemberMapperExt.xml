@@ -91,13 +91,12 @@
                  m_prj_role.rolename, s_user.email as email, s_user.avatarId AS memberAvatarId, m_prj_role.id as projectRoleId,
                  (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignuser=m_prj_member.username AND  m_tracker_bug.projectid=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
                  (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectid=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
-                 s_user_preference.lastAccessedTime AS lastAccessTime
+                 s_user_account.lastAccessedTime AS lastAccessTime
             FROM m_prj_member
               LEFT OUTER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
               LEFT OUTER JOIN s_user ON (m_prj_member.username=s_user.username)
               LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
               LEFT OUTER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username AND s_user_account.registerStatus='Active')
-              LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=m_prj_project.sAccountId)
         ]]>
     </sql>
     
@@ -150,12 +149,12 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId,
             (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.assignuser=m_prj_member.username AND  m_tracker_bug.projectid=m_prj_member.projectId AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')) AS numOpenBugs,
             (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.assignUser=m_prj_member.username AND m_prj_task.projectid=m_prj_member.projectId AND m_prj_task.status='Open') AS numOpenTasks,
-            s_user_preference.lastAccessedTime AS lastAccessTime
+            s_user_account.lastAccessedTime AS lastAccessTime
         FROM m_prj_member
-        	LEFT OUTER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
-	        LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+        	INNER JOIN m_prj_project ON (m_prj_member.projectId = m_prj_project.id)
+	        INNER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
 	        INNER JOIN s_user ON (m_prj_member.username=s_user.username AND s_user.username=@{username})
-	        LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=m_prj_project.sAccountId)
+	        INNER JOIN s_user_account ON (s_user_account.accountId=m_prj_project.sAccountId AND s_user_account.username=s_user.username)
         WHERE m_prj_member.projectId=@{projectId, jdbcType=NUMERIC}
         ]]>
     </select>

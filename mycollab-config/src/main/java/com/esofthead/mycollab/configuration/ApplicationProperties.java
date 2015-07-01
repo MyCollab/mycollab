@@ -46,12 +46,12 @@ public class ApplicationProperties {
     public static final String DB_URL = "db.url";
 
     public static final String CDN_URL = "cdn.url";
-    static final String APP_URL = "app.url";
+    public static final String APP_URL = "app.url";
 
-    static final String FACEBOOK_URL = "facebook.url";
-    static final String GOOGLE_URL = "google.url";
-    static final String LINKEDIN_URL = "linkedin.url";
-    static final String TWITTER_URL = "twitter.url";
+    public static final String FACEBOOK_URL = "facebook.url";
+    public static final String GOOGLE_URL = "google.url";
+    public static final String LINKEDIN_URL = "linkedin.url";
+    public static final String TWITTER_URL = "twitter.url";
 
     public static final String MAIL_SMTPHOST = "mail.smtphost";
     public static final String MAIL_PORT = "mail.port";
@@ -76,6 +76,8 @@ public class ApplicationProperties {
     public static final String GOOGLE_DRIVE_LINK = "ggDrive.callbackUrl";
 
     public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
+
+    public static final String COPYRIGHT_MSG = "copyright";
 
     public static void loadProps() {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();

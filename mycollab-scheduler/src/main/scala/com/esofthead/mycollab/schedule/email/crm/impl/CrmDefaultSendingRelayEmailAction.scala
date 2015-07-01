@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.service.AuditLogService
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.core.arguments.ValuedBean
 import com.esofthead.mycollab.core.utils.BeanUtility
-import com.esofthead.mycollab.module.crm.service.{CrmNotificationSettingService, NoteService}
+import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService
 import com.esofthead.mycollab.module.mail.service.ExtMailService
 import com.esofthead.mycollab.module.mail.{IContentGenerator, MailUtils}
 import com.esofthead.mycollab.module.user.domain.SimpleUser
@@ -44,7 +44,6 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
 
     @Autowired protected val extMailService: ExtMailService = null
     @Autowired private val auditLogService: AuditLogService = null
-    @Autowired protected val noteService: NoteService = null
     @Autowired protected val userService: UserService = null
     @Autowired protected val notificationService: CrmNotificationSettingService = null
     @Autowired protected val contentGenerator: IContentGenerator = null
@@ -75,8 +74,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-                        null, null, contentGenerator.generateSubjectContent(subject),
-                        contentGenerator.generateBodyContent(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                        null, null, contentGenerator.parseString(subject),
+                        contentGenerator.parseFile(getCreateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
@@ -108,8 +107,8 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List(userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients,
-                        null, null, contentGenerator.generateSubjectContent(subject),
-                        contentGenerator.generateBodyContent(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
+                        null, null, contentGenerator.parseString(subject),
+                        contentGenerator.parseFile(getUpdateContentPath, context.getLocale, SiteConfiguration.getDefaultLocale), null)
                 }
             }
         }
@@ -133,6 +132,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                     }
                 }
 
+
                 contentGenerator.putVariable("userName", notifierFullName)
                 val context: MailContext[B] = new MailContext[B](notification, user, siteUrl)
                 bean = getBeanInContext(context)
@@ -144,7 +144,7 @@ abstract class CrmDefaultSendingRelayEmailAction[B <: ValuedBean] extends Sendin
                 val recipients: List[MailRecipientField] = List(userMail)
                 extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, seqAsJavaList
                     (recipients), null, null,
-                    contentGenerator.generateSubjectContent(subject), contentGenerator.generateBodyContent(getNoteContentPath,
+                    contentGenerator.parseString(subject), contentGenerator.parseFile(getNoteContentPath,
                         context.getLocale, SiteConfiguration.getDefaultLocale), null)
             }
         }

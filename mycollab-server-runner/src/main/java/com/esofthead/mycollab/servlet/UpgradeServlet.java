@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.configuration.SharingOptions;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.jetty.ServerInstance;
 import org.apache.velocity.VelocityContext;
@@ -49,16 +49,13 @@ public class UpgradeServlet extends HttpServlet {
                 : FileUtils.getReader("templates/page/NoUpgrade.mt");
 
         VelocityContext context = new VelocityContext();
-
-        SharingOptions sharingOptions = SharingOptions
-                .getDefaultSharingOptions();
         Map<String, String> defaultUrls = new HashMap<>();
         defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
-        defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
-        defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
-        defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
-        defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
+        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
+        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
+        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
+        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
 
         context.put("defaultUrls", defaultUrls);
 

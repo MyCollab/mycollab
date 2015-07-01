@@ -19,9 +19,10 @@ package com.esofthead.mycollab.module.mail
 import java.io._
 import java.util.Locale
 
-import com.esofthead.mycollab.configuration.{SharingOptions, SiteConfiguration}
-import com.esofthead.mycollab.core.MyCollabException
+import com.esofthead.mycollab.configuration.SiteConfiguration
+import com.esofthead.mycollab.core.utils.FileUtils
 import com.esofthead.mycollab.i18n.LocalizationHelper
+import com.esofthead.mycollab.schedule.email.MailStyles
 import com.esofthead.mycollab.template.velocity.TemplateContext
 import org.apache.velocity.app.VelocityEngine
 import org.springframework.beans.factory.InitializingBean
@@ -43,14 +44,14 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
     @throws(classOf[Exception])
     def afterPropertiesSet() {
         templateContext = new TemplateContext
-        val sharingOptions = SharingOptions.getDefaultSharingOptions
         val defaultUrls = Map[String, String](
             "cdn_url" -> SiteConfiguration.getCdnUrl,
-            "facebook_url" -> sharingOptions.getFacebookUrl,
-            "google_url" -> sharingOptions.getGoogleplusUrl,
-            "linkedin_url" -> sharingOptions.getLinkedinUrl,
-            "twitter_url" -> sharingOptions.getTwitterUrl)
+            "facebook_url" -> SiteConfiguration.getFacebookUrl,
+            "google_url" -> SiteConfiguration.getGoogleUrl,
+            "linkedin_url" -> SiteConfiguration.getLinkedinUrl,
+            "twitter_url" -> SiteConfiguration.getTwitterUrl)
         putVariable("defaultUrls", defaultUrls)
+        putVariable("styles", MailStyles.instance);
     }
 
     override def putVariable(key: String, value: Any): Unit = {
@@ -62,44 +63,25 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
         }
     }
 
-    override def generateBodyContent(templateFilePath: String): String = {
+    override def parseFile(templateFilePath: String): String = {
         val writer = new StringWriter
-        val resourceStream = classOf[LocalizationHelper].getClassLoader.getResourceAsStream(templateFilePath)
-
-        var reader: Reader = null
-        try {
-            reader = new InputStreamReader(resourceStream, "UTF-8")
-        }
-        catch {
-            case e: UnsupportedEncodingException => reader = new InputStreamReader(resourceStream)
-        }
-
+        val reader = FileUtils.getReader(templateFilePath)
         templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
         writer.toString
     }
 
-    override def generateBodyContent(templateFilePath: String, currentLocale: Locale): String =
-        this.generateBodyContent(templateFilePath, currentLocale, null)
+    override def parseFile(templateFilePath: String, currentLocale: Locale): String =
+        this.parseFile(templateFilePath, currentLocale, null)
 
-    override def generateBodyContent(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String = {
+    override def parseFile(templateFilePath: String, currentLocale: Locale, defaultLocale: Locale): String = {
         val writer = new StringWriter
-        var reader = LocalizationHelper.templateReader(templateFilePath, currentLocale)
-        if (reader == null) {
-            if (defaultLocale == null) {
-                throw new MyCollabException("Can not find file " + templateFilePath + " in locale " + currentLocale)
-            }
-            reader = LocalizationHelper.templateReader(templateFilePath, defaultLocale)
-            if (reader == null) {
-                throw new MyCollabException("Can not find file " + templateFilePath + " in locale " +
-                    currentLocale + " and default locale " + defaultLocale)
-            }
-        }
-
+        val reader = LocalizationHelper.templateReader(templateFilePath, currentLocale, defaultLocale)
         templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
+        System.out.println(writer.toString)
         writer.toString
     }
 
-    override def generateSubjectContent(subject: String): String = {
+    override def parseString(subject: String): String = {
         val writer = new StringWriter
         val reader = new StringReader(subject)
         templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)

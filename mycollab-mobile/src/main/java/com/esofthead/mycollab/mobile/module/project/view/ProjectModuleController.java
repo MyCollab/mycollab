@@ -49,9 +49,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -65,8 +63,6 @@ import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
 
 /**
  * @author MyCollab Inc.
@@ -555,14 +551,6 @@ public class ProjectModuleController extends AbstractController {
         LOG.debug("Get billing account successfully: "
                 + BeanUtility.printBeanObj(billingAccount));
 
-        UserPreferenceService preferenceService = ApplicationContextUtil
-                .getSpringBean(UserPreferenceService.class);
-        UserPreference pref = preferenceService.getPreferenceOfUser(username,
-                AppContext.getAccountId());
-
-        LOG.debug("Login to system successfully. Save user and preference "
-                + pref + " to session");
-
         if (isRememberPassword) {
             LocalStorage storage = LocalStorage.get();
             String storeVal = username + "$"
@@ -570,9 +558,7 @@ public class ProjectModuleController extends AbstractController {
             storage.put(MobileApplication.LOGIN_DATA, storeVal);
         }
 
-        AppContext.getInstance().setSessionVariables(user, pref, billingAccount);
-        pref.setLastaccessedtime(new Date());
-        preferenceService.updateWithSession(pref, AppContext.getUsername());
+        AppContext.getInstance().setSessionVariables(user, billingAccount);
         EventBusFactory.getInstance().post(
                 new ProjectEvent.GotoProjectList(UI.getCurrent(), null));
     }

@@ -64,11 +64,8 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
             .getProjectid))
 
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-        val relatedProject: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-        val taskCode = new WebItem(("[" + relatedProject.getShortname + "-" + bean.getTaskkey + "]"),
-            ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname))
 
-        val summary: String = bean.getTaskname
+        val summary: String = "#" + bean.getTaskkey + " - " + bean.getTaskname
         val summaryLink: String = ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl, bean.getTaskkey, bean.getProjectShortname)
         val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby, bean.getProjectid, emailNotification.getSaccountid)
 
@@ -83,7 +80,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-        contentGenerator.putVariable("titles", List(currentProject, taskCode))
+        contentGenerator.putVariable("titles", List(currentProject))
         contentGenerator.putVariable("summary", summary)
         contentGenerator.putVariable("summaryLink", summaryLink)
     }

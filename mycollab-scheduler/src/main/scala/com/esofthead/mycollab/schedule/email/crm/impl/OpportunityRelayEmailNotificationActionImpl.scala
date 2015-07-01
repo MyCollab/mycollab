@@ -134,8 +134,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
                     val link: A = FormatUtils.newA(accountLink, account.getAccountname)
                     return FormatUtils.newLink(img, link).write
                 }
-            }
-            catch {
+            } catch {
                 case e: Exception => LOG.error("Error", e)
             }
             value
@@ -152,8 +151,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
                     .getCampaignid)
                 val link: A = FormatUtils.newA(campaignLink, opportunity.getCampaignName)
                 FormatUtils.newLink(img, link).write
-            }
-            else {
+            } else {
                 new Span().write
             }
         }
@@ -172,8 +170,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
                     val link: A = FormatUtils.newA(campaignLink, campaign.getCampaignname)
                     return FormatUtils.newLink(img, link).write
                 }
-            }
-            catch {
+            } catch {
                 case e: Exception => LOG.error("Error", e)
             }
 
@@ -192,8 +189,7 @@ class OpportunityRelayEmailNotificationActionImpl extends CrmDefaultSendingRelay
                     opportunity.getAssignuser)
                 val link: A = FormatUtils.newA(userLink, opportunity.getAssignUserFullName)
                 FormatUtils.newLink(img, link).write
-            }
-            else {
+            } else {
                 new Span().write
             }
         }

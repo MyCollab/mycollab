@@ -54,8 +54,6 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
 
     @Autowired var bugService: BugService = _
 
-    @Autowired var projectService: ProjectService = _
-
     @Autowired var projectMemberService: ProjectMemberService = _
 
     @Autowired var projectNotificationService: ProjectNotificationSettingService = _
@@ -66,11 +64,8 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
         val currentProject = new WebItem(bean.getProjectname, ProjectLinkGenerator.generateProjectFullLink(siteUrl, bean.getProjectid))
 
         val emailNotification: SimpleRelayEmailNotification = context.getEmailNotification
-        val relatedProject: SimpleProject = projectService.findById(bean.getProjectid, emailNotification.getSaccountid)
-        val bugCode = new WebItem(("[" + relatedProject.getShortname + "-" + bean.getBugkey + "]"),
-            ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName))
 
-        val summary = bean.getSummary
+        val summary = "#" + bean.getBugkey + " - " + bean.getSummary
         val summaryLink: String = ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl, bean.getBugkey, bean.getProjectShortName)
         val projectMember: SimpleProjectMember = projectMemberService.findMemberByUsername(emailNotification.getChangeby,
             bean.getProjectid, emailNotification.getSaccountid)
@@ -86,7 +81,7 @@ class BugRelayEmailNotificationActionImpl extends SendMailToFollowersAction[Simp
         }
 
         contentGenerator.putVariable("actionHeading", context.getMessage(actionEnum, makeChangeUser))
-        contentGenerator.putVariable("titles", List(currentProject, bugCode))
+        contentGenerator.putVariable("titles", List(currentProject))
         contentGenerator.putVariable("summary", summary)
         contentGenerator.putVariable("summaryLink", summaryLink)
     }

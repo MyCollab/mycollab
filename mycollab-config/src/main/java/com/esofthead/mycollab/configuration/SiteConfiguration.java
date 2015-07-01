@@ -53,6 +53,11 @@ public class SiteConfiguration {
     private String appUrl;
     private String resourceDownloadUrl;
 
+    private String facebookUrl;
+    private String twitterUrl;
+    private String googleUrl;
+    private String linkedinUrl;
+
     private Locale defaultLocale;
     private List<Locale> supportedLanguages;
 
@@ -119,6 +124,11 @@ public class SiteConfiguration {
 
         instance.dropboxCallbackUrl = ApplicationProperties.getString(DROPBOX_AUTH_LINK);
         instance.ggDriveCallbackUrl = ApplicationProperties.getString(GOOGLE_DRIVE_LINK);
+
+        instance.facebookUrl = ApplicationProperties.getString(FACEBOOK_URL, "https://www.facebook.com/mycollab2");
+        instance.twitterUrl = ApplicationProperties.getString(TWITTER_URL, "https://twitter.com/mycollabdotcom");
+        instance.googleUrl = ApplicationProperties.getString(GOOGLE_URL, "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
+        instance.linkedinUrl = ApplicationProperties.getString(LINKEDIN_URL, "http://www.linkedin.com/company/mycollab");
     }
 
     private static SiteConfiguration getInstance() {
@@ -134,6 +144,22 @@ public class SiteConfiguration {
 
     public static String getAppUrl() {
         return getInstance().appUrl;
+    }
+
+    public static String getFacebookUrl() {
+        return getInstance().facebookUrl;
+    }
+
+    public static String getTwitterUrl() {
+        return getInstance().twitterUrl;
+    }
+
+    public static String getGoogleUrl() {
+        return getInstance().googleUrl;
+    }
+
+    public static String getLinkedinUrl() {
+        return getInstance().linkedinUrl;
     }
 
     public static String getResourceDownloadUrl() {

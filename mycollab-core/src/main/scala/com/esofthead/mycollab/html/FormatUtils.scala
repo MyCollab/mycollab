@@ -23,7 +23,7 @@ import com.hp.gagawa.java.elements.{A, Img, Span, Text}
  * @since 4.6.0
  */
 object FormatUtils {
-  def newA(href: String, text: String): A = new A(href, new Text(text)).setStyle("text-decoration: none; color: rgb(0, 109, 172);")
+  def newA(href: String, text: String): A = new A(href, new Text(text)).setStyle("color: #006DAC;")
 
   def newImg(alt: String, src: String): Img = new Img(alt, src).setStyle("vertical-align: middle; margin-right: 3px;")
 

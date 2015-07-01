@@ -21,108 +21,124 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.security.PermissionMap;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class SimpleUser extends User {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private Integer roleid;
+    @NotBindable
+    private String roleName;
 
-	private Integer roleid;
-	@NotBindable
-	private String roleName;
+    @NotBindable
+    private PermissionMap permissionMaps;
 
-	@NotBindable
-	private PermissionMap permissionMaps;
+    private Boolean isAccountOwner;
+    private String subdomain;
+    private Integer accountId;
+    private String registerstatus;
+    private String inviteUser;
+    private String lastModuleVisit;
 
-	private Boolean isAccountOwner;
-	private String subdomain;
-	private Integer accountId;
-	private String registerstatus;
+    public String getDisplayName() {
+        String result = getFirstname() + " " + getLastname();
+        if (org.apache.commons.lang3.StringUtils.isBlank(result)) {
+            String displayName = getUsername();
+            return StringUtils.extractNameFromEmail(displayName);
+        }
+        return result;
+    }
 
-	public String getDisplayName() {
-		String result = getFirstname() + " " + getLastname();
-		if (org.apache.commons.lang3.StringUtils.isBlank(result)) {
-			String displayName = getUsername();
-			return StringUtils.extractNameFromEmail(displayName);
-		}
-		return result;
-	}
+    public PermissionMap getPermissionMaps() {
+        return permissionMaps;
+    }
 
-	public PermissionMap getPermissionMaps() {
-		return permissionMaps;
-	}
+    public void setPermissionMaps(PermissionMap permissionMaps) {
+        this.permissionMaps = permissionMaps;
+    }
 
-	public void setPermissionMaps(PermissionMap permissionMaps) {
-		this.permissionMaps = permissionMaps;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public String getRoleName() {
-		return roleName;
-	}
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public Integer getRoleid() {
+        return roleid;
+    }
 
-	public Integer getRoleid() {
-		return roleid;
-	}
+    public void setRoleid(Integer roleid) {
+        this.roleid = roleid;
+    }
 
-	public void setRoleid(Integer roleid) {
-		this.roleid = roleid;
-	}
+    public Boolean getIsAccountOwner() {
+        return isAccountOwner;
+    }
 
-	public Boolean getIsAccountOwner() {
-		return isAccountOwner;
-	}
+    public void setIsAccountOwner(Boolean isAccountOwner) {
+        this.isAccountOwner = isAccountOwner;
+    }
 
-	public void setIsAccountOwner(Boolean isAccountOwner) {
-		this.isAccountOwner = isAccountOwner;
-	}
+    public String getSubdomain() {
+        return subdomain;
+    }
 
-	public String getSubdomain() {
-		return subdomain;
-	}
+    public void setSubdomain(String subdomain) {
+        this.subdomain = subdomain;
+    }
 
-	public void setSubdomain(String subdomain) {
-		this.subdomain = subdomain;
-	}
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-	public Integer getAccountId() {
-		return accountId;
-	}
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
 
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
-	}
+    public String getRegisterstatus() {
+        return registerstatus;
+    }
 
-	public String getRegisterstatus() {
-		return registerstatus;
-	}
+    public void setRegisterstatus(String registerstatus) {
+        this.registerstatus = registerstatus;
+    }
 
-	public void setRegisterstatus(String registerstatus) {
-		this.registerstatus = registerstatus;
-	}
+    public boolean equals(Object arg0) {
+        if (arg0 instanceof SimpleUser) {
+            if (getUsername() != null
+                    && ((SimpleUser) arg0).getUsername() != null) {
+                return getUsername().equals(((SimpleUser) arg0).getUsername());
+            } else {
+                return getEmail().equals(((SimpleUser) arg0).getEmail());
+            }
+        }
+        return false;
+    }
 
-	public boolean equals(Object arg0) {
-		if (arg0 instanceof SimpleUser) {
-			if (getUsername() != null
-					&& ((SimpleUser) arg0).getUsername() != null) {
-				return getUsername().equals(((SimpleUser) arg0).getUsername());
-			} else {
-				return getEmail().equals(((SimpleUser) arg0).getEmail());
-			}
-		}
-		return false;
-	}
+    public String getInviteUser() {
+        return inviteUser;
+    }
 
-	public enum Field {
-		roleid;
-		public boolean equalTo(Object value) {
-			return name().equals(value);
-		}
-	}
+    public String getLastModuleVisit() {
+        return lastModuleVisit;
+    }
+
+    public void setLastModuleVisit(String lastModuleVisit) {
+        this.lastModuleVisit = lastModuleVisit;
+    }
+
+    public void setInviteUser(String inviteUser) {
+        this.inviteUser = inviteUser;
+    }
+
+    public enum Field {
+        roleid;
+
+        public boolean equalTo(Object value) {
+            return name().equals(value);
+        }
+    }
 }

@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.file.view.components;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -37,195 +34,180 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @ViewComponent
 public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
-		HasSearchHandlers<FileSearchCriteria> {
+        HasSearchHandlers<FileSearchCriteria> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	private List<SearchHandler<FileSearchCriteria>> handers;
+    private List<SearchHandler<FileSearchCriteria>> handers;
 
-	private String rootFolderPath;
+    private String rootFolderPath;
 
-	public FileBreadcrumb(String rootFolderPath) {
-		if (org.apache.commons.lang3.StringUtils.isEmpty(rootFolderPath)) {
-			throw new MyCollabException("Root folder path can not be empty");
-		}
-		this.rootFolderPath = rootFolderPath;
-		this.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-		this.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
-		this.setUseDefaultClickBehaviour(false);
-	}
+    public FileBreadcrumb(String rootFolderPath) {
+        if (org.apache.commons.lang3.StringUtils.isEmpty(rootFolderPath)) {
+            throw new MyCollabException("Root folder path can not be empty");
+        }
+        this.rootFolderPath = rootFolderPath;
+        this.setShowAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
+        this.setHideAnimationSpeed(Breadcrumb.AnimSpeed.SLOW);
+        this.setUseDefaultClickBehaviour(false);
+    }
 
-	void initBreadcrumb() {
-		// home Btn ----------------
-		this.addLink(new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+    void initBreadcrumb() {
+        // home Btn ----------------
+        this.addLink(new Button(null, new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				FileSearchCriteria criteria = new FileSearchCriteria();
-				criteria.setBaseFolder(rootFolderPath);
-				criteria.setRootFolder(rootFolderPath);
-				notifySearchHandler(criteria);
-			}
-		}));
-		this.setHeight(25, Unit.PIXELS);
+            @Override
+            public void buttonClick(ClickEvent event) {
+                FileSearchCriteria criteria = new FileSearchCriteria();
+                criteria.setBaseFolder(rootFolderPath);
+                criteria.setRootFolder(rootFolderPath);
+                notifySearchHandler(criteria);
+            }
+        }));
+        this.setHeight(25, Unit.PIXELS);
 
-		this.select(0);
-		Button documentBtnLink = generateBreadcrumbLink(AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS),
-				new ClickListener() {
-					private static final long serialVersionUID = 1L;
+        this.select(0);
+        Button documentBtnLink = generateBreadcrumbLink(AppContext.getMessage(FileI18nEnum.OPT_MY_DOCUMENTS),
+                new ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						FileSearchCriteria criteria = new FileSearchCriteria();
-						criteria.setBaseFolder(rootFolderPath);
-						criteria.setRootFolder(rootFolderPath);
-						notifySearchHandler(criteria);
-					}
-				});
-		documentBtnLink.addStyleName("link");
-		this.addLink(documentBtnLink);
-		this.setLinkEnabled(true, 1);
-	}
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        FileSearchCriteria criteria = new FileSearchCriteria();
+                        criteria.setBaseFolder(rootFolderPath);
+                        criteria.setRootFolder(rootFolderPath);
+                        notifySearchHandler(criteria);
+                    }
+                });
+        documentBtnLink.addStyleName("link");
+        this.addLink(documentBtnLink);
+        this.setLinkEnabled(true, 1);
+    }
 
-	void gotoFolder(final Folder folder) {
-		initBreadcrumb();
+    void gotoFolder(final Folder folder) {
+        initBreadcrumb();
 
-		if (folder instanceof ExternalFolder) {
-			displayExternalFolder((ExternalFolder) folder);
-		} else {
-			displayMyCollabFolder(folder);
-		}
-	}
+        if (folder instanceof ExternalFolder) {
+            displayExternalFolder((ExternalFolder) folder);
+        } else {
+            displayMyCollabFolder(folder);
+        }
+    }
 
-	private void displayMyCollabFolder(final Folder folder) {
-		String folderPath = folder.getPath();
-		if (!folderPath.startsWith(rootFolderPath)) {
-			throw new MyCollabException("Invalid path " + rootFolderPath
-					+ "---" + folderPath);
-		}
+    private void displayMyCollabFolder(final Folder folder) {
+        String folderPath = folder.getPath();
+        if (!folderPath.startsWith(rootFolderPath)) {
+            throw new MyCollabException("Invalid path " + rootFolderPath
+                    + "---" + folderPath);
+        }
 
-		String remainPath = folderPath.substring(rootFolderPath.length());
-		if (remainPath.startsWith("/")) {
-			remainPath = remainPath.substring(1);
-		}
+        String remainPath = folderPath.substring(rootFolderPath.length());
+        if (remainPath.startsWith("/")) {
+            remainPath = remainPath.substring(1);
+        }
 
-		StringBuffer curPath = new StringBuffer("");
-		String[] path = remainPath.split("/");
-		for (int i = 0; i < path.length; i++) {
-			String pathName = path[i];
-			curPath.append(pathName);
+        final StringBuffer curPath = new StringBuffer("");
+        String[] path = remainPath.split("/");
+        for (int i = 0; i < path.length; i++) {
+            String pathName = path[i];
+            curPath.append(pathName);
 
-			final Button btn = new Button();
-			btn.setCaption(StringUtils.trim(pathName, 25, true));
-			btn.setDescription(pathName);
-			final String currentResourcePath = curPath.toString();
-			btn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+            Button btn = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    FileSearchCriteria criteria = new FileSearchCriteria();
+                    criteria.setBaseFolder(rootFolderPath + "/" + curPath.toString());
+                    criteria.setRootFolder(rootFolderPath);
+                    notifySearchHandler(criteria);
+                }
+            });
+            btn.setDescription(pathName);
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					FileSearchCriteria criteria = new FileSearchCriteria();
-					criteria.setBaseFolder(rootFolderPath + "/"
-							+ currentResourcePath);
-					criteria.setRootFolder(rootFolderPath);
-					notifySearchHandler(criteria);
-				}
-			});
+            this.select(i + 1);
+            this.addLink(btn);
+            this.setLinkEnabled(true, i + 1);
 
-			this.select(i + 1);
-			this.addLink(btn);
-			this.setLinkEnabled(true, i + 1);
+            if (i < path.length - 1) {
+                curPath.append("/");
+            }
+        }
+    }
 
-			if (i < path.length - 1) {
-				curPath.append("/");
-			}
-		}
-	}
+    private void displayExternalFolder(final ExternalFolder folder) {
+        String folderPath = folder.getPath();
 
-	private void displayExternalFolder(final ExternalFolder folder) {
-		String folderPath = folder.getPath();
+        final StringBuffer curPath = new StringBuffer("");
+        String[] path = folderPath.split("/");
+        if (path.length == 0) {
+            Button btn = new Button(StringUtils.trim(folder.getExternalDrive()
+                    .getFoldername(), 25, true));
+            this.addLink(btn);
+            this.select(2);
+            return;
+        }
 
-		final StringBuffer curPath = new StringBuffer("");
-		String[] path = folderPath.split("/");
-		if (path.length == 0) {
-			final Button btn = new Button();
-			btn.setCaption(StringUtils.trim(folder.getExternalDrive()
-					.getFoldername(), 25, true));
-			this.addLink(btn);
-			this.select(2);
-			return;
-		}
+        for (int i = 0; i < path.length; i++) {
+            String pathName = path[i];
 
-		for (int i = 0; i < path.length; i++) {
-			String pathName = path[i];
+            if (i == 0) {
+                pathName = folder.getExternalDrive().getFoldername();
+                curPath.append("/");
+            } else {
+                curPath.append(pathName);
+            }
 
-			if (i == 0) {
-				pathName = folder.getExternalDrive().getFoldername();
-				curPath.append("/");
-			} else {
-				curPath.append(pathName);
-			}
+            Button btn = new Button(StringUtils.trim(pathName, 25, true), new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+                    FileSearchCriteria criteria = new FileSearchCriteria();
+                    criteria.setBaseFolder(curPath.toString());
 
-			final Button btn = new Button();
-			btn.setCaption(StringUtils.trim(pathName, 25, true));
-			btn.setDescription(pathName);
+                    criteria.setRootFolder("/");
+                    criteria.setStorageName(StorageNames.DROPBOX);
+                    criteria.setExternalDrive(folder.getExternalDrive());
+                    notifySearchHandler(criteria);
+                }
+            });
+            btn.setDescription(pathName);
+            this.select(i + 1);
+            this.addLink(btn);
+            this.setLinkEnabled(true, i + 1);
 
-			final String currentFolderPath = curPath.toString();
+            if (i < path.length - 1) {
+                curPath.append("/");
+            }
+        }
+    }
 
-			btn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+    private static Button generateBreadcrumbLink(String linkname, Button.ClickListener listener) {
+        return CommonUIFactory.createButtonTooltip(
+                StringUtils.trim(linkname, 25, true), linkname, listener);
+    }
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					FileSearchCriteria criteria = new FileSearchCriteria();
-					criteria.setBaseFolder(currentFolderPath);
+    @Override
+    public void addSearchHandler(final SearchHandler<FileSearchCriteria> handler) {
+        if (this.handers == null) {
+            this.handers = new ArrayList<>();
+        }
+        this.handers.add(handler);
+    }
 
-					criteria.setRootFolder("/");
-					criteria.setStorageName(StorageNames.DROPBOX);
-					criteria.setExternalDrive(folder.getExternalDrive());
-					notifySearchHandler(criteria);
-				}
-			});
-
-			this.select(i + 1);
-			this.addLink(btn);
-			this.setLinkEnabled(true, i + 1);
-
-			if (i < path.length - 1) {
-				curPath.append("/");
-			}
-		}
-	}
-
-	private static Button generateBreadcrumbLink(String linkname,
-			Button.ClickListener listener) {
-		return CommonUIFactory.createButtonTooltip(
-				StringUtils.trim(linkname, 25, true), linkname, listener);
-	}
-
-	@Override
-	public void addSearchHandler(final SearchHandler<FileSearchCriteria> handler) {
-		if (this.handers == null) {
-			this.handers = new ArrayList<>();
-		}
-		this.handers.add(handler);
-	}
-
-	private void notifySearchHandler(final FileSearchCriteria criteria) {
-		if (this.handers != null) {
-			for (final SearchHandler<FileSearchCriteria> handler : this.handers) {
-				handler.onSearch(criteria);
-			}
-		}
-	}
+    private void notifySearchHandler(final FileSearchCriteria criteria) {
+        if (this.handers != null) {
+            for (SearchHandler<FileSearchCriteria> handler : this.handers) {
+                handler.onSearch(criteria);
+            }
+        }
+    }
 
     @Override
     public void setTotalCountNumber(int totalCountNumber) {

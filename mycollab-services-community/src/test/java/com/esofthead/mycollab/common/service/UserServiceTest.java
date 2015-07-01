@@ -86,7 +86,7 @@ public class UserServiceTest extends IntergrationServiceTest {
 		searchCriteria.setLastAccessTimeRange(from, to);
 		searchCriteria.setSaccountid(null);
 		List<SimpleUser> users = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		assertThat(users.size()).isEqualTo(2);
 		assertThat(users).extracting("email").contains(

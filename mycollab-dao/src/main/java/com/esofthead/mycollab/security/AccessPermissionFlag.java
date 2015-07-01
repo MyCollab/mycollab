@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
  * Access permission flag
  */
 public class AccessPermissionFlag implements PermissionFlag {
-
 	public static final int NO_ACCESS = 0;
 	public static final int READ_ONLY = 1;
 	public static final int READ_WRITE = 2;

@@ -12,7 +12,7 @@
         <maven>3.0.4</maven>
     </prerequisites>
     <properties>
-        <springVersion>4.1.6.RELEASE</springVersion>
+        <springVersion>4.1.7.RELEASE</springVersion>
         <aspectjVersion>1.8.6</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.12</slf4jVersion>
@@ -312,7 +312,7 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-platform</artifactId>
-            <version>2.1.5</version>
+            <version>2.1.6</version>
         </dependency>
 
     </dependencies>

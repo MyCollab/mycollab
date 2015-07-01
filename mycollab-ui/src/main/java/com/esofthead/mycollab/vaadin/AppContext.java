@@ -34,12 +34,9 @@ import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
-import com.esofthead.mycollab.module.user.domain.BillingAccount;
-import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.UserPreference;
+import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
+import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
-import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -48,7 +45,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabSession;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +74,6 @@ public class AppContext implements Serializable {
      * Current user LOG in to MyCollab
      */
     private SimpleUser session;
-
-    /**
-     * Preference information of current user log in to MyCollab
-     */
-    private UserPreference userPreference;
 
     /**
      * Billing information of account of current user
@@ -142,11 +133,13 @@ public class AppContext implements Serializable {
      */
     public void updateLastModuleVisit(String moduleName) {
         try {
-            UserPreference pref = getInstance().userPreference;
-            UserPreferenceService prefService = ApplicationContextUtil
-                    .getSpringBean(UserPreferenceService.class);
-            pref.setLastmodulevisit(moduleName);
-            prefService.updateWithSession(pref, AppContext.getUsername());
+            UserAccountMapper userAccountMapper = ApplicationContextUtil.getSpringBean(UserAccountMapper.class);
+            UserAccount userAccount = new UserAccount();
+            userAccount.setLastmodulevisit(moduleName);
+            UserAccountExample ex = new UserAccountExample();
+            ex.createCriteria().andAccountidEqualTo(AppContext
+                    .getAccountId()).andUsernameEqualTo(AppContext.getUsername());
+            userAccountMapper.updateByExampleSelective(userAccount, ex);
         } catch (Exception e) {
             LOG.error("There is error when try to update user preference for last module visit", e);
         }
@@ -156,13 +149,10 @@ public class AppContext implements Serializable {
      * Keep user session in server sessions
      *
      * @param userSession current user
-     * @param userPref    current user preference
      * @param billingAc   account information of current user
      */
-    public void setSessionVariables(SimpleUser userSession, UserPreference userPref,
-                                    SimpleBillingAccount billingAc) {
+    public void setSessionVariables(SimpleUser userSession, SimpleBillingAccount billingAc) {
         session = userSession;
-        userPreference = userPref;
         billingAccount = billingAc;
 
         String language = session.getLanguage();
@@ -182,7 +172,6 @@ public class AppContext implements Serializable {
 
     public void clearSessionVariables() {
         session = null;
-        userPreference = null;
         billingAccount = null;
     }
 
@@ -332,14 +321,6 @@ public class AppContext implements Serializable {
         return getInstance().session.getDisplayName();
     }
 
-    /**
-     * Get preference info of current user
-     *
-     * @return preference info of current user
-     */
-    public static UserPreference getUserPreference() {
-        return getInstance().userPreference;
-    }
 
     /**
      * Get billing account of current logged in user

@@ -43,6 +43,18 @@ understanding in a matter of minutes.
 Last changelog
 ==============
 
+Version 5.1.0
+-----------------------------
+**Library Upgrades**
+
+**Improvements & New Features**
+
+* Redesign the email template
+* Can resend the invitation
+
+**Bug Fixes**
+
+
 Version 5.0.10
 -----------------------------
 **Library Upgrades**
@@ -58,7 +70,7 @@ Version 5.0.10
 **Bug Fixes**
 
 * System error when user accept the project invitation with project owner role
-* Modal window is overlay on tooltip
+* Modal window overlays on tooltip
 
 
 Version 5.0.9

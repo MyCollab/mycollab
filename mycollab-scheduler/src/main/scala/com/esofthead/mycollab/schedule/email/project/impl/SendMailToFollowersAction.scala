@@ -58,8 +58,8 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
-                        contentGenerator.generateSubjectContent(getCreateSubject(context)),
-                        contentGenerator.generateBodyContent("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
+                        contentGenerator.parseString(getCreateSubject(context)),
+                        contentGenerator.parseFile("templates/email/project/itemCreatedNotifier.mt", context.getLocale,
                             SiteConfiguration.getDefaultLocale), null)
                 }
             }
@@ -87,8 +87,8 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val recipients: List[MailRecipientField] = List[MailRecipientField](userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, recipients, null, null,
-                        contentGenerator.generateSubjectContent(getUpdateSubject(context)),
-                        contentGenerator.generateBodyContent("templates/email/project/itemUpdatedNotifier.mt", context.getLocale,
+                        contentGenerator.parseString(getUpdateSubject(context)),
+                        contentGenerator.parseFile("templates/email/project/itemUpdatedNotifier.mt", context.getLocale,
                             SiteConfiguration.getDefaultLocale), null)
                 }
             }
@@ -111,8 +111,8 @@ abstract class SendMailToFollowersAction[B] extends SendingRelayEmailNotificatio
                     val userMail: MailRecipientField = new MailRecipientField(user.getEmail, user.getUsername)
                     val toRecipients: List[MailRecipientField] = List[MailRecipientField](userMail)
                     extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName, toRecipients,
-                        null, null, contentGenerator.generateSubjectContent(getCommentSubject(context)),
-                        contentGenerator.generateBodyContent("templates/email/project/itemCommentNotifier.mt", context.getLocale,
+                        null, null, contentGenerator.parseString(getCommentSubject(context)),
+                        contentGenerator.parseFile("templates/email/project/itemCommentNotifier.mt", context.getLocale,
                             SiteConfiguration.getDefaultLocale), null)
                 }
             }

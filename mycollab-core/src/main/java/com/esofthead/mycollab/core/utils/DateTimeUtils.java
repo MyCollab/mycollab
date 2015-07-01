@@ -138,8 +138,7 @@ public class DateTimeUtils {
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(date);
 		cal.add(Calendar.DAY_OF_MONTH, duration);
-		Date dateExpect = cal.getTime();
-		return dateExpect;
+		return cal.getTime();
 	}
 
 	public static String formatDate(Date date, String dateFormat) {
@@ -172,11 +171,9 @@ public class DateTimeUtils {
 
 	public static Date convertTimeFromSystemTimezoneToUTC(long timeInMillis) {
 		DateTime dt = new DateTime();
-		dt = dt.withMillis(-DateTimeZone.getDefault().getOffset(timeInMillis)
-				+ timeInMillis);
+		dt = dt.withMillis(-DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
 		dt = dt.withZone(utcZone);
-		Date date = dt.toDate();
-		return date;
+		return dt.toDate();
 	}
 
 	/**
@@ -187,11 +184,9 @@ public class DateTimeUtils {
 	 */
 	public static Date convertTimeFromUTCToSystemTimezone(long timeInMillis) {
 		DateTime dt = new DateTime();
-		dt = dt.withMillis(DateTimeZone.getDefault().getOffset(timeInMillis)
-				+ timeInMillis);
+		dt = dt.withMillis(DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
 		dt = dt.withZone(utcZone);
-		Date date = dt.toDate();
-		return date;
+		return dt.toDate();
 	}
 
 	/**

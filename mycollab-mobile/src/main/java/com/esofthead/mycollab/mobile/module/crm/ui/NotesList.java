@@ -44,199 +44,186 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class NotesList extends AbstractMobilePageView {
-	private static final long serialVersionUID = -9063602627063299844L;
+    private static final long serialVersionUID = -9063602627063299844L;
 
-	private String type;
-	private Integer typeid;
-	private VerticalLayout noteListContainer;
-	private BeanList<NoteService, NoteSearchCriteria, SimpleNote> noteList;
+    private String type;
+    private Integer typeid;
+    private VerticalLayout noteListContainer;
+    private BeanList<NoteService, NoteSearchCriteria, SimpleNote> noteList;
 
-	private final NoteService noteService;
+    private final NoteService noteService;
 
-	public NotesList(final String title) {
-		this(title, "", 0);
-	}
+    public NotesList(final String title) {
+        this(title, "", 0);
+    }
 
-	public NotesList(final String title, final String type, final Integer typeid) {
-		super();
-		this.setCaption(title);
-		this.setWidth("100%");
+    public NotesList(final String title, final String type, final Integer typeid) {
+        super();
+        this.setCaption(title);
+        this.setWidth("100%");
 
-		noteService = ApplicationContextUtil.getSpringBean(NoteService.class);
-		this.type = type;
-		this.typeid = typeid;
+        noteService = ApplicationContextUtil.getSpringBean(NoteService.class);
+        this.type = type;
+        this.typeid = typeid;
 
-		initUI();
-	}
+        initUI();
+    }
 
-	private void displayNotes() {
-		noteListContainer.removeAllComponents();
-		noteListContainer.addComponent(noteList);
+    private void displayNotes() {
+        noteListContainer.removeAllComponents();
+        noteListContainer.addComponent(noteList);
 
-		final NoteSearchCriteria searchCriteria = new NoteSearchCriteria();
-		searchCriteria.setType(new StringSearchField(SearchField.AND, type));
-		searchCriteria.setTypeid(new NumberSearchField(typeid));
-		noteList.setSearchCriteria(searchCriteria);
-	}
+        final NoteSearchCriteria searchCriteria = new NoteSearchCriteria();
+        searchCriteria.setType(new StringSearchField(SearchField.AND, type));
+        searchCriteria.setTypeid(new NumberSearchField(typeid));
+        noteList.setSearchCriteria(searchCriteria);
+    }
 
-	private void initUI() {
-		noteList = new BeanList<NoteService, NoteSearchCriteria, SimpleNote>(
-				noteService, NoteRowDisplayHandler.class);
-		noteList.setDisplayEmptyListText(false);
-		noteList.setStyleName("noteList");
+    private void initUI() {
+        noteList = new BeanList<NoteService, NoteSearchCriteria, SimpleNote>(
+                noteService, NoteRowDisplayHandler.class);
+        noteList.setDisplayEmptyListText(false);
+        noteList.setStyleName("noteList");
 
-		noteListContainer = new VerticalLayout();
-		this.setContent(noteListContainer);
-		displayNotes();
+        noteListContainer = new VerticalLayout();
+        this.setContent(noteListContainer);
+        displayNotes();
 
-		HorizontalLayout commentBox = new HorizontalLayout();
-		commentBox.setSizeFull();
-		commentBox.setStyleName("comment-box");
-		commentBox.setSpacing(true);
-		commentBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		final TextArea noteInput = new TextArea();
-		noteInput.setInputPrompt(AppContext
-				.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
-		noteInput.setSizeFull();
-		commentBox.addComponent(noteInput);
-		commentBox.setExpandRatio(noteInput, 1.0f);
+        HorizontalLayout commentBox = new HorizontalLayout();
+        commentBox.setSizeFull();
+        commentBox.setStyleName("comment-box");
+        commentBox.setSpacing(true);
+        commentBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        final TextArea noteInput = new TextArea();
+        noteInput.setInputPrompt(AppContext
+                .getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
+        noteInput.setSizeFull();
+        commentBox.addComponent(noteInput);
+        commentBox.setExpandRatio(noteInput, 1.0f);
 
-		Button postBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
-		postBtn.setStyleName("submit-btn");
-		postBtn.setWidthUndefined();
-		postBtn.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -5095455325725786794L;
+        Button postBtn = new Button(
+                AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
+        postBtn.setStyleName("submit-btn");
+        postBtn.setWidthUndefined();
+        postBtn.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = -5095455325725786794L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				final Note note = new Note();
-				note.setCreateduser(AppContext.getUsername());
-				note.setNote(noteInput.getValue());
-				note.setSaccountid(AppContext.getAccountId());
-				note.setSubject("");
-				note.setType(type);
-				note.setTypeid(typeid);
-				note.setCreatedtime(new GregorianCalendar().getTime());
-				note.setLastupdatedtime(new GregorianCalendar().getTime());
-				noteService.saveWithSession(note, AppContext.getUsername());
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                final Note note = new Note();
+                note.setCreateduser(AppContext.getUsername());
+                note.setNote(noteInput.getValue());
+                note.setSaccountid(AppContext.getAccountId());
+                note.setSubject("");
+                note.setType(type);
+                note.setTypeid(typeid);
+                note.setCreatedtime(new GregorianCalendar().getTime());
+                note.setLastupdatedtime(new GregorianCalendar().getTime());
+                noteService.saveWithSession(note, AppContext.getUsername());
 
-				// Save Relay Email -- having time must refact to
-				// Aop
-				// ------------------------------------------------------
-				RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
-				relayNotification.setChangeby(AppContext.getUsername());
-				relayNotification.setChangecomment(noteInput.getValue());
-				relayNotification.setSaccountid(AppContext.getAccountId());
-				relayNotification.setType(type);
-				relayNotification
-						.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
-				relayNotification.setTypeid("" + typeid);
-				if (type.equals(CrmTypeConstants.ACCOUNT)) {
-					relayNotification
-							.setEmailhandlerbean(AccountRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.CONTACT)) {
-					relayNotification
-							.setEmailhandlerbean(ContactRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
-					relayNotification
-							.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.LEAD)) {
-					relayNotification
-							.setEmailhandlerbean(LeadRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.OPPORTUNITY)) {
-					relayNotification
-							.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.CASE)) {
-					relayNotification
-							.setEmailhandlerbean(CaseRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.TASK)) {
-					relayNotification
-							.setEmailhandlerbean(TaskRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.MEETING)) {
-					relayNotification
-							.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
-									.getName());
-				} else if (type.equals(CrmTypeConstants.CALL)) {
-					relayNotification
-							.setEmailhandlerbean(CallRelayEmailNotificationAction.class
-									.getName());
-				}
-				RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
-						.getSpringBean(RelayEmailNotificationService.class);
-				relayEmailNotificationService.saveWithSession(
-						relayNotification, AppContext.getUsername());
-				noteInput.setValue("");
-				displayNotes();
-			}
-		});
-		commentBox.addComponent(postBtn);
+                // Save Relay Email -- having time must refact to
+                // Aop
+                // ------------------------------------------------------
+                RelayEmailNotificationWithBLOBs relayNotification = new RelayEmailNotificationWithBLOBs();
+                relayNotification.setChangeby(AppContext.getUsername());
+                relayNotification.setChangecomment(noteInput.getValue());
+                relayNotification.setSaccountid(AppContext.getAccountId());
+                relayNotification.setType(type);
+                relayNotification
+                        .setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+                relayNotification.setTypeid("" + typeid);
+                if (type.equals(CrmTypeConstants.ACCOUNT)) {
+                    relayNotification
+                            .setEmailhandlerbean(AccountRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.CONTACT)) {
+                    relayNotification
+                            .setEmailhandlerbean(ContactRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
+                    relayNotification
+                            .setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.LEAD)) {
+                    relayNotification
+                            .setEmailhandlerbean(LeadRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.OPPORTUNITY)) {
+                    relayNotification
+                            .setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.CASE)) {
+                    relayNotification
+                            .setEmailhandlerbean(CaseRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.TASK)) {
+                    relayNotification
+                            .setEmailhandlerbean(TaskRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.MEETING)) {
+                    relayNotification
+                            .setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
+                                    .getName());
+                } else if (type.equals(CrmTypeConstants.CALL)) {
+                    relayNotification
+                            .setEmailhandlerbean(CallRelayEmailNotificationAction.class
+                                    .getName());
+                }
+                RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
+                        .getSpringBean(RelayEmailNotificationService.class);
+                relayEmailNotificationService.saveWithSession(
+                        relayNotification, AppContext.getUsername());
+                noteInput.setValue("");
+                displayNotes();
+            }
+        });
+        commentBox.addComponent(postBtn);
 
-		this.setToolbar(commentBox);
+        this.setToolbar(commentBox);
 
-	}
+    }
 
-	public void showNotes(final String type, final int typeid) {
-		this.type = type;
-		this.typeid = typeid;
-		displayNotes();
-	}
+    public void showNotes(final String type, final int typeid) {
+        this.type = type;
+        this.typeid = typeid;
+        displayNotes();
+    }
 
-	public static class NoteRowDisplayHandler extends
-			RowDisplayHandler<SimpleNote> {
-		private static final long serialVersionUID = 1L;
+    public static class NoteRowDisplayHandler extends RowDisplayHandler<SimpleNote> {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public Component generateRow(final SimpleNote note, final int rowIndex) {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setStyleName("message");
-			layout.setSpacing(true);
-			layout.setWidth("100%");
-			layout.setMargin(true);
-			layout.addComponent(UserAvatarControlFactory
-					.createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
-							note.getCreateUserFullName()));
+        @Override
+        public Component generateRow(final SimpleNote note, final int rowIndex) {
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("message").withMargin(true);
+            layout.addComponent(UserAvatarControlFactory
+                    .createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
+                            note.getCreateUserFullName()));
 
-			final MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withWidth("100%").withStyleName("message-container");
-			rowLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            MVerticalLayout rowLayout = new MVerticalLayout().withMargin(false).withWidth("100%").withStyleName("message-container");
+            rowLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
-			final MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header").withWidth
-                    ("100%");
-			final Label username = new Label(note.getCreateUserFullName());
-			username.setStyleName("user-name");
-			username.setWidth("100%");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header").withWidth("100%");
+            Label username = new Label(note.getCreateUserFullName());
+            username.setStyleName("user-name");
+            username.setWidth("100%");
 
 
-			final Label timePostLbl = new Label(
-					DateTimeUtils.getPrettyDateValue(note.getCreatedtime(),
-							AppContext.getUserLocale()));
-			timePostLbl.setSizeUndefined();
-			timePostLbl.setStyleName("time-post");
+            Label timePostLbl = new Label(DateTimeUtils.getPrettyDateValue(note.getCreatedtime(), AppContext.getUserLocale()));
+            timePostLbl.setSizeUndefined();
+            timePostLbl.setStyleName("time-post");
             messageHeader.with(username, timePostLbl).expand(username);
 
-			rowLayout.addComponent(messageHeader);
+            rowLayout.addComponent(messageHeader);
+            SafeHtmlLabel messageContent = new SafeHtmlLabel(note.getNote());
+            messageContent.setStyleName("message-body");
+            rowLayout.with(messageContent).expand(messageContent);
 
-			final SafeHtmlLabel messageContent = new SafeHtmlLabel(note.getNote());
-			messageContent.setStyleName("message-body");
-			rowLayout.addComponent(messageContent);
-			rowLayout.setExpandRatio(messageContent, 1.0f);
-
-			layout.addComponent(rowLayout);
-			layout.setExpandRatio(rowLayout, 1.0f);
-			return layout;
-		}
-	}
+            layout.with(rowLayout).expand(rowLayout);
+            return layout;
+        }
+    }
 }

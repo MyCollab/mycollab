@@ -54,14 +54,10 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
                     emailNotificationAction = ApplicationContextUtil.getSpringBean(Class.forName(notification.getEmailhandlerbean)).
                         asInstanceOf[SendingRelayEmailNotificationAction]
                     if (emailNotificationAction != null) {
-                        if (MonitorTypeConstants.CREATE_ACTION == notification.getAction) {
-                            emailNotificationAction.sendNotificationForCreateAction(notification)
-                        }
-                        else if (MonitorTypeConstants.UPDATE_ACTION == notification.getAction) {
-                            emailNotificationAction.sendNotificationForUpdateAction(notification)
-                        }
-                        else if (MonitorTypeConstants.ADD_COMMENT_ACTION == notification.getAction) {
-                            emailNotificationAction.sendNotificationForCommentAction(notification)
+                        notification.getAction match {
+                            case MonitorTypeConstants.CREATE_ACTION => emailNotificationAction.sendNotificationForCreateAction(notification)
+                            case MonitorTypeConstants.UPDATE_ACTION => emailNotificationAction.sendNotificationForUpdateAction(notification)
+                            case MonitorTypeConstants.ADD_COMMENT_ACTION => emailNotificationAction.sendNotificationForCommentAction(notification)
                         }
                     }
                 }

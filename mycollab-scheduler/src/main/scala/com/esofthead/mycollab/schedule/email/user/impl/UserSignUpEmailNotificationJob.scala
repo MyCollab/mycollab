@@ -52,7 +52,7 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
     @SuppressWarnings(Array("unchecked"))
     @throws(classOf[JobExecutionException])
     def executeJob(context: JobExecutionContext) {
-        val criteria: UserSearchCriteria = new UserSearchCriteria
+        val criteria = new UserSearchCriteria
         val statusField = new SetSearchField[String](UserStatusConstants.EMAIL_NOT_VERIFIED)
         criteria.setStatuses(statusField)
         criteria.setSaccountid(null)
@@ -71,14 +71,14 @@ class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 
     private[impl] def sendConfirmEmailToUser(user: SimpleUser) {
         contentGenerator.putVariable("user", user)
-        val siteUrl: String = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
+        val siteUrl = GenericLinkUtils.generateSiteUrlByAccountId(user.getAccountId)
         contentGenerator.putVariable("siteUrl", siteUrl)
-        val confirmLink: String = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
+        val confirmLink = siteUrl + "user/confirm_signup/" + UrlEncodeDecoder.encode(user.getUsername + "/" + user.getAccountId)
         contentGenerator.putVariable("linkConfirm", confirmLink)
         extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail, SiteConfiguration.getDefaultSiteName,
             Arrays.asList(new MailRecipientField(user.getEmail, user.getDisplayName)), null, null,
-            contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
+            contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
                 UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-            contentGenerator.generateBodyContent(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
+            contentGenerator.parseFile(CONFIRM_EMAIL_TEMPLATE, SiteConfiguration.getDefaultLocale), null)
     }
 }

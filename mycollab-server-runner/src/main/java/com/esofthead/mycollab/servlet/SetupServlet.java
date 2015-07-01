@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import com.esofthead.mycollab.configuration.SharingOptions;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -33,44 +33,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class SetupServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		response.setStatus(HttpServletResponse.SC_OK);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setStatus(HttpServletResponse.SC_OK);
 
-		VelocityContext context = new VelocityContext();
-		Reader reader = FileUtils.getReader("templates/page/SetupFresh.mt");
+        VelocityContext context = new VelocityContext();
+        Reader reader = FileUtils.getReader("templates/page/SetupFresh.mt");
 
-		String postUrl = "/install";
-		context.put("redirectURL", postUrl);
+        String postUrl = "/install";
+        context.put("redirectURL", postUrl);
 
-		Map<String, String> defaultUrls = new HashMap<>();
+        Map<String, String> defaultUrls = new HashMap<>();
 
-		defaultUrls.put("cdn_url", "/assets/");
-		defaultUrls.put("app_url", "/");
+        defaultUrls.put("cdn_url", "/assets/");
+        defaultUrls.put("app_url", "/");
 
-		SharingOptions sharingOptions = SharingOptions.getDefaultSharingOptions();
+        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
+        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
+        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
+        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
 
-		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
-		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
-		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
-		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
+        context.put("defaultUrls", defaultUrls);
 
-		context.put("defaultUrls", defaultUrls);
+        StringWriter writer = new StringWriter();
+        VelocityEngine voEngine = new VelocityEngine();
 
-		StringWriter writer = new StringWriter();
-		VelocityEngine voEngine = new VelocityEngine();
+        voEngine.evaluate(context, writer, "log task", reader);
 
-		voEngine.evaluate(context, writer, "log task", reader);
-
-		PrintWriter out = response.getWriter();
-		out.print(writer.toString());
-	}
+        PrintWriter out = response.getWriter();
+        out.print(writer.toString());
+    }
 }

@@ -32,7 +32,10 @@ import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
-import com.esofthead.mycollab.module.user.dao.*;
+import com.esofthead.mycollab.module.user.dao.RolePermissionMapper;
+import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
+import com.esofthead.mycollab.module.user.dao.UserMapper;
+import com.esofthead.mycollab.module.user.dao.UserMapperExt;
 import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.esb.UserEndpoints;
@@ -77,9 +80,6 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     private UserAvatarService userAvatarService;
 
     @Autowired
-    private UserAccountInvitationMapper userAccountInvitationMapper;
-
-    @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -94,18 +94,15 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public void saveUserAccount(SimpleUser record, Integer sAccountId,
-                                String inviteUser) {
+    public void saveUserAccount(SimpleUser record, Integer sAccountId, String inviteUser) {
         billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
 
         // check if user email has already in this account yet
         UserAccountExample userAccountEx = new UserAccountExample();
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-            userAccountEx.createCriteria()
-                    .andUsernameEqualTo(record.getEmail())
-                    .andAccountidEqualTo(sAccountId)
-                    .andRegisterstatusIn(Arrays.asList(
+            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
+                    .andAccountidEqualTo(sAccountId).andRegisterstatusIn(Arrays.asList(
                             RegisterStatusConstants.ACTIVE,
                             RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
                             RegisterStatusConstants.VERIFICATING));
@@ -123,8 +120,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         }
 
         if (record.getPassword() != null) {
-            record.setPassword(PasswordEncryptHelper.encryptSaltPassword(record
-                    .getPassword()));
+            record.setPassword(PasswordEncryptHelper.encryptSaltPassword(record.getPassword()));
         }
 
         if (record.getUsername() == null) {
@@ -145,9 +141,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             record.setFirstname("");
         }
 
-        // Check if user has already account in system, if not we will create
-        // new user
-
+        // Check if user has already account in system, if not we will create new user
         UserExample userEx = new UserExample();
         userEx.createCriteria().andUsernameEqualTo(record.getUsername());
         if (userMapper.countByExample(userEx) == 0) {
@@ -159,45 +153,26 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         // save record in s_user_account table
         UserAccount userAccount = new UserAccount();
         userAccount.setAccountid(record.getAccountId());
-        userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE
-                : record.getIsAccountOwner());
+        userAccount.setIsaccountowner((record.getIsAccountOwner() == null) ? Boolean.FALSE : record.getIsAccountOwner());
 
         userAccount.setRoleid(record.getRoleid());
         userAccount.setUsername(record.getUsername());
         userAccount.setRegisteredtime(new GregorianCalendar().getTime());
         userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-        userAccount.setRegisterstatus((record.getRegisterstatus() == null) ?
-                RegisterStatusConstants.VERIFICATING : record.getRegisterstatus());
+        userAccount.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
 
         LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
         userAccountEx = new UserAccountExample();
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
-            userAccountEx.createCriteria()
-                    .andUsernameEqualTo(record.getEmail())
-                    .andAccountidEqualTo(sAccountId);
+            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail()).andAccountidEqualTo(sAccountId);
         } else {
-            userAccountEx.createCriteria()
-                    .andUsernameEqualTo(record.getEmail());
+            userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail());
         }
 
         if (userAccountMapper.countByExample(userAccountEx) > 0) {
-            userAccountMapper.updateByExampleSelective(userAccount,
-                    userAccountEx);
+            userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
         } else {
             userAccountMapper.insert(userAccount);
-        }
-
-        if (!RegisterStatusConstants.ACTIVE.equals(record.getRegisterstatus())) {
-            // save to invitation user
-            UserAccountInvitation invitation = new UserAccountInvitation();
-            invitation.setAccountid(record.getAccountId());
-            invitation.setCreatedtime(new GregorianCalendar().getTime());
-            invitation.setUsername(record.getUsername());
-            invitation.setInviteuser(inviteUser);
-            invitation
-                    .setInvitationstatus((record.getRegisterstatus() == null) ? RegisterStatusConstants.VERIFICATING
-                            : record.getRegisterstatus());
-            userAccountInvitationMapper.insert(invitation);
         }
     }
 
@@ -211,8 +186,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             int numUsers = userMapper.countByExample(ex);
             if (numUsers > 0) {
                 throw new UserInvalidInputException(
-                        String.format("Email %s is already existed in system. Please choose another email.",
-                                record.getEmail()));
+                        String.format("Email %s is already existed in system. Please choose another email.", record.getEmail()));
             }
         }
 
@@ -232,8 +206,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
             int numUsers = userMapper.countByExample(ex);
             if (numUsers > 0) {
                 throw new UserInvalidInputException(
-                        String.format("Email %s is already existed in system. Please choose another email.",
-                                record.getEmail()));
+                        String.format("Email %s is already existed in system. Please choose another email.", record.getEmail()));
             }
         }
 
@@ -244,10 +217,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userMapper.updateByExampleSelective(record, ex);
 
         UserAccountExample userAccountEx = new UserAccountExample();
-        userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername())
-                .andAccountidEqualTo(sAccountId);
-        List<UserAccount> userAccounts = userAccountMapper
-                .selectByExample(userAccountEx);
+        userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername()).andAccountidEqualTo(sAccountId);
+        List<UserAccount> userAccounts = userAccountMapper.selectByExample(userAccountEx);
         if (userAccounts.size() > 0) {
             UserAccount userAccount = userAccounts.get(0);
             if (record.getRoleid() == -1) {
@@ -323,8 +294,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public SimpleUser findUserByUserNameInAccount(String username,
-                                                  Integer accountId) {
+    public SimpleUser findUserByUserNameInAccount(String username, Integer accountId) {
         UserSearchCriteria criteria = new UserSearchCriteria();
         criteria.setUsername(new StringSearchField(username));
         criteria.setSaccountid(new NumberSearchField(accountId));
@@ -350,16 +320,13 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         // check if current user is the unique account owner, then reject
         // deletion
         UserAccountExample userAccountEx = new UserAccountExample();
-        userAccountEx.createCriteria().andUsernameEqualTo(username)
-                .andAccountidEqualTo(accountId);
-        List<UserAccount> accounts = userAccountMapper
-                .selectByExample(userAccountEx);
+        userAccountEx.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(accountId);
+        List<UserAccount> accounts = userAccountMapper.selectByExample(userAccountEx);
         if (accounts.size() > 0) {
             UserAccount account = accounts.get(0);
             if (Boolean.TRUE.equals(account.getIsaccountowner())) {
                 userAccountEx = new UserAccountExample();
-                userAccountEx.createCriteria().andAccountidEqualTo(accountId)
-                        .andIsaccountownerEqualTo(Boolean.TRUE);
+                userAccountEx.createCriteria().andAccountidEqualTo(accountId).andIsaccountownerEqualTo(Boolean.TRUE);
                 if (userAccountMapper.countByExample(userAccountEx) == 1) {
                     throw new UserInvalidInputException(
                             String.format("Can not delete user %s. The reason is %s is the unique account owner of the current account.",
@@ -369,8 +336,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         }
 
         userAccountEx = new UserAccountExample();
-        userAccountEx.createCriteria().andUsernameEqualTo(username)
-                .andAccountidEqualTo(accountId);
+        userAccountEx.createCriteria().andUsernameEqualTo(username).andAccountidEqualTo(accountId);
         UserAccount userAccount = new UserAccount();
         userAccount.setRegisterstatus(RegisterStatusConstants.DELETE);
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
@@ -404,8 +370,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public void updateUserAccountStatus(String username, Integer sAccountId,
-                                        String registerStatus) {
+    public void updateUserAccountStatus(String username, Integer sAccountId, String registerStatus) {
         // Update status of user account
         UserAccount userAccount = new UserAccount();
         userAccount.setAccountid(sAccountId);
@@ -413,18 +378,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setRegisterstatus(registerStatus);
 
         UserAccountExample ex = new UserAccountExample();
-        ex.createCriteria().andAccountidEqualTo(sAccountId)
-                .andUsernameEqualTo(username);
+        ex.createCriteria().andAccountidEqualTo(sAccountId).andUsernameEqualTo(username);
         userAccountMapper.updateByExampleSelective(userAccount, ex);
-    }
-
-    @Override
-    public void updateUserAccountsStatus(List<String> usernames,
-                                         Integer sAccountId, String registerStatus) {
-        for (String username : usernames) {
-            updateUserAccountStatus(username, sAccountId, registerStatus);
-        }
-
     }
 
     @Override
