@@ -140,10 +140,11 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
-            if (permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
+            if (permissionName.equals(ProjectRolePermissionCollections.USERS)
+                    || permissionName.equals(ProjectRolePermissionCollections.ROLES)) {
                 permissionMapClient.addPath(
                         ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
-                        AccessPermissionFlag.NO_ACCESS);
+                        AccessPermissionFlag.READ_ONLY);
             } else {
                 permissionMapClient.addPath(
                         ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i],
@@ -157,12 +158,10 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         ProjectRole consultantRole = createProjectRole(projectId,
                 record.getSaccountid(), "Consultant",
                 "Default role for consultant");
-        int consultantRoleId = projectRoleService.saveWithSession(
-                consultantRole, username);
+        int consultantRoleId = projectRoleService.saveWithSession(consultantRole, username);
 
         PermissionMap permissionMapConsultant = new PermissionMap();
         for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
-
             String permissionName = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 
             if (permissionName.equals(ProjectRolePermissionCollections.USERS)

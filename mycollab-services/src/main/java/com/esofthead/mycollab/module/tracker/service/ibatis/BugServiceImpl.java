@@ -57,14 +57,11 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
         ClassInfoMap.put(BugServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG));
     }
 
-    @Autowired
-    private BugMapper bugMapper;
+    @Autowired private BugMapper bugMapper;
 
-    @Autowired
-    private BugMapperExt bugMapperExt;
+    @Autowired private BugMapperExt bugMapperExt;
 
-    @Autowired
-    private AsyncEventBus asyncEventBus;
+    @Autowired private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, BugWithBLOBs> getCrudMapper() {
@@ -79,8 +76,7 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Integer saveWithSession(BugWithBLOBs record, String username) {
-        Lock lock = DistributionLockUtil.getLock("bug-"
-                + record.getSaccountid());
+        Lock lock = DistributionLockUtil.getLock("bug-" + record.getSaccountid());
         try {
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
                 Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());

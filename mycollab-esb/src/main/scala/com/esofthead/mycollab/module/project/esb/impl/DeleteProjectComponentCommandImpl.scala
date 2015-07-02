@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.esb.impl
 
 import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.project.esb.DeleteProjectComponentEvent
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import org.springframework.stereotype.Component
 
@@ -31,6 +32,6 @@ import org.springframework.stereotype.Component
 
     @AllowConcurrentEvents
     @Subscribe
-    def componentRemoved(username: String, accountId: Int, projectId: Int, bugId: Int) {
+    def removedComponent(event: DeleteProjectComponentEvent) {
     }
 }

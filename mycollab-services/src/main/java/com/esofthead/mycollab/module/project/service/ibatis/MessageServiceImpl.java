@@ -32,9 +32,11 @@ import com.esofthead.mycollab.module.project.dao.MessageMapperExt;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.module.project.esb.DeleteProjectMessageEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,14 +56,11 @@ public class MessageServiceImpl extends DefaultService<Integer, Message, Message
         ClassInfoMap.put(MessageServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.MESSAGE));
     }
 
-    @Autowired
-    private MessageMapper messageMapper;
+    @Autowired private MessageMapper messageMapper;
 
-    @Autowired
-    private MessageMapperExt messageMapperExt;
+    @Autowired private MessageMapperExt messageMapperExt;
 
-    @Autowired
-    private RelayEmailNotificationService relayEmailNotificationService;
+    @Autowired private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, Message> getCrudMapper() {
@@ -87,6 +86,9 @@ public class MessageServiceImpl extends DefaultService<Integer, Message, Message
     public Integer removeWithSession(Integer primaryKey, String username,
                                      Integer accountId) {
         CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+        SimpleMessage message = findById(primaryKey, accountId);
+        DeleteProjectMessageEvent event = new DeleteProjectMessageEvent(username, accountId, message.getProjectid(), message.getId());
+        asyncEventBus.post(event);
         return super.removeWithSession(primaryKey, username, accountId);
     }
 
