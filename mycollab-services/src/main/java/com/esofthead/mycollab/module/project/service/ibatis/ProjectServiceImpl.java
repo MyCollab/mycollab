@@ -260,7 +260,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
             Project project = findByPrimaryKey(projectId, accountId);
 
             DeleteProjectCommand projectDeleteListener = CamelProxyBuilderUtil
-                    .build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT,
+                    .build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT(),
                             DeleteProjectCommand.class);
             projectDeleteListener.projectRemoved(project.getSaccountid(),
                     projectId);

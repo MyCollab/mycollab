@@ -40,6 +40,7 @@ public class SimpleUser extends User {
     private String registerstatus;
     private String inviteUser;
     private String lastModuleVisit;
+    private String inviteUserFullName;
 
     public String getDisplayName() {
         String result = getFirstname() + " " + getLastname();
@@ -128,6 +129,14 @@ public class SimpleUser extends User {
 
     public void setLastModuleVisit(String lastModuleVisit) {
         this.lastModuleVisit = lastModuleVisit;
+    }
+
+    public String getInviteUserFullName() {
+        return inviteUserFullName;
+    }
+
+    public void setInviteUserFullName(String inviteUserFullName) {
+        this.inviteUserFullName = inviteUserFullName;
     }
 
     public void setInviteUser(String inviteUser) {

@@ -117,7 +117,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
             try {
                 Project project = projectMapper.selectByPrimaryKey(projectMember.getProjectid());
                 DeleteProjectMemberCommand projectMemberDeleteListener = CamelProxyBuilderUtil
-                        .build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT,
+                        .build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT(),
                                 DeleteProjectMemberCommand.class);
                 projectMemberDeleteListener.projectMemberRemoved(username,
                         primaryKey, projectMember.getProjectid(), project.getSaccountid());
@@ -142,7 +142,7 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
                                      Integer projectRoleId, String inviteUser, String inviteMessage,
                                      Integer sAccountId) {
         InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
-                ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
+                ProjectEndPoints.PROJECT_SEND_INVITATION_USER(),
                 InviteProjectMembersCommand.class);
         listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
                 inviteMessage, sAccountId);

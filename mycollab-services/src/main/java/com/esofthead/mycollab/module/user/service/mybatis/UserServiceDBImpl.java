@@ -160,6 +160,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccount.setRegisteredtime(new GregorianCalendar().getTime());
         userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
         userAccount.setRegisterstatus(RegisterStatusConstants.VERIFICATING);
+        userAccount.setInviteuser(inviteUser);
 
         LOG.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
         userAccountEx = new UserAccountExample();

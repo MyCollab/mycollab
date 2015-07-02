@@ -126,7 +126,7 @@ public class BugServiceImpl extends
                 ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class);
         DeleteProjectBugCommand deleteProjectBugCommand = CamelProxyBuilderUtil
-                .build(ProjectEndPoints.PROJECT_BUG_REMOVE_ENDPOINT,
+                .build(ProjectEndPoints.PROJECT_BUG_REMOVE_ENDPOINT(),
                         DeleteProjectBugCommand.class);
         SimpleBug bug = findById(primaryKey, accountId);
         deleteProjectBugCommand.bugRemoved(username, accountId,

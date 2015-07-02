@@ -122,8 +122,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             view.editItem(user);
         }
 
-        AccountSettingBreadcrumb breadcrumb = ViewManager
-                .getCacheComponent(AccountSettingBreadcrumb.class);
+        AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
 
         if (user.getUsername() == null) {
             breadcrumb.gotoUserAdd();
@@ -166,35 +165,31 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
             contentLayout.with(acceptLink, denyLink);
 
             final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, true, false));
-            final Button addNewBtn = new Button(
-                    "Create another user",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button addNewBtn = new Button("Create another user", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(
-                                final Button.ClickEvent event) {
-                            EventBusFactory.getInstance().post(new UserEvent.GotoAdd(GetStartedInstructionWindow.this, null));
-                            GetStartedInstructionWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(
+                        final Button.ClickEvent event) {
+                    EventBusFactory.getInstance().post(new UserEvent.GotoAdd(GetStartedInstructionWindow.this, null));
+                    GetStartedInstructionWindow.this.close();
+                }
+            });
             addNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-            final Button doneBtn = new Button(
-                    "Done",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button doneBtn = new Button("Done", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(
-                                final Button.ClickEvent event) {
-                            ViewState viewState = HistoryViewManager.back();
-                            if (viewState instanceof NullViewState) {
-                                EventBusFactory.getInstance().post(
-                                        new UserEvent.GotoList(this, null));
-                            }
-                            GetStartedInstructionWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(
+                        final Button.ClickEvent event) {
+                    ViewState viewState = HistoryViewManager.back();
+                    if (viewState instanceof NullViewState) {
+                        EventBusFactory.getInstance().post(
+                                new UserEvent.GotoList(this, null));
+                    }
+                    GetStartedInstructionWindow.this.close();
+                }
+            });
             doneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             controlsBtn.with(addNewBtn, doneBtn);
             contentLayout.with(controlsBtn).withAlign(controlsBtn,

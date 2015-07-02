@@ -26,6 +26,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.peter.buttongroup.ButtonGroup;
@@ -205,6 +206,14 @@ public class PreviewFormControlsGenerator<T> implements Serializable {
             }
         }
         return layout;
+    }
+
+    public void insertToControlBlock(Component comp) {
+        editButtons.addComponent(comp, 0);
+    }
+
+    public void removeButtonIndex(int index) {
+        editButtons.removeComponent(editButtons.getComponent(index));
     }
 
     public HorizontalLayout createButtonControls(String permissionItem) {

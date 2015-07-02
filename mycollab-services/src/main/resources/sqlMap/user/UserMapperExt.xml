@@ -11,6 +11,7 @@
         <result column="isAccountOwner" jdbcType="BIT" property="isAccountOwner" />
         <result column="accountId" jdbcType="INTEGER" property="accountId" />
         <result column="inviteUser" jdbcType="VARCHAR" property="inviteUser" />
+        <result column="inviteUserFullName" jdbcType="VARCHAR" property="inviteUserFullName" />
         <result column="lastModuleVisit" jdbcType="VARCHAR" property="lastModuleVisit" />
     </resultMap>
 
@@ -116,11 +117,13 @@
             s_user.password, s_user.avatarId, s_user.status, s_user.requestAd, s_account.subdomain AS subdomain,
             s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
             s_user_account.registerStatus, s_user_account.registeredTime, s_user_account.inviteUser, s_user_account.lastAccessedTime,
-            s_user_account.lastModuleVisit
+            s_user_account.lastModuleVisit,
+            concat(inviteUser.firstname, ' ', LTRIM(concat(IFNULL(inviteUser.middlename, ''), ' ')),  inviteUser.lastname) AS  inviteUserFullName
         FROM s_user 
                 INNER JOIN s_user_account ON (s_user.username=s_user_account.username)
                 INNER JOIN s_account ON (s_user_account.accountId = s_account.id)
                 LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
+                LEFT OUTER JOIN s_user AS inviteUser ON (inviteUser.username=s_user_account.inviteUser)
         ]]>
     </sql>
 

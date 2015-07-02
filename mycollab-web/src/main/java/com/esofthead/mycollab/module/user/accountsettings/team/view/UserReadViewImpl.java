@@ -18,12 +18,15 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
+import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -122,10 +125,24 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
         header.with(avatarAndPass, controlButtons).withAlign(avatarAndPass, Alignment.TOP_LEFT).withAlign(controlButtons, Alignment.TOP_RIGHT);
     }
 
-    protected Layout createTopPanel() {
-        PreviewFormControlsGenerator<User> controlGenerator = new PreviewFormControlsGenerator<>(previewForm);
-        return controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED |
-                CLONE_BTN_PRESENTED, RolePermissionCollections.ACCOUNT_USER);
+    private Layout createTopPanel() {
+        final PreviewFormControlsGenerator<User> controlGenerator = new PreviewFormControlsGenerator<>(previewForm);
+        Layout layout = controlGenerator.createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED |
+                DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED, RolePermissionCollections.ACCOUNT_USER);
+        if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(user.getRegisterstatus())) {
+            final Button resendBtn = new Button("Resend Invitation", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    UserService userService = ApplicationContextUtil.getSpringBean(UserService.class);
+                    userService.updateUserAccountStatus(user.getUsername(),
+                            user.getAccountId(), RegisterStatusConstants.VERIFICATING);
+                    controlGenerator.removeButtonIndex(0);
+                }
+            });
+            controlGenerator.insertToControlBlock(resendBtn);
+        }
+
+        return layout;
     }
 
     @Override

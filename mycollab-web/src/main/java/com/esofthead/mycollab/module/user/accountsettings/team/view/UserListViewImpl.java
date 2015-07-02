@@ -177,7 +177,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
                     userService.updateUserAccountStatus(member.getUsername(),
                             member.getAccountId(), RegisterStatusConstants.VERIFICATING);
                     waitingNotLayout.removeAllComponents();
-                    Label statusEmail = new Label("Sent invitation email");
+                    Label statusEmail = new Label("Sending invitation email");
                     statusEmail.addStyleName("member-email");
                     waitingNotLayout.addComponent(statusEmail);
                 }
