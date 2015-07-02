@@ -17,18 +17,9 @@
 package com.esofthead.mycollab.module.project.esb
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-trait DeleteProjectComponentCommand {
-    /**
-     *
-     * @param username
-     * @param accountId
-     * @param projectId
-     * @param bugId
-     */
-    def componentRemoved(username: String, accountId: Int, projectId: Int, bugId: Int)
+class DeleteProjectTaskListEvent(val username: String, val accountId: Integer, val projectId: Integer, val taskListId: Integer) {
+    
 }

@@ -25,11 +25,9 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
-import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand;
-import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
+import com.esofthead.mycollab.module.project.esb.DeleteProjectBugEvent;
 import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.module.tracker.dao.BugMapper;
 import com.esofthead.mycollab.module.tracker.dao.BugMapperExt;
@@ -39,6 +37,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -53,18 +52,19 @@ import java.util.concurrent.locks.Lock;
 @Traceable(nameField = "summary", extraFieldName = "projectid")
 @Auditable()
 @NotifyAgent(BugRelayEmailNotificationAction.class)
-public class BugServiceImpl extends
-        DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements
-        BugService {
+public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements BugService {
     static {
         ClassInfoMap.put(BugServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG));
     }
 
     @Autowired
-    protected BugMapper bugMapper;
+    private BugMapper bugMapper;
 
     @Autowired
-    protected BugMapperExt bugMapperExt;
+    private BugMapperExt bugMapperExt;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, BugWithBLOBs> getCrudMapper() {
@@ -125,12 +125,10 @@ public class BugServiceImpl extends
                 ProjectGenericTaskService.class, ProjectMemberService.class,
                 ProjectActivityStreamService.class,
                 ItemTimeLoggingService.class);
-        DeleteProjectBugCommand deleteProjectBugCommand = CamelProxyBuilderUtil
-                .build(ProjectEndPoints.PROJECT_BUG_REMOVE_ENDPOINT(),
-                        DeleteProjectBugCommand.class);
         SimpleBug bug = findById(primaryKey, accountId);
-        deleteProjectBugCommand.bugRemoved(username, accountId,
+        DeleteProjectBugEvent event = new DeleteProjectBugEvent(username, accountId,
                 bug.getProjectid(), primaryKey);
+        asyncEventBus.post(event);
         return super.removeWithSession(primaryKey, username, accountId);
     }
 

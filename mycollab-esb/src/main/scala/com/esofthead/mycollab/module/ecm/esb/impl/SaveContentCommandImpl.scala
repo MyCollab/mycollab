@@ -18,18 +18,19 @@ package com.esofthead.mycollab.module.ecm.esb.impl
 
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
-import org.apache.commons.lang3.StringUtils
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+
 import com.esofthead.mycollab.core.utils.BeanUtility
 import com.esofthead.mycollab.lock.DistributionLockUtil
-import com.esofthead.mycollab.module.ecm.domain.Content
+import com.esofthead.mycollab.module.GenericCommandHandler
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo
-import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand
+import com.esofthead.mycollab.module.ecm.esb.SaveContentEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
 import com.esofthead.mycollab.module.file.service.RawContentService
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
+import org.apache.commons.lang3.StringUtils
+import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 /**
  *
@@ -37,27 +38,30 @@ import com.esofthead.mycollab.module.file.service.RawContentService
  * @since 1.0
  *
  */
-@Component("saveContentCommand") object SaveContentCommandImpl {
+object SaveContentCommandImpl {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[SaveContentCommandImpl])
 }
 
-@Component("saveContentCommand") class SaveContentCommandImpl extends SaveContentCommand {
+@Component("saveContentCommand") class SaveContentCommandImpl extends GenericCommandHandler {
     @Autowired private val driveInfoService: DriveInfoService = null
     @Autowired private val rawContentService: RawContentService = null
 
-    def saveContent(content: Content, createdUser: String, sAccountId: Integer) {
-        SaveContentCommandImpl.LOG.debug("Save content {} by {}", Array(BeanUtility.printBeanObj(content), createdUser))
-        if (sAccountId == null) {
+    @AllowConcurrentEvents
+    @Subscribe
+    def saveContent(event: SaveContentEvent): Unit = {
+        SaveContentCommandImpl.LOG.debug("Save content {} by {}", Array(BeanUtility.printBeanObj(event.content),
+            event.createdUser))
+        if (event.sAccountId == null) {
             return
         }
-        val lock: Lock = DistributionLockUtil.getLock("ecm-" + sAccountId)
-        var totalSize: Long = content.getSize
-        if (StringUtils.isNotBlank(content.getThumbnail)) {
-            totalSize += rawContentService.getSize(content.getThumbnail)
+        val lock: Lock = DistributionLockUtil.getLock("ecm-" + event.sAccountId)
+        var totalSize: Long = event.content.getSize
+        if (StringUtils.isNotBlank(event.content.getThumbnail)) {
+            totalSize += rawContentService.getSize(event.content.getThumbnail)
         }
         try {
             if (lock.tryLock(1, TimeUnit.HOURS)) {
-                val driveInfo: DriveInfo = driveInfoService.getDriveInfo(sAccountId)
+                val driveInfo: DriveInfo = driveInfoService.getDriveInfo(event.sAccountId)
                 if (driveInfo.getUsedvolume == null) {
                     driveInfo.setUsedvolume(totalSize)
                 }
@@ -68,9 +72,8 @@ import com.esofthead.mycollab.module.file.service.RawContentService
             }
         }
         catch {
-            case e: Exception => {
-                SaveContentCommandImpl.LOG.error(String.format("Error while save content %s", BeanUtility.printBeanObj(content)), e)
-            }
+            case e: Exception => SaveContentCommandImpl.LOG.error(String.format("Error while save content %s",
+                    BeanUtility.printBeanObj(event.content)), e)
         } finally {
             lock.unlock
         }

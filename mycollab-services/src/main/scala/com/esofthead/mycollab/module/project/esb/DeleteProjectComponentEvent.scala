@@ -14,16 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.ecm.esb;
+package com.esofthead.mycollab.module.project.esb
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-public class EcmEndPoints {
-	public static final String SAVE_CONTENT_ENDPOINT = "direct:saveContent";
-
-	public static final String DELETE_RESOURCES_ENDPOINT = "direct:deleteResources";
+class DeleteProjectComponentEvent(username: String, accountId: Integer, projectId: Integer, bugId: Integer) {
+    
 }

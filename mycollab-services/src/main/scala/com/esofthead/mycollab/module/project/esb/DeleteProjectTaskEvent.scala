@@ -14,16 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.ecm.esb;
-
-import com.esofthead.mycollab.module.ecm.domain.Content;
+package com.esofthead.mycollab.module.project.esb
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-public interface SaveContentCommand {
-	void saveContent(Content content, String createdUser, Integer sAccountId);
+class DeleteProjectTaskEvent(val username: String, val accountId: Integer, val projectId: Integer, val taskId: Integer) {
+    
 }

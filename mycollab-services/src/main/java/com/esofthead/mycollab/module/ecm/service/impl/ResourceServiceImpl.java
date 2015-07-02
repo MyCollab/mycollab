@@ -21,17 +21,16 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
-import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
-import com.esofthead.mycollab.module.ecm.esb.EcmEndPoints;
-import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;
+import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesEvent;
+import com.esofthead.mycollab.module.ecm.esb.SaveContentEvent;
 import com.esofthead.mycollab.module.ecm.service.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
+import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,171 +47,169 @@ import java.util.List;
 
 @Service(value = "resourceService")
 public class ResourceServiceImpl implements ResourceService {
-	private static final Logger LOG = LoggerFactory.getLogger(ResourceServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
-	@Autowired
-	private ContentJcrDao contentJcrDao;
+    @Autowired
+    private ContentJcrDao contentJcrDao;
 
-	@Autowired
-	private RawContentService rawContentService;
+    @Autowired
+    private RawContentService rawContentService;
 
-	@Autowired
-	private BillingPlanCheckerService billingPlanCheckerService;
+    @Autowired
+    private BillingPlanCheckerService billingPlanCheckerService;
 
-	@Override
-	public List<Resource> getResources(String path) {
-		List<Resource> resources = contentJcrDao.getResources(path);
-		if (CollectionUtils.isNotEmpty(resources)) {
-			Collections.sort(resources);
-			return resources;
-		}
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
-		return new ArrayList<>();
-	}
+    @Override
+    public List<Resource> getResources(String path) {
+        List<Resource> resources = contentJcrDao.getResources(path);
+        if (CollectionUtils.isNotEmpty(resources)) {
+            Collections.sort(resources);
+            return resources;
+        }
 
-	@Override
-	public List<Content> getContents(String path) {
-		return contentJcrDao.getContents(path);
-	}
+        return new ArrayList<>();
+    }
 
-	@Override
-	public List<Folder> getSubFolders(String path) {
-		return contentJcrDao.getSubFolders(path);
-	}
+    @Override
+    public List<Content> getContents(String path) {
+        return contentJcrDao.getContents(path);
+    }
 
-	@Override
-	public Folder createNewFolder(String baseFolderPath, String folderName, String createdBy) {
-		String folderPath = baseFolderPath + "/" + folderName;
-		Folder folder = new Folder(folderPath);
-		folder.setName(folderName);
-		folder.setCreatedBy(createdBy);
-		folder.setCreated(new GregorianCalendar());
-		contentJcrDao.createFolder(folder, createdBy);
-		return folder;
-	}
+    @Override
+    public List<Folder> getSubFolders(String path) {
+        return contentJcrDao.getSubFolders(path);
+    }
 
-	@Override
-	public void saveContent(Content content, String createdUser,
-			InputStream refStream, Integer sAccountId) {
-		Integer fileSize = 0;
-		if (sAccountId != null) {
-			try {
-				fileSize = refStream.available();
-				billingPlanCheckerService.validateAccountCanUploadMoreFiles(
-						sAccountId, fileSize);
-			} catch (IOException e) {
-				LOG.error("Can not get available bytes", e);
-			}
-		}
+    @Override
+    public Folder createNewFolder(String baseFolderPath, String folderName, String createdBy) {
+        String folderPath = baseFolderPath + "/" + folderName;
+        Folder folder = new Folder(folderPath);
+        folder.setName(folderName);
+        folder.setCreatedBy(createdBy);
+        folder.setCreated(new GregorianCalendar());
+        contentJcrDao.createFolder(folder, createdBy);
+        return folder;
+    }
 
-		// detect mimeType and set to content
-		String mimeType = MimeTypesUtil.detectMimeType(content.getPath());
-		content.setMimeType(mimeType);
-		content.setSize(Long.valueOf(fileSize));
+    @Override
+    public void saveContent(Content content, String createdUser, InputStream refStream, Integer sAccountId) {
+        Integer fileSize = 0;
+        if (sAccountId != null) {
+            try {
+                fileSize = refStream.available();
+                billingPlanCheckerService.validateAccountCanUploadMoreFiles(
+                        sAccountId, fileSize);
+            } catch (IOException e) {
+                LOG.error("Can not get available bytes", e);
+            }
+        }
 
-		String contentPath = content.getPath();
-		rawContentService.saveContent(contentPath, refStream);
+        // detect mimeType and set to content
+        String mimeType = MimeTypesUtil.detectMimeType(content.getPath());
+        content.setMimeType(mimeType);
+        content.setSize(Long.valueOf(fileSize));
 
-		if (MimeTypesUtil.isImage(mimeType)) {
-			try (InputStream newInputStream = rawContentService.getContentStream(contentPath)) {
-				BufferedImage image = ImageUtil.generateImageThumbnail(newInputStream);
-				if (image != null) {
-					String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
-							sAccountId, StringUtils.generateSoftUniqueId(),
-							"png");
-					File tmpFile = File.createTempFile("tmp", "png");
-					ImageIO.write(image, "png", new FileOutputStream(tmpFile));
-					rawContentService.saveContent(thumbnailPath,
-							new FileInputStream(tmpFile));
-					content.setThumbnail(thumbnailPath);
-				}
-			} catch (IOException e) {
-				LOG.error("Error when generating thumbnail", e);
-			}
-		}
+        String contentPath = content.getPath();
+        rawContentService.saveContent(contentPath, refStream);
 
-		contentJcrDao.saveContent(content, createdUser);
+        if (MimeTypesUtil.isImage(mimeType)) {
+            try (InputStream newInputStream = rawContentService.getContentStream(contentPath)) {
+                BufferedImage image = ImageUtil.generateImageThumbnail(newInputStream);
+                if (image != null) {
+                    String thumbnailPath = String.format(".thumbnail/%d/%s.%s",
+                            sAccountId, StringUtils.generateSoftUniqueId(),
+                            "png");
+                    File tmpFile = File.createTempFile("tmp", "png");
+                    ImageIO.write(image, "png", new FileOutputStream(tmpFile));
+                    rawContentService.saveContent(thumbnailPath,
+                            new FileInputStream(tmpFile));
+                    content.setThumbnail(thumbnailPath);
+                }
+            } catch (IOException e) {
+                LOG.error("Error when generating thumbnail", e);
+            }
+        }
 
-		SaveContentCommand saveContentCommand = CamelProxyBuilderUtil.build(
-				EcmEndPoints.SAVE_CONTENT_ENDPOINT, SaveContentCommand.class);
-		saveContentCommand.saveContent(content, createdUser, sAccountId);
-	}
+        contentJcrDao.saveContent(content, createdUser);
 
-	@Override
-	public void removeResource(String path, String deleteUser, Integer sAccountId) {
-		Resource res = contentJcrDao.getResource(path);
-		if (res == null) {
-			return;
-		}
-		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil
-				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
-						DeleteResourcesCommand.class);
+        SaveContentEvent event = new SaveContentEvent(content, createdUser, sAccountId);
+        asyncEventBus.post(event);
+    }
 
-		if (res instanceof Folder) {
-			deleteResourcesCommand.removeResource(new String[] { path },
-					deleteUser, sAccountId);
-		} else {
-			deleteResourcesCommand.removeResource(new String[] { path,
-					((Content) res).getThumbnail() }, deleteUser, sAccountId);
-		}
+    @Override
+    public void removeResource(String path, String deleteUser, Integer sAccountId) {
+        Resource res = contentJcrDao.getResource(path);
+        if (res == null) {
+            return;
+        }
 
-		contentJcrDao.removeResource(path);
+        DeleteResourcesEvent event;
+        if (res instanceof Folder) {
+            event = new DeleteResourcesEvent(new String[]{path}, deleteUser, sAccountId);
+        } else {
+            event = new DeleteResourcesEvent(new String[]{path, ((Content) res).getThumbnail()}, deleteUser, sAccountId);
+        }
+        asyncEventBus.post(event);
 
-	}
+        contentJcrDao.removeResource(path);
 
-	@Override
-	public InputStream getContentStream(String path) {
-		return rawContentService.getContentStream(path);
-	}
+    }
 
-	@Override
-	public void rename(String oldPath, String newPath, String userUpdate) {
-		contentJcrDao.rename(oldPath, newPath);
-		rawContentService.renamePath(oldPath, newPath);
-	}
+    @Override
+    public InputStream getContentStream(String path) {
+        return rawContentService.getContentStream(path);
+    }
 
-	@Override
-	public List<Resource> searchResourcesByName(String baseFolderPath,
-			String resourceName) {
-		return contentJcrDao
-				.searchResourcesByName(baseFolderPath, resourceName);
-	}
+    @Override
+    public void rename(String oldPath, String newPath, String userUpdate) {
+        contentJcrDao.rename(oldPath, newPath);
+        rawContentService.renamePath(oldPath, newPath);
+    }
 
-	@Override
-	public void moveResource(String oldPath, String destinationFolderPath,
-			String userMove) {
-		String oldResourceName = oldPath.substring(
-				oldPath.lastIndexOf("/") + 1, oldPath.length());
+    @Override
+    public List<Resource> searchResourcesByName(String baseFolderPath,
+                                                String resourceName) {
+        return contentJcrDao
+                .searchResourcesByName(baseFolderPath, resourceName);
+    }
 
-		Resource oldResource = contentJcrDao.getResource(oldPath);
+    @Override
+    public void moveResource(String oldPath, String destinationFolderPath,
+                             String userMove) {
+        String oldResourceName = oldPath.substring(
+                oldPath.lastIndexOf("/") + 1, oldPath.length());
 
-		if ((oldResource instanceof Folder)
-				&& destinationFolderPath.contains(oldPath)) {
-			throw new UserInvalidInputException(
-					"Can not move asset(s) to folder " + destinationFolderPath);
-		} else {
-			String destinationPath = destinationFolderPath + "/"
-					+ oldResourceName;
-			contentJcrDao.moveResource(oldPath, destinationPath);
-			rawContentService.movePath(oldPath, destinationPath);
-		}
-	}
+        Resource oldResource = contentJcrDao.getResource(oldPath);
 
-	@Override
-	public Folder getParentFolder(String path) {
-		try {
-			String parentPath = path.substring(0, path.lastIndexOf("/"));
-			Resource res = contentJcrDao.getResource(parentPath);
-			if (res instanceof Folder)
-				return (Folder) res;
-			return null;
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
-	}
+        if ((oldResource instanceof Folder)
+                && destinationFolderPath.contains(oldPath)) {
+            throw new UserInvalidInputException(
+                    "Can not move asset(s) to folder " + destinationFolderPath);
+        } else {
+            String destinationPath = destinationFolderPath + "/"
+                    + oldResourceName;
+            contentJcrDao.moveResource(oldPath, destinationPath);
+            rawContentService.movePath(oldPath, destinationPath);
+        }
+    }
 
-	@Override
-	public Resource getResource(String path) {
-		return contentJcrDao.getResource(path);
-	}
+    @Override
+    public Folder getParentFolder(String path) {
+        try {
+            String parentPath = path.substring(0, path.lastIndexOf("/"));
+            Resource res = contentJcrDao.getResource(parentPath);
+            if (res instanceof Folder)
+                return (Folder) res;
+            return null;
+        } catch (Exception e) {
+            throw new MyCollabException(e);
+        }
+    }
+
+    @Override
+    public Resource getResource(String path) {
+        return contentJcrDao.getResource(path);
+    }
 }

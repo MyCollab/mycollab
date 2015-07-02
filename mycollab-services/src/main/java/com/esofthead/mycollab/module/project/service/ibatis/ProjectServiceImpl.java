@@ -25,14 +25,12 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -42,13 +40,13 @@ import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.*;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.module.project.esb.DeleteProjectCommand;
-import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
+import com.esofthead.mycollab.module.project.esb.DeleteProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +63,7 @@ import java.util.List;
 @Service
 @Transactional
 @Traceable(nameField = "name", extraFieldName = "id")
-public class ProjectServiceImpl extends DefaultService<Integer, Project, ProjectSearchCriteria>
-        implements ProjectService {
+public class ProjectServiceImpl extends DefaultService<Integer, Project, ProjectSearchCriteria> implements ProjectService {
 
     static {
         ClassInfoMap.put(ProjectServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.PROJECT));
@@ -91,6 +88,9 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
 
     @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -258,12 +258,8 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         // associate records
         try {
             Project project = findByPrimaryKey(projectId, accountId);
-
-            DeleteProjectCommand projectDeleteListener = CamelProxyBuilderUtil
-                    .build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT(),
-                            DeleteProjectCommand.class);
-            projectDeleteListener.projectRemoved(project.getSaccountid(),
-                    projectId);
+            DeleteProjectEvent event = new DeleteProjectEvent(project.getSaccountid(), projectId);
+            asyncEventBus.post(event);
         } catch (Exception e) {
             LOG.error("Error while notify user delete", e);
         }

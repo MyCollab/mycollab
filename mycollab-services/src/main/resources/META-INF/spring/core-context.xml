@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:reflections="http://org.reflections"
@@ -8,9 +9,20 @@
     <reflections:component-scan base-package="com.esofthead.mycollab"
                                 collect="false" save="false" parallel="false">
 
-        <!-- sorry for that, a little hackery until next version -->
+
         <reflections:exclude-filter type="regex"
                                     expression="org.springframework.(?!stereotype).*" />
 
     </reflections:component-scan>
 </beans>
+
+<!--
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.esofthead.mycollab"/>
+</beans>
+-->

@@ -14,13 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.esb;
+package com.esofthead.mycollab.module.billing.esb
+
+import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-public interface UserRemovedCommand {
-	void userRemoved(String username, Integer accountid);
+class DeleteAccountEvent(val accountId: Integer, val feedback: CustomerFeedbackWithBLOBs) {
+    
 }

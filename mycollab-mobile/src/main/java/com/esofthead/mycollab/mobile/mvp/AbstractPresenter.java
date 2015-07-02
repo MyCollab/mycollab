@@ -38,12 +38,9 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractPresenter<V extends PageView> implements
-		IPresenter<V> {
-
+public abstract class AbstractPresenter<V extends PageView> implements IPresenter<V> {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractPresenter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractPresenter.class);
 
 	protected Class<V> viewClass;
 	protected V view;
@@ -80,8 +77,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 				StringBuilder str = new StringBuilder();
 				str.append("----").append("\n");
 				str.append("Add ").append(state).append("\n");
-				str.append("to history with container ").append(container)
-						.append("\n");
+				str.append("to history with container ").append(container).append("\n");
 				str.append("----");
 				LOG.debug(str.toString());
 			}
@@ -98,8 +94,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 
 	}
 
-	protected abstract void onGo(ComponentContainer container,
-			ScreenData<?> data);
+	protected abstract void onGo(ComponentContainer container, ScreenData<?> data);
 
 	private boolean checkPermissionAccessIfAny() {
 		ViewPermission viewPermission = this.getClass().getAnnotation(
@@ -119,8 +114,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 					if (value == null) {
 						return false;
 					} else {
-						return PermissionChecker.isImplied(value,
-								impliedPermissionVal);
+						return PermissionChecker.isImplied(value, impliedPermissionVal);
 					}
 				}
 			}
@@ -130,9 +124,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 	}
 
 	@Override
-	public void handleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
-
+	public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
 		ScreenData pageAction = pageActionChain.pop();
 		go(container, pageAction);
 
@@ -147,8 +139,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 
 	}
 
-	protected void onHandleChain(ComponentContainer container,
-			PageActionChain pageActionChain) {
+	protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
 		throw new UnsupportedOperationException("You need override this method");
 	}
 }

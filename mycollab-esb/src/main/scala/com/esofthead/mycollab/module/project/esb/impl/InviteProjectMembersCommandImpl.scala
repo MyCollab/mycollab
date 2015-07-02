@@ -20,41 +20,45 @@ import java.util.Date
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.i18n.LocalizationHelper
+import com.esofthead.mycollab.module.GenericCommandHandler
 import com.esofthead.mycollab.module.mail.IContentGenerator
 import com.esofthead.mycollab.module.mail.service.MailRelayService
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
 import com.esofthead.mycollab.module.project.domain.{SimpleProject, SimpleProjectMember}
-import com.esofthead.mycollab.module.project.esb.InviteProjectMembersCommand
+import com.esofthead.mycollab.module.project.esb.InviteProjectMembersEvent
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum
-import com.esofthead.mycollab.module.project.service.{ProjectMemberService, ProjectService}
+import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.module.user.domain.SimpleUser
 import com.esofthead.mycollab.module.user.service.UserService
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-@Component class InviteProjectMembersCommandImpl extends InviteProjectMembersCommand {
-    @Autowired private var userService: UserService = null
-    @Autowired private var mailRelayService: MailRelayService = null
-    @Autowired private var projectService: ProjectService = null
-    @Autowired private var projectMemberService: ProjectMemberService = null
-    @Autowired private var contentGenerator: IContentGenerator = null
+@Component class InviteProjectMembersCommandImpl extends GenericCommandHandler {
+    @Autowired private val userService: UserService = null
+    @Autowired private val mailRelayService: MailRelayService = null
+    @Autowired private val projectService: ProjectService = null
+    @Autowired private val contentGenerator: IContentGenerator = null
 
-    def inviteUsers(emails: Array[String], projectId: Int, projectRoleId: Int, inviterUserName: String, inviteMessage: String, sAccountId: Int) {
-        val project: SimpleProject = projectService.findById(projectId, sAccountId)
-        val user: SimpleUser = userService.findUserByUserNameInAccount(inviterUserName, sAccountId)
+    @AllowConcurrentEvents
+    @Subscribe
+    def inviteUsers(event: InviteProjectMembersEvent): Unit = {
+        val project: SimpleProject = projectService.findById(event.projectId, event.sAccountId)
+        val user: SimpleUser = userService.findUserByUserNameInAccount(event.inviteUser, event.sAccountId)
         val member: SimpleProjectMember = new SimpleProjectMember
         member.setProjectName(project.getName)
         contentGenerator.putVariable("member", member)
         contentGenerator.putVariable("inviteUser", user.getDisplayName)
-        contentGenerator.putVariable("inviteMessage", inviteMessage)
-        val subdomain: String = projectService.getSubdomainOfProject(projectId)
+        contentGenerator.putVariable("inviteMessage", event.inviteMessage)
+        val subDomain: String = projectService.getSubdomainOfProject(event.projectId)
         val date: Date = new Date
-        for (inviteeEmail <- emails) {
-            contentGenerator.putVariable("urlAccept", SiteConfiguration.getSiteUrl(subdomain) + "project/member/invitation/confirm_invite/" +
-                ProjectLinkGenerator.generateAcceptInvitationParams(inviteeEmail, sAccountId, projectId, projectRoleId, user.getEmail,
-                    inviterUserName, date))
-            contentGenerator.putVariable("urlDeny", SiteConfiguration.getSiteUrl(subdomain) + "project/member/invitation/deny_invite/" +
-                ProjectLinkGenerator.generateDenyInvitationParams(inviteeEmail, sAccountId, projectId, user.getEmail, inviterUserName))
+        for (inviteeEmail <- event.emails) {
+            contentGenerator.putVariable("urlAccept", SiteConfiguration.getSiteUrl(subDomain) + "project/member/invitation/confirm_invite/" +
+                ProjectLinkGenerator.generateAcceptInvitationParams(inviteeEmail, event.sAccountId, event.projectId,
+                    event.projectRoleId, user.getEmail, event.inviteUser, date))
+            contentGenerator.putVariable("urlDeny", SiteConfiguration.getSiteUrl(subDomain) + "project/member/invitation/deny_invite/" +
+                ProjectLinkGenerator.generateDenyInvitationParams(inviteeEmail, event.sAccountId, event.projectId, user.getEmail,
+                    event.inviteUser))
             mailRelayService.saveRelayEmail(Array[String](inviteeEmail), Array[String](inviteeEmail),
                 contentGenerator.parseString(LocalizationHelper.getMessage(SiteConfiguration.getDefaultLocale,
                     ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT, user.getDisplayName, member.getProjectName)),

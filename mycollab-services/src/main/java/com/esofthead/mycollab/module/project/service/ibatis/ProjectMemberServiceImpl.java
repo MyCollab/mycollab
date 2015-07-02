@@ -27,7 +27,6 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -36,9 +35,8 @@ import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
-import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberCommand;
-import com.esofthead.mycollab.module.project.esb.InviteProjectMembersCommand;
-import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
+import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberEvent;
+import com.esofthead.mycollab.module.project.esb.InviteProjectMembersEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.UserExistedException;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
@@ -48,6 +46,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +67,10 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     private static final Logger LOG = LoggerFactory.getLogger(ProjectMemberServiceImpl.class);
 
     @Autowired
-    protected ProjectMemberMapper projectMemberMapper;
+    private ProjectMemberMapper projectMemberMapper;
 
     @Autowired
-    protected ProjectMemberMapperExt projectMemberMapperExt;
+    private ProjectMemberMapperExt projectMemberMapperExt;
 
     @Autowired
     private UserMapper userMapper;
@@ -81,6 +80,10 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
+
 
     @Override
     public ICrudGenericDAO getCrudMapper() {
@@ -116,11 +119,9 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
         if (projectMember != null) {
             try {
                 Project project = projectMapper.selectByPrimaryKey(projectMember.getProjectid());
-                DeleteProjectMemberCommand projectMemberDeleteListener = CamelProxyBuilderUtil
-                        .build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT(),
-                                DeleteProjectMemberCommand.class);
-                projectMemberDeleteListener.projectMemberRemoved(username,
+                DeleteProjectMemberEvent event = new DeleteProjectMemberEvent(username,
                         primaryKey, projectMember.getProjectid(), project.getSaccountid());
+                asyncEventBus.post(event);
             } catch (Exception e) {
                 LOG.error("Error while notify project member delete", e);
             }
@@ -138,14 +139,11 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public void inviteProjectMembers(String[] email, Integer projectId,
-                                     Integer projectRoleId, String inviteUser, String inviteMessage,
-                                     Integer sAccountId) {
-        InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
-                ProjectEndPoints.PROJECT_SEND_INVITATION_USER(),
-                InviteProjectMembersCommand.class);
-        listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
+    public void inviteProjectMembers(String[] email, Integer projectId, Integer projectRoleId, String inviteUser,
+                                     String inviteMessage, Integer sAccountId) {
+        InviteProjectMembersEvent event = new InviteProjectMembersEvent(email, projectId, projectRoleId, inviteUser,
                 inviteMessage, sAccountId);
+        asyncEventBus.post(event);
     }
 
     @Override

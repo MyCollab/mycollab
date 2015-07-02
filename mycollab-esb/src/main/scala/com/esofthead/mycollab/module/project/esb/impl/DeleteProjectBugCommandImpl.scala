@@ -18,37 +18,39 @@ package com.esofthead.mycollab.module.project.esb.impl
 
 import com.esofthead.mycollab.common.dao.CommentMapper
 import com.esofthead.mycollab.common.domain.CommentExample
+import com.esofthead.mycollab.module.GenericCommandHandler
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
 import com.esofthead.mycollab.module.project.ProjectTypeConstants
-import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.esofthead.mycollab.module.project.esb.DeleteProjectBugEvent
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
+import org.slf4j.{Logger, LoggerFactory}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-@Component object DeleteProjectBugCommandImpl {
+object DeleteProjectBugCommandImpl {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteProjectBugCommandImpl])
 }
 
-@Component class DeleteProjectBugCommandImpl extends DeleteProjectBugCommand {
+@Component class DeleteProjectBugCommandImpl extends GenericCommandHandler {
     @Autowired private val resourceService: ResourceService = null
     @Autowired private val commentMapper: CommentMapper = null
 
-    def bugRemoved(username: String, accountId: Int, projectId: Int, bugId: Int) {
-        DeleteProjectBugCommandImpl.LOG.debug("Remove bug {} of project {} by user {}", Array(bugId, projectId,
-            username))
-        removeRelatedFiles(accountId, projectId, bugId)
-        removeRelatedComments(bugId)
+    @AllowConcurrentEvents
+    @Subscribe
+    def bugRemoved(event: DeleteProjectBugEvent): Unit = {
+        removeRelatedFiles(event.accountId, event.projectId, event.bugId)
+        removeRelatedComments(event.bugId)
     }
 
-    private def removeRelatedFiles(accountId: Int, projectId: Int, bugId: Int) {
-        DeleteProjectBugCommandImpl.LOG.debug("Delete files of bug {} in project {}", bugId, projectId)
-        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId, ProjectTypeConstants.BUG, "" + bugId)
+    private def removeRelatedFiles(accountId: Integer, projectId: Integer, bugId: Integer) {
+        DeleteProjectBugCommandImpl.LOG.debug("Delete files of bug {} in project {}", Array(bugId, projectId))
+        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+            ProjectTypeConstants.BUG, "" + bugId)
         resourceService.removeResource(attachmentPath, "", accountId)
     }
 
-    private def removeRelatedComments(bugId: Int) {
+    private def removeRelatedComments(bugId: Integer) {
         DeleteProjectBugCommandImpl.LOG.debug("Delete related comments of bug {}", bugId)
         val ex: CommentExample = new CommentExample
         ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG).andExtratypeidEqualTo(bugId)

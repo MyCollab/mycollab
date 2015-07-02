@@ -14,18 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.esb;
-
-import org.apache.camel.spring.javaconfig.CamelConfiguration;
-import org.springframework.context.annotation.Configuration;
+package com.esofthead.mycollab.module.project.esb
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.5.3
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-@Configuration("camelConfig")
-public class CamelSpringConfig extends CamelConfiguration {
-
+class DeleteProjectRiskEvent(username: String, accountId: Integer, projectId: Integer, bugId: Integer) {
+    
 }

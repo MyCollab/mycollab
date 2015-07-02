@@ -22,9 +22,6 @@ import org.apache.velocity.tools.ToolManager;
 import org.apache.velocity.tools.config.EasyFactoryConfiguration;
 import org.apache.velocity.tools.generic.DateTool;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Template wrapper of velocity context
  *

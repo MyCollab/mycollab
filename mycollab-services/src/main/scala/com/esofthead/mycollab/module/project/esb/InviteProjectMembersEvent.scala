@@ -16,15 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
-import com.esofthead.mycollab.cache.IgnoreCacheClass
-import com.esofthead.mycollab.core.persistence.service.IService
-
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-@IgnoreCacheClass trait DeleteProjectMemberCommand extends IService {
-    def projectMemberRemoved(username: String, projectMemberId: Integer, projectId: Integer, accountId: Integer)
+class InviteProjectMembersEvent(val emails: Array[String], val projectId: Integer, val projectRoleId: Integer,
+                                val inviteUser: String, val inviteMessage: String, val sAccountId: Integer) {
+    
 }

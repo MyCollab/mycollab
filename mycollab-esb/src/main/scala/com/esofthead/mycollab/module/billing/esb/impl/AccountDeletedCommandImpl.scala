@@ -16,14 +16,13 @@
  */
 package com.esofthead.mycollab.module.billing.esb.impl
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs
-import com.esofthead.mycollab.module.billing.esb.AccountDeletedCommand
+import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.billing.esb.DeleteAccountEvent
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.page.service.PageService
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 /**
  *
@@ -31,22 +30,15 @@ import com.esofthead.mycollab.module.page.service.PageService
  * @since 1.0
  *
  */
-@Component object AccountDeletedCommandImpl {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[AccountDeletedCommandImpl])
-}
-
-@Component class AccountDeletedCommandImpl extends AccountDeletedCommand {
+@Component class AccountDeletedCommandImpl extends GenericCommandHandler {
     @Autowired private val resourceService: ResourceService = null
     @Autowired private val pageService: PageService = null
 
-    def accountDeleted(accountId: Int, feedback: CustomerFeedbackWithBLOBs) {
-        deleteAccountFiles(accountId)
-    }
-
-    private def deleteAccountFiles(accountId: Int) {
-        AccountDeletedCommandImpl.LOG.debug("Delete account files of account {}", accountId)
-        val rootPath: String = accountId + ""
-        resourceService.removeResource(rootPath, "", accountId)
+    @AllowConcurrentEvents
+    @Subscribe
+    def deleteAccount(event: DeleteAccountEvent): Unit = {
+        val rootPath: String = event.accountId + ""
+        resourceService.removeResource(rootPath, "", event.accountId)
         pageService.removeResource(rootPath)
     }
 }

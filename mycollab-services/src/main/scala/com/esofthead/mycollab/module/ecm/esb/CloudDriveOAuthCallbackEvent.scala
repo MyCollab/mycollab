@@ -14,24 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.spring;
+package com.esofthead.mycollab.module.ecm.esb
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.vertx.java.core.Vertx;
-import org.vertx.java.core.VertxFactory;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent
 
 /**
+ *
  * @author MyCollab Ltd.
- * @since 5.0.6
+ * @since 1.0
+ *
  */
-@Configuration
-@Profile("production")
-public class VertxConfig {
-    @Bean
-    public Vertx vertX() {
-        Vertx vertX = VertxFactory.newVertx();
-        return vertX;
-    }
+object CloudDriveOAuthCallbackEvent {
+
+    @SerialVersionUID(1L)
+    class ReceiveCloudDriveInfo(source: AnyRef, data: AnyRef) extends ApplicationEvent(source, data) {}
+
 }

@@ -28,7 +28,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
@@ -38,10 +37,10 @@ import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.dao.UserMapperExt;
 import com.esofthead.mycollab.module.user.domain.*;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
-import com.esofthead.mycollab.module.user.esb.UserEndpoints;
-import com.esofthead.mycollab.module.user.esb.UserRemovedCommand;
+import com.esofthead.mycollab.module.user.esb.DeleteUserEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
@@ -60,8 +59,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCriteria> implements
-        UserService {
+public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCriteria> implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceDBImpl.class);
 
     @Autowired
@@ -81,6 +79,9 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
 
     @Autowired
     private BillingPlanCheckerService billingPlanCheckerService;
+
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
@@ -103,9 +104,9 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
                     .andAccountidEqualTo(sAccountId).andRegisterstatusIn(Arrays.asList(
-                            RegisterStatusConstants.ACTIVE,
-                            RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-                            RegisterStatusConstants.VERIFICATING));
+                    RegisterStatusConstants.ACTIVE,
+                    RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
+                    RegisterStatusConstants.VERIFICATING));
         } else {
             userAccountEx.createCriteria().andUsernameEqualTo(record.getEmail())
                     .andRegisterstatusIn(Arrays.asList(
@@ -343,9 +344,8 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
         userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
 
         // notify users are "deleted"
-        UserRemovedCommand userRemovedCommand = CamelProxyBuilderUtil.build(
-                UserEndpoints.USER_REMOVE_ENDPOINT, UserRemovedCommand.class);
-        userRemovedCommand.userRemoved(username, accountId);
+        DeleteUserEvent event = new DeleteUserEvent(username, accountId);
+        asyncEventBus.post(event);
     }
 
     @Override

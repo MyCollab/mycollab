@@ -17,11 +17,9 @@
 package com.esofthead.mycollab.module.project.esb
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-trait InviteProjectMembersCommand {
-    def inviteUsers(email: Array[String], projectId: Int, projectRoleId: Int, inviteUser: String, inviteMessage: String, sAccountId: Int)
+class DeleteProjectProblemEvent(username: String, accountId: Integer, projectId: Integer, bugId: Integer) {
+    
 }

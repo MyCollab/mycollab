@@ -17,18 +17,18 @@
 package com.esofthead.mycollab.module.user.esb.impl
 
 import java.util.Arrays
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+
 import com.esofthead.mycollab.cache.CacheUtils
+import com.esofthead.mycollab.module.GenericCommandHandler
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper
-import com.esofthead.mycollab.module.project.domain.ProjectMember
-import com.esofthead.mycollab.module.project.domain.ProjectMemberExample
+import com.esofthead.mycollab.module.project.domain.{ProjectMember, ProjectMemberExample}
 import com.esofthead.mycollab.module.project.service.ProjectMemberService
-import com.esofthead.mycollab.module.user.esb.UserRemovedCommand
-import com.esofthead.mycollab.module.user.service.UserService
+import com.esofthead.mycollab.module.user.esb.DeleteUserEvent
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
+import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 /**
  *
@@ -36,23 +36,23 @@ import com.esofthead.mycollab.module.user.service.UserService
  * @since 1.0
  *
  */
-@Component object UserRemovedCommandImpl {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[UserRemovedCommandImpl])
+object DeleteUserHandler {
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteUserHandler])
 }
 
-@Component class UserRemovedCommandImpl extends UserRemovedCommand {
-    @Autowired private val userService: UserService = null
+@Component class DeleteUserHandler extends GenericCommandHandler {
     @Autowired private val projectMemberMapper: ProjectMemberMapper = null
-    @Autowired private val projectMemberService: ProjectMemberService = null
-
-    def userRemoved(username: String, accountid: Integer) {
-        UserRemovedCommandImpl.LOG.debug("Remove user {} with account id {}", Array(username, accountid))
+    
+    @AllowConcurrentEvents
+    @Subscribe
+    def execute(event: DeleteUserEvent): Unit = {
+        DeleteUserHandler.LOG.debug("Remove user {} with account id {}", Array(event.username, event.accountid))
         val ex: ProjectMemberExample = new ProjectMemberExample
         ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
-            RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(accountid).andUsernameEqualTo(username)
+            RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)
         val projectMember: ProjectMember = new ProjectMember
         projectMember.setStatus(RegisterStatusConstants.DELETE)
         projectMemberMapper.updateByExampleSelective(projectMember, ex)
-        CacheUtils.cleanCaches(accountid, classOf[ProjectMemberService])
+        CacheUtils.cleanCaches(event.accountid, classOf[ProjectMemberService])
     }
 }

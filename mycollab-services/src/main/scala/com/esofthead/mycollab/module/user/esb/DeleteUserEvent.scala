@@ -14,19 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.esb
+package com.esofthead.mycollab.module.user.esb
 
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-trait DeleteProjectBugCommand {
-    /**
-     *
-     * @param username
-     * @param accountId
-     * @param projectId
-     * @param bugId
-     */
-    def bugRemoved(username: String, accountId: Int, projectId: Int, bugId: Int): Unit;
+class DeleteUserEvent(val username: String, val accountid: Integer) {
+    
 }

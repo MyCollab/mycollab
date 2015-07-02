@@ -17,18 +17,9 @@
 package com.esofthead.mycollab.module.project.esb
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-trait DeleteProjectVersionCommand {
-    /**
-     *
-     * @param username
-     * @param accountId
-     * @param projectId
-     * @param bugId
-     */
-    def versionRemoved(username: String, accountId: Int, projectId: Int, bugId: Int)
+class DeleteProjectEvent(val accountId: Integer, val projectId: Integer) {
+    
 }

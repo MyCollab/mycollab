@@ -18,37 +18,43 @@ package com.esofthead.mycollab.module.project.esb.impl
 
 import com.esofthead.mycollab.common.dao.CommentMapper
 import com.esofthead.mycollab.common.domain.CommentExample
+import com.esofthead.mycollab.module.GenericCommandHandler
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
 import com.esofthead.mycollab.module.project.ProjectTypeConstants
-import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskCommand
-import com.esofthead.mycollab.spring.ApplicationContextUtil
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent
+import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
+import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-@Component object DeleteProjectTaskCommandImpl {
+object DeleteProjectTaskCommandImpl {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteProjectTaskCommandImpl])
 }
 
-@Component class DeleteProjectTaskCommandImpl extends DeleteProjectTaskCommand {
-    def taskRemoved(username: String, accountId: Int, projectId: Int, taskId: Int) {
-        DeleteProjectTaskCommandImpl.LOG.debug("Remove task id {} of project {} by user {}", Array(taskId, projectId,
-            username))
-        removeRelatedFiles(accountId, projectId, taskId)
-        removeRelatedComments(taskId)
+@Component class DeleteProjectTaskCommandImpl extends GenericCommandHandler {
+    @Autowired private val resourceService: ResourceService = null
+
+    @Autowired private val commentMapper: CommentMapper = null
+
+    @AllowConcurrentEvents
+    @Subscribe
+    def removedTask(event: DeleteProjectTaskEvent): Unit = {
+        DeleteProjectTaskCommandImpl.LOG.debug("Remove task id {} of project {} by user {}",
+            Array(event.taskId, event.projectId, event.username))
+        removeRelatedFiles(event.accountId, event.projectId, event.taskId)
+        removeRelatedComments(event.taskId)
     }
 
-    private def removeRelatedFiles(accountId: Int, projectId: Int, taskId: Int) {
-        DeleteProjectTaskCommandImpl.LOG.debug("Delete files of task id {} in project {}", taskId, projectId)
-        val resourceService: ResourceService = ApplicationContextUtil.getSpringBean(classOf[ResourceService])
-        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId, ProjectTypeConstants.TASK, "" + taskId)
+    private def removeRelatedFiles(accountId: Integer, projectId: Integer, taskId: Integer) {
+        DeleteProjectTaskCommandImpl.LOG.debug("Delete files of task id {} in project {}", Array(taskId, projectId))
+        val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
+            ProjectTypeConstants.TASK, "" + taskId)
         resourceService.removeResource(attachmentPath, "", accountId)
     }
 
-    private def removeRelatedComments(taskId: Int) {
+    private def removeRelatedComments(taskId: Integer) {
         DeleteProjectTaskCommandImpl.LOG.debug("Delete related comments of task id {}", taskId)
-        val commentMapper: CommentMapper = ApplicationContextUtil.getSpringBean(classOf[CommentMapper])
         val ex: CommentExample = new CommentExample
         ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.TASK).andExtratypeidEqualTo(taskId)
         commentMapper.deleteByExample(ex)

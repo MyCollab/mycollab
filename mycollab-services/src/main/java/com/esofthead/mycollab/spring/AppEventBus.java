@@ -14,21 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.esb
+package com.esofthead.mycollab.spring;
+
+import com.google.common.eventbus.AsyncEventBus;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.Executors;
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-trait DeleteProjectProblemCommand {
-    /**
-     *
-     * @param username
-     * @param accountId
-     * @param projectId
-     * @param bugId
-     */
-    def problemRemoved(username: String, accountId: Int, projectId: Int, bugId: Int)
+@Configuration
+public class AppEventBus {
+    @Bean
+    public AsyncEventBus asyncEventBus() {
+        AsyncEventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
+        return eventBus;
+    }
 }
