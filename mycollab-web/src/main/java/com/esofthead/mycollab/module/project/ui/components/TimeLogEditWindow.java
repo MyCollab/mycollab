@@ -78,8 +78,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         content = new MVerticalLayout();
         this.setContent(content);
 
-        this.itemTimeLoggingService = ApplicationContextUtil
-                .getSpringBean(ItemTimeLoggingService.class);
+        this.itemTimeLoggingService = ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class);
 
         this.initUI();
         this.loadTimeValue();
@@ -94,8 +93,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         constructRemainTimeEntryPanel();
 
         tableItem = new DefaultPagedBeanTable<>(
-                ApplicationContextUtil
-                        .getSpringBean(ItemTimeLoggingService.class),
+                ApplicationContextUtil.getSpringBean(ItemTimeLoggingService.class),
                 SimpleItemTimeLogging.class, Arrays.asList(
                 TimeTableFieldDef.logUser,
                 TimeTableFieldDef.logForDate,
@@ -149,8 +147,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
             @Override
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
-                SimpleItemTimeLogging monitorItem = tableItem
-                        .getBeanByIndex(itemId);
+                SimpleItemTimeLogging monitorItem = tableItem.getBeanByIndex(itemId);
                 FontIconLabel icon = (monitorItem.getIsbillable()) ? new FontIconLabel(FontAwesome.CHECK) : new FontIconLabel(FontAwesome.TIMES);
                 icon.setStyleName(UIConstants.BUTTON_ICON_ONLY);
                 return icon;
@@ -163,29 +160,21 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
             @Override
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
-                final SimpleItemTimeLogging itemTimeLogging = tableItem
-                        .getBeanByIndex(itemId);
-                final Button deleteBtn = new Button(null,
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                final SimpleItemTimeLogging itemTimeLogging = tableItem.getBeanByIndex(itemId);
+                Button deleteBtn = new Button(null, new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(final ClickEvent event) {
-                                TimeLogEditWindow.this.itemTimeLoggingService
-                                        .removeWithSession(
-                                                itemTimeLogging.getId(),
-                                                AppContext.getUsername(),
-                                                AppContext.getAccountId());
-                                TimeLogEditWindow.this.loadTimeValue();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        itemTimeLoggingService.removeWithSession(itemTimeLogging, AppContext.getUsername(), AppContext.getAccountId());
+                        TimeLogEditWindow.this.loadTimeValue();
+                    }
+                });
                 deleteBtn.setIcon(FontAwesome.TRASH_O);
                 deleteBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                 itemTimeLogging.setExtraData(deleteBtn);
 
-                deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()
-                        || AppContext.getUsername().equals(
-                        itemTimeLogging.getLoguser()));
+                deleteBtn.setEnabled(CurrentProjectVariables.isAdmin() || AppContext.getUsername().equals(itemTimeLogging.getLoguser()));
                 return deleteBtn;
             }
         });
@@ -204,8 +193,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         totalLayout.addStyleName("boxTotal");
         totalLayout.setWidth("100%");
         spentTimePanel.addComponent(totalLayout);
-        Label lbTimeInstructTotal = new Label(
-                AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
+        Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
         totalLayout.addComponent(lbTimeInstructTotal);
         totalSpentTimeLbl = new Label("_");
         totalSpentTimeLbl.addStyleName("numberTotal");
@@ -265,9 +253,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         updateLayout.setWidth("100%");
         remainTimePanel.addComponent(updateLayout);
 
-        final Label lbTimeInstructTotal = new Label(
-                AppContext
-                        .getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
+        final Label lbTimeInstructTotal = new Label(AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
         updateLayout.addComponent(lbTimeInstructTotal);
         remainTimeLbl = new Label("_");
         remainTimeLbl.addStyleName("numberTotal");
@@ -283,34 +269,28 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         addLayout.setComponentAlignment(remainTimeInputField,
                 Alignment.MIDDLE_LEFT);
 
-        btnAdd = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        btnAdd = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        try {
-                            double d = 0;
-                            try {
-                                d = Double.parseDouble(remainTimeInputField
-                                        .getValue());
-                            } catch (Exception e) {
-                                NotificationUtil
-                                        .showWarningNotification("You must enter a positive number value");
-                            }
-                            if (d >= 0) {
-                                updateTimeRemain();
-                                remainTimeLbl.setValue(remainTimeInputField
-                                        .getValue());
-                                remainTimeInputField.setValue("0.0");
-                            }
-                        } catch (final Exception e) {
-                            remainTimeInputField.setValue("0.0");
-                        }
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                try {
+                    double d = 0;
+                    try {
+                        d = Double.parseDouble(remainTimeInputField.getValue());
+                    } catch (Exception e) {
+                        NotificationUtil.showWarningNotification("You must enter a positive number value");
                     }
-
-                });
+                    if (d >= 0) {
+                        updateTimeRemain();
+                        remainTimeLbl.setValue(remainTimeInputField.getValue());
+                        remainTimeInputField.setValue("0.0");
+                    }
+                } catch (final Exception e) {
+                    remainTimeInputField.setValue("0.0");
+                }
+            }
+        });
 
         btnAdd.setEnabled(isEnableAdd());
         btnAdd.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -380,12 +360,11 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
         private static final long serialVersionUID = 1L;
 
         @Override
-        protected void setValue(final String newValue,
-                                final boolean repaintIsNotNeeded) {
+        protected void setValue(String newValue, boolean repaintIsNotNeeded) {
             try {
-                final String d = Double.parseDouble(newValue) + "";
+                String d = Double.parseDouble(newValue) + "";
                 super.setValue(d, repaintIsNotNeeded);
-            } catch (final Exception e) {
+            } catch (Exception e) {
                 super.setValue("0.0", repaintIsNotNeeded);
             }
         }

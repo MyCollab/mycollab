@@ -27,6 +27,7 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
@@ -34,8 +35,10 @@ import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.esb.DeleteProjectTaskEvent;
 import com.esofthead.mycollab.module.project.service.*;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,8 +59,7 @@ import java.util.concurrent.locks.Lock;
 @Auditable()
 @Watchable(userFieldName = "assignuser", extraTypeId = "projectid")
 @NotifyAgent(ProjectTaskRelayEmailNotificationAction.class)
-public class ProjectTaskServiceImpl extends
-        DefaultService<Integer, Task, TaskSearchCriteria> implements
+public class ProjectTaskServiceImpl extends DefaultService<Integer, Task, TaskSearchCriteria> implements
         ProjectTaskService {
 
     static {
@@ -68,6 +70,8 @@ public class ProjectTaskServiceImpl extends
     private TaskMapper taskMapper;
     @Autowired
     private TaskMapperExt taskMapperExt;
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, Task> getCrudMapper() {
@@ -87,15 +91,13 @@ public class ProjectTaskServiceImpl extends
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     @Override
     public Integer saveWithSession(Task record, String username) {
-        if ((record.getPercentagecomplete() != null)
-                && (record.getPercentagecomplete() == 100)) {
+        if ((record.getPercentagecomplete() != null) && (record.getPercentagecomplete() == 100)) {
             record.setStatus(StatusI18nEnum.Closed.name());
         } else {
             record.setStatus(StatusI18nEnum.Open.name());
         }
         record.setLogby(username);
-        Lock lock = DistributionLockUtil.getLock("task-"
-                + record.getSaccountid());
+        Lock lock = DistributionLockUtil.getLock("task-" + record.getSaccountid());
 
         try {
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
@@ -104,8 +106,7 @@ public class ProjectTaskServiceImpl extends
 
                 CacheUtils.cleanCaches(record.getSaccountid(),
                         ProjectService.class, ProjectGenericTaskService.class,
-                        ProjectTaskListService.class,
-                        ProjectActivityStreamService.class,
+                        ProjectTaskListService.class, ProjectActivityStreamService.class,
                         ProjectMemberService.class, MilestoneService.class);
 
                 return super.saveWithSession(record, username);
@@ -127,8 +128,7 @@ public class ProjectTaskServiceImpl extends
     }
 
     private void beforeUpdate(Task record) {
-        if ((record.getPercentagecomplete() != null)
-                && (record.getPercentagecomplete() == 100)) {
+        if ((record.getPercentagecomplete() != null) && (record.getPercentagecomplete() == 100)) {
             record.setStatus(StatusI18nEnum.Closed.name());
         } else if (record.getStatus() == null) {
             record.setStatus(StatusI18nEnum.Open.name());
@@ -147,15 +147,13 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
-        Integer result = super.removeWithSession(primaryKey, username, accountId);
-        CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
-                ProjectService.class, ProjectGenericTaskService.class,
-                ProjectActivityStreamService.class, MilestoneService.class,
-                ItemTimeLoggingService.class);
-
-        return result;
+    public void massRemoveWithSession(List<Task> items, String username, Integer accountId) {
+        super.massRemoveWithSession(items, username, accountId);
+        CacheUtils.cleanCaches(accountId, ProjectTaskListService.class, ProjectService.class, ProjectGenericTaskService.class,
+                ProjectActivityStreamService.class, MilestoneService.class, ItemTimeLoggingService.class);
+        DeleteProjectTaskEvent event = new DeleteProjectTaskEvent(items.toArray(new Task[items.size()]),
+                username, accountId);
+        asyncEventBus.post(event);
     }
 
     @Override
@@ -169,8 +167,7 @@ public class ProjectTaskServiceImpl extends
     }
 
     @Override
-    public SimpleTask findByProjectAndTaskKey(Integer taskkey,
-                                              String projectShortName, Integer sAccountId) {
+    public SimpleTask findByProjectAndTaskKey(Integer taskkey, String projectShortName, Integer sAccountId) {
         return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
                 sAccountId);
     }

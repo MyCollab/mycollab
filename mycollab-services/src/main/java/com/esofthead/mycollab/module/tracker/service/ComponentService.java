@@ -24,8 +24,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 
 
-public interface ComponentService extends
-		IDefaultService<Integer, Component, ComponentSearchCriteria> {
+public interface ComponentService extends IDefaultService<Integer, Component, ComponentSearchCriteria> {
 
 	@Cacheable
 	SimpleComponent findById(Integer componentId, @CacheKey Integer sAccountId);

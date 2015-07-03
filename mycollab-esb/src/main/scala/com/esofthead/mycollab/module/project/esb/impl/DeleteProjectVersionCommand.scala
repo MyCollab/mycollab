@@ -22,38 +22,37 @@ import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.file.AttachmentUtils
 import com.esofthead.mycollab.module.project.ProjectTypeConstants
-import com.esofthead.mycollab.module.project.esb.DeleteProjectComponentEvent
+import com.esofthead.mycollab.module.project.esb.DeleteProjectVersionEvent
 import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
- * TODO: implement command
  *
  * @author MyCollab Ltd.
  * @since 1.0
  *
  */
-@Component class DeleteProjectComponentCommandImpl extends GenericCommand {
+@Component class DeleteProjectVersionCommand extends GenericCommand {
     @Autowired private val resourceService: ResourceService = null
-    @Autowired private val commentMapper: CommentMapper = null
+    @Autowired private val commentMapper:CommentMapper = null
 
     @AllowConcurrentEvents
     @Subscribe
-    def removedComponent(event: DeleteProjectComponentEvent): Unit = {
-        removeRelatedFiles(event.accountId, event.projectId, event.componentId)
-        removeRelatedComments(event.componentId)
+    def removedVersion(event: DeleteProjectVersionEvent): Unit = {
+        removeRelatedFiles(event.accountId, event.projectId, event.versionId)
+        removeRelatedComments(event.versionId)
     }
 
-    private def removeRelatedFiles(accountId: Integer, projectId: Integer, componentId: Integer) {
+    private def removeRelatedFiles(accountId: Integer, projectId: Integer, versionId: Integer) {
         val attachmentPath: String = AttachmentUtils.getProjectEntityAttachmentPath(accountId, projectId,
-            ProjectTypeConstants.BUG_COMPONENT, "" + componentId)
+            ProjectTypeConstants.BUG_VERSION, "" + versionId)
         resourceService.removeResource(attachmentPath, "", accountId)
     }
 
     private def removeRelatedComments(bugId: Integer) {
         val ex: CommentExample = new CommentExample
-        ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG_COMPONENT).andExtratypeidEqualTo(bugId)
+        ex.createCriteria.andTypeEqualTo(ProjectTypeConstants.BUG_VERSION).andExtratypeidEqualTo(bugId)
         commentMapper.deleteByExample(ex)
     }
 }

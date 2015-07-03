@@ -39,111 +39,87 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
-public class ProjectMemberReadPresenter extends
-		AbstractMobilePresenter<ProjectMemberReadView> {
+public class ProjectMemberReadPresenter extends AbstractMobilePresenter<ProjectMemberReadView> {
+    private static final long serialVersionUID = 1287812620895443711L;
 
-	private static final long serialVersionUID = 1287812620895443711L;
+    public ProjectMemberReadPresenter() {
+        super(ProjectMemberReadView.class);
+    }
 
-	public ProjectMemberReadPresenter() {
-		super(ProjectMemberReadView.class);
-	}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleProjectMember>() {
+            @Override
+            public void onEdit(SimpleProjectMember data) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, data));
+            }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleProjectMember>() {
-					@Override
-					public void onEdit(SimpleProjectMember data) {
-						EventBusFactory.getInstance().post(
-								new ProjectMemberEvent.GotoEdit(this, data));
-					}
+            @Override
+            public void onDelete(final SimpleProjectMember data) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onDelete(final SimpleProjectMember data) {
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ProjectMemberService projectMemberService = ApplicationContextUtil.
+                                            getSpringBean(ProjectMemberService.class);
+                                    projectMemberService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+        });
+    }
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											ProjectMemberService projectMemberService = ApplicationContextUtil
-													.getSpringBean(ProjectMemberService.class);
-											projectMemberService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory
-													.getInstance()
-													.post(new ProjectMemberEvent.GotoList(
-															this, null));
-										}
-									}
-								});
-					}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        boolean isCurrentUserAccess = false;
 
-				});
-	}
+        if (data.getParams() instanceof String) {
+            if (AppContext.getUsername().equals(data.getParams())) {
+                isCurrentUserAccess = true;
+            }
+        }
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.USERS) || isCurrentUserAccess) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		boolean isCurrentUserAccess = false;
+            ProjectMemberService prjMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+            SimpleProjectMember prjMember = null;
+            if (data.getParams() instanceof Integer) {
+                prjMember = prjMemberService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
-		if (data.getParams() instanceof String) {
-			if (AppContext.getUsername().equals(data.getParams())) {
-				isCurrentUserAccess = true;
-			}
-		}
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.USERS)
-				|| isCurrentUserAccess) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
+            } else if (data.getParams() instanceof String) {
+                String username = (String) data.getParams();
+                prjMember = prjMemberService.findMemberByUsername(username,
+                        CurrentProjectVariables.getProjectId(),
+                        AppContext.getAccountId());
+            }
+            if (prjMember != null) {
+                this.view.previewItem(prjMember);
+                super.onGo(container, data);
 
-			ProjectMemberService prjMemberService = ApplicationContextUtil
-					.getSpringBean(ProjectMemberService.class);
-			SimpleProjectMember prjMember = null;
-			if (data.getParams() instanceof Integer) {
-				prjMember = prjMemberService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-
-			} else if (data.getParams() instanceof String) {
-				String username = (String) data.getParams();
-				prjMember = prjMemberService.findMemberByUsername(username,
-						CurrentProjectVariables.getProjectId(),
-						AppContext.getAccountId());
-			}
-			if (prjMember != null) {
-				this.view.previewItem(prjMember);
-				super.onGo(container, data);
-
-				AppContext.addFragment(
-						"project/user/preview/"
-								+ UrlEncodeDecoder
-										.encode(CurrentProjectVariables
-												.getProjectId()
-												+ "/"
-												+ prjMember.getUsername()),
-						prjMember.getDisplayName());
-			} else {
-				NotificationUtil.showRecordNotExistNotification();
-				return;
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                AppContext.addFragment("project/user/preview/" + UrlEncodeDecoder.encode(CurrentProjectVariables
+                        .getProjectId() + "/" + prjMember.getUsername()), prjMember.getDisplayName());
+            } else {
+                NotificationUtil.showRecordNotExistNotification();
+                return;
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

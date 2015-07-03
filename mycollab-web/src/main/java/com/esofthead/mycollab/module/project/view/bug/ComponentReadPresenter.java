@@ -41,134 +41,104 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class ComponentReadPresenter extends
-		AbstractPresenter<ComponentReadView> {
+public class ComponentReadPresenter extends AbstractPresenter<ComponentReadView> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ComponentReadPresenter() {
-		super(ComponentReadView.class);
-	}
+    public ComponentReadPresenter() {
+        super(ComponentReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleComponent>() {
-					@Override
-					public void onEdit(SimpleComponent data) {
-						EventBusFactory.getInstance().post(
-								new BugComponentEvent.GotoEdit(this, data));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleComponent>() {
+            @Override
+            public void onEdit(SimpleComponent data) {
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoEdit(this, data));
+            }
 
-					@Override
-					public void onAdd(SimpleComponent data) {
-						EventBusFactory.getInstance().post(
-								new BugComponentEvent.GotoAdd(this, null));
-					}
+            @Override
+            public void onAdd(SimpleComponent data) {
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoAdd(this, null));
+            }
 
-					@Override
-					public void onDelete(SimpleComponent data) {
-						ComponentService riskService = ApplicationContextUtil
-								.getSpringBean(ComponentService.class);
-						riskService.removeWithSession(data.getId(),
-								AppContext.getUsername(),
-								AppContext.getAccountId());
-						EventBusFactory.getInstance().post(
-								new BugComponentEvent.GotoList(this, null));
-					}
+            @Override
+            public void onDelete(SimpleComponent data) {
+                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                componentService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void onClone(SimpleComponent data) {
-						Component cloneData = (Component) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance()
-								.post(new BugComponentEvent.GotoEdit(this,
-										cloneData));
-					}
+            @Override
+            public void onClone(SimpleComponent data) {
+                Component cloneData = (Component) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoEdit(this, cloneData));
+            }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new BugComponentEvent.GotoList(this, null));
-					}
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new BugComponentEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void gotoNext(SimpleComponent data) {
-						ComponentService componentService = ApplicationContextUtil
-								.getSpringBean(ComponentService.class);
-						ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-						criteria.setProjectid(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = componentService
-								.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance()
-									.post(new BugComponentEvent.GotoRead(this,
-											nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+            @Override
+            public void gotoNext(SimpleComponent data) {
+                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentSearchCriteria criteria = new ComponentSearchCriteria();
+                criteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = componentService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
 
-					}
+            }
 
-					@Override
-					public void gotoPrevious(SimpleComponent data) {
-						ComponentService componentService = ApplicationContextUtil
-								.getSpringBean(ComponentService.class);
-						ComponentSearchCriteria criteria = new ComponentSearchCriteria();
-						criteria.setProjectid(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = componentService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance()
-									.post(new BugComponentEvent.GotoRead(this,
-											nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+            @Override
+            public void gotoPrevious(SimpleComponent data) {
+                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                ComponentSearchCriteria criteria = new ComponentSearchCriteria();
+                criteria.setProjectid(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = componentService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new BugComponentEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
-			if (data.getParams() instanceof Integer) {
-				ComponentService componentService = ApplicationContextUtil
-						.getSpringBean(ComponentService.class);
-				SimpleComponent component = componentService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				if (component != null) {
-					ComponentContainer componentContainer = container;
-					componentContainer.removeAllComponents();
-					componentContainer.addComponent(view.getWidget());
-					view.previewItem(component);
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
+            if (data.getParams() instanceof Integer) {
+                ComponentService componentService = ApplicationContextUtil.getSpringBean(ComponentService.class);
+                SimpleComponent component = componentService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                if (component != null) {
+                    ComponentContainer componentContainer = container;
+                    componentContainer.removeAllComponents();
+                    componentContainer.addComponent(view.getWidget());
+                    view.previewItem(component);
 
-					ProjectBreadcrumb breadcrumb = ViewManager
-							.getCacheComponent(ProjectBreadcrumb.class);
-					breadcrumb.gotoComponentRead(component);
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Unhanddle this case yet");
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                    ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                    breadcrumb.gotoComponentRead(component);
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Unhanddle this case yet");
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

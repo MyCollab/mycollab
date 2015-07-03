@@ -172,9 +172,8 @@ public class AccountCaseListComp extends
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CaseService caseService = ApplicationContextUtil
-                                                .getSpringBean(CaseService.class);
-                                        caseService.removeWithSession(oneCase.getId(),
+                                        CaseService caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
+                                        caseService.removeWithSession(oneCase,
                                                 AppContext.getUsername(), AppContext.getAccountId());
                                         AccountCaseListComp.this.refresh();
                                     }

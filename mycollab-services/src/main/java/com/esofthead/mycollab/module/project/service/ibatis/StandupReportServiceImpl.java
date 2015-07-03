@@ -16,24 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
-import java.util.Date;
-import java.util.List;
-
-import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
-import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfo;
+import com.esofthead.mycollab.common.interceptor.aspect.ClassInfoMap;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -48,6 +38,14 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author MyCollab Ltd.
@@ -115,10 +113,9 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
+    public void massRemoveWithSession(List<StandupReportWithBLOBs> reports, String username, Integer accountId) {
+        super.massRemoveWithSession(reports, username, accountId);
         CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
-        return super.removeWithSession(primaryKey, username, accountId);
     }
 
     @Override
@@ -127,8 +124,7 @@ public class StandupReportServiceImpl extends DefaultService<Integer, StandupRep
     }
 
     @Override
-    public List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate,
-                                                    @CacheKey Integer sAccountId) {
+    public List<SimpleUser> findUsersNotDoReportYet(Integer projectId, Date onDate, @CacheKey Integer sAccountId) {
         return standupReportMapperExt.findUsersNotDoReportYet(projectId, onDate);
     }
 }

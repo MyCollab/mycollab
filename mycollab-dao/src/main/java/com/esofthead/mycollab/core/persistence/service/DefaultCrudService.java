@@ -16,18 +16,19 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * The generic class that serves the basic operations in data access layer:
@@ -55,7 +56,6 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
             try {
                 PropertyUtils.setProperty(record, "createduser", username);
             } catch (Exception e) {
-
             }
         }
 
@@ -76,8 +76,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
     @Override
     public Integer updateWithSession(T record, String username) {
         try {
-            PropertyUtils.setProperty(record, "lastupdatedtime",
-                    new GregorianCalendar().getTime());
+            PropertyUtils.setProperty(record, "lastupdatedtime", new GregorianCalendar().getTime());
         } catch (Exception e) {
         }
 
@@ -87,8 +86,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
         try {
             cacheUpdateMethod.invoke(getCrudMapper(), record);
             return 1;
-        } catch (IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new MyCollabException(e);
         }
     }
@@ -109,35 +107,33 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements I
 
     public Integer updateSelectiveWithSession(@CacheKey T record, String username) {
         try {
-            PropertyUtils.setProperty(record, "lastupdatedtime",
-                    new GregorianCalendar().getTime());
+            PropertyUtils.setProperty(record, "lastupdatedtime", new GregorianCalendar().getTime());
         } catch (Exception e) {
         }
         return getCrudMapper().updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public Integer removeWithSession(K primaryKey, String username, Integer accountId) {
-        if (username == null) {
-            return getCrudMapper().deleteByPrimaryKey(primaryKey);
-        } else {
-            return internalRemoveWithSession(primaryKey, username);
-        }
-    }
-
-    protected int internalRemoveWithSession(K primaryKey, String username) {
-        return getCrudMapper().deleteByPrimaryKey(primaryKey);
+    public final void removeWithSession(T item, String username, Integer accountId) {
+        massRemoveWithSession(Arrays.asList(item), username, accountId);
     }
 
     @Override
-    public void massRemoveWithSession(List<K> primaryKeys, String username,
-                                      Integer accountId) {
+    public void massRemoveWithSession(List<T> items, String username, Integer accountId) {
+        List<T> primaryKeys = new ArrayList<>(items.size());
+        for (T item : items) {
+            try {
+                T primaryKey = (T) PropertyUtils.getProperty(item, "id");
+                primaryKeys.add(primaryKey);
+            } catch (Exception e) {
+                throw new MyCollabException(e);
+            }
+        }
         getCrudMapper().removeKeysWithSession(primaryKeys);
     }
 
     @Override
-    public void massUpdateWithSession(T record, List<K> primaryKeys,
-                                      Integer accountId) {
+    public void massUpdateWithSession(T record, List<K> primaryKeys, Integer accountId) {
         getCrudMapper().massUpdateWithSession(record, primaryKeys);
     }
 }

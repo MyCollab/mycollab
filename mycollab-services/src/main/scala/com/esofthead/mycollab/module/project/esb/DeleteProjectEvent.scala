@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
+import com.esofthead.mycollab.module.project.domain.Project
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-class DeleteProjectEvent(val accountId: Integer, val projectId: Integer) {
-    
-}
+class DeleteProjectEvent(val projects: Array[Project], val accountId: Integer) {}

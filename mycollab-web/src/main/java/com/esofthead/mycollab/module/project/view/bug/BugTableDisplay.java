@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -144,9 +143,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                                             public void onClose(
                                                     ConfirmDialog dialog) {
                                                 if (dialog.isConfirmed()) {
-                                                    BugService bugService = ApplicationContextUtil
-                                                            .getSpringBean(BugService.class);
-                                                    bugService.removeWithSession(bug.getId(),
+                                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                                    bugService.removeWithSession(bug,
                                                             AppContext.getUsername(), AppContext.getAccountId());
                                                     refresh();
                                                 }
@@ -205,17 +203,14 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                 String bugName = "[#%d] - %s";
                 bugName = String.format(bugName, bug.getBugkey(), bug.getSummary());
                 LabelLink b = new LabelLink(bugName, ProjectLinkBuilder
-                        .generateBugPreviewFullLink(bug.getBugkey(),
-                                bug.getProjectShortName()));
+                        .generateBugPreviewFullLink(bug.getBugkey(), bug.getProjectShortName()));
 
                 if (StringUtils.isNotBlank(bug.getPriority())) {
-                    b.setIconLink(ProjectResources.getIconResourceLink12ByBugPriority(bug
-                            .getPriority()));
+                    b.setIconLink(ProjectResources.getIconResourceLink12ByBugPriority(bug.getPriority()));
                 }
 
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
-                        AppContext.getUserLocale(), bug,
-                        AppContext.getSiteUrl(), AppContext.getTimezone()));
+                        AppContext.getUserLocale(), bug, AppContext.getSiteUrl(), AppContext.getTimezone()));
 
                 if (bug.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -234,13 +229,9 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             public com.vaadin.ui.Component generateCell(Table source,
                                                         Object itemId, Object columnId) {
                 SimpleBug bug = getBeanByIndex(itemId);
-
-                Resource iconPriority = new ExternalResource(ProjectResources
-                        .getIconResourceLink12ByBugSeverity(bug.getPriority()));
-
+                Resource iconPriority = new ExternalResource(ProjectResources.getIconResourceLink12ByBugSeverity(bug.getPriority()));
                 Embedded iconEmbedded = new Embedded(null, iconPriority);
-                Label lbPriority = new Label(AppContext.getMessage(
-                        BugSeverity.class, bug.getSeverity()));
+                Label lbPriority = new Label(AppContext.getMessage(BugSeverity.class, bug.getSeverity()));
                 MHorizontalLayout containerField = new MHorizontalLayout();
                 containerField.with(iconEmbedded, lbPriority).expand(lbPriority);
                 return containerField;

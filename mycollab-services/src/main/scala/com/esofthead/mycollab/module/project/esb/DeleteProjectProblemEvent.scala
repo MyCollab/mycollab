@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
+import com.esofthead.mycollab.module.project.domain.Problem
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-class DeleteProjectProblemEvent(username: String, accountId: Integer, projectId: Integer, bugId: Integer) {
-    
-}
+class DeleteProjectProblemEvent(problems: Array[Problem], username: String, accountId: Integer) {}

@@ -170,8 +170,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
                             taskSettingPopupBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(
-                                    new TaskEvent.GotoEdit(TaskRowComp.this, task));
+                            EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(TaskRowComp.this, task));
                         }
                     });
             editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -179,39 +178,37 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             filterBtnLayout.addOption(editButton);
 
             if (!task.isCompleted()) {
-                Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button closeBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
-                                task.setPercentagecomplete(100d);
-                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-                                taskSettingPopupBtn.setPopupVisible(false);
-                                closeTask();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        task.setStatus(OptionI18nEnum.StatusI18nEnum.Closed.name());
+                        task.setPercentagecomplete(100d);
+                        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                        taskSettingPopupBtn.setPopupVisible(false);
+                        closeTask();
+                    }
+                });
                 closeBtn.setIcon(FontAwesome.CHECK_CIRCLE_O);
                 closeBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(closeBtn);
             } else {
-                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                taskSettingPopupBtn.setPopupVisible(false);
-                                task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
-                                task.setPercentagecomplete(0d);
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        taskSettingPopupBtn.setPopupVisible(false);
+                        task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
+                        task.setPercentagecomplete(0d);
 
-                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-                                reOpenTask();
-                            }
-                        });
+                        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                        reOpenTask();
+                    }
+                });
                 reOpenBtn.setIcon(FontAwesome.UNLOCK);
                 reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
                 filterBtnLayout.addOption(reOpenBtn);
@@ -219,77 +216,73 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
 
             if (!"Pending".equals(task.getStatus())) {
                 if (!"Closed".equals(task.getStatus())) {
-                    Button pendingBtn = new Button(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.Pending),
-                            new Button.ClickListener() {
-                                private static final long serialVersionUID = 1L;
-
-                                @Override
-                                public void buttonClick(Button.ClickEvent event) {
-                                    taskSettingPopupBtn.setPopupVisible(false);
-                                    task.setStatus("Pending");
-                                    task.setPercentagecomplete(0d);
-
-                                    ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                                    projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-                                    pendingTask();
-                                }
-                            });
-                    pendingBtn.setIcon(FontAwesome.HDD_O);
-                    pendingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-                    filterBtnLayout.addOption(pendingBtn);
-                }
-            } else {
-                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-                        new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
-
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                taskSettingPopupBtn.setPopupVisible(false);
-                                task.setStatus("Open");
-                                task.setPercentagecomplete(0d);
-
-                                ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                                projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
-
-                                reOpenTask();
-                            }
-                        });
-                reOpenBtn.setIcon(FontAwesome.UNLOCK);
-                reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
-                filterBtnLayout.addOption(reOpenBtn);
-            }
-
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                    new Button.ClickListener() {
+                    Button pendingBtn = new Button(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.Pending), new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
                             taskSettingPopupBtn.setPopupVisible(false);
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                            AppContext.getSiteName()),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
+                            task.setStatus("Pending");
+                            task.setPercentagecomplete(0d);
 
-                                        @Override
-                                        public void onClose(
-                                                ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                ProjectTaskService projectTaskService = ApplicationContextUtil
-                                                        .getSpringBean(ProjectTaskService.class);
-                                                projectTaskService.removeWithSession(
-                                                        task.getId(), AppContext.getUsername(), AppContext.getAccountId());
-                                                deleteTask();
-                                            }
-                                        }
-                                    });
+                            ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                            projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+                            pendingTask();
                         }
                     });
+                    pendingBtn.setIcon(FontAwesome.HDD_O);
+                    pendingBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+                    filterBtnLayout.addOption(pendingBtn);
+                }
+            } else {
+                Button reOpenBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN), new Button.ClickListener() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        taskSettingPopupBtn.setPopupVisible(false);
+                        task.setStatus("Open");
+                        task.setPercentagecomplete(0d);
+
+                        ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                        projectTaskService.updateSelectiveWithSession(task, AppContext.getUsername());
+
+                        reOpenTask();
+                    }
+                });
+                reOpenBtn.setIcon(FontAwesome.UNLOCK);
+                reOpenBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
+                filterBtnLayout.addOption(reOpenBtn);
+            }
+
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    taskSettingPopupBtn.setPopupVisible(false);
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
+
+                                @Override
+                                public void onClose(
+                                        ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        ProjectTaskService projectTaskService = ApplicationContextUtil.
+                                                getSpringBean(ProjectTaskService.class);
+                                        projectTaskService.removeWithSession(task, AppContext.getUsername(),
+                                                AppContext.getAccountId());
+                                        deleteTask();
+                                    }
+                                }
+                            });
+                }
+            });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
             filterBtnLayout.addOption(deleteBtn);

@@ -60,35 +60,32 @@ public class OpportunityListPresenter extends
     protected void postInitView() {
         super.postInitView();
 
-        opportunityService = ApplicationContextUtil
-                .getSpringBean(OpportunityService.class);
+        opportunityService = ApplicationContextUtil.getSpringBean(OpportunityService.class);
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if ("mail".equals(id)) {
-                            UI.getCurrent().addWindow(new MailFormWindow());
-                        } else if ("massUpdate".equals(id)) {
-                            MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
-                                    AppContext.getMessage(
-                                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Opportunity"),
-                                    OpportunityListPresenter.this);
-                            UI.getCurrent().addWindow(massUpdateWindow);
-                        }
-                    }
+            @Override
+            protected void onSelectExtra(String id) {
+                if ("mail".equals(id)) {
+                    UI.getCurrent().addWindow(new MailFormWindow());
+                } else if ("massUpdate".equals(id)) {
+                    MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Opportunity"),
+                            OpportunityListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
+            }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE);
-                    }
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE);
+            }
 
-                    @Override
-                    protected Class<?> getReportModelClassType() {
-                        return SimpleOpportunity.class;
-                    }
-                });
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleOpportunity.class;
+            }
+        });
     }
 
     @Override
@@ -116,22 +113,20 @@ public class OpportunityListPresenter extends
         if (!isSelectAll) {
             Collection<SimpleOpportunity> currentDataList = view
                     .getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<Integer>();
+            List<Opportunity> keyList = new ArrayList<>();
             for (SimpleOpportunity item : currentDataList) {
                 if (item.isSelected()) {
-                    keyList.add(item.getId());
+                    keyList.add(item);
                 }
             }
 
             if (keyList.size() > 0) {
-                opportunityService.massRemoveWithSession(keyList,
-                        AppContext.getUsername(), AppContext.getAccountId());
+                opportunityService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            opportunityService.removeByCriteria(searchCriteria,
-                    AppContext.getAccountId());
+            opportunityService.removeByCriteria(searchCriteria, AppContext.getAccountId());
             doSearch(searchCriteria);
         }
     }
@@ -139,9 +134,8 @@ public class OpportunityListPresenter extends
     @Override
     public void massUpdate(Opportunity value) {
         if (!isSelectAll) {
-            Collection<SimpleOpportunity> currentDataList = view
-                    .getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<Integer>();
+            Collection<SimpleOpportunity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Integer> keyList = new ArrayList<>();
             for (SimpleOpportunity item : currentDataList) {
                 if (item.isSelected()) {
                     keyList.add(item.getId());
@@ -149,8 +143,7 @@ public class OpportunityListPresenter extends
             }
 
             if (keyList.size() > 0) {
-                opportunityService.massUpdateWithSession(value, keyList,
-                        AppContext.getAccountId());
+                opportunityService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

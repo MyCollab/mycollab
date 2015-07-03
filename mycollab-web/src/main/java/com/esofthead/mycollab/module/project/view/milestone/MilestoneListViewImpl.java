@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -235,34 +234,32 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         editButton.setIcon(FontAwesome.EDIT);
         filterBtnLayout.addOption(editButton);
 
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void buttonClick(ClickEvent event) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            MilestoneService projectTaskService = ApplicationContextUtil
-                                                    .getSpringBean(MilestoneService.class);
-                                            projectTaskService.removeWithSession(milestone.getId(),
-                                                    AppContext.getUsername(), AppContext.getAccountId());
-                                            milestones.remove(milestone);
-                                            displayMilestones(milestones);
-                                        }
-                                    }
-                                });
-                    }
-                });
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    MilestoneService projectTaskService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                                    projectTaskService.removeWithSession(milestone,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    milestones.remove(milestone);
+                                    displayMilestones(milestones);
+                                }
+                            }
+                        });
+            }
+        });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.MILESTONES));
         filterBtnLayout.addOption(deleteBtn);

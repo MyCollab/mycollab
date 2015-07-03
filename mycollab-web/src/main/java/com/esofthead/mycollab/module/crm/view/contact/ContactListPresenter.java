@@ -44,147 +44,128 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class ContactListPresenter extends CrmGenericListPresenter<ContactListView, ContactSearchCriteria, SimpleContact>
-		implements MassUpdateCommand<Contact> {
+        implements MassUpdateCommand<Contact> {
 
-	private static final long serialVersionUID = 1L;
-	private ContactService contactService;
+    private static final long serialVersionUID = 1L;
+    private ContactService contactService;
 
-	public ContactListPresenter() {
-		super(ContactListView.class, ContactCrmListNoItemView.class);
-	}
+    public ContactListPresenter() {
+        super(ContactListView.class, ContactCrmListNoItemView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
-		contactService = ApplicationContextUtil
-				.getSpringBean(ContactService.class);
+    @Override
+    protected void postInitView() {
+        super.postInitView();
+        contactService = ApplicationContextUtil.getSpringBean(ContactService.class);
 
-		view.getPopupActionHandlers().setMassActionHandler(
-				new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-					@Override
-					protected String getReportTitle() {
-						return AppContext
-								.getMessage(ContactI18nEnum.VIEW_LIST_TITLE);
-					}
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE);
+            }
 
-					@Override
-					protected Class<?> getReportModelClassType() {
-						return SimpleContact.class;
-					}
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleContact.class;
+            }
 
-					@Override
-					protected void onSelectExtra(String id) {
-						if ("mail".equals(id)) {
-							if (isSelectAll) {
-								NotificationUtil.showWarningNotification(AppContext
-										.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+            @Override
+            protected void onSelectExtra(String id) {
+                if ("mail".equals(id)) {
+                    if (isSelectAll) {
+                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 
-							} else {
-								List<String> lstMail = new ArrayList<>();
-								Collection<SimpleContact> tableData = view
-										.getPagedBeanTable()
-										.getCurrentDataList();
-								for (SimpleContact item : tableData) {
-									if (item.isSelected()) {
-										lstMail.add(item.getContactName()
-												+ " <" + item.getEmail() + ">");
-									}
-								}
-								UI.getCurrent().addWindow(
-										new MailFormWindow(lstMail));
-							}
+                    } else {
+                        List<String> lstMail = new ArrayList<>();
+                        Collection<SimpleContact> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        for (SimpleContact item : tableData) {
+                            if (item.isSelected()) {
+                                lstMail.add(String.format("%s <%s>", item.getContactName(), item.getEmail()));
+                            }
+                        }
+                        UI.getCurrent().addWindow(new MailFormWindow(lstMail));
+                    }
 
-						} else if ("massUpdate".equals(id)) {
-							MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
-									AppContext
-											.getMessage(
-													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-													AppContext
-															.getMessage(CrmCommonI18nEnum.CONTACT)),
-									ContactListPresenter.this);
-							UI.getCurrent().addWindow(massUpdateWindow);
-						}
+                } else if ("massUpdate".equals(id)) {
+                    MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    AppContext.getMessage(CrmCommonI18nEnum.CONTACT)),
+                            ContactListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
 
-					}
-				});
-	}
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.CONTACT);
-		if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
-			searchCriteria = (ContactSearchCriteria) data.getParams();
-			int totalCount = contactService.getTotalCount(searchCriteria);
-			if (totalCount > 0) {
-				this.displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				this.displayNoExistItems(container, data);
-			}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmToolbar.navigateItem(CrmTypeConstants.CONTACT);
+        if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
+            searchCriteria = (ContactSearchCriteria) data.getParams();
+            int totalCount = contactService.getTotalCount(searchCriteria);
+            if (totalCount > 0) {
+                this.displayListView(container, data);
+                doSearch(searchCriteria);
+            } else {
+                this.displayNoExistItems(container, data);
+            }
 
-			AppContext.addFragment("crm/contact/list",
-					AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            AppContext.addFragment("crm/contact/list", AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		if (!isSelectAll) {
-			Collection<SimpleContact> currentDataList = view
-					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<>();
-			for (SimpleContact item : currentDataList) {
-				if (item.isSelected()) {
-					keyList.add(item.getId());
-				}
-			}
+    @Override
+    protected void deleteSelectedItems() {
+        if (!isSelectAll) {
+            Collection<SimpleContact> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Contact> keyList = new ArrayList<>();
+            for (SimpleContact item : currentDataList) {
+                if (item.isSelected()) {
+                    keyList.add(item);
+                }
+            }
 
-			if (keyList.size() > 0) {
-				contactService.massRemoveWithSession(keyList,
-						AppContext.getUsername(), AppContext.getAccountId());
-				doSearch(searchCriteria);
-				checkWhetherEnableTableActionControl();
-			}
-		} else {
-			contactService.removeByCriteria(searchCriteria,
-					AppContext.getAccountId());
-			doSearch(searchCriteria);
-		}
-	}
+            if (keyList.size() > 0) {
+                contactService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                doSearch(searchCriteria);
+                checkWhetherEnableTableActionControl();
+            }
+        } else {
+            contactService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            doSearch(searchCriteria);
+        }
+    }
 
-	@Override
-	public void massUpdate(Contact value) {
-		if (!isSelectAll) {
-			Collection<SimpleContact> currentDataList = view
-					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
-			for (SimpleContact item : currentDataList) {
-				if (item.isSelected()) {
-					keyList.add(item.getId());
-				}
-			}
-			if (keyList.size() > 0) {
-				contactService.massUpdateWithSession(value, keyList,
-						AppContext.getAccountId());
-				doSearch(searchCriteria);
-			}
-		} else {
-			contactService.updateBySearchCriteria(value, searchCriteria);
-			doSearch(searchCriteria);
-		}
-	}
+    @Override
+    public void massUpdate(Contact value) {
+        if (!isSelectAll) {
+            Collection<SimpleContact> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Integer> keyList = new ArrayList<>();
+            for (SimpleContact item : currentDataList) {
+                if (item.isSelected()) {
+                    keyList.add(item.getId());
+                }
+            }
+            if (keyList.size() > 0) {
+                contactService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                doSearch(searchCriteria);
+            }
+        } else {
+            contactService.updateBySearchCriteria(value, searchCriteria);
+            doSearch(searchCriteria);
+        }
+    }
 
-	@Override
-	public ISearchableService<ContactSearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(ContactService.class);
-	}
+    @Override
+    public ISearchableService<ContactSearchCriteria> getSearchService() {
+        return ApplicationContextUtil.getSpringBean(ContactService.class);
+    }
 }

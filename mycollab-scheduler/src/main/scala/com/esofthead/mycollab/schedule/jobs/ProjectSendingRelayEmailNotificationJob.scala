@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import com.esofthead.mycollab.common.MonitorTypeConstants
-import com.esofthead.mycollab.common.service.RelayEmailNotificationService
+import com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification
 import com.esofthead.mycollab.module.project.service.ProjectService
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
@@ -39,10 +39,10 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[ProjectSendingRelayEmailNotificationJob])
 
     @Autowired
-    var projectService: ProjectService = _
+    private val projectService: ProjectService = null
 
     @Autowired
-    var relayNotificationService: RelayEmailNotificationService = _
+    private val relayNotificationMapper: RelayEmailNotificationMapper = null
 
     def executeJob(context: JobExecutionContext) {
         import scala.collection.JavaConverters._
@@ -65,7 +65,7 @@ class ProjectSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
             catch {
                 case ex: Exception => LOG.error("Error while sending scheduler command", ex)
             } finally {
-                relayNotificationService.removeWithSession(notification.getId, "", notification.getSaccountid)
+                relayNotificationMapper.deleteByPrimaryKey(notification.getId)
             }
         }
     }

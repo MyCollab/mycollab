@@ -45,101 +45,98 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class VersionListPresenter extends ProjectGenericListPresenter<VersionListView, VersionSearchCriteria, SimpleVersion> {
-	private static final long serialVersionUID = 1L;
-	private final VersionService versionService;
+    private static final long serialVersionUID = 1L;
+    private final VersionService versionService;
 
-	public VersionListPresenter() {
-		super(VersionListView.class, VersionListNoItemView.class);
-		versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
-	}
+    public VersionListPresenter() {
+        super(VersionListView.class, VersionListNoItemView.class);
+        versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
+    @Override
+    protected void postInitView() {
+        super.postInitView();
 
-		view.getPopupActionHandlers().setMassActionHandler(
-				new DefaultMassEditActionHandler(this) {
-					@Override
-					protected void onSelectExtra(String id) {
-						if (ViewItemAction.MAIL_ACTION().equals(id)) {
-							UI.getCurrent().addWindow(new MailFormWindow());
-						}
-					}
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    UI.getCurrent().addWindow(new MailFormWindow());
+                }
+            }
 
-					@Override
-					protected String getReportTitle() {
-						return AppContext
-								.getMessage(VersionI18nEnum.VIEW_LIST_TITLE);
-					}
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE);
+            }
 
-					@Override
-					protected Class<?> getReportModelClassType() {
-						return SimpleVersion.class;
-					}
-				});
-	}
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleVersion.class;
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
-			VersionContainer versionContainer = (VersionContainer) container;
-			versionContainer.removeAllComponents();
-			versionContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
+            VersionContainer versionContainer = (VersionContainer) container;
+            versionContainer.removeAllComponents();
+            versionContainer.addComponent(view.getWidget());
 
-			searchCriteria = (VersionSearchCriteria) data.getParams();
-			int totalCount = versionService.getTotalCount(searchCriteria);
+            searchCriteria = (VersionSearchCriteria) data.getParams();
+            int totalCount = versionService.getTotalCount(searchCriteria);
 
-			if (totalCount > 0) {
-				displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				displayNoExistItems(container, data);
-			}
+            if (totalCount > 0) {
+                displayListView(container, data);
+                doSearch(searchCriteria);
+            } else {
+                displayNoExistItems(container, data);
+            }
 
-			ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-			breadcrumb.gotoVersionList();
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            breadcrumb.gotoVersionList();
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		if (!isSelectAll) {
-			Collection<SimpleVersion> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<>();
-			for (Version item : currentDataList) {
-				if (item.isSelected()) {
-					keyList.add(item.getId());
-				}
-			}
+    @Override
+    protected void deleteSelectedItems() {
+        if (!isSelectAll) {
+            Collection<SimpleVersion> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Version> keyList = new ArrayList<>();
+            for (Version item : currentDataList) {
+                if (item.isSelected()) {
+                    keyList.add(item);
+                }
+            }
 
-			if (keyList.size() > 0) {
-				versionService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
-			}
-		} else {
-			versionService.removeByCriteria(searchCriteria, AppContext.getAccountId());
-		}
+            if (keyList.size() > 0) {
+                versionService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+            }
+        } else {
+            versionService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+        }
 
-		int totalCount = versionService.getTotalCount(searchCriteria);
+        int totalCount = versionService.getTotalCount(searchCriteria);
 
-		if (totalCount > 0) {
-			displayListView((ComponentContainer) view.getParent(), null);
-			doSearch(searchCriteria);
-		} else {
-			displayNoExistItems((ComponentContainer) view.getParent(), null);
-		}
+        if (totalCount > 0) {
+            displayListView((ComponentContainer) view.getParent(), null);
+            doSearch(searchCriteria);
+        } else {
+            displayNoExistItems((ComponentContainer) view.getParent(), null);
+        }
 
-	}
+    }
 
-	@Override
-	public ISearchableService<VersionSearchCriteria> getSearchService() {
-		return versionService;
-	}
+    @Override
+    public ISearchableService<VersionSearchCriteria> getSearchService() {
+        return versionService;
+    }
 }

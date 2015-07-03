@@ -47,17 +47,15 @@ import java.util.List;
 @Auditable()
 @Watchable(userFieldName = "createduser")
 @NotifyAgent(MeetingRelayEmailNotificationAction.class)
-public class MeetingServiceImpl extends
-        DefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria>
-        implements MeetingService {
+public class MeetingServiceImpl extends DefaultService<Integer, MeetingWithBLOBs, MeetingSearchCriteria> implements MeetingService {
     static {
         ClassInfoMap.put(MeetingServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.MEETING));
     }
 
     @Autowired
-    protected MeetingMapper meetingMapper;
+    private MeetingMapper meetingMapper;
     @Autowired
-    protected MeetingMapperExt meetingMapperExt;
+    private MeetingMapperExt meetingMapperExt;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -90,22 +88,14 @@ public class MeetingServiceImpl extends
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
-        Integer result = super.removeWithSession(primaryKey, username, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
-        return result;
-    }
-
-    @Override
     public void removeByCriteria(MeetingSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void massRemoveWithSession(List<Integer> primaryKeys, String username, Integer accountId) {
-        super.massRemoveWithSession(primaryKeys, username, accountId);
+    public void massRemoveWithSession(List<MeetingWithBLOBs> items, String username, Integer accountId) {
+        super.massRemoveWithSession(items, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
@@ -116,8 +106,7 @@ public class MeetingServiceImpl extends
     }
 
     @Override
-    public void updateBySearchCriteria(MeetingWithBLOBs record,
-                                       MeetingSearchCriteria searchCriteria) {
+    public void updateBySearchCriteria(MeetingWithBLOBs record, MeetingSearchCriteria searchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria);
         CacheUtils.cleanCaches((Integer) searchCriteria.getSaccountid()
                 .getValue(), EventService.class);

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.Lock
 
 import com.esofthead.mycollab.lock.DistributionLockUtil
-import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo
 import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
@@ -41,7 +41,7 @@ object DeleteResourcesCommandImpl {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteResourcesCommandImpl])
 }
 
-@Component class DeleteResourcesCommandImpl extends GenericCommandHandler {
+@Component class DeleteResourcesCommandImpl extends GenericCommand {
     @Autowired private val rawContentService: RawContentService = null
     @Autowired private val driveInfoService: DriveInfoService = null
 

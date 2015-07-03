@@ -109,10 +109,10 @@ public class AccountListPresenter extends CrmGenericListPresenter<AccountListVie
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
             Collection<SimpleAccount> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
+            List<Account> keyList = new ArrayList<>();
             for (SimpleAccount item : currentDataList) {
                 if (item.isSelected()) {
-                    keyList.add(item.getId());
+                    keyList.add(item);
                 }
             }
 

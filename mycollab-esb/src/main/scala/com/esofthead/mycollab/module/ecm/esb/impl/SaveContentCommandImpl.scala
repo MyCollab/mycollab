@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock
 
 import com.esofthead.mycollab.core.utils.BeanUtility
 import com.esofthead.mycollab.lock.DistributionLockUtil
-import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo
 import com.esofthead.mycollab.module.ecm.esb.SaveContentEvent
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService
@@ -42,7 +42,7 @@ object SaveContentCommandImpl {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[SaveContentCommandImpl])
 }
 
-@Component("saveContentCommand") class SaveContentCommandImpl extends GenericCommandHandler {
+@Component("saveContentCommand") class SaveContentCommandImpl extends GenericCommand {
     @Autowired private val driveInfoService: DriveInfoService = null
     @Autowired private val rawContentService: RawContentService = null
 

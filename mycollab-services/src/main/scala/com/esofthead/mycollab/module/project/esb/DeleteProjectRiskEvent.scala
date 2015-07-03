@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
+import com.esofthead.mycollab.module.project.domain.Risk
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-class DeleteProjectRiskEvent(username: String, accountId: Integer, projectId: Integer, bugId: Integer) {
-    
-}
+class DeleteProjectRiskEvent(val risks: Array[Risk], val username: String, val accountId: Integer) {}

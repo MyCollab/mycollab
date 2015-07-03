@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -49,208 +48,169 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public LeadReadPresenter() {
-		super(LeadReadView.class);
-	}
+    public LeadReadPresenter() {
+        super(LeadReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleLead>() {
-					@Override
-					public void onEdit(SimpleLead data) {
-						EventBusFactory.getInstance().post(
-								new LeadEvent.GotoEdit(this, data));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(
+                new DefaultPreviewFormHandler<SimpleLead>() {
+                    @Override
+                    public void onEdit(SimpleLead data) {
+                        EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, data));
+                    }
 
-					@Override
-					public void onAdd(SimpleLead data) {
-						EventBusFactory.getInstance().post(
-								new LeadEvent.GotoAdd(this, null));
-					}
+                    @Override
+                    public void onAdd(SimpleLead data) {
+                        EventBusFactory.getInstance().post(new LeadEvent.GotoAdd(this, null));
+                    }
 
-					@Override
-					public void onDelete(final SimpleLead data) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.DIALOG_DELETE_TITLE,
-										AppContext.getSiteName()),
-								AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
+                    @Override
+                    public void onDelete(final SimpleLead data) {
+                        ConfirmDialogExt.show(UI.getCurrent(),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											LeadService LeadService = ApplicationContextUtil
-													.getSpringBean(LeadService.class);
-											LeadService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory.getInstance().post(
-													new LeadEvent.GotoList(
-															this, null));
-										}
-									}
-								});
-					}
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            LeadService LeadService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                                            LeadService.removeWithSession(data,
+                                                    AppContext.getUsername(), AppContext.getAccountId());
+                                            EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
+                                        }
+                                    }
+                                });
+                    }
 
-					@Override
-					public void onClone(SimpleLead data) {
-						SimpleLead cloneData = (SimpleLead) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new LeadEvent.GotoEdit(this, cloneData));
-					}
+                    @Override
+                    public void onClone(SimpleLead data) {
+                        SimpleLead cloneData = (SimpleLead) data.copy();
+                        cloneData.setId(null);
+                        EventBusFactory.getInstance().post(new LeadEvent.GotoEdit(this, cloneData));
+                    }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new LeadEvent.GotoList(this, null));
-					}
+                    @Override
+                    public void onCancel() {
+                        EventBusFactory.getInstance().post(new LeadEvent.GotoList(this, null));
+                    }
 
-					@Override
-					public void gotoNext(SimpleLead data) {
-						LeadService contactService = ApplicationContextUtil
-								.getSpringBean(LeadService.class);
-						LeadSearchCriteria criteria = new LeadSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = contactService
-								.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new LeadEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+                    @Override
+                    public void gotoNext(SimpleLead data) {
+                        LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                        LeadSearchCriteria criteria = new LeadSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                        Integer nextId = contactService.getNextItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoLastRecordNotification();
+                        }
+                    }
 
-					}
+                    @Override
+                    public void gotoPrevious(SimpleLead data) {
+                        LeadService contactService = ApplicationContextUtil.getSpringBean(LeadService.class);
+                        LeadSearchCriteria criteria = new LeadSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                        Integer nextId = contactService.getPreviousItemKey(criteria);
+                        if (nextId != null) {
+                            EventBusFactory.getInstance().post(new LeadEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoFirstRecordNotification();
+                        }
+                    }
 
-					@Override
-					public void gotoPrevious(SimpleLead data) {
-						LeadService contactService = ApplicationContextUtil
-								.getSpringBean(LeadService.class);
-						LeadSearchCriteria criteria = new LeadSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = contactService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new LeadEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
+                    @Override
+                    public void onExtraAction(String action, SimpleLead data) {
+                        LeadConvertInfoWindow convertWindow = new LeadConvertInfoWindow(data);
+                        UI.getCurrent().addWindow(convertWindow);
+                    }
+                });
 
-					@Override
-					public void onExtraAction(String action, SimpleLead data) {
-						final LeadConvertInfoWindow convertWindow = new LeadConvertInfoWindow(data);
-						UI.getCurrent().addWindow(convertWindow);
-					}
-				});
+        view.getRelatedActivityHandlers().addRelatedListHandler(new AbstractRelatedListHandler<SimpleActivity>() {
+            @Override
+            public void createNewRelatedItem(String itemId) {
+                if (itemId.equals("task")) {
+                    SimpleTask task = new SimpleTask();
+                    task.setType(CrmTypeConstants.LEAD);
+                    task.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.TaskEdit(LeadReadPresenter.this, task));
+                } else if (itemId.equals("meeting")) {
+                    SimpleMeeting meeting = new SimpleMeeting();
+                    meeting.setType(CrmTypeConstants.LEAD);
+                    meeting.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.MeetingEdit(LeadReadPresenter.this, meeting));
+                } else if (itemId.equals("call")) {
+                    SimpleCall call = new SimpleCall();
+                    call.setType(CrmTypeConstants.LEAD);
+                    call.setTypeid(view.getItem().getId());
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(LeadReadPresenter.this, call));
+                }
+            }
+        });
 
-		view.getRelatedActivityHandlers().addRelatedListHandler(
-				new AbstractRelatedListHandler<SimpleActivity>() {
-					@Override
-					public void createNewRelatedItem(String itemId) {
-						if (itemId.equals("task")) {
-							SimpleTask task = new SimpleTask();
-							task.setType(CrmTypeConstants.LEAD);
-							task.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.TaskEdit(
-											LeadReadPresenter.this, task));
-						} else if (itemId.equals("meeting")) {
-							SimpleMeeting meeting = new SimpleMeeting();
-							meeting.setType(CrmTypeConstants.LEAD);
-							meeting.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.MeetingEdit(
-											LeadReadPresenter.this, meeting));
-						} else if (itemId.equals("call")) {
-							SimpleCall call = new SimpleCall();
-							call.setType(CrmTypeConstants.LEAD);
-							call.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.CallEdit(
-											LeadReadPresenter.this, call));
-						}
-					}
-				});
+        view.getRelatedCampaignHandlers().addRelatedListHandler(
+                new AbstractRelatedListHandler<SimpleCampaign>() {
+                    @Override
+                    public void createNewRelatedItem(String itemId) {
+                        SimpleCampaign campaign = new SimpleCampaign();
+                        campaign.setExtraData(view.getItem());
+                        EventBusFactory.getInstance().post(
+                                new CampaignEvent.GotoEdit(
+                                        LeadReadPresenter.this, campaign));
+                    }
 
-		view.getRelatedCampaignHandlers().addRelatedListHandler(
-				new AbstractRelatedListHandler<SimpleCampaign>() {
-					@Override
-					public void createNewRelatedItem(String itemId) {
-						SimpleCampaign campaign = new SimpleCampaign();
-						campaign.setExtraData(view.getItem());
-						EventBusFactory.getInstance().post(
-								new CampaignEvent.GotoEdit(
-										LeadReadPresenter.this, campaign));
-					}
+                    @Override
+                    public void selectAssociateItems(Set<SimpleCampaign> items) {
+                        if (!items.isEmpty()) {
+                            SimpleLead lead = view.getItem();
+                            List<CampaignLead> associateCampaigns = new ArrayList<>();
+                            for (SimpleCampaign campaign : items) {
+                                CampaignLead associateCampaign = new CampaignLead();
+                                associateCampaign.setCampaignid(campaign.getId());
+                                associateCampaign.setLeadid(lead.getId());
+                                associateCampaign.setCreatedtime(new GregorianCalendar().getTime());
+                                associateCampaigns.add(associateCampaign);
+                            }
 
-					@Override
-					public void selectAssociateItems(Set<SimpleCampaign> items) {
-						if (!items.isEmpty()) {
-							SimpleLead lead = view.getItem();
-							List<CampaignLead> associateCampaigns = new ArrayList<CampaignLead>();
-							for (SimpleCampaign campaign : items) {
-								CampaignLead associateCampaign = new CampaignLead();
-								associateCampaign.setCampaignid(campaign
-										.getId());
-								associateCampaign.setLeadid(lead.getId());
-								associateCampaign
-										.setCreatedtime(new GregorianCalendar()
-												.getTime());
-								associateCampaigns.add(associateCampaign);
-							}
+                            CampaignService campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
+                            campaignService.saveCampaignLeadRelationship(associateCampaigns, AppContext.getAccountId());
+                            view.getRelatedCampaignHandlers().refresh();
+                        }
+                    }
+                });
+    }
 
-							CampaignService campaignService = ApplicationContextUtil
-									.getSpringBean(CampaignService.class);
-							campaignService.saveCampaignLeadRelationship(
-									associateCampaigns,
-									AppContext.getAccountId());
-							view.getRelatedCampaignHandlers().refresh();
-						}
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmToolbar.navigateItem(CrmTypeConstants.LEAD);
+        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+            if (data.getParams() instanceof SimpleLead) {
+                SimpleLead lead = (SimpleLead) data.getParams();
+                super.onGo(container, data);
+                view.previewItem(lead);
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.LEAD);
-		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
-			if (data.getParams() instanceof SimpleLead) {
-				SimpleLead lead = (SimpleLead) data.getParams();
-				super.onGo(container, data);
-				view.previewItem(lead);
+                AppContext.addFragment(CrmLinkGenerator.generateLeadPreviewLink(lead.getId()),
+                        AppContext.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                "Lead", lead.getLeadName()));
 
-				AppContext.addFragment(CrmLinkGenerator
-						.generateLeadPreviewLink(lead.getId()), AppContext
-						.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-								"Lead", lead.getLeadName()));
-
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

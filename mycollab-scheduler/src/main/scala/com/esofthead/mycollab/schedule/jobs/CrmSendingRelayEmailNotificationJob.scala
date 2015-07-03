@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.schedule.jobs
 
 import com.esofthead.mycollab.common.MonitorTypeConstants
+import com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.schedule.email.crm.impl.CrmDefaultSendingRelayEmai
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import org.quartz.JobExecutionContext
 import org.slf4j.{Logger, LoggerFactory}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
@@ -38,6 +40,9 @@ import org.springframework.stereotype.Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
     private val LOG: Logger = LoggerFactory.getLogger(classOf[CrmSendingRelayEmailNotificationJob])
+
+    @Autowired private val relayEmailService: RelayEmailNotificationService = null
+    @Autowired private val relayEmailNotificationMapper: RelayEmailNotificationMapper = null
 
     @SuppressWarnings(Array("unchecked"))
     def executeJob(context: JobExecutionContext) {
@@ -71,7 +76,7 @@ class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
             catch {
                 case ex: Exception => LOG.error("Error while send the schedule command", ex)
             } finally {
-                relayEmailService.removeWithSession(notification.getId, "", notification.getSaccountid)
+                relayEmailNotificationMapper.deleteByPrimaryKey(notification.getId)
             }
         }
     }

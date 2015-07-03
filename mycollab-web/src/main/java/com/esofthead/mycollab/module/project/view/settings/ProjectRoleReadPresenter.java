@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -56,84 +55,83 @@ public class ProjectRoleReadPresenter extends AbstractPresenter<ProjectRoleReadV
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<SimpleProjectRole>() {
-                    @Override
-                    public void onEdit(SimpleProjectRole data) {
-                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoEdit(this, data));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleProjectRole>() {
+            @Override
+            public void onEdit(SimpleProjectRole data) {
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onAdd(SimpleProjectRole data) {
-                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
-                    }
+            @Override
+            public void onAdd(SimpleProjectRole data) {
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, null));
+            }
 
-                    @Override
-                    public void onDelete(final SimpleProjectRole role) {
-                        if (Boolean.FALSE.equals(role.getIssystemrole())) {
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                            AppContext.getSiteName()),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleProjectRole role) {
+                if (Boolean.FALSE.equals(role.getIssystemrole())) {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                projectRoleService.removeWithSession(role.getId(),
-                                                        AppContext.getUsername(), AppContext.getAccountId());
-                                                EventBusFactory.getInstance().post(
-                                                        new ProjectRoleEvent.GotoList(this, null));
-                                            }
-                                        }
-                                    });
-                        } else {
-                            NotificationUtil.showErrorNotification(AppContext
-                                    .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, role.getRolename()));
-                        }
-                    }
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        projectRoleService.removeWithSession(role,
+                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        EventBusFactory.getInstance().post(
+                                                new ProjectRoleEvent.GotoList(this, null));
+                                    }
+                                }
+                            });
+                } else {
+                    NotificationUtil.showErrorNotification(AppContext
+                            .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, role.getRolename()));
+                }
+            }
 
-                    @Override
-                    public void onClone(SimpleProjectRole data) {
-                        SimpleProjectRole cloneData = (SimpleProjectRole) data.copy();
-                        cloneData.setRolename(null);
-                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, cloneData));
-                    }
+            @Override
+            public void onClone(SimpleProjectRole data) {
+                SimpleProjectRole cloneData = (SimpleProjectRole) data.copy();
+                cloneData.setRolename(null);
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoAdd(this, cloneData));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
-                    }
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoList(this, null));
+            }
 
-                    @Override
-                    public void gotoNext(SimpleProjectRole data) {
-                        ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
-                        Integer nextId = projectRoleService.getNextItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoLastRecordNotification();
-                        }
-                    }
+            @Override
+            public void gotoNext(SimpleProjectRole data) {
+                ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = projectRoleService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
+            }
 
-                    @Override
-                    public void gotoPrevious(SimpleProjectRole data) {
-                        ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                        Integer nextId = projectRoleService.getPreviousItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoFirstRecordNotification();
-                        }
-                    }
-                });
+            @Override
+            public void gotoPrevious(SimpleProjectRole data) {
+                ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = projectRoleService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ProjectRoleEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
     }
 
     @Override

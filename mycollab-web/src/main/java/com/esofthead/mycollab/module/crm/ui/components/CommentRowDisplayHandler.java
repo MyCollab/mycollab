@@ -39,8 +39,7 @@ import java.util.List;
  * @author MyCollab Ltd.
  * @since 5.0.4
  */
-public class CommentRowDisplayHandler extends
-        BeanList.RowDisplayHandler<SimpleComment> {
+public class CommentRowDisplayHandler extends BeanList.RowDisplayHandler<SimpleComment> {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -59,10 +58,9 @@ public class CommentRowDisplayHandler extends
                 true, false, true)).withWidth("100%").withStyleName("message-header");
         messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        ELabel timePostLbl = new ELabel(AppContext.getMessage(
-                GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(AppContext.formatDateTime(comment
-                .getCreatedtime()));
+        ELabel timePostLbl = new ELabel(AppContext.getMessage(GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+                AppContext.formatPrettyTime(comment.getCreatedtime())), ContentMode.HTML).withDescription(AppContext.
+                formatDateTime(comment.getCreatedtime()));
 
         timePostLbl.setSizeUndefined();
         timePostLbl.setStyleName("time-post");
@@ -82,8 +80,7 @@ public class CommentRowDisplayHandler extends
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     ConfirmDialogExt.show(UI.getCurrent(),
-                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
                             AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                             AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                             AppContext.getMessage(GenericI18Enum.BUTTON_NO),
@@ -93,10 +90,8 @@ public class CommentRowDisplayHandler extends
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        CommentService commentService = ApplicationContextUtil
-                                                .getSpringBean(CommentService.class);
-                                        commentService.removeWithSession(comment.getId(),
-                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                        commentService.removeWithSession(comment, AppContext.getUsername(), AppContext.getAccountId());
                                         owner.removeRow(layout);
                                     }
                                 }

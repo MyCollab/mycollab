@@ -16,100 +16,95 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.beans.PropertyDescriptor;
-import java.io.Serializable;
-import java.util.List;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
  * @param <K>
  * @param <T>
  * @param <S>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
-		extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
+        extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultService.class);
 
-	public abstract ISearchableDAO<S> getSearchMapper();
+    public abstract ISearchableDAO<S> getSearchMapper();
 
-	@Override
-	public int getTotalCount(S criteria) {
-		return getSearchMapper().getTotalCount(criteria);
-	}
+    @Override
+    public int getTotalCount(S criteria) {
+        return getSearchMapper().getTotalCount(criteria);
+    }
 
-	@Override
-	public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
-		return getSearchMapper().findPagableListByCriteria(
-				searchRequest.getSearchCriteria(),
-				new RowBounds((searchRequest.getCurrentPage() - 1)
-						* searchRequest.getNumberOfItems(), searchRequest
-						.getNumberOfItems()));
-	}
+    @Override
+    public List findPagableListByCriteria(SearchRequest<S> searchRequest) {
+        return getSearchMapper().findPagableListByCriteria(
+                searchRequest.getSearchCriteria(),
+                new RowBounds((searchRequest.getCurrentPage() - 1)
+                        * searchRequest.getNumberOfItems(), searchRequest
+                        .getNumberOfItems()));
+    }
 
-	@Override
-	public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex,
-										   Integer numberOfItems) {
-		return getSearchMapper().findPagableListByCriteria(searchCriteria,
-				new RowBounds(firstIndex, numberOfItems));
-	}
+    @Override
+    public List findAbsoluteListByCriteria(S searchCriteria, Integer firstIndex, Integer numberOfItems) {
+        return getSearchMapper().findPagableListByCriteria(searchCriteria,
+                new RowBounds(firstIndex, numberOfItems));
+    }
 
-	@Override
-	public void removeByCriteria(S criteria, Integer accountId) {
-		boolean isValid = false;
-		try {
-			PropertyDescriptor[] propertyDescriptors = PropertyUtils
-					.getPropertyDescriptors(criteria);
+    @Override
+    public void removeByCriteria(S criteria, Integer accountId) {
+        boolean isValid = false;
+        try {
+            PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(criteria);
 
-			for (PropertyDescriptor descriptor : propertyDescriptors) {
-				String propName = descriptor.getName();
-				if ((descriptor.getPropertyType().getGenericSuperclass() == SearchField.class)
-						&& (PropertyUtils.getProperty(criteria, propName) != null)) {
-					isValid = true;
-					break;
-				}
+            for (PropertyDescriptor descriptor : propertyDescriptors) {
+                String propName = descriptor.getName();
+                if ((descriptor.getPropertyType().getGenericSuperclass() == SearchField.class)
+                        && (PropertyUtils.getProperty(criteria, propName) != null)) {
+                    isValid = true;
+                    break;
+                }
 
-			}
-		} catch (Exception e) {
-			LOG.debug("Error while validating criteria", e);
-		}
-		if (isValid) {
-			getSearchMapper().removeByCriteria(criteria);
-		}
+            }
+        } catch (Exception e) {
+            LOG.debug("Error while validating criteria", e);
+        }
+        if (isValid) {
+            getSearchMapper().removeByCriteria(criteria);
+        }
 
-	}
+    }
 
-	@Override
-	public Integer getNextItemKey(S criteria) {
-		return getSearchMapper().getNextItemKey(criteria);
-	}
+    @Override
+    public Integer getNextItemKey(S criteria) {
+        return getSearchMapper().getNextItemKey(criteria);
+    }
 
-	@Override
-	public Integer getPreviousItemKey(S criteria) {
-		return getSearchMapper().getPreviousItemKey(criteria);
-	}
+    @Override
+    public Integer getPreviousItemKey(S criteria) {
+        return getSearchMapper().getPreviousItemKey(criteria);
+    }
 
-	@Override
-	public void updateBySearchCriteria(T record, S searchCriteria) {
-		ISearchableDAO<S> searchMapper = getSearchMapper();
-		if (searchMapper != null && searchMapper instanceof IMassUpdateDAO) {
-			((IMassUpdateDAO) searchMapper).updateBySearchCriteria(record,
-					searchCriteria);
-		}
-	}
+    @Override
+    public void updateBySearchCriteria(T record, S searchCriteria) {
+        ISearchableDAO<S> searchMapper = getSearchMapper();
+        if (searchMapper != null && searchMapper instanceof IMassUpdateDAO) {
+            ((IMassUpdateDAO) searchMapper).updateBySearchCriteria(record,
+                    searchCriteria);
+        }
+    }
 
 }

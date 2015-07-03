@@ -25,14 +25,14 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt;
-import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
+import com.esofthead.mycollab.module.project.domain.ProjectMemberExample;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberEvent;
@@ -45,7 +45,6 @@ import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.service.RoleService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +83,6 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     @Autowired
     private AsyncEventBus asyncEventBus;
 
-
     @Override
     public ICrudGenericDAO getCrudMapper() {
         return projectMemberMapper;
@@ -111,26 +109,16 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username, Integer accountId) {
-        SimpleProjectMember projectMember = projectMemberMapperExt
-                .findMemberById(primaryKey);
-        ProjectMapper projectMapper = ApplicationContextUtil.getSpringBean(ProjectMapper.class);
+    public void massRemoveWithSession(List<ProjectMember> members, String username, Integer accountId) {
+        ProjectMember updateMember = new ProjectMember();
+        updateMember.setStatus(RegisterStatusConstants.DELETE);
+        ProjectMemberExample ex = new ProjectMemberExample();
+        ex.createCriteria().andSaccountidEqualTo(accountId).andIdIn(ArrayUtils.extractIds(members));
+        projectMemberMapper.updateByExampleSelective(updateMember, ex);
 
-        if (projectMember != null) {
-            try {
-                Project project = projectMapper.selectByPrimaryKey(projectMember.getProjectid());
-                DeleteProjectMemberEvent event = new DeleteProjectMemberEvent(username,
-                        primaryKey, projectMember.getProjectid(), project.getSaccountid());
-                asyncEventBus.post(event);
-            } catch (Exception e) {
-                LOG.error("Error while notify project member delete", e);
-            }
-
-            projectMember.setStatus(RegisterStatusConstants.DELETE);
-            projectMemberMapper.updateByPrimaryKeySelective(projectMember);
-        }
-
-        return 1;
+        DeleteProjectMemberEvent event = new DeleteProjectMemberEvent(members.toArray(new ProjectMember[members.size()]),
+                username, accountId);
+        asyncEventBus.post(event);
     }
 
     @Override
@@ -147,9 +135,8 @@ public class ProjectMemberServiceImpl extends DefaultService<Integer, ProjectMem
     }
 
     @Override
-    public void acceptProjectInvitationByNewUser(String email, String password,
-                                                 Integer projectId, Integer projectRoleId, Integer sAccountId) {
-
+    public void acceptProjectInvitationByNewUser(String email, String password, Integer projectId,
+                                                 Integer projectRoleId, Integer sAccountId) {
         Date now = new GregorianCalendar().getTime();
         try {
             SimpleUser simpleUser = new SimpleUser();

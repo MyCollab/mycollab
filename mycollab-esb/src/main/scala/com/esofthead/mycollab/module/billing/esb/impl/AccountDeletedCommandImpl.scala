@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.billing.esb.impl
 
-import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.billing.esb.DeleteAccountEvent
 import com.esofthead.mycollab.module.ecm.service.ResourceService
 import com.esofthead.mycollab.module.page.service.PageService
@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component
  * @since 1.0
  *
  */
-@Component class AccountDeletedCommandImpl extends GenericCommandHandler {
+@Component class AccountDeletedCommandImpl extends GenericCommand {
     @Autowired private val resourceService: ResourceService = null
     @Autowired private val pageService: PageService = null
 
@@ -40,5 +40,8 @@ import org.springframework.stereotype.Component
         val rootPath: String = event.accountId + ""
         resourceService.removeResource(rootPath, "", event.accountId)
         pageService.removeResource(rootPath)
+
+        val feedback = event.feedback
+
     }
 }

@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
+import com.esofthead.mycollab.module.project.domain.TaskList
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-class DeleteProjectTaskListEvent(val username: String, val accountId: Integer, val projectId: Integer, val taskListId: Integer) {
-    
-}
+class DeleteProjectTaskListEvent(val taskLists: Array[TaskList], val username: String, val accountId: Integer) {}

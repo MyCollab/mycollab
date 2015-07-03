@@ -44,10 +44,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, LeadSearchCriteria, SimpleLead>
         implements MassUpdateCommand<Lead> {
@@ -64,46 +62,43 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
         super.postInitView();
         leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
-                            if (isSelectAll) {
-                                NotificationUtil.showWarningNotification(AppContext
-                                        .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
-                            } else {
-                                List<String> lstMail = new ArrayList<>();
-                                Collection<SimpleLead> tableData = view.getPagedBeanTable()
-                                        .getCurrentDataList();
-                                for (SimpleLead item : tableData) {
-                                    if (item.isSelected()) {
-                                        lstMail.add(String.format("%s <%s>", item.getLeadName(), item.getEmail()));
-                                    }
-                                }
-
-                                UI.getCurrent().addWindow(new MailFormWindow(lstMail));
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    if (isSelectAll) {
+                        NotificationUtil.showWarningNotification(AppContext.getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                    } else {
+                        List<String> lstMail = new ArrayList<>();
+                        Collection<SimpleLead> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        for (SimpleLead item : tableData) {
+                            if (item.isSelected()) {
+                                lstMail.add(String.format("%s <%s>", item.getLeadName(), item.getEmail()));
                             }
-
-                        } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
-                            MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(AppContext.getMessage(
-                                    GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Lead"),
-                                    LeadListPresenter.this);
-                            UI.getCurrent().addWindow(massUpdateWindow);
                         }
+
+                        UI.getCurrent().addWindow(new MailFormWindow(lstMail));
                     }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE);
-                    }
+                } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
+                    MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(AppContext.getMessage(
+                            GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Lead"),
+                            LeadListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
+            }
 
-                    @Override
-                    protected Class<?> getReportModelClassType() {
-                        return SimpleLead.class;
-                    }
-                });
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE);
+            }
+
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleLead.class;
+            }
+        });
     }
 
     @Override
@@ -129,18 +124,16 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleLead> currentDataList = view.getPagedBeanTable()
-                    .getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
+            Collection<SimpleLead> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Lead> keyList = new ArrayList<>();
             for (SimpleLead item : currentDataList) {
                 if (item.isSelected()) {
-                    keyList.add(item.getId());
+                    keyList.add(item);
                 }
             }
 
             if (keyList.size() > 0) {
-                leadService.massRemoveWithSession(keyList,
-                        AppContext.getUsername(), AppContext.getAccountId());
+                leadService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
@@ -154,8 +147,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
     @Override
     public void massUpdate(Lead value) {
         if (!isSelectAll) {
-            Collection<SimpleLead> currentDataList = view.getPagedBeanTable()
-                    .getCurrentDataList();
+            Collection<SimpleLead> currentDataList = view.getPagedBeanTable().getCurrentDataList();
             List<Integer> keyList = new ArrayList<>();
             for (SimpleLead item : currentDataList) {
                 if (item.isSelected()) {
@@ -164,8 +156,7 @@ public class LeadListPresenter extends CrmGenericListPresenter<LeadListView, Lea
             }
 
             if (keyList.size() > 0) {
-                leadService.massUpdateWithSession(value, keyList,
-                        AppContext.getAccountId());
+                leadService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
                 doSearch(searchCriteria);
             }
         } else {

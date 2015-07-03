@@ -49,6 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -237,9 +238,12 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     }
 
     @Override
-    public void massRemoveWithSession(List<String> primaryKeys,
-                                      String username, Integer accountId) {
-        userMapperExt.removeKeysWithSession(primaryKeys);
+    public void massRemoveWithSession(List<User> items, String username, Integer accountId) {
+        List<String> keys = new ArrayList<>();
+        for (User user : items) {
+            keys.add(user.getUsername());
+        }
+        userMapperExt.removeKeysWithSession(keys);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

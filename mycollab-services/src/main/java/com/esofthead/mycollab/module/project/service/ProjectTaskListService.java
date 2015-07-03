@@ -30,8 +30,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface ProjectTaskListService extends
-		IDefaultService<Integer, TaskList, TaskListSearchCriteria> {
+public interface ProjectTaskListService extends IDefaultService<Integer, TaskList, TaskListSearchCriteria> {
 	@Cacheable
 	SimpleTaskList findById(Integer taskListId, @CacheKey Integer sAccountId);
 

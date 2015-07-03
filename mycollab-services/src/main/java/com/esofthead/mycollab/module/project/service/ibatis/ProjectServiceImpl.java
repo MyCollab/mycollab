@@ -205,8 +205,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         return projectId;
     }
 
-    private void assertExistProjectShortnameInAccount(Integer projectId, String shortname,
-                                                      Integer sAccountId) {
+    private void assertExistProjectShortnameInAccount(Integer projectId, String shortname, Integer sAccountId) {
         ProjectExample ex = new ProjectExample();
         ProjectExample.Criteria criteria = ex.createCriteria();
         criteria.andShortnameEqualTo(shortname).andSaccountidEqualTo(sAccountId);
@@ -218,8 +217,7 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
         }
     }
 
-    private ProjectRole createProjectRole(Integer projectId, Integer sAccountId,
-                                          String roleName, String description) {
+    private ProjectRole createProjectRole(Integer projectId, Integer sAccountId, String roleName, String description) {
         ProjectRole projectRole = new ProjectRole();
         projectRole.setProjectid(projectId);
         projectRole.setSaccountid(sAccountId);
@@ -251,18 +249,10 @@ public class ProjectServiceImpl extends DefaultService<Integer, Project, Project
     }
 
     @Override
-    public Integer removeWithSession(Integer projectId, String username,
-                                     Integer accountId) {
-        // notify listener project is removed, then silently remove project in
-        // associate records
-        try {
-            Project project = findByPrimaryKey(projectId, accountId);
-            DeleteProjectEvent event = new DeleteProjectEvent(project.getSaccountid(), projectId);
-            asyncEventBus.post(event);
-        } catch (Exception e) {
-            LOG.error("Error while notify user delete", e);
-        }
-        return super.removeWithSession(projectId, username, accountId);
+    public void massRemoveWithSession(List<Project> projects, String username, Integer accountId) {
+        super.massRemoveWithSession(projects, username, accountId);
+        DeleteProjectEvent event = new DeleteProjectEvent(projects.toArray(new Project[projects.size()]), accountId);
+        asyncEventBus.post(event);
     }
 
     @Override

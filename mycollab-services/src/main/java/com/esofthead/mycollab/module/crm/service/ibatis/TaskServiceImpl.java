@@ -38,10 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Service
 @Transactional
@@ -49,83 +47,69 @@ import java.util.List;
 @Auditable()
 @Watchable(userFieldName = "assignuser")
 @NotifyAgent(TaskRelayEmailNotificationAction.class)
-public class TaskServiceImpl extends
-		DefaultService<Integer, Task, TodoSearchCriteria> implements
-		TaskService {
+public class TaskServiceImpl extends DefaultService<Integer, Task, TodoSearchCriteria> implements TaskService {
 
     static {
         ClassInfoMap.put(TaskServiceImpl.class, new ClassInfo(ModuleNameConstants.CRM, CrmTypeConstants.TASK));
     }
 
-	@Autowired
-	private CrmTaskMapper taskMapper;
+    @Autowired
+    private CrmTaskMapper taskMapper;
 
-	@Autowired
-	private CrmTaskMapperExt taskMapperExt;
+    @Autowired
+    private CrmTaskMapperExt taskMapperExt;
 
-	@Override
-	public ICrudGenericDAO<Integer, Task> getCrudMapper() {
-		return taskMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Task> getCrudMapper() {
+        return taskMapper;
+    }
 
-	@Override
-	public ISearchableDAO<TodoSearchCriteria> getSearchMapper() {
-		return taskMapperExt;
-	}
+    @Override
+    public ISearchableDAO<TodoSearchCriteria> getSearchMapper() {
+        return taskMapperExt;
+    }
 
-	@Override
-	public SimpleTask findById(Integer taskId, Integer sAccountId) {
-		return taskMapperExt.findById(taskId);
-	}
+    @Override
+    public SimpleTask findById(Integer taskId, Integer sAccountId) {
+        return taskMapperExt.findById(taskId);
+    }
 
-	@Override
-	public Integer saveWithSession(Task record, String username) {
-		Integer result = super.saveWithSession(record, username);
-		CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
-		return result;
-	}
+    @Override
+    public Integer saveWithSession(Task record, String username) {
+        Integer result = super.saveWithSession(record, username);
+        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        return result;
+    }
 
-	@Override
-	public Integer updateWithSession(Task record, String username) {
-		Integer result = super.updateWithSession(record, username);
-		CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
-		return result;
-	}
+    @Override
+    public Integer updateWithSession(Task record, String username) {
+        Integer result = super.updateWithSession(record, username);
+        CacheUtils.cleanCaches(record.getSaccountid(), EventService.class);
+        return result;
+    }
 
-	@Override
-	public Integer removeWithSession(Integer primaryKey, String username,
-								 Integer accountId) {
-		Integer result = super.removeWithSession(primaryKey, username, accountId);
-		CacheUtils.cleanCaches(accountId, EventService.class);
-		return result;
-	}
+    @Override
+    public void removeByCriteria(TodoSearchCriteria criteria, Integer accountId) {
+        super.removeByCriteria(criteria, accountId);
+        CacheUtils.cleanCaches(accountId, EventService.class);
+    }
 
-	@Override
-	public void removeByCriteria(TodoSearchCriteria criteria, Integer accountId) {
-		super.removeByCriteria(criteria, accountId);
-		CacheUtils.cleanCaches(accountId, EventService.class);
-	}
+    @Override
+    public void massRemoveWithSession(List<Task> tasks, String username, Integer accountId) {
+        super.massRemoveWithSession(tasks, username, accountId);
+        CacheUtils.cleanCaches(accountId, EventService.class);
+    }
 
-	@Override
-	public void massRemoveWithSession(List<Integer> primaryKeys,
-			String username, Integer accountId) {
-		super.massRemoveWithSession(primaryKeys, username, accountId);
-		CacheUtils.cleanCaches(accountId, EventService.class);
-	}
+    @Override
+    public void massUpdateWithSession(Task record, List<Integer> primaryKeys, Integer accountId) {
+        super.massUpdateWithSession(record, primaryKeys, accountId);
+        CacheUtils.cleanCaches(accountId, EventService.class);
+    }
 
-	@Override
-	public void massUpdateWithSession(Task record, List<Integer> primaryKeys,
-									  Integer accountId) {
-		super.massUpdateWithSession(record, primaryKeys, accountId);
-		CacheUtils.cleanCaches(accountId, EventService.class);
-	}
-
-	@Override
-	public void updateBySearchCriteria(Task record,
-			TodoSearchCriteria searchCriteria) {
-		super.updateBySearchCriteria(record, searchCriteria);
-		CacheUtils.cleanCaches((Integer) searchCriteria.getAccountId()
-				.getValue(), EventService.class);
-	}
+    @Override
+    public void updateBySearchCriteria(Task record, TodoSearchCriteria searchCriteria) {
+        super.updateBySearchCriteria(record, searchCriteria);
+        CacheUtils.cleanCaches((Integer) searchCriteria.getAccountId().getValue(), EventService.class);
+    }
 
 }

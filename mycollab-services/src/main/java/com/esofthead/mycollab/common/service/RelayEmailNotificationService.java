@@ -28,7 +28,6 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
  * 
  */
 @IgnoreCacheClass
-public interface RelayEmailNotificationService
-		extends
+public interface RelayEmailNotificationService extends
 		IDefaultService<Integer, RelayEmailNotificationWithBLOBs, RelayEmailNotificationSearchCriteria> {
 }

@@ -189,12 +189,9 @@ public class MessageListViewImpl extends AbstractPageView implements
                                     if (dialog.isConfirmed()) {
                                         MessageService messageService = ApplicationContextUtil
                                                 .getSpringBean(MessageService.class);
-                                        messageService.removeWithSession(
-                                                message.getId(),
-                                                AppContext.getUsername(),
-                                                AppContext.getAccountId());
-                                        MessageListViewImpl.this.tableItem
-                                                .setSearchCriteria(searchCriteria);
+                                        messageService.removeWithSession(message,
+                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        tableItem.setSearchCriteria(searchCriteria);
                                     }
                                 }
                             });

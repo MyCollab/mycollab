@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
+import com.google.common.eventbus.AsyncEventBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,47 +42,44 @@ import org.springframework.transaction.annotation.Transactional;
 @Auditable()
 @Watchable(userFieldName = "userlead", extraTypeId = "projectid")
 @NotifyAgent(ComponentRelayEmailNotificationAction.class)
-public class ComponentServiceImpl extends
-		DefaultService<Integer, Component, ComponentSearchCriteria> implements
-		ComponentService {
+public class ComponentServiceImpl extends DefaultService<Integer, Component, ComponentSearchCriteria> implements
+        ComponentService {
     static {
         ClassInfoMap.put(ComponentServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_COMPONENT));
     }
 
-	@Autowired
-	private ComponentMapper componentMapper;
-	@Autowired
-	private ComponentMapperExt componentMapperExt;
+    @Autowired private ComponentMapper componentMapper;
+    @Autowired private ComponentMapperExt componentMapperExt;
+    @Autowired private AsyncEventBus asyncEventBus;
 
-	@Override
-	public ICrudGenericDAO<Integer, Component> getCrudMapper() {
-		return componentMapper;
-	}
+    @Override
+    public ICrudGenericDAO<Integer, Component> getCrudMapper() {
+        return componentMapper;
+    }
 
-	@Override
-	public ISearchableDAO<ComponentSearchCriteria> getSearchMapper() {
-		return componentMapperExt;
-	}
+    @Override
+    public ISearchableDAO<ComponentSearchCriteria> getSearchMapper() {
+        return componentMapperExt;
+    }
 
-	@Override
-	public SimpleComponent findById(Integer componentId, Integer sAccountId) {
-		return componentMapperExt.findComponentById(componentId);
-	}
+    @Override
+    public SimpleComponent findById(Integer componentId, Integer sAccountId) {
+        return componentMapperExt.findComponentById(componentId);
+    }
 
-	@Override
-	public Integer saveWithSession(Component record, String username) {
-		// check whether there is exiting record
-		ComponentExample ex = new ComponentExample();
+    @Override
+    public Integer saveWithSession(Component record, String username) {
+        // check whether there is exiting record
+        ComponentExample ex = new ComponentExample();
+        ex.createCriteria().andComponentnameEqualTo(record.getComponentname()).andProjectidEqualTo(record.getProjectid());
 
-		ex.createCriteria().andComponentnameEqualTo(record.getComponentname())
-				.andProjectidEqualTo(record.getProjectid());
+        int count = componentMapper.countByExample(ex);
+        if (count > 0) {
+            throw new MyCollabException("There is an existing record has name " + record.getComponentname());
+        } else {
+            return super.saveWithSession(record, username);
+        }
+    }
 
-		int count = componentMapper.countByExample(ex);
-		if (count > 0) {
-			throw new MyCollabException("There is an existing record has name "
-					+ record.getComponentname());
-		} else {
-			return super.saveWithSession(record, username);
-		}
-	}
+
 }

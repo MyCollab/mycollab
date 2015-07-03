@@ -51,8 +51,7 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public class ItemTimeLoggingServiceImpl extends
-        DefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria>
+public class ItemTimeLoggingServiceImpl extends DefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria>
         implements ItemTimeLoggingService {
 
     @Autowired
@@ -99,66 +98,54 @@ public class ItemTimeLoggingServiceImpl extends
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
+    public void massRemoveWithSession(List<ItemTimeLogging> items, String username, Integer accountId) {
+        super.massRemoveWithSession(items, username, accountId);
         CacheUtils.cleanCaches(accountId, ItemTimeLoggingService.class, ProjectService.class);
-        return super.removeWithSession(primaryKey, username, accountId);
     }
 
     @Override
     public Double getTotalHoursByCriteria(ItemTimeLoggingSearchCriteria criteria) {
-        Double value = itemTimeLoggingMapperExt
-                .getTotalHoursByCriteria(criteria);
+        Double value = itemTimeLoggingMapperExt.getTotalHoursByCriteria(criteria);
         return (value != null) ? value : 0;
     }
 
     @Override
-    public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings,
-                                     @CacheKey Integer sAccountId) {
-        DataSource dataSource = ApplicationContextUtil
-                .getSpringBean(DataSource.class);
+    public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings, @CacheKey Integer sAccountId) {
+        DataSource dataSource = ApplicationContextUtil.getSpringBean(DataSource.class);
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate
-                .batchUpdate(
-                        "insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "
-                                + "note) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        new BatchPreparedStatementSetter() {
+        jdbcTemplate.batchUpdate(
+                "insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "
+                        + "note) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                new BatchPreparedStatementSetter() {
 
-                            @Override
-                            public void setValues(PreparedStatement ps, int i)
-                                    throws SQLException {
-                                ItemTimeLogging itemLogging = timeLoggings
-                                        .get(i);
-                                ps.setInt(1, itemLogging.getProjectid());
-                                ps.setString(2, itemLogging.getType());
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ItemTimeLogging itemLogging = timeLoggings.get(i);
+                        ps.setInt(1, itemLogging.getProjectid());
+                        ps.setString(2, itemLogging.getType());
 
-                                if (itemLogging.getTypeid() == null) {
-                                    ps.setNull(3, Types.INTEGER);
-                                } else {
-                                    ps.setInt(3, itemLogging.getTypeid());
-                                }
+                        if (itemLogging.getTypeid() == null) {
+                            ps.setNull(3, Types.INTEGER);
+                        } else {
+                            ps.setInt(3, itemLogging.getTypeid());
+                        }
 
-                                ps.setDouble(4, itemLogging.getLogvalue());
-                                ps.setString(5, itemLogging.getLoguser());
-                                ps.setTimestamp(6, new Timestamp(
-                                        new GregorianCalendar().getTime()
-                                                .getTime()));
-                                ps.setTimestamp(7, new Timestamp(
-                                        new GregorianCalendar().getTime()
-                                                .getTime()));
-                                ps.setInt(8, itemLogging.getSaccountid());
-                                ps.setTimestamp(9, new Timestamp(itemLogging
-                                        .getLogforday().getTime()));
-                                ps.setBoolean(10, itemLogging.getIsbillable());
-                                ps.setString(11, itemLogging.getCreateduser());
-                                ps.setString(12, itemLogging.getNote());
-                            }
+                        ps.setDouble(4, itemLogging.getLogvalue());
+                        ps.setString(5, itemLogging.getLoguser());
+                        ps.setTimestamp(6, new Timestamp(new GregorianCalendar().getTime().getTime()));
+                        ps.setTimestamp(7, new Timestamp(new GregorianCalendar().getTime().getTime()));
+                        ps.setInt(8, itemLogging.getSaccountid());
+                        ps.setTimestamp(9, new Timestamp(itemLogging.getLogforday().getTime()));
+                        ps.setBoolean(10, itemLogging.getIsbillable());
+                        ps.setString(11, itemLogging.getCreateduser());
+                        ps.setString(12, itemLogging.getNote());
+                    }
 
-                            @Override
-                            public int getBatchSize() {
-                                return timeLoggings.size();
-                            }
-                        });
+                    @Override
+                    public int getBatchSize() {
+                        return timeLoggings.size();
+                    }
+                });
         CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class, ProjectService.class);
     }
 

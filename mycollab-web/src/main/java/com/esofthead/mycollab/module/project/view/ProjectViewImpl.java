@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.*;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -336,7 +335,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                                                     ConfirmDialog dialog) {
                                                 if (dialog.isConfirmed()) {
                                                     ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
-                                                    projectService.removeWithSession(CurrentProjectVariables.getProjectId(),
+                                                    projectService.removeWithSession(CurrentProjectVariables.getProject(),
                                                             AppContext.getUsername(), AppContext.getAccountId());
                                                     EventBusFactory.getInstance().post(new ShellEvent.GotoProjectModule(this, null));
                                                 }

@@ -645,11 +645,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     CustomSqlParam wrapParam = (CustomSqlParam) param;
                     switch (compareOper) {
                         case PropertyListParam.BELONG_TO:
-                            return wrapParam.buildPropertyParamInList(
-                                    prefixOperation, value);
+                            return wrapParam.buildPropertyParamInList(prefixOperation, value);
                         case PropertyListParam.NOT_BELONG_TO:
-                            return wrapParam.buildPropertyParamNotInList(
-                                    prefixOperation, value);
+                            return wrapParam.buildPropertyParamNotInList(prefixOperation, value);
                         default:
                             throw new MyCollabException("Not support yet");
                     }
@@ -678,30 +676,24 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                     TextField field = (TextField) valueBox.getComponent(0);
                     String value = field.getValue();
                     ConcatStringParam wrapParam = (ConcatStringParam) param;
-                    return wrapParam.buildSearchField(prefixOperation,
-                            compareOper, value);
+                    return wrapParam.buildSearchField(prefixOperation, compareOper, value);
                 } else if (param instanceof DateParam) {
                     DateParam wrapParam = (DateParam) param;
 
-                    if (DateParam.BETWEEN.equals(compareOper)
-                            || DateParam.NOT_BETWEEN.equals(compareOper)) {
+                    if (DateParam.BETWEEN.equals(compareOper) || DateParam.NOT_BETWEEN.equals(compareOper)) {
                         if (valueBox.getComponentCount() != 2) {
                             return null;
                         }
-                        Date dateValue1 = ((DateField) valueBox.getComponent(0))
-                                .getValue();
-                        Date dateValue2 = ((DateField) valueBox.getComponent(1))
-                                .getValue();
+                        Date dateValue1 = ((DateField) valueBox.getComponent(0)).getValue();
+                        Date dateValue2 = ((DateField) valueBox.getComponent(1)).getValue();
                         return wrapParam.buildSearchField(prefixOperation,
                                 compareOper, dateValue1, dateValue2);
                     } else {
                         if (valueBox.getComponentCount() != 1) {
                             return null;
                         }
-                        Date dateValue = ((DateField) valueBox.getComponent(0))
-                                .getValue();
-                        return wrapParam.buildSearchField(prefixOperation,
-                                compareOper, dateValue);
+                        Date dateValue = ((DateField) valueBox.getComponent(0)).getValue();
+                        return wrapParam.buildSearchField(prefixOperation, compareOper, dateValue);
                     }
                 } else {
                     throw new MyCollabException("Not support yet");
@@ -730,8 +722,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         com.vaadin.data.Property.ValueChangeEvent event) {
                     Object itemId = SavedSearchResultComboBox.this.getValue();
                     if (itemId != null) {
-                        final SaveSearchResultWithBLOBs data = beanItem
-                                .getItem(itemId).getBean();
+                        final SaveSearchResultWithBLOBs data = beanItem.getItem(itemId).getBean();
 
                         String queryText = data.getQuerytext();
                         List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer
@@ -749,33 +740,23 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                             Button updateBtn = new Button("Update");
                             updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
                             updateBtn.setIcon(FontAwesome.REFRESH);
-                            updateBtn
-                                    .addClickListener(new Button.ClickListener() {
-                                        private static final long serialVersionUID = 1L;
+                            updateBtn.addClickListener(new Button.ClickListener() {
+                                private static final long serialVersionUID = 1L;
 
-                                        @Override
-                                        public void buttonClick(ClickEvent event) {
+                                @Override
+                                public void buttonClick(ClickEvent event) {
+                                    List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
+                                    SaveSearchResultService saveSearchResultService = ApplicationContextUtil.getSpringBean(SaveSearchResultService.class);
+                                    data.setSaveuser(AppContext.getUsername());
+                                    data.setSaccountid(AppContext.getAccountId());
+                                    data.setQuerytext(XStreamJsonDeSerializer.toJson(fieldInfos));
+                                    saveSearchResultService.updateWithSession(
+                                            data, AppContext.getUsername());
 
-                                            List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
-                                            SaveSearchResultService saveSearchResultService = ApplicationContextUtil
-                                                    .getSpringBean(SaveSearchResultService.class);
-                                            data.setSaveuser(AppContext
-                                                    .getUsername());
-                                            data.setSaccountid(AppContext
-                                                    .getAccountId());
-                                            data.setQuerytext(XStreamJsonDeSerializer
-                                                    .toJson(fieldInfos));
-                                            saveSearchResultService
-                                                    .updateWithSession(
-                                                            data,
-                                                            AppContext
-                                                                    .getUsername());
+                                }
+                            });
 
-                                        }
-                                    });
-
-                            Button deleteBtn = new Button(AppContext
-                                    .getMessage(GenericI18Enum.BUTTON_DELETE),
+                            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
                                     new Button.ClickListener() {
                                         private static final long serialVersionUID = 1L;
 
@@ -783,16 +764,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                                         public void buttonClick(ClickEvent event) {
                                             SaveSearchResultService saveSearchResultService = ApplicationContextUtil
                                                     .getSpringBean(SaveSearchResultService.class);
-                                            saveSearchResultService.removeWithSession(
-                                                    data.getId(),
-                                                    AppContext.getUsername(),
-                                                    AppContext.getAccountId());
-                                            searchContainer
-                                                    .removeAllComponents();
+                                            saveSearchResultService.removeWithSession(data,
+                                                    AppContext.getUsername(), AppContext.getAccountId());
+                                            searchContainer.removeAllComponents();
                                             if (filterBox.getComponentCount() > 2) {
-                                                filterBox
-                                                        .removeComponent(filterBox
-                                                                .getComponent(1));
+                                                filterBox.removeComponent(filterBox.getComponent(1));
                                             }
                                             contructComboBox();
                                         }

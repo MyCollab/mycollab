@@ -40,101 +40,78 @@ import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
  */
-public class TaskGroupReadPresenter extends
-		AbstractMobilePresenter<TaskGroupReadView> {
+public class TaskGroupReadPresenter extends AbstractMobilePresenter<TaskGroupReadView> {
+    private static final long serialVersionUID = 5446981407457723179L;
 
-	private static final long serialVersionUID = 5446981407457723179L;
+    public TaskGroupReadPresenter() {
+        super(TaskGroupReadView.class);
+    }
 
-	public TaskGroupReadPresenter() {
-		super(TaskGroupReadView.class);
-	}
+    @Override
+    protected void postInitView() {
+        super.postInitView();
+        this.view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleTaskList>() {
+            @Override
+            public void onEdit(SimpleTaskList data) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoListEdit(this, data));
+            }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
-		this.view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleTaskList>() {
+            @Override
+            public void onDelete(final SimpleTaskList data) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onEdit(SimpleTaskList data) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoListEdit(this, data));
-					}
+                            @Override
+                            public void onClose(
+                                    final ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ProjectTaskListService taskListService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+                                    taskListService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                                }
+                            }
+                        });
+            }
 
-					@Override
-					public void onDelete(final SimpleTaskList data) {
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+            @Override
+            public void onClone(SimpleTaskList data) {
+                SimpleTaskList cloneData = (SimpleTaskList) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new TaskEvent.GotoListEdit(this, cloneData));
+            }
+        });
+    }
 
-									@Override
-									public void onClose(
-											final ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											final ProjectTaskListService taskListService = ApplicationContextUtil
-													.getSpringBean(ProjectTaskListService.class);
-											taskListService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory
-													.getInstance()
-													.post(new ShellEvent.NavigateBack(
-															this, null));
-										}
-									}
-								});
-					}
+    @Override
+    protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_TASK));
 
-					@Override
-					public void onClone(SimpleTaskList data) {
-						final SimpleTaskList cloneData = (SimpleTaskList) data
-								.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoListEdit(this, cloneData));
-					}
-				});
-	}
+            if (data.getParams() instanceof Integer) {
+                ProjectTaskListService service = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+                SimpleTaskList taskList = service.findById((Integer) data.getParams(), AppContext.getAccountId());
+                if (taskList != null) {
+                    this.view.previewItem(taskList);
+                    super.onGo(navigator, data);
 
-	@Override
-	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
-
-			if (data.getParams() instanceof Integer) {
-				ProjectTaskListService service = ApplicationContextUtil
-						.getSpringBean(ProjectTaskListService.class);
-				SimpleTaskList taskList = service.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				if (taskList != null) {
-					this.view.previewItem(taskList);
-					super.onGo(navigator, data);
-
-					AppContext.addFragment(ProjectLinkGenerator
-							.generateTaskGroupPreviewLink(
-									CurrentProjectVariables.getProjectId(),
-									taskList.getId()), taskList.getName());
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-				}
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
-
+                    AppContext.addFragment(ProjectLinkGenerator.generateTaskGroupPreviewLink(
+                            CurrentProjectVariables.getProjectId(), taskList.getId()), taskList.getName());
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                }
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

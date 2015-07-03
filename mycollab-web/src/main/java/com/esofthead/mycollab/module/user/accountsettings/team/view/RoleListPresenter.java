@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
+import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.service.RoleService;
@@ -41,7 +42,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -84,16 +84,15 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleRole> currentDataList = view.getPagedBeanTable()
-                    .getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
+            Collection<SimpleRole> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Role> keyList = new ArrayList<>();
             for (SimpleRole item : currentDataList) {
                 if (item.isSelected()) {
                     if (Boolean.TRUE.equals(item.getIssystemrole())) {
                         NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
                                 item.getRolename()));
                     } else {
-                        keyList.add(item.getId());
+                        keyList.add(item);
                     }
                 }
             }
@@ -117,8 +116,7 @@ public class RoleListPresenter extends ListSelectionPresenter<RoleListView, Role
             searchCriteria = (RoleSearchCriteria) data.getParams();
             doSearch(searchCriteria);
 
-            AccountSettingBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(AccountSettingBreadcrumb.class);
+            AccountSettingBreadcrumb breadcrumb = ViewManager.getCacheComponent(AccountSettingBreadcrumb.class);
             breadcrumb.gotoRoleList();
         } else {
             NotificationUtil.showMessagePermissionAlert();

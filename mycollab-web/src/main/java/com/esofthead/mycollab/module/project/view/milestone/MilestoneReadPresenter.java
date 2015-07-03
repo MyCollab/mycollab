@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -58,92 +57,80 @@ public class MilestoneReadPresenter extends AbstractPresenter<MilestoneReadView>
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<SimpleMilestone>() {
-                    @Override
-                    public void onEdit(SimpleMilestone data) {
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoEdit(this, data));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleMilestone>() {
+            @Override
+            public void onEdit(SimpleMilestone data) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onAdd(SimpleMilestone data) {
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoAdd(this, null));
-                    }
+            @Override
+            public void onAdd(SimpleMilestone data) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
+            }
 
-                    @Override
-                    public void onDelete(final SimpleMilestone data) {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleMilestone data) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            MilestoneService milestoneService = ApplicationContextUtil
-                                                    .getSpringBean(MilestoneService.class);
-                                            milestoneService.removeWithSession(data.getId(),
-                                                    AppContext.getUsername(), AppContext.getAccountId());
-                                            EventBusFactory.getInstance()
-                                                    .post(new MilestoneEvent.GotoList(this, null));
-                                        }
-                                    }
-                                });
-                    }
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                                    milestoneService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-                    @Override
-                    public void onClone(SimpleMilestone data) {
-                        SimpleMilestone cloneData = (SimpleMilestone) data.copy();
-                        cloneData.setId(null);
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoEdit(this, cloneData));
-                    }
+            @Override
+            public void onClone(SimpleMilestone data) {
+                SimpleMilestone cloneData = (SimpleMilestone) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, cloneData));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoList(this, null));
-                    }
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
+            }
 
-                    @Override
-                    public void gotoNext(SimpleMilestone data) {
-                        MilestoneService milestoneService = ApplicationContextUtil
-                                .getSpringBean(MilestoneService.class);
-                        MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
-                        Integer nextId = milestoneService.getNextItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(
-                                    new MilestoneEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoLastRecordNotification();
-                        }
+            @Override
+            public void gotoNext(SimpleMilestone data) {
+                MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = milestoneService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
 
-                    }
+            }
 
-                    @Override
-                    public void gotoPrevious(SimpleMilestone data) {
-                        MilestoneService milestoneService = ApplicationContextUtil
-                                .getSpringBean(MilestoneService.class);
-                        MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                        Integer nextId = milestoneService.getPreviousItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(
-                                    new MilestoneEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoFirstRecordNotification();
-                        }
-                    }
-                });
+            @Override
+            public void gotoPrevious(SimpleMilestone data) {
+                MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                MilestoneSearchCriteria criteria = new MilestoneSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = milestoneService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
     }
 
     @Override
@@ -152,17 +139,14 @@ public class MilestoneReadPresenter extends AbstractPresenter<MilestoneReadView>
             MilestoneContainer milestoneContainer = (MilestoneContainer) container;
             milestoneContainer.navigateToContainer(ProjectTypeConstants.MILESTONE);
             if (data.getParams() instanceof Integer) {
-                MilestoneService milestoneService = ApplicationContextUtil
-                        .getSpringBean(MilestoneService.class);
-                SimpleMilestone milestone = milestoneService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                MilestoneService milestoneService = ApplicationContextUtil.getSpringBean(MilestoneService.class);
+                SimpleMilestone milestone = milestoneService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 if (milestone != null) {
                     milestoneContainer.removeAllComponents();
                     milestoneContainer.addComponent(view.getWidget());
                     view.previewItem(milestone);
 
-                    ProjectBreadcrumb breadcrumb = ViewManager
-                            .getCacheComponent(ProjectBreadcrumb.class);
+                    ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                     breadcrumb.gotoMilestoneRead(milestone);
                 } else {
                     NotificationUtil.showRecordNotExistNotification();

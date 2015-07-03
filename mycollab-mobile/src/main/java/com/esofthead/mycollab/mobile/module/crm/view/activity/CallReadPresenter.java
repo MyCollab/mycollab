@@ -38,138 +38,111 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.1
- * 
  */
 public class CallReadPresenter extends AbstractMobilePresenter<CallReadView> {
-	private static final long serialVersionUID = 9005269894958445146L;
+    private static final long serialVersionUID = 9005269894958445146L;
 
-	public CallReadPresenter() {
-		super(CallReadView.class);
-	}
+    public CallReadPresenter() {
+        super(CallReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleCall>() {
-					@Override
-					public void onEdit(SimpleCall data) {
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.CallEdit(this, data));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleCall>() {
+            @Override
+            public void onEdit(SimpleCall data) {
+                EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(this, data));
+            }
 
-					@Override
-					public void onDelete(final SimpleCall data) {
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleCall data) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											CallService callService = ApplicationContextUtil
-													.getSpringBean(CallService.class);
-											callService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory.getInstance().post(
-													new ActivityEvent.GotoList(
-															this, null));
-										}
-									}
-								});
-					}
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                                    callService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-					@Override
-					public void onClone(SimpleCall data) {
-						CallWithBLOBs cloneData = (CallWithBLOBs) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.CallEdit(this, cloneData));
-					}
+            @Override
+            public void onClone(SimpleCall data) {
+                CallWithBLOBs cloneData = (CallWithBLOBs) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new ActivityEvent.CallEdit(this, cloneData));
+            }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new ActivityEvent.GotoList(this, null));
-					}
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new ActivityEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void gotoNext(SimpleCall data) {
-						CallService callService = ApplicationContextUtil
-								.getSpringBean(CallService.class);
-						CallSearchCriteria criteria = new CallSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = callService.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.CallRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+            @Override
+            public void gotoNext(SimpleCall data) {
+                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallSearchCriteria criteria = new CallSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = callService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
+            }
 
-					}
+            @Override
+            public void gotoPrevious(SimpleCall data) {
+                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                CallSearchCriteria criteria = new CallSearchCriteria();
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = callService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ActivityEvent.CallRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
+    }
 
-					@Override
-					public void gotoPrevious(SimpleCall data) {
-						CallService callService = ApplicationContextUtil
-								.getSpringBean(CallService.class);
-						CallSearchCriteria criteria = new CallSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = callService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new ActivityEvent.CallRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+            SimpleCall call;
+            if (data.getParams() instanceof Integer) {
+                CallService callService = ApplicationContextUtil.getSpringBean(CallService.class);
+                call = callService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                if (call == null) {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Invalid data: " + data);
+            }
+            view.previewItem(call);
+            super.onGo(container, data);
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
-
-			SimpleCall call = null;
-			if (data.getParams() instanceof Integer) {
-				CallService callService = ApplicationContextUtil
-						.getSpringBean(CallService.class);
-				call = callService.findById((Integer) data.getParams(),
-						AppContext.getAccountId());
-				if (call == null) {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Invalid data: " + data);
-			}
-			view.previewItem(call);
-			super.onGo(container, data);
-
-			AppContext.addFragment(CrmLinkGenerator
-					.generateCallPreviewLink(call.getId()), AppContext
-					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-							"Call", call.getSubject()));
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            AppContext.addFragment(CrmLinkGenerator
+                    .generateCallPreviewLink(call.getId()), AppContext
+                    .getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                            "Call", call.getSubject()));
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

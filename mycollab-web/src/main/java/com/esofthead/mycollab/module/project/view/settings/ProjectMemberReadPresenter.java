@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -55,93 +54,80 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<SimpleProjectMember>() {
-                    @Override
-                    public void onEdit(SimpleProjectMember data) {
-                        EventBusFactory.getInstance().post(
-                                new ProjectMemberEvent.GotoEdit(this, data));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleProjectMember>() {
+            @Override
+            public void onEdit(SimpleProjectMember data) {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onDelete(final SimpleProjectMember data) {
+            @Override
+            public void onDelete(final SimpleProjectMember data) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                                    projectMemberService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-                                    @Override
-                                    public void onClose(ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            ProjectMemberService projectMemberService = ApplicationContextUtil
-                                                    .getSpringBean(ProjectMemberService.class);
-                                            projectMemberService.removeWithSession(data.getId(),
-                                                    AppContext.getUsername(), AppContext.getAccountId());
-                                            EventBusFactory.getInstance().
-                                                    post(new ProjectMemberEvent.GotoList(this, null));
-                                        }
-                                    }
-                                });
-                    }
+            @Override
+            public void onClone(SimpleProjectMember data) {
+                SimpleProjectMember cloneData = (SimpleProjectMember) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoEdit(this, cloneData));
+            }
 
-                    @Override
-                    public void onClone(SimpleProjectMember data) {
-                        SimpleProjectMember cloneData = (SimpleProjectMember) data.copy();
-                        cloneData.setId(null);
-                        EventBusFactory.getInstance().post(
-                                new ProjectMemberEvent.GotoEdit(this, cloneData));
-                    }
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoList(this, null));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(
-                                new ProjectMemberEvent.GotoList(this, null));
-                    }
+            @Override
+            public void gotoNext(SimpleProjectMember data) {
+                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
 
-                    @Override
-                    public void gotoNext(SimpleProjectMember data) {
-                        ProjectMemberService projectMemberService = ApplicationContextUtil
-                                .getSpringBean(ProjectMemberService.class);
-                        ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
-                        criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-                        criteria.setStatus(new StringSearchField(
-                                ProjectMemberStatusConstants.ACTIVE));
+                Integer nextId = projectMemberService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
 
-                        Integer nextId = projectMemberService.getNextItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(
-                                    new ProjectMemberEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoLastRecordNotification();
-                        }
+            }
 
-                    }
+            @Override
+            public void gotoPrevious(SimpleProjectMember data) {
+                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
+                ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
 
-                    @Override
-                    public void gotoPrevious(SimpleProjectMember data) {
-                        ProjectMemberService projectMemberService = ApplicationContextUtil
-                                .getSpringBean(ProjectMemberService.class);
-                        ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-                        criteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                        criteria.setStatus(new StringSearchField(ProjectMemberStatusConstants.ACTIVE));
-
-                        Integer nextId = projectMemberService.getPreviousItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(
-                                    new ProjectMemberEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoFirstRecordNotification();
-                        }
-                    }
-                });
+                Integer nextId = projectMemberService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new ProjectMemberEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
     }
 
     @Override
@@ -173,8 +159,7 @@ public class ProjectMemberReadPresenter extends AbstractPresenter<ProjectMemberR
                 userGroupContainer.removeAllComponents();
                 userGroupContainer.addComponent(view.getWidget());
                 view.previewItem(prjMember);
-                ProjectBreadcrumb breadCrumb = ViewManager
-                        .getCacheComponent(ProjectBreadcrumb.class);
+                ProjectBreadcrumb breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
                 breadCrumb.gotoUserRead(prjMember);
             } else {
                 NotificationUtil.showRecordNotExistNotification();

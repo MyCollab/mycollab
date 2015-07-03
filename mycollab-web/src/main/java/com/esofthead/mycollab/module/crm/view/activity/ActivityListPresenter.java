@@ -18,12 +18,12 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.dao.CallMapper;
+import com.esofthead.mycollab.module.crm.dao.CrmTaskMapper;
+import com.esofthead.mycollab.module.crm.dao.MeetingMapper;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.service.EventService;
-import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -97,8 +97,7 @@ public class ActivityListPresenter extends
 
     @Override
     protected void deleteSelectedItems() {
-        Collection<SimpleActivity> currentDataList = view.getPagedBeanTable()
-                .getCurrentDataList();
+        Collection<SimpleActivity> currentDataList = view.getPagedBeanTable().getCurrentDataList();
         List<Integer> keyListCall = new ArrayList<>();
         List<Integer> keyListMeeting = new ArrayList<>();
         List<Integer> keyListTask = new ArrayList<>();
@@ -107,8 +106,7 @@ public class ActivityListPresenter extends
                 if (item.isSelected()) {
                     if (CrmTypeConstants.CALL.equals(item.getEventType())) {
                         keyListCall.add(item.getId());
-                    } else if (CrmTypeConstants.MEETING.equals(item
-                            .getEventType())) {
+                    } else if (CrmTypeConstants.MEETING.equals(item.getEventType())) {
                         keyListMeeting.add(item.getId());
                     } else if (CrmTypeConstants.TASK
                             .equals(item.getEventType())) {
@@ -129,24 +127,18 @@ public class ActivityListPresenter extends
         }
 
         if (keyListCall.size() > 0) {
-            CallService callService = ApplicationContextUtil
-                    .getSpringBean(CallService.class);
-            callService.massRemoveWithSession(keyListCall,
-                    AppContext.getUsername(), AppContext.getAccountId());
+            CallMapper callService = ApplicationContextUtil.getSpringBean(CallMapper.class);
+            callService.removeKeysWithSession(keyListCall);
         }
 
         if (keyListMeeting.size() > 0) {
-            MeetingService meetingService = ApplicationContextUtil
-                    .getSpringBean(MeetingService.class);
-            meetingService.massRemoveWithSession(keyListMeeting,
-                    AppContext.getUsername(), AppContext.getAccountId());
+            MeetingMapper meetingService = ApplicationContextUtil.getSpringBean(MeetingMapper.class);
+            meetingService.removeKeysWithSession(keyListMeeting);
         }
 
         if (keyListTask.size() > 0) {
-            TaskService taskService = ApplicationContextUtil
-                    .getSpringBean(TaskService.class);
-            taskService.massRemoveWithSession(keyListTask,
-                    AppContext.getUsername(), AppContext.getAccountId());
+            CrmTaskMapper taskService = ApplicationContextUtil.getSpringBean(CrmTaskMapper.class);
+            taskService.removeKeysWithSession(keyListTask);
         }
         doSearch(searchCriteria);
         checkWhetherEnableTableActionControl();

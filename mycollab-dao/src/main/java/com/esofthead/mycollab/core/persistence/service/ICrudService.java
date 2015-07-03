@@ -16,85 +16,76 @@
  */
 package com.esofthead.mycollab.core.persistence.service;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
  * @param <K>
  * @param <T>
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface ICrudService<K extends Serializable, T> extends IService {
 
-	/**
-	 * 
-	 * @param record
-	 * @param username
-	 * @return
-	 */
-	@CacheEvict
-	Integer saveWithSession(@CacheKey T record, String username);
+    /**
+     * @param record
+     * @param username
+     * @return
+     */
+    @CacheEvict
+    Integer saveWithSession(@CacheKey T record, String username);
 
-	/**
-	 * 
-	 * @param record
-	 * @param username
-	 * @return
-	 */
-	@CacheEvict
-	Integer updateWithSession(@CacheKey T record, String username);
+    /**
+     * @param record
+     * @param username
+     * @return
+     */
+    @CacheEvict
+    Integer updateWithSession(@CacheKey T record, String username);
 
-	/**
-	 * 
-	 * @param record
-	 * @param username
-	 * @return
-	 */
-	@CacheEvict
-	Integer updateSelectiveWithSession(@CacheKey T record, String username);
+    /**
+     * @param record
+     * @param username
+     * @return
+     */
+    @CacheEvict
+    Integer updateSelectiveWithSession(@CacheKey T record, String username);
 
-	/**
-	 * 
-	 * @param record
-	 * @param primaryKeys
-	 * @param accountId
-	 */
-	@CacheEvict
-	void massUpdateWithSession(T record, List<K> primaryKeys,
-			@CacheKey Integer accountId);
+    /**
+     * @param record
+     * @param primaryKeys
+     * @param accountId
+     */
+    @CacheEvict
+    void massUpdateWithSession(T record, List<K> primaryKeys, @CacheKey Integer accountId);
 
-	/**
-	 * 
-	 * @param primaryKey
-	 * @param sAccountId
-	 * @return
-	 */
-	@Cacheable
-	T findByPrimaryKey(K primaryKey, @CacheKey Integer sAccountId);
+    /**
+     * @param primaryKey
+     * @param sAccountId
+     * @return
+     */
+    @Cacheable
+    T findByPrimaryKey(K primaryKey, @CacheKey Integer sAccountId);
 
-	/**
-	 * 
-	 * @param primaryKey
-	 * @param username
-	 * @param sAccountId
-	 * @return
-	 */
-	@CacheEvict
-	Integer removeWithSession(K primaryKey, String username, @CacheKey Integer sAccountId);
+    /**
+     *
+     * @param item
+     * @param username
+     * @param sAccountId
+     */
+    @CacheEvict
+    void removeWithSession(T item, String username, @CacheKey Integer sAccountId);
 
-	/**
-	 * 
-	 * @param primaryKeys
-	 * @param username
-	 * @param sAccountId
-	 */
-	@CacheEvict
-	void massRemoveWithSession(List<K> primaryKeys, String username, @CacheKey Integer sAccountId);
+    /**
+     *
+     * @param items
+     * @param username
+     * @param sAccountId
+     */
+    @CacheEvict
+    void massRemoveWithSession(List<T> items, String username, @CacheKey Integer sAccountId);
 }

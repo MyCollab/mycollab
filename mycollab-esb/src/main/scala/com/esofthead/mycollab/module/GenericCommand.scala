@@ -14,23 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-esb.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.esb.impl
+package com.esofthead.mycollab.module
 
-import com.esofthead.mycollab.module.GenericCommandHandler
-import com.esofthead.mycollab.module.project.esb.DeleteProjectVersionEvent
-import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
-import org.springframework.stereotype.Component
+import javax.annotation.{PostConstruct, PreDestroy}
+
+import com.google.common.eventbus.AsyncEventBus
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
- *
- * @author MyCollab Ltd.
- * @since 1.0
- *
+ * @author MyCollab Ltd
+ * @since 5.1.0
  */
-@Component class DeleteProjectVersionCommandImpl extends GenericCommandHandler {
-    @AllowConcurrentEvents
-    @Subscribe
-    def removedVersion(event: DeleteProjectVersionEvent): Unit = {
+class GenericCommand {
+    @Autowired protected val asyncEventBus: AsyncEventBus = null
 
+    @PostConstruct
+    def registerHandler(): Unit = {
+        asyncEventBus.register(this)
+    }
+
+    @PreDestroy
+    def unregisterHandler(): Unit = {
+        asyncEventBus.unregister(this)
     }
 }

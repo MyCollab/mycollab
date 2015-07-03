@@ -42,124 +42,115 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 public class CampaignListPresenter extends
-		CrmGenericListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign>
-		implements MassUpdateCommand<CampaignWithBLOBs> {
+        CrmGenericListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign>
+        implements MassUpdateCommand<CampaignWithBLOBs> {
 
-	private static final long serialVersionUID = 1L;
-	private CampaignService campaignService;
+    private static final long serialVersionUID = 1L;
+    private CampaignService campaignService;
 
-	public CampaignListPresenter() {
-		super(CampaignListView.class, CampaignCrmListNoItemView.class);
-	}
+    public CampaignListPresenter() {
+        super(CampaignListView.class, CampaignCrmListNoItemView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		super.postInitView();
-		campaignService = ApplicationContextUtil
-				.getSpringBean(CampaignService.class);
+    @Override
+    protected void postInitView() {
+        super.postInitView();
+        campaignService = ApplicationContextUtil.getSpringBean(CampaignService.class);
 
-		view.getPopupActionHandlers().setMassActionHandler(
-				new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-					@Override
-					protected void onSelectExtra(String id) {
-						if ("mail".equals(id)) {
-							UI.getCurrent().addWindow(new MailFormWindow());
-						} else if ("massUpdate".equals(id)) {
-							MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
-									AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
-											"Campaign"), CampaignListPresenter.this);
-							UI.getCurrent().addWindow(massUpdateWindow);
-						}
-					}
+            @Override
+            protected void onSelectExtra(String id) {
+                if ("mail".equals(id)) {
+                    UI.getCurrent().addWindow(new MailFormWindow());
+                } else if ("massUpdate".equals(id)) {
+                    MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
+                                    "Campaign"), CampaignListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
+            }
 
-					@Override
-					protected String getReportTitle() {
-						return AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE);
-					}
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE);
+            }
 
-					@Override
-					protected Class<?> getReportModelClassType() {
-						return SimpleCampaign.class;
-					}
-				});
-	}
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleCampaign.class;
+            }
+        });
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
-		if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
-			searchCriteria = (CampaignSearchCriteria) data.getParams();
-			int totalCount = campaignService.getTotalCount(searchCriteria);
-			if (totalCount > 0) {
-				this.displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				this.displayNoExistItems(container, data);
-			}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        CrmToolbar.navigateItem(CrmTypeConstants.CAMPAIGN);
+        if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+            searchCriteria = (CampaignSearchCriteria) data.getParams();
+            int totalCount = campaignService.getTotalCount(searchCriteria);
+            if (totalCount > 0) {
+                this.displayListView(container, data);
+                doSearch(searchCriteria);
+            } else {
+                this.displayNoExistItems(container, data);
+            }
 
-			AppContext.addFragment("crm/campaign/list",
-					AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            AppContext.addFragment("crm/campaign/list",
+                    AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
-	@Override
-	protected void deleteSelectedItems() {
-		if (!isSelectAll) {
-			Collection<SimpleCampaign> currentDataList = view
-					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
-			for (SimpleCampaign item : currentDataList) {
-				if (item.isSelected()) {
-					keyList.add(item.getId());
-				}
-			}
+    @Override
+    protected void deleteSelectedItems() {
+        if (!isSelectAll) {
+            Collection<SimpleCampaign> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<CampaignWithBLOBs> keyList = new ArrayList<>();
+            for (SimpleCampaign item : currentDataList) {
+                if (item.isSelected()) {
+                    keyList.add(item);
+                }
+            }
 
-			if (keyList.size() > 0) {
-				campaignService.massRemoveWithSession(keyList,
-						AppContext.getUsername(), AppContext.getAccountId());
-				doSearch(searchCriteria);
-				checkWhetherEnableTableActionControl();
-			}
-		} else {
-			campaignService.removeByCriteria(searchCriteria,
-					AppContext.getAccountId());
-			doSearch(searchCriteria);
-		}
-	}
+            if (keyList.size() > 0) {
+                campaignService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
+                doSearch(searchCriteria);
+                checkWhetherEnableTableActionControl();
+            }
+        } else {
+            campaignService.removeByCriteria(searchCriteria, AppContext.getAccountId());
+            doSearch(searchCriteria);
+        }
+    }
 
-	@Override
-	public void massUpdate(CampaignWithBLOBs value) {
-		if (!isSelectAll) {
-			Collection<SimpleCampaign> currentDataList = view
-					.getPagedBeanTable().getCurrentDataList();
-			List<Integer> keyList = new ArrayList<Integer>();
-			for (SimpleCampaign item : currentDataList) {
-				if (item.isSelected()) {
-					keyList.add(item.getId());
-				}
-			}
-			if (keyList.size() > 0) {
-				campaignService.massUpdateWithSession(value, keyList,
-						AppContext.getAccountId());
-				doSearch(searchCriteria);
-			}
-		} else {
-			campaignService.updateBySearchCriteria(value, searchCriteria);
-			doSearch(searchCriteria);
-		}
-	}
+    @Override
+    public void massUpdate(CampaignWithBLOBs value) {
+        if (!isSelectAll) {
+            Collection<SimpleCampaign> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Integer> keyList = new ArrayList<>();
+            for (SimpleCampaign item : currentDataList) {
+                if (item.isSelected()) {
+                    keyList.add(item.getId());
+                }
+            }
+            if (keyList.size() > 0) {
+                campaignService.massUpdateWithSession(value, keyList, AppContext.getAccountId());
+                doSearch(searchCriteria);
+            }
+        } else {
+            campaignService.updateBySearchCriteria(value, searchCriteria);
+            doSearch(searchCriteria);
+        }
+    }
 
-	@Override
-	public ISearchableService<CampaignSearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(CampaignService.class);
-	}
+    @Override
+    public ISearchableService<CampaignSearchCriteria> getSearchService() {
+        return ApplicationContextUtil.getSpringBean(CampaignService.class);
+    }
 }

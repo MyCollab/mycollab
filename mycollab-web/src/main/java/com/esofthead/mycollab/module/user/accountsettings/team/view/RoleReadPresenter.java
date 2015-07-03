@@ -16,10 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
@@ -39,9 +36,9 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
+import org.vaadin.dialogs.ConfirmDialog;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -55,70 +52,65 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<Role>() {
-                    @Override
-                    public void onAdd(Role role) {
-                        EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, role));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<Role>() {
+            @Override
+            public void onAdd(Role role) {
+                EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, role));
+            }
 
-                    @Override
-                    public void onEdit(Role data) {
-                        EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(this, data));
-                    }
+            @Override
+            public void onEdit(Role data) {
+                EventBusFactory.getInstance().post(new RoleEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onDelete(final Role role) {
-                        if (Boolean.TRUE.equals(role.getIssystemrole())) {
-                            NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
-                                    role.getRolename()));
-                        } else {
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                            AppContext.getSiteName()),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final Role role) {
+                if (Boolean.TRUE.equals(role.getIssystemrole())) {
+                    NotificationUtil.showErrorNotification(String.format("Can not delete role %s because it is the system role.",
+                            role.getRolename()));
+                } else {
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                RoleService roleService = ApplicationContextUtil
-                                                        .getSpringBean(RoleService.class);
-                                                roleService.removeWithSession(role.getId(),
-                                                        AppContext.getUsername(),
-                                                        AppContext.getAccountId());
-                                                EventBusFactory.getInstance().post(
-                                                        new RoleEvent.GotoList(this, null));
-                                            }
-                                        }
-                                    });
-                        }
-                    }
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
+                                        roleService.removeWithSession(role,
+                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
+                                    }
+                                }
+                            });
+                }
+            }
 
-                    @Override
-                    public void onClone(Role data) {
-                        Role cloneData = (Role) data.copy();
-                        cloneData.setRolename(null);
-                        cloneData.setIssystemrole(false);
-                        EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, cloneData));
-                    }
+            @Override
+            public void onClone(Role data) {
+                Role cloneData = (Role) data.copy();
+                cloneData.setRolename(null);
+                cloneData.setIssystemrole(false);
+                EventBusFactory.getInstance().post(new RoleEvent.GotoAdd(this, cloneData));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
-                    }
-                });
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new RoleEvent.GotoList(this, null));
+            }
+        });
     }
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
         if (AppContext.canRead(RolePermissionCollections.ACCOUNT_ROLE)) {
             RoleService roleService = ApplicationContextUtil.getSpringBean(RoleService.class);
-            SimpleRole role = roleService.findById((Integer) data.getParams(),
-                    AppContext.getAccountId());
+            SimpleRole role = roleService.findById((Integer) data.getParams(), AppContext.getAccountId());
             if (role != null) {
                 RoleContainer roleContainer = (RoleContainer) container;
                 roleContainer.removeAllComponents();

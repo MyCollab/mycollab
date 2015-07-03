@@ -44,10 +44,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, CaseSearchCriteria, SimpleCase>
         implements MassUpdateCommand<CaseWithBLOBs> {
@@ -64,46 +62,43 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
 
         caseService = ApplicationContextUtil.getSpringBean(CaseService.class);
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
-                            if (isSelectAll) {
-                                NotificationUtil.showWarningNotification(AppContext
-                                        .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
-                            } else {
-                                List<String> lstMail = new ArrayList<>();
-                                Collection<SimpleCase> tableData = view.getPagedBeanTable()
-                                        .getCurrentDataList();
-                                for (SimpleCase item : tableData) {
-                                    if (item.isSelected()) {
-                                        lstMail.add(item.getEmail());
-                                    }
-                                }
-                                UI.getCurrent().addWindow(
-                                        new MailFormWindow(lstMail));
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    if (isSelectAll) {
+                        NotificationUtil.showWarningNotification(AppContext
+                                .getMessage(ErrorI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+                    } else {
+                        List<String> lstMail = new ArrayList<>();
+                        Collection<SimpleCase> tableData = view.getPagedBeanTable().getCurrentDataList();
+                        for (SimpleCase item : tableData) {
+                            if (item.isSelected()) {
+                                lstMail.add(item.getEmail());
                             }
-
-                        } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
-                            MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
-                                    AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Case"),
-                                    CaseListPresenter.this);
-                            UI.getCurrent().addWindow(massUpdateWindow);
                         }
+                        UI.getCurrent().addWindow(new MailFormWindow(lstMail));
                     }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE);
-                    }
+                } else if (ViewItemAction.MASS_UPDATE_ACTION().equals(id)) {
+                    MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
+                            AppContext.getMessage(GenericI18Enum.WINDOW_MASS_UPDATE_TITLE, "Case"),
+                            CaseListPresenter.this);
+                    UI.getCurrent().addWindow(massUpdateWindow);
+                }
+            }
 
-                    @Override
-                    protected Class<SimpleCase> getReportModelClassType() {
-                        return SimpleCase.class;
-                    }
-                });
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE);
+            }
+
+            @Override
+            protected Class<SimpleCase> getReportModelClassType() {
+                return SimpleCase.class;
+            }
+        });
     }
 
     @Override
@@ -119,8 +114,7 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
                 this.displayNoExistItems(container, data);
             }
 
-            AppContext.addFragment("crm/cases/list",
-                    AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
+            AppContext.addFragment("crm/cases/list", AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
         } else {
             NotificationUtil.showMessagePermissionAlert();
         }
@@ -129,24 +123,21 @@ public class CaseListPresenter extends CrmGenericListPresenter<CaseListView, Cas
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleCase> currentDataList = view.getPagedBeanTable()
-                    .getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
+            Collection<SimpleCase> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<CaseWithBLOBs> keyList = new ArrayList<>();
             for (SimpleCase item : currentDataList) {
                 if (item.isSelected()) {
-                    keyList.add(item.getId());
+                    keyList.add(item);
                 }
             }
 
             if (keyList.size() > 0) {
-                caseService.massRemoveWithSession(keyList,
-                        AppContext.getUsername(), AppContext.getAccountId());
+                caseService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
                 doSearch(searchCriteria);
                 checkWhetherEnableTableActionControl();
             }
         } else {
-            caseService.removeByCriteria(searchCriteria,
-                    AppContext.getAccountId());
+            caseService.removeByCriteria(searchCriteria, AppContext.getAccountId());
             doSearch(searchCriteria);
         }
 

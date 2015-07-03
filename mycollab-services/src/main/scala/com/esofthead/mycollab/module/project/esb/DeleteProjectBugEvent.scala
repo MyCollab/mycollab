@@ -16,10 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.esb
 
+import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs
+
 /**
  * @author MyCollab Ltd
  * @since 5.1.0
  */
-class DeleteProjectBugEvent(val username: String, val accountId: Integer, val projectId: Integer, val bugId: Integer) {
-    
-}
+class DeleteProjectBugEvent(val bugs: Array[BugWithBLOBs], val username: String, val accountId: Integer) {}

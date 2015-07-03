@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -53,52 +52,51 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 
     @Override
     protected void postInitView() {
-        view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<SimpleBug>() {
-                    @Override
-                    public void onEdit(SimpleBug data) {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, data));
-                    }
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleBug>() {
+            @Override
+            public void onEdit(SimpleBug data) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onAdd(SimpleBug data) {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
-                    }
+            @Override
+            public void onAdd(SimpleBug data) {
+                EventBusFactory.getInstance().post(new BugEvent.GotoAdd(this, null));
+            }
 
-                    @Override
-                    public void onDelete(final SimpleBug data) {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleBug data) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(
-                                            final ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-                                            bugService.removeWithSession(data.getId(), AppContext.getUsername(), AppContext.getAccountId());
-                                            EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-                                        }
-                                    }
-                                });
-                    }
+                            @Override
+                            public void onClose(
+                                    final ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                    bugService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-                    @Override
-                    public void onClone(SimpleBug data) {
-                        SimpleBug cloneData = (SimpleBug) data.copy();
-                        cloneData.setId(null);
-                        EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, cloneData));
-                    }
+            @Override
+            public void onClone(SimpleBug data) {
+                SimpleBug cloneData = (SimpleBug) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(this, cloneData));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
-                    }
-                });
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new BugEvent.GotoList(this, null));
+            }
+        });
     }
 
     @Override

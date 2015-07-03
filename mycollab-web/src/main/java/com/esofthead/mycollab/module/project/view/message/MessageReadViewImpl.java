@@ -88,8 +88,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
     public void previewItem(SimpleMessage item) {
         this.message = item;
         previewForm.setFormLayoutFactory(new FormLayoutFactory());
-        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
-                previewForm) {
+        previewForm.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(previewForm) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -133,7 +132,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                                             if (dialog.isConfirmed()) {
                                                 MessageService messageService = ApplicationContextUtil
                                                         .getSpringBean(MessageService.class);
-                                                messageService.removeWithSession(message.getId(),
+                                                messageService.removeWithSession(message,
                                                         AppContext.getUsername(), AppContext.getAccountId());
                                                 previewForm.fireCancelForm(message);
                                             }
@@ -166,11 +165,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
 
             ProjectViewHeader headerText = new ProjectViewHeader(ProjectTypeConstants.MESSAGE, message.getTitle());
 
-            header.with(headerText, stickyCheck, deleteBtn)
-                    .withAlign(headerText, Alignment.MIDDLE_LEFT)
-                    .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT)
-                    .withAlign(deleteBtn, Alignment.MIDDLE_RIGHT)
-                    .expand(headerText);
+            header.with(headerText, stickyCheck, deleteBtn).withAlign(headerText, Alignment.MIDDLE_LEFT)
+                    .withAlign(stickyCheck, Alignment.MIDDLE_RIGHT).withAlign(deleteBtn, Alignment.MIDDLE_RIGHT).expand(headerText);
 
             MHorizontalLayout messageLayout = new MHorizontalLayout().withStyleName("message").withWidth("100%");
 
@@ -186,10 +182,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
             rowLayout.setStyleName("message-container");
             rowLayout.setWidth("100%");
 
-            MHorizontalLayout messageHeader = new MHorizontalLayout()
-                    .withStyleName("message-header")
-                    .withMargin(new MarginInfo(true, false, false, true))
-                    .withWidth("100%");
+            MHorizontalLayout messageHeader = new MHorizontalLayout().withStyleName("message-header")
+                    .withMargin(new MarginInfo(true, false, false, true)).withWidth("100%");
             messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
             ELabel timePostLbl = new ELabel(AppContext.getMessage(
@@ -219,8 +213,7 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
                 attachmentIcon.addStyleName(UIConstants.BUTTON_ICON_ONLY);
                 attachmentField.addComponent(attachmentIcon);
 
-                Label lbAttachment = new Label(AppContext
-                        .getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
+                Label lbAttachment = new Label(AppContext.getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
                 attachmentField.addComponent(lbAttachment);
 
                 Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
@@ -247,10 +240,8 @@ public class MessageReadViewImpl extends AbstractPageView implements MessageRead
         }
 
         protected CommentDisplay createCommentPanel() {
-            CommentDisplay commentDisplay = new CommentDisplay(
-                    ProjectTypeConstants.MESSAGE,
-                    CurrentProjectVariables.getProjectId(),
-                    MessageRelayEmailNotificationAction.class);
+            CommentDisplay commentDisplay = new CommentDisplay(ProjectTypeConstants.MESSAGE,
+                    CurrentProjectVariables.getProjectId(), MessageRelayEmailNotificationAction.class);
             commentDisplay.loadComments("" + message.getId());
             return commentDisplay;
         }

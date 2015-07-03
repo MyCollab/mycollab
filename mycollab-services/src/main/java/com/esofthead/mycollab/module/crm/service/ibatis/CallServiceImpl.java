@@ -53,9 +53,9 @@ public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, Call
     }
 
     @Autowired
-    protected CallMapper callMapper;
+    private CallMapper callMapper;
     @Autowired
-    protected CallMapperExt callMapperExt;
+    private CallMapperExt callMapperExt;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -88,38 +88,26 @@ public class CallServiceImpl extends DefaultService<Integer, CallWithBLOBs, Call
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
-        Integer result = super.removeWithSession(primaryKey, username, accountId);
-        CacheUtils.cleanCaches(accountId, EventService.class);
-        return result;
-    }
-
-    @Override
     public void removeByCriteria(CallSearchCriteria criteria, Integer accountId) {
         super.removeByCriteria(criteria, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void massRemoveWithSession(List<Integer> primaryKeys,
-                                      String username, Integer accountId) {
-        super.massRemoveWithSession(primaryKeys, username, accountId);
+    public void massRemoveWithSession(List<CallWithBLOBs> items, String username, Integer accountId) {
+        super.massRemoveWithSession(items, username, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void massUpdateWithSession(CallWithBLOBs record,
-                                      List<Integer> primaryKeys, Integer accountId) {
+    public void massUpdateWithSession(CallWithBLOBs record, List<Integer> primaryKeys, Integer accountId) {
         super.massUpdateWithSession(record, primaryKeys, accountId);
         CacheUtils.cleanCaches(accountId, EventService.class);
     }
 
     @Override
-    public void updateBySearchCriteria(CallWithBLOBs record,
-                                       CallSearchCriteria searchCriteria) {
+    public void updateBySearchCriteria(CallWithBLOBs record, CallSearchCriteria searchCriteria) {
         super.updateBySearchCriteria(record, searchCriteria);
-        CacheUtils.cleanCaches((Integer) searchCriteria.getSaccountid()
-                .getValue(), EventService.class);
+        CacheUtils.cleanCaches((Integer) searchCriteria.getSaccountid().getValue(), EventService.class);
     }
 }

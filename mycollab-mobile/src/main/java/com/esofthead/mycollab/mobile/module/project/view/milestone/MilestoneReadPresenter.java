@@ -39,109 +39,93 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.2
  */
-public class MilestoneReadPresenter extends
-		AbstractMobilePresenter<MilestoneReadView> {
+public class MilestoneReadPresenter extends AbstractMobilePresenter<MilestoneReadView> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public MilestoneReadPresenter() {
+        super(MilestoneReadView.class);
+    }
 
-	public MilestoneReadPresenter() {
-		super(MilestoneReadView.class);
-	}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleMilestone>() {
+            @Override
+            public void onEdit(SimpleMilestone data) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, data));
+            }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleMilestone>() {
-					@Override
-					public void onEdit(SimpleMilestone data) {
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoEdit(this, data));
-					}
+            @Override
+            public void onAdd(SimpleMilestone data) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(this, null));
+            }
 
-					@Override
-					public void onAdd(SimpleMilestone data) {
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoAdd(this, null));
-					}
+            @Override
+            public void onDelete(final SimpleMilestone data) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onDelete(final SimpleMilestone data) {
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+                            @Override
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    MilestoneService milestoneService = ApplicationContextUtil
+                                            .getSpringBean(MilestoneService.class);
+                                    milestoneService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new MilestoneEvent.GotoList(this, null));
+                                }
+                            }
+                        });
+            }
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											MilestoneService milestoneService = ApplicationContextUtil
-													.getSpringBean(MilestoneService.class);
-											milestoneService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory
-													.getInstance()
-													.post(new MilestoneEvent.GotoList(
-															this, null));
-										}
-									}
-								});
-					}
+            @Override
+            public void onClone(SimpleMilestone data) {
+                SimpleMilestone cloneData = (SimpleMilestone) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoEdit(this, cloneData));
+            }
+        });
+    }
 
-					@Override
-					public void onClone(SimpleMilestone data) {
-						SimpleMilestone cloneData = (SimpleMilestone) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoEdit(this, cloneData));
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.MILESTONES)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.MILESTONES)) {
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
+            if (data.getParams() instanceof Integer) {
+                MilestoneService milestoneService = ApplicationContextUtil
+                        .getSpringBean(MilestoneService.class);
+                SimpleMilestone milestone = milestoneService.findById(
+                        (Integer) data.getParams(), AppContext.getAccountId());
+                if (milestone != null) {
+                    this.view.previewItem(milestone);
+                    super.onGo(container, data);
 
-			if (data.getParams() instanceof Integer) {
-				MilestoneService milestoneService = ApplicationContextUtil
-						.getSpringBean(MilestoneService.class);
-				SimpleMilestone milestone = milestoneService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				if (milestone != null) {
-					this.view.previewItem(milestone);
-					super.onGo(container, data);
-
-					AppContext.addFragment(
-							"project/milestone/preview/"
-									+ GenericLinkUtils
-											.encodeParam(CurrentProjectVariables
+                    AppContext.addFragment(
+                            "project/milestone/preview/"
+                                    + GenericLinkUtils
+                                    .encodeParam(CurrentProjectVariables
                                                     .getProjectId(),
-													milestone.getId()),
-							milestone.getName());
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Unhanddle this case yet");
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                                            milestone.getId()),
+                            milestone.getName());
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Unhanddle this case yet");
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

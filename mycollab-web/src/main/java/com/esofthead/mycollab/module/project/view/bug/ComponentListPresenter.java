@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
+import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
@@ -42,17 +43,14 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class ComponentListPresenter
-        extends
+public class ComponentListPresenter extends
         ProjectGenericListPresenter<ComponentListView, ComponentSearchCriteria, SimpleComponent> {
-
     private static final long serialVersionUID = 1L;
-    private final ComponentService componentService;
+    private ComponentService componentService;
 
     public ComponentListPresenter() {
         super(ComponentListView.class, ComponentListNoItemView.class);
@@ -64,32 +62,29 @@ public class ComponentListPresenter
     protected void postInitView() {
         super.postInitView();
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
-                            UI.getCurrent().addWindow(new MailFormWindow());
-                        }
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    UI.getCurrent().addWindow(new MailFormWindow());
+                }
+            }
 
-                    }
+            @Override
+            protected String getReportTitle() {
+                return AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE);
+            }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE);
-                    }
-
-                    @Override
-                    protected Class<?> getReportModelClassType() {
-                        return SimpleComponent.class;
-                    }
-                });
+            @Override
+            protected Class<?> getReportModelClassType() {
+                return SimpleComponent.class;
+            }
+        });
     }
 
     @Override
-    protected void onGo(com.vaadin.ui.ComponentContainer container,
-                        ScreenData<?> data) {
+    protected void onGo(com.vaadin.ui.ComponentContainer container, ScreenData<?> data) {
         if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.COMPONENTS)) {
             ComponentContainer trackerContainer = (ComponentContainer) container;
             trackerContainer.removeAllComponents();
@@ -106,8 +101,7 @@ public class ComponentListPresenter
                 displayNoExistItems(container, data);
             }
 
-            ProjectBreadcrumb breadcrumb = ViewManager
-                    .getCacheComponent(ProjectBreadcrumb.class);
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
             breadcrumb.gotoComponentList();
         } else {
             NotificationUtil.showMessagePermissionAlert();
@@ -117,22 +111,19 @@ public class ComponentListPresenter
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
-            Collection<SimpleComponent> currentDataList = view
-                    .getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<Integer>();
+            Collection<SimpleComponent> currentDataList = view.getPagedBeanTable().getCurrentDataList();
+            List<Component> keyList = new ArrayList<>();
             for (SimpleComponent item : currentDataList) {
                 if (item.isSelected()) {
-                    keyList.add(item.getId());
+                    keyList.add(item);
                 }
             }
 
             if (keyList.size() > 0) {
-                componentService.massRemoveWithSession(keyList,
-                        AppContext.getUsername(), AppContext.getAccountId());
+                componentService.massRemoveWithSession(keyList, AppContext.getUsername(), AppContext.getAccountId());
             }
         } else {
-            componentService.removeByCriteria(searchCriteria,
-                    AppContext.getAccountId());
+            componentService.removeByCriteria(searchCriteria, AppContext.getAccountId());
         }
 
         int totalCount = componentService.getTotalCount(searchCriteria);

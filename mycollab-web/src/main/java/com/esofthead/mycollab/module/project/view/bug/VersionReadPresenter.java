@@ -40,129 +40,103 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public VersionReadPresenter() {
-		super(VersionReadView.class);
-	}
+    public VersionReadPresenter() {
+        super(VersionReadView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<Version>() {
-					@Override
-					public void onEdit(Version data) {
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoEdit(this, data));
-					}
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<Version>() {
+            @Override
+            public void onEdit(Version data) {
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoEdit(this, data));
+            }
 
-					@Override
-					public void onAdd(Version data) {
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoAdd(this, null));
-					}
+            @Override
+            public void onAdd(Version data) {
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
+            }
 
-					@Override
-					public void onDelete(Version data) {
-						VersionService versionService = ApplicationContextUtil
-								.getSpringBean(VersionService.class);
-						versionService.removeWithSession(data.getId(),
-								AppContext.getUsername(),
-								AppContext.getAccountId());
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoList(this, null));
-					}
+            @Override
+            public void onDelete(Version data) {
+                VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                versionService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void onClone(Version data) {
-						Version cloneData = (Version) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoEdit(this, cloneData));
-					}
+            @Override
+            public void onClone(Version data) {
+                Version cloneData = (Version) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoEdit(this, cloneData));
+            }
 
-					@Override
-					public void onCancel() {
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoList(this, null));
-					}
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
+            }
 
-					@Override
-					public void gotoNext(Version data) {
-						VersionService componentService = ApplicationContextUtil
-								.getSpringBean(VersionService.class);
-						VersionSearchCriteria criteria = new VersionSearchCriteria();
-						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.GREATER));
-						Integer nextId = componentService.getNextItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new BugVersionEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoLastRecordNotification();
-						}
+            @Override
+            public void gotoNext(Version data) {
+                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionSearchCriteria criteria = new VersionSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = componentService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
+            }
 
-					}
+            @Override
+            public void gotoPrevious(Version data) {
+                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                VersionSearchCriteria criteria = new VersionSearchCriteria();
+                criteria.setProjectId(new NumberSearchField(SearchField.AND, CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = componentService.getPreviousItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
+    }
 
-					@Override
-					public void gotoPrevious(Version data) {
-						VersionService componentService = ApplicationContextUtil
-								.getSpringBean(VersionService.class);
-						VersionSearchCriteria criteria = new VersionSearchCriteria();
-						criteria.setProjectId(new NumberSearchField(
-								SearchField.AND, CurrentProjectVariables
-										.getProjectId()));
-						criteria.setId(new NumberSearchField(data.getId(),
-								NumberSearchField.LESSTHAN));
-						Integer nextId = componentService
-								.getPreviousItemKey(criteria);
-						if (nextId != null) {
-							EventBusFactory.getInstance().post(
-									new BugVersionEvent.GotoRead(this, nextId));
-						} else {
-							NotificationUtil.showGotoFirstRecordNotification();
-						}
-					}
-				});
-	}
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.VERSIONS)) {
+            if (data.getParams() instanceof Integer) {
+                VersionService componentService = ApplicationContextUtil.getSpringBean(VersionService.class);
+                Version version = componentService.findById((Integer) data.getParams(), AppContext.getAccountId());
+                if (version != null) {
+                    VersionContainer versionContainer = (VersionContainer) container;
+                    versionContainer.removeAllComponents();
+                    versionContainer.addComponent(view.getWidget());
+                    view.previewItem(version);
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.VERSIONS)) {
-			if (data.getParams() instanceof Integer) {
-				VersionService componentService = ApplicationContextUtil
-						.getSpringBean(VersionService.class);
-				Version version = componentService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
-				if (version != null) {
-					VersionContainer versionContainer = (VersionContainer) container;
-					versionContainer.removeAllComponents();
-					versionContainer.addComponent(view.getWidget());
-					view.previewItem(version);
-
-					ProjectBreadcrumb breadcrumb = ViewManager
-							.getCacheComponent(ProjectBreadcrumb.class);
-					breadcrumb.gotoVersionRead(version);
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			} else {
-				throw new MyCollabException("Unhanddle this case yet");
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                    ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+                    breadcrumb.gotoVersionRead(version);
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            } else {
+                throw new MyCollabException("Unhanddle this case yet");
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

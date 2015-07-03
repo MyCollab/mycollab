@@ -183,7 +183,7 @@ public class TagViewComponent extends CssLayout {
                                 @Override
                                 public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
-                                        tagService.removeWithSession(tag.getId(), AppContext.getUsername(), AppContext.getAccountId());
+                                        tagService.removeWithSession(tag, AppContext.getUsername(), AppContext.getAccountId());
                                         TagViewComponent.this.removeComponent(TagBlock.this);
                                     }
                                 }

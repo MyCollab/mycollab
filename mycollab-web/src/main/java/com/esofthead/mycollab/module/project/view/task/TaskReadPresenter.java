@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -58,93 +57,90 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
     @Override
     protected void postInitView() {
-        this.view.getPreviewFormHandlers().addFormHandler(
-                new DefaultPreviewFormHandler<SimpleTask>() {
+        this.view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleTask>() {
 
-                    @Override
-                    public void onAssign(final SimpleTask data) {
-                        UI.getCurrent().addWindow(new AssignTaskWindow(data));
-                    }
+            @Override
+            public void onAssign(SimpleTask data) {
+                UI.getCurrent().addWindow(new AssignTaskWindow(data));
+            }
 
-                    @Override
-                    public void onEdit(final SimpleTask data) {
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
-                    }
+            @Override
+            public void onEdit(SimpleTask data) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
+            }
 
-                    @Override
-                    public void onAdd(SimpleTask data) {
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
-                    }
+            @Override
+            public void onAdd(SimpleTask data) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(this, null));
+            }
 
-                    @Override
-                    public void onDelete(final SimpleTask data) {
-                        ConfirmDialogExt.show(UI.getCurrent(),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                        AppContext.getSiteName()),
-                                AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                new ConfirmDialog.Listener() {
-                                    private static final long serialVersionUID = 1L;
+            @Override
+            public void onDelete(final SimpleTask data) {
+                ConfirmDialogExt.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE, AppContext.getSiteName()),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.Listener() {
+                            private static final long serialVersionUID = 1L;
 
-                                    @Override
-                                    public void onClose(
-                                            final ConfirmDialog dialog) {
-                                        if (dialog.isConfirmed()) {
-                                            ProjectTaskService taskService = ApplicationContextUtil
-                                                    .getSpringBean(ProjectTaskService.class);
-                                            taskService.removeWithSession(data.getId(),
-                                                    AppContext.getUsername(), AppContext.getAccountId());
-                                            EventBusFactory.getInstance()
-                                                    .post(new TaskListEvent.GotoTaskListScreen(this, null));
-                                        }
-                                    }
-                                });
-                    }
+                            @Override
+                            public void onClose(
+                                    final ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ProjectTaskService taskService = ApplicationContextUtil.
+                                            getSpringBean(ProjectTaskService.class);
+                                    taskService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+                                }
+                            }
+                        });
+            }
 
-                    @Override
-                    public void onClone(final SimpleTask data) {
-                        Task cloneData = (Task) data.copy();
-                        cloneData.setId(null);
-                        EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
-                    }
+            @Override
+            public void onClone(SimpleTask data) {
+                Task cloneData = (Task) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, cloneData));
+            }
 
-                    @Override
-                    public void onCancel() {
-                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
-                    }
+            @Override
+            public void onCancel() {
+                EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
+            }
 
-                    @Override
-                    public void gotoNext(SimpleTask data) {
-                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            @Override
+            public void gotoNext(SimpleTask data) {
+                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-                        TaskSearchCriteria criteria = new TaskSearchCriteria();
-                        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
-                        Integer nextId = taskService.getNextItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoLastRecordNotification();
-                        }
+                TaskSearchCriteria criteria = new TaskSearchCriteria();
+                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
+                Integer nextId = taskService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoLastRecordNotification();
+                }
 
-                    }
+            }
 
-                    @Override
-                    public void gotoPrevious(final SimpleTask data) {
-                        ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+            @Override
+            public void gotoPrevious(final SimpleTask data) {
+                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
 
-                        TaskSearchCriteria criteria = new TaskSearchCriteria();
-                        criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
-                        criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
-                        Integer nextId = taskService.getNextItemKey(criteria);
-                        if (nextId != null) {
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
-                        } else {
-                            NotificationUtil.showGotoFirstRecordNotification();
-                        }
-                    }
-                });
+                TaskSearchCriteria criteria = new TaskSearchCriteria();
+                criteria.setProjectid(new NumberSearchField(CurrentProjectVariables.getProjectId()));
+                criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.LESSTHAN));
+                Integer nextId = taskService.getNextItemKey(criteria);
+                if (nextId != null) {
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoRead(this, nextId));
+                } else {
+                    NotificationUtil.showGotoFirstRecordNotification();
+                }
+            }
+        });
     }
 
     @Override

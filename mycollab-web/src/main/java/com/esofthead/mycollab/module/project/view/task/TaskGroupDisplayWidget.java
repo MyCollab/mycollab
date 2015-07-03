@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -198,40 +197,39 @@ public class TaskGroupDisplayWidget extends BeanList<ProjectTaskListService, Tas
             toogleBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(toogleBtn);
 
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            taskListActionControl.setPopupVisible(false);
-                            ConfirmDialogExt.show(UI.getCurrent(),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
-                                            AppContext.getSiteName()),
-                                    AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-                                    AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-                                    new ConfirmDialog.Listener() {
-                                        private static final long serialVersionUID = 1L;
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    taskListActionControl.setPopupVisible(false);
+                    ConfirmDialogExt.show(UI.getCurrent(),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
+                                    AppContext.getSiteName()),
+                            AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                            AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                            new ConfirmDialog.Listener() {
+                                private static final long serialVersionUID = 1L;
 
-                                        @Override
-                                        public void onClose(ConfirmDialog dialog) {
-                                            if (dialog.isConfirmed()) {
-                                                ProjectTaskListService taskListService = ApplicationContextUtil
-                                                        .getSpringBean(ProjectTaskListService.class);
-                                                taskListService.removeWithSession(taskList.getId(),
-                                                        AppContext.getUsername(), AppContext.getAccountId());
-                                                Component parentComp = TaskListDepot.this.getParent();
-                                                if (parentComp instanceof CssLayout) {
-                                                    ((CssLayout) parentComp).removeComponent(TaskListDepot.this);
-                                                } else {
-                                                    ((TaskGroupDisplayWidget) parentComp).removeRow(TaskListDepot.this);
-                                                }
-                                            }
+                                @Override
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        ProjectTaskListService taskListService = ApplicationContextUtil
+                                                .getSpringBean(ProjectTaskListService.class);
+                                        taskListService.removeWithSession(taskList,
+                                                AppContext.getUsername(), AppContext.getAccountId());
+                                        Component parentComp = TaskListDepot.this.getParent();
+                                        if (parentComp instanceof CssLayout) {
+                                            ((CssLayout) parentComp).removeComponent(TaskListDepot.this);
+                                        } else {
+                                            ((TaskGroupDisplayWidget) parentComp).removeRow(TaskListDepot.this);
                                         }
-                                    });
-                        }
-                    });
+                                    }
+                                }
+                            });
+                }
+            });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
             deleteBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.TASKS));
             actionBtnLayout.addOption(deleteBtn);

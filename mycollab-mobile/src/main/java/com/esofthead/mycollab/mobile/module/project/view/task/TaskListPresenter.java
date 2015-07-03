@@ -47,9 +47,7 @@ import com.vaadin.ui.UI;
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
-public class TaskListPresenter extends
-        AbstractListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
-
+public class TaskListPresenter extends AbstractListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
     private static final long serialVersionUID = -2899902106379842031L;
 
     public TaskListPresenter() {
@@ -60,19 +58,15 @@ public class TaskListPresenter extends
     protected void postInitView() {
         super.postInitView();
         view.addFormHandler(new DefaultPreviewFormHandler<SimpleTaskList>() {
-
             @Override
             public void onEdit(SimpleTaskList data) {
-                EventBusFactory.getInstance().post(
-                        new TaskEvent.GotoListEdit(this, data));
+                EventBusFactory.getInstance().post(new TaskEvent.GotoListEdit(this, data));
             }
 
             @Override
             public void onDelete(final SimpleTaskList data) {
-                ConfirmDialog.show(
-                        UI.getCurrent(),
-                        AppContext
-                                .getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
                         AppContext.getMessage(GenericI18Enum.BUTTON_YES),
                         AppContext.getMessage(GenericI18Enum.BUTTON_NO),
                         new ConfirmDialog.CloseListener() {
@@ -81,15 +75,11 @@ public class TaskListPresenter extends
                             @Override
                             public void onClose(final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
-                                    final ProjectTaskListService taskListService = ApplicationContextUtil
+                                    ProjectTaskListService taskListService = ApplicationContextUtil
                                             .getSpringBean(ProjectTaskListService.class);
-                                    taskListService.removeWithSession(
-                                            data.getId(),
-                                            AppContext.getUsername(),
-                                            AppContext.getAccountId());
-                                    EventBusFactory.getInstance().post(
-                                            new ShellEvent.NavigateBack(this,
-                                                    null));
+                                    taskListService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                                 }
                             }
                         });
@@ -97,7 +87,7 @@ public class TaskListPresenter extends
 
             @Override
             public void onClone(SimpleTaskList data) {
-                final SimpleTaskList cloneData = (SimpleTaskList) data.copy();
+                SimpleTaskList cloneData = (SimpleTaskList) data.copy();
                 cloneData.setId(null);
                 EventBusFactory.getInstance().post(
                         new TaskEvent.GotoListEdit(this, cloneData));
@@ -108,8 +98,7 @@ public class TaskListPresenter extends
 
     @Override
     protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (CurrentProjectVariables
-                .canRead(ProjectRolePermissionCollections.TASKS)) {
+        if (CurrentProjectVariables.canRead(ProjectRolePermissionCollections.TASKS)) {
             InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
                     .getCurrent().getContent()).getNavigationMenu();
             projectModuleMenu.selectButton(AppContext
@@ -118,8 +107,7 @@ public class TaskListPresenter extends
             if (data.getParams() != null && data.getParams() instanceof Integer) {
                 ProjectTaskListService searchService = ApplicationContextUtil
                         .getSpringBean(ProjectTaskListService.class);
-                SimpleTaskList taskList = searchService.findById(
-                        (Integer) data.getParams(), AppContext.getAccountId());
+                SimpleTaskList taskList = searchService.findById((Integer) data.getParams(), AppContext.getAccountId());
                 view.setCaption(taskList.getName());
                 view.setBean(taskList);
 

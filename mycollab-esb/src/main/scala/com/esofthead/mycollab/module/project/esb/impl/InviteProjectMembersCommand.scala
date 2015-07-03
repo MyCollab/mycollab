@@ -20,7 +20,7 @@ import java.util.Date
 
 import com.esofthead.mycollab.configuration.SiteConfiguration
 import com.esofthead.mycollab.i18n.LocalizationHelper
-import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.mail.IContentGenerator
 import com.esofthead.mycollab.module.mail.service.MailRelayService
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator
@@ -34,7 +34,7 @@ import com.google.common.eventbus.{AllowConcurrentEvents, Subscribe}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-@Component class InviteProjectMembersCommandImpl extends GenericCommandHandler {
+@Component class InviteProjectMembersCommand extends GenericCommand {
     @Autowired private val userService: UserService = null
     @Autowired private val mailRelayService: MailRelayService = null
     @Autowired private val projectService: ProjectService = null

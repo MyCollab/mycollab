@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -59,42 +58,40 @@ public class ProjectRoleListPresenter extends
 
         projectRoleService = ApplicationContextUtil.getSpringBean(ProjectRoleService.class);
 
-        view.getPopupActionHandlers().setMassActionHandler(
-                new DefaultMassEditActionHandler(this) {
+        view.getPopupActionHandlers().setMassActionHandler(new DefaultMassEditActionHandler(this) {
 
-                    @Override
-                    protected void onSelectExtra(String id) {
-                        if (ViewItemAction.MAIL_ACTION().equals(id)) {
-                            UI.getCurrent().addWindow(new MailFormWindow());
-                        }
-                    }
+            @Override
+            protected void onSelectExtra(String id) {
+                if (ViewItemAction.MAIL_ACTION().equals(id)) {
+                    UI.getCurrent().addWindow(new MailFormWindow());
+                }
+            }
 
-                    @Override
-                    protected String getReportTitle() {
-                        return "Roles";
-                    }
+            @Override
+            protected String getReportTitle() {
+                return "Roles";
+            }
 
-                    @SuppressWarnings({"unchecked", "rawtypes"})
-                    @Override
-                    protected Class getReportModelClassType() {
-                        return SimpleProjectRole.class;
-                    }
-                });
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            @Override
+            protected Class getReportModelClassType() {
+                return SimpleProjectRole.class;
+            }
+        });
     }
 
     @Override
     protected void deleteSelectedItems() {
         if (!isSelectAll) {
             Collection<SimpleProjectRole> currentDataList = view.getPagedBeanTable().getCurrentDataList();
-            List<Integer> keyList = new ArrayList<>();
+            List<ProjectRole> keyList = new ArrayList<>();
             for (ProjectRole item : currentDataList) {
                 if (item.isSelected()) {
                     if (Boolean.FALSE.equals(item.getIssystemrole())) {
-                        keyList.add(item.getId());
+                        keyList.add(item);
                     } else {
-                        NotificationUtil.showErrorNotification(AppContext
-                                .getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
-                                        item.getRolename()));
+                        NotificationUtil.showErrorNotification(AppContext.
+                                getMessage(ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE, item.getRolename()));
                     }
                 }
             }

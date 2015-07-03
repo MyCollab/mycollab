@@ -40,103 +40,85 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.5.0
  */
 public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public TaskReadPresenter() {
+        super(TaskReadView.class);
+    }
 
-	public TaskReadPresenter() {
-		super(TaskReadView.class);
-	}
+    @Override
+    protected void postInitView() {
+        this.view.getPreviewFormHandlers().addFormHandler(new DefaultPreviewFormHandler<SimpleTask>() {
 
-	@Override
-	protected void postInitView() {
-		this.view.getPreviewFormHandlers().addFormHandler(
-				new DefaultPreviewFormHandler<SimpleTask>() {
+            @Override
+            public void onEdit(final SimpleTask data) {
+                EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(this, data));
+            }
 
-					@Override
-					public void onEdit(final SimpleTask data) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoEdit(this, data));
-					}
+            @Override
+            public void onDelete(final SimpleTask data) {
+                ConfirmDialog.show(UI.getCurrent(),
+                        AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+                        AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+                        new ConfirmDialog.CloseListener() {
+                            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onDelete(final SimpleTask data) {
-						ConfirmDialog.show(
-								UI.getCurrent(),
-								AppContext
-										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
-								new ConfirmDialog.CloseListener() {
-									private static final long serialVersionUID = 1L;
+                            @Override
+                            public void onClose(
+                                    final ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                                    taskService.removeWithSession(data,
+                                            AppContext.getUsername(), AppContext.getAccountId());
+                                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
+                                }
+                            }
+                        });
+            }
 
-									@Override
-									public void onClose(
-											final ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											final ProjectTaskService taskService = ApplicationContextUtil
-													.getSpringBean(ProjectTaskService.class);
-											taskService.removeWithSession(
-													data.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											EventBusFactory
-													.getInstance()
-													.post(new ShellEvent.NavigateBack(
-															this, null));
-										}
-									}
-								});
-					}
+            @Override
+            public void onClone(final SimpleTask data) {
+                final Task cloneData = (Task) data.copy();
+                cloneData.setId(null);
+                EventBusFactory.getInstance().post(
+                        new TaskEvent.GotoEdit(this, cloneData));
+            }
+        });
+    }
 
-					@Override
-					public void onClone(final SimpleTask data) {
-						final Task cloneData = (Task) data.copy();
-						cloneData.setId(null);
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoEdit(this, cloneData));
-					}
-				});
-	}
+    @Override
+    protected void onGo(final ComponentContainer container,
+                        final ScreenData<?> data) {
+        if (CurrentProjectVariables
+                .canRead(ProjectRolePermissionCollections.TASKS)) {
 
-	@Override
-	protected void onGo(final ComponentContainer container,
-			final ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canRead(ProjectRolePermissionCollections.TASKS)) {
+            InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
+                    .getCurrent().getContent()).getNavigationMenu();
+            projectModuleMenu.selectButton(AppContext
+                    .getMessage(ProjectCommonI18nEnum.VIEW_TASK));
 
-			InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
-					.getCurrent().getContent()).getNavigationMenu();
-			projectModuleMenu.selectButton(AppContext
-					.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
+            if (data.getParams() instanceof Integer) {
+                ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                SimpleTask task = taskService.findById((Integer) data.getParams(), AppContext.getAccountId());
 
-			if (data.getParams() instanceof Integer) {
-				final ProjectTaskService taskService = ApplicationContextUtil
-						.getSpringBean(ProjectTaskService.class);
-				final SimpleTask task = taskService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
+                if (task != null) {
+                    this.view.previewItem(task);
+                    super.onGo(container, data);
 
-				if (task != null) {
-					this.view.previewItem(task);
-					super.onGo(container, data);
-
-					AppContext.addFragment(
-							ProjectLinkGenerator.generateTaskPreviewLink(
-									task.getTaskkey(),
-									task.getProjectShortname()),
-							task.getTaskname());
-				} else {
-					NotificationUtil.showRecordNotExistNotification();
-					return;
-				}
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+                    AppContext.addFragment(ProjectLinkGenerator.generateTaskPreviewLink(task.getTaskkey(),
+                            task.getProjectShortname()), task.getTaskname());
+                } else {
+                    NotificationUtil.showRecordNotExistNotification();
+                    return;
+                }
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 }

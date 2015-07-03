@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.user.esb.impl
 import java.util.Arrays
 
 import com.esofthead.mycollab.cache.CacheUtils
-import com.esofthead.mycollab.module.GenericCommandHandler
+import com.esofthead.mycollab.module.GenericCommand
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper
 import com.esofthead.mycollab.module.project.domain.{ProjectMember, ProjectMemberExample}
@@ -36,17 +36,17 @@ import org.springframework.stereotype.Component
  * @since 1.0
  *
  */
-object DeleteUserHandler {
-    private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteUserHandler])
+object DeleteUserCommand {
+    private val LOG: Logger = LoggerFactory.getLogger(classOf[DeleteUserCommand])
 }
 
-@Component class DeleteUserHandler extends GenericCommandHandler {
+@Component class DeleteUserCommand extends GenericCommand {
     @Autowired private val projectMemberMapper: ProjectMemberMapper = null
     
     @AllowConcurrentEvents
     @Subscribe
     def execute(event: DeleteUserEvent): Unit = {
-        DeleteUserHandler.LOG.debug("Remove user {} with account id {}", Array(event.username, event.accountid))
+        DeleteUserCommand.LOG.debug("Remove user {} with account id {}", Array(event.username, event.accountid))
         val ex: ProjectMemberExample = new ProjectMemberExample
         ex.createCriteria.andStatusIn(Arrays.asList(RegisterStatusConstants.ACTIVE, RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
             RegisterStatusConstants.VERIFICATING)).andSaccountidEqualTo(event.accountid).andUsernameEqualTo(event.username)

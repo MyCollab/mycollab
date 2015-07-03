@@ -21,10 +21,10 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.*;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugEvent;
@@ -57,11 +57,14 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
         ClassInfoMap.put(BugServiceImpl.class, new ClassInfo(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG));
     }
 
-    @Autowired private BugMapper bugMapper;
+    @Autowired
+    private BugMapper bugMapper;
 
-    @Autowired private BugMapperExt bugMapperExt;
+    @Autowired
+    private BugMapperExt bugMapperExt;
 
-    @Autowired private AsyncEventBus asyncEventBus;
+    @Autowired
+    private AsyncEventBus asyncEventBus;
 
     @Override
     public ICrudGenericDAO<Integer, BugWithBLOBs> getCrudMapper() {
@@ -115,17 +118,12 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     }
 
     @Override
-    public Integer removeWithSession(Integer primaryKey, String username,
-                                     Integer accountId) {
-        CacheUtils.cleanCaches(accountId, ProjectService.class,
-                ProjectGenericTaskService.class, ProjectMemberService.class,
-                ProjectActivityStreamService.class,
-                ItemTimeLoggingService.class);
-        SimpleBug bug = findById(primaryKey, accountId);
-        DeleteProjectBugEvent event = new DeleteProjectBugEvent(username, accountId,
-                bug.getProjectid(), primaryKey);
+    public void massRemoveWithSession(List<BugWithBLOBs> items, String username, Integer accountId) {
+        super.massRemoveWithSession(items, username, accountId);
+        CacheUtils.cleanCaches(accountId, ProjectService.class, ItemTimeLoggingService.class);
+        DeleteProjectBugEvent event = new DeleteProjectBugEvent(items.toArray(new BugWithBLOBs[items.size()]),
+                username, accountId);
         asyncEventBus.post(event);
-        return super.removeWithSession(primaryKey, username, accountId);
     }
 
     @Override
@@ -149,8 +147,7 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     }
 
     @Override
-    public List<GroupItem> getResolutionDefectsSummary(
-            BugSearchCriteria criteria) {
+    public List<GroupItem> getResolutionDefectsSummary(BugSearchCriteria criteria) {
         return bugMapperExt.getResolutionDefectsSummary(criteria);
     }
 
@@ -170,15 +167,12 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     }
 
     @Override
-    public List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
-            @CacheKey BugSearchCriteria criteria) {
+    public List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(BugSearchCriteria criteria) {
         return bugMapperExt.getBugStatusGroupItemBaseComponent(criteria);
     }
 
     @Override
-    public SimpleBug findByProjectAndBugKey(Integer bugKey,
-                                            String projectShortName, Integer sAccountId) {
-        return bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName,
-                sAccountId);
+    public SimpleBug findByProjectAndBugKey(Integer bugKey, String projectShortName, Integer sAccountId) {
+        return bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName, sAccountId);
     }
 }

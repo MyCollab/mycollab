@@ -18,7 +18,6 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -46,8 +45,7 @@ import com.vaadin.ui.UI;
  */
 @SuppressWarnings("serial")
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
-public class TaskGroupReadPresenter extends
-        AbstractPresenter<TaskGroupReadView> {
+public class TaskGroupReadPresenter extends AbstractPresenter<TaskGroupReadView> {
 
     public TaskGroupReadPresenter() {
         super(TaskGroupReadView.class);
@@ -60,47 +58,37 @@ public class TaskGroupReadPresenter extends
 
                     @Override
                     public void onAssign(SimpleTaskList data) {
-                        UI.getCurrent().addWindow(
-                                new AssignTaskGroupWindow(data));
+                        UI.getCurrent().addWindow(new AssignTaskGroupWindow(data));
                     }
 
                     @Override
                     public void onAdd(SimpleTaskList data) {
-                        EventBusFactory.getInstance().post(
-                                new TaskListEvent.GotoAdd(this, null));
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoAdd(this, null));
                     }
 
                     @Override
                     public void onEdit(SimpleTaskList data) {
-                        EventBusFactory.getInstance().post(
-                                new TaskListEvent.GotoEdit(this, data));
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoEdit(this, data));
                     }
 
                     @Override
                     public void onDelete(SimpleTaskList data) {
-                        ProjectTaskListService taskListService = ApplicationContextUtil
-                                .getSpringBean(ProjectTaskListService.class);
-                        taskListService.removeWithSession(data.getId(),
-                                AppContext.getUsername(),
-                                AppContext.getAccountId());
-                        EventBusFactory.getInstance()
-                                .post(new TaskListEvent.GotoTaskListScreen(
-                                        this, null));
+                        ProjectTaskListService taskListService = ApplicationContextUtil.getSpringBean(ProjectTaskListService.class);
+                        taskListService.removeWithSession(data,
+                                AppContext.getUsername(), AppContext.getAccountId());
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
                     }
 
                     @Override
                     public void onClone(SimpleTaskList data) {
                         TaskList cloneData = (TaskList) data.copy();
                         cloneData.setId(null);
-                        EventBusFactory.getInstance().post(
-                                new TaskListEvent.GotoEdit(this, cloneData));
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoEdit(this, cloneData));
                     }
 
                     @Override
                     public void onCancel() {
-                        EventBusFactory.getInstance()
-                                .post(new TaskListEvent.GotoTaskListScreen(
-                                        this, null));
+                        EventBusFactory.getInstance().post(new TaskListEvent.GotoTaskListScreen(this, null));
                     }
 
                     @Override
@@ -112,8 +100,7 @@ public class TaskGroupReadPresenter extends
                         criteria.setId(new NumberSearchField(data.getId(), NumberSearchField.GREATER));
                         Integer nextId = tasklistService.getNextItemKey(criteria);
                         if (nextId != null) {
-                            EventBusFactory.getInstance().post(
-                                    new TaskListEvent.GotoRead(this, nextId));
+                            EventBusFactory.getInstance().post(new TaskListEvent.GotoRead(this, nextId));
                         } else {
                             NotificationUtil.showGotoLastRecordNotification();
                         }
