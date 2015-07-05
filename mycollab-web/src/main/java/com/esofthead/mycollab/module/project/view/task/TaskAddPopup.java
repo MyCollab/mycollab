@@ -98,8 +98,7 @@ class TaskAddPopup extends CustomComponent {
                     @Override
                     public void buttonClick(final ClickEvent event) {
                         if (taskInputForm.validateForm()) {
-                            final ProjectTaskService taskService = ApplicationContextUtil
-                                    .getSpringBean(ProjectTaskService.class);
+                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
                             task.setTasklistid(taskList.getId());
                             task.setProjectid(CurrentProjectVariables.getProjectId());
                             task.setSaccountid(AppContext.getAccountId());
@@ -148,35 +147,23 @@ class TaskAddPopup extends CustomComponent {
         @Override
         public void attachField(final Object propertyId, final Field<?> field) {
             if (propertyId.equals("taskname")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0,
-                        0, 2, "100%");
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0, 0, 2, "100%");
             } else if (propertyId.equals("startdate")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(TaskI18nEnum.FORM_START_DATE), 0,
-                        1);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_START_DATE), 0, 1);
             } else if (propertyId.equals("enddate")) {
-                this.informationLayout
-                        .addComponent(field, AppContext
-                                .getMessage(TaskI18nEnum.FORM_END_DATE), 0, 2);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_END_DATE), 0, 2);
             } else if (propertyId.equals("actualstartdate")) {
-                this.informationLayout.addComponent(field, AppContext
-                        .getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE), 1, 1);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE), 1, 1);
             } else if (propertyId.equals("actualenddate")) {
-                this.informationLayout.addComponent(field, AppContext
-                        .getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE), 1, 2);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE), 1, 2);
             } else if (propertyId.equals("deadline")) {
-                this.informationLayout.addComponent(field, AppContext
-                                .getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 3);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 3);
             } else if (propertyId.equals("priority")) {
-                this.informationLayout.addComponent(field, AppContext
-                                .getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
             } else if (propertyId.equals("assignuser")) {
-                this.informationLayout.addComponent(field,
-                        AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 4);
+                this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 4);
             } else if (propertyId.equals("percentagecomplete")) {
-                this.informationLayout.addComponent(field, AppContext
-                                .getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 1, 4);
+                this.informationLayout.addComponent(field, AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 1, 4);
             }
         }
     }
@@ -206,7 +193,7 @@ class TaskAddPopup extends CustomComponent {
 
         void saveContentsToRepo(final Integer typeId) {
             String attachmentPath = AttachmentUtils.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-                            CurrentProjectVariables.getProjectId(), ProjectTypeConstants.TASK, "" + typeId);
+                    CurrentProjectVariables.getProjectId(), ProjectTypeConstants.TASK, "" + typeId);
             this.attachmentPanel.saveContentsToRepo(attachmentPath);
         }
     }

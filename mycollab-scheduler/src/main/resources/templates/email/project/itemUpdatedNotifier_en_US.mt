@@ -39,11 +39,12 @@
                 	<tr>
                         <td style="padding: 3px 0px;">
                     		<p><u><i>Changes:</i></u></p>
-                    		<table border="0" cellspacing="0" style="width:100%; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
+                    		<table border="0" cellspacing="0" style="width:100%; border-width: 1px 1px 0px 0px;
+                    		border-style: solid; border-color: rgb(211, 239, 253)">
                     			<tr>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:240px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">Field</td>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">Old Value</td>
-                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">New Value</td>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:240px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">Field</td>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">Old Value</td>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:250px; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);background-color:#c1e4ff">New Value</td>
                     			</tr>
                     			#foreach ($item in $historyLog.changeItems)
                     				#if ($mapper.hasField($item.field))

@@ -47,12 +47,15 @@ Version 5.1.0
 -----------------------------
 **Library Upgrades**
 
+* Spring framework upgrade to 4.1.7.RELEASE
+
 **Improvements & New Features**
 
 * Redesign the email template
 * Can resend the invitation
 * Optimize Vaadin widgetsets
-* Remove Camel library and reduce the number of threads deamon
+* Remove Camel library and reduce the number of threads daemon
+* Theme color consistent fixed
 
 **Bug Fixes**
 

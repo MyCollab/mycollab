@@ -49,8 +49,7 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
-		SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox
-				.getValue();
+		SimpleProjectMember value = (SimpleProjectMember) memberSelectionBox.getValue();
 		if (value != null) {
 			this.setInternalValue(value.getUsername());
 		} else {

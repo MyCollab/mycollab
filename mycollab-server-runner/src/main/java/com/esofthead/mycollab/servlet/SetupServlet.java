@@ -54,10 +54,9 @@ public class SetupServlet extends HttpServlet {
         defaultUrls.put("cdn_url", "/assets/");
         defaultUrls.put("app_url", "/");
 
-        defaultUrls.put("facebook_url", SiteConfiguration.getFacebookUrl());
-        defaultUrls.put("google_url", SiteConfiguration.getGoogleUrl());
-        defaultUrls.put("linkedin_url", SiteConfiguration.getLinkedinUrl());
-        defaultUrls.put("twitter_url", SiteConfiguration.getTwitterUrl());
+        defaultUrls.put("facebook_url", "https://www.facebook.com/mycollab2");
+        defaultUrls.put("google_url", "https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
+        defaultUrls.put("twitter_url", "https://twitter.com/mycollabdotcom");
 
         context.put("defaultUrls", defaultUrls);
 

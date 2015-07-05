@@ -469,12 +469,13 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .optionPopupContent {
-	background-color: antiquewhite;
+	background-color: #ffffff;
 	margin: -5px;
 }
 
 .optionPopupContent .action-wrap:hover {
-	background-color: aquamarine;
+	background-color: #82BA4F;
+	color: #ffffff;
 }
 
 .optionPopupContent .action-wrap .v-button-action {
@@ -490,12 +491,8 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	background-color: transparent;
 }
 
-.optionPopupContent .action-wrap .v-button-action .v-button-wrap .v-button-caption {
-	color: gray;
-}
-
 .optionPopupContent .action-wrap .v-button-action .v-button-wrap .v-icon {
-	color: brown;
+	color: #006dac;
 }
 
 .optionPopupContent .action-wrap .v-disabled.v-button-action {
@@ -7866,12 +7863,13 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 }
 
 .optionPopupContent {
-	background-color: antiquewhite;
+	background-color: #ffffff;
 	margin: -5px;
 }
 
 .optionPopupContent .action-wrap:hover {
-	background-color: aquamarine;
+	background-color: #82BA4F;
+	color: #ffffff;
 }
 
 .optionPopupContent .action-wrap .v-button-action {
@@ -7887,12 +7885,8 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	background-color: transparent;
 }
 
-.optionPopupContent .action-wrap .v-button-action .v-button-wrap .v-button-caption {
-	color: gray;
-}
-
 .optionPopupContent .action-wrap .v-button-action .v-button-wrap .v-icon {
-	color: brown;
+	color: #006dac;
 }
 
 .optionPopupContent .action-wrap .v-disabled.v-button-action {

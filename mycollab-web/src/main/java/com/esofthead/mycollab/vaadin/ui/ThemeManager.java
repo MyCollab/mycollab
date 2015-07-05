@@ -171,6 +171,9 @@ public class ThemeManager {
 
             Page.getCurrent().getStyles().add(".upload-field .v-upload-immediate .v-button {background-color: #"  +
                     accountTheme.getActionbtn() + ";}");
+
+            Page.getCurrent().getStyles().add(".optionPopupContent .action-wrap:hover {" +
+                    "background-color: #" + accountTheme.getActionbtn() + ";}");
         }
 
         if (accountTheme.getActionbtntext() != null) {
