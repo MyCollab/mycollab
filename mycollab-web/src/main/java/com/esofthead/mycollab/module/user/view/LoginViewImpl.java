@@ -45,6 +45,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
     private static final long serialVersionUID = 1L;
 
     public LoginViewImpl() {
+        this.setSizeFull();
         this.addComponent(new LoginForm());
     }
 

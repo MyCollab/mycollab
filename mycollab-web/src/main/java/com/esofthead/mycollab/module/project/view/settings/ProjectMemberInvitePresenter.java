@@ -69,10 +69,8 @@ public class ProjectMemberInvitePresenter extends AbstractPresenter<ProjectMembe
 
             @Override
             public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
-                InviteProjectMembers inviteMembers = (InviteProjectMembers) event
-                        .getData();
-                ProjectMemberService projectMemberService = ApplicationContextUtil
-                        .getSpringBean(ProjectMemberService.class);
+                InviteProjectMembers inviteMembers = (InviteProjectMembers) event.getData();
+                ProjectMemberService projectMemberService = ApplicationContextUtil.getSpringBean(ProjectMemberService.class);
                 List<String> inviteEmails = inviteMembers.getEmails();
                 if (CollectionUtils.isNotEmpty(inviteEmails)) {
                     projectMemberService.inviteProjectMembers(

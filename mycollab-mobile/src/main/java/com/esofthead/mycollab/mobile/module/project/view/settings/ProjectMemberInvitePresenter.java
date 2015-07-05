@@ -74,8 +74,7 @@ public class ProjectMemberInvitePresenter extends
                             inviteMembers.getInviteMessage(),
                             AppContext.getAccountId());
 
-                    EventBusFactory.getInstance().post(
-                            new ShellEvent.NavigateBack(this, null));
+                    EventBusFactory.getInstance().post(new ShellEvent.NavigateBack(this, null));
                 }
 
             }

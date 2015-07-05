@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.jetty;
 
+import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
@@ -31,6 +32,9 @@ public class CommunityServerRunner extends GenericServerRunner {
         webAppContext.setWar(baseDir);
         webAppContext.setClassLoader(Thread.currentThread().getContextClassLoader());
         webAppContext.setResourceBase(baseDir);
+        GzipHandler gzipHandler = new GzipHandler();
+        gzipHandler.addExcludedMimeTypes("text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml");
+        webAppContext.setGzipHandler(gzipHandler);
         return webAppContext;
     }
 

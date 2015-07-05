@@ -14,13 +14,16 @@
 }
 
 .v-popupbutton .v-popup-indicator:before {
-	font-size: 1.1em;
+	font-size: 0.7em;
 	font-family: FontAwesome;
-	content: '\f0d7'
+	content: '\f078';
+	vertical-align: 0.15em;
+	margin: 0 -0.2em 0 0.5em;
+	opacity: 0.5;
 }
 
 .popupbutton-legacy .v-popup-indicator:before {
-	content: ' '
+	content: ' ';
 }
 
 .v-popupbutton.v-disabled .v-popup-indicator {

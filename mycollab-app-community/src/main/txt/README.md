@@ -51,8 +51,13 @@ Version 5.1.0
 
 * Redesign the email template
 * Can resend the invitation
+* Optimize Vaadin widgetsets
+* Remove Camel library and reduce the number of threads deamon
 
 **Bug Fixes**
+
+* Fix gzip response because Jetty 9.3 deprecate servlet gzip filter
+* Can not change the default port 8080 on Windows
 
 
 Version 5.0.10

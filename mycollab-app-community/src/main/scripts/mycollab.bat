@@ -61,6 +61,7 @@ rem ----- Execute The Requested Command ---------------------------------------
 echo Using MYCOLLAB_HOME:   "%MYCOLLAB_HOME%"
 
 set _EXECJAVA=%_RUNJAVA%
+set ACTION=--port %MYCOLLAB_PORT%
 
 
 if ""%1"" == ""start"" goto doStart
@@ -86,7 +87,6 @@ goto execCmd
 
 :doStop
 shift
-set ACTION=--port $MYCOLLAB_PORT
 goto execCmd
 
 

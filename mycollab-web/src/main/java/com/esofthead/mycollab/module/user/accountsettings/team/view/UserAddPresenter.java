@@ -66,8 +66,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                         if (mailService.isMailSetupValid()) {
                             ViewState viewState = HistoryViewManager.back();
                             if (viewState instanceof NullViewState) {
-                                EventBusFactory.getInstance().post(
-                                        new UserEvent.GotoList(this, null));
+                                EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                             }
                         } else {
                             UI.getCurrent().addWindow(new GetStartedInstructionWindow(item));
@@ -79,8 +78,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                     public void onCancel() {
                         ViewState viewState = HistoryViewManager.back();
                         if (viewState instanceof NullViewState) {
-                            EventBusFactory.getInstance().post(
-                                    new UserEvent.GotoList(this, null));
+                            EventBusFactory.getInstance().post(new UserEvent.GotoList(this, null));
                         }
                     }
 
@@ -101,8 +99,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
         }
 
         if (item.getUsername() == null) {
-            userService.saveUserAccount(item, AppContext.getAccountId(),
-                    AppContext.getUsername());
+            userService.saveUserAccount(item, AppContext.getAccountId(), AppContext.getUsername());
         } else {
             userService.updateUserAccount(item, AppContext.getAccountId());
         }

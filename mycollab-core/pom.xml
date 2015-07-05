@@ -104,5 +104,12 @@
             <artifactId>prettytime</artifactId>
             <version>4.0.0.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junitVersion}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
