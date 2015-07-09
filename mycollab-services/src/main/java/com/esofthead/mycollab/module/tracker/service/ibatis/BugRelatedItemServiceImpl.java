@@ -17,11 +17,6 @@
 
 package com.esofthead.mycollab.module.tracker.service.ibatis;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.esofthead.mycollab.module.tracker.dao.BugRelatedItemMapper;
 import com.esofthead.mycollab.module.tracker.domain.BugRelatedItem;
 import com.esofthead.mycollab.module.tracker.domain.BugRelatedItemExample;
@@ -29,23 +24,27 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @Service
-public class BugRelatedItemServiceImpl implements BugRelatedItemService{
+public class BugRelatedItemServiceImpl implements BugRelatedItemService {
     @Autowired
     private BugRelatedItemMapper bugRelatedItemMapper;
 
     @Override
-    public void saveAffectedVersionsOfBug(int bugid, List<Version> versions) {
-    	insertAffectedVersionsOfBug(bugid, versions);
+    public void saveAffectedVersionsOfBug(Integer bugid, List<Version> versions) {
+        insertAffectedVersionsOfBug(bugid, versions);
     }
-    
-    private void insertAffectedVersionsOfBug(int bugid, List<Version> versions) {
-    	for (Version version : versions) {
+
+    private void insertAffectedVersionsOfBug(Integer bugid, List<Version> versions) {
+        for (Version version : versions) {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
             relatedItem.setTypeid(version.getId());
@@ -55,11 +54,11 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService{
     }
 
     @Override
-    public void saveFixedVersionsOfBug(int bugid, List<Version> versions) {
-    	insertFixedVersionsOfBug(bugid, versions);
+    public void saveFixedVersionsOfBug(Integer bugid, List<Version> versions) {
+        insertFixedVersionsOfBug(bugid, versions);
     }
-    
-    private void insertFixedVersionsOfBug(int bugid, List<Version> versions) {
+
+    private void insertFixedVersionsOfBug(Integer bugid, List<Version> versions) {
         for (Version version : versions) {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
@@ -70,11 +69,11 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService{
     }
 
     @Override
-    public void saveComponentsOfBug(int bugid, List<Component> components) {
-    	insertComponentsOfBug(bugid, components);
+    public void saveComponentsOfBug(Integer bugid, List<Component> components) {
+        insertComponentsOfBug(bugid, components);
     }
-    
-    public void insertComponentsOfBug(int bugid, List<Component> components) {
+
+    public void insertComponentsOfBug(Integer bugid, List<Component> components) {
         for (Component component : components) {
             BugRelatedItem relatedItem = new BugRelatedItem();
             relatedItem.setBugid(bugid);
@@ -83,37 +82,37 @@ public class BugRelatedItemServiceImpl implements BugRelatedItemService{
             bugRelatedItemMapper.insert(relatedItem);
         }
     }
-    
-    private void deleteTrackerBugRelatedItem(int bugid, String type) {
-    	BugRelatedItemExample ex = new BugRelatedItemExample();
+
+    private void deleteTrackerBugRelatedItem(Integer bugid, String type) {
+        BugRelatedItemExample ex = new BugRelatedItemExample();
         ex.createCriteria().andBugidEqualTo(bugid).andTypeEqualTo(type);
-        
+
         bugRelatedItemMapper.deleteByExample(ex);
     }
 
-    
+
     @Override
-    public void updateAfftedVersionsOfBug(int bugid, List<Version> versions) {
-    	deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.AFFVERSION);
-    	if (versions.size() > 0) {
-    		insertAffectedVersionsOfBug(bugid, versions);
-    	}
+    public void updateAfftedVersionsOfBug(Integer bugid, List<Version> versions) {
+        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.AFFVERSION);
+        if (versions.size() > 0) {
+            insertAffectedVersionsOfBug(bugid, versions);
+        }
     }
 
     @Override
-    public void updateFixedVersionsOfBug(int bugid, List<Version> versions) {
-    	deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.FIXVERSION);
-    	if (versions.size() > 0) {
-    		insertFixedVersionsOfBug(bugid, versions);
-    	}
+    public void updateFixedVersionsOfBug(Integer bugid, List<Version> versions) {
+        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.FIXVERSION);
+        if (versions.size() > 0) {
+            insertFixedVersionsOfBug(bugid, versions);
+        }
     }
 
     @Override
-    public void updateComponentsOfBug(int bugid, List<Component> components) {
-    	deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.COMPONENT);
-    	if (components.size() > 0) {
-    		insertComponentsOfBug(bugid, components);
-    	}
+    public void updateComponentsOfBug(Integer bugid, List<Component> components) {
+        deleteTrackerBugRelatedItem(bugid, BugSearchCriteria.COMPONENT);
+        if (components.size() > 0) {
+            insertComponentsOfBug(bugid, components);
+        }
     }
-    
+
 }

@@ -52,6 +52,7 @@ public class BugSelectionWindow extends Window {
         super("Bug Selection");
 
         this.setWidth("900px");
+        this.setHeight("800px");
         this.setModal(true);
         this.setResizable(false);
         this.fieldSelection = fieldSelection;
@@ -59,13 +60,12 @@ public class BugSelectionWindow extends Window {
         MVerticalLayout layout = new MVerticalLayout();
         BugSimpleSearchPanel contactSimpleSearchPanel = new BugSimpleSearchPanel();
         contactSimpleSearchPanel.addSearchHandler(new SearchHandler<BugSearchCriteria>() {
+            @Override
+            public void onSearch(BugSearchCriteria criteria) {
+                tableItem.setSearchCriteria(criteria);
+            }
 
-                    @Override
-                    public void onSearch(BugSearchCriteria criteria) {
-                        tableItem.setSearchCriteria(criteria);
-                    }
-
-                });
+        });
         layout.addComponent(contactSimpleSearchPanel);
         createBugList();
         layout.addComponent(tableItem);
@@ -99,14 +99,14 @@ public class BugSelectionWindow extends Window {
                         .getSummary());
 
                 ButtonLinkLegacy b = new ButtonLinkLegacy(bugName, new Button.ClickListener() {
-                            private static final long serialVersionUID = 1L;
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void buttonClick(Button.ClickEvent event) {
-                                fieldSelection.fireValueChange(bug);
-                                BugSelectionWindow.this.close();
-                            }
-                        });
+                    @Override
+                    public void buttonClick(Button.ClickEvent event) {
+                        fieldSelection.fireValueChange(bug);
+                        BugSelectionWindow.this.close();
+                    }
+                });
 
                 if (bug.isCompleted()) {
                     b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -117,7 +117,6 @@ public class BugSelectionWindow extends Window {
                 b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
                         AppContext.getUserLocale(), bug,
                         AppContext.getSiteUrl(), AppContext.getTimezone()));
-
                 return b;
 
             }

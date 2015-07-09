@@ -18,7 +18,6 @@ package com.esofthead.mycollab.web;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.*;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
@@ -28,8 +27,8 @@ import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
-import com.esofthead.mycollab.shell.view.components.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.shell.view.ShellUrlResolver;
+import com.esofthead.mycollab.shell.view.components.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
@@ -39,11 +38,14 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.*;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -61,6 +63,7 @@ import java.util.Collection;
  */
 @Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
+@Push(value = PushMode.MANUAL)
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 
@@ -128,8 +131,7 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     private void handleException(Throwable e) {
-        IgnoreException ignoreException = (IgnoreException) getExceptionType(
-                e, IgnoreException.class);
+        IgnoreException ignoreException = (IgnoreException) getExceptionType(e, IgnoreException.class);
         if (ignoreException != null) {
             return;
         }
@@ -137,8 +139,7 @@ public class DesktopApplication extends MyCollabUI {
         SessionExpireException sessionExpireException = (SessionExpireException) getExceptionType(
                 e, SessionExpireException.class);
         if (sessionExpireException != null) {
-            Page.getCurrent().getJavaScript()
-                    .execute("window.location.reload();");
+            Page.getCurrent().getJavaScript().execute("window.location.reload();");
             return;
         }
 
@@ -161,26 +162,21 @@ public class DesktopApplication extends MyCollabUI {
                                     for (Window window : windowsList) {
                                         window.close();
                                     }
-                                    EventBusFactory.getInstance()
-                                            .post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+                                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                                 }
                             }
                         });
 
             } else {
-                NotificationUtil
-                        .showErrorNotification(AppContext
-                                .getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
+                NotificationUtil.showErrorNotification(AppContext.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
             }
             return;
         }
 
-        UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
-                e, UserInvalidInputException.class);
+        UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(e, UserInvalidInputException.class);
         if (invalidException != null) {
             NotificationUtil.showWarningNotification(AppContext.getMessage(
-                    GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
-                    invalidException.getMessage()));
+                    GenericI18Enum.ERROR_USER_INPUT_MESSAGE, invalidException.getMessage()));
             return;
         }
 
@@ -238,8 +234,7 @@ public class DesktopApplication extends MyCollabUI {
 
     public void rememberPassword(String username, String password) {
         Cookie cookie = getCookieByName(DesktopApplication.NAME_COOKIE);
-        String storeVal = username + "$"
-                + PasswordEncryptHelper.encryptText(password);
+        String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
         if (cookie == null) {
             cookie = new Cookie(DesktopApplication.NAME_COOKIE, storeVal);
         } else {
@@ -278,11 +273,10 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     public static void addContextHelp(Component comp, String message) {
-        ((DesktopApplication)UI.getCurrent()).contextHelp.addHelpForComponent(comp, message);
+        ((DesktopApplication) UI.getCurrent()).contextHelp.addHelpForComponent(comp, message);
     }
 
-    private static Throwable getExceptionType(Throwable e,
-                                              Class<? extends Throwable> exceptionType) {
+    private static Throwable getExceptionType(Throwable e, Class<? extends Throwable> exceptionType) {
         if (exceptionType.isAssignableFrom(e.getClass())) {
             return e;
         } else if (e.getCause() != null) {

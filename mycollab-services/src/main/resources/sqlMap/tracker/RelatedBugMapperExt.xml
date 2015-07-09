@@ -1,75 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt">
-    
-    <resultMap
-        extends="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper.BaseResultMap"
-        id="RelatedBugResult"
-        type="com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug">
-        <result column="bugName" jdbcType="VARCHAR" property="bugName" />
+
+    <resultMap id="SimpleRelatedBug" type="com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug">
+        <result column="bugId" jdbcType="INTEGER" property="bugId" />
+        <result column="bugKey" jdbcType="INTEGER" property="bugKey" />
+        <result column="bugSummary" jdbcType="VARCHAR" property="bugSummary" />
+        <result column="bugStatus" jdbcType="VARCHAR" property="bugStatus" />
+        <result column="bugSeverity" jdbcType="VARCHAR" property="bugSeverity" />
+        <result column="relatedType" jdbcType="VARCHAR" property="relatedType" />
+        <result column="comment" jdbcType="VARCHAR" property="comment" />
     </resultMap>
 
-    <sql id="querySearchCriteria">
+    <select id="findRelatedBugs" parameterType="int" resultMap="SimpleRelatedBug" lang="velocity">
         <![CDATA[
-        #set($searchCriteria = $_parameter.searchCriteria)
-        
-        #ifnotnull($searchCriteria.bugId)
-            ${searchCriteria.bugId.operation} m_tracker_related_bug.bugid ${searchCriteria.bugId.compareOperator} @{searchCriteria.bugId.value,jdbcType=NUMERIC}
-        #end
-        
-        #ifnotnull($searchCriteria.relatedId)
-            ${searchCriteria.relatedId.operation} m_tracker_related_bug.relatedid ${searchCriteria.relatedId.compareOperator} @{searchCriteria.relatedId.value,jdbcType=NUMERIC}
-        #end
+            SELECT DISTINCT m_tracker_bug.id AS bugId, m_tracker_bug.bugkey AS bugKey, m_tracker_bug.summary AS bugSummary,
+            m_tracker_bug.detail, m_tracker_bug.status AS bugStatus, m_tracker_bug.severity AS bugSeverity,
+            m_tracker_related_bug.relatetype AS relatedType, m_tracker_related_bug.comment AS comment
+            FROM m_tracker_bug, m_tracker_related_bug
+            WHERE m_tracker_related_bug.bugid = @{bugId} AND m_tracker_related_bug.relatedid = m_tracker_bug.id
         ]]>
-    </sql>
-
-    <sql id="selectItem">
-        <![CDATA[
-          SELECT m_tracker_related_bug.id, m_tracker_related_bug.bugid, m_tracker_related_bug.relatedid, m_tracker_related_bug.relatetype, m_tracker_related_bug.comment, 
-                 m_tracker_bug.summary AS bugName
-            FROM m_tracker_related_bug
-              LEFT OUTER JOIN m_tracker_bug ON (m_tracker_related_bug.relatedid=m_tracker_bug.id)
-        ]]>
-    </sql>
-
-    <select id="getTotalCount" parameterType="BugRelatedSearchCriteria"
-        resultType="int"  lang="velocity">
-        SELECT count(*) as totalCount FROM m_tracker_related_bug
-
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
-        #end
     </select>
 
-    <sql id="orderStatement">
-        ORDER BY
-        #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection}, 
-        #end    
-        m_tracker_related_bug.bugid DESC
-    </sql>
 
-    <delete id="removeByCriteria" parameterType="BugRelatedSearchCriteria" lang="velocity">
-        DELETE FROM m_tracker_related_bug
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
-        #end
-    </delete>
-
-    <select id="findPagableListByCriteria" parameterType="BugRelatedSearchCriteria"
-        resultMap="RelatedBugResult" lang="velocity">
-
-        <include refid="selectItem" />
-        #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
-        #end    
-        <include refid="orderStatement" />
-    </select>
 </mapper>

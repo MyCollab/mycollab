@@ -157,7 +157,7 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public boolean isCompleted() {
-		return BugStatus.Verified.name().equals(getStatus());
+		return BugStatus.Verified.name().equals(getStatus()) || BugStatus.Resolved.name().equals(getStatus());
 	}
 
 	public boolean isOverdue() {

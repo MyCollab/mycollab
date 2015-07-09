@@ -33,7 +33,7 @@ public class ContainerHorizontalViewField extends CustomField {
 
 	private MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
-	public void addComponentField(final Component component) {
+	public void addComponentField(Component component) {
 		layout.addComponent(component);
 	}
 

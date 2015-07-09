@@ -37,13 +37,10 @@ public class VersionHistoryLogList extends HistoryLogComponent {
 	static {
 		versionFormatter = new FieldGroupFormatter();
 
-		versionFormatter.generateFieldDisplayHandler("versionname",
-				VersionI18nEnum.FORM_NAME);
+		versionFormatter.generateFieldDisplayHandler("versionname", VersionI18nEnum.FORM_NAME);
 		versionFormatter.generateFieldDisplayHandler("status",
-				VersionI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
-						StatusI18nEnum.class));
-		versionFormatter.generateFieldDisplayHandler("description",
-				GenericI18Enum.FORM_DESCRIPTION);
+				VersionI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(StatusI18nEnum.class));
+		versionFormatter.generateFieldDisplayHandler("description", GenericI18Enum.FORM_DESCRIPTION);
 		versionFormatter.generateFieldDisplayHandler("duedate",
 				VersionI18nEnum.FORM_DUE_DATE, FieldGroupFormatter.PRETTY_DATE_FIELD);
 	}

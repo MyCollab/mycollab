@@ -24,7 +24,6 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.core.utils.ArrayUtils;
 import com.esofthead.mycollab.lock.DistributionLockUtil;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugEvent;
@@ -84,12 +83,8 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
             if (lock.tryLock(120, TimeUnit.SECONDS)) {
                 Integer maxKey = bugMapperExt.getMaxKey(record.getProjectid());
                 record.setBugkey((maxKey == null) ? 1 : (maxKey + 1));
-
-                CacheUtils.cleanCaches(record.getSaccountid(),
-                        ProjectService.class, ProjectGenericTaskService.class,
-                        ProjectMemberService.class,
-                        ProjectActivityStreamService.class);
-
+                CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class, ProjectGenericTaskService.class,
+                        ProjectMemberService.class, ProjectActivityStreamService.class);
                 return super.saveWithSession(record, username);
             } else {
                 throw new MyCollabException("Timeout operation");
@@ -104,16 +99,14 @@ public class BugServiceImpl extends DefaultService<Integer, BugWithBLOBs, BugSea
     @Override
     public Integer updateWithSession(BugWithBLOBs record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectActivityStreamService.class,
-                ItemTimeLoggingService.class);
+                ProjectActivityStreamService.class, ItemTimeLoggingService.class);
         return super.updateWithSession(record, username);
     }
 
     @Override
     public Integer updateSelectiveWithSession(BugWithBLOBs record, String username) {
         CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-                ProjectActivityStreamService.class,
-                ItemTimeLoggingService.class);
+                ProjectActivityStreamService.class, ItemTimeLoggingService.class);
         return super.updateSelectiveWithSession(record, username);
     }
 

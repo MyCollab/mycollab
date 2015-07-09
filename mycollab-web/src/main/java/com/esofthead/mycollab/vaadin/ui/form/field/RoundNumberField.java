@@ -24,12 +24,12 @@ import com.vaadin.ui.Label;
  * @author MyCollab Ltd.
  * @since 5.0.0
  */
-public class RoundNumerField extends CustomField<Number> {
-    private Number value;
-
+public class RoundNumberField extends CustomField<Number> {
     private static final long serialVersionUID = 1L;
 
-    public RoundNumerField(final Number value) {
+    private Number value;
+
+    public RoundNumberField(final Number value) {
         this.value = value;
     }
 

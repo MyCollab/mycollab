@@ -40,28 +40,23 @@ import java.io.IOException;
  * 
  */
 @WebServlet(urlPatterns = "/project/outside/createAccount/*", name = "acceptMemberInvitationCreateAccountServlet")
-public class AcceptByOutsideMemberCreateAccounttHandler extends
-		GenericHttpServlet {
-
+public class AcceptByOutsideMemberCreateAccounttHandler extends GenericHttpServlet {
 	private static final Logger LOG = LoggerFactory.getLogger(AcceptByOutsideMemberCreateAccounttHandler.class);
 
 	@Autowired
 	private ProjectMemberService projectMemberService;
 
 	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void onHandleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// email , projectId, sAccountId, projectURL
 		Integer projectId = Integer.parseInt(request.getParameter("projectId"));
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		Integer sAccountId = Integer.parseInt(request
-				.getParameter("sAccountId"));
+		Integer sAccountId = Integer.parseInt(request.getParameter("sAccountId"));
 		Integer roleId = Integer.parseInt(request.getParameter("roleId"));
 		try {
 			PasswordCheckerUtil.checkValidPassword(password);
-			projectMemberService.acceptProjectInvitationByNewUser(email,
-					password, projectId, roleId, sAccountId);
+			projectMemberService.acceptProjectInvitationByNewUser(email, password, projectId, roleId, sAccountId);
 		} catch (InvalidPasswordException e) {
 			throw new UserInvalidInputException(e.getMessage());
 		} catch (UserExistedException e) {

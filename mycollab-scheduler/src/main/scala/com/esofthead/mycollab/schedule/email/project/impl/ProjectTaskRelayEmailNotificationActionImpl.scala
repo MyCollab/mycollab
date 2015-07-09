@@ -149,6 +149,7 @@ class ProjectTaskRelayEmailNotificationActionImpl extends SendMailToFollowersAct
         put(Task.Field.remainestimate, TaskI18nEnum.FORM_REMAIN_ESTIMATE)
         put(Task.Field.tasklistid, new TaskGroupFieldFormat(Task.Field.tasklistid.name, TaskI18nEnum.FORM_TASKGROUP))
         put(Task.Field.notes, TaskI18nEnum.FORM_NOTES)
+        put(Task.Field.status, TaskI18nEnum.FORM_STATUS)
     }
 
     class AssigneeFieldFormat(fieldName: String, displayName: Enum[_]) extends FieldFormat(fieldName, displayName) {

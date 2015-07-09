@@ -77,40 +77,36 @@ class TaskAddPopup extends CustomComponent {
         MHorizontalLayout controlsLayout = new MHorizontalLayout().withMargin(true);
         controlsLayout.addStyleName("popup-footer");
 
-        Button cancelBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        taskDisplayComp.closeTaskAdd();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                taskDisplayComp.closeTaskAdd();
+            }
+        });
 
         cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
-        final Button saveBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        if (taskInputForm.validateForm()) {
-                            ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-                            task.setTasklistid(taskList.getId());
-                            task.setProjectid(CurrentProjectVariables.getProjectId());
-                            task.setSaccountid(AppContext.getAccountId());
-                            task.setNotes(taskNoteComponent.getNote());
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                if (taskInputForm.validateForm()) {
+                    ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
+                    task.setTasklistid(taskList.getId());
+                    task.setProjectid(CurrentProjectVariables.getProjectId());
+                    task.setSaccountid(AppContext.getAccountId());
+                    task.setNotes(taskNoteComponent.getNote());
 
-                            taskService.saveWithSession(task, AppContext.getUsername());
-                            taskNoteComponent.saveContentsToRepo(task.getId());
-                            taskDisplayComp.saveTaskSuccess(task);
-                            taskDisplayComp.closeTaskAdd();
-                        }
-                    }
-                });
+                    taskService.saveWithSession(task, AppContext.getUsername());
+                    taskNoteComponent.saveContentsToRepo(task.getId());
+                    taskDisplayComp.saveTaskSuccess(task);
+                    taskDisplayComp.closeTaskAdd();
+                }
+            }
+        });
         saveBtn.setIcon(FontAwesome.SAVE);
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
@@ -211,7 +207,7 @@ class TaskAddPopup extends CustomComponent {
             if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectMemberSelectionField();
             } else if (Task.Field.taskname.equalTo(propertyId)) {
-                final TextField tf = new TextField();
+                TextField tf = new TextField();
                 if (isValidateForm) {
                     tf.setNullRepresentation("");
                     tf.setRequired(true);

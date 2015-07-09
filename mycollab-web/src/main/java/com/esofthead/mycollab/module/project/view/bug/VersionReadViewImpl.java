@@ -68,8 +68,7 @@ import java.util.UUID;
  * @since 1.0
  */
 @ViewComponent
-public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
-        implements VersionReadView {
+public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implements VersionReadView {
     private static final long serialVersionUID = 1L;
 
     private Button quickActionStatusBtn;
@@ -92,12 +91,10 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     @Override
     protected void initRelatedComponents() {
         commentDisplay = new CommentDisplay(ProjectTypeConstants.BUG_VERSION,
-                CurrentProjectVariables.getProjectId(),
-                VersionRelayEmailNotificationAction.class);
+                CurrentProjectVariables.getProjectId(), VersionRelayEmailNotificationAction.class);
         commentDisplay.setWidth("100%");
 
-        historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ,
-                ProjectTypeConstants.BUG_VERSION);
+        historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG_VERSION);
 
         dateInfoComp = new DateInfoComp();
         versionTimeLogComp = new VersionTimeLogComp();
@@ -113,13 +110,11 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
             addLayoutStyleName(UIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
         }
 
@@ -138,8 +133,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
         return new DynaFormLayout(ProjectTypeConstants.BUG_VERSION,
-                VersionDefaultFormLayoutFactory.getForm(),
-                Version.Field.versionname.name());
+                VersionDefaultFormLayoutFactory.getForm(), Version.Field.versionname.name());
     }
 
     @Override

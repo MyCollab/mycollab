@@ -74,8 +74,7 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
                             private static final long serialVersionUID = 1L;
 
                             @Override
-                            public void onClose(
-                                    final ConfirmDialog dialog) {
+                            public void onClose(final ConfirmDialog dialog) {
                                 if (dialog.isConfirmed()) {
                                     BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
                                     bugService.removeWithSession(data, AppContext.getUsername(), AppContext.getAccountId());

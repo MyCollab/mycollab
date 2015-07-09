@@ -32,15 +32,15 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 @IgnoreCacheClass
 public interface BugRelatedItemService extends IService {
 
-	void saveAffectedVersionsOfBug(int bugid, List<Version> versions);
+	void saveAffectedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void saveFixedVersionsOfBug(int bugid, List<Version> versions);
+	void saveFixedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void saveComponentsOfBug(int bugid, List<Component> components);
+	void saveComponentsOfBug(Integer bugId, List<Component> components);
 
-	void updateAfftedVersionsOfBug(int bugid, List<Version> versions);
+	void updateAfftedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void updateFixedVersionsOfBug(int bugid, List<Version> versions);
+	void updateFixedVersionsOfBug(Integer bugId, List<Version> versions);
 
-	void updateComponentsOfBug(int bugid, List<Component> components);
+	void updateComponentsOfBug(Integer bugId, List<Component> components);
 }

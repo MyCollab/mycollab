@@ -47,7 +47,7 @@ Version 5.1.0
 -----------------------------
 **Library Upgrades**
 
-* Spring framework upgrade to 4.1.7.RELEASE
+* Spring framework upgrade to 4.1.7.RELEASE, Infinispan, MySQL Connector
 
 **Improvements & New Features**
 

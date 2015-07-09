@@ -154,9 +154,9 @@ public class ProjectInformationComponent extends VerticalLayout {
                             } else if (Project.Field.description.equalTo(propertyId)) {
                                 return new RichTextViewField(project.getDescription());
                             } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
-                                return new RoundNumerField(project.getTotalBillableHours());
+                                return new RoundNumberField(project.getTotalBillableHours());
                             } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
-                                return new RoundNumerField(project.getTotalNonBillableHours());
+                                return new RoundNumberField(project.getTotalNonBillableHours());
                             }
                             return null;
                         }
@@ -202,9 +202,9 @@ public class ProjectInformationComponent extends VerticalLayout {
                                     return new DefaultViewField("");
                                 }
                             } else if (SimpleProject.Field.totalBillableHours.equalTo(propertyId)) {
-                                return new RoundNumerField(project.getTotalBillableHours());
+                                return new RoundNumberField(project.getTotalBillableHours());
                             } else if (SimpleProject.Field.totalNonBillableHours.equalTo(propertyId)) {
-                                return new RoundNumerField(project.getTotalNonBillableHours());
+                                return new RoundNumberField(project.getTotalNonBillableHours());
                             }
                             return null;
                         }

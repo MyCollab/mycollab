@@ -43,7 +43,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.*;
-import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
@@ -52,9 +51,7 @@ import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Text;
 import com.vaadin.data.Property;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -176,14 +173,13 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
     protected ComponentContainer createButtonControls() {
         ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<>(
                 previewForm);
-        final HorizontalLayout topPanel = taskPreviewForm
-                .createButtonControls(
-                        ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-                        ProjectRolePermissionCollections.TASKS);
+        final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
+                ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                        | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                ProjectRolePermissionCollections.TASKS);
 
         quickActionStatusBtn = new Button("", new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -262,19 +258,26 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             }
 
             if (task.isCompleted()) {
+                titleLbl.removeStyleName("pending headerNameOverdue");
                 titleLbl.addStyleName("completed");
             } else if (task.isPending()) {
+                titleLbl.removeStyleName("completed headerNameOverdue");
                 titleLbl.addStyleName("pending");
             } else if (task.isOverdue()) {
+                titleLbl.removeStyleName("completed pending");
                 titleLbl.setStyleName("headerNameOverdue");
             }
         }
 
         private String buildParentTaskLink(SimpleTask task) {
+            String uid = UUID.randomUUID().toString();
             String linkName = String.format("[#%d] - %s", task.getParentTaskKey(), task.getParentTaskName());
-            A taskLink = new A().setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getParentTaskKey(),
+            A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getParentTaskKey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
-            return taskLink.write();
+            taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK,
+                    task.getId() + ""));
+            taskLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
+            return new Div().appendChild(taskLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid)).write();
         }
 
         @Override
@@ -313,8 +316,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         protected Field<?> onCreateField(final Object propertyId) {
             if (Task.Field.assignuser.equalTo(propertyId)) {
                 return new ProjectUserFormLinkField(beanItem.getAssignuser(),
-                        beanItem.getAssignUserAvatarId(),
-                        beanItem.getAssignUserFullName());
+                        beanItem.getAssignUserAvatarId(), beanItem.getAssignUserFullName());
             } else if (SimpleTask.Field.taskListName.equalTo(propertyId)) {
                 return new DefaultViewField(beanItem.getTaskListName());
             } else if (Task.Field.startdate.equalTo(propertyId)) {
@@ -331,23 +333,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 return new ProjectItemViewField(ProjectTypeConstants.TASK_LIST, beanItem.getTasklistid() + "",
                         beanItem.getTaskListName());
             } else if (Task.Field.id.equalTo(propertyId)) {
-                return new ProjectFormAttachmentDisplayField(
-                        beanItem.getProjectid(),
+                return new ProjectFormAttachmentDisplayField(beanItem.getProjectid(),
                         ProjectTypeConstants.TASK, beanItem.getId());
             } else if (Task.Field.priority.equalTo(propertyId)) {
                 if (StringUtils.isNotBlank(beanItem.getPriority())) {
-                    Resource iconPriority = new ExternalResource(
-                            ProjectResources.getIconResourceLink12ByTaskPriority(beanItem.getPriority()));
-                    Embedded iconEmbedded = new Embedded(null, iconPriority);
-                    Label lbPriority = new Label(AppContext.getMessage(TaskPriority.class, beanItem.getPriority()));
-
-                    ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-                    containerField.addComponentField(iconEmbedded);
-                    containerField.getLayout().setComponentAlignment(iconEmbedded, Alignment.MIDDLE_LEFT);
-                    lbPriority.setWidth("220px");
-                    containerField.addComponentField(lbPriority);
-                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-                    return containerField;
+                    String priorityLink = ProjectResources.getIconResourceLink12ByTaskPriority(beanItem.getPriority());
+                    String priorityVal = AppContext.getMessage(TaskPriority.class, beanItem.getPriority());
+                    Div div = new Div().appendChild(new Img("", priorityLink), new DivLessFormatter().EMPTY_SPACE(), new Text(priorityVal));
+                    return new DefaultViewField(div.write(), ContentMode.HTML);
                 }
             } else if (Task.Field.notes.equalTo(propertyId)) {
                 return new RichTextViewField(beanItem.getNotes());
@@ -370,20 +363,19 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             tasksLayout = new MVerticalLayout().withWidth("100%").withMargin(new MarginInfo(false, true, true, false));
             contentLayout.with(tasksLayout).expand(tasksLayout);
 
-            Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button addNewTaskBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            SimpleTask task = new SimpleTask();
-                            task.setTasklistid(beanItem.getTasklistid());
-                            task.setParenttaskid(beanItem.getId());
-                            task.setPriority(TaskPriority.Medium.name());
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskReadViewImpl.this, task));
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    SimpleTask task = new SimpleTask();
+                    task.setTasklistid(beanItem.getTasklistid());
+                    task.setParenttaskid(beanItem.getId());
+                    task.setPriority(TaskPriority.Medium.name());
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoAdd(TaskReadViewImpl.this, task));
 
-                        }
-                    });
+                }
+            });
             addNewTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             addNewTaskBtn.setIcon(FontAwesome.PLUS);
             addNewTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
@@ -391,8 +383,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             contentLayout.addComponent(addNewTaskBtn);
 
             ProjectTaskService taskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
-            List<SimpleTask> subTasks = taskService.findSubTasks(
-                    beanItem.getId(), AppContext.getAccountId());
+            List<SimpleTask> subTasks = taskService.findSubTasks(beanItem.getId(), AppContext.getAccountId());
             if (CollectionUtils.isNotEmpty(subTasks)) {
                 for (SimpleTask subTask : subTasks) {
                     tasksLayout.addComponent(generateSubTaskContent(subTask));
@@ -469,9 +460,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             }
 
             if (subTask.getDeadline() != null) {
-                Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
-                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatPrettyTime(subTask.getDeadline()))))
-                        .setStyle("display:inline").setCSSClass("footer2").setTitle(AppContext.formatDate(subTask.getDeadline()));
+                Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+                        AppContext.formatPrettyTime(subTask.getDeadline())))).setStyle("display:inline").
+                        setCSSClass("footer2").setTitle(AppContext.formatDate(subTask.getDeadline()));
 
                 resultDiv.appendChild(deadline);
             }
@@ -519,8 +510,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
                 ProjectMemberLink assignUserLink = new ProjectMemberLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
                 layout.addComponent(assignUserLink, 1, 1);
             } catch (Exception e) {
-                LOG.error("Can not build user link {} ",
-                        BeanUtility.printBeanObj(bean));
+                LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
             }
 
             this.addComponent(layout);

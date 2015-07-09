@@ -132,7 +132,6 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             Div itemDiv = buildItemValue(genericTask);
 
             Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
-            taskLbl.addStyleName("h2");
             if (genericTask.isOverdue()) {
                 taskLbl.addStyleName("overdue");
             }
@@ -171,8 +170,7 @@ public class ProjectAssignmentsWidget extends MVerticalLayout {
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
             A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType())
-                    || ProjectTypeConstants.BUG.equals(task.getType())) {
+            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
                 itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
                         task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
             } else {

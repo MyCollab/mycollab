@@ -229,7 +229,6 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         layout.addComponent(accountLogo, "mainLogo");
 
         serviceMenu = new ServiceMenu();
-        serviceMenu.addStyleName("topNavPopup");
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
                 new AssetResource(WebResourceIds._16_project),
@@ -320,8 +319,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
                         @Override
                         public void layoutClick(LayoutClickEvent event) {
-                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                                    new String[]{"billing"}));
+                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                         }
                     });
                     accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
@@ -406,49 +404,42 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         final PopupButton accountMenu = new PopupButton(com.esofthead.mycollab.core.utils.StringUtils.trim(AppContext.getUser()
                 .getDisplayName(), 20, true));
         accountMenu.setStyleName("accountMenu");
-        accountMenu.addStyleName("topNavPopup");
 
         OptionPopupContent accLayout = new OptionPopupContent().withWidth("160px");
 
-        Button myProfileBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button myProfileBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        accountMenu.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                                new String[]{"preview"}));
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"preview"}));
+            }
+        });
         myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
         accLayout.addOption(myProfileBtn);
 
-        Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        accountMenu.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                                new String[]{"billing"}));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
+            }
+        });
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
         accLayout.addOption(myAccountBtn);
 
-        Button userMgtBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button userMgtBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        accountMenu.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                                new String[]{"user", "list"}));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"user", "list"}));
+            }
+        });
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
         accLayout.addOption(userMgtBtn);
 
@@ -456,8 +447,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                        new String[]{"setting", "general"}));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "general"}));
             }
         });
         generalSettingBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
@@ -467,8 +457,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 accountMenu.setPopupVisible(false);
-                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                        new String[]{"setting", "theme"}));
+                EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setting", "theme"}));
             }
         });
         themeCustomizeBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
@@ -480,8 +469,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 @Override
                 public void buttonClick(ClickEvent clickEvent) {
                     accountMenu.setPopupVisible(false);
-                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                            new String[]{"setup"}));
+                    EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"setup"}));
                 }
             });
             setupBtn.setIcon(FontAwesome.WRENCH);
@@ -499,16 +487,15 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             accLayout.addOption(aboutBtn);
         }
 
-        Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        accountMenu.setPopupVisible(false);
-                        EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                accountMenu.setPopupVisible(false);
+                EventBusFactory.getInstance().post(new ShellEvent.LogOut(this, null));
+            }
+        });
         signoutBtn.setIcon(FontAwesome.SIGN_OUT);
         accLayout.addOption(signoutBtn);
 

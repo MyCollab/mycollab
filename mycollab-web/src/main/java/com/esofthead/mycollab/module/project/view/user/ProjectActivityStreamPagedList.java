@@ -67,8 +67,7 @@ public class ProjectActivityStreamPagedList extends
 
     public ProjectActivityStreamPagedList() {
         super(null, 20);
-        this.projectActivityStreamService = ApplicationContextUtil
-                .getSpringBean(ProjectActivityStreamService.class);
+        this.projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
 
     }
 
@@ -93,8 +92,7 @@ public class ProjectActivityStreamPagedList extends
             }
         }
 
-        final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
-                .getProjectActivityStreams(this.searchRequest);
+        List<ProjectActivityStream> currentListData = this.projectActivityStreamService.getProjectActivityStreams(searchRequest);
         this.listContainer.removeAllComponents();
         Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
@@ -134,8 +132,7 @@ public class ProjectActivityStreamPagedList extends
                                 .generatorDetailChangeOfActivity(activityStream));
                     }
                 } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
-                    content.append(AppContext.getMessage(
-                            ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
+                    content.append(AppContext.getMessage(ProjectCommonI18nEnum.FEED_USER_ACTIVITY_COMMENT_ACTION_TITLE,
                             assigneeParam, itemType, itemParam));
                     if (activityStream.getAssoAuditLog() != null) {
                         content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()

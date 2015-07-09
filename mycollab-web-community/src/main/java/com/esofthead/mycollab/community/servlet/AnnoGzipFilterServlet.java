@@ -14,25 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.view;
+package com.esofthead.mycollab.community.servlet;
 
-import com.esofthead.mycollab.common.ui.components.AbstractCloudDriveOAuthWindow;
-import com.vaadin.ui.Label;
+import org.eclipse.jetty.servlets.GzipFilter;
+
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 
 /**
- * 
- * @author MyCollab Ltd.
- * @since 4.5.2
- *
+ * @author MyCollab Ltd
+ * @since 5.0.5
  */
-public class DropBoxOAuthWindow extends AbstractCloudDriveOAuthWindow {
-	private static final long serialVersionUID = 1L;
-
-	public DropBoxOAuthWindow() {
-		super();
-		this.setWidth("420px");
-		this.setResizable(false);
-		this.center();
-		this.setContent(new Label("Do not support this feature in this edition"));
-	}
+@WebFilter(urlPatterns = {"/*"}, description = "Gzip Filter", initParams = {@WebInitParam(name = "mimeTypes",
+        value = "text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml")} )
+public class AnnoGzipFilterServlet extends GzipFilter {
 }

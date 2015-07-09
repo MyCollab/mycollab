@@ -55,25 +55,16 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 
         IPresenter<?> presenter;
         if (ClassUtils.instanceOf(data, BugScreenData.Search.class,
-                BugScreenData.Add.class, BugScreenData.Edit.class,
-                BugScreenData.Read.class)) {
+                BugScreenData.Add.class, BugScreenData.Edit.class, BugScreenData.Read.class)) {
             presenter = PresenterResolver.getPresenter(BugPresenter.class);
-        } else if (ClassUtils.instanceOf(data,
-                ComponentScreenData.Add.class,
-                ComponentScreenData.Edit.class,
-                ComponentScreenData.Search.class,
-                ComponentScreenData.Read.class)) {
-            presenter = PresenterResolver
-                    .getPresenter(ComponentPresenter.class);
-        } else if (ClassUtils.instanceOf(data, VersionScreenData.Add.class,
-                VersionScreenData.Edit.class,
-                VersionScreenData.Search.class,
-                VersionScreenData.Read.class)) {
-            presenter = PresenterResolver
-                    .getPresenter(VersionPresenter.class);
+        } else if (ClassUtils.instanceOf(data, ComponentScreenData.Add.class, ComponentScreenData.Edit.class,
+                ComponentScreenData.Search.class, ComponentScreenData.Read.class)) {
+            presenter = PresenterResolver.getPresenter(ComponentPresenter.class);
+        } else if (ClassUtils.instanceOf(data, VersionScreenData.Add.class, VersionScreenData.Edit.class,
+                VersionScreenData.Search.class, VersionScreenData.Read.class)) {
+            presenter = PresenterResolver.getPresenter(VersionPresenter.class);
         } else if (data == null || data instanceof BugScreenData.GotoDashboard) {
-            presenter = PresenterResolver
-                    .getPresenter(BugDashboardPresenter.class);
+            presenter = PresenterResolver.getPresenter(BugDashboardPresenter.class);
         } else {
             throw new MyCollabException(String.format("Do not support screen data %s", data));
         }
@@ -82,8 +73,7 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
     }
 
     @Override
-    public void handleChain(ComponentContainer container,
-                            PageActionChain pageActionChain) {
+    public void handleChain(ComponentContainer container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.pop();
         onGo(container, pageAction);
     }

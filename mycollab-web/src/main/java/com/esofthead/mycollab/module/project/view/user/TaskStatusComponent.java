@@ -151,7 +151,6 @@ public class TaskStatusComponent extends MVerticalLayout {
             Div itemDiv = buildItemValue(genericTask);
 
             Label taskLbl = new Label(itemDiv.write(), ContentMode.HTML);
-            taskLbl.addStyleName("h2");
             if (genericTask.isOverdue()) {
                 taskLbl.addStyleName("overdue");
             }

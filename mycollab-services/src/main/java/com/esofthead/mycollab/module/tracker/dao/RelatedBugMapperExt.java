@@ -16,10 +16,12 @@
  */
 package com.esofthead.mycollab.module.tracker.dao;
 
-import com.esofthead.mycollab.core.persistence.ISearchableDAO;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugRelatedSearchCriteria;
+import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
+import org.apache.ibatis.annotations.Param;
 
-public interface RelatedBugMapperExt extends
-		ISearchableDAO<BugRelatedSearchCriteria> {
+import java.util.List;
 
+public interface RelatedBugMapperExt {
+
+    List<SimpleRelatedBug> findRelatedBugs(@Param("bugId") Integer bugId);
 }

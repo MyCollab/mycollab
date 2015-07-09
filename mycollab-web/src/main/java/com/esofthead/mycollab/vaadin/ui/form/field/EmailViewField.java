@@ -28,12 +28,11 @@ import com.vaadin.ui.CustomField;
  *
  */
 public class EmailViewField extends CustomField<String> {
-
 	private static final long serialVersionUID = 1L;
 
 	private String email;
 
-	public EmailViewField(final String email) {
+	public EmailViewField(String email) {
 		this.email = email;
 	}
 
@@ -44,7 +43,7 @@ public class EmailViewField extends CustomField<String> {
 
 	@Override
 	protected Component initContent() {
-		final EmailLink emailLink = new EmailLink(email);
+		EmailLink emailLink = new EmailLink(email);
 		emailLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 		return emailLink;
 	}

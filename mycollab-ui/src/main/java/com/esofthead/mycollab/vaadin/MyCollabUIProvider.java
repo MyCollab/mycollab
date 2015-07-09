@@ -33,8 +33,7 @@ public class MyCollabUIProvider extends UIProvider {
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
         String userAgent;
         try {
-            userAgent = event.getRequest().getHeader("user-agent")
-                    .toLowerCase();
+            userAgent = event.getRequest().getHeader("user-agent").toLowerCase();
         } catch (Exception e) {
             return null;
 

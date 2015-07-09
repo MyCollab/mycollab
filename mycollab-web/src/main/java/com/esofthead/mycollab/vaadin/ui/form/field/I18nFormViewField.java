@@ -48,7 +48,7 @@ public class I18nFormViewField extends CustomField<String> {
 
 	@Override
 	protected Component initContent() {
-		final Label label = new Label();
+		Label label = new Label();
 		label.setWidth("100%");
 		label.setContentMode(ContentMode.TEXT);
 

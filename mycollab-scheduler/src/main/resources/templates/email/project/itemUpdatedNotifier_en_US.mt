@@ -50,7 +50,8 @@
                     				#if ($mapper.hasField($item.field))
                     				#set($fieldFormat=$mapper.getFieldLabel($item.field))
                     				<tr>
-                    					<td valign="top" style="width:240px; padding: 10px 20px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
+                    					<td valign="top" style="width:240px; padding: 10px 10px; background-color:
+                    					rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
                     						$context.getMessage($fieldFormat.displayName)
                     					</td>
                     					<td valign="top" style="width: 250px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">

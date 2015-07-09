@@ -16,20 +16,18 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.utils.MimeTypesUtil;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author MyCollab Ltd.
@@ -41,8 +39,7 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(AssetHttpServletRequestHandler.class);
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         String resourcePath = "assets" + path;
 
@@ -51,8 +48,7 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
 
         if (inputStream == null) {
             resourcePath = "VAADIN/themes/mycollab" + path;
-            inputStream = AssetHttpServletRequestHandler.class.getClassLoader()
-                    .getResourceAsStream(resourcePath);
+            inputStream = AssetHttpServletRequestHandler.class.getClassLoader().getResourceAsStream(resourcePath);
         }
 
         if (inputStream != null) {
@@ -62,10 +58,10 @@ public class AssetHttpServletRequestHandler extends HttpServlet {
             try (BufferedInputStream input = new BufferedInputStream(inputStream);
                  BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
                 byte[] buffer = new byte[8192];
-				int length;
-				while ((length = input.read(buffer)) > 0) {
-					output.write(buffer, 0, length);
-				}
+                int length;
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
+                }
             }
         } else {
             LOG.error("Can not find resource has path {}", path);

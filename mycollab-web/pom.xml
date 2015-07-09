@@ -81,25 +81,6 @@
             <version>${vaadinVersion}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-continuation</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-server</artifactId>
-            <version>${jettyVersion}</version>
-        </dependency>
-
-
         <!-- VAADIN ADDONS -->
         <dependency>
             <groupId>org.vaadin.addons</groupId>
@@ -289,7 +270,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>ckeditor-wrapper-for-vaadin</artifactId>
-            <version>7.9.6</version>
+            <version>7.10.0</version>
         </dependency>
 
         <dependency>

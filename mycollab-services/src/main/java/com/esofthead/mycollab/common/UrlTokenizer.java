@@ -17,59 +17,56 @@
 package com.esofthead.mycollab.common;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 4.0
- * 
  */
 public class UrlTokenizer {
-	private String internalVal;
+    private String internalVal;
 
-	private String remainStrVal;
+    private String remainStrVal;
 
-	public UrlTokenizer(String url) {
-		internalVal = (url.startsWith("/")) ? url.substring(1) : url;
-		internalVal = UrlEncodeDecoder.decode(internalVal);
-		remainStrVal = internalVal;
-	}
+    public UrlTokenizer(String url) {
+        internalVal = (url.startsWith("/")) ? url.substring(1) : url;
+        internalVal = UrlEncodeDecoder.decode(internalVal);
+        remainStrVal = internalVal;
+    }
 
-	public Integer getInt() throws InvalidTokenException {
-		if (hasMoreTokens()) {
-			try {
-				return Integer.parseInt(getNextToken());
-			} catch (NumberFormatException e) {
-				throw new InvalidTokenException("Invalid token " + internalVal);
-			}
-		} else {
-			throw new InvalidTokenException("Invalid token " + internalVal);
-		}
-	}
+    public Integer getInt() throws InvalidTokenException {
+        if (hasMoreTokens()) {
+            try {
+                return Integer.parseInt(getNextToken());
+            } catch (NumberFormatException e) {
+                throw new InvalidTokenException("Invalid token " + internalVal);
+            }
+        } else {
+            throw new InvalidTokenException("Invalid token " + internalVal);
+        }
+    }
 
-	public String getString() throws InvalidTokenException {
-		if (hasMoreTokens()) {
-			return getNextToken();
-		} else {
-			throw new InvalidTokenException("Invalid token " + internalVal);
-		}
-	}
+    public String getString() throws InvalidTokenException {
+        if (hasMoreTokens()) {
+            return getNextToken();
+        } else {
+            throw new InvalidTokenException("Invalid token " + internalVal);
+        }
+    }
 
-	public boolean hasMoreTokens() {
-		return !remainStrVal.equals("");
-	}
+    public boolean hasMoreTokens() {
+        return !remainStrVal.equals("");
+    }
 
-	private String getNextToken() {
-		int index = remainStrVal.indexOf("/");
-		if (index < 0) {
-			return remainStrVal;
-		} else {
-			String result = remainStrVal.substring(0, index);
-			remainStrVal = remainStrVal.substring(index + 1);
-			return result;
-		}
-	}
+    private String getNextToken() {
+        int index = remainStrVal.indexOf("/");
+        if (index < 0) {
+            return remainStrVal;
+        } else {
+            String result = remainStrVal.substring(0, index);
+            remainStrVal = remainStrVal.substring(index + 1);
+            return result;
+        }
+    }
 
-	public String getRemainValue() {
-		return remainStrVal;
-	}
-
+    public String getRemainValue() {
+        return remainStrVal;
+    }
 }

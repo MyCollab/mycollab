@@ -308,7 +308,7 @@ a.pending {
 
 .v-progressbar-wrapper {
 	height: 18px;
-	background: none no-repeat 0 0 #F5F5F5;
+	background: none no-repeat 0 0 #f9f9f9;
 	border: 1px solid #CDCDCD;
 }
 
@@ -317,7 +317,7 @@ a.pending {
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
-	background: none no-repeat 0 0 paleturquoise;
+	background: none no-repeat 0 0 #93c6f0;
 	margin: -1px;
 	border: 1px solid #CDCDCD;
 }
@@ -7432,8 +7432,9 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 	float: none;
 }
 
-.v-popupbutton .v-popup-indicator {
+div .v-popupbutton .v-popup-indicator {
 	background-position: -7px -10px !important;
+	width: 18px;
 }
 
 .v-popupbutton .v-button-caption:before {
@@ -7702,7 +7703,7 @@ a.pending {
 
 .v-progressbar-wrapper {
 	height: 18px;
-	background: none no-repeat 0 0 #F5F5F5;
+	background: none no-repeat 0 0 #f9f9f9;
 	border: 1px solid #CDCDCD;
 }
 
@@ -7711,7 +7712,7 @@ a.pending {
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
-	background: none no-repeat 0 0 paleturquoise;
+	background: none no-repeat 0 0 #93c6f0;
 	margin: -1px;
 	border: 1px solid #CDCDCD;
 }
@@ -8473,21 +8474,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	background-color: ghostwhite;
 }
 
-.milestone-box {
-	margin-top: 25px;
-	background-color: beige;
-	border-color: #BEBEBE;
-	border-style: solid;
-	border-width: 1px 1px 1px 6px;
-	padding: 12px 20px;
-}
-
-.milestone-box .milestone-name {
-	font-size: 14px;
-	border-bottom: 1px dashed #BEBEBE !important;
-	padding-bottom: 8px;
-}
-
 .widget-short-prj-name {
 	width: 60px;
 	border-right-style: solid;
@@ -8551,6 +8537,12 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	padding-left: 18px;
 }
 
+.projectinfo-header .project-name {
+	font-weight: bold;
+	font-size: 16px;
+	color: #313131;
+}
+
 .message-toppanel-header.v-margin-top {
 	padding-top: 3px;
 }
@@ -8565,12 +8557,6 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 
 .message-toppanel-header.v-margin-left {
 	padding-left: 18px;
-}
-
-.projectinfo-header .project-name {
-	font-weight: bold;
-	font-size: 16px;
-	color: #313131;
 }
 
 .projectinfo-footer.v-margin-top {
@@ -9023,7 +9009,7 @@ div.v-button.token-field:hover {
 
 .milestone-view-header {
 	text-align: center;
-	background: none repeat-x left top bisque;
+	background: none repeat-x left top #e8e8e8;
 	height: 30px;
 	color: #5e5e5e;
 	border-bottom: 1px solid #CFCFCF;
@@ -9031,7 +9017,6 @@ div.v-button.token-field:hover {
 
 .milestone-view-header .v-label {
 	font-size: 13px;
-	text-shadow: 0px 1px 0px #f0f0f0;
 	font-weight: bold;
 }
 
@@ -9052,6 +9037,21 @@ div.v-button.token-field:hover {
 
 .in-progress-milestones, .future-milestones {
 	border-left: 1px solid #d7d7d7;
+}
+
+.milestone-box {
+	margin-top: 25px;
+	background-color: #e0e0e0;
+	border-color: #BEBEBE;
+	border-style: solid;
+	border-width: 1px 1px 1px 6px;
+	padding: 12px 20px;
+}
+
+.milestone-box .milestone-name {
+	font-size: 14px;
+	border-bottom: 1px dashed #BEBEBE !important;
+	padding-bottom: 8px;
 }
 
 .tasklist {
@@ -9623,7 +9623,7 @@ input.v-widget.v-textfield[type="text"], .v-filterselect {
 }
 
 .popupContent .v-window-outerheader {
-	background-color: floralwhite;
+	background-color: #e8e8e8;
 	padding: 0;
 }
 
@@ -9634,16 +9634,14 @@ input.v-widget.v-textfield[type="text"], .v-filterselect {
 }
 
 .v-window-closebox {
-	background: url('icons/16/delete3.png') no-repeat left top transparent;
 	width: 16px;
 	height: 16px;
 	background-position: 0 0;
-	margin: 5px;
+	margin: 7px;
 }
 
-.v-window-closebox:active, .v-window-closebox:hover {
-	background-position: 0 0;
-	opacity: 0.7;
+.v-window-closebox::before {
+	content: "f00d";
 }
 
 body div > input.v-filterselect-input[type="text"] {
@@ -9945,7 +9943,7 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 .topNavigation .v-button.accountMenu .v-popup-indicator::before, .topNavigation .v-button.accountMenu.v-pressed .v-popup-indicator::before {
-	content: "\f0d7";
+	content: "\f078";
 	color: white;
 }
 

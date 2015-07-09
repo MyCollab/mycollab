@@ -34,85 +34,77 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @LoadPolicy(scope = ViewScope.PROTOTYPE)
 public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public VersionAddPresenter() {
-		super(VersionAddView.class);
-	}
+    public VersionAddPresenter() {
+        super(VersionAddView.class);
+    }
 
-	@Override
-	protected void postInitView() {
-		view.getEditFormHandlers().addFormHandler(
-				new EditFormHandler<Version>() {
-					private static final long serialVersionUID = 1L;
+    @Override
+    protected void postInitView() {
+        view.getEditFormHandlers().addFormHandler(new EditFormHandler<Version>() {
+            private static final long serialVersionUID = 1L;
 
-					@Override
-					public void onSave(final Version item) {
-						save(item);
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new BugVersionEvent.GotoList(this, null));
-						}
-					}
+            @Override
+            public void onSave(Version item) {
+                save(item);
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
+                }
+            }
 
-					@Override
-					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new BugVersionEvent.GotoList(this, null));
-						}
-					}
+            @Override
+            public void onCancel() {
+                ViewState viewState = HistoryViewManager.back();
+                if (viewState instanceof NullViewState) {
+                    EventBusFactory.getInstance().post(new BugVersionEvent.GotoList(this, null));
+                }
+            }
 
-					@Override
-					public void onSaveAndNew(final Version item) {
-						save(item);
-						EventBusFactory.getInstance().post(
-								new BugVersionEvent.GotoAdd(this, null));
-					}
-				});
-	}
+            @Override
+            public void onSaveAndNew(final Version item) {
+                save(item);
+                EventBusFactory.getInstance().post(new BugVersionEvent.GotoAdd(this, null));
+            }
+        });
+    }
 
-	private void save(Version item) {
-		VersionService versionService = ApplicationContextUtil
-				.getSpringBean(VersionService.class);
-		item.setSaccountid(AppContext.getAccountId());
-		item.setProjectid(CurrentProjectVariables.getProjectId());
-		item.setStatus(StatusI18nEnum.Open.name());
-		if (item.getId() == null) {
-			versionService.saveWithSession(item, AppContext.getUsername());
-		} else {
-			versionService.updateWithSession(item, AppContext.getUsername());
-		}
-	}
+    private void save(Version item) {
+        VersionService versionService = ApplicationContextUtil.getSpringBean(VersionService.class);
+        item.setSaccountid(AppContext.getAccountId());
+        item.setProjectid(CurrentProjectVariables.getProjectId());
+        item.setStatus(StatusI18nEnum.Open.name());
+        if (item.getId() == null) {
+            versionService.saveWithSession(item, AppContext.getUsername());
+        } else {
+            versionService.updateWithSession(item, AppContext.getUsername());
+        }
+    }
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
-			VersionContainer versionContainer = (VersionContainer) container;
-			versionContainer.addComponent(view.getWidget());
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.VERSIONS)) {
+            VersionContainer versionContainer = (VersionContainer) container;
+            versionContainer.addComponent(view.getWidget());
 
-			Version version = (Version) data.getParams();
-			view.editItem(version);
+            Version version = (Version) data.getParams();
+            view.editItem(version);
 
-			ProjectBreadcrumb breadcrumb = ViewManager
-					.getCacheComponent(ProjectBreadcrumb.class);
-			if (version.getId() == null) {
-				breadcrumb.gotoVersionAdd();
-			} else {
-				breadcrumb.gotoVersionEdit(version);
-			}
-		} else {
-			NotificationUtil.showMessagePermissionAlert();
-		}
-	}
+            ProjectBreadcrumb breadcrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
+            if (version.getId() == null) {
+                breadcrumb.gotoVersionAdd();
+            } else {
+                breadcrumb.gotoVersionEdit(version);
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
 
 }

@@ -23,6 +23,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.view.bug.IBugCallbackStatusComp;
 import com.esofthead.mycollab.module.tracker.domain.RelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -52,14 +53,18 @@ import java.util.List;
  */
 public class LinkIssueWindow extends Window {
     private BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
-    private BugSearchCriteria searchCriteria;
 
+    private RelatedBugEditForm editForm;
+
+    private BugSearchCriteria searchCriteria;
     private SimpleBug selectedBug;
     private SimpleBug hostedBug;
     private RelatedBug relatedBug;
+    private IBugCallbackStatusComp callbackForm;
 
-    public LinkIssueWindow(SimpleBug bug) {
+    public LinkIssueWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
         super("Link");
+        this.callbackForm = callbackForm;
         this.setResizable(false);
         this.setModal(true);
 
@@ -67,15 +72,14 @@ public class LinkIssueWindow extends Window {
         searchCriteria = new BugSearchCriteria();
         searchCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables.getProjectId()));
 
-        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false)
-                .withWidth("100%");
+        MVerticalLayout contentLayout = new MVerticalLayout().withMargin(false).withWidth("100%");
 
-        RelatedBugEditForm form = new RelatedBugEditForm();
+        editForm = new RelatedBugEditForm();
         relatedBug = new RelatedBug();
         relatedBug.setBugid(bug.getId());
         relatedBug.setRelatetype(OptionI18nEnum.BugRelation.Duplicated.name());
-        form.setBean(relatedBug);
-        contentLayout.add(form);
+        editForm.setBean(relatedBug);
+        contentLayout.add(editForm);
         this.center();
         this.setWidth("700px");
         this.setContent(contentLayout);
@@ -83,7 +87,7 @@ public class LinkIssueWindow extends Window {
 
     private class RelatedBugEditForm extends AdvancedEditBeanForm<RelatedBug> {
         @Override
-        public void setBean(final RelatedBug newDataSource) {
+        public void setBean(RelatedBug newDataSource) {
             this.setFormLayoutFactory(new FormLayoutFactory());
             this.setBeanFormFieldFactory(new EditFormFieldFactory(RelatedBugEditForm.this));
             super.setBean(newDataSource);
@@ -95,7 +99,7 @@ public class LinkIssueWindow extends Window {
             @Override
             public ComponentContainer getLayout() {
                 final VerticalLayout layout = new VerticalLayout();
-                this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(1, 3);
 
                 layout.addComponent(this.informationLayout.getLayout());
 
@@ -104,25 +108,25 @@ public class LinkIssueWindow extends Window {
                 layout.addComponent(controlsBtn);
                 layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
-                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE));
-                saveBtn.addClickListener(new Button.ClickListener() {
+                Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new Button.ClickListener() {
                     @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService
-                                .class);
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        if (editForm.validateForm()) {
+                            BugRelationService relatedBugService = ApplicationContextUtil.getSpringBean(BugRelationService.class);
 
-                        if (selectedBug == null) {
-                            throw new UserInvalidInputException("The related bug must be not null");
+                            if (selectedBug == null) {
+                                throw new UserInvalidInputException("The related bug must be not null");
+                            }
+
+                            if (selectedBug.getId().equals(hostedBug.getId())) {
+                                throw new UserInvalidInputException("The relation is invalid since the both entries are " + "the same");
+                            }
+
+                            relatedBug.setRelatedid(selectedBug.getId());
+                            relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
+                            LinkIssueWindow.this.close();
+                            callbackForm.refreshBugItem();
                         }
-
-                        if (selectedBug.getId().equals(hostedBug.getId())) {
-                            throw new UserInvalidInputException("The relation is invalid since the both entries are " +
-                                    "the same");
-                        }
-
-                        relatedBug.setRelatedid(selectedBug.getId());
-                        relatedBugService.saveWithSession(relatedBug, AppContext.getUsername());
-                        LinkIssueWindow.this.close();
                     }
                 });
                 saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -153,8 +157,7 @@ public class LinkIssueWindow extends Window {
             }
         }
 
-        private class EditFormFieldFactory extends
-                AbstractBeanFieldGroupEditFieldFactory<RelatedBug> {
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<RelatedBug> {
             EditFormFieldFactory(GenericBeanForm<RelatedBug> form) {
                 super(form);
             }

@@ -56,6 +56,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>maddon</artifactId>
             <version>1.21</version>

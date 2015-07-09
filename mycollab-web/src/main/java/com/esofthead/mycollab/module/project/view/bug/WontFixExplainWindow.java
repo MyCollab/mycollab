@@ -45,193 +45,155 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import java.util.GregorianCalendar;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
 @SuppressWarnings("serial")
 class WontFixExplainWindow extends Window {
+    private final SimpleBug bug;
+    private VersionMultiSelectField fixedVersionSelect;
+    private final IBugCallbackStatusComp callbackForm;
 
-	private final SimpleBug bug;
-	private VersionMultiSelectField fixedVersionSelect;
-	private final IBugCallbackStatusComp callbackForm;
+    WontFixExplainWindow(IBugCallbackStatusComp callbackForm, SimpleBug bug) {
+        super("Won't fix bug '" + bug.getSummary() + "'");
+        this.bug = bug;
+        this.callbackForm = callbackForm;
+        this.setWidth("750px");
+        this.setResizable(false);
+        this.setModal(true);
 
-	WontFixExplainWindow(final IBugCallbackStatusComp callbackForm,
-			final SimpleBug bug) {
-		super("Won't fix bug '" + bug.getSummary() + "'");
-		this.bug = bug;
-		this.callbackForm = callbackForm;
-		this.setWidth("750px");
-		this.setResizable(false);
-		this.setModal(true);
+        VerticalLayout contentLayout = new VerticalLayout();
+        contentLayout.setMargin(new MarginInfo(false, false, true, false));
 
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setMargin(new MarginInfo(false, false, true, false));
+        EditForm editForm = new EditForm();
+        contentLayout.addComponent(editForm);
+        editForm.setBean(bug);
+        this.setContent(contentLayout);
+        this.center();
+    }
 
-		EditForm editForm = new EditForm();
-		contentLayout.addComponent(editForm);
-		editForm.setBean(bug);
-		this.setContent(contentLayout);
-		this.center();
-	}
+    private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
+        private static final long serialVersionUID = 1L;
+        private RichTextArea commentArea;
 
-	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
-		private static final long serialVersionUID = 1L;
-		private RichTextArea commentArea;
+        @Override
+        public void setBean(BugWithBLOBs newDataSource) {
+            this.setFormLayoutFactory(new FormLayoutFactory());
+            this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
+            super.setBean(newDataSource);
+        }
 
-		@Override
-		public void setBean(BugWithBLOBs newDataSource) {
-			this.setFormLayoutFactory(new FormLayoutFactory());
-			this.setBeanFormFieldFactory(new EditFormFieldFactory(EditForm.this));
-			super.setBean(newDataSource);
-		}
+        class FormLayoutFactory implements IFormLayoutFactory {
+            private static final long serialVersionUID = 1L;
+            private GridFormLayoutHelper informationLayout;
 
-		class FormLayoutFactory implements IFormLayoutFactory {
-			private static final long serialVersionUID = 1L;
-			private GridFormLayoutHelper informationLayout;
+            @Override
+            public ComponentContainer getLayout() {
+                VerticalLayout layout = new VerticalLayout();
+                this.informationLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
+                layout.addComponent(this.informationLayout.getLayout());
 
-			@Override
-			public ComponentContainer getLayout() {
-				final VerticalLayout layout = new VerticalLayout();
-				this.informationLayout =  GridFormLayoutHelper.defaultFormLayoutHelper(2, 6);
-				layout.addComponent(this.informationLayout.getLayout());
+                MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
+                layout.addComponent(controlsBtn);
 
-				final MHorizontalLayout controlsBtn = new MHorizontalLayout().withMargin(new MarginInfo(true, true, false, false));
-				layout.addComponent(controlsBtn);
+                final Button wonFixBtn = new Button(AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX), new Button.ClickListener() {
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        if (EditForm.this.validateForm()) {
+                            bug.setStatus(BugStatus.Resolved.name());
 
-				final Button wonFixBtn = new Button(
-						AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX),
-						new Button.ClickListener() {
-							@SuppressWarnings("unchecked")
-							@Override
-							public void buttonClick(final ClickEvent event) {
+                            final String commentValue = commentArea.getValue();
+                            if (commentValue != null && !commentValue.trim().equals("")) {
+                                BugRelatedItemService bugRelatedItemService = ApplicationContextUtil.
+                                        getSpringBean(BugRelatedItemService.class);
+                                bugRelatedItemService.updateFixedVersionsOfBug(bug.getId(), fixedVersionSelect.getSelectedItems());
 
-								if (EditForm.this.validateForm()) {
-									WontFixExplainWindow.this.bug
-											.setStatus(BugStatus.Resolved
-													.name());
+                                // Save bug status and assignee
+                                BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+                                bugService.updateSelectiveWithSession(bug, AppContext.getUsername());
 
-									final String commentValue = commentArea.getValue();
-									if (commentValue != null
-											&& !commentValue.trim().equals("")) {
-										final BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
-												.getSpringBean(BugRelatedItemService.class);
-										bugRelatedItemService.updateFixedVersionsOfBug(
-												bug.getId(), fixedVersionSelect
-														.getSelectedItems());
+                                // Save comment
+                                final CommentWithBLOBs comment = new CommentWithBLOBs();
+                                comment.setComment(commentValue);
+                                comment.setCreatedtime(new GregorianCalendar().getTime());
+                                comment.setCreateduser(AppContext.getUsername());
+                                comment.setSaccountid(AppContext.getAccountId());
+                                comment.setType(ProjectTypeConstants.BUG);
+                                comment.setTypeid("" + bug.getId());
+                                comment.setExtratypeid(CurrentProjectVariables.getProjectId());
 
-										// Save bug status and assignee
-										final BugService bugService = ApplicationContextUtil
-												.getSpringBean(BugService.class);
-										bugService.updateSelectiveWithSession(
-												WontFixExplainWindow.this.bug,
-												AppContext.getUsername());
+                                CommentService commentService = ApplicationContextUtil.getSpringBean(CommentService.class);
+                                commentService.saveWithSession(comment, AppContext.getUsername());
+                                WontFixExplainWindow.this.close();
+                                callbackForm.refreshBugItem();
+                            } else {
+                                NotificationUtil.showErrorNotification(AppContext.
+                                        getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
+                                return;
+                            }
 
-										// Save comment
-
-										final CommentWithBLOBs comment = new CommentWithBLOBs();
-										comment.setComment(commentValue);
-										comment.setCreatedtime(new GregorianCalendar()
-												.getTime());
-										comment.setCreateduser(AppContext
-												.getUsername());
-										comment.setSaccountid(AppContext
-												.getAccountId());
-										comment.setType(ProjectTypeConstants.BUG);
-										comment.setTypeid(""
-												+ WontFixExplainWindow.this.bug
-												.getId());
-										comment.setExtratypeid(CurrentProjectVariables
-												.getProjectId());
-
-										final CommentService commentService = ApplicationContextUtil
-												.getSpringBean(CommentService.class);
-										commentService.saveWithSession(comment,
-												AppContext.getUsername());
-
-										WontFixExplainWindow.this.close();
-										WontFixExplainWindow.this.callbackForm
-												.refreshBugItem();
-									} else {
-										NotificationUtil
-												.showErrorNotification(AppContext
-														.getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
-										return;
-									}
-
-									WontFixExplainWindow.this.close();
-								}
-							}
-						});
-				wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+                            WontFixExplainWindow.this.close();
+                        }
+                    }
+                });
+                wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                 wonFixBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-				controlsBtn.with(wonFixBtn).withAlign(wonFixBtn, Alignment.MIDDLE_RIGHT);
+                controlsBtn.with(wonFixBtn).withAlign(wonFixBtn, Alignment.MIDDLE_RIGHT);
 
-				final Button cancelBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-						new Button.ClickListener() {
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								WontFixExplainWindow.this.close();
-							}
-						});
-				cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
-				controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
+                Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(final ClickEvent event) {
+                        WontFixExplainWindow.this.close();
+                    }
+                });
+                cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+                controlsBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_RIGHT);
 
-				layout.setComponentAlignment(controlsBtn,
-						Alignment.MIDDLE_RIGHT);
+                layout.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
-				return layout;
-			}
+                return layout;
+            }
 
-			@Override
-			public void attachField(final Object propertyId,
-					final Field<?> field) {
-				if (propertyId.equals("resolution")) {
-					this.informationLayout.addComponent(field,
-							AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
-							0, 0);
-				} else if (propertyId.equals("assignuser")) {
-					this.informationLayout
-							.addComponent(field, AppContext
-									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-									0, 1);
-				} else if (propertyId.equals("fixedVersions")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
-				} else if (propertyId.equals("comment")) {
-					this.informationLayout.addComponent(field,
-							AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
-							3, 2, "100%", Alignment.MIDDLE_LEFT);
-				}
-			}
-		}
+            @Override
+            public void attachField(Object propertyId, Field<?> field) {
+                if (propertyId.equals("resolution")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 0, 0);
+                } else if (propertyId.equals("assignuser")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                } else if (propertyId.equals("fixedVersions")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
+                } else if (propertyId.equals("comment")) {
+                    this.informationLayout.addComponent(field, AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0, 3, 2,
+                            "100%", Alignment.MIDDLE_LEFT);
+                }
+            }
+        }
 
-		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
-			private static final long serialVersionUID = 1L;
+        private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<BugWithBLOBs> {
+            private static final long serialVersionUID = 1L;
 
-			public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
-				super(form);
-			}
+            public EditFormFieldFactory(GenericBeanForm<BugWithBLOBs> form) {
+                super(form);
+            }
 
-			@Override
-			protected Field<?> onCreateField(final Object propertyId) {
-				if (propertyId.equals("resolution")) {
-					return BugResolutionComboBox.getInstanceForWontFixWindow();
-				} else if (propertyId.equals("assignuser")) {
-					return new ProjectMemberSelectionField();
-				} else if (propertyId.equals("fixedVersions")) {
-					WontFixExplainWindow.this.fixedVersionSelect = new VersionMultiSelectField();
-					return WontFixExplainWindow.this.fixedVersionSelect;
-				} else if (propertyId.equals("comment")) {
-					EditForm.this.commentArea = new RichTextArea();
-					EditForm.this.commentArea.setNullRepresentation("");
-					return EditForm.this.commentArea;
-				}
+            @Override
+            protected Field<?> onCreateField(final Object propertyId) {
+                if (propertyId.equals("resolution")) {
+                    return BugResolutionComboBox.getInstanceForWontFixWindow();
+                } else if (propertyId.equals("assignuser")) {
+                    return new ProjectMemberSelectionField();
+                } else if (propertyId.equals("fixedVersions")) {
+                    fixedVersionSelect = new VersionMultiSelectField();
+                    return fixedVersionSelect;
+                } else if (propertyId.equals("comment")) {
+                    commentArea = new RichTextArea();
+                    commentArea.setNullRepresentation("");
+                    return commentArea;
+                }
 
-				return null;
-			}
-		}
-	}
+                return null;
+            }
+        }
+    }
 }

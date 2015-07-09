@@ -16,21 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.esofthead.mycollab.module.project.domain.SimpleProject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -38,6 +23,7 @@ import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -47,17 +33,25 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
-@WebServlet(name="acceptMemberInvitationServlet", urlPatterns = "project/member/invitation/confirm_invite/*")
+@WebServlet(name = "acceptMemberInvitationServlet", urlPatterns = "project/member/invitation/confirm_invite/*")
 public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHandler {
-    static final String OUTSIDE_MEMBER_WELCOME_PAGE =
-            "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
+    static final String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
     static final String EXPIRE_PAGE = "templates/page/ExpirePage.mt";
 
     @Autowired
@@ -74,7 +68,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
     @Override
     protected void onHandleRequest(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+                                   HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo != null) {
             try {
@@ -112,12 +106,10 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
 
                 User user = userService.findUserByUserName(inviteeEmail);
                 if (user != null) { // there is already user in the current account
-                    handleMemberInviteWithExistAccount(siteUrl, inviteeEmail,
-							projectId, sAccountId, projectRoleId, response);
+                    handleMemberInviteWithExistAccount(siteUrl, inviteeEmail, projectId, sAccountId, projectRoleId, response);
                 } else {
                     handleOutSideMemberInvite(siteUrl, inviteeEmail, projectId,
-                            sAccountId, projectRoleId, inviterName, response,
-                            request);
+                            sAccountId, projectRoleId, inviterName, response, request);
                 }
             } catch (ResourceNotFoundException e) {
                 throw new ResourceNotFoundException();
@@ -129,11 +121,8 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
         }
     }
 
-    private void handleMemberInviteWithExistAccount(String siteUrl,
-            String username, Integer projectId, Integer sAccountId,
-            Integer projectRoleId, HttpServletResponse response)
-            throws IOException {
-
+    private void handleMemberInviteWithExistAccount(String siteUrl, String username, Integer projectId, Integer sAccountId,
+                                                    Integer projectRoleId, HttpServletResponse response) throws IOException {
         // search has in table User account
         UserAccountExample example = new UserAccountExample();
         example.createCriteria().andUsernameEqualTo(username)
@@ -182,10 +171,8 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
         }
     }
 
-    private void handleOutSideMemberInvite(String siteUrl, String email,
-            Integer projectId, Integer sAccountId, Integer projectRoleId,
-            String inviterName, HttpServletResponse response,
-            HttpServletRequest request) {
+    private void handleOutSideMemberInvite(String siteUrl, String email, Integer projectId, Integer sAccountId, Integer projectRoleId,
+                                           String inviterName, HttpServletResponse response, HttpServletRequest request) {
         String projectLinkURL = ProjectLinkGenerator.generateProjectFullLink(
                 siteUrl, projectId);
 
@@ -200,7 +187,7 @@ public class AcceptProjectInvitationHandler extends VelocityWebServletRequestHan
         context.put("roleId", projectRoleId);
         context.put("inviterName", inviterName);
 
-		SimpleProject project = projectService.findById(projectId, sAccountId);
+        SimpleProject project = projectService.findById(projectId, sAccountId);
         context.put("projectName", project.getName());
 
         String html = generatePageByTemplate(response.getLocale(), OUTSIDE_MEMBER_WELCOME_PAGE, context);
