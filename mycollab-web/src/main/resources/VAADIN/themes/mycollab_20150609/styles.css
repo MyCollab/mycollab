@@ -29,7 +29,7 @@
 	}
 
 .v-vaadin-version:after {
-	content: "7.5.0";
+	content: "7.5.1";
 }
 
 .v-generated-body {
@@ -3091,6 +3091,15 @@ div.v-csslayout {
 	filter: alpha(opacity=50);
 }
 
+.v-ie8 .v-menubar-menuitem-disabled, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:hover, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:focus, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:active {
+	filter: none;
+	color: #999;
+}
+
+.v-ie8 .v-menubar-menuitem-disabled img, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:hover img, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:focus img, .v-ie8 .v-menubar span.v-menubar-menuitem-disabled:active img {
+	filter: alpha(opacity=50);
+}
+
 .v-menubar-more-menuitem {
 	font-family: arial, helvetica, sans-serif;
 }
@@ -3140,7 +3149,7 @@ div.v-csslayout {
 	filter: alpha(opacity=90);
 }
 
-.v-Notification-caption, .v-Notification-description {
+.v-Notification-caption, .v-Notification-description, .v-Notification-details {
 	display: inline;
 	margin: 0 0.5em 0 0;
 }
@@ -8171,11 +8180,11 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	padding-left: 5px;
 }
 
-.addview-layout-body {
+div .addview-layout-body {
 	border: none;
 }
 
-.addview-layout-body .v-label.h2 {
+div .addview-layout-body .v-label.h2 {
 	padding: 8px 0px 8px 18px;
 	font-size: 13px;
 	border-bottom: 1px solid #CFCFCF;
@@ -8184,65 +8193,71 @@ div.v-button-link.buttonPagingcurrent, div.v-button-link.buttonPaging:hover {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	background-color: #EEEEEE;
+	width: 100%;
 }
 
-.addview-layout-body .control-buttons {
+div .addview-layout-body .control-buttons {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.addview-layout-body .colored-gridlayout {
+div .addview-layout-body .colored-gridlayout {
 	border-bottom: 1px solid #CFCFCF;
+	width: 100%;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-top {
+div .addview-layout-body .v-horizontallayout-gridform-caption.v-margin-top {
 	padding-top: 5px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-right {
+div .addview-layout-body .v-horizontallayout-gridform-caption.v-margin-right {
 	padding-right: 5px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-bottom {
+div .addview-layout-body .v-horizontallayout-gridform-caption.v-margin-bottom {
 	padding-bottom: 5px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-caption.v-margin-left {
+div .addview-layout-body .v-horizontallayout-gridform-caption.v-margin-left {
 	padding-left: 18px;
 }
 
-.addview-layout-body .gridform-caption {
+div .addview-layout-body .gridform-caption {
 	border-left: 1px solid #CFCFCF;
 	border-right: 1px solid #CFCFCF;
 }
 
-.addview-layout-body .gridform-caption.first-col {
+div .addview-layout-body .gridform-caption.first-col {
 	border-left: none;
 }
 
-.addview-layout-body .colored-gridlayout .v-gridlayout-slot > div {
+div .addview-layout-body .colored-gridlayout .v-gridlayout-slot > div {
 	border-top: 1px solid #CFCFCF;
 }
 
-.addview-layout-body .colored-gridlayout .v-gridlayout-slot > div.first-row {
+div .addview-layout-body .colored-gridlayout .v-gridlayout-slot > div.first-row {
 	border-top: none;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-top {
+div .addview-layout-body .v-horizontallayout-gridform-field {
+	width: 100%;
+}
+
+div .addview-layout-body .v-horizontallayout-gridform-field.v-margin-top {
 	padding-top: 5px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-right {
+div .addview-layout-body .v-horizontallayout-gridform-field.v-margin-right {
 	padding-right: 8px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-bottom {
+div .addview-layout-body .v-horizontallayout-gridform-field.v-margin-bottom {
 	padding-bottom: 5px;
 }
 
-.addview-layout-body .v-horizontallayout-gridform-field.v-margin-left {
+div .addview-layout-body .v-horizontallayout-gridform-field.v-margin-left {
 	padding-left: 10px;
 }
 

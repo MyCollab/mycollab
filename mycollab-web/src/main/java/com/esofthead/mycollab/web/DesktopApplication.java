@@ -38,14 +38,14 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GoogleAnalyticsService;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.*;
+import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.Page;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
-import com.vaadin.shared.communication.PushMode;
-import com.vaadin.shared.ui.ui.Transport;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -53,8 +53,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.jonatan.contexthelp.ContextHelp;
+import org.vaadin.viritin.util.BrowserCookie;
 
-import javax.servlet.http.Cookie;
 import java.util.Collection;
 
 /**
@@ -63,7 +63,6 @@ import java.util.Collection;
  */
 @Theme(MyCollabVersion.THEME_VERSION)
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
-@Push(value = PushMode.MANUAL)
 public class DesktopApplication extends MyCollabUI {
     private static final long serialVersionUID = 1L;
 
@@ -233,43 +232,12 @@ public class DesktopApplication extends MyCollabUI {
     }
 
     public void rememberPassword(String username, String password) {
-        Cookie cookie = getCookieByName(DesktopApplication.NAME_COOKIE);
         String storeVal = username + "$" + PasswordEncryptHelper.encryptText(password);
-        if (cookie == null) {
-            cookie = new Cookie(DesktopApplication.NAME_COOKIE, storeVal);
-        } else {
-            cookie.setValue(storeVal);
-        }
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-
-        VaadinService.getCurrentResponse().addCookie(cookie);
+        BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, storeVal);
     }
 
     public void unsetRememberPassword() {
-        Cookie cookie = getCookieByName(DesktopApplication.NAME_COOKIE);
-
-        if (cookie != null) {
-            cookie.setValue("");
-            cookie.setPath("/");
-            cookie.setMaxAge(0);
-            VaadinService.getCurrentResponse().addCookie(cookie);
-        }
-    }
-
-    public Cookie getCookieByName(String name) {
-        Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
-
-        if (cookies != null) {
-            // Iterate to find cookie by its name
-            for (Cookie cookie : cookies) {
-                if (name.equals(cookie.getName())) {
-                    return cookie;
-                }
-            }
-        }
-
-        return null;
+        BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, "");
     }
 
     public static void addContextHelp(Component comp, String message) {

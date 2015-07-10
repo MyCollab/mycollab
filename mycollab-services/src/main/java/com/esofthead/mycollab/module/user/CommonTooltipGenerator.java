@@ -36,21 +36,17 @@ import java.util.TimeZone;
  * @since 4.3.1
  */
 public class CommonTooltipGenerator {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(CommonTooltipGenerator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CommonTooltipGenerator.class);
 
-    public static String generateTooltipUser(Locale locale, SimpleUser user,
-                                             String siteURL, TimeZone timeZone) {
+    public static String generateTooltipUser(Locale locale, SimpleUser user, String siteURL, TimeZone timeZone) {
         try {
             if (user == null) {
                 return generateTolltipNull(locale);
             }
 
             Div div = new Div();
-            H3 userFullName = new H3()
-                    .setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-            userFullName.setStyle("padding-left:10px;").appendText(
-                    user.getDisplayName());
+            H3 userFullName = new H3().setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
+            userFullName.setStyle("padding-left:10px;").appendText(user.getDisplayName());
             div.appendChild(userFullName);
 
             Table table = new Table();

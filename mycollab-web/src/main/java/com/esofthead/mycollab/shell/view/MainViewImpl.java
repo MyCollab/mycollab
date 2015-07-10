@@ -266,8 +266,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
-                new AssetResource(WebResourceIds._16_account),
-                new Button.ClickListener() {
+                new AssetResource(WebResourceIds._16_account), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -279,7 +278,8 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         layout.addComponent(serviceMenu, "serviceMenu");
 
-        MHorizontalLayout accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, false));
+        MHorizontalLayout accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false,
+                false));
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
@@ -300,8 +300,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
                         @Override
                         public void layoutClick(LayoutClickEvent event) {
-                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this,
-                                    new String[]{"billing"}));
+                            EventBusFactory.getInstance().post(new ShellEvent.GotoUserAccountModule(this, new String[]{"billing"}));
                         }
                     });
                     accountLayout.with(informBox).withAlign(informBox, Alignment.MIDDLE_LEFT);
@@ -384,8 +383,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
             ExtMailService mailService = ApplicationContextUtil.getSpringBean(ExtMailService.class);
             if (!mailService.isMailSetupValid()) {
-                EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this,
-                        new SmtpSetupNotification()));
+                EventBusFactory.getInstance().post(new ShellEvent.NewNotification(this, new SmtpSetupNotification()));
             }
 
             SimpleUser user = AppContext.getUser();
@@ -405,7 +403,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 .getDisplayName(), 20, true));
         accountMenu.setStyleName("accountMenu");
 
-        OptionPopupContent accLayout = new OptionPopupContent().withWidth("160px");
+        OptionPopupContent accountPopupContent = new OptionPopupContent().withWidth("160px");
 
         Button myProfileBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -417,7 +415,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         myProfileBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.PROFILE));
-        accLayout.addOption(myProfileBtn);
+        accountPopupContent.addOption(myProfileBtn);
 
         Button myAccountBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_BILLING), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -429,7 +427,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         myAccountBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.BILLING));
-        accLayout.addOption(myAccountBtn);
+        accountPopupContent.addOption(myAccountBtn);
 
         Button userMgtBtn = new Button(AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES), new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
@@ -441,7 +439,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         userMgtBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.USERS));
-        accLayout.addOption(userMgtBtn);
+        accountPopupContent.addOption(userMgtBtn);
 
         Button generalSettingBtn = new Button("General", new ClickListener() {
             @Override
@@ -451,7 +449,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         generalSettingBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.GENERAL_SETTING));
-        accLayout.addOption(generalSettingBtn);
+        accountPopupContent.addOption(generalSettingBtn);
 
         Button themeCustomizeBtn = new Button("Make Theme", new ClickListener() {
             @Override
@@ -461,7 +459,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         themeCustomizeBtn.setIcon(SettingAssetsManager.getAsset(SettingUIConstants.THEME_CUSTOMIZE));
-        accLayout.addOption(themeCustomizeBtn);
+        accountPopupContent.addOption(themeCustomizeBtn);
 
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.standalone) {
@@ -473,7 +471,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 }
             });
             setupBtn.setIcon(FontAwesome.WRENCH);
-            accLayout.addOption(setupBtn);
+            accountPopupContent.addOption(setupBtn);
 
             Button aboutBtn = new Button("About", new ClickListener() {
                 @Override
@@ -484,7 +482,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 }
             });
             aboutBtn.setIcon(FontAwesome.INFO_CIRCLE);
-            accLayout.addOption(aboutBtn);
+            accountPopupContent.addOption(aboutBtn);
         }
 
         Button signoutBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT), new Button.ClickListener() {
@@ -497,9 +495,9 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
             }
         });
         signoutBtn.setIcon(FontAwesome.SIGN_OUT);
-        accLayout.addOption(signoutBtn);
+        accountPopupContent.addOption(signoutBtn);
 
-        accountMenu.setContent(accLayout);
+        accountMenu.setContent(accountPopupContent);
         accountLayout.addComponent(accountMenu);
 
         layout.addComponent(accountLayout, "accountMenu");

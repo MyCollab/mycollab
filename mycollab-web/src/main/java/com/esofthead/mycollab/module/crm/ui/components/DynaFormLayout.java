@@ -43,16 +43,16 @@ public class DynaFormLayout implements IFormLayoutFactory {
     private static final Logger LOG = LoggerFactory.getLogger(DynaFormLayout.class);
 
     private DynaForm dynaForm;
-    private VerticalLayout layout = new VerticalLayout();
+    private VerticalLayout layout;
 
     private Map<String, AbstractDynaField> fieldMappings = new HashMap<>();
     private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
     public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-        MasterFormService formService = ApplicationContextUtil
-                .getSpringBean(MasterFormService.class);
-        DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
-                moduleName);
+        layout = new VerticalLayout();
+        layout.setWidth("100%");
+        MasterFormService formService = ApplicationContextUtil.getSpringBean(MasterFormService.class);
+        DynaForm form = formService.findCustomForm(AppContext.getAccountId(), moduleName);
 
         this.dynaForm = (form != null) ? form : defaultForm;
 
@@ -88,6 +88,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
                 continue;
             }
             Label header = new Label(section.getHeader());
+            header.setWidth("100%");
             header.setStyleName("h2");
             layout.addComponent(header);
 
@@ -102,8 +103,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
             } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
                 gridLayout = GridFormLayoutHelper.defaultFormLayoutHelper(2, (section.getFieldCount() + 3) / 2);
             } else {
-                throw new MyCollabException(
-                        "Does not support attachForm layout except 1 or 2 columns");
+                throw new MyCollabException("Does not support attachForm layout except 1 or 2 columns");
             }
             layout.addComponent(gridLayout.getLayout());
 

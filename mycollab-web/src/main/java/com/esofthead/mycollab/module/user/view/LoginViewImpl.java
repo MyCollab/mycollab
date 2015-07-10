@@ -41,7 +41,6 @@ import com.vaadin.ui.Button.ClickEvent;
  */
 @ViewComponent
 public class LoginViewImpl extends AbstractPageView implements LoginView {
-
     private static final long serialVersionUID = 1L;
 
     public LoginViewImpl() {
@@ -67,8 +66,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
             StringLengthValidator passwordValidator = new StringLengthValidator(
                     "Password length must be greater than 6", 6, Integer.MAX_VALUE, false);
             passwordField.addValidator(passwordValidator);
-            passwordField.addShortcutListener(new ShortcutListener("Signin",
-                    ShortcutAction.KeyCode.ENTER, null) {
+            passwordField.addShortcutListener(new ShortcutListener("Signin", ShortcutAction.KeyCode.ENTER, null) {
                 private static final long serialVersionUID = 5094514575531426118L;
 
                 @Override
@@ -76,14 +74,10 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                     if (target == passwordField) {
                         try {
                             custom.removeComponent("customErrorMsg");
-                            LoginViewImpl.this.fireEvent(new ViewEvent<>(
-                                    LoginViewImpl.this, new PlainLogin(
-                                    usernameField.getValue(),
-                                    passwordField.getValue(),
-                                    rememberMe.getValue())));
+                            LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new PlainLogin(usernameField.getValue(),
+                                    passwordField.getValue(), rememberMe.getValue())));
                         } catch (MyCollabException e) {
-                            custom.addComponent(new Label(e.getMessage()),
-                                    "customErrorMsg");
+                            custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
 
                         } catch (Exception e) {
                             throw new MyCollabException(e);
@@ -94,32 +88,29 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
             custom.addComponent(passwordField, "passwordField");
 
-            rememberMe = new CheckBox(AppContext.getMessage(
-                    ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
+            rememberMe = new CheckBox(AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD), false);
             custom.addComponent(rememberMe, "rememberMe");
 
-            Button loginBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button loginBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            try {
-                                custom.removeComponent("customErrorMsg");
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    try {
+                        custom.removeComponent("customErrorMsg");
 
-                                LoginViewImpl.this.fireEvent(new ViewEvent<>(
-                                        LoginViewImpl.this, new PlainLogin(
-                                        usernameField.getValue(),
-                                        passwordField.getValue(),
-                                        rememberMe.getValue())));
-                            } catch (MyCollabException e) {
-                                custom.addComponent(new Label(e.getMessage()),
-                                        "customErrorMsg");
-                            } catch (Exception e) {
-                                throw new MyCollabException(e);
-                            }
-                        }
-                    });
+                        LoginViewImpl.this.fireEvent(new ViewEvent<>(
+                                LoginViewImpl.this, new PlainLogin(
+                                usernameField.getValue(),
+                                passwordField.getValue(),
+                                rememberMe.getValue())));
+                    } catch (MyCollabException e) {
+                        custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
+                    } catch (Exception e) {
+                        throw new MyCollabException(e);
+                    }
+                }
+            });
 
             loginBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
             custom.addComponent(loginBtn, "loginButton");

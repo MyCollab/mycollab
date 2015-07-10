@@ -47,8 +47,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
  * @since 2.0
  */
 @ViewComponent
-public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
-        implements AccountReadView {
+public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
     private static final long serialVersionUID = 1L;
 
     private AccountContactListComp associateContactList;
@@ -82,8 +81,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
     @Override
     protected ComponentContainer createButtonControls() {
-        return new CrmPreviewFormControlsGenerator<>(previewForm)
-                .createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
+        return new CrmPreviewFormControlsGenerator<>(previewForm).createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
     }
 
     protected void displayActivities() {
@@ -117,12 +115,9 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
         LeadService leadService = ApplicationContextUtil.getSpringBean(LeadService.class);
         SimpleLead lead = leadService.findConvertedLeadOfAccount(beanItem.getId(), AppContext.getAccountId());
         if (lead != null) {
-            return new StringBuilder().append(beanItem.getAccountname())
-                    .append(AppContext.getMessage(
-                            LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-                            CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
-                            CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()),
-                            lead.getLeadName())).toString();
+            return new StringBuilder().append(beanItem.getAccountname()).append(AppContext.getMessage(
+                    LeadI18nEnum.CONVERT_FROM_LEAD_TITLE, CrmAssetsManager.getAsset(CrmTypeConstants.LEAD).getHtml(),
+                    CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()), lead.getLeadName())).toString();
         } else {
             return beanItem.getAccountname();
         }
@@ -170,8 +165,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
     @Override
     protected IFormLayoutFactory initFormLayoutFactory() {
-        return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
-                AccountDefaultDynaFormLayoutFactory.getForm());
+        return new DynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
     }
 
     @Override

@@ -45,14 +45,11 @@ public class GridFormLayoutHelper implements Serializable {
     }
 
     public GridFormLayoutHelper(int columns, int rows) {
-        this(columns, rows, UIConstants.DEFAULT_CONTROL_WIDTH,
-                UIConstants.DEFAULT_CAPTION_FORM_WIDTH, Alignment.TOP_LEFT);
+        this(columns, rows, UIConstants.DEFAULT_CONTROL_WIDTH, UIConstants.DEFAULT_CAPTION_FORM_WIDTH, Alignment.TOP_LEFT);
     }
 
-    public GridFormLayoutHelper(int columns, int rows,
-                                String fieldControlWidth, String defaultCaptionWidth) {
-        this(columns, rows, fieldControlWidth, defaultCaptionWidth,
-                Alignment.TOP_RIGHT);
+    public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth, String defaultCaptionWidth) {
+        this(columns, rows, fieldControlWidth, defaultCaptionWidth, Alignment.TOP_RIGHT);
     }
 
     public GridFormLayoutHelper(int columns, int rows, String fieldControlWidth,
@@ -130,10 +127,9 @@ public class GridFormLayoutHelper implements Serializable {
 
         if (rows == 0) {
             fieldWrapper.addStyleName("first-row");
-            fieldWrapper.setWidth(width);
         }
-        this.layout.addComponent(fieldWrapper, 2 * columns + 1, rows,
-                2 * (columns + colspan - 1) + 1, rows);
+        fieldWrapper.setWidth(width);
+        this.layout.addComponent(fieldWrapper, 2 * columns + 1, rows, 2 * (columns + colspan - 1) + 1, rows);
         this.layout.setColumnExpandRatio(2 * columns + 1, 1.0f);
 
         if (StringUtils.isNotBlank(caption)) {

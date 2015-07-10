@@ -51,8 +51,7 @@ public abstract class GenericChartWrapper<S extends SearchCriteria> extends Vert
 	protected int width;
 	protected S searchCriteria;
 
-	public GenericChartWrapper(final String title, final int width,
-			final int height) {
+	public GenericChartWrapper(final String title, final int width, final int height) {
 		this.width = width;
 		this.height = height;
 		this.title = title;

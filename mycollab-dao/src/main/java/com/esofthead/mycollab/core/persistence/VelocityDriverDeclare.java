@@ -47,29 +47,22 @@ public class VelocityDriverDeclare implements LanguageDriver {
     }
 
     @Override
-    public ParameterHandler createParameterHandler(
-            MappedStatement mappedStatement, Object parameterObject,
-            BoundSql boundSql) {
-        return new DefaultParameterHandler(mappedStatement, parameterObject,
-                boundSql);
+    public ParameterHandler createParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+        return new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
     }
 
     @Override
-    public SqlSource createSqlSource(Configuration configuration, XNode script,
-                                     Class<?> parameterTypeClass) {
+    public SqlSource createSqlSource(Configuration configuration, XNode script, Class<?> parameterTypeClass) {
         if (parameterTypeClass == null) {
             parameterTypeClass = Object.class;
         }
-        String templateStr = TOTAL_COUNT_EXPR_MACRO + " " + SELECT_EXPR_MACRO
-                + " " + script.getNode().getTextContent();
+        String templateStr = TOTAL_COUNT_EXPR_MACRO + " " + SELECT_EXPR_MACRO + " " + script.getNode().getTextContent();
 
-        return new SQLScriptSource(configuration, templateStr,
-                parameterTypeClass);
+        return new SQLScriptSource(configuration, templateStr, parameterTypeClass);
     }
 
     @Override
-    public SqlSource createSqlSource(Configuration configuration,
-                                     String script, Class<?> parameterTypeClass) {
+    public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterTypeClass) {
         if (parameterTypeClass == null) {
             parameterTypeClass = Object.class;
         }
@@ -81,8 +74,7 @@ public class VelocityDriverDeclare implements LanguageDriver {
     }
 
     private static String loadResource(String id) {
-        try (InputStream inputStream = VelocityDriverDeclare.class
-                .getResourceAsStream(id)) {
+        try (InputStream inputStream = VelocityDriverDeclare.class.getResourceAsStream(id)) {
             if (inputStream == null) {
                 throw new MyCollabException("Can not load resource id " + id);
             } else {

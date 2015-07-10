@@ -28,9 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.UI;
-
-import javax.servlet.http.Cookie;
+import org.vaadin.viritin.util.BrowserCookie;
 
 /**
  * @author MyCollab Ltd.
@@ -54,7 +52,7 @@ public class MainWindowContainer extends CssLayout {
     }
 
     private void setDefaultView() {
-        LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
+        final LoginPresenter presenter = PresenterResolver.getPresenter(LoginPresenter.class);
         LoginView loginView = presenter.getView();
         this.setStyleName("loginView");
         this.setSizeFull();
@@ -62,24 +60,24 @@ public class MainWindowContainer extends CssLayout {
 
         // Read previously stored cookie value
         if (isAutoLogin) {
-            Cookie nameCookie = ((DesktopApplication) UI.getCurrent())
-                    .getCookieByName(DesktopApplication.NAME_COOKIE);
-            if (nameCookie != null) {
-                String loginInfo = nameCookie.getValue();
-                if (loginInfo != null) {
-                    String[] loginParams = loginInfo.split("\\$");
-                    if (loginParams.length == 2) {
-                        try {
-                            presenter.doLogin(loginParams[0],
-                                    PasswordEncryptHelper.decryptText(loginParams[1]), false);
-                        } catch (UserInvalidInputException e) {
-                            // do nothing
-                        } catch (Exception e) {
-                            throw new MyCollabException(e);
+            BrowserCookie.detectCookieValue(DesktopApplication.NAME_COOKIE, new BrowserCookie.Callback() {
+                @Override
+                public void onValueDetected(String value) {
+                    if (value != null && !value.equals("")) {
+                        String[] loginParams = value.split("\\$");
+                        if (loginParams.length == 2) {
+                            try {
+                                presenter.doLogin(loginParams[0],
+                                        PasswordEncryptHelper.decryptText(loginParams[1]), false);
+                            } catch (UserInvalidInputException e) {
+                                // do nothing
+                            } catch (Exception e) {
+                                throw new MyCollabException(e);
+                            }
                         }
                     }
                 }
-            }
+            });
         }
     }
 

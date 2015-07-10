@@ -30,7 +30,6 @@ import java.util.concurrent.Executors;
 public class AppEventBus {
     @Bean
     public AsyncEventBus asyncEventBus() {
-        AsyncEventBus eventBus = new AsyncEventBus(Executors.newCachedThreadPool());
-        return eventBus;
+        return new AsyncEventBus(Executors.newCachedThreadPool());
     }
 }
