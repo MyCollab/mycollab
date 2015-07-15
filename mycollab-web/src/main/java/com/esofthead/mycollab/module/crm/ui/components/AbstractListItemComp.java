@@ -85,10 +85,8 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
         selectOptionButton.setSizeUndefined();
         layout.addComponent(selectOptionButton);
 
-        Button deleteBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
-        deleteBtn.setEnabled(AppContext
-                .canAccess(RolePermissionCollections.CRM_ACCOUNT));
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
+        deleteBtn.setEnabled(AppContext.canAccess(RolePermissionCollections.CRM_ACCOUNT));
 
         tableActionControls = createActionControls();
 
@@ -111,11 +109,9 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
     }
 
     @Override
-    public void enableActionControls(final int numOfSelectedItems) {
+    public void enableActionControls(int numOfSelectedItems) {
         tableActionControls.setVisible(true);
-        selectedItemsNumberLabel.setValue(AppContext
-                .getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE,
-                        numOfSelectedItems));
+        selectedItemsNumberLabel.setValue(AppContext.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
     }
 
     public void addExtraButton(Button component) {

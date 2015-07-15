@@ -87,15 +87,11 @@ class TaskDisplayComponent extends CssLayout {
             @Override
             public void attachField(Object propertyId, Field<?> field) {
                 if ("description".equals(propertyId)) {
-                    layoutHelper.addComponent(field, AppContext
-                                    .getMessage(GenericI18Enum.FORM_DESCRIPTION),
-                            0, 0, 2, "100%");
+                    layoutHelper.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 0, 2, "100%");
                 } else if ("owner".equals(propertyId)) {
-                    layoutHelper.addComponent(field, AppContext
-                            .getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
+                    layoutHelper.addComponent(field, AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
                 } else if ("milestoneid".equals(propertyId)) {
-                    layoutHelper.addComponent(field,
-                            AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 1);
+                    layoutHelper.addComponent(field, AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 1);
                 }
             }
         });
@@ -108,8 +104,7 @@ class TaskDisplayComponent extends CssLayout {
                     return new DefaultViewField(taskList.getDescription(), ContentMode.HTML);
                 } else if ("owner".equals(propertyId)) {
                     return new ProjectUserFormLinkField(taskList.getOwner(),
-                            taskList.getOwnerAvatarId(),
-                            taskList.getOwnerFullName());
+                            taskList.getOwnerAvatarId(), taskList.getOwnerFullName());
                 } else if ("milestoneid".equals(propertyId)) {
                     return new ProjectItemViewField(ProjectTypeConstants.MILESTONE, "" + taskList.getMilestoneid(),
                             taskList.getMilestoneName());
@@ -125,19 +120,17 @@ class TaskDisplayComponent extends CssLayout {
         this.taskDisplay = new TaskListDisplay();
         addComponent(taskDisplay);
 
-        this.createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        this.createTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final Button.ClickEvent event) {
-                        TaskDisplayComponent.this.removeComponent(createTaskBtn.getParent());
-                        TaskAddPopup taskAddView = new TaskAddPopup(TaskDisplayComponent.this, taskList);
-                        TaskDisplayComponent.this.addComponent(taskAddView);
-                    }
-                });
-        this.createTaskBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.TASKS));
+            @Override
+            public void buttonClick(final Button.ClickEvent event) {
+                TaskDisplayComponent.this.removeComponent(createTaskBtn.getParent());
+                TaskAddPopup taskAddView = new TaskAddPopup(TaskDisplayComponent.this, taskList);
+                TaskDisplayComponent.this.addComponent(taskAddView);
+            }
+        });
+        this.createTaskBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         this.createTaskBtn.setIcon(FontAwesome.PLUS);
         this.createTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 

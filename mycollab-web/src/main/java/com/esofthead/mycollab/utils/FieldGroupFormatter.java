@@ -207,8 +207,7 @@ public class FieldGroupFormatter {
         }
     }
 
-    public static class DateTimeHistoryFieldFormat implements
-            HistoryFieldFormat {
+    public static class DateTimeHistoryFieldFormat implements HistoryFieldFormat {
 
         @Override
         public Component toVaadinComponent(String value) {
@@ -233,16 +232,14 @@ public class FieldGroupFormatter {
         }
     }
 
-    public static class CurrencyHistoryFieldFormat implements
-            HistoryFieldFormat {
+    public static class CurrencyHistoryFieldFormat implements HistoryFieldFormat {
 
         @Override
         public Component toVaadinComponent(String value) {
             if (StringUtils.isNotBlank(value)) {
                 try {
                     Integer currencyId = Integer.parseInt(value);
-                    CurrencyService currencyService = ApplicationContextUtil
-                            .getSpringBean(CurrencyService.class);
+                    CurrencyService currencyService = ApplicationContextUtil.getSpringBean(CurrencyService.class);
                     Currency currency = currencyService.getCurrency(currencyId);
                     return new Label(currency.getSymbol());
                 } catch (Exception e) {

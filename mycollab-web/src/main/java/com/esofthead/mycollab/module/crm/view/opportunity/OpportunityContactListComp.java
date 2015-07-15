@@ -93,11 +93,9 @@ public class OpportunityContactListComp extends
         noteBlock.setWidth("100%");
         noteBlock.setStyleName("list-note-block");
         for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
-            Label note = new Label(
-                    CrmDataTypeFactory.getOpportunityContactRoleList()[i]);
+            Label note = new Label(CrmDataTypeFactory.getOpportunityContactRoleList()[i]);
             note.setStyleName("note-label");
-            note.addStyleName(colormap.get(CrmDataTypeFactory
-                    .getOpportunityContactRoleList()[i]));
+            note.addStyleName(colormap.get(CrmDataTypeFactory.getOpportunityContactRoleList()[i]));
             note.setSizeUndefined();
 
             noteBlock.addComponent(note);
@@ -108,8 +106,7 @@ public class OpportunityContactListComp extends
 
         final SplitButton controlsBtn = new SplitButton();
         controlsBtn.setSizeUndefined();
-        controlsBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CONTACT));
+        controlsBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CONTACT));
         controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         controlsBtn.setCaption("Add/Edit Contacts' Role");
         controlsBtn.setIcon(FontAwesome.PLUS);

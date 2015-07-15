@@ -231,8 +231,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         serviceMenu = new ServiceMenu();
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
-                new AssetResource(WebResourceIds._16_project),
-                new Button.ClickListener() {
+                new AssetResource(WebResourceIds._16_project), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -244,8 +243,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_CRM),
-                new AssetResource(WebResourceIds._16_customer),
-                new Button.ClickListener() {
+                new AssetResource(WebResourceIds._16_customer), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -255,8 +253,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
                 });
 
         serviceMenu.addService(AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
-                new AssetResource(WebResourceIds._16_document),
-                new Button.ClickListener() {
+                new AssetResource(WebResourceIds._16_document), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -280,6 +277,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
 
         MHorizontalLayout accountLayout = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false,
                 false));
+        accountLayout.setHeight("40px");
         accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
@@ -340,7 +338,7 @@ public final class MainViewImpl extends AbstractPageView implements MainView {
         }
 
         Label accountNameLabel = new Label(AppContext.getSubDomain());
-        accountNameLabel.setStyleName("subdomain");
+        accountNameLabel.addStyleName("subdomain");
         accountLayout.addComponent(accountNameLabel);
 
         NotificationButton notificationButton = new NotificationButton();

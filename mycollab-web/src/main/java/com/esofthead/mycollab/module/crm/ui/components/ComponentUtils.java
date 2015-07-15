@@ -29,7 +29,7 @@ public class ComponentUtils {
         MButton customizeViewBtn = new MButton("");
         customizeViewBtn.setIcon(FontAwesome.ADJUST);
         customizeViewBtn.setDescription("Layout Options");
-        customizeViewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+        customizeViewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         customizeViewBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return customizeViewBtn;
     }
@@ -38,7 +38,7 @@ public class ComponentUtils {
         MButton importBtn = new MButton("");
         importBtn.setDescription("Import");
         importBtn.setIcon(FontAwesome.CLOUD_UPLOAD);
-        importBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+        importBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         importBtn.addStyleName(UIConstants.BUTTON_SMALL_PADDING);
         return importBtn;
     }

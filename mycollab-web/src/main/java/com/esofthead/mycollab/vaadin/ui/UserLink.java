@@ -30,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.UUID;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
  */
@@ -45,11 +44,12 @@ public class UserLink extends Label {
         String uid = UUID.randomUUID().toString();
         DivLessFormatter div = new DivLessFormatter();
         Img userAvatar = new Img("", Storage.getAvatarPath(userAvatarId, 16));
-        A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(), username))
-                .appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
+        A userLink = new A().setId("tag" + uid).setHref(AccountLinkGenerator.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+                username)).appendText(com.esofthead.mycollab.core.utils.StringUtils.trim(displayName, 30, true));
         userLink.setAttribute("onmouseover", TooltipHelper.userHoverJsFunction(uid, username));
         userLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
+        div.appendChild(userAvatar, DivLessFormatter.EMPTY_SPACE(), userLink, DivLessFormatter.EMPTY_SPACE(),
+                TooltipHelper.buildDivTooltipEnable(uid));
         this.setValue(div.write());
     }
 }

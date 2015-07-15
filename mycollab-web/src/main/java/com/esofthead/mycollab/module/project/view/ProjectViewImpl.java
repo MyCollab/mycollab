@@ -311,8 +311,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
                                     });
                         }
                     });
-            archiveProjectBtn.setEnabled(CurrentProjectVariables
-                    .canAccess(ProjectRolePermissionCollections.PROJECT));
+            archiveProjectBtn.setEnabled(CurrentProjectVariables.canAccess(ProjectRolePermissionCollections.PROJECT));
             archiveProjectBtn.setIcon(FontAwesome.ARCHIVE);
             popupButtonsControl.addOption(archiveProjectBtn);
 
@@ -381,29 +380,22 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
     private void buildComponents() {
         Integer prjId = CurrentProjectVariables.getProjectId();
 
-        myProjectTab.addTab(
-                constructProjectDashboardComponent(),
-                ProjectTypeConstants.DASHBOARD, 1,
+        myProjectTab.addTab(constructProjectDashboardComponent(), ProjectTypeConstants.DASHBOARD, 1,
                 AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
-                GenericLinkUtils.URL_PREFIX_PARAM
-                        + ProjectLinkGenerator.generateProjectLink(prjId));
+                GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateProjectLink(prjId));
 
         if (CurrentProjectVariables.hasMessageFeature()) {
-            myProjectTab.addTab(constructProjectMessageComponent(),
-                    ProjectTypeConstants.MESSAGE, 2,
+            myProjectTab.addTab(constructProjectMessageComponent(), ProjectTypeConstants.MESSAGE, 2,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
-                    GenericLinkUtils.URL_PREFIX_PARAM
-                            + ProjectLinkGenerator.generateMessagesLink(prjId));
+                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMessagesLink(prjId));
         } else {
             myProjectTab.removeTab(ProjectTypeConstants.MESSAGE);
         }
 
         if (CurrentProjectVariables.hasPhaseFeature()) {
-            myProjectTab.addTab(constructProjectMilestoneComponent(),
-                    ProjectTypeConstants.MILESTONE, 3,
+            myProjectTab.addTab(constructProjectMilestoneComponent(), ProjectTypeConstants.MILESTONE, 3,
                     AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
-                    GenericLinkUtils.URL_PREFIX_PARAM
-                            + ProjectLinkGenerator.generateMilestonesLink(prjId));
+                    GenericLinkUtils.URL_PREFIX_PARAM + ProjectLinkGenerator.generateMilestonesLink(prjId));
         } else {
             myProjectTab.removeTab(ProjectTypeConstants.MILESTONE);
         }

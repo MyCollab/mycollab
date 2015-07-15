@@ -69,17 +69,14 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         this(null, requiredColumn, displayColumns);
     }
 
-    public BugTableDisplay(String viewId, TableViewField requiredColumn,
-                           List<TableViewField> displayColumns) {
-        super(ApplicationContextUtil.getSpringBean(BugService.class),
-                SimpleBug.class, viewId, requiredColumn, displayColumns);
+    public BugTableDisplay(String viewId, TableViewField requiredColumn, List<TableViewField> displayColumns) {
+        super(ApplicationContextUtil.getSpringBean(BugService.class), SimpleBug.class, viewId, requiredColumn, displayColumns);
 
         this.addGeneratedColumn("id", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Object generateCell(final Table source, final Object itemId,
-                                       Object columnId) {
+            public Object generateCell(Table source, Object itemId, Object columnId) {
                 final SimpleBug bug = getBeanByIndex(itemId);
                 final Button bugSettingBtn = new Button(null, FontAwesome.COG);
                 bugSettingBtn.addStyleName(UIConstants.BUTTON_ICON_ONLY);
@@ -96,24 +93,19 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                             return;
                         }
 
-                        String category = ((MenuItemData) ((ContextMenuItem) event
-                                .getSource()).getData()).getAction();
-                        String value = ((MenuItemData) ((ContextMenuItem) event
-                                .getSource()).getData()).getValue();
+                        String category = ((MenuItemData) ((ContextMenuItem) event.getSource()).getData()).getAction();
+                        String value = ((MenuItemData) ((ContextMenuItem) event.getSource()).getData()).getValue();
                         if ("status".equals(category)) {
                             if (AppContext.getMessage(BugStatus.Verified).equals(value)) {
-                                UI.getCurrent().addWindow(new ApproveInputWindow(
-                                        BugTableDisplay.this, bug));
+                                UI.getCurrent().addWindow(new ApproveInputWindow(BugTableDisplay.this, bug));
                             } else if (AppContext.getMessage(BugStatus.InProgress).equals(value)) {
                                 bug.setStatus(BugStatus.InProgress.name());
                                 BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
                                 bugService.updateWithSession(bug, AppContext.getUsername());
                             } else if (AppContext.getMessage(BugStatus.Open).equals(value)) {
-                                UI.getCurrent().addWindow(
-                                        new ReOpenWindow(BugTableDisplay.this, bug));
+                                UI.getCurrent().addWindow(new ReOpenWindow(BugTableDisplay.this, bug));
                             } else if (AppContext.getMessage(BugStatus.Resolved).equals(value)) {
-                                UI.getCurrent().addWindow(
-                                        new ResolvedInputWindow(BugTableDisplay.this, bug));
+                                UI.getCurrent().addWindow(new ResolvedInputWindow(BugTableDisplay.this, bug));
                             }
                         } else if ("severity".equals(category)) {
                             bug.setSeverity(value);
@@ -127,8 +119,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
                             refresh();
                         } else if ("action".equals(category)) {
                             if ("edit".equals(value)) {
-                                EventBusFactory.getInstance().post(
-                                        new BugEvent.GotoEdit(BugTableDisplay.this, bug));
+                                EventBusFactory.getInstance().post(new BugEvent.GotoEdit(BugTableDisplay.this, bug));
                             } else if ("delete".equals(value)) {
                                 ConfirmDialogExt.show(UI.getCurrent(),
                                         AppContext.getMessage(GenericI18Enum.DIALOG_DELETE_TITLE,
@@ -169,18 +160,15 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             }
         });
 
-        this.addGeneratedColumn("assignuserFullName",
-                new Table.ColumnGenerator() {
-                    private static final long serialVersionUID = 1L;
+        this.addGeneratedColumn("assignuserFullName", new Table.ColumnGenerator() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public Component generateCell(Table source,
-                                                  Object itemId, Object columnId) {
-                        SimpleBug bug = getBeanByIndex(itemId);
-                        return new ProjectUserLink(bug.getAssignuser(), bug.getAssignUserAvatarId(),
-                                bug.getAssignuserFullName());
-                    }
-                });
+            @Override
+            public Component generateCell(Table source, Object itemId, Object columnId) {
+                SimpleBug bug = getBeanByIndex(itemId);
+                return new ProjectUserLink(bug.getAssignuser(), bug.getAssignUserAvatarId(), bug.getAssignuserFullName());
+            }
+        });
 
         this.addGeneratedColumn("loguserFullName", new Table.ColumnGenerator() {
             private static final long serialVersionUID = 1L;
@@ -189,8 +177,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             public com.vaadin.ui.Component generateCell(Table source,
                                                         final Object itemId, Object columnId) {
                 SimpleBug bug = getBeanByIndex(itemId);
-                return new ProjectUserLink(bug.getLogby(), bug.getLoguserAvatarId(),
-                        bug.getLoguserFullName());
+                return new ProjectUserLink(bug.getLogby(), bug.getLoguserAvatarId(), bug.getLoguserFullName());
             }
         });
 
@@ -268,8 +255,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
             public Object generateCell(Table source, Object itemId,
                                        Object columnId) {
                 SimpleBug bug = getBeanByIndex(itemId);
-                return new Label(AppContext.getMessage(BugResolution.class,
-                        bug.getResolution()));
+                return new Label(AppContext.getMessage(BugResolution.class, bug.getResolution()));
             }
         });
         this.setWidth("100%");
@@ -282,8 +268,7 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         contextMenu.addItem(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)).setData(new MenuItemData("action", "edit", AppContext.getMessage(GenericI18Enum.BUTTON_EDIT)));
 
         ContextMenuItem statusMenuItem = contextMenu.addItem("Status");
-        if (BugStatus.Open.name().equals(bug.getStatus())
-                || BugStatus.ReOpened.name().equals(bug.getStatus())) {
+        if (BugStatus.Open.name().equals(bug.getStatus()) || BugStatus.ReOpened.name().equals(bug.getStatus())) {
             statusMenuItem.addItem("Start Progress").setData(
                     new MenuItemData("status", BugStatus.InProgress.name(), AppContext
                             .getMessage(BugStatus.InProgress)));
@@ -316,10 +301,8 @@ public class BugTableDisplay extends DefaultPagedBeanTable<BugService, BugSearch
         // Show bug priority
         ContextMenuItem priorityMenuItem = contextMenu.addItem(AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
         for (BugPriority bugPriority : OptionI18nEnum.bug_priorities) {
-            ContextMenuItem prioritySubMenuItem = priorityMenuItem
-                    .addItem(AppContext.getMessage(bugPriority));
-            prioritySubMenuItem.setData(new MenuItemData("priority", bugPriority.name(), AppContext
-                    .getMessage(bugPriority)));
+            ContextMenuItem prioritySubMenuItem = priorityMenuItem.addItem(AppContext.getMessage(bugPriority));
+            prioritySubMenuItem.setData(new MenuItemData("priority", bugPriority.name(), AppContext.getMessage(bugPriority)));
             if (bugPriority.name().equals(bug.getPriority())) {
                 prioritySubMenuItem.setEnabled(false);
             }

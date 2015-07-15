@@ -55,251 +55,235 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
 @ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
-		implements TaskReadView {
-	private static final long serialVersionUID = 9021783098267883004L;
+        implements TaskReadView {
+    private static final long serialVersionUID = 9021783098267883004L;
 
-	private Button quickActionStatusBtn;
-	private ProjectCommentListDisplay associateComments;
-	private Button relatedComments;
-	private TaskTimeLogComp taskTimeLogComp;
-	private ProjectAttachmentDisplayComp attachmentComp;
+    private Button quickActionStatusBtn;
+    private ProjectCommentListDisplay associateComments;
+    private Button relatedComments;
+    private TaskTimeLogComp taskTimeLogComp;
+    private ProjectAttachmentDisplayComp attachmentComp;
 
-	public TaskReadViewImpl() {
-		super();
-		taskTimeLogComp = new TaskTimeLogComp();
-	}
+    public TaskReadViewImpl() {
+        super();
+        taskTimeLogComp = new TaskTimeLogComp();
+    }
 
-	@Override
-	public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
-		return this.previewForm;
-	}
+    @Override
+    public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
+        return this.previewForm;
+    }
 
-	@Override
-	protected void afterPreviewItem() {
-		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
-			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_CLOSE));
-			this.removeStyleName(UIConstants.STATUS_DISABLED);
-		} else {
-			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_REOPEN));
-			this.addStyleName(UIConstants.STATUS_DISABLED);
-		}
-		associateComments.loadComments("" + beanItem.getId());
-		if (associateComments.getNumComments() > 0) {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.PROJECT_MESSAGE
-							+ "\" data-count=\""
-							+ associateComments.getNumComments()
-							+ "\"></span><div class=\"screen-reader-text\">"
-							+ AppContext
-									.getMessage(GenericI18Enum.TAB_COMMENT)
-							+ "</div>");
-		} else {
-			relatedComments
-					.setCaption("<span aria-hidden=\"true\" data-icon=\""
-							+ IconConstants.PROJECT_MESSAGE
-							+ "\"></span><div class=\"screen-reader-text\">"
-							+ AppContext
-									.getMessage(GenericI18Enum.TAB_COMMENT)
-							+ "</div>");
-		}
+    @Override
+    protected void afterPreviewItem() {
+        if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
+            quickActionStatusBtn.setCaption(AppContext
+                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            this.removeStyleName(UIConstants.STATUS_DISABLED);
+        } else {
+            quickActionStatusBtn.setCaption(AppContext
+                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            this.addStyleName(UIConstants.STATUS_DISABLED);
+        }
+        associateComments.loadComments("" + beanItem.getId());
+        if (associateComments.getNumComments() > 0) {
+            relatedComments
+                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
+                            + IconConstants.PROJECT_MESSAGE
+                            + "\" data-count=\""
+                            + associateComments.getNumComments()
+                            + "\"></span><div class=\"screen-reader-text\">"
+                            + AppContext
+                            .getMessage(GenericI18Enum.TAB_COMMENT)
+                            + "</div>");
+        } else {
+            relatedComments
+                    .setCaption("<span aria-hidden=\"true\" data-icon=\""
+                            + IconConstants.PROJECT_MESSAGE
+                            + "\"></span><div class=\"screen-reader-text\">"
+                            + AppContext
+                            .getMessage(GenericI18Enum.TAB_COMMENT)
+                            + "</div>");
+        }
 
-		taskTimeLogComp.displayTime(beanItem);
+        taskTimeLogComp.displayTime(beanItem);
 
-		this.previewForm.addComponent(taskTimeLogComp);
+        this.previewForm.addComponent(taskTimeLogComp);
 
-		ResourceService resourceService = ApplicationContextUtil
-				.getSpringBean(ResourceService.class);
-		List<Content> attachments = resourceService.getContents(AttachmentUtils
-				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
-						beanItem.getProjectid(),
-						ProjectTypeConstants.TASK, ""+ beanItem.getId()));
-		if (CollectionUtils.isNotEmpty(attachments)) {
-			attachmentComp = new ProjectAttachmentDisplayComp(attachments);
-			this.previewForm.addComponent(attachmentComp);
-		} else if (attachmentComp != null
-				&& attachmentComp.getParent().equals(this.previewForm)) {
-			this.previewForm.removeComponent(attachmentComp);
-		}
-	}
+        ResourceService resourceService = ApplicationContextUtil
+                .getSpringBean(ResourceService.class);
+        List<Content> attachments = resourceService.getContents(AttachmentUtils
+                .getProjectEntityAttachmentPath(AppContext.getAccountId(),
+                        beanItem.getProjectid(),
+                        ProjectTypeConstants.TASK, "" + beanItem.getId()));
+        if (CollectionUtils.isNotEmpty(attachments)) {
+            attachmentComp = new ProjectAttachmentDisplayComp(attachments);
+            this.previewForm.addComponent(attachmentComp);
+        } else if (attachmentComp != null
+                && attachmentComp.getParent().equals(this.previewForm)) {
+            this.previewForm.removeComponent(attachmentComp);
+        }
+    }
 
-	@Override
-	protected String initFormTitle() {
-		return this.beanItem.getTaskname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return this.beanItem.getTaskname();
+    }
 
-	@Override
-	protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<>();
-	}
+    @Override
+    protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
+        return new AdvancedPreviewBeanForm<>();
+    }
 
-	@Override
-	protected void initRelatedComponents() {
-		associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.TASK,
-				CurrentProjectVariables.getProjectId(), true,
-				ProjectTaskRelayEmailNotificationAction.class);
-	}
+    @Override
+    protected void initRelatedComponents() {
+        associateComments = new ProjectCommentListDisplay(ProjectTypeConstants.TASK,
+                CurrentProjectVariables.getProjectId(), true,
+                ProjectTaskRelayEmailNotificationAction.class);
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new TaskFormLayoutFactory();
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new TaskFormLayoutFactory();
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
-		return new ReadFormFieldFactory(this.previewForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
+        return new ReadFormFieldFactory(this.previewForm);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<SimpleTask>(
-				previewForm);
-		final VerticalLayout topPanel = taskPreviewForm
-				.createButtonControls(
-						ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
-								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
-						ProjectRolePermissionCollections.TASKS);
+    @Override
+    protected ComponentContainer createButtonControls() {
+        ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<SimpleTask>(
+                previewForm);
+        final VerticalLayout topPanel = taskPreviewForm
+                .createButtonControls(
+                        ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+                                | ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+                        ProjectRolePermissionCollections.TASKS);
 
-		quickActionStatusBtn = new Button("", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+        quickActionStatusBtn = new Button("", new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (beanItem.getStatus() != null
-						&& beanItem.getStatus().equals(
-								StatusI18nEnum.Closed.name())) {
-					beanItem.setStatus(StatusI18nEnum.Open.name());
-					beanItem.setPercentagecomplete(0d);
-					TaskReadViewImpl.this
-							.removeStyleName(UIConstants.STATUS_DISABLED);
-					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_CLOSE));
-				} else {
-					beanItem.setStatus(StatusI18nEnum.Closed.name());
-					beanItem.setPercentagecomplete(100d);
-					TaskReadViewImpl.this
-							.addStyleName(UIConstants.STATUS_DISABLED);
-					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_REOPEN));
-				}
+            @Override
+            public void buttonClick(ClickEvent event) {
+                if (beanItem.getStatus() != null
+                        && beanItem.getStatus().equals(
+                        StatusI18nEnum.Closed.name())) {
+                    beanItem.setStatus(StatusI18nEnum.Open.name());
+                    beanItem.setPercentagecomplete(0d);
+                    TaskReadViewImpl.this
+                            .removeStyleName(UIConstants.STATUS_DISABLED);
+                    quickActionStatusBtn.setCaption(AppContext
+                            .getMessage(GenericI18Enum.BUTTON_CLOSE));
+                } else {
+                    beanItem.setStatus(StatusI18nEnum.Closed.name());
+                    beanItem.setPercentagecomplete(100d);
+                    TaskReadViewImpl.this
+                            .addStyleName(UIConstants.STATUS_DISABLED);
+                    quickActionStatusBtn.setCaption(AppContext
+                            .getMessage(GenericI18Enum.BUTTON_REOPEN));
+                }
 
-				ProjectTaskService service = ApplicationContextUtil
-						.getSpringBean(ProjectTaskService.class);
-				service.updateWithSession(beanItem, AppContext.getUsername());
+                ProjectTaskService service = ApplicationContextUtil
+                        .getSpringBean(ProjectTaskService.class);
+                service.updateWithSession(beanItem, AppContext.getUsername());
 
-			}
-		});
-		quickActionStatusBtn.setWidth("100%");
+            }
+        });
+        quickActionStatusBtn.setWidth("100%");
 
-		taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
+        taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
-		if (!CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.TASKS)) {
-			quickActionStatusBtn.setEnabled(false);
-		}
+        if (!CurrentProjectVariables
+                .canWrite(ProjectRolePermissionCollections.TASKS)) {
+            quickActionStatusBtn.setEnabled(false);
+        }
 
-		return topPanel;
-	}
+        return topPanel;
+    }
 
-	@Override
-	protected ComponentContainer createBottomPanel() {
-		HorizontalLayout toolbarLayout = new HorizontalLayout();
-		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		toolbarLayout.setSpacing(true);
+    @Override
+    protected ComponentContainer createBottomPanel() {
+        HorizontalLayout toolbarLayout = new HorizontalLayout();
+        toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        toolbarLayout.setSpacing(true);
 
-		relatedComments = new Button();
-		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
-				+ IconConstants.PROJECT_MESSAGE
-				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
-				+ "</div>");
-		relatedComments.setHtmlContentAllowed(true);
-		relatedComments.addClickListener(new Button.ClickListener() {
+        relatedComments = new Button();
+        relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
+                + IconConstants.PROJECT_MESSAGE
+                + "\"></span><div class=\"screen-reader-text\">"
+                + AppContext.getMessage(GenericI18Enum.TAB_COMMENT)
+                + "</div>");
+        relatedComments.setHtmlContentAllowed(true);
+        relatedComments.addClickListener(new Button.ClickListener() {
 
-			private static final long serialVersionUID = 4889821151518627676L;
+            private static final long serialVersionUID = 4889821151518627676L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.PushView(this, associateComments));
-			}
-		});
-		toolbarLayout.addComponent(relatedComments);
+            @Override
+            public void buttonClick(ClickEvent arg0) {
+                EventBusFactory.getInstance().post(
+                        new ShellEvent.PushView(this, associateComments));
+            }
+        });
+        toolbarLayout.addComponent(relatedComments);
 
-		return toolbarLayout;
-	}
+        return toolbarLayout;
+    }
 
-	private class ReadFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
-		private static final long serialVersionUID = 1L;
+    private class ReadFormFieldFactory extends
+            AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+        private static final long serialVersionUID = 1L;
 
-		public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
-			super(form);
-		}
+        public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+            super(form);
+        }
 
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
+        @Override
+        protected Field<?> onCreateField(final Object propertyId) {
 
-			if (propertyId.equals("assignuser")) {
-				return new FormViewField(beanItem.getAssignUserFullName());
-			} else if (propertyId.equals("taskListName")) {
-				return new FormViewField(beanItem.getTaskListName());
-			} else if (propertyId.equals("startdate")) {
-				return new FormViewField(AppContext.formatDate(beanItem
-						.getStartdate()));
-			} else if (propertyId.equals("enddate")) {
-				return new FormViewField(AppContext.formatDate(beanItem
-						.getEnddate()));
-			} else if (propertyId.equals("actualstartdate")) {
-				return new FormViewField(AppContext.formatDate(beanItem
-						.getActualstartdate()));
-			} else if (propertyId.equals("actualenddate")) {
-				return new FormViewField(AppContext.formatDate(beanItem
-						.getActualenddate()));
-			} else if (propertyId.equals("deadline")) {
-				return new FormViewField(AppContext.formatDate(beanItem
-						.getDeadline()));
-			} else if (propertyId.equals("tasklistid")) {
-				return new FormViewField(beanItem.getTaskListName());
-			} else if (propertyId.equals("priority")) {
-				if (StringUtils.isNotBlank(beanItem.getPriority())) {
-					final Resource iconPriority = new ExternalResource(
-							ProjectResources
-									.getIconResourceLink12ByTaskPriority(beanItem
-											.getPriority()));
-					final Embedded iconEmbedded = new Embedded(null,
-							iconPriority);
-					final Label lbPriority = new Label(AppContext.getMessage(
-							TaskPriority.class, beanItem.getPriority()));
+            if (propertyId.equals("assignuser")) {
+                return new FormViewField(beanItem.getAssignUserFullName());
+            } else if (propertyId.equals("taskListName")) {
+                return new FormViewField(beanItem.getTaskListName());
+            } else if (propertyId.equals("startdate")) {
+                return new FormViewField(AppContext.formatDate(beanItem.getStartdate()));
+            } else if (propertyId.equals("enddate")) {
+                return new FormViewField(AppContext.formatDate(beanItem.getEnddate()));
+            } else if (propertyId.equals("actualstartdate")) {
+                return new FormViewField(AppContext.formatDate(beanItem.getActualstartdate()));
+            } else if (propertyId.equals("actualenddate")) {
+                return new FormViewField(AppContext.formatDate(beanItem.getActualenddate()));
+            } else if (propertyId.equals("deadline")) {
+                return new FormViewField(AppContext.formatDate(beanItem.getDeadline()));
+            } else if (propertyId.equals("tasklistid")) {
+                return new FormViewField(beanItem.getTaskListName());
+            } else if (propertyId.equals("priority")) {
+                if (StringUtils.isNotBlank(beanItem.getPriority())) {
+                    final Resource iconPriority = new ExternalResource(ProjectResources
+                            .getIconResourceLink12ByTaskPriority(beanItem.getPriority()));
+                    final Embedded iconEmbedded = new Embedded(null, iconPriority);
+                    final Label lbPriority = new Label(AppContext.getMessage(TaskPriority.class, beanItem.getPriority()));
 
-					final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
-					containerField.addComponentField(iconEmbedded);
-					containerField.getLayout().setComponentAlignment(
-							iconEmbedded, Alignment.MIDDLE_LEFT);
-					lbPriority.setWidthUndefined();
-					containerField.addComponentField(lbPriority);
-					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
-					return containerField;
-				}
-			} else if (propertyId.equals("notes")) {
-				return new FormDetectAndDisplayUrlViewField(beanItem.getNotes());
-				// } else if (propertyId.equals("id")) {
-				// return new ProjectFormAttachmentDisplayField(
-				// beanItem.getProjectid(),
-				// AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
-			}
-			return null;
-		}
-	}
+                    final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
+                    containerField.addComponentField(iconEmbedded);
+                    containerField.getLayout().setComponentAlignment(iconEmbedded, Alignment.MIDDLE_LEFT);
+                    lbPriority.setWidthUndefined();
+                    containerField.addComponentField(lbPriority);
+                    containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
+                    return containerField;
+                }
+            } else if (propertyId.equals("notes")) {
+                return new FormDetectAndDisplayUrlViewField(beanItem.getNotes());
+            }
+            return null;
+        }
+    }
 
 }

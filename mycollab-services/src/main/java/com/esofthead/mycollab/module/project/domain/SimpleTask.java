@@ -179,6 +179,11 @@ public class SimpleTask extends Task {
         return false;
     }
 
+    public Date getDeadlineRoundPlusOne() {
+        Date value = getDeadline();
+        return (value !=  null) ?  DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
+    }
+
     public static enum Field {
         assignUserFullName, taskListName;
 

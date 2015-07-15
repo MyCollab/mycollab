@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -58,8 +57,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         MHorizontalLayout header = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true)).withHeight("34px");
         header.addStyleName("panel-header");
-        titleLbl = new Label(AppContext.getMessage(
-                ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
+        titleLbl = new Label(AppContext.getMessage(ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0));
 
         final SearchTextField searchTextField = new SearchTextField() {
             @Override
@@ -78,8 +76,7 @@ public class MyProjectListComponent extends MVerticalLayout {
 
         ProjectService projectService = ApplicationContextUtil.getSpringBean(ProjectService.class);
         int allProjectCount = projectService.getTotalCount(getAllProjectsSearchCriteria());
-        Button allProjectsBtn = new Button(AppContext.getMessage(
-                ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount),
+        Button allProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount),
                 new ClickListener() {
                     private static final long serialVersionUID = 1L;
 
@@ -91,10 +88,8 @@ public class MyProjectListComponent extends MVerticalLayout {
                 });
         filterBtnLayout.addOption(allProjectsBtn);
 
-        int activeProjectsCount = projectService
-                .getTotalCount(getActiveProjectsSearchCriteria());
-        Button activeProjectsBtn = new Button(AppContext.getMessage(
-                ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS,
+        int activeProjectsCount = projectService.getTotalCount(getActiveProjectsSearchCriteria());
+        Button activeProjectsBtn = new Button(AppContext.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS,
                 activeProjectsCount), new ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -106,11 +101,9 @@ public class MyProjectListComponent extends MVerticalLayout {
         });
         filterBtnLayout.addOption(activeProjectsBtn);
 
-        int archiveProjectsCount = projectService
-                .getTotalCount(getArchivedProjectsSearchCriteria());
+        int archiveProjectsCount = projectService.getTotalCount(getArchivedProjectsSearchCriteria());
         Button archiveProjectsBtn = new Button(AppContext.getMessage(
-                ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS,
-                archiveProjectsCount), new ClickListener() {
+                ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS, archiveProjectsCount), new ClickListener() {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -25,10 +25,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -138,15 +135,12 @@ public class ComponentReadViewImpl extends
 
         if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
             removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_CLOSE));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
             quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
         } else {
             addLayoutStyleName(UIConstants.LINK_COMPLETED);
-            quickActionStatusBtn.setCaption(AppContext
-                    .getMessage(GenericI18Enum.BUTTON_REOPEN));
+            quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
             quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
-
         }
 
     }
@@ -165,8 +159,7 @@ public class ComponentReadViewImpl extends
             protected Field<?> onCreateField(final Object propertyId) {
                 if (Component.Field.userlead.equalTo(propertyId)) {
                     return new ProjectUserFormLinkField(beanItem.getUserlead(),
-                            beanItem.getUserLeadAvatarId(),
-                            beanItem.getUserLeadFullName());
+                            beanItem.getUserLeadAvatarId(), beanItem.getUserLeadFullName());
                 } else if (Component.Field.id.equalTo(propertyId)) {
                     ContainerViewField containerField = new ContainerViewField();
                     containerField.addComponentField(new BugsComp());
@@ -321,6 +314,9 @@ public class ComponentReadViewImpl extends
             String uid = UUID.randomUUID().toString();
             Div div = new Div();
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
+            String bugPriority = bug.getPriority();
+            Img priorityLink = new Img(bugPriority, ProjectResources.getIconResourceLink12ByBugPriority(bugPriority))
+                    .setTitle(bugPriority);
 
             A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
                     bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
@@ -329,8 +325,8 @@ public class ComponentReadViewImpl extends
             itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug
                     .getSummary()));
 
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), priorityLink, DivLessFormatter.EMPTY_SPACE(),
+                    itemLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
             return div.setCSSClass("columnExpand");
         }
 

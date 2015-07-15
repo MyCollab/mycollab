@@ -57,6 +57,7 @@ Version 5.1.0
 * Remove Camel library and reduce the number of threads daemon
 * Theme color consistent fixed
 * Add outlook stmp help message
+* Many minor UI improvements
 
 **Bug Fixes**
 

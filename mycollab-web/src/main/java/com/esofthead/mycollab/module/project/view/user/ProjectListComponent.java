@@ -99,16 +99,15 @@ public class ProjectListComponent extends MVerticalLayout {
         headerBar.with(headerPopupButton).expand(headerPopupButton);
 
         if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-            MButton createProjectBtn = new MButton("+",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            MButton createProjectBtn = new MButton("+", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final Button.ClickEvent event) {
-                            ProjectAddWindow projectNewWindow = new ProjectAddWindow();
-                            UI.getCurrent().addWindow(projectNewWindow);
-                        }
-                    });
+                @Override
+                public void buttonClick(final Button.ClickEvent event) {
+                    ProjectAddWindow projectNewWindow = new ProjectAddWindow();
+                    UI.getCurrent().addWindow(projectNewWindow);
+                }
+            });
             createProjectBtn.withStyleName("add-project-btn").withDescription("New Project");
             createProjectBtn.setWidth("20px");
             createProjectBtn.setHeight("20px");
@@ -130,8 +129,7 @@ public class ProjectListComponent extends MVerticalLayout {
         headerPopupButton.setDescription(CurrentProjectVariables.getProject().getName());
         ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
         searchCriteria.setInvolvedMember(new StringSearchField(AppContext.getUsername()));
-        searchCriteria.setProjectStatuses(new SetSearchField<>(
-                new String[]{StatusI18nEnum.Open.name()}));
+        searchCriteria.setProjectStatuses(new SetSearchField<>(new String[]{StatusI18nEnum.Open.name()}));
         int count = projectList.setSearchCriteria(searchCriteria);
         titleLbl.setValue(AppContext.getMessage(
                 ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, count));

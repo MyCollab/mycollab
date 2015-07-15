@@ -186,4 +186,9 @@ public class ProjectGenericTask implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Date getDueDatePlusOne() {
+        Date value = getDueDate();
+        return (value !=  null) ?  DateTimeUtils.subtractOrAddDayDuration(value, 1) : null;
+    }
 }

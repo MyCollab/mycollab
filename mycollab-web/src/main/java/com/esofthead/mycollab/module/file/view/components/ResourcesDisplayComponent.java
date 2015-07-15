@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.file.view.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
@@ -111,7 +110,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         MHorizontalLayout groupBtns = new MHorizontalLayout();
 
         final Button selectAllBtn = new Button();
-        selectAllBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+        selectAllBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         selectAllBtn.setIcon(FontAwesome.SQUARE_O);
         selectAllBtn.setData(false);
         selectAllBtn.setImmediate(true);
@@ -149,7 +148,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         parentFolder = baseFolder;
                     } else {
                         parentFolder = externalResourceService.getParentResourceFolder(
-                                        ((ExternalFolder) baseFolder).getExternalDrive(), baseFolder.getPath());
+                                ((ExternalFolder) baseFolder).getExternalDrive(), baseFolder.getPath());
                     }
                 } else if (!baseFolder.getPath().equals(rootPath)) {
                     parentFolder = resourceService.getParentFolder(baseFolder.getPath());
@@ -163,13 +162,13 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
         });
         goUpBtn.setDescription("Back to parent folder");
-        goUpBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
+        goUpBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         goUpBtn.setDescription("Go up");
 
         groupBtns.with(goUpBtn).withAlign(goUpBtn, Alignment.MIDDLE_LEFT);
 
         ButtonGroup navButton = new ButtonGroup();
-        navButton.addStyleName(UIConstants.THEME_BROWN_LINK);
+        navButton.addStyleName(UIConstants.THEME_GREEN_LINK);
         Button createBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
                 new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
@@ -181,7 +180,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                     }
                 });
         createBtn.setIcon(FontAwesome.PLUS);
-        createBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+        createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setDescription("Create new folder");
         createBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         navButton.addButton(createBtn);
@@ -196,7 +195,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
         });
         uploadBtn.setIcon(FontAwesome.UPLOAD);
-        uploadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+        uploadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         uploadBtn.setDescription("Upload");
 
         uploadBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
@@ -223,9 +222,8 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
         downloaderExt.extend(downloadBtn);
 
         downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-        downloadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
-        downloadBtn.setEnabled(AppContext
-                .canRead(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
+        downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+        downloadBtn.setEnabled(AppContext.canRead(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         navButton.addButton(downloadBtn);
 
         Button moveToBtn = new Button("Move", new Button.ClickListener() {
@@ -243,25 +241,24 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
         });
         moveToBtn.setIcon(FontAwesome.ARROWS);
-        moveToBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+        moveToBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
         moveToBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
         moveToBtn.setDescription("Move to");
         navButton.addButton(moveToBtn);
 
-        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(ClickEvent event) {
-                        Collection<Resource> selectedResources = getSelectedResources();
-                        if (CollectionUtils.isEmpty(selectedResources)) {
-                            NotificationUtil.showWarningNotification("Please select at least one item to delete");
-                        } else {
-                            deleteResourceAction();
-                        }
-                    }
-                });
+            @Override
+            public void buttonClick(ClickEvent event) {
+                Collection<Resource> selectedResources = getSelectedResources();
+                if (CollectionUtils.isEmpty(selectedResources)) {
+                    NotificationUtil.showWarningNotification("Please select at least one item to delete");
+                } else {
+                    deleteResourceAction();
+                }
+            }
+        });
         deleteBtn.setIcon(FontAwesome.TRASH_O);
         deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
         deleteBtn.setDescription("Delete resource");
@@ -370,8 +367,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             }
 
             if (currentFolder.getPath().equals(rootPath)) {
-                List<ExternalDrive> externalDrives = externalDriveService
-                        .getExternalDrivesOfUser(AppContext.getUsername());
+                List<ExternalDrive> externalDrives = externalDriveService.getExternalDrivesOfUser(AppContext.getUsername());
                 if (CollectionUtils.isNotEmpty(externalDrives)) {
                     for (ExternalDrive drive : externalDrives) {
                         if (StorageNames.DROPBOX.equals(drive.getStoragename())) {
@@ -452,22 +448,21 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
             MVerticalLayout informationLayout = new MVerticalLayout().withMargin(false);
 
-            Button resourceLinkBtn = new Button(res.getName(),
-                    new ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button resourceLinkBtn = new Button(res.getName(), new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            if (res instanceof Folder) {
-                                baseFolder = (Folder) res;
-                                resourcesContainer.constructBody((Folder) res);
-                                fileBreadCrumb.gotoFolder((Folder) res);
-                            } else {
-                                FileDownloadWindow fileDownloadWindow = new FileDownloadWindow((Content) res);
-                                UI.getCurrent().addWindow(fileDownloadWindow);
-                            }
-                        }
-                    });
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    if (res instanceof Folder) {
+                        baseFolder = (Folder) res;
+                        resourcesContainer.constructBody((Folder) res);
+                        fileBreadCrumb.gotoFolder((Folder) res);
+                    } else {
+                        FileDownloadWindow fileDownloadWindow = new FileDownloadWindow((Content) res);
+                        UI.getCurrent().addWindow(fileDownloadWindow);
+                    }
+                }
+            });
             resourceLinkBtn.addStyleName("link");
             resourceLinkBtn.addStyleName("h3");
             informationLayout.addComponent(resourceLinkBtn);
@@ -522,19 +517,19 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             layout.with(informationLayout).withAlign(informationLayout, Alignment.MIDDLE_LEFT).expand(informationLayout);
 
             final PopupButton resourceSettingPopupBtn = new PopupButton();
-            MVerticalLayout filterBtnLayout = new MVerticalLayout();
-            Button renameBtn = new Button("Rename",
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            resourceSettingPopupBtn.setPopupVisible(false);
-                            UI.getCurrent().addWindow(new RenameResourceWindow(res));
-                        }
-                    });
-            renameBtn.addStyleName("link");
+
+            OptionPopupContent filterBtnLayout = new OptionPopupContent();
+            Button renameBtn = new Button("Rename", new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    resourceSettingPopupBtn.setPopupVisible(false);
+                    UI.getCurrent().addWindow(new RenameResourceWindow(res));
+                }
+            });
             renameBtn.setIcon(FontAwesome.EDIT);
-            filterBtnLayout.addComponent(renameBtn);
+            filterBtnLayout.addOption(renameBtn);
 
             Button downloadBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DOWNLOAD));
 
@@ -557,38 +552,34 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             OnDemandFileDownloader downloaderExt = new OnDemandFileDownloader(streamSource);
             downloaderExt.extend(downloadBtn);
 
-            downloadBtn.addStyleName("link");
             downloadBtn.setIcon(FontAwesome.DOWNLOAD);
-            filterBtnLayout.addComponent(downloadBtn);
+            filterBtnLayout.addOption(downloadBtn);
 
             Button moveBtn = new Button("Move to", new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            UI.getCurrent().addWindow(new MoveResourceWindow(res));
-                        }
-                    });
-            moveBtn.addStyleName("link");
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    UI.getCurrent().addWindow(new MoveResourceWindow(res));
+                }
+            });
             moveBtn.setIcon(FontAwesome.ARROWS);
-            filterBtnLayout.addComponent(moveBtn);
+            filterBtnLayout.addOption(moveBtn);
 
-            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button deleteBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_DELETE), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(ClickEvent event) {
-                            ResourcesDisplayComponent.this.deleteResourceAction();
-                        }
-                    });
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    ResourcesDisplayComponent.this.deleteResourceAction();
+                }
+            });
             deleteBtn.setIcon(FontAwesome.TRASH_O);
-            deleteBtn.addStyleName("link");
-            filterBtnLayout.addComponent(deleteBtn);
+            filterBtnLayout.addOption(deleteBtn);
 
             filterBtnLayout.setWidth("100px");
-            resourceSettingPopupBtn.setIcon(FontAwesome.COG);
-            resourceSettingPopupBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+            resourceSettingPopupBtn.setIcon(FontAwesome.ELLIPSIS_H);
+            resourceSettingPopupBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
             resourceSettingPopupBtn.setContent(filterBtnLayout);
 
             layout.addComponent(resourceSettingPopupBtn);
@@ -598,13 +589,12 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
         Collection<Resource> getSelectedResourceCollection() {
             if (CollectionUtils.isNotEmpty(resources)) {
-                Collection<Resource> selectedResources = Collections2.filter(
-                        resources, new Predicate<Resource>() {
-                            @Override
-                            public boolean apply(Resource input) {
-                                return input.isSelected();
-                            }
-                        });
+                Collection<Resource> selectedResources = Collections2.filter(resources, new Predicate<Resource>() {
+                    @Override
+                    public boolean apply(Resource input) {
+                        return input.isSelected();
+                    }
+                });
                 return selectedResources;
             } else {
                 return new ArrayList<>();
@@ -635,44 +625,40 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
             contentLayout.addComponent(layoutHelper.getLayout());
 
             final MHorizontalLayout controlButtons = new MHorizontalLayout().withMargin(true);
-            final Button saveBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
-                    new ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            final Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE), new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            String oldPath = renameResource.getPath();
-                            String parentOldPath = oldPath.substring(0,
-                                    oldPath.lastIndexOf("/") + 1);
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    String oldPath = renameResource.getPath();
+                    String parentOldPath = oldPath.substring(0, oldPath.lastIndexOf("/") + 1);
 
-                            String newNameValue = folderName.getValue();
-                            String newPath = parentOldPath + newNameValue;
+                    String newNameValue = folderName.getValue();
+                    String newPath = parentOldPath + newNameValue;
 
-                            if (renameResource.isExternalResource()) {
-                                externalResourceService.rename(
-                                        ((ExternalFolder) renameResource).getExternalDrive(), oldPath,
-                                        newPath);
-                            } else {
-                                resourceService.rename(oldPath, newPath, AppContext.getUsername());
-                            }
-                            resourcesContainer.constructBody(baseFolder);
+                    if (renameResource.isExternalResource()) {
+                        externalResourceService.rename(
+                                ((ExternalFolder) renameResource).getExternalDrive(), oldPath,
+                                newPath);
+                    } else {
+                        resourceService.rename(oldPath, newPath, AppContext.getUsername());
+                    }
+                    resourcesContainer.constructBody(baseFolder);
 
-                            RenameResourceWindow.this.close();
-                        }
-                    });
+                    RenameResourceWindow.this.close();
+                }
+            });
             saveBtn.setIcon(FontAwesome.SAVE);
             saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
-                    new ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(final ClickEvent event) {
-                            RenameResourceWindow.this.close();
-                        }
-                    });
+                @Override
+                public void buttonClick(final ClickEvent event) {
+                    RenameResourceWindow.this.close();
+                }
+            });
             cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
             controlButtons.with(saveBtn, cancelBtn).alignAll(Alignment.MIDDLE_CENTER);
             contentLayout.addComponent(controlButtons);
@@ -797,7 +783,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
 
                                         if (baseFolder instanceof ExternalFolder) {
                                             externalResourceService.saveContent(((ExternalFolder) baseFolder)
-                                                                    .getExternalDrive(), content, fileInputStream);
+                                                    .getExternalDrive(), content, fileInputStream);
                                         } else
                                             resourceService.saveContent(content, AppContext.getUsername(),
                                                     fileInputStream, AppContext.getAccountId());
@@ -922,7 +908,7 @@ public class ResourcesDisplayComponent extends MVerticalLayout {
                         }
                     }, false);
             currentBtn.addStyleName("buttonPaging");
-            currentBtn.addStyleName("buttonPagingcurrent");
+            currentBtn.addStyleName("current");
 
             this.navigator.addComponent(currentBtn);
             final int range = this.totalPage - this.currentPage;

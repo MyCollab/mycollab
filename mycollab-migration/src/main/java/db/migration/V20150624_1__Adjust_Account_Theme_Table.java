@@ -4,7 +4,8 @@ import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
- * Created by baohan on 6/24/15.
+ * @author MyCollab Ltd
+ * @since 5.0.10
  */
 public class V20150624_1__Adjust_Account_Theme_Table implements SpringJdbcMigration {
     @Override

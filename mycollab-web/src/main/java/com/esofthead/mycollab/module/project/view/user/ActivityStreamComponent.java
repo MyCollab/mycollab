@@ -72,22 +72,18 @@ public class ActivityStreamComponent extends CssLayout {
             this.addComponent(activityStreamList);
             ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
             searchCriteria.setModuleSet(new SetSearchField<>(ModuleNameConstants.PRJ));
-            searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys
-                    .toArray(new Integer[prjKeys.size()])));
-            searchCriteria.setSaccountid(new NumberSearchField(AppContext
-                    .getAccountId()));
+            searchCriteria.setExtraTypeIds(new SetSearchField<>(prjKeys.toArray(new Integer[prjKeys.size()])));
+            searchCriteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
             this.activityStreamList.setSearchCriteria(searchCriteria);
         }
     }
 
-    static class ProjectActivityStreamPagedList2 extends
-            ProjectActivityStreamPagedList {
+    static class ProjectActivityStreamPagedList2 extends ProjectActivityStreamPagedList {
         private static final long serialVersionUID = 1L;
 
         @Override
         public void doSearch() {
-            totalCount = projectActivityStreamService
-                    .getTotalActivityStream(searchRequest.getSearchCriteria());
+            totalCount = projectActivityStreamService.getTotalActivityStream(searchRequest.getSearchCriteria());
             totalPage = (totalCount - 1) / searchRequest.getNumberOfItems() + 1;
             if (searchRequest.getCurrentPage() > totalPage) {
                 searchRequest.setCurrentPage(totalPage);
@@ -104,8 +100,7 @@ public class ActivityStreamComponent extends CssLayout {
                 }
             }
 
-            List<ProjectActivityStream> currentListData = projectActivityStreamService
-                    .getProjectActivityStreams(searchRequest);
+            List<ProjectActivityStream> currentListData = projectActivityStreamService.getProjectActivityStreams(searchRequest);
             listContainer.removeAllComponents();
 
             Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
@@ -132,9 +127,7 @@ public class ActivityStreamComponent extends CssLayout {
                     StringBuffer content = new StringBuffer("");
 
                     // --------------Item hidden div tooltip----------------
-                    String type = AppContext
-                            .getMessage(ProjectLocalizationTypeMap
-                                    .getType(activityStream.getType()));
+                    String type = AppContext.getMessage(ProjectLocalizationTypeMap.getType(activityStream.getType()));
                     String assigneeValue = buildAssigneeValue(activityStream);
                     String itemLink = buildItemValue(activityStream);
                     String projectLink = buildProjectValue(activityStream);
@@ -167,14 +160,11 @@ public class ActivityStreamComponent extends CssLayout {
                     } else if (ActivityStreamConstants.ACTION_COMMENT.equals(activityStream.getAction())) {
                         content.append(AppContext.getMessage(
                                 ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_COMMENT_ACTION_TITLE,
-                                assigneeValue, type, itemLink,
-                                projectLink));
+                                assigneeValue, type, itemLink, projectLink));
 
                         if (activityStream.getAssoAuditLog() != null) {
-                            content.append("<p><ul><li>\"")
-                                    .append(activityStream.getAssoAuditLog()
-                                            .getChangeset())
-                                    .append("\"</li></ul></p>");
+                            content.append("<p><ul><li>\"").append(activityStream.getAssoAuditLog()
+                                    .getChangeset()).append("\"</li></ul></p>");
                         }
                     }
 
@@ -193,8 +183,7 @@ public class ActivityStreamComponent extends CssLayout {
         private String buildAssigneeValue(ProjectActivityStream activityStream) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            Img userAvatar = new Img("", Storage.getAvatarPath(
-                    activityStream.getCreatedUserAvatarId(), 16));
+            Img userAvatar = new Img("", Storage.getAvatarPath(activityStream.getCreatedUserAvatarId(), 16));
             A userLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
                     activityStream.getExtratypeid(), activityStream.getCreateduser()));
 
@@ -216,16 +205,11 @@ public class ActivityStreamComponent extends CssLayout {
 
             if (ProjectTypeConstants.TASK.equals(activityStream.getType())
                     || ProjectTypeConstants.BUG.equals(activityStream.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        activityStream.getProjectShortName(),
-                        activityStream.getExtratypeid(),
-                        activityStream.getType(), activityStream.getItemKey()
-                                + ""));
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(activityStream.getProjectShortName(),
+                        activityStream.getExtratypeid(), activityStream.getType(), activityStream.getItemKey() + ""));
             } else {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        activityStream.getProjectShortName(),
-                        activityStream.getExtratypeid(),
-                        activityStream.getType(), activityStream.getTypeid()));
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(activityStream.getProjectShortName(),
+                        activityStream.getExtratypeid(), activityStream.getType(), activityStream.getTypeid()));
             }
 
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, activityStream.getType(), activityStream.getTypeid()));
@@ -242,7 +226,8 @@ public class ActivityStreamComponent extends CssLayout {
             DivLessFormatter div = new DivLessFormatter();
             Text prjImg = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.PROJECT).getHtml());
             A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(activityStream.getProjectId())).setId("tag" + uid);
-            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT, activityStream.getProjectId() + ""));
+            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT,
+                    activityStream.getProjectId() + ""));
             prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             prjLink.appendText(activityStream.getProjectName());
 

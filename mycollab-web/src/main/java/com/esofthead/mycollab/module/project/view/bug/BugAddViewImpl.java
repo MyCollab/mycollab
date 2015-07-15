@@ -87,8 +87,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
         return this.fixedVersionSelect.getSelectedItems();
     }
 
-    private class EditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
+    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
 
         private static final long serialVersionUID = 1L;
 
@@ -155,21 +154,17 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements B
                 return tf;
             } else if (propertyId.equals("milestoneid")) {
                 final MilestoneComboBox milestoneBox = new MilestoneComboBox();
-                milestoneBox
-                        .addValueChangeListener(new Property.ValueChangeListener() {
-                            private static final long serialVersionUID = 1L;
+                milestoneBox.addValueChangeListener(new Property.ValueChangeListener() {
+                    private static final long serialVersionUID = 1L;
 
-                            @Override
-                            public void valueChange(
-                                    Property.ValueChangeEvent event) {
-                                String milestoneName = milestoneBox
-                                        .getItemCaption(milestoneBox.getValue());
-                                beanItem.setMilestoneName(milestoneName);
-                            }
-                        });
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent event) {
+                        String milestoneName = milestoneBox.getItemCaption(milestoneBox.getValue());
+                        beanItem.setMilestoneName(milestoneName);
+                    }
+                });
                 return milestoneBox;
-            } else if (propertyId.equals("estimatetime")
-                    || (propertyId.equals("estimateremaintime"))) {
+            } else if (propertyId.equals("estimatetime") || (propertyId.equals("estimateremaintime"))) {
                 return new NumberField();
             } else if (propertyId.equals("selected")) {
                 return subcribersComp;

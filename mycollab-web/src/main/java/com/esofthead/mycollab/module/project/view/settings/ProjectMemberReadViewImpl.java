@@ -60,7 +60,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -85,8 +84,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         previewForm.setWidth("100%");
         previewForm.setStyleName("member-preview-form");
 
-        bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false))
-                .withWidth("100%");
+        bottomLayout = new MHorizontalLayout().withMargin(new MarginInfo(true, false, true, false)).withWidth("100%");
         this.addHeaderRightContent(createButtonControls());
         this.with(previewForm, bottomLayout);
     }
@@ -167,8 +165,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
         public ComponentContainer getLayout() {
             HorizontalLayout blockContent = new HorizontalLayout();
             blockContent.addStyleName("member-block");
-            Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(
-                    beanItem.getMemberAvatarId(), 100);
+            Image memberAvatar = UserAvatarControlFactory.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(), 100);
             blockContent.addComponent(memberAvatar);
 
             MVerticalLayout memberInfo = new MVerticalLayout().withStyleName("member-info")
@@ -177,6 +174,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             Label memberLink = new Label(beanItem.getMemberFullName());
             memberLink.setWidth("100%");
             memberLink.addStyleName("member-name");
+            memberLink.addStyleName("h2");
 
             memberInfo.addComponent(memberLink);
 
@@ -186,13 +184,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             memberRole.setContentMode(ContentMode.HTML);
             memberRole.setStyleName("member-role");
             if (Boolean.TRUE.equals(beanItem.getIsadmin()) || beanItem.getProjectroleid() == null) {
-                memberRole.setValue(memberRoleLinkPrefix
-                        + "style=\"color: #B00000;\">" + "Project Admin"
-                        + "</a>");
+                memberRole.setValue(memberRoleLinkPrefix + "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
             } else {
-                memberRole.setValue(memberRoleLinkPrefix
-                        + "style=\"color:gray;font-size:12px;\">"
-                        + beanItem.getRoleName() + "</a>");
+                memberRole.setValue(memberRoleLinkPrefix + "style=\"color:gray;font-size:12px;\">" + beanItem.getRoleName() + "</a>");
             }
             memberRole.setSizeUndefined();
             memberInfo.addComponent(memberRole);
@@ -204,32 +198,27 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
             memberInfo.addComponent(memberEmailLabel);
 
             ELabel memberSinceLabel = new ELabel(String.format("Member since: %s", AppContext.formatPrettyTime(beanItem.getJoindate())))
-                    .withDescription(AppContext.formatDateTime
-                            (beanItem.getJoindate()));
+                    .withDescription(AppContext.formatDateTime(beanItem.getJoindate()));
             memberSinceLabel.addStyleName("member-email");
             memberSinceLabel.setWidth("100%");
             memberInfo.addComponent(memberSinceLabel);
 
             if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(beanItem.getStatus())) {
                 final VerticalLayout waitingNotLayout = new VerticalLayout();
-                Label infoStatus = new Label(AppContext
-                        .getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
+                Label infoStatus = new Label(AppContext.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
                 infoStatus.addStyleName("member-email");
                 waitingNotLayout.addComponent(infoStatus);
 
-                ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy(
-                        "Resend Invitation", new Button.ClickListener() {
+                ButtonLinkLegacy resendInvitationLink = new ButtonLinkLegacy("Resend Invitation", new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void buttonClick(ClickEvent event) {
-                        ProjectMemberMapper projectMemberMapper = ApplicationContextUtil
-                                .getSpringBean(ProjectMemberMapper.class);
+                        ProjectMemberMapper projectMemberMapper = ApplicationContextUtil.getSpringBean(ProjectMemberMapper.class);
                         beanItem.setStatus(RegisterStatusConstants.VERIFICATING);
                         projectMemberMapper.updateByPrimaryKeySelective(beanItem);
                         waitingNotLayout.removeAllComponents();
-                        Label statusEmail = new Label(AppContext
-                                .getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
+                        Label statusEmail = new Label(AppContext.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
                         statusEmail.addStyleName("member-email");
                         waitingNotLayout.addComponent(statusEmail);
                     }
@@ -395,10 +384,10 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView implement
 
             Div footerDiv = new Div().setCSSClass("activity-date");
 
-            Date dueDate = genericTask.getDueDate();
-            if (dueDate != null) {
+            if (genericTask.getDueDate() != null) {
                 footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
-                        AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
+                        AppContext.formatPrettyTime(genericTask.getDueDatePlusOne())))).
+                        setTitle(AppContext.formatDate(genericTask.getDueDate()));
             } else {
                 footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }

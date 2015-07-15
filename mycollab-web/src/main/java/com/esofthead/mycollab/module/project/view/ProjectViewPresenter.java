@@ -37,7 +37,6 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
-
     private static final long serialVersionUID = 1L;
 
     public ProjectViewPresenter() {
@@ -76,8 +75,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
     }
 
     @Override
-    protected void onHandleChain(ComponentContainer container,
-                                 PageActionChain pageActionChain) {
+    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
         ScreenData<?> pageAction = pageActionChain.peek();
 
         Class<? extends IPresenter> presenterCls = ProjectPresenterDataMapper.presenter(pageAction);
@@ -85,8 +83,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
             IPresenter<?> presenter = PresenterResolver.getPresenter(presenterCls);
             presenter.handleChain(view, pageActionChain);
         } else {
-            throw new UnsupportedOperationException(
-                    "Not support page action chain " + pageAction);
+            throw new UnsupportedOperationException("Not support page action chain " + pageAction);
         }
     }
 }

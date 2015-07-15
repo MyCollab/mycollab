@@ -89,7 +89,8 @@ object ProjectPresenterDataMapper {
         classOf[VersionScreenData.Search] -> classOf[TrackerPresenter])
 
     val standupMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
-        classOf[StandupScreenData.Search] -> classOf[IStandupPresenter])
+        classOf[StandupScreenData.Search] -> classOf[IStandupPresenter],
+        classOf[StandupScreenData.Add] -> classOf[IStandupPresenter])
 
     val userMapper = Map[Class[_ <: ScreenData[_]], Class[_ <: IPresenter[_]]](
         classOf[ProjectMemberScreenData.Add] -> classOf[UserSettingPresenter],

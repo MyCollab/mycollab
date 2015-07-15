@@ -44,138 +44,121 @@ import java.util.List;
 
 /**
  * @author MyCollab Ltd.
- *
  * @since 4.5.2
  */
-public class ProjectActivityStreamListDisplay
-		extends AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
-	private static final long serialVersionUID = 9189667863722393067L;
+public class ProjectActivityStreamListDisplay extends AbstractPagedBeanList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+    private static final long serialVersionUID = 9189667863722393067L;
 
-	protected final ProjectActivityStreamService projectActivityStreamService;
+    protected final ProjectActivityStreamService projectActivityStreamService;
 
-	public ProjectActivityStreamListDisplay() {
-		super(new ActivityStreamRowHandler(), 20);
-		this.projectActivityStreamService = ApplicationContextUtil
-				.getSpringBean(ProjectActivityStreamService.class);
-	}
+    public ProjectActivityStreamListDisplay() {
+        super(new ActivityStreamRowHandler(), 20);
+        this.projectActivityStreamService = ApplicationContextUtil.getSpringBean(ProjectActivityStreamService.class);
+    }
 
-	@Override
-	protected int queryTotalCount() {
-		return projectActivityStreamService
-				.getTotalActivityStream(searchRequest.getSearchCriteria());
-	}
+    @Override
+    protected int queryTotalCount() {
+        return projectActivityStreamService.getTotalActivityStream(searchRequest.getSearchCriteria());
+    }
 
-	@Override
-	protected List<ProjectActivityStream> queryCurrentData() {
-		return projectActivityStreamService
-				.getProjectActivityStreams(searchRequest);
-	}
+    @Override
+    protected List<ProjectActivityStream> queryCurrentData() {
+        return projectActivityStreamService.getProjectActivityStreams(searchRequest);
+    }
 
-	@Override
-	protected void renderRows() {
-		int i = 0;
-		Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
-		for (final ProjectActivityStream item : currentListData) {
-			if (!DateUtils.isSameDay(item.getCreatedtime(), currentDate)) {
-				Label dateLbl = new Label(AppContext.formatDate(item
-						.getCreatedtime()));
-				dateLbl.setStyleName("activity-date");
-				listContainer.addComponent(dateLbl);
-				currentDate = item.getCreatedtime();
-			}
-			final Component row = getRowDisplayHandler().generateRow(item, i);
-			listContainer.addComponent(row);
-			i++;
-		}
-	}
+    @Override
+    protected void renderRows() {
+        int i = 0;
+        Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+        for (final ProjectActivityStream item : currentListData) {
+            if (!DateUtils.isSameDay(item.getCreatedtime(), currentDate)) {
+                Label dateLbl = new Label(AppContext.formatDate(item.getCreatedtime()));
+                dateLbl.setStyleName("activity-date");
+                listContainer.addComponent(dateLbl);
+                currentDate = item.getCreatedtime();
+            }
+            final Component row = getRowDisplayHandler().generateRow(item, i);
+            listContainer.addComponent(row);
+            i++;
+        }
+    }
 
-	private static class ActivityStreamRowHandler implements
-			RowDisplayHandler<ProjectActivityStream> {
+    private static class ActivityStreamRowHandler implements RowDisplayHandler<ProjectActivityStream> {
 
-		@Override
-		public Component generateRow(final ProjectActivityStream obj,
-				int rowIndex) {
-			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
-			layout.addStyleName("activity-row");
+        @Override
+        public Component generateRow(final ProjectActivityStream obj, int rowIndex) {
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%").withStyleName("list-item");
+            layout.addStyleName("activity-row");
 
-			Label typeIcon = new Label(
-					"<span aria-hidden=\"true\" data-icon=\""
-							+ ProjectAssetsManager.toHexString(obj.getType())
-							+ "\"></span>");
-			typeIcon.setWidthUndefined();
-			typeIcon.setContentMode(ContentMode.HTML);
-			typeIcon.setStyleName("activity-type");
+            Label typeIcon = new Label("<span aria-hidden=\"true\" data-icon=\""
+                    + ProjectAssetsManager.toHexString(obj.getType()) + "\"></span>");
+            typeIcon.setWidthUndefined();
+            typeIcon.setContentMode(ContentMode.HTML);
+            typeIcon.setStyleName("activity-type");
 
-			layout.addComponent(typeIcon);
+            layout.addComponent(typeIcon);
 
-			VerticalLayout rightCol = new VerticalLayout();
-			rightCol.setWidth("100%");
-			Label streamItem = new Label(generateItemLink(obj));
-			streamItem.setStyleName("activity-item");
-			streamItem.setContentMode(ContentMode.HTML);
-			rightCol.addComponent(streamItem);
+            VerticalLayout rightCol = new VerticalLayout();
+            rightCol.setWidth("100%");
+            Label streamItem = new Label(generateItemLink(obj));
+            streamItem.setStyleName("activity-item");
+            streamItem.setContentMode(ContentMode.HTML);
+            rightCol.addComponent(streamItem);
 
-			CssLayout detailRow = new CssLayout();
-			detailRow.setWidthUndefined();
-			detailRow.setStyleName("activity-detail-row");
+            CssLayout detailRow = new CssLayout();
+            detailRow.setWidthUndefined();
+            detailRow.setStyleName("activity-detail-row");
 
-			Label streamDetail = new Label();
-			streamDetail.setWidthUndefined();
-			streamDetail.setStyleName("activity-detail");
-			if (ActivityStreamConstants.ACTION_CREATE.equals(obj.getAction())) {
-				streamDetail
-						.setValue(AppContext
-								.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
-			} else if (ActivityStreamConstants.ACTION_UPDATE.equals(obj
-					.getAction())) {
-				streamDetail
-						.setValue(AppContext
-								.getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
-			}
-			detailRow.addComponent(streamDetail);
-			Button activityUser = new Button(obj.getCreatedUserFullName(),
-					new Button.ClickListener() {
+            Label streamDetail = new Label();
+            streamDetail.setWidthUndefined();
+            streamDetail.setStyleName("activity-detail");
+            if (ActivityStreamConstants.ACTION_CREATE.equals(obj.getAction())) {
+                streamDetail
+                        .setValue(AppContext
+                                .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_CREATE_ACTION_TITLE));
+            } else if (ActivityStreamConstants.ACTION_UPDATE.equals(obj
+                    .getAction())) {
+                streamDetail
+                        .setValue(AppContext
+                                .getMessage(ProjectCommonI18nEnum.M_FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE));
+            }
+            detailRow.addComponent(streamDetail);
+            Button activityUser = new Button(obj.getCreatedUserFullName(), new Button.ClickListener() {
+                private static final long serialVersionUID = 719162256058709352L;
 
-						private static final long serialVersionUID = 719162256058709352L;
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(obj.getProjectId()),
+                            new ProjectMemberScreenData.Read(obj.getCreateduser()));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this, chain));
+                }
+            });
+            activityUser.setStyleName("link");
+            detailRow.addComponent(activityUser);
+            rightCol.addComponent(detailRow);
 
-						@Override
-						public void buttonClick(Button.ClickEvent event) {
-							PageActionChain chain = new PageActionChain(
-									new ProjectScreenData.Goto(obj
-											.getProjectId()),
-									new ProjectMemberScreenData.Read(obj
-											.getCreateduser()));
-							EventBusFactory.getInstance()
-									.post(new ProjectEvent.GotoMyProject(this,
-											chain));
-						}
-					});
-			activityUser.setStyleName("link");
-			detailRow.addComponent(activityUser);
-			rightCol.addComponent(detailRow);
+            layout.addComponent(rightCol);
+            layout.setExpandRatio(rightCol, 1.0f);
 
-			layout.addComponent(rightCol);
-			layout.setExpandRatio(rightCol, 1.0f);
+            return layout;
+        }
 
-			return layout;
-		}
+    }
 
-	}
-
-	private static String generateItemLink(ProjectActivityStream stream) {
-		A itemLink = new A();
-		if (ProjectTypeConstants.TASK.equals(stream.getType())
-				|| ProjectTypeConstants.BUG.equals(stream.getType())) {
-			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-					stream.getProjectShortName(), stream.getExtratypeid(),
-					stream.getType(), stream.getItemKey() + ""));
-		} else {
-			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-					stream.getProjectShortName(), stream.getExtratypeid(),
-					stream.getType(), stream.getTypeid()));
-		}
-		itemLink.appendText(stream.getNamefield());
-		return itemLink.write();
-	}
+    private static String generateItemLink(ProjectActivityStream stream) {
+        A itemLink = new A();
+        if (ProjectTypeConstants.TASK.equals(stream.getType())
+                || ProjectTypeConstants.BUG.equals(stream.getType())) {
+            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    stream.getProjectShortName(), stream.getExtratypeid(),
+                    stream.getType(), stream.getItemKey() + ""));
+        } else {
+            itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+                    stream.getProjectShortName(), stream.getExtratypeid(),
+                    stream.getType(), stream.getTypeid()));
+        }
+        itemLink.appendText(stream.getNamefield());
+        return itemLink.write();
+    }
 
 }

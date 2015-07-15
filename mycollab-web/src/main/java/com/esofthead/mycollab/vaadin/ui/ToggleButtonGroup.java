@@ -16,63 +16,58 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.util.Iterator;
-
-import org.vaadin.peter.buttongroup.ButtonGroup;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
+import java.util.Iterator;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 public class ToggleButtonGroup extends ButtonGroup {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Button selectedBtn;
+    private Button selectedBtn;
 
-	public ToggleButtonGroup() {
-		super();
-		this.addStyleName("toggle-btn-group");
-	}
+    public ToggleButtonGroup() {
+        super();
+        this.addStyleName("toggle-btn-group");
+    }
 
-	@Override
-	public Button addButton(Button button) {
-		super.addButton(button);
-		button.addClickListener(new Button.ClickListener() {
+    @Override
+    public Button addButton(Button button) {
+        super.addButton(button);
+        button.addClickListener(new Button.ClickListener() {
+            private static final long serialVersionUID = -411946964127842982L;
 
-			private static final long serialVersionUID = -411946964127842982L;
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                if (!event.getButton().equals(selectedBtn)) {
+                    selectedBtn = event.getButton();
+                    Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
+                    while (iterator.hasNext()) {
+                        iterator.next().removeStyleName(UIConstants.BTN_ACTIVE);
+                    }
+                    selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
+                }
+            }
+        });
+        return button;
+    }
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				if (!event.getButton().equals(selectedBtn)) {
-					selectedBtn = event.getButton();
-					Iterator<Component> iterator = ToggleButtonGroup.this
-							.iterator();
-					while (iterator.hasNext()) {
-						iterator.next().removeStyleName(UIConstants.BTN_ACTIVE);
-					}
-					selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
-				}
-			}
-		});
-		return button;
-	}
-
-	public void setDefaultButton(Button button) {
-		Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
-		while (iterator.hasNext()) {
-			Button currentBtn = (Button) iterator.next();
-			if (currentBtn.equals(button)) {
-				selectedBtn = button;
-				selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
-			} else {
-				currentBtn.removeStyleName(UIConstants.BTN_ACTIVE);
-			}
-		}
-	}
+    public void setDefaultButton(Button button) {
+        Iterator<Component> iterator = ToggleButtonGroup.this.iterator();
+        while (iterator.hasNext()) {
+            Button currentBtn = (Button) iterator.next();
+            if (currentBtn.equals(button)) {
+                selectedBtn = button;
+                selectedBtn.addStyleName(UIConstants.BTN_ACTIVE);
+            } else {
+                currentBtn.removeStyleName(UIConstants.BTN_ACTIVE);
+            }
+        }
+    }
 
 }

@@ -107,8 +107,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
     @Override
     protected void initRelatedComponents() {
-        commentList = new CommentDisplay(ProjectTypeConstants.TASK,
-                CurrentProjectVariables.getProjectId(),
+        commentList = new CommentDisplay(ProjectTypeConstants.TASK, CurrentProjectVariables.getProjectId(),
                 ProjectTaskRelayEmailNotificationAction.class);
         historyList = new TaskHistoryList();
         dateInfoComp = new DateInfoComp();
@@ -442,6 +441,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
         private String buildTaskLink(SimpleTask subTask) {
             String linkName = String.format("[#%d] - %s", subTask.getTaskkey(), subTask.getTaskname());
             String uid = UUID.randomUUID().toString();
+            String taskPriority = subTask.getPriority();
+            Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
+                    (taskPriority)).setTitle(taskPriority);
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(subTask.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
             taskLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.TASK, subTask.getId() + ""));
@@ -450,7 +452,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
             String avatarLink = Storage.getAvatarPath(subTask.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(subTask.getAssignUserFullName(), avatarLink).setTitle(subTask.getAssignUserFullName());
 
-            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(),
+                    priorityLink, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
                     TooltipHelper.buildDivTooltipEnable(uid));
 
             if (subTask.getPercentagecomplete() != null && subTask.getPercentagecomplete() > 0) {
@@ -461,7 +464,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask> implem
 
             if (subTask.getDeadline() != null) {
                 Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
-                        AppContext.formatPrettyTime(subTask.getDeadline())))).setStyle("display:inline").
+                        AppContext.formatPrettyTime(subTask.getDeadlineRoundPlusOne())))).setStyle("display:inline").
                         setCSSClass("footer2").setTitle(AppContext.formatDate(subTask.getDeadline()));
 
                 resultDiv.appendChild(deadline);

@@ -167,12 +167,10 @@ public class TaskStatusComponent extends MVerticalLayout {
 
             Date dueDate = genericTask.getDueDate();
             if (dueDate != null) {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE,
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE,
                         AppContext.formatPrettyTime(dueDate)))).setTitle(AppContext.formatDate(dueDate));
             } else {
-                footerDiv.appendChild(new Text(AppContext.getMessage(
-                        TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
+                footerDiv.appendChild(new Text(AppContext.getMessage(TaskI18nEnum.OPT_DUE_DATE, "Undefined")));
             }
 
 
@@ -191,17 +189,12 @@ public class TaskStatusComponent extends MVerticalLayout {
             Div div = new DivLessFormatter();
             Text image = new Text(ProjectAssetsManager.getAsset(task.getType()).getHtml());
             A itemLink = new A().setId("tag" + uid);
-            if (ProjectTypeConstants.TASK.equals(task.getType())
-                    || ProjectTypeConstants.BUG.equals(task.getType())) {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getExtraTypeId() + ""));
+            if (ProjectTypeConstants.TASK.equals(task.getType()) || ProjectTypeConstants.BUG.equals(task.getType())) {
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getExtraTypeId() + ""));
             } else {
-                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-                        task.getProjectShortName(),
-                        task.getProjectId(), task.getType(),
-                        task.getTypeId() + ""));
+                itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(task.getProjectShortName(),
+                        task.getProjectId(), task.getType(), task.getTypeId() + ""));
             }
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, task.getType(), task.getTypeId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
@@ -235,17 +228,15 @@ public class TaskStatusComponent extends MVerticalLayout {
         private Div buildProjectValue(ProjectGenericTask task) {
             String uid = UUID.randomUUID().toString();
             DivLessFormatter div = new DivLessFormatter();
-            A prjLink = new A(
-                    ProjectLinkBuilder.generateProjectFullLink(task
-                            .getProjectId()));
+            A prjLink = new A(ProjectLinkBuilder.generateProjectFullLink(task.getProjectId()));
             prjLink.setId("tag" + uid);
 
-            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT, task.getProjectId() + ""));
+            prjLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.PROJECT,
+                    task.getProjectId() + ""));
             prjLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
             prjLink.appendText(task.getProjectShortName());
 
-            div.appendChild(prjLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(prjLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
 
             return div;
         }

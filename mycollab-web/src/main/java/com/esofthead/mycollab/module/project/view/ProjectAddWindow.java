@@ -39,10 +39,8 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public class ProjectAddWindow extends Window {
     private static final long serialVersionUID = 1L;
@@ -69,8 +67,7 @@ public class ProjectAddWindow extends Window {
         editForm.setBean(project);
     }
 
-    private class EditFormFieldFactory extends
-            AbstractBeanFieldGroupEditFieldFactory<Project> {
+    private class EditFormFieldFactory extends AbstractBeanFieldGroupEditFieldFactory<Project> {
         private static final long serialVersionUID = 1L;
 
         public EditFormFieldFactory(GenericBeanForm<Project> form) {
@@ -149,7 +146,7 @@ public class ProjectAddWindow extends Window {
                                         AppContext.getUsername());
 
                                 EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(this,
-                                                new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
+                                        new PageActionChain(new ProjectScreenData.Goto(project.getId()))));
                                 ProjectAddWindow.this.close();
                             }
                         }
@@ -182,7 +179,7 @@ public class ProjectAddWindow extends Window {
                         AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1, 1);
             } else if (propertyId.equals("planstartdate")) {
                 this.informationLayout.addComponent(field,
-                                AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 2);
+                        AppContext.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE), 0, 2);
             } else if (propertyId.equals("planenddate")) {
                 this.informationLayout.addComponent(field, AppContext
                         .getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);

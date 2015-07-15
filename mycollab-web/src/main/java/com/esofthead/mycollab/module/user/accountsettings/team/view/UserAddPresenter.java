@@ -172,7 +172,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
                     GetStartedInstructionWindow.this.close();
                 }
             });
-            addNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+            addNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             Button doneBtn = new Button("Done", new Button.ClickListener() {
                 private static final long serialVersionUID = 1L;
 

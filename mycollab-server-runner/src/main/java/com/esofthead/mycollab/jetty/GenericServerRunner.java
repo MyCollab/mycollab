@@ -34,6 +34,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
+import org.eclipse.jetty.util.resource.FileResource;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.webapp.*;
 import org.slf4j.Logger;
@@ -43,7 +44,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
@@ -93,7 +93,7 @@ public abstract class GenericServerRunner {
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.INFO);
         ServerInstance.getInstance().registerInstance(this);
-        System.setProperty("org.eclipse.jetty.annotations.maxWait", "180");
+        System.setProperty("org.eclipse.jetty.annotations.maxWait", "300");
 
         for (int i = 0; i < args.length; i++) {
             if ("--port".equals(args[i])) {
@@ -224,6 +224,7 @@ public abstract class GenericServerRunner {
         String webAppDirLocation = detectWebApp();
         LOG.debug("Detect web location: {}", webAppDirLocation);
         appContext = buildContext(webAppDirLocation);
+        appContext.setClassLoader(Thread.currentThread().getContextClassLoader());
         appContext.setServer(server);
         appContext.setConfigurations(new Configuration[]{
                 new AnnotationConfiguration(), new WebXmlConfiguration(),
@@ -244,12 +245,12 @@ public abstract class GenericServerRunner {
 
         for (String classpath : classPaths) {
             if (classpath.matches(osExprClassFolder)) {
-                LOG.info("Load classes in path: " + classpath);
+                LOG.info("Load folder to classpath " + classpath);
                 appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath)));
             } else if (classpath.matches(osExprJarFile)) {
                 try {
                     LOG.info("Load jar file in path " + classpath);
-                    appContext.getMetaData().getWebInfClassesDirs().add(new PathResource(new File(classpath).toURI().toURL()));
+                    appContext.getMetaData().addWebInfJar(new PathResource(new File(classpath).toURI().toURL()));
                 } catch (Exception e) {
                     LOG.error("Exception to resolve classpath: " + classpath, e);
                 }
@@ -257,17 +258,17 @@ public abstract class GenericServerRunner {
         }
 
         File libFolder = new File(System.getProperty("user.dir"), "lib");
+        LOG.info("User dir: " + System.getProperty("user.dir"));
         if (libFolder.isDirectory()) {
             File[] files = libFolder.listFiles();
             if (files != null) {
                 for (File file : files) {
                     if (file.getName().matches("mycollab-\\S+.jar$")) {
-                        LOG.info("Load jar file " + file.getName());
-                        try {
-                            appContext.getMetaData().getWebInfClassesDirs().add(new PathResource(file.toURI()));
-                        } catch (IOException e) {
-                            LOG.error("Can not load resource " + file.toURI(), e);
-                        }
+                        LOG.info("Load jar file to classpath " + file.getAbsolutePath());
+
+                            appContext.getMetaData().getWebInfClassesDirs().add(new FileResource(file.toURI()));
+
+
                     }
                 }
             }

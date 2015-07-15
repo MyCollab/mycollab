@@ -24,9 +24,9 @@ import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.grid.GridFormLayoutHelper;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
@@ -48,10 +48,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
  * @author MyCollab Ltd.
  * @since 1.0
- *
  */
 public abstract class EntityImportWindow<E> extends Window {
     private static final long serialVersionUID = 1L;
@@ -203,9 +201,7 @@ public abstract class EntityImportWindow<E> extends Window {
             controlGroupBtn.with(nextBtn).withAlign(nextBtn,
                     Alignment.MIDDLE_CENTER);
 
-            Button cancelBtn = new Button(
-                    AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL));
-            cancelBtn.addClickListener(new ClickListener() {
+            Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL), new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -213,12 +209,10 @@ public abstract class EntityImportWindow<E> extends Window {
                     EntityImportWindow.this.close();
                 }
             });
-            cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
-            controlGroupBtn.with(cancelBtn).withAlign(cancelBtn,
-                    Alignment.MIDDLE_CENTER);
+            cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+            controlGroupBtn.with(cancelBtn).withAlign(cancelBtn, Alignment.MIDDLE_CENTER);
 
-            layout.with(controlGroupBtn).withAlign(controlGroupBtn,
-                    Alignment.MIDDLE_CENTER);
+            layout.with(controlGroupBtn).withAlign(controlGroupBtn, Alignment.MIDDLE_CENTER);
             this.addComponent(layout);
         }
 
@@ -329,7 +323,7 @@ public abstract class EntityImportWindow<E> extends Window {
             uploadFieldVerticalLayout.addComponent(new Label("Select File"));
 
             uploadField = new SingleFileUploadField();
-            uploadField.addStyleName(UIConstants.THEME_BLUE_LINK);
+            uploadField.addStyleName(UIConstants.THEME_GREEN_LINK);
             uploadField.addListener(new ValueChangeListener() {
                 private static final long serialVersionUID = 1L;
 

@@ -82,18 +82,14 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
-                            EventBusFactory
-                                    .getInstance()
+                            EventBusFactory.getInstance()
                                     .post(new ProjectEvent.GotoMyProject(
-                                            this,
-                                            new PageActionChain(
-                                                    new ProjectScreenData.Goto(
-                                                            project.getId()),
-                                                    new ProjectMemberScreenData.Search(
-                                                            null))));
+                                            this, new PageActionChain(
+                                            new ProjectScreenData.Goto(project.getId()),
+                                            new ProjectMemberScreenData.Search(null))));
                         }
                     }, false);
-            projectMember.addStyleName("member-count-lbl");
+            projectMember.setStyleName("link");
             MHorizontalLayout metaInfo = new MHorizontalLayout().withWidth("100%");
             metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
             metaInfo.addComponent(projectMember);
@@ -111,8 +107,7 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             projectLayout.addComponent(linkWrapper);
 
             final MVerticalLayout projectStatusLayout = new MVerticalLayout().withWidth("180px");
-            projectStatusLayout
-                    .setDefaultComponentAlignment(Alignment.TOP_CENTER);
+            projectStatusLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
             final VerticalLayout taskStatus = new VerticalLayout();
             taskStatus.setWidth("100%");
@@ -123,26 +118,21 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
             taskStatusLbl.setStyleName("status-lbl");
             taskLblWrap.addComponent(taskStatusLbl);
 
-            final ButtonLinkLegacy taskStatusBtn = new ButtonLinkLegacy(
-                    project.getNumOpenTasks() + "/" + project.getNumTasks(),
+            final ButtonLinkLegacy taskStatusBtn = new ButtonLinkLegacy(project.getNumOpenTasks() + "/" + project.getNumTasks(),
                     new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
-                            EventBusFactory
-                                    .getInstance()
+                            EventBusFactory.getInstance()
                                     .post(new ProjectEvent.GotoMyProject(
-                                            this,
-                                            new PageActionChain(
-                                                    new ProjectScreenData.Goto(
-                                                            project.getId()),
-                                                    new TaskGroupScreenData.GotoDashboard())));
+                                            this, new PageActionChain(
+                                            new ProjectScreenData.Goto(project.getId()),
+                                            new TaskGroupScreenData.GotoDashboard())));
                         }
                     }, false);
             taskLblWrap.addComponent(taskStatusBtn);
-            taskLblWrap.setComponentAlignment(taskStatusBtn,
-                    Alignment.TOP_RIGHT);
+            taskLblWrap.setComponentAlignment(taskStatusBtn, Alignment.TOP_RIGHT);
             taskStatus.addComponent(taskLblWrap);
             float taskValue = (project.getNumTasks() != 0) ? ((float) (project
                     .getNumTasks() - project.getNumOpenTasks()) / project
@@ -169,14 +159,11 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
-                            EventBusFactory
-                                    .getInstance()
+                            EventBusFactory.getInstance()
                                     .post(new ProjectEvent.GotoMyProject(
-                                            this,
-                                            new PageActionChain(
-                                                    new ProjectScreenData.Goto(
-                                                            project.getId()),
-                                                    new BugScreenData.GotoDashboard())));
+                                            this, new PageActionChain(
+                                            new ProjectScreenData.Goto(project.getId()),
+                                            new BugScreenData.GotoDashboard())));
                         }
                     }, false);
             bugLblWrap.addComponent(bugStatusBtn);
@@ -208,14 +195,10 @@ public class ProjectPagedList extends DefaultBeanPagedList<ProjectService, Proje
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    EventBusFactory
-                            .getInstance()
-                            .post(new ProjectEvent.GotoMyProject(
-                                    this,
-                                    new PageActionChain(
-                                            new ProjectScreenData.Goto(project
-                                                    .getId()),
-                                            new MilestoneScreenData.Search(null))));
+                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(
+                            this, new PageActionChain(
+                            new ProjectScreenData.Goto(project.getId()),
+                            new MilestoneScreenData.Search(null))));
                 }
             };
             Button closePhaseBtn = new Button(String.format(

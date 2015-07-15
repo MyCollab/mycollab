@@ -16,9 +16,7 @@
  */
 package com.esofthead.mycollab.core.persistence;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.esofthead.mycollab.core.MyCollabException;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -30,7 +28,8 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.Alias;
 import org.mybatis.scripting.velocity.SQLScriptSource;
 
-import com.esofthead.mycollab.core.MyCollabException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author MyCollab Ltd.

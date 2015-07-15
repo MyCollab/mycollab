@@ -82,9 +82,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
         controlsBtn = new MHorizontalLayout().withMargin(true);
 
-        Button addCriteriaBtn = new Button(
-                AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA),
-                new Button.ClickListener() {
+        Button addCriteriaBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA), new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -94,7 +92,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
                         searchContainer.addComponent(newCriteriaBar);
                     }
                 });
-        addCriteriaBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
+        addCriteriaBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         addCriteriaBtn.setIcon(FontAwesome.PLUS);
 
         controlsBtn.with(addCriteriaBtn);
@@ -738,7 +736,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends MVertical
 
                         if (filterBox.getComponentCount() <= 3) {
                             Button updateBtn = new Button("Update");
-                            updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+                            updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
                             updateBtn.setIcon(FontAwesome.REFRESH);
                             updateBtn.addClickListener(new Button.ClickListener() {
                                 private static final long serialVersionUID = 1L;

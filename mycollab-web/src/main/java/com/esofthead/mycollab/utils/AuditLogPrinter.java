@@ -44,8 +44,7 @@ public class AuditLogPrinter {
 		if (CollectionUtils.isNotEmpty(changeItems)) {
 			for (AuditChangeItem item:changeItems) {
 				String fieldName = item.getField();
-				FieldDisplayHandler fieldDisplayHandler = groupFormatter
-						.getFieldDisplayHandler(fieldName);
+				FieldDisplayHandler fieldDisplayHandler = groupFormatter.getFieldDisplayHandler(fieldName);
 				if (fieldDisplayHandler != null) {
 					isAppended = true;
 					str.append(fieldDisplayHandler.generateLogItem(item));

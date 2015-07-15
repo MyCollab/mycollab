@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
@@ -34,11 +34,17 @@ public class OptionPopupContent extends MVerticalLayout {
         return (OptionPopupContent) super.withWidth(width);
     }
 
-    public void addOption(Button btn) {
+    public void addOption(Component btn) {
         CssLayout wrap = new CssLayout();
+        btn.setWidth("100%");
         btn.setStyleName("action");
         wrap.addStyleName("action-wrap");
         wrap.addComponent(btn);
-        addComponent(wrap);
+        super.addComponent(wrap);
+    }
+
+    @Override
+    public void addComponent(Component c) {
+        this.addOption(c);
     }
 }

@@ -24,7 +24,7 @@
         <run-privileged condition="izpack.windowsinstall"/>
     </info>
 
-    <!-- The gui preferences indication. Sets the installer window to 640x480.
+    <!-- The gui preferences indication. Sets the installer window to 640x480. 
         It will not be able to change the size. -->
     <guiprefs width="640" height="480" resizable="no">
         <splash>flash_install_8.png</splash>
@@ -34,13 +34,13 @@
         <modifier key="layoutAnchor" value="CENTER" />
     </guiprefs>
 
-    <!-- The locale section. Asks here to include the English and French
+    <!-- The locale section. Asks here to include the English and French 
         langpacks. -->
     <locale>
         <langpack iso3="eng" />
     </locale>
 
-    <!-- The panels section. We indicate here which panels we want to use.
+    <!-- The panels section. We indicate here which panels we want to use. 
         The order will be respected. -->
     <panels>
         <panel classname="InfoPanel" />

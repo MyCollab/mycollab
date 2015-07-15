@@ -78,8 +78,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
         initUI();
         constructBody();
 
-        this.createBtn.setEnabled(CurrentProjectVariables
-                .canWrite(ProjectRolePermissionCollections.MILESTONES));
+        this.createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
         int totalClosedMilestones = 0, totalInprogressMilestones = 0, totalFutureMilestones = 0;
 
@@ -122,16 +121,14 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements Miles
     private HorizontalLayout createHeaderRight() {
         HorizontalLayout layout = new HorizontalLayout();
 
-        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        createBtn = new Button(AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        EventBusFactory.getInstance().post(
-                                new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null));
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                EventBusFactory.getInstance().post(new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this, null));
+            }
+        });
         createBtn.setIcon(FontAwesome.PLUS);
         createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         createBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.MILESTONES));

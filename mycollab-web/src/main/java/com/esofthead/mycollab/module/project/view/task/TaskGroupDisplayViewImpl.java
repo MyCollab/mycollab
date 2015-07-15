@@ -234,13 +234,13 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
         });
         reOrderBtn.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
         reOrderBtn.setIcon(FontAwesome.SORT);
-        reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+        reOrderBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         reOrderBtn.setDescription(AppContext.getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
         header.addComponent(reOrderBtn);
         header.setComponentAlignment(reOrderBtn, Alignment.MIDDLE_RIGHT);
 
         PopupButton exportButtonControl = new PopupButton();
-        exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
+        exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
         exportButtonControl.setIcon(FontAwesome.EXTERNAL_LINK);
         exportButtonControl.setDescription("Export to file");
 
@@ -417,7 +417,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements Ta
                         moveToTaskSearch(taskFilter);
                     }
                 });
-        advancedSearchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+        advancedSearchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         control.with(advancedSearchBtn).withAlign(advancedSearchBtn, Alignment.MIDDLE_CENTER);
         basicSearchBody.with(control).withAlign(control, Alignment.MIDDLE_CENTER);
 

@@ -46,13 +46,11 @@ import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
-import org.vaadin.jonatan.contexthelp.ContextHelp;
 import org.vaadin.viritin.util.BrowserCookie;
 
 import java.util.Collection;
@@ -71,13 +69,10 @@ public class DesktopApplication extends MyCollabUI {
     public static final ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
     private MainWindowContainer mainWindowContainer;
-    private final ContextHelp contextHelp = new ContextHelp();
 
     @Override
     protected void init(VaadinRequest request) {
-        contextHelp.extend(this);
-        GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean
-                (GoogleAnalyticsService.class);
+        GoogleAnalyticsService googleAnalyticsService = ApplicationContextUtil.getSpringBean(GoogleAnalyticsService.class);
         googleAnalyticsService.registerUI(this);
 
         LOG.debug("Register default error handler");
@@ -238,10 +233,6 @@ public class DesktopApplication extends MyCollabUI {
 
     public void unsetRememberPassword() {
         BrowserCookie.setCookie(DesktopApplication.NAME_COOKIE, "");
-    }
-
-    public static void addContextHelp(Component comp, String message) {
-        ((DesktopApplication) UI.getCurrent()).contextHelp.addHelpForComponent(comp, message);
     }
 
     private static Throwable getExceptionType(Throwable e, Class<? extends Throwable> exceptionType) {

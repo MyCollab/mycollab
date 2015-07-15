@@ -45,7 +45,6 @@ public class ServiceMenu extends ButtonGroup {
 	public void addService(String serviceName, Resource linkIcon, ClickListener listener) {
         Button newService = new Button(serviceName, listener);
 		newService.setIcon(linkIcon);
-		newService.setStyleName("link");
 
 		this.addButton(newService);
 	}

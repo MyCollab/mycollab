@@ -19,12 +19,10 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.configuration.Storage;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -45,6 +43,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -84,16 +83,23 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             this.with(taskLinkLbl).expand(taskLinkLbl);
             if (task.isCompleted()) {
                 taskLinkLbl.addStyleName("completed");
+                taskLinkLbl.removeStyleName("overdue pending");
             } else if (task.isOverdue()) {
                 taskLinkLbl.addStyleName("overdue");
+                taskLinkLbl.removeStyleName("completed pending");
             } else if (task.isPending()) {
                 taskLinkLbl.addStyleName("pending");
+                taskLinkLbl.removeStyleName("completed overdue");
             }
             taskLinkLbl.addStyleName("wordWrap");
         }
 
         private String buildTaskLink() {
             String uid = UUID.randomUUID().toString();
+            String taskPriority = task.getPriority();
+            Img priorityLink = new Img(taskPriority, ProjectResources.getIconResourceLink12ByTaskPriority
+                    (taskPriority)).setTitle(taskPriority);
+
             String linkName = String.format("[#%d] - %s", task.getTaskkey(), task.getTaskname());
             A taskLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateTaskPreviewFullLink(task.getTaskkey(),
                     CurrentProjectVariables.getShortName())).appendText(linkName).setStyle("display:inline");
@@ -104,7 +110,8 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             String avatarLink = Storage.getAvatarPath(task.getAssignUserAvatarId(), 16);
             Img avatarImg = new Img(task.getAssignUserFullName(), avatarLink).setTitle(task.getAssignUserFullName());
 
-            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
+            Div resultDiv = new DivLessFormatter().appendChild(avatarImg, DivLessFormatter.EMPTY_SPACE(),
+                    priorityLink, DivLessFormatter.EMPTY_SPACE(), taskLink, DivLessFormatter.EMPTY_SPACE(),
                     TooltipHelper.buildDivTooltipEnable(uid));
             if (task.getPercentagecomplete() != null && task.getPercentagecomplete() > 0) {
                 Div completeTxt = new Div().appendChild(new Text(String.format(" %s%%", task.getPercentagecomplete())))
@@ -113,11 +120,11 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
             }
 
             if (task.getDeadline() != null) {
-                Div deadline = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
-                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatPrettyTime(task.getDeadline()))))
+                Div deadlineDiv = new Div().appendChild(new Text(String.format(" - %s: %s", AppContext.getMessage
+                        (TaskI18nEnum.FORM_DEADLINE), AppContext.formatPrettyTime(task.getDeadlineRoundPlusOne()))))
                         .setStyle("display:inline").setCSSClass("footer2").setTitle(AppContext.formatDate(task.getDeadline()));
 
-                resultDiv.appendChild(deadline);
+                resultDiv.appendChild(deadlineDiv);
             }
             return resultDiv.write();
         }
@@ -163,16 +170,15 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
         private OptionPopupContent createPopupContent() {
             OptionPopupContent filterBtnLayout = new OptionPopupContent().withWidth("100px");
 
-            Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
-                    new Button.ClickListener() {
-                        private static final long serialVersionUID = 1L;
+            Button editButton = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT), new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-                        @Override
-                        public void buttonClick(Button.ClickEvent event) {
-                            taskSettingPopupBtn.setPopupVisible(false);
-                            EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(TaskRowComp.this, task));
-                        }
-                    });
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    taskSettingPopupBtn.setPopupVisible(false);
+                    EventBusFactory.getInstance().post(new TaskEvent.GotoEdit(TaskRowComp.this, task));
+                }
+            });
             editButton.setEnabled(CurrentProjectVariables.canWrite(ProjectRolePermissionCollections.TASKS));
             editButton.setIcon(FontAwesome.EDIT);
             filterBtnLayout.addOption(editButton);
@@ -214,15 +220,15 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                 filterBtnLayout.addOption(reOpenBtn);
             }
 
-            if (!"Pending".equals(task.getStatus())) {
-                if (!"Closed".equals(task.getStatus())) {
+            if (!OptionI18nEnum.StatusI18nEnum.Pending.name().equals(task.getStatus())) {
+                if (!OptionI18nEnum.StatusI18nEnum.Closed.name().equals(task.getStatus())) {
                     Button pendingBtn = new Button(AppContext.getMessage(OptionI18nEnum.StatusI18nEnum.Pending), new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
                         @Override
                         public void buttonClick(Button.ClickEvent event) {
                             taskSettingPopupBtn.setPopupVisible(false);
-                            task.setStatus("Pending");
+                            task.setStatus(OptionI18nEnum.StatusI18nEnum.Pending.name());
                             task.setPercentagecomplete(0d);
 
                             ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
@@ -241,7 +247,7 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                     @Override
                     public void buttonClick(Button.ClickEvent event) {
                         taskSettingPopupBtn.setPopupVisible(false);
-                        task.setStatus("Open");
+                        task.setStatus(OptionI18nEnum.StatusI18nEnum.Open.name());
                         task.setPercentagecomplete(0d);
 
                         ProjectTaskService projectTaskService = ApplicationContextUtil.getSpringBean(ProjectTaskService.class);
@@ -270,13 +276,11 @@ public class TaskListDisplay extends DefaultBeanPagedList<ProjectTaskService, Ta
                                 private static final long serialVersionUID = 1L;
 
                                 @Override
-                                public void onClose(
-                                        ConfirmDialog dialog) {
+                                public void onClose(ConfirmDialog dialog) {
                                     if (dialog.isConfirmed()) {
                                         ProjectTaskService projectTaskService = ApplicationContextUtil.
                                                 getSpringBean(ProjectTaskService.class);
-                                        projectTaskService.removeWithSession(task, AppContext.getUsername(),
-                                                AppContext.getAccountId());
+                                        projectTaskService.removeWithSession(task, AppContext.getUsername(), AppContext.getAccountId());
                                         deleteTask();
                                     }
                                 }

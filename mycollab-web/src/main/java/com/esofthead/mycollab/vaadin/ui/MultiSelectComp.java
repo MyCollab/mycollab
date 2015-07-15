@@ -81,8 +81,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
     @Override
     protected Component initContent() {
         MHorizontalLayout content = new MHorizontalLayout().withSpacing(false).withWidth(widthVal).with
-                (componentsDisplay).withAlign
-                (componentsDisplay, Alignment.MIDDLE_LEFT);
+                (componentsDisplay).withAlign(componentsDisplay, Alignment.MIDDLE_LEFT);
 
         componentPopupSelection.addStyleName(UIConstants.MULTI_SELECT_BG);
         componentPopupSelection.setWidth("25px");

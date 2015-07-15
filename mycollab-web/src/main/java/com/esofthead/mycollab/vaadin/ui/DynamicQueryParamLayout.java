@@ -67,43 +67,40 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends 
     private HorizontalLayout createButtonControls() {
         MHorizontalLayout buttonControls = new MHorizontalLayout().withMargin(new MarginInfo(false, true, false, true));
 
-        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        DynamicQueryParamLayout.this.callSearchAction();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                DynamicQueryParamLayout.this.callSearchAction();
+            }
+        });
         searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         searchBtn.setIcon(FontAwesome.SEARCH);
 
         buttonControls.with(searchBtn).withAlign(searchBtn, Alignment.MIDDLE_CENTER);
 
-        Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        clearFields();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                clearFields();
+            }
+        });
         clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 
         buttonControls.with(clearBtn).withAlign(clearBtn, Alignment.MIDDLE_CENTER);
 
-        Button basicSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+        Button basicSearchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH), new Button.ClickListener() {
+            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        ((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
-                                .moveToBasicSearchLayout();
-                    }
-                });
+            @Override
+            public void buttonClick(final ClickEvent event) {
+                ((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
+                        .moveToBasicSearchLayout();
+            }
+        });
         basicSearchBtn.setStyleName("link");
         buttonControls.with(basicSearchBtn).withAlign(basicSearchBtn, Alignment.MIDDLE_CENTER);
         return buttonControls;

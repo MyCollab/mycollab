@@ -23,10 +23,7 @@ import com.esofthead.mycollab.configuration.Storage;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.*;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.ProjectAssetsManager;
@@ -169,17 +166,13 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
             public void buttonClick(ClickEvent event) {
                 if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
                     beanItem.setStatus(StatusI18nEnum.Open.name());
-                    VersionReadViewImpl.this
-                            .removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_CLOSE));
+                    VersionReadViewImpl.this.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE));
                     quickActionStatusBtn.setIcon(FontAwesome.ARCHIVE);
                 } else {
                     beanItem.setStatus(StatusI18nEnum.Closed.name());
-
                     VersionReadViewImpl.this.addLayoutStyleName(UIConstants.LINK_COMPLETED);
-                    quickActionStatusBtn.setCaption(AppContext
-                            .getMessage(GenericI18Enum.BUTTON_REOPEN));
+                    quickActionStatusBtn.setCaption(AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN));
                     quickActionStatusBtn.setIcon(FontAwesome.CLIPBOARD);
                 }
 
@@ -200,7 +193,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
     @Override
     protected ComponentContainer createBottomPanel() {
-        final TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
+        TabSheetLazyLoadComponent tabContainer = new TabSheetLazyLoadComponent();
         tabContainer.addTab(commentDisplay, AppContext.getMessage(GenericI18Enum.TAB_COMMENT), FontAwesome.COMMENTS);
         tabContainer.addTab(historyLogList, AppContext.getMessage(GenericI18Enum.TAB_HISTORY), FontAwesome.HISTORY);
         return tabContainer;
@@ -234,8 +227,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
 
             header.with(openSelection, inprogressSelection, reOpenSelection, verifiedSelection, resolvedSelection, spacingLbl1)
                     .withAlign(openSelection, Alignment.MIDDLE_LEFT).withAlign(inprogressSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT)
-                    .withAlign(verifiedSelection, Alignment.MIDDLE_LEFT)
+                    .withAlign(reOpenSelection, Alignment.MIDDLE_LEFT).withAlign(verifiedSelection, Alignment.MIDDLE_LEFT)
                     .withAlign(resolvedSelection, Alignment.MIDDLE_LEFT).expand(spacingLbl1);
 
             bugList = new DefaultBeanPagedList<>(ApplicationContextUtil.getSpringBean(BugService.class), new AssignmentRowDisplay(), 10);
@@ -306,15 +298,18 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version> implem
             Div div = new Div();
             Text image = new Text(ProjectAssetsManager.getAsset(ProjectTypeConstants.BUG).getHtml());
 
+            String bugPriority = bug.getPriority();
+            Img priorityLink = new Img(bugPriority, ProjectResources.getIconResourceLink12ByBugPriority(bugPriority))
+                    .setTitle(bugPriority);
+
             A itemLink = new A().setId("tag" + uid).setHref(ProjectLinkBuilder.generateProjectItemLink(
                     bug.getProjectShortName(), bug.getProjectid(), ProjectTypeConstants.BUG, bug.getBugkey() + ""));
             itemLink.setAttribute("onmouseover", TooltipHelper.projectHoverJsFunction(uid, ProjectTypeConstants.BUG, bug.getId() + ""));
             itemLink.setAttribute("onmouseleave", TooltipHelper.itemMouseLeaveJsFunction(uid));
-            itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug
-                    .getSummary()));
+            itemLink.appendText(String.format("[#%d] - %s", bug.getBugkey(), bug.getSummary()));
 
-            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), itemLink, DivLessFormatter.EMPTY_SPACE(),
-                    TooltipHelper.buildDivTooltipEnable(uid));
+            div.appendChild(image, DivLessFormatter.EMPTY_SPACE(), priorityLink, DivLessFormatter.EMPTY_SPACE(),
+                    itemLink, DivLessFormatter.EMPTY_SPACE(), TooltipHelper.buildDivTooltipEnable(uid));
             return div.setCSSClass("columnExpand");
         }
 

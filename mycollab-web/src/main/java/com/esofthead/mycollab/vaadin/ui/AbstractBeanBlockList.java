@@ -163,7 +163,7 @@ public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
 					}
 				}, false);
 		current.addStyleName("buttonPaging");
-		current.addStyleName("buttonPagingcurrent");
+		current.addStyleName("current");
 
 		this.pageManagement.addComponent(current);
 		final int range = this.totalPage - this.currentPage;

@@ -152,7 +152,7 @@ h3 {
                                 </table>
                             </form>
                             <div class="right" style="margin-top: 10px;">
-                                <button id="validate" class="v-button v-button-greenbtn" type="button" onclick="return databaseValidate();" style="width:160px" ><span style="font-family: 'Georgia';font-size: 15px;">Check Connection</span></button>
+                                <button id="validate" class="v-button v-button-greenbtn" type="button" onclick="return databaseValidate();"><span style="font-size: 15px;">Check Connection</span></button>
                             </div>
                         </td>
                     </tr>
@@ -221,10 +221,8 @@ h3 {
                                 </table>
                             </form>
                             <div class="right" style="margin-top: 10px;">
-                                <button id="validateEmailBtn" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-family: 'Georgia';font-size: 15px;">Check Smtp</span></button>
-                                <button id="post" class="v-button v-button-orangebtn" type="button" onclick="return
-                                updateInfoAction();" style="width:140px"><span style="font-family: 'Georgia';
-                                font-size: 15px;">Setup</span></button>
+                                <button id="validateEmailBtn" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-size: 15px;">Check Smtp</span></button>
+                                <button id="setupBtn" class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();" style="width:140px"><span style="font-size: 15px;">Setup</span></button>
                             </div>
                         </td>
                     </tr>
@@ -386,8 +384,8 @@ function updateInfoAction(){
         alert("Database server address must be not null");
         return;
     }
-    $('#post').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
-    $('#post').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance.</h3></p>');
+    $('#setupBtn').html('<img src="${defaultUrls.cdn_url}icons/lazy-load-icon.gif" alt="Pulpit rock" style="height:18px;"><span style="font-size: 15px">&nbsp;&nbsp;Setting up...</span>');
+    $('#setupBtn').after('<p><h3 style=\"color:orange\">Please be patient! It may takes several minutes to set up MyCollab depends on your servers performance.</h3></p>');
     var urlPost = "/install";
 
     var tlsStatus = "";
@@ -430,11 +428,11 @@ function updateInfoAction(){
           success: function(res){
              if(res!=null){
                 if(res.length > 0){
-                    $('#post').html('<span>Setup</span>');
+                    $('#setupBtn').html('<span>Setup</span>');
                     alert(res);
                 } else {
                     alert("Setup is completed successfully. Default username/password is \n    User name: admin@mycollab.com\n    password: admin123\nRedirect to the app?");
-                    $('#post').html('<span>Setup</span>');
+                    $('#setupBtn').html('<span>Setup</span>');
                     window.location.assign(location.protocol + "//" + document.getElementById("serverAddress").value + ((location.port != "")? (":" + location.port) : ""));
                 }
              }

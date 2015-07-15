@@ -90,7 +90,7 @@ a {
 	padding-top: 8px;
 	border: 1px solid rgb(169, 169, 169);
 	border-radius: 3px;
-	width: 936px;
+	width: 1000px;
 	margin: 0 auto;
 	color: #FFFFFF;
 	font: 18px;
@@ -138,6 +138,7 @@ a {
 	bottom: 0;
 	width: 100%;
 	height: 10px;
+	display: inline;
 }
 
 .v-button {

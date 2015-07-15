@@ -340,7 +340,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					}
 				}, false);
 		current.addStyleName("buttonPaging");
-		current.addStyleName("buttonPagingcurrent");
+		current.addStyleName("current");
 
 		this.pageManagement.addComponent(current);
 		final int range = this.totalPage - this.currentPage;

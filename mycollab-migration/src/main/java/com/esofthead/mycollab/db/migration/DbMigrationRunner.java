@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.db.migration;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import org.flywaydb.core.Flyway;
@@ -28,37 +25,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 /**
- * 
  * @author MyCollab Ltd.
  * @since 1.0
- * 
  */
 @Component("dbMigration")
 @DependsOn("appContextUtil")
 public class DbMigrationRunner {
-	private static final Logger LOG = LoggerFactory.getLogger(DbMigrationRunner.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DbMigrationRunner.class);
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-	@PostConstruct
-	public void migrate() {
-		try {
-			Flyway flyway = new Flyway();
-			flyway.setBaselineOnMigrate(true);
-			flyway.setDataSource(dataSource);
-			flyway.setValidateOnMigrate(false);
+    @PostConstruct
+    public void migrate() {
+        try {
+            Flyway flyway = new Flyway();
+            flyway.setBaselineOnMigrate(true);
+            flyway.setDataSource(dataSource);
+            flyway.setValidateOnMigrate(false);
             if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
                 flyway.setLocations("db/migration", "db/migration2");
             } else {
                 flyway.setLocations("db/migration");
             }
 
-			flyway.migrate();
-		} catch (Exception e) {
-			LOG.error("Error while migrate database", e);
-			System.exit(-1);
-		}
-	}
+            flyway.migrate();
+        } catch (Exception e) {
+            LOG.error("Error while migrate database", e);
+            System.exit(-1);
+        }
+    }
 }

@@ -16,17 +16,7 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
+import com.esofthead.mycollab.core.MyCollabException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -34,183 +24,180 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.MyCollabException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Utility class to process date instance
- * 
+ *
  * @author MyCollab Ltd.
  * @since 1.0
  */
 public class DateTimeUtils {
-	private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DateTimeUtils.class);
 
-	private static DateTimeZone utcZone = DateTimeZone.UTC;
+    private static DateTimeZone utcZone = DateTimeZone.UTC;
 
-	private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
+    private static Map<String, SimpleDateFormat> dateFormats = new HashMap<>();
 
-	/**
-	 * Trim hour-minute-second of date instance value to zero.
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static Date trimHMSOfDate(Date value) {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			return df.parse(df.format(value.getTime()));
-		} catch (ParseException e) {
-			throw new MyCollabException(e);
-		}
-	}
+    /**
+     * Trim hour-minute-second of date instance value to zero.
+     *
+     * @param value
+     * @return
+     */
+    public static Date trimHMSOfDate(Date value) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(value);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        return calendar.getTime();
+    }
 
-	public static Date getCurrentDateWithoutMS() {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		return calendar.getTime();
-	}
+    public static Date getCurrentDateWithoutMS() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        return calendar.getTime();
+    }
 
-	public static Date convertDateByString(String strDate, String format) {
-		if (!StringUtils.isEmpty(strDate)) {
-			try {
-				SimpleDateFormat formatter = new SimpleDateFormat(format);
-				return formatter.parse(strDate);
-			} catch (ParseException e) {
-				LOG.error("Error while parse date", e);
-			}
-		}
-		return new Date();
-	}
+    public static Date convertDateByString(String strDate, String format) {
+        if (!StringUtils.isEmpty(strDate)) {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat(format);
+                return formatter.parse(strDate);
+            } catch (ParseException e) {
+                LOG.error("Error while parse date", e);
+            }
+        }
+        return new Date();
+    }
 
-	public static String converToStringWithUserTimeZone(String dateVal,
-			String dateFormat, TimeZone userTimeZone) {
-		Date date = convertDateByFormatW3C(dateVal);
-		return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
-	}
+    public static String converToStringWithUserTimeZone(String dateVal, String dateFormat, TimeZone userTimeZone) {
+        Date date = convertDateByFormatW3C(dateVal);
+        return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
+    }
 
-	/**
-	 * 
-	 * @param strDate
-	 * @return
-	 */
-	public static Date convertDateByFormatW3C(String strDate) {
-		String formatW3C = "yyyy-MM-dd'T'HH:mm:ss";
-		if (strDate != null && !strDate.equals("")) {
-			SimpleDateFormat formatter = new SimpleDateFormat(formatW3C);
-			try {
-				return formatter.parse(strDate);
-			} catch (ParseException e) {
-				LOG.error("Error while parse date", e);
-			}
-		}
-		return null;
-	}
+    /**
+     * @param strDate
+     * @return
+     */
+    public static Date convertDateByFormatW3C(String strDate) {
+        String formatW3C = "yyyy-MM-dd'T'HH:mm:ss";
+        if (strDate != null && !strDate.equals("")) {
+            SimpleDateFormat formatter = new SimpleDateFormat(formatW3C);
+            try {
+                return formatter.parse(strDate);
+            } catch (ParseException e) {
+                LOG.error("Error while parse date", e);
+            }
+        }
+        return null;
+    }
 
-	public static String converToStringWithUserTimeZone(Date date,
-			String dateFormat, TimeZone userTimeZone) {
-		if (date == null)
-			return "";
-		return formatDate(date, dateFormat, userTimeZone);
-	}
+    public static String converToStringWithUserTimeZone(Date date, String dateFormat, TimeZone userTimeZone) {
+        if (date == null)
+            return "";
+        return formatDate(date, dateFormat, userTimeZone);
+    }
 
-	public static String getPrettyDateValue(Date dateTime, Locale locale) {
-		if (dateTime == null) {
-			return "";
-		}
-		PrettyTime p = new PrettyTime(locale);
-		return p.format(dateTime);
-	}
+    public static String getPrettyDateValue(Date dateTime, Locale locale) {
+        if (dateTime == null) {
+            return "";
+        }
+        PrettyTime p = new PrettyTime(locale);
+        return p.format(dateTime);
+    }
 
-	/**
-	 * 
-	 * @param date
-	 * @param duration
-	 *            Example: Date date = subtractOrAddDayDuration(new Date(), -2);
-	 *            // Result: the last 2 days
-	 * 
-	 *            Date date = subtractOrAddDayDuration(new Date(), 2); //
-	 *            Result: the next 2 days
-	 * @return
-	 */
-	public static Date subtractOrAddDayDuration(Date date, int duration) {
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(date);
-		cal.add(Calendar.DAY_OF_MONTH, duration);
-		return cal.getTime();
-	}
+    /**
+     * @param date
+     * @param duration Example: Date date = subtractOrAddDayDuration(new Date(), -2);
+     *                 // Result: the last 2 days
+     *
+     *                 Date date = subtractOrAddDayDuration(new Date(), 2); //
+     *                 Result: the next 2 days
+     * @return
+     */
+    public static Date subtractOrAddDayDuration(Date date, int duration) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, duration);
+        return cal.getTime();
+    }
 
-	public static String formatDate(Date date, String dateFormat) {
-		return formatDate(date, dateFormat, null);
-	}
+    public static String formatDate(Date date, String dateFormat) {
+        return formatDate(date, dateFormat, null);
+    }
 
-	public static String formatDate(Date date, String dateFormat, TimeZone timezone) {
-		if (date == null) {
-			return "";
-		}
+    public static String formatDate(Date date, String dateFormat, TimeZone timezone) {
+        if (date == null) {
+            return "";
+        }
 
-		SimpleDateFormat simpleDateFormat = getDateFormat(dateFormat);
-		if (timezone != null) {
-			simpleDateFormat.setTimeZone(timezone);
-		}
+        SimpleDateFormat simpleDateFormat = getDateFormat(dateFormat);
+        if (timezone != null) {
+            simpleDateFormat.setTimeZone(timezone);
+        }
 
-		return simpleDateFormat.format(date);
-	}
+        return simpleDateFormat.format(date);
+    }
 
-	private static SimpleDateFormat getDateFormat(String format) {
-		SimpleDateFormat dateFormat = dateFormats.get(format);
-		if (dateFormat != null) {
-			return dateFormat;
-		} else {
-			dateFormat = new SimpleDateFormat(format);
-			dateFormats.put(format, dateFormat);
-			return dateFormat;
-		}
-	}
+    private static SimpleDateFormat getDateFormat(String format) {
+        SimpleDateFormat dateFormat = dateFormats.get(format);
+        if (dateFormat != null) {
+            return dateFormat;
+        } else {
+            dateFormat = new SimpleDateFormat(format);
+            dateFormats.put(format, dateFormat);
+            return dateFormat;
+        }
+    }
 
-	public static Date convertTimeFromSystemTimezoneToUTC(long timeInMillis) {
-		DateTime dt = new DateTime();
-		dt = dt.withMillis(-DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
-		dt = dt.withZone(utcZone);
-		return dt.toDate();
-	}
+    public static Date convertTimeFromSystemTimezoneToUTC(long timeInMillis) {
+        DateTime dt = new DateTime();
+        dt = dt.withMillis(-DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
+        dt = dt.withZone(utcZone);
+        return dt.toDate();
+    }
 
-	/**
-	 * Convert from UTC time to default time zone of system
-	 * 
-	 * @param timeInMillis
-	 * @return
-	 */
-	public static Date convertTimeFromUTCToSystemTimezone(long timeInMillis) {
-		DateTime dt = new DateTime();
-		dt = dt.withMillis(DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
-		dt = dt.withZone(utcZone);
-		return dt.toDate();
-	}
+    /**
+     * Convert from UTC time to default time zone of system
+     *
+     * @param timeInMillis
+     * @return
+     */
+    public static Date convertTimeFromUTCToSystemTimezone(long timeInMillis) {
+        DateTime dt = new DateTime();
+        dt = dt.withMillis(DateTimeZone.getDefault().getOffset(timeInMillis) + timeInMillis);
+        dt = dt.withZone(utcZone);
+        return dt.toDate();
+    }
 
-	/**
-	 * 
-	 * @param date
-	 * @return array of two date elements, first is the first day of week, and
-	 *         the second is the end week date
-	 */
-	public static Date[] getBounceDateofWeek(Date date) {
-		Calendar calendar = new GregorianCalendar();
-		calendar.setFirstDayOfWeek(Calendar.MONDAY);
-		calendar.setTime(date);
-		calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		Date begin = calendar.getTime();
+    /**
+     * @param date
+     * @return array of two date elements, first is the first day of week, and
+     * the second is the end week date
+     */
+    public static Date[] getBounceDateofWeek(Date date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        Date begin = calendar.getTime();
 
-		calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		Date end = calendar.getTime();
-		return new Date[] { begin, end };
-	}
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        Date end = calendar.getTime();
+        return new Date[]{begin, end};
+    }
 
-	public static int compareByDate(Date date1, Date date2) {
-		Date newDate1 = trimHMSOfDate(date1);
-		Date newDate2 = trimHMSOfDate(date2);
-		return newDate1.compareTo(newDate2);
-	}
+    public static int compareByDate(Date date1, Date date2) {
+        Date newDate1 = trimHMSOfDate(date1);
+        Date newDate2 = trimHMSOfDate(date2);
+        return newDate1.compareTo(newDate2);
+    }
 
 }

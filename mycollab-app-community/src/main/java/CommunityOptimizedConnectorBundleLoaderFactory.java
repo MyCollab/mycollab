@@ -30,6 +30,7 @@ import java.util.Set;
 public class CommunityOptimizedConnectorBundleLoaderFactory extends
         ConnectorBundleLoaderFactory {
     private Set<String> eagerConnectors = new HashSet<String>();
+
     {
         eagerConnectors.add(com.vaadin.client.ui.ui.UIConnector.class.getName());
         eagerConnectors.add(com.vaadin.client.ui.customlayout.CustomLayoutConnector.class.getName());
@@ -39,7 +40,6 @@ public class CommunityOptimizedConnectorBundleLoaderFactory extends
         eagerConnectors.add(com.vaadin.client.ui.checkbox.CheckBoxConnector.class.getName());
         eagerConnectors.add(com.vaadin.client.ui.customcomponent.CustomComponentConnector.class.getName());
         eagerConnectors.add(com.vaadin.client.ui.button.ButtonConnector.class.getName());
-        eagerConnectors.add(org.vaadin.jonatan.contexthelp.widgetset.client.ui.ContextHelpConnector.class.getName());
         eagerConnectors.add(com.vaadin.client.ui.csslayout.CssLayoutConnector.class.getName());
     }
 

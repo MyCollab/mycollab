@@ -56,37 +56,26 @@ public class PeopleInfoComp extends MVerticalLayout {
 		layout.setWidth("100%");
 		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
-			Label createdLbl = new Label(
-					AppContext
-							.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
+			Label createdLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
 			createdLbl.setSizeUndefined();
 			layout.addComponent(createdLbl, 0, 0);
 
-			String createdUserName = (String) PropertyUtils.getProperty(bean,
-					"createduser");
-			String createdUserAvatarId = (String) PropertyUtils.getProperty(
-					bean, "createdUserAvatarId");
-			String createdUserDisplayName = (String) PropertyUtils.getProperty(
-					bean, "createdUserFullName");
+			String createdUserName = (String) PropertyUtils.getProperty(bean, "createduser");
+			String createdUserAvatarId = (String) PropertyUtils.getProperty(bean, "createdUserAvatarId");
+			String createdUserDisplayName = (String) PropertyUtils.getProperty(bean, "createdUserFullName");
 
-			UserLink createdUserLink = new UserLink(createdUserName,
-					createdUserAvatarId, createdUserDisplayName);
+			UserLink createdUserLink = new UserLink(createdUserName, createdUserAvatarId, createdUserDisplayName);
 			layout.addComponent(createdUserLink, 1, 0);
 			layout.setColumnExpandRatio(1, 1.0f);
 
-			Label assigneeLbl = new Label(
-					AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+			Label assigneeLbl = new Label(AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
 			assigneeLbl.setSizeUndefined();
 			layout.addComponent(assigneeLbl, 0, 1);
-			String assignUserName = (String) PropertyUtils.getProperty(bean,
-					"assignuser");
-			String assignUserAvatarId = (String) PropertyUtils.getProperty(
-					bean, "assignUserAvatarId");
-			String assignUserDisplayName = (String) PropertyUtils.getProperty(
-					bean, "assignUserFullName");
+			String assignUserName = (String) PropertyUtils.getProperty(bean, "assignuser");
+			String assignUserAvatarId = (String) PropertyUtils.getProperty(bean, "assignUserAvatarId");
+			String assignUserDisplayName = (String) PropertyUtils.getProperty(bean, "assignUserFullName");
 
-			UserLink assignUserLink = new UserLink(assignUserName,
-					assignUserAvatarId, assignUserDisplayName);
+			UserLink assignUserLink = new UserLink(assignUserName, assignUserAvatarId, assignUserDisplayName);
 			layout.addComponent(assignUserLink, 1, 1);
 		} catch (Exception e) {
 			LOG.error("Can not build user link {} ", BeanUtility.printBeanObj(bean));
