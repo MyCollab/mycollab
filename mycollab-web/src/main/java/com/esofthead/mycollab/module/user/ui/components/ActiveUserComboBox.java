@@ -51,7 +51,6 @@ public class ActiveUserComboBox extends ComboBox {
         List<SimpleUser> userList = userService.findPagableListByCriteria(new SearchRequest<>(
                 criteria, 0, Integer.MAX_VALUE));
         loadUserList(userList);
-
     }
 
     public ActiveUserComboBox(List<SimpleUser> userList) {
@@ -63,8 +62,7 @@ public class ActiveUserComboBox extends ComboBox {
         for (SimpleUser user : userList) {
             this.addItem(user.getUsername());
             this.setItemCaption(user.getUsername(), StringUtils.trim(user.getDisplayName(), 30, true));
-            this.setItemIcon(user.getUsername(),
-                    UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
+            this.setItemIcon(user.getUsername(), UserAvatarControlFactory.createAvatarResource(user.getAvatarid(), 16));
         }
     }
 }

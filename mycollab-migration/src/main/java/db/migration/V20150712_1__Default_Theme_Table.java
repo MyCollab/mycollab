@@ -11,15 +11,15 @@ public class V20150712_1__Default_Theme_Table implements SpringJdbcMigration {
     @Override
     public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
         jdbcTemplate.execute("DELETE  FROM s_account_theme WHERE s_account_theme.id > 0");
-//        jdbcTemplate.execute("ALTER TABLE `s_account_theme` " +
-//                "DROP COLUMN `toggleBtnTextSelected`," +
-//                "DROP COLUMN `toggleBtnText`," +
-//                "DROP COLUMN `toggleBtnSelected`," +
-//                "DROP COLUMN `toggleBtn`," +
-//                "DROP COLUMN `controlBtnText`," +
-//                "DROP COLUMN `controlBtn`," +
-//                "DROP COLUMN `clearBtnText`," +
-//                "DROP COLUMN `clearBtn`;");
+        jdbcTemplate.execute("ALTER TABLE `s_account_theme` " +
+                "DROP COLUMN `toggleBtnTextSelected`," +
+                "DROP COLUMN `toggleBtnText`," +
+                "DROP COLUMN `toggleBtnSelected`," +
+                "DROP COLUMN `toggleBtn`," +
+                "DROP COLUMN `controlBtnText`," +
+                "DROP COLUMN `controlBtn`," +
+                "DROP COLUMN `clearBtnText`," +
+                "DROP COLUMN `clearBtn`;");
 
         jdbcTemplate.execute("INSERT INTO `s_account_theme`(topMenuBg, topMenuBgSelected, topMenuText, " +
                 "topMenuTextSelected, tabsheetBg, tabsheetBgSelected, tabsheetText, tabsheetTextSelected, " +

@@ -32,6 +32,7 @@ public class TaskPriorityComboBox extends I18nValueComboBox {
 
     public TaskPriorityComboBox() {
         this.setNullSelectionAllowed(false);
+        this.setWidth("150px");
 
         this.loadData(Arrays.asList(TaskPriority.Urgent, TaskPriority.High,
                 TaskPriority.Medium, TaskPriority.Low, TaskPriority.None));

@@ -8,22 +8,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/322/19253847982_55913d71ac_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm1.staticflickr.com/322/19253847982_1191736c3a.jpg" alt="Project Dashboard">
+      <a href="https://farm4.staticflickr.com/3723/19144979283_2b24e432b1_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm4.staticflickr.com/3723/19144979283_8a2ae2904f.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/507/19233705566_2b090d73fc_o.png" target="_blank" title="Bug Dashboard">
-        <img src="https://farm1.staticflickr.com/507/19233705566_e81a67a02c.jpg" alt="Bug Dashboard">
+      <a href="https://farm1.staticflickr.com/396/19577852578_a38de55ca6_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm1.staticflickr.com/396/19577852578_122a94c225.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/403/18639248263_92accd2640_o.png" target="_blank" title="Task Dashboard">
-      <img src="https://farm1.staticflickr.com/403/18639248263_4ed11a71e0.jpg" alt="Task Dashboard">
+    <a href="https://farm1.staticflickr.com/388/19739698636_9982fb7322_o.png" target="_blank" title="Task Dashboard">
+      <img src="https://farm1.staticflickr.com/388/19739698636_994454be0e.jpg" alt="Task Dashboard">
     </a>
       <br />
       <em>Task Dashboard</em>
@@ -31,22 +31,22 @@ MyCollab is the free and open source collaboration tools, it has three existing 
   </tr>
   <tr>
     <td align="center">
-    <a href="https://farm1.staticflickr.com/557/19072194008_c6a2634fdc_o.png" target="_blank" title="Page Editor">
-        <img src="https://farm1.staticflickr.com/557/19072194008_20c2c724ff.jpg" alt="Page Editor">
+    <a href="https://farm1.staticflickr.com/452/19758610202_c476d2e5c2_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm1.staticflickr.com/452/19758610202_de72a48982.jpg" alt="Page Editor">
       </a>
       <br />
       <em>Page Editor</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/506/19072182090_1fbdd4a17e_o.png" target="_blank" title="File Management">
-        <img src="https://farm1.staticflickr.com/506/19072182090_d479400636.jpg" alt="File Management">
+      <a href="https://farm1.staticflickr.com/545/19765871405_538b490e25_o.png" target="_blank" title="File Management">
+        <img src="https://farm1.staticflickr.com/545/19765871405_f7729a08b1.jpg" alt="File Management">
       </a>
       <br />
       <em>Project File Management</em>
     </td>
     <td align="center">
-      <a href="https://farm1.staticflickr.com/414/18639243183_e1f459a779_o.png" target="_blank" title="Customer Account">
-        <img src="https://farm1.staticflickr.com/414/18639243183_8b3f79f287.jpg" alt="Customer Account">
+      <a href="https://farm4.staticflickr.com/3678/19577854308_f3b00a9822_o.png" target="_blank" title="Customer Account">
+        <img src="https://farm4.staticflickr.com/3678/19577854308_30a21af23e.jpg" alt="Customer Account">
       </a>
       <br />
       <em>Customer Account</em>
@@ -108,3 +108,11 @@ Contact the MyCollab team at:
 * MyCollab community is licensed with Affero GPL v3. For license terms, see https://community.mycollab.com/licenses/
 
 * You can try MyCollab on-demand edition on site https://www.mycollab.com
+
+## Sponsors
+
+JProfiler supports open source projects with its full-featured Java Profiler. Click the JProfiler logo below to learn more.
+
+<a href="http://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank" title="File Management">
+  <img src="http://www.ej-technologies.com/images/product_banners/jprofiler_large.png" alt="File Management">
+</a>

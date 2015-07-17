@@ -117,14 +117,12 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
         popupButtonsControl.addOption(newContactBtn);
 
         Button newCampaignBtn = new Button(AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN), listener);
-        newCampaignBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_CAMPAIGN));
+        newCampaignBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
         newCampaignBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.CAMPAIGN));
         popupButtonsControl.addOption(newCampaignBtn);
 
         Button newOpportunityBtn = new Button(AppContext.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY), listener);
-        newOpportunityBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
+        newOpportunityBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
         newOpportunityBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.OPPORTUNITY));
         popupButtonsControl.addOption(newOpportunityBtn);
 
@@ -139,8 +137,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
         popupButtonsControl.addOption(newCaseBtn);
 
         Button newTaskBtn = new Button(AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), listener);
-        newTaskBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_TASK));
+        newTaskBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_TASK));
         newTaskBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.TASK));
         popupButtonsControl.addOption(newTaskBtn);
 
@@ -150,13 +147,12 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
         popupButtonsControl.addOption(newCallBtn);
 
         Button newMeetingBtn = new Button(AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING), listener);
-        newMeetingBtn.setEnabled(AppContext
-                .canWrite(RolePermissionCollections.CRM_MEETING));
+        newMeetingBtn.setEnabled(AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
         newMeetingBtn.setIcon(CrmAssetsManager.getAsset(CrmTypeConstants.MEETING));
         popupButtonsControl.addOption(newMeetingBtn);
 
         addPopupMenu.setContent(popupButtonsControl);
-        addPopupMenu.setStyleName("link");
+//        addPopupMenu.setStyleName("link");
         addPopupMenu.addStyleName("quickadd-btn");
         addComponent(addPopupMenu);
         setExpandRatio(addPopupMenu, 1.0f);

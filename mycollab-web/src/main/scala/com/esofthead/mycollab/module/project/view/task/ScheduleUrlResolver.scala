@@ -31,6 +31,7 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
     this.addSubResolver("dashboard", new DashboardUrlResolver)
     this.addSubResolver("task", new TaskUrlResolver)
     this.addSubResolver("taskgroup", new TaskGroupUrlResolver)
+    this.addSubResolver("gantt", new GanttUrlResolver)
     this.defaultUrlResolver = new FilterUrlResolver
 
     private class DashboardUrlResolver extends ProjectUrlResolver {
@@ -47,6 +48,15 @@ class ScheduleUrlResolver extends ProjectUrlResolver {
             val projectId = new UrlTokenizer(params(0)).getInt
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new TaskGroupScreenData.GotoDashboard)
+            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        }
+    }
+
+    private class GanttUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+                new TaskGroupScreenData.GotoGanttChartView)
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

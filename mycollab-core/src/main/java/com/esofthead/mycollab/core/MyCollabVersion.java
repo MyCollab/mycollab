@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  *
  */
 public class MyCollabVersion {
-    public static final String THEME_VERSION = "mycollab_20150714";
+    public static final String THEME_VERSION = "mycollab_20150715";
 
 	public static String getVersion() {
 		return "5.0.10";
@@ -38,7 +38,7 @@ public class MyCollabVersion {
         if (!m.matches())
             throw new IllegalArgumentException("Malformed FW version");
 
-        return new int[] { Integer.parseInt(m.group(1)),  // major
+        return new int[] { Integer.parseInt(m.group(1)),  // majorMain
                 Integer.parseInt(m.group(2)),             // minor
                 Integer.parseInt(m.group(3)),             // rev.
                 m.group(4) == null ? Integer.MAX_VALUE    // no beta suffix

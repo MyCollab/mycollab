@@ -32,47 +32,42 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
 public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
-		implements ContactAddView {
-	private static final long serialVersionUID = 1L;
+        implements ContactAddView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(ContactI18nEnum.VIEW_NEW_TITLE) : beanItem
-				.getContactName();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE) :
+                beanItem.getContactName();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return CrmAssetsManager.getAsset(CrmTypeConstants.CONTACT);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm)
-				.createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<SimpleContact> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<SimpleContact> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.CONTACT,
-				ContactDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.CONTACT, ContactDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
-		return new ContactEditFormFieldFactory<>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
+        return new ContactEditFormFieldFactory<>(editForm);
+    }
 }

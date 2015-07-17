@@ -32,46 +32,41 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
  * @since 2.0
- * 
  */
 @ViewComponent
-public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
-		implements AccountAddView {
-	private static final long serialVersionUID = 1L;
+public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount> implements AccountAddView {
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? AppContext
-				.getMessage(AccountI18nEnum.VIEW_NEW_TITLE) : beanItem
-				.getAccountname();
-	}
+    @Override
+    protected String initFormTitle() {
+        return (beanItem.getId() == null) ? AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE) :
+                beanItem.getAccountname();
+    }
 
-	@Override
-	protected Resource initFormIconResource() {
-		return CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
-	}
+    @Override
+    protected Resource initFormIconResource() {
+        return CrmAssetsManager.getAsset(CrmTypeConstants.ACCOUNT);
+    }
 
-	@Override
-	protected ComponentContainer createButtonControls() {
-		return new EditFormControlsGenerator<>(editForm).createButtonControls();
-	}
+    @Override
+    protected ComponentContainer createButtonControls() {
+        return new EditFormControlsGenerator<>(editForm).createButtonControls();
+    }
 
-	@Override
-	protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm() {
-		return new AdvancedEditBeanForm<>();
-	}
+    @Override
+    protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm() {
+        return new AdvancedEditBeanForm<>();
+    }
 
-	@Override
-	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
-				AccountDefaultDynaFormLayoutFactory.getForm());
-	}
+    @Override
+    protected IFormLayoutFactory initFormLayoutFactory() {
+        return new DynaFormLayout(CrmTypeConstants.ACCOUNT, AccountDefaultDynaFormLayoutFactory.getForm());
+    }
 
-	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<>(editForm);
-	}
+    @Override
+    protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
+        return new AccountEditFormFieldFactory<>(editForm);
+    }
 }

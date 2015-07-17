@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 import com.esofthead.mycollab.module.user.service.AccountThemeService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -36,15 +37,17 @@ public class ThemeManager {
         if (accountTheme == null) {
             accountTheme = themeService.findDefaultTheme(AppContext.getAccountId());
             if (accountTheme == null) {
-                return;
+                throw new UserInvalidInputException("Can not load theme for this account. You may get bad experience " +
+                        "while using MyCollab. Please contact your site admoinistrator to solve this issue or fill a " +
+                        "support request to MyCollab team" +
+                        " ");
             }
         }
 
 		/* Top Menu */
 
         if (accountTheme.getTopmenubg() != null) {
-            Page.getCurrent().getStyles().add(".topNavigation { background-color: #"
-                    + accountTheme.getTopmenubg() + "; }");
+            Page.getCurrent().getStyles().add(".topNavigation { background-color: #" + accountTheme.getTopmenubg() + "; }");
         }
 
         if (accountTheme.getTopmenubgselected() != null) {
@@ -110,77 +113,84 @@ public class ThemeManager {
 
         if (accountTheme.getTabsheetbg() != null) {
             Page.getCurrent().getStyles()
+                    .add(".h-sidebar-menu .v-button.v-button-link.isSelected { background-color: #"
+                            + accountTheme.getTabsheetbg() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".h-sidebar-menu .v-button.v-button-link:hover { background-color: #"
+                            + accountTheme.getTabsheetbg() + "; }");
+
+            Page.getCurrent().getStyles()
                     .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem { background-color: #"
                             + accountTheme.getTabsheetbg() + "; }");
         }
 
         if (accountTheme.getTabsheetbgselected() != null) {
             Page.getCurrent().getStyles()
-                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem { background-color: #"
-                            + accountTheme.getTabsheetbgselected() + "; }");
-
-            //Set milestone header background
-            Page.getCurrent().getStyles().add(".milestone-view-header {background-color: #" + accountTheme
-                    .getTabsheetbgselected() + ";}");
-        }
-
-        if (accountTheme.getTabsheettext() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem .v-caption .v-captiontext { color: #"
-                            + accountTheme.getTabsheettext() + "; }");
-        }
-
-        if (accountTheme.getTabsheettextselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext { color: #"
-                            + accountTheme.getTabsheettextselected() + "; }");
-
-            //Set milestone header text color
-            Page.getCurrent().getStyles().add(".milestone-view-header {color: #" + accountTheme
-                    .getTabsheettextselected() + ";}");
-        }
-
-		/* Horizontal Top Menu */
-        if (accountTheme.getHtopmenubg() != null) {
-            Page.getCurrent().getStyles()
                     .add(".h-sidebar-menu, .projectfeed-hdr-wrapper { background-color: #"
                             + accountTheme.getTabsheetbgselected() + "; }");
-
-            //Set link style
-            Page.getCurrent().getStyles().add(".v-app a { color: #" + accountTheme.getTabsheetbgselected() + "; }");
 
             //Set style of popup content
             Page.getCurrent().getStyles().add(".optionPopupContent .action-wrap .v-button-action { color: #" + accountTheme
                     .getTabsheetbgselected() + "; }");
 
-            // Set button link
-            Page.getCurrent().getStyles().add(".v-button.v-button-link { color: #" + accountTheme
-                    .getTabsheetbgselected() + "; }");
-        }
-
-        if (accountTheme.getHtopmenubgselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".h-sidebar-menu .v-button.v-button-link.isSelected { background-color: #"
-                            + accountTheme.getTabsheetbg() + "; }");
-        }
-
-        if (accountTheme.getHtopmenutext() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .h-sidebar-menu .v-button.v-button-link:active .v-button-caption { color: #"
-                            + accountTheme.getTabsheettextselected() + "; }");
-        }
-
-        if (accountTheme.getHtopmenutextselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption, .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover { color: #"
-                            + accountTheme.getTabsheettext() + "; }");
-        }
-
-        /* Help component */
-        if (accountTheme.getHtopmenubg() != null) {
             Page.getCurrent().getStyles().add(".helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-tab, " +
                     ".helpPanel .v-sliderpanel-wrapper.layout-vertical .v-sliderpanel-content" +
                     " { background-color: #" + accountTheme.getTabsheetbgselected() + "; }");
+
+
+            //Set link style
+            Page.getCurrent().getStyles().add(".v-app a { color: #" + accountTheme.getTabsheetbgselected() + "; }");
+
+            // Set button link
+            Page.getCurrent().getStyles().add(".v-button.v-button-link { color: #" + accountTheme
+                    .getTabsheetbgselected() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem { " +
+                            "background-color: #" + accountTheme.getTabsheetbgselected() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > " +
+                            ".v-tabsheet-tabitemcell > .v-tabsheet-tabitem:hover {background-color: #" +
+                            accountTheme.getTabsheetbgselected() + ";}");
+
+            //Set milestone header background
+            Page.getCurrent().getStyles().add(".milestone-view-header {background-color: #" + accountTheme.getTabsheetbgselected() + ";}");
+        }
+
+        if (accountTheme.getTabsheettext() != null) {
+            Page.getCurrent().getStyles()
+                    .add(".h-sidebar-menu .v-button.v-button-link.isSelected { color: #" + accountTheme.getTabsheettext() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".h-sidebar-menu .v-button.v-button-link:hover .v-button-caption, .h-sidebar-menu .v-button" +
+                            ".v-button-link.isSelected .v-button-caption:hover { color: #"
+                            + accountTheme.getTabsheettext() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem { color: #"
+                            + accountTheme.getTabsheettext() + "; }");
+        }
+
+        if (accountTheme.getTabsheettextselected() != null) {
+            Page.getCurrent().getStyles()
+                    .add(".h-sidebar-menu .v-button.v-button-link:active, .h-sidebar-menu .v-button.v-button-link { color: #"
+                            + accountTheme.getTabsheettextselected() + "; }");
+
+            Page.getCurrent().getStyles().add(".crm-toolbar .quickadd-btn.v-popupbutton{color: #" + accountTheme.getTabsheettextselected() + ";}");
+
+            Page.getCurrent().getStyles()
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected { color: #"
+                            + accountTheme.getTabsheettextselected() + "; }");
+
+            Page.getCurrent().getStyles()
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > " +
+                            ".v-tabsheet-tabitemcell > .v-tabsheet-tabitem:hover {color: #" +
+                            accountTheme.getTabsheettextselected() + ";}");
+
+            //Set milestone header text color
+            Page.getCurrent().getStyles().add(".milestone-view-header {color: #" + accountTheme.getTabsheettextselected() + ";}");
         }
 
 		/* Action Buttons */
@@ -358,32 +368,6 @@ public class ThemeManager {
             Page.getCurrent().getStyles()
                     .add(".example-block .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption .v-captiontext { color: #"
                             + accountTheme.getTabsheettextselected() + "; }");
-        }
-
-		/* Horizontal Top Menu */
-
-        if (accountTheme.getHtopmenubg() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".example-block .h-sidebar-menu, .example-block .projectfeed-hdr-wrapper { background-color: #"
-                            + accountTheme.getHtopmenubg() + "; }");
-        }
-
-        if (accountTheme.getHtopmenubgselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".example-block .h-sidebar-menu .v-button.v-button-link.isSelected { background-color: #"
-                            + accountTheme.getHtopmenubgselected() + "; }");
-        }
-
-        if (accountTheme.getHtopmenutext() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".example-block .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .example-block .h-sidebar-menu .v-button.v-button-link:active .v-button-caption { color: #"
-                            + accountTheme.getHtopmenutext() + "; }");
-        }
-
-        if (accountTheme.getHtopmenutextselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".example-block .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption, .example-block .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover { color: #"
-                            + accountTheme.getHtopmenutextselected() + "; }");
         }
 
 		/* Action Buttons */

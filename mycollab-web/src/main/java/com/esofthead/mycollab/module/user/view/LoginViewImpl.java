@@ -74,7 +74,8 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                     if (target == passwordField) {
                         try {
                             custom.removeComponent("customErrorMsg");
-                            LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new PlainLogin(usernameField.getValue(),
+                            LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this,
+                                    new PlainLogin(usernameField.getValue(),
                                     passwordField.getValue(), rememberMe.getValue())));
                         } catch (MyCollabException e) {
                             custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
@@ -99,11 +100,8 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                     try {
                         custom.removeComponent("customErrorMsg");
 
-                        LoginViewImpl.this.fireEvent(new ViewEvent<>(
-                                LoginViewImpl.this, new PlainLogin(
-                                usernameField.getValue(),
-                                passwordField.getValue(),
-                                rememberMe.getValue())));
+                        LoginViewImpl.this.fireEvent(new ViewEvent<>(LoginViewImpl.this, new PlainLogin(
+                                usernameField.getValue(), passwordField.getValue(), rememberMe.getValue())));
                     } catch (MyCollabException e) {
                         custom.addComponent(new Label(e.getMessage()), "customErrorMsg");
                     } catch (Exception e) {
@@ -112,7 +110,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                 }
             });
 
-            loginBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+            loginBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             custom.addComponent(loginBtn, "loginButton");
 
             Button forgotPasswordBtn = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
@@ -121,8 +119,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
                         @Override
                         public void buttonClick(ClickEvent event) {
-                            EventBusFactory.getInstance().post(
-                                    new ShellEvent.GotoForgotPasswordPage(this, null));
+                            EventBusFactory.getInstance().post(new ShellEvent.GotoForgotPasswordPage(this, null));
                         }
                     });
             forgotPasswordBtn.setStyleName("link");

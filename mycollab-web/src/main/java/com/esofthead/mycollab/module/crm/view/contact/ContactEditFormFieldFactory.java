@@ -30,100 +30,96 @@ import com.vaadin.ui.TextField;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 
 /**
- * 
+ * @param <B>
  * @author MyCollab Ltd.
  * @since 1.0
- * 
- * @param <B>
  */
-class ContactEditFormFieldFactory<B extends Contact> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
-	private static final long serialVersionUID = 1L;
+class ContactEditFormFieldFactory<B extends Contact> extends AbstractBeanFieldGroupEditFieldFactory<B> {
+    private static final long serialVersionUID = 1L;
 
-	private ContactFirstNamePrefixField firstNamePrefixField;
+    private ContactFirstNamePrefixField firstNamePrefixField;
 
-	ContactEditFormFieldFactory(GenericBeanForm<B> form) {
-		this(form, true);
-	}
+    ContactEditFormFieldFactory(GenericBeanForm<B> form) {
+        this(form, true);
+    }
 
-	ContactEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
-		super(form, isValidateForm);
+    ContactEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+        super(form, isValidateForm);
+        firstNamePrefixField = new ContactFirstNamePrefixField();
+        firstNamePrefixField.setWidth("100%");
+    }
 
-		firstNamePrefixField = new ContactFirstNamePrefixField();
-	}
+    @Override
+    protected Field<?> onCreateField(Object propertyId) {
+        if (propertyId.equals("firstname") || propertyId.equals("prefix")) {
+            return firstNamePrefixField;
+        } else if (propertyId.equals("leadsource")) {
+            LeadSourceComboBox leadSource = new LeadSourceComboBox();
+            return leadSource;
+        } else if (propertyId.equals("accountid")) {
+            return new AccountSelectionField();
+        } else if (propertyId.equals("lastname")) {
+            TextField tf = new TextField();
+            if (isValidateForm) {
+                tf.setNullRepresentation("");
+                tf.setRequired(true);
+                tf.setRequiredError("Last name must not be null");
+            }
 
-	@Override
-	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("firstname") || propertyId.equals("prefix")) {
-			return firstNamePrefixField;
-		} else if (propertyId.equals("leadsource")) {
-			LeadSourceComboBox leadSource = new LeadSourceComboBox();
-			return leadSource;
-		} else if (propertyId.equals("accountid")) {
-			return new AccountSelectionField();
-		} else if (propertyId.equals("lastname")) {
-			TextField tf = new TextField();
-			if (isValidateForm) {
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Last name must not be null");
-			}
+            return tf;
+        } else if (propertyId.equals("description")) {
+            return new RichTextEditField();
+        } else if (propertyId.equals("assignuser")) {
+            ActiveUserComboBox userBox = new ActiveUserComboBox();
+            userBox.select(attachForm.getBean().getAssignuser());
+            return userBox;
+        } else if (propertyId.equals("primcountry") || propertyId.equals("othercountry")) {
+            return new CountryComboBox();
+        } else if (propertyId.equals("birthday")) {
+            return new DateComboboxSelectionField();
+        }
+        return null;
+    }
 
-			return tf;
-		} else if (propertyId.equals("description")) {
-			return new RichTextEditField();
-		} else if (propertyId.equals("assignuser")) {
-			ActiveUserComboBox userBox = new ActiveUserComboBox();
-			userBox.select(attachForm.getBean().getAssignuser());
-			return userBox;
-		} else if (propertyId.equals("primcountry")
-				|| propertyId.equals("othercountry")) {
-			return new CountryComboBox();
-		} else if (propertyId.equals("birthday")) {
-			return new DateComboboxSelectionField();
-		}
-		return null;
-	}
+    class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
+        private static final long serialVersionUID = 1L;
 
-	class ContactFirstNamePrefixField extends CompoundCustomField<Contact> {
-		private static final long serialVersionUID = 1L;
+        @Override
+        protected Component initContent() {
+            MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
 
-		@Override
-		protected Component initContent() {
-			MHorizontalLayout layout = new MHorizontalLayout().withWidth("100%");
+            final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
+            prefixSelect.setValue(attachForm.getBean().getPrefix());
+            layout.addComponent(prefixSelect);
 
-			final PrefixNameComboBox prefixSelect = new PrefixNameComboBox();
-			prefixSelect.setValue(attachForm.getBean().getPrefix());
-			layout.addComponent(prefixSelect);
+            prefixSelect
+                    .addValueChangeListener(new Property.ValueChangeListener() {
+                        private static final long serialVersionUID = 1L;
 
-			prefixSelect
-					.addValueChangeListener(new Property.ValueChangeListener() {
-						private static final long serialVersionUID = 1L;
+                        @Override
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            attachForm.getBean().setPrefix(
+                                    (String) prefixSelect.getValue());
 
-						@Override
-						public void valueChange(Property.ValueChangeEvent event) {
-							attachForm.getBean().setPrefix(
-									(String) prefixSelect.getValue());
+                        }
+                    });
 
-						}
-					});
+            TextField firstnameTxtField = new TextField();
+            firstnameTxtField.setWidth("100%");
+            firstnameTxtField.setNullRepresentation("");
+            layout.addComponent(firstnameTxtField);
+            layout.setExpandRatio(firstnameTxtField, 1.0f);
 
-			TextField firstnameTxtField = new TextField();
-			firstnameTxtField.setWidth("100%");
-			firstnameTxtField.setNullRepresentation("");
-			layout.addComponent(firstnameTxtField);
-			layout.setExpandRatio(firstnameTxtField, 1.0f);
+            // binding field group
+            fieldGroup.bind(prefixSelect, "prefix");
+            fieldGroup.bind(firstnameTxtField, "firstname");
 
-			// binding field group
-			fieldGroup.bind(prefixSelect, "prefix");
-			fieldGroup.bind(firstnameTxtField, "firstname");
+            return layout;
+        }
 
-			return layout;
-		}
-
-		@Override
-		public Class<? extends Contact> getType() {
-			return Contact.class;
-		}
-	}
+        @Override
+        public Class<? extends Contact> getType() {
+            return Contact.class;
+        }
+    }
 }

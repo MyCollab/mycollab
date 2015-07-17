@@ -33,8 +33,7 @@ import org.vaadin.maddon.layouts.MHorizontalLayout;
  * @since 1.0
  */
 
-public class AccountSelectionField extends CustomField<Integer> implements
-        FieldSelection<Account> {
+public class AccountSelectionField extends CustomField<Integer> implements FieldSelection<Account> {
     private static final long serialVersionUID = 1L;
 
     private TextField accountName = new TextField();
@@ -64,10 +63,8 @@ public class AccountSelectionField extends CustomField<Integer> implements
     }
 
     private void setAccountByVal(Integer accountId) {
-        AccountService accountService = ApplicationContextUtil
-                .getSpringBean(AccountService.class);
-        SimpleAccount account = accountService.findById(accountId,
-                AppContext.getAccountId());
+        AccountService accountService = ApplicationContextUtil.getSpringBean(AccountService.class);
+        SimpleAccount account = accountService.findById(accountId, AppContext.getAccountId());
         if (account != null) {
             setInternalAccount(account);
         }
@@ -107,8 +104,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
         browseBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                AccountSelectionWindow accountWindow = new AccountSelectionWindow(
-                        AccountSelectionField.this);
+                AccountSelectionWindow accountWindow = new AccountSelectionWindow(AccountSelectionField.this);
                 UI.getCurrent().addWindow(accountWindow);
                 accountWindow.show();
             }

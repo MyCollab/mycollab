@@ -77,7 +77,6 @@ class ContentGenerator extends IContentGenerator with InitializingBean {
         val writer = new StringWriter
         val reader = LocalizationHelper.templateReader(templateFilePath, currentLocale, defaultLocale)
         templateEngine.evaluate(templateContext.getVelocityContext, writer, "log task", reader)
-        System.out.println(writer.toString)
         writer.toString
     }
 

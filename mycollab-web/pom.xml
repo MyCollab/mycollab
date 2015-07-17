@@ -270,7 +270,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>ckeditor-wrapper-for-vaadin</artifactId>
-            <version>7.10.0</version>
+            <version>7.10.2</version>
         </dependency>
 
         <dependency>
@@ -303,6 +303,19 @@
             <artifactId>jaxrs-api</artifactId>
             <version>${restVersion}</version>
         </dependency>
+
+        <dependency>
+            <groupId>se.jiderhamn</groupId>
+            <artifactId>classloader-leak-prevention</artifactId>
+            <version>1.13.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
     <profiles>

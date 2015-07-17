@@ -36,8 +36,7 @@ import org.vaadin.maddon.fields.MTextField;
  * 
  * @param <B>
  */
-class AccountEditFormFieldFactory<B extends Account> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+class AccountEditFormFieldFactory<B extends Account> extends AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	AccountEditFormFieldFactory(GenericBeanForm<B> form) {
@@ -50,7 +49,6 @@ class AccountEditFormFieldFactory<B extends Account> extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
-
 		if (Account.Field.type.equalTo(propertyId)) {
 			return new AccountTypeComboBox();
 		} else if (Account.Field.industry.equalTo(propertyId)) {

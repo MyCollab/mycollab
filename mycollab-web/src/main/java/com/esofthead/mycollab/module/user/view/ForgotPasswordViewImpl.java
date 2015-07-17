@@ -66,9 +66,8 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
                     AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
             customLayout.addComponent(nameOrEmailField, "nameoremail");
 
-            Button sendEmail = new Button(
-                    AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD));
-            sendEmail.setStyleName(UIConstants.THEME_ORANGE_LINK);
+            Button sendEmail = new Button(AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD));
+            sendEmail.setStyleName(UIConstants.THEME_GREEN_LINK);
             sendEmail.addClickListener(new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
@@ -92,8 +91,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
                             relayEmail.setFromemail("");
                             relayEmail.setFromname("");
 
-                            RelayEmailMapper relayEmailMapper = ApplicationContextUtil
-                                    .getSpringBean(RelayEmailMapper.class);
+                            RelayEmailMapper relayEmailMapper = ApplicationContextUtil.getSpringBean(RelayEmailMapper.class);
                             relayEmailMapper.insert(relayEmail);
 
                             NotificationUtil.showNotification("Success", AppContext.getMessage(ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION));

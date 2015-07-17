@@ -121,12 +121,10 @@ public class DynaFormLayout implements IFormLayoutFactory {
 
             if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
                 gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
-                        dynaField.getFieldIndex(), 2, "100%",
-                        Alignment.TOP_LEFT);
+                        dynaField.getFieldIndex(), 2, "100%", Alignment.TOP_LEFT);
             } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
                 gridLayout.addComponent(field, dynaField.getDisplayName(),
-                        dynaField.getFieldIndex() % 2,
-                        dynaField.getFieldIndex() / 2);
+                        dynaField.getFieldIndex() % 2, dynaField.getFieldIndex() / 2);
             }
         }
     }

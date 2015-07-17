@@ -17,13 +17,15 @@
 package com.esofthead.mycollab.module.project.view.bug
 
 import com.esofthead.mycollab.common.UrlTokenizer
+import com.esofthead.mycollab.core.arguments.NumberSearchField
 import com.esofthead.mycollab.core.{MyCollabException, ResourceNotFoundException}
 import com.esofthead.mycollab.eventmanager.EventBusFactory
 import com.esofthead.mycollab.module.project.ProjectLinkParams
 import com.esofthead.mycollab.module.project.events.ProjectEvent
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver
-import com.esofthead.mycollab.module.project.view.parameters.{BugScreenData, ProjectScreenData}
+import com.esofthead.mycollab.module.project.view.parameters.{BugFilterParameter, VersionScreenData, BugScreenData, ProjectScreenData}
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug
+import com.esofthead.mycollab.module.tracker.domain.criteria.{BugSearchCriteria, VersionSearchCriteria}
 import com.esofthead.mycollab.module.tracker.service.BugService
 import com.esofthead.mycollab.spring.ApplicationContextUtil
 import com.esofthead.mycollab.vaadin.AppContext
@@ -37,6 +39,7 @@ class BugUrlResolver extends ProjectUrlResolver {
     this.defaultUrlResolver = new DefaultUrlResolver
     this.addSubResolver("dashboard", new DefaultUrlResolver)
     this.addSubResolver("add", new AddUrlResolver)
+    this.addSubResolver("list", new ListUrlResolver)
     this.addSubResolver("edit", new EditUrlResolver)
     this.addSubResolver("preview", new PreviewUrlResolver)
     this.addSubResolver("component", new ComponentUrlResolver)
@@ -47,6 +50,17 @@ class BugUrlResolver extends ProjectUrlResolver {
             val projectId = new UrlTokenizer(params(0)).getInt
             val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
                 new BugScreenData.GotoDashboard)
+            EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
+        }
+    }
+
+    private class ListUrlResolver extends ProjectUrlResolver {
+        protected override def handlePage(params: String*) {
+            val projectId = new UrlTokenizer(params(0)).getInt
+            val bugSearchCriteria = new BugSearchCriteria
+            bugSearchCriteria.setProjectId(new NumberSearchField(projectId))
+            val chain = new PageActionChain(new ProjectScreenData.Goto(projectId),
+                new BugScreenData.Search(new BugFilterParameter("List", bugSearchCriteria)))
             EventBusFactory.getInstance.post(new ProjectEvent.GotoMyProject(this, chain))
         }
     }

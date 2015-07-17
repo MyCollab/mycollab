@@ -32,7 +32,7 @@ public class TaskCompleteStatusSelection extends Slider {
 	public TaskCompleteStatusSelection() {
         this.setOrientation(SliderOrientation.HORIZONTAL);
         this.setImmediate(true);
-        this.setWidth("200px");
+        this.setWidth("150px");
         this.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {

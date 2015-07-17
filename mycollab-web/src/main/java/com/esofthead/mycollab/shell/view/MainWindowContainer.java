@@ -30,6 +30,8 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import org.vaadin.viritin.util.BrowserCookie;
 
+import java.io.Serializable;
+
 /**
  * @author MyCollab Ltd.
  * @since 1.0
@@ -60,7 +62,7 @@ public class MainWindowContainer extends CssLayout {
 
         // Read previously stored cookie value
         if (isAutoLogin) {
-            BrowserCookie.detectCookieValue(DesktopApplication.NAME_COOKIE, new BrowserCookie.Callback() {
+            BrowserCookie.detectCookieValue(DesktopApplication.NAME_COOKIE, new CookieCallbackSerilizable() {
                 @Override
                 public void onValueDetected(String value) {
                     if (value != null && !value.equals("")) {
@@ -83,5 +85,9 @@ public class MainWindowContainer extends CssLayout {
 
     public void setAutoLogin(boolean isAutoLogin) {
         this.isAutoLogin = isAutoLogin;
+    }
+
+    interface CookieCallbackSerilizable extends BrowserCookie.Callback, Serializable {
+
     }
 }

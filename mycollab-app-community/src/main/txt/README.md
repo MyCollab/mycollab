@@ -55,8 +55,9 @@ Version 5.1.0
 * Can resend the invitation
 * Optimize Vaadin widgetsets
 * Remove Camel library and reduce the number of threads daemon
+* Reduce chart generator memory footprint
 * Theme color consistent fixed
-* Add outlook stmp help message
+* Add outlook smtp help message
 * Many minor UI improvements
 
 **Bug Fixes**
