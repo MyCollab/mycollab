@@ -21,6 +21,7 @@ import java.io.File;
 import com.esofthead.mycollab.core.utils.FileUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -33,6 +34,7 @@ import org.springframework.core.io.Resource;
  * 
  */
 @Configuration
+@Profile("!test")
 public class AppServiceLoader {
 	@Bean(name = "myCollabProperties")
 	public static PropertySourcesPlaceholderConfigurer properties() {

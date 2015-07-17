@@ -23,6 +23,7 @@ import org.jasypt.properties.EncryptableProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -92,7 +93,11 @@ public class ApplicationProperties {
                     properties.load(propsStream);
                 }
             } else {
-                properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES));
+                InputStream propStreams = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PROPERTIES);
+                if (propStreams == null) {
+                    // Probably we are running testing
+                    properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("default-mycollab-test.properties"));
+                }
             }
         } catch (Exception e) {
             throw new MyCollabException(e);

@@ -182,8 +182,7 @@ public class UserServiceDBImpl extends DefaultService<String, User, UserSearchCr
     @Override
     public Integer updateWithSession(User record, String username) {
         LOG.debug("Check whether there is exist email in system before");
-        if ((record.getEmail()) != null
-                && !record.getUsername().equals(record.getEmail())) {
+        if ((record.getEmail()) != null && !record.getUsername().equals(record.getEmail())) {
             UserExample ex = new UserExample();
             ex.createCriteria().andUsernameEqualTo(record.getEmail());
             int numUsers = userMapper.countByExample(ex);

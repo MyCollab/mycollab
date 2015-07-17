@@ -49,7 +49,7 @@ public class UserServiceTest extends IntergrationServiceTest {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleUser> users = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+				.findPagableListByCriteria(new SearchRequest<>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(users.size()).isEqualTo(4);
 		assertThat(users).extracting("username").contains(
@@ -73,39 +73,17 @@ public class UserServiceTest extends IntergrationServiceTest {
 		assertThat(anotherUser.getLastname()).isEqualTo("Hai");
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	@DataSet
-	@Test
-	public void testGetLoginByDate() throws ParseException {
-		GregorianCalendar calendar = new GregorianCalendar(2014, 1, 20);
-
-		Date to = calendar.getTime();
-		calendar.add(Calendar.DAY_OF_YEAR, -1);
-		Date from = calendar.getTime();
-		UserSearchCriteria searchCriteria = new UserSearchCriteria();
-		searchCriteria.setLastAccessTimeRange(from, to);
-		searchCriteria.setSaccountid(null);
-		List<SimpleUser> users = userService
-				.findPagableListByCriteria(new SearchRequest<>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		assertThat(users.size()).isEqualTo(2);
-		assertThat(users).extracting("email").contains(
-				"linhduong@esofthead.com", "huynguyen@esofthead.com");
-	}
-
 	@DataSet
 	@Test
 	public void testGetTotalActiveUsersInAccount() {
-		int totalActiveUsersInAccount = userService
-				.getTotalActiveUsersInAccount(1);
+		int totalActiveUsersInAccount = userService.getTotalActiveUsersInAccount(1);
 		assertThat(totalActiveUsersInAccount).isEqualTo(3);
 	}
 
 	@DataSet
 	@Test
 	public void testFindUserByUsernameInAccount() {
-		SimpleUser user = userService.findUserByUserNameInAccount(
-				"hainguyen@esofthead.com", 1);
+		SimpleUser user = userService.findUserByUserNameInAccount("hainguyen@esofthead.com", 1);
 		assertThat(user.getUsername()).isEqualTo("hainguyen@esofthead.com");
 		assertThat(user.getAccountId()).isEqualTo(1);
 		assertThat(user.getFirstname()).isEqualTo("Nguyen");

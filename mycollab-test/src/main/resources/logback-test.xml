@@ -9,7 +9,8 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="com.esofthead" level="INFO"/>
     <logger name="org.apache.ibatis" level="INFO"/>
-    <root level="info">
+    <logger name="java.sql" level="INFO"/>
+    <root level="INFO">
         <appender-ref ref="stdout"/>
     </root>
 </configuration>

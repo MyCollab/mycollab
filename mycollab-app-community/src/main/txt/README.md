@@ -66,6 +66,7 @@ Version 5.1.0
 * Can not change the default port 8080 on Windows
 * MyCollab can not run with Java 7
 * Can not run MyCollab in some rare cases due to the order of service beans is not controlled
+* Refresh page of bug list and gantt view shows internal error
 
 
 Version 5.0.10
