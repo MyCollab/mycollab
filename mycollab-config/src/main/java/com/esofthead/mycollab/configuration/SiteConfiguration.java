@@ -76,7 +76,7 @@ public class SiteConfiguration {
         instance.serverPort = serverPort;
 
         // load Deployment Mode
-        String runningMode = ApplicationProperties.getString(RUNNING_MODE, null);
+        String runningMode = ApplicationProperties.getString(RUNNING_MODE, "standalone");
         instance.deploymentMode = DeploymentMode.valueOf(runningMode);
         LOG.debug("Site is running under {} mode", instance.deploymentMode);
 
