@@ -1,5 +1,5 @@
 # Free, open source CRM, Document and Project Management software
-[![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Build Status](https://travis-ci.org/esofthead/mycollab.svg?branch=master)](https://travis-ci.org/esofthead/mycollab) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
+[![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
 
 ## Introduction
 
@@ -8,8 +8,8 @@ MyCollab is the free and open source collaboration tools, it has three existing 
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3723/19144979283_2b24e432b1_o.png" target="_blank" title="Project Dashboard">
-        <img src="https://farm4.staticflickr.com/3723/19144979283_8a2ae2904f.jpg" alt="Project Dashboard">
+      <a href="https://farm1.staticflickr.com/443/19664383788_83dc66010a_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm1.staticflickr.com/443/19664383788_92c6b0a99b.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
