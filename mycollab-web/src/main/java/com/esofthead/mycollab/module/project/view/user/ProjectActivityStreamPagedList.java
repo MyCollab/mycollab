@@ -204,10 +204,9 @@ public class ProjectActivityStreamPagedList extends AbstractBeanPagedList<Activi
 
         if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
             int currentYear = cal2.get(Calendar.YEAR);
-            Label yearLbl = new Label(String.valueOf(currentYear));
+            Label yearLbl = new Label("<div>" + String.valueOf(currentYear) + "</div>", ContentMode.HTML);
             yearLbl.setStyleName("year-lbl");
             yearLbl.setWidthUndefined();
-            yearLbl.setHeight("49px");
             listContainer.addComponent(yearLbl);
         } else {
             blockWrapper.setMargin(new MarginInfo(true, false, false, false));

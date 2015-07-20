@@ -110,7 +110,6 @@ public class ThemeManager {
         }
 
 		/* Tabsheet */
-
         if (accountTheme.getTabsheetbg() != null) {
             Page.getCurrent().getStyles()
                     .add(".h-sidebar-menu .v-button.v-button-link.isSelected { background-color: #"
@@ -121,14 +120,14 @@ public class ThemeManager {
                             + accountTheme.getTabsheetbg() + "; }");
 
             Page.getCurrent().getStyles()
-                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem { background-color: #"
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > " +
+                            ".v-tabsheet-tabitem { background-color: #"
                             + accountTheme.getTabsheetbg() + "; }");
         }
 
         if (accountTheme.getTabsheetbgselected() != null) {
-            Page.getCurrent().getStyles()
-                    .add(".h-sidebar-menu, .projectfeed-hdr-wrapper { background-color: #"
-                            + accountTheme.getTabsheetbgselected() + "; }");
+            Page.getCurrent().getStyles().add(".h-sidebar-menu, .projectfeed-hdr-wrapper { background-color: #"
+                    + accountTheme.getTabsheetbgselected() + "; }");
 
             //Set style of popup content
             Page.getCurrent().getStyles().add(".optionPopupContent .action-wrap .v-button-action { color: #" + accountTheme
@@ -147,7 +146,8 @@ public class ThemeManager {
                     .getTabsheetbgselected() + "; }");
 
             Page.getCurrent().getStyles()
-                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem { " +
+                    .add(".tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr >" +
+                            " .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem { " +
                             "background-color: #" + accountTheme.getTabsheetbgselected() + "; }");
 
             Page.getCurrent().getStyles()
@@ -157,6 +157,10 @@ public class ThemeManager {
 
             //Set milestone header background
             Page.getCurrent().getStyles().add(".milestone-view-header {background-color: #" + accountTheme.getTabsheetbgselected() + ";}");
+
+            //Volume display bar in file manager
+            Page.getCurrent().getStyles().add(".v-label.volumeUsageInfo { border-top: 25px solid #" + accountTheme
+                    .getTabsheetbgselected() + ";}");
         }
 
         if (accountTheme.getTabsheettext() != null) {
@@ -191,6 +195,10 @@ public class ThemeManager {
 
             //Set milestone header text color
             Page.getCurrent().getStyles().add(".milestone-view-header {color: #" + accountTheme.getTabsheettextselected() + ";}");
+
+            //Volume text display bar in file manager
+            Page.getCurrent().getStyles().add(".v-label.volumeUsageInfo div { color: #" + accountTheme
+                    .getTabsheettextselected() + ";}");
         }
 
 		/* Action Buttons */
@@ -223,6 +231,10 @@ public class ThemeManager {
             //Selection background of selected item
             Page.getCurrent().getStyles().add(".v-filterselect-suggestpopup .gwt-MenuItem-selected { background-color:#" +
                     accountTheme.getActionbtn() + "; }");
+
+            //Year block of activity stream
+            Page.getCurrent().getStyles().add(".v-label.year-lbl { box-shadow: 0 0 0 5px #" + accountTheme
+                    .getActionbtn() + ";}");
 
             //Date label of activity stream
             Page.getCurrent().getStyles().add(".feed-block-wrap .date-lbl { background-color:#" + accountTheme
